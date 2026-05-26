@@ -1,6 +1,6 @@
-# TouchDesigner Plugin for Claude Code
+# TouchDesigner Plugin for Agents
 
-A Claude Code plugin that enables AI-assisted TouchDesigner network creation and manipulation via MCP (Model Context Protocol). **v2.0 — 21 MCP tools, 99 POPs indexed, 629+ operators documented, 13 skills.**
+A plugin that enables AI-assisted TouchDesigner network creation and manipulation via MCP (Model Context Protocol). **v2.0 — 21 MCP tools, 99 POPs indexed, 629+ operators documented, 13 skills.**
 
 ## Features
 
@@ -88,7 +88,7 @@ The plugin includes skills organized under `touchdesigner/skills/`:
 ## Architecture
 
 ```
-Host (Claude Code CLI / MCP Client)
+Host (Agent CLI / MCP Client)
   │
   ├── stdio ──► MCP Server (touchdesigner/mcp/src/index.ts)
   │                │                           │
@@ -136,7 +136,7 @@ Host (Claude Code CLI / MCP Client)
 
 ### 3. Verify Connection
 
-In Claude Code, try:
+In Agents Cli, try:
 
 ```bash
 # Test the connection
