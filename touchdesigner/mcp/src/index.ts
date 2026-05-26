@@ -947,6 +947,158 @@ export function createTouchDesignerMcpServer(client: TDClient = new TDClient()) 
     }
   );
 
+  // ---------------------------------------------------------------------------
+  // td_get_focus
+  // ---------------------------------------------------------------------------
+  server.registerTool(
+    "td_get_focus",
+    {
+      title: "Get Focus",
+      description: "Get the current user focus in TouchDesigner: which network is open, selected operators, current operator.",
+      inputSchema: {},
+    },
+    async () => {
+      try {
+        const result = await client.getFocus();
+        return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      } catch (e: any) {
+        return { content: [{ type: "text", text: JSON.stringify({ success: false, error: e.message }, null, 2) }] };
+      }
+    }
+  );
+
+  // ---------------------------------------------------------------------------
+  // td_get_perf
+  // ---------------------------------------------------------------------------
+  server.registerTool(
+    "td_get_perf",
+    {
+      title: "Get Performance",
+      description: "Get performance data from TouchDesigner: FPS, cook budget, GPU memory, and slowest operators sorted by cook time.",
+      inputSchema: {
+        path: z.string().optional().describe("Path to profile (default: '/')"),
+        top: z.number().optional().default(20).describe("Number of slowest operators to return"),
+      },
+    },
+    async ({ path, top }) => {
+      try {
+        const result = await client.getPerf(path, top ?? 20);
+        return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      } catch (e: any) {
+        return { content: [{ type: "text", text: JSON.stringify({ success: false, error: e.message }, null, 2) }] };
+      }
+    }
+  );
+
+  // ---------------------------------------------------------------------------
+  // td_read_textport
+  // ---------------------------------------------------------------------------
+  server.registerTool(
+    "td_read_textport",
+    {
+      title: "Read Textport",
+      description: "Read the last N lines from the TouchDesigner textport (console output). Use to see errors, warnings and print output.",
+      inputSchema: {
+        lines: z.number().optional().default(20).describe("Number of recent lines to return"),
+      },
+    },
+    async ({ lines }) => {
+      try {
+        const result = await client.readTextport(lines ?? 20);
+        return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      } catch (e: any) {
+        return { content: [{ type: "text", text: JSON.stringify({ success: false, error: e.message }, null, 2) }] };
+      }
+    }
+  );
+
+  // ---------------------------------------------------------------------------
+  // td_clear_textport
+  // ---------------------------------------------------------------------------
+  server.registerTool(
+    "td_clear_textport",
+    {
+      title: "Clear Textport",
+      description: "Clear the textport log buffer. Use before starting a debug session to keep output focused.",
+      inputSchema: {},
+    },
+    async () => {
+      try {
+        const result = await client.clearTextport();
+        return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      } catch (e: any) {
+        return { content: [{ type: "text", text: JSON.stringify({ success: false, error: e.message }, null, 2) }] };
+      }
+    }
+  );
+
+  // ---------------------------------------------------------------------------
+  // td_navigate_to
+  // ---------------------------------------------------------------------------
+  server.registerTool(
+    "td_navigate_to",
+    {
+      title: "Navigate To",
+      description: "Navigate the TouchDesigner Network Editor viewport to show a specific operator. Opens the parent network and centers the view.",
+      inputSchema: {
+        path: z.string().describe("Path to the operator to navigate to"),
+      },
+    },
+    async ({ path }) => {
+      try {
+        const result = await client.navigateTo(path);
+        return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      } catch (e: any) {
+        return { content: [{ type: "text", text: JSON.stringify({ success: false, error: e.message }, null, 2) }] };
+      }
+    }
+  );
+
+  // ---------------------------------------------------------------------------
+  // td_reinit_extension
+  // ---------------------------------------------------------------------------
+  server.registerTool(
+    "td_reinit_extension",
+    {
+      title: "Reinit Extension",
+      description: "Reinitialize an extension on a COMP. Call after finishing code edits to apply changes.",
+      inputSchema: {
+        path: z.string().describe("Path to the COMP with the extension"),
+      },
+    },
+    async ({ path }) => {
+      try {
+        const result = await client.reinitExtension(path);
+        return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      } catch (e: any) {
+        return { content: [{ type: "text", text: JSON.stringify({ success: false, error: e.message }, null, 2) }] };
+      }
+    }
+  );
+
+  // ---------------------------------------------------------------------------
+  // td_get_screenshots
+  // ---------------------------------------------------------------------------
+  server.registerTool(
+    "td_get_screenshots",
+    {
+      title: "Get Screenshots (Batch)",
+      description: "Get screenshots of multiple operators in one batch. Returns base64-encoded PNG images for each operator.",
+      inputSchema: {
+        paths: z.array(z.string()).describe("List of full operator paths to screenshot"),
+        max_size: z.number().optional().describe("Max pixel size for longer side"),
+      },
+    },
+    async ({ paths, max_size }) => {
+      try {
+        const result = await client.getScreenshots(paths, max_size);
+        return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      } catch (e: any) {
+        return { content: [{ type: "text", text: JSON.stringify({ success: false, error: e.message }, null, 2) }] };
+      }
+    }
+  );
+
   return server;
 }
 

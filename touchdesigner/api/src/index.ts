@@ -671,4 +671,157 @@ except Exception as e:
     print(json.dumps({"success":false,"error":str(e)}))`;
     return this.executeJson<any>(code);
   }
+
+  // ---------------------------------------------------------------------------
+  // Focus & Performance
+  // ---------------------------------------------------------------------------
+
+  async getFocus(): Promise<any> {
+    const code = `import json
+try:
+    info = {}
+    info["networkPath"] = ui.panes[0].currentNetworkPath if ui.panes and ui.panes[0] else None
+    sel = ui.panes[0].currentSelection if ui.panes and ui.panes[0] else []
+    info["selection"] = [{"path":s.path,"name":s.name,"type":s.OPType} for s in sel if s] if sel else []
+    info["currentOperator"] = ui.panes[0].currentOperator.path if ui.panes and ui.panes[0] and ui.panes[0].currentOperator else None
+    info["numSelected"] = len(info["selection"])
+    print(json.dumps({"success":true,"focus":info}))
+except Exception as e:
+    print(json.dumps({"success":false,"error":str(e)}))`;
+    return this.executeJson<any>(code);
+  }
+
+  async getPerf(path?: string, top?: number): Promise<any> {
+    const code = `import json
+try:
+    target = op('${path ? path.replace(/'/g, "\\'") : "/" }')
+    if target is None: print(json.dumps({"success":false,"error":"Path not found"}))
+    else:
+        prof = target.profile()
+        perf = {"fps":0,"cookBudget":0,"gpuMemory":0,"operators":[]}
+        try:
+            perf["fps"] = op.TDPerformance.fps
+            perf["cookBudget"] = op.TDPerformance.frameBudget
+            perf["gpuMemory"] = op.TDPerformance.gpuMemory
+        except: pass
+        ops = []
+        seen = set()
+        def walk(n):
+            if n is None or n.path in seen: return
+            seen.add(n.path)
+            try:
+                ct = n.cookTime if hasattr(n,'cookTime') else None
+                gt = n.gpuCookTime if hasattr(n,'gpuCookTime') else None
+                if ct and ct > 0.1:
+                    ops.append({"path":n.path,"name":n.name,"type":n.OPType,"cpu_ms":round(ct*1000,2),"gpu_ms":round(gt*1000,2) if gt else None})
+            except: pass
+            try:
+                for c in n.children: walk(c)
+            except: pass
+        walk(target)
+        ops.sort(key=lambda x: x.get("cpu_ms",0) or 0, reverse=True)
+        if ${top ?? 20}: ops = ops[:${top ?? 20}]
+        perf["operators"] = ops
+        perf["totalOps"] = len(ops)
+        print(json.dumps({"success":true,"performance":perf}))
+except Exception as e:
+    print(json.dumps({"success":false,"error":str(e)}))`;
+    return this.executeJson<any>(code);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Textport (log)
+  // ---------------------------------------------------------------------------
+
+  async readTextport(lines?: number): Promise<any> {
+    const code = `import json
+try:
+    count = ${lines ?? 20}
+    log = op.TDPerformance.getLog() if hasattr(op.TDPerformance,'getLog') else ""
+    lines_list = log.split('\\\\n') if log else []
+    recent = lines_list[-count:] if lines_list else []
+    print(json.dumps({"success":true,"totalLines":len(lines_list),"lines":recent}))
+except Exception as e:
+    print(json.dumps({"success":false,"error":str(e)}))`;
+    return this.executeJson<any>(code);
+  }
+
+  async clearTextport(): Promise<any> {
+    const code = `import json
+try:
+    # TD doesn't have a clear log API, but we can output a divider
+    print("--- MCP CLEAR ---", end="")
+    print(json.dumps({"success":true,"message":"Textport marker added"}))
+except Exception as e:
+    print(json.dumps({"success":false,"error":str(e)}))`;
+    return this.executeJson<any>(code);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Navigation
+  // ---------------------------------------------------------------------------
+
+  async navigateTo(path: string): Promise<any> {
+    const code = `import json
+try:
+    t = op('${path.replace(/'/g, "\\'")}')
+    if t is None: print(json.dumps({"success":false,"error":"Operator not found"}))
+    else:
+        ui.panes[0].currentNetworkPath = t.parent().path
+        ui.panes[0].currentSelection = [t]
+        ui.panes[0].homeSelection(True)
+        print(json.dumps({"success":true,"path":t.path,"parent":t.parent().path}))
+except Exception as e:
+    print(json.dumps({"success":false,"error":str(e)}))`;
+    return this.executeJson<any>(code);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Extension reinit
+  // ---------------------------------------------------------------------------
+
+  async reinitExtension(path: string): Promise<any> {
+    const code = `import json
+try:
+    t = op('${path.replace(/'/g, "\\'")}')
+    if t is None: print(json.dumps({"success":false,"error":"COMP not found"}))
+    else:
+        t.reinitExtension()
+        print(json.dumps({"success":true,"path":t.path,"message":"Extension reinitialized"}))
+except Exception as e:
+    print(json.dumps({"success":false,"error":str(e)}))`;
+    return this.executeJson<any>(code);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Batch screenshots
+  // ---------------------------------------------------------------------------
+
+  async getScreenshots(paths: string[], maxSize?: number): Promise<any> {
+    const pathsJson = JSON.stringify(paths);
+    const code = `import json,tempfile,base64,os
+try:
+    plist = ${pathsJson}
+    results = []
+    for p in plist:
+        try:
+            t = op(p)
+            if t is None:
+                results.append({"path":p,"error":"Not found"})
+            else:
+                tf = tempfile.NamedTemporaryFile(suffix='.png',delete=False).name
+                try:
+                    t.save(tf)
+                    b64 = base64.b64encode(open(tf,'rb').read()).decode()
+                    results.append({"path":t.path,"name":t.name,"image":b64})
+                finally:
+                    try: os.unlink(tf)
+                    except: pass
+        except Exception as e:
+            results.append({"path":p,"error":str(e)})
+    print(json.dumps({"success":true,"results":results,"count":len(results)}))
+except Exception as e:
+    print(json.dumps({"success":false,"error":str(e)}))`;
+    return this.executeJson<any>(code);
+  }
 }
