@@ -243,22 +243,50 @@ claude-touchdesigner/
 
 ## Comparison with Other TD MCP Servers
 
-| Feature | tolchx/touchdesigner-MCP | iflow-mcp (v2.8.1) | 8beeeaaat | TDPilot DPSK4 |
-|---------|-------------------------|---------------------|------------|---------------|
-| Tools | **24** | 21 | 21 | 110 |
-| Operators in KB | **630+** | 630 | — | — |
-| POPs in KB | **99** | — | — | ✓ |
-| Skills | **13** | — | — | 3 |
-| Python execution | ✓ | ✓ | ✓ | ✓ |
-| Create/Delete/Connect | ✓ | ✓ | ✓ | ✓ |
-| Error checking | ✓ | ✓ | ✓ | ✓ |
-| Network planning | ✓ | — | — | ✓ |
-| Semantic resolution | ✓ | — | — | — |
-| Memory system | snapshot | — | — | ✓ (8 tools) |
-| Project lifecycle | ✓ | — | — | ✓ |
-| Screenshot | ✓ | — | — | ✓ |
-| POP inspection | ✓ | — | — | ✓ |
-| Bundle/one-click install | — | npm | .mcpb | npm + .tox |
+| Feature | tolchx/touchdesigner-MCP | twozero (v2.774+) | iflow-mcp (v2.8.1) | 8beeeaaat | TDPilot DPSK4 (v2.5.5) |
+|---------|-------------------------|--------------------|---------------------|------------|------------------------|
+| **Tools** | **48** | 36 | 21 | 21 | 110 |
+| **Skills / Agent guidance** | **13** | 1 (built-in) | — | — | 3 |
+| **Operators in KB** | **630+** | — | 630 | — | — |
+| **POPs in KB** | **99** | — | — | — | ✓ |
+| **GLSL POP expertise** | **214 shaders analyzed** | — | — | — | — |
+| **Python execution** | ✓ | ✓ | ✓ | ✓ | ✓ |
+| **Create / Delete / Connect** | ✓ | ✓ | ✓ | ✓ | ✓ |
+| **Copy / Disconnect** | ✓ | — | — | — | ✓ |
+| **Pulse parameters** | ✓ | — | — | — | ✓ |
+| **Error checking** | ✓ | ✓ | ✓ | — | ✓ |
+| **Performance profiling** | ✓ | ✓ | — | — | ✓ |
+| **Screenshot** | ✓ (single + batch) | ✓ (single + batch + screen) | — | — | ✓ |
+| **Read/write DATs** | ✓ | ✓ | — | — | ✓ |
+| **Read CHOP channels** | ✓ | ✓ | — | — | ✓ |
+| **Search code/expressions** | ✓ | ✓ | — | — | ✓ |
+| **Search official TD docs** | ✓ | ✓ | — | — | ✓ |
+| **Memory system** | ✓ (save/recall) | — | — | — | ✓ (8 tools) |
+| **Project lifecycle** | ✓ | ✓ | — | — | ✓ |
+| **Custom parameters** | ✓ | ✓ | — | — | ✓ |
+| **Node detail inspection** | ✓ | ✓ | — | — | ✓ |
+| **Build compatibility** | ✓ | ✓ | — | — | ✓ |
+| **Semantic aliases** | ✓ | — | — | — | — |
+| **Network planning** | ✓ | — | — | — | ✓ |
+| **POP inspection** | ✓ | — | — | — | ✓ |
+| **Batch tools** | ✓ | — | — | — | ✓ |
+| **GLSL POP shaders** | **5 verified working** | — | — | — | — |
+| **Focus / Navigation** | ✓ | ✓ | — | — | ✓ |
+| **Input automation** | — | ✓ | — | — | — |
+| **Multi-instance** | — | ✓ | — | — | — |
+| **Skills** | **13** | — | — | — | 3 |
+| **Knowledge base** | **630+ operators, 99 POPs** | — | — | — | BM25 corpora |
+| **Bundle / install** | git clone | npm + .tox | npm | .mcpb | npm + .tox |
+
+### Strengths by project
+
+| Project | Best for |
+|---------|----------|
+| **tolchx/touchdesigner-MCP** | POP expertise, GLSL shaders, educational skills, 48 tools, knowledge base |
+| **twozero** | Input automation, multi-instance, built-in MCP server in TD |
+| **iflow-mcp** | Operator documentation, tutorials, npm package |
+| **8beeeaaat** | One-click .mcpb install, structured development |
+| **TDPilot DPSK4** | Largest tool surface (110), memory system, recipes, agent discipline, patch sessions |
 
 ## License
 
