@@ -187,7 +187,7 @@ export class TDClient {
   private baseUrl: string;
 
   constructor(options: TDClientOptions = {}) {
-    const host = options.host ?? "localhost";
+    const host = options.host ?? process.env.TDAPI_HOST ?? "localhost";
     const port =
       options.port ?? parseInt(process.env.TDAPI_PORT ?? "44444", 10);
     this.baseUrl = `http://${host}:${port}`;
@@ -330,18 +330,18 @@ export class TDClient {
 
   async createOperator(type: string, name?: string, path: string = "/", positionX?: number, positionY?: number): Promise<CreateOperatorResult> {
     const safeName = name ? `'${name.replace(/'/g, "\\'")}'` : "None";
-    const code = `import json
-try:
-    t = op('${path.replace(/'/g, "\\'")}')
-    if t is None:
-        print(json.dumps({"success":false,"path":"${path.replace(/'/g, "\\'")}","name":"","type":"","opType":"","error":"Parent not found"}))
-    else:
-        n = t.create(${type}, ${safeName})
-        if ${positionX ?? "None"} is not None and ${positionY ?? "None"} is not None:
-            n.nodeX = ${positionX}; n.nodeY = ${positionY}
-        print(json.dumps({"success":true,"path":n.path,"name":n.name,"type":n.type,"opType":n.OPType,"family":"","existing":false}))
-except Exception as e:
-    print(json.dumps({"success":false,"path":"","name":"","type":"","opType":"","error":str(e)}))`;
+    const code = "import json\n" +
+      "try:\n" +
+      `    t = op('${path.replace(/'/g, "\\'")}')\n` +
+      "    if t is None:\n" +
+      `        print(json.dumps({'success':False,'path':'${path.replace(/'/g, "\\'")}','name':'','type':'','opType':'','error':'Parent not found'}))\n` +
+      "    else:\n" +
+      `        n = t.create(${type}, ${safeName})\n` +
+      `        if ${positionX ?? "None"} is not None and ${positionY ?? "None"} is not None:\n` +
+      `            n.nodeX = ${positionX}; n.nodeY = ${positionY}\n` +
+      "        print(json.dumps({'success':True,'path':n.path,'name':n.name,'type':n.type,'opType':n.OPType,'family':'','existing':False}))\n" +
+      "except Exception as e:\n" +
+      "    print(json.dumps({'success':False,'path':'','name':'','type':'','opType':'','error':str(e)}))";
     return this.executeJson<CreateOperatorResult>(code);
   }
 
@@ -799,29 +799,29 @@ except Exception as e:
 
   async getScreenshots(paths: string[], maxSize?: number): Promise<any> {
     const pathsJson = JSON.stringify(paths);
-    const code = `import json,tempfile,base64,os
-try:
-    plist = ${pathsJson}
-    results = []
-    for p in plist:
-        try:
-            t = op(p)
-            if t is None:
-                results.append({"path":p,"error":"Not found"})
-            else:
-                tf = tempfile.NamedTemporaryFile(suffix='.png',delete=False).name
-                try:
-                    t.save(tf)
-                    b64 = base64.b64encode(open(tf,'rb').read()).decode()
-                    results.append({"path":t.path,"name":t.name,"image":b64})
-                finally:
-                    try: os.unlink(tf)
-                    except: pass
-        except Exception as e:
-            results.append({"path":p,"error":str(e)})
-    print(json.dumps({"success":true,"results":results,"count":len(results)}))
-except Exception as e:
-    print(json.dumps({"success":false,"error":str(e)}))`;
+    const code = "import json,tempfile,base64,os\n" +
+      "try:\n" +
+      "    plist = " + pathsJson + "\n" +
+      "    results = []\n" +
+      "    for p in plist:\n" +
+      "        try:\n" +
+      "            t = op(p)\n" +
+      "            if t is None:\n" +
+      "                results.append({'path':p,'error':'Not found'})\n" +
+      "            else:\n" +
+      "                tf = tempfile.NamedTemporaryFile(suffix='.png',delete=False).name\n" +
+      "                try:\n" +
+      "                    t.save(tf)\n" +
+      "                    b64 = base64.b64encode(open(tf,'rb').read()).decode()\n" +
+      "                    results.append({'path':t.path,'name':t.name,'image':b64})\n" +
+      "                finally:\n" +
+      "                    try: os.unlink(tf)\n" +
+      "                    except: pass\n" +
+      "        except Exception as e:\n" +
+      "            results.append({'path':p,'error':str(e)})\n" +
+      "    print(json.dumps({'success':True,'results':results,'count':len(results)}))\n" +
+      "except Exception as e:\n" +
+      "    print(json.dumps({'success':False,'error':str(e)}))";
     return this.executeJson<any>(code);
   }
 }
