@@ -229,11 +229,10 @@ float voronoi(vec3 p) {
 ### Debugging GLSL POPs
 
 **Common errors and solutions:**
-- **Syntax error:** Check GLSL version compatibility (use `#version 420` or `#version 430`)
-- **No output:** Verify point count and P output assignment
-- **Black screen:** Check Cd output is set (not alpha=0)
+- **Compile failed:** Most common with GLSL POP. Usually means read-after-write conflict on `P[]`. `P[id]` is write-only once assigned — you cannot read `P[id].x` after writing to `P[id].x`.
+- **"No output":** Missing `outputattrs="P"` parameter. Set on the glslPOP before cooking.
+- **Generic errors:** Vector swizzle in function arguments (`sin(P[id].y)`) is not supported. Use `float(id)` for per-point variation.
 - **Performance drop:** Reduce loop iterations, avoid `if` branching, use fewer textures
-- **Garbled output:** Check attribute name strings match exactly (case-sensitive)
 
 **Debug workflow:**
 1. Test logic in GLSL TOP first (easier to visualize)
