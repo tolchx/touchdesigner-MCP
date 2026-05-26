@@ -270,9 +270,10 @@ P[id] = pos;                     // WRITE to buffer ONCE
 
 ## Debugging Tips
 
+- **COMP corruption**: After a shader fails to compile, the glslPOP's compute DAT can become corrupted. Even a correct shader will fail. **Delete and recreate** the glslPOP (or its parent COMP) when iterating on shaders.
 - Check `outputattrs` parameter on glslPOP — must list ALL attributes you write to
-- If `Compile failed` and you're using `P[id]` directly, switch to `TDIn_P(id)` + local var + `P[id] = var`
-- Usetextport (console) to see actual GLSL compile errors
+- If `Compile failed` and you're using `P[id]` directly, switch to `TDIn_P()` + local var + `P[id] = var`
+- Use textport (console) to see actual GLSL compile errors
 - Test shader logic first in GLSL TOP before moving to GLSL POP
 
 ## References
