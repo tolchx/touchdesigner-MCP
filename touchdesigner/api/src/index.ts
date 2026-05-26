@@ -459,25 +459,26 @@ except Exception as e:
     const code = `import json
 try:
     t = op('${path.replace(/'/g, "\\'")}')
-    if t is None: print(json.dumps({'success':False,"error":"Not found"}))
+    if t is None: print(json.dumps({'success':False,'error':'Not found'}))
     else:
         def desc(n, d=0):
             if n is None or d>10: return None
-            i = {"path":n.path,"name":n.name,"type":n.OPType}
+            i = {'path':n.path,'name':n.name,'type':n.OPType}
             try:
-                i["pars"] = [{"name":p.name,"label":p.label,"val":p.val,"mode":str(p.mode),"expr":p.expr,"default":p.default,"style":p.style} for p in n.pars]
+                i['pars'] = [{'name':p.name,'label':p.label,'val':p.val,'mode':str(p.mode),'expr':p.expr,'default':p.default,'style':p.style} for p in n.pars]
             except: pass
             try:
-                i["inputs"] = [{"index":idx,"op":c.op.name if c.op else None} for idx,c in enumerate(n.inputConnectors)]
+                i['inputs'] = [{'index':idx,'op':c.op.name if c.op else None} for idx,c in enumerate(n.inputConnectors)]
             except: pass
-            i["viewer"] = n.viewer if hasattr(n,'viewer') else None
+            try: i['viewer'] = n.viewer
+            except: pass
             if ${recurse}:
-                try: i["children"] = [desc(c,d+1) for c in n.children if c]
+                try: i['children'] = [desc(c,d+1) for c in n.children if c]
                 except: pass
             return i
-        print(json.dumps({'success':True,"data":desc(t)}))
+        print(json.dumps({'success':True,'data':desc(t)}))
 except Exception as e:
-    print(json.dumps({'success':False,"error":str(e)}))`;
+    print(json.dumps({'success':False,'error':str(e)}))`;
     return this.executeJson<any>(code);
   }
 
@@ -489,9 +490,13 @@ except Exception as e:
     const code = `import json
 try:
     exists = False
-    try: t = getattr(tdu, '${opType.replace(/'/g, "\\'")}'); exists = t is not None
-    except: pass
-    print(json.dumps({'success':True,"opType":"${opType.replace(/'/g, "\\'")}","available":exists}))
+    try:
+        t = op('/').create(${opType}, "_td_compat_test")
+        t.destroy()
+        exists = True
+    except:
+        exists = False
+    print(json.dumps({'success':True,'opType':'${opType.replace(/'/g, "\\'")}','available':exists}))
 except Exception as e:
     print(json.dumps({'success':False,"error":str(e)}))`;
     return this.executeJson<any>(code);
@@ -680,11 +685,24 @@ except Exception as e:
     const code = `import json
 try:
     info = {}
-    info["networkPath"] = ui.panes[0].currentNetworkPath if ui.panes and ui.panes[0] else None
-    sel = ui.panes[0].currentSelection if ui.panes and ui.panes[0] else []
-    info["selection"] = [{"path":s.path,"name":s.name,"type":s.OPType} for s in sel if s] if sel else []
-    info["currentOperator"] = ui.panes[0].currentOperator.path if ui.panes and ui.panes[0] and ui.panes[0].currentOperator else None
-    info["numSelected"] = len(info["selection"])
+    p = ui.panes[0] if ui.panes else None
+    if p:
+        try: info["owner"] = p.owner.path
+        except: pass
+        try: info["networkPath"] = p.owner.path
+        except: pass
+    else:
+        info["networkPath"] = "/"
+    info["numPanes"] = len(ui.panes) if ui.panes else 0
+    # Get current operator via selection
+    sel = []
+    try:
+        for c in op('/').children:
+            if c.current:
+                sel.append({"path":c.path,"name":c.name,"type":c.OPType})
+    except: pass
+    info["selection"] = sel
+    info["numSelected"] = len(sel)
     print(json.dumps({'success':True,"focus":info}))
 except Exception as e:
     print(json.dumps({'success':False,"error":str(e)}))`;
@@ -695,14 +713,14 @@ except Exception as e:
     const code = `import json
 try:
     target = op('${path ? path.replace(/'/g, "\\'") : "/" }')
-    if target is None: print(json.dumps({'success':False,"error":"Path not found"}))
+    if target is None: print(json.dumps({'success':False,'error':'Path not found'}))
     else:
-        prof = target.profile()
-        perf = {"fps":0,"cookBudget":0,"gpuMemory":0,"operators":[]}
+        perf = {}
         try:
-            perf["fps"] = op.TDPerformance.fps
-            perf["cookBudget"] = op.TDPerformance.frameBudget
-            perf["gpuMemory"] = op.TDPerformance.gpuMemory
+            perf['fps'] = round(1.0 / absTime.stepSeconds, 1) if absTime.stepSeconds > 0 else 0
+            perf['targetFps'] = int(project.cookRate) if hasattr(project,'cookRate') else None
+            perf['playing'] = me.time.play if hasattr(me.time,'play') else None
+            perf['realtime'] = project.realTime if hasattr(project,'realTime') else None
         except: pass
         ops = []
         seen = set()
@@ -710,22 +728,22 @@ try:
             if n is None or n.path in seen: return
             seen.add(n.path)
             try:
-                ct = n.cookTime if hasattr(n,'cookTime') else None
-                gt = n.gpuCookTime if hasattr(n,'gpuCookTime') else None
-                if ct and ct > 0.1:
-                    ops.append({"path":n.path,"name":n.name,"type":n.OPType,"cpu_ms":round(ct*1000,2),"gpu_ms":round(gt*1000,2) if gt else None})
+                ct = getattr(n, 'cookTime', None)
+                if ct is not None and ct > 0.0:
+                    ops.append({'path':n.path,'name':n.name,'type':n.OPType,'cpu_ms':round(ct*1000,2)})
             except: pass
             try:
                 for c in n.children: walk(c)
             except: pass
         walk(target)
-        ops.sort(key=lambda x: x.get("cpu_ms",0) or 0, reverse=True)
-        if ${top ?? 20}: ops = ops[:${top ?? 20}]
-        perf["operators"] = ops
-        perf["totalOps"] = len(ops)
-        print(json.dumps({'success':True,"performance":perf}))
+        ops.sort(key=lambda x: x.get('cpu_ms',0) or 0, reverse=True)
+        limit = ${top ?? 20}
+        if limit: ops = ops[:limit]
+        perf['operators'] = ops
+        perf['totalOps'] = len(ops)
+        print(json.dumps({'success':True,'performance':perf}))
 except Exception as e:
-    print(json.dumps({'success':False,"error":str(e)}))`;
+    print(json.dumps({'success':False,'error':str(e)}))`;
     return this.executeJson<any>(code);
   }
 
@@ -767,10 +785,11 @@ try:
     t = op('${path.replace(/'/g, "\\'")}')
     if t is None: print(json.dumps({'success':False,"error":"Operator not found"}))
     else:
-        ui.panes[0].currentNetworkPath = t.parent().path
-        ui.panes[0].currentSelection = [t]
-        ui.panes[0].homeSelection(True)
-        print(json.dumps({'success':True,"path":t.path,"parent":t.parent().path}))
+        p = ui.panes[0] if ui.panes else None
+        if p:
+            p.owner = t.parent() if t.parent() else t
+            p.home()
+        print(json.dumps({'success':True,"path":t.path,"parent":t.parent().path if t.parent() else None}))
 except Exception as e:
     print(json.dumps({'success':False,"error":str(e)}))`;
     return this.executeJson<any>(code);

@@ -55,6 +55,10 @@ class TouchDesignerAPI:
         if uri.startswith("/execute") and method == "POST":
             return self._handle_execute(request, response)
 
+        # POST /exec - Python code execution (twozero-compatible JSON API)
+        if uri.startswith("/exec") and method == "POST":
+            return self._handle_exec(request, response)
+
         # POST /execute_async - Asynchronous execution (Phase 1 & 2)
         if uri.startswith("/execute_async") and method == "POST":
             return self._handle_execute_async(request, response)
@@ -126,6 +130,64 @@ class TouchDesignerAPI:
         response["statusReason"] = "OK"
         response["data"] = json.dumps(result, ensure_ascii=False)
         return self._send_response(response)
+
+    # -------------------------------------------------------------------------
+    # POST /exec (twozero-compatible JSON API)
+    # -------------------------------------------------------------------------
+
+    def _handle_exec(self, request: dict, response: dict) -> dict:
+        """Handle POST /exec request — twozero-compatible JSON API."""
+        try:
+            data = request.get("data", "")
+            if isinstance(data, bytes):
+                data = data.decode("utf-8")
+            msg = json.loads(data)
+            code = msg.get("code", "")
+        except Exception:
+            response["statusCode"] = 400
+            response["data"] = json.dumps({"error": "Bad request"})
+            return self._send_response(response)
+
+        result = self._execute_python_robust(code)
+
+        response["statusCode"] = 200
+        response["statusReason"] = "OK"
+        response["data"] = json.dumps(result, ensure_ascii=False)
+        return self._send_response(response)
+
+    def _execute_python_robust(self, code: str) -> dict:
+        """Execute code with eval support and robust capture (twozero pattern)."""
+        code = code.strip()
+        if not code:
+            return {"output": "(ok)"}
+
+        buf = StringIO()
+        is_expr = False
+        try:
+            compile(code, "<mcp>", "eval")
+            is_expr = True
+        except SyntaxError:
+            pass
+
+        exec_code = code
+        if is_expr:
+            exec_code = f"__val = ({code})\nif __val is not None: print(__val)"
+
+        try:
+            with contextlib.redirect_stdout(buf), contextlib.redirect_stderr(buf):
+                exec(compile(exec_code, "<mcp>", "exec"))
+        except Exception:
+            output = buf.getvalue()
+            err = traceback.format_exc()
+            return {"output": output, "error": err} if output else {"error": err}
+        finally:
+            try:
+                del globals()["__val"]
+            except:
+                pass
+
+        out = buf.getvalue() or "(ok)"
+        return {"output": out}
 
     def _execute_python(self, code: str, from_op: str) -> dict:
         """Execute Python code and return result."""
