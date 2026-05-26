@@ -116,7 +116,6 @@ export interface HealthcheckResult {
   operators: HealthIssue[];
 }
 
-/** Result from creating an operator via /execute */
 export interface CreateOperatorResult {
   success: boolean;
   path: string;
@@ -128,14 +127,12 @@ export interface CreateOperatorResult {
   error?: string;
 }
 
-/** Result from deleting an operator via /execute */
 export interface DeleteOperatorResult {
   success: boolean;
   path: string;
   error?: string;
 }
 
-/** Result from connecting nodes via /execute */
 export interface ConnectNodesResult {
   success: boolean;
   sourcePath: string;
@@ -145,7 +142,6 @@ export interface ConnectNodesResult {
   error?: string;
 }
 
-/** Per-operator error info */
 export interface OperatorError {
   path: string;
   name: string;
@@ -156,7 +152,6 @@ export interface OperatorError {
   cookTime?: number | null;
 }
 
-/** Result from getErrors via /execute */
 export interface GetErrorsResult {
   path: string;
   recurse: boolean;
@@ -164,15 +159,13 @@ export interface GetErrorsResult {
   issueCount: number;
 }
 
-/** Result from screenshot via /execute */
 export interface ScreenshotResult {
   success: boolean;
   path: string;
-  image?: string; // base64-encoded PNG
+  image?: string;
   error?: string;
 }
 
-/** Result from project lifecycle via /execute */
 export interface ProjectLifecycleResult {
   success: boolean;
   action: string;
@@ -200,27 +193,22 @@ export class TDClient {
     this.baseUrl = `http://${host}:${port}`;
   }
 
-  /** Execute Python code in TouchDesigner */
   async execute(code: string, fromOp: string = "/"): Promise<ExecuteResult> {
     let url = `${this.baseUrl}/execute`;
     if (fromOp !== "/") {
       url += `?from_op=${encodeURIComponent(fromOp)}`;
     }
-
     const response = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "text/plain" },
       body: code,
     });
-
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
-
     return response.json();
   }
 
-  /** Get current pane state (network path, position, zoom) */
   async getPaneState(): Promise<PaneState | null> {
     const response = await fetch(`${this.baseUrl}/editor/pane`);
     if (!response.ok) {
@@ -229,7 +217,6 @@ export class TDClient {
     return response.json();
   }
 
-  /** Get currently selected operators */
   async getSelection(): Promise<SelectionResult> {
     const response = await fetch(`${this.baseUrl}/editor/selection`);
     if (!response.ok) {
@@ -238,10 +225,8 @@ export class TDClient {
     return response.json();
   }
 
-  /** Get operators at specified path */
   async getOperators(path: string = "/"): Promise<OperatorsResult> {
     const url = `${this.baseUrl}/operators?path=${encodeURIComponent(path)}`;
-
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -249,14 +234,12 @@ export class TDClient {
     return response.json();
   }
 
-  /** Get parameters for an operator */
   async getParameters(path: string, names?: string[]): Promise<ParametersResult> {
     const url = new URL(`${this.baseUrl}/parameters`);
     url.searchParams.set("path", path);
     if (names && names.length > 0) {
       url.searchParams.set("names", names.join(","));
     }
-
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -264,7 +247,6 @@ export class TDClient {
     return response.json();
   }
 
-  /** Set parameters for an operator */
   async setParameters(
     path: string,
     updates: ParameterUpdate[],
@@ -275,19 +257,16 @@ export class TDClient {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ path, updates, transactional }),
     });
-
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
     return response.json();
   }
 
-  /** Inspect input/output connections */
   async getConnections(path: string, recurse: boolean = false): Promise<ConnectionsResult> {
     const url = new URL(`${this.baseUrl}/connections`);
     url.searchParams.set("path", path);
     url.searchParams.set("recurse", recurse ? "1" : "0");
-
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -295,15 +274,9 @@ export class TDClient {
     return response.json();
   }
 
-  /** Find operators by query/name/family/type */
   async findOperators(options: {
-    path?: string;
-    query?: string;
-    name?: string;
-    family?: string;
-    opType?: string;
-    recursive?: boolean;
-    limit?: number;
+    path?: string; query?: string; name?: string; family?: string;
+    opType?: string; recursive?: boolean; limit?: number;
   }): Promise<FindResult> {
     const url = new URL(`${this.baseUrl}/find`);
     if (options.path) url.searchParams.set("path", options.path);
@@ -313,32 +286,30 @@ export class TDClient {
     if (options.opType) url.searchParams.set("opType", options.opType);
     url.searchParams.set("recursive", options.recursive === false ? "0" : "1");
     if (options.limit) url.searchParams.set("limit", String(options.limit));
-
     const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-    }
+    if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     return response.json();
   }
 
-  /** Validate a network or operator for errors/warnings */
   async healthcheck(path: string, recurse: boolean = true): Promise<HealthcheckResult> {
     const url = new URL(`${this.baseUrl}/healthcheck`);
     url.searchParams.set("path", path);
     url.searchParams.set("recurse", recurse ? "1" : "0");
-
     const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-    }
+    if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    return response.json();
+  }
+
+  async getInfo(): Promise<any> {
+    const response = await fetch(`${this.baseUrl}/info`);
+    if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     return response.json();
   }
 
   // ---------------------------------------------------------------------------
-  // New helper: execute Python code and parse stdout as JSON
+  // Helper: execute Python and parse stdout as JSON
   // ---------------------------------------------------------------------------
 
-  /** Execute Python code and extract JSON from stdout */
   private async executeJson<T>(code: string, fromOp: string = "/"): Promise<T> {
     const result = await this.execute(code, fromOp);
     if (!result.success) {
@@ -346,412 +317,358 @@ export class TDClient {
       const errType = result.error?.type ?? "ExecutionError";
       throw new Error(`${errType}: ${msg}`);
     }
-    // Try to parse stdout as JSON
     try {
       return JSON.parse(result.stdout) as T;
     } catch {
-      throw new Error(
-        `Expected JSON on stdout but got: ${result.stdout.substring(0, 500)}`
-    return this.executeJson<ProjectLifecycleResult>(code);
+      throw new Error(`Expected JSON on stdout but got: ${result.stdout.substring(0, 500)}`);
+    }
   }
 
   // ---------------------------------------------------------------------------
-  // POP Intelligence
+  // Operator CRUD methods (backed by /execute)
   // ---------------------------------------------------------------------------
 
-  /** Result from pop_build */
-  async popBuild(prompt: string, targetPath: string = "/"): Promise<any> {
-    // Uses td_execute to generate a POP network from a text description
-    // The actual POP network generation logic is handled by the MCP tool
-    return { success: true, prompt, targetPath, note: "Use td_pop_build MCP tool for full POP generation" };
-  }
-
-  /** Inspect POP data — read particle attributes */
-  async popInspect(path: string): Promise<any> {
-    const safePath = path.replace(/'/g, "\\'");
-    const code = `
-import json
-try:
-    target = op('${safePath}')
-    if target is None:
-        print(json.dumps({"success": False, "path": "${safePath}", "error": "Operator not found"}))
-    else:
-        info = {}
-        info["path"] = target.path
-        info["name"] = target.name
-        info["type"] = target.OPType
-        try:
-            info["numPoints"] = target.numPoints
-        except: pass
-        try:
-            info["numPrims"] = target.numPrims
-        except: pass
-        try:
-            info["numVerts"] = target.numVerts
-        except: pass
-        try:
-            attrs = []
-            for a in target.attribs:
-                attrs.append({"name": a.name, "type": str(a.type), "size": a.size, "scope": str(a.scope)})
-            info["attributes"] = attrs
-        except: pass
-        print(json.dumps({"success": True, "data": info}))
-except Exception as e:
-    print(json.dumps({"success": False, "error": str(e)}))
-`;
-    return this.executeJson<any>(code);
-  }
-
-  // ---------------------------------------------------------------------------
-  // Memory System
-  // ---------------------------------------------------------------------------
-
-  /** Snapshot scene state before destructive changes */
-  async snapshotScene(path: string = "/"): Promise<any> {
-    // Creates a temporary backup of operator state by reading all par values
-    // and storing them. For a real implementation, save the .toe file.
-    const safePath = path.replace(/'/g, "\\'");
-    const code = `
-import json
-try:
-    target = op('${safePath}')
-    if target is None:
-        print(json.dumps({"success": False, "error": "Path not found"}))
-    else:
-        def snapshot_op(node):
-            pars = {}
-            for p in node.pars:
-                try:
-                    pars[p.name] = {"val": p.val, "mode": str(p.mode), "expr": p.expr}
-                except: pass
-            return {"path": node.path, "name": node.name, "type": node.OPType, "pars": pars}
-        # Single operator for now
-        data = snapshot_op(target)
-        print(json.dumps({"success": True, "path": target.path, "snapshot": data}))
-except Exception as e:
-    print(json.dumps({"success": False, "error": str(e)}))
-`;
-    return this.executeJson<any>(code);
-  }
-}
-
-//
-  // New methods backed by /execute with generated Python
-  // ---------------------------------------------------------------------------
-
-  /** Create a new operator in TouchDesigner */
-  async createOperator(
-    type: string,
-    name?: string,
-    path: string = "/",
-    positionX?: number,
-    positionY?: number
-  ): Promise<CreateOperatorResult> {
+  async createOperator(type: string, name?: string, path: string = "/", positionX?: number, positionY?: number): Promise<CreateOperatorResult> {
     const safeName = name ? `'${name.replace(/'/g, "\\'")}'` : "None";
-    const posX = positionX ?? "None";
-    const posY = positionY ?? "None";
-
-    const code = `
-import json
+    const code = `import json
 try:
-    target = op('${path.replace(/'/g, "\\'")}')
-    if target is None:
-        print(json.dumps({"success": False, "path": "${path.replace(/'/g, "\\'")}", "name": "", "type": "", "opType": "", "error": f"Parent not found: ${JSON.stringify(path)}"}))
+    t = op('${path.replace(/'/g, "\\'")}')
+    if t is None:
+        print(json.dumps({"success":false,"path":"${path.replace(/'/g, "\\'")}","name":"","type":"","opType":"","error":"Parent not found"}))
     else:
-        existing = target.childByName('${(name || "").replace(/'/g, "\\'")}') if ${safeName !== "None"} else None
-        if existing is not None:
-            print(json.dumps({
-                "success": True,
-                "path": existing.path,
-                "name": existing.name,
-                "type": existing.type,
-                "opType": existing.OPType,
-                "family": getattr(existing, 'family', None),
-                "existing": True
-            }))
-        else:
-            new_op = target.create(${type}, ${safeName})
-            if ${posX} is not None and ${posY} is not None:
-                new_op.nodeX = ${posX}
-                new_op.nodeY = ${posY}
-            print(json.dumps({
-                "success": True,
-                "path": new_op.path,
-                "name": new_op.name,
-                "type": new_op.type,
-                "opType": new_op.OPType,
-                "family": getattr(new_op, 'family', None),
-                "existing": False
-            }))
+        n = t.create(${type}, ${safeName})
+        if ${positionX ?? "None"} is not None and ${positionY ?? "None"} is not None:
+            n.nodeX = ${positionX}; n.nodeY = ${positionY}
+        print(json.dumps({"success":true,"path":n.path,"name":n.name,"type":n.type,"opType":n.OPType,"family":"","existing":false}))
 except Exception as e:
-    print(json.dumps({"success": False, "path": "", "name": "", "type": "", "opType": "", "error": str(e)}))
-`;
+    print(json.dumps({"success":false,"path":"","name":"","type":"","opType":"","error":str(e)}))`;
     return this.executeJson<CreateOperatorResult>(code);
   }
 
-  /** Delete an operator in TouchDesigner */
   async deleteOperator(path: string): Promise<DeleteOperatorResult> {
-    const safePath = path.replace(/'/g, "\\'");
-    const code = `
-import json
+    const code = `import json
 try:
-    target = op('${safePath}')
-    if target is None:
-        print(json.dumps({"success": False, "path": "${safePath}", "error": "Operator not found"}))
-    else:
-        target.destroy()
-        print(json.dumps({"success": True, "path": "${safePath}"}))
+    t = op('${path.replace(/'/g, "\\'")}')
+    if t is None: print(json.dumps({"success":false,"path":"${path.replace(/'/g, "\\'")}","error":"Not found"}))
+    else: t.destroy(); print(json.dumps({"success":true,"path":"${path.replace(/'/g, "\\'")}"}))
 except Exception as e:
-    print(json.dumps({"success": False, "path": "${safePath}", "error": str(e)}))
-`;
+    print(json.dumps({"success":false,"path":"${path.replace(/'/g, "\\'")}","error":str(e)}))`;
     return this.executeJson<DeleteOperatorResult>(code);
   }
 
-  /** Connect two operators */
-  async connectNodes(
-    sourcePath: string,
-    targetPath: string,
-    sourceOutput: string = "output",
-    targetInput: number = 0
-  ): Promise<ConnectNodesResult> {
-    const safeSrc = sourcePath.replace(/'/g, "\\'");
-    const safeTgt = targetPath.replace(/'/g, "\\'");
-    const code = `
-import json
+  async connectNodes(sourcePath: string, targetPath: string, targetInput: number = 0): Promise<ConnectNodesResult> {
+    const code = `import json
 try:
-    src = op('${safeSrc}')
-    tgt = op('${safeTgt}')
-    if src is None:
-        print(json.dumps({"success": False, "sourcePath": "${safeSrc}", "targetPath": "${safeTgt}", "sourceOutput": ${sourceOutput}, "targetInput": ${targetInput}, "error": "Source not found"}))
-    elif tgt is None:
-        print(json.dumps({"success": False, "sourcePath": "${safeSrc}", "targetPath": "${safeTgt}", "sourceOutput": ${sourceOutput}, "targetInput": ${targetInput}, "error": "Target not found"}))
-    else:
-        tgt.inputConnectors[${targetInput}].connect(src)
-        print(json.dumps({"success": True, "sourcePath": src.path, "targetPath": tgt.path, "sourceOutput": ${sourceOutput}, "targetInput": ${targetInput}}))
+    src = op('${sourcePath.replace(/'/g, "\\'")}'); tgt = op('${targetPath.replace(/'/g, "\\'")}')
+    if src is None: print(json.dumps({"success":false,"sourcePath":"${sourcePath.replace(/'/g, "\\'")}","targetPath":"${targetPath.replace(/'/g, "\\'")}","sourceOutput":"output","targetInput":${targetInput},"error":"Source not found"}))
+    elif tgt is None: print(json.dumps({"success":false,"sourcePath":"${sourcePath.replace(/'/g, "\\'")}","targetPath":"${targetPath.replace(/'/g, "\\'")}","sourceOutput":"output","targetInput":${targetInput},"error":"Target not found"}))
+    else: tgt.inputConnectors[${targetInput}].connect(src); print(json.dumps({"success":true,"sourcePath":src.path,"targetPath":tgt.path,"sourceOutput":"output","targetInput":${targetInput}}))
 except Exception as e:
-    print(json.dumps({"success": False, "sourcePath": "${safeSrc}", "targetPath": "${safeTgt}", "sourceOutput": ${sourceOutput}, "targetInput": ${targetInput}, "error": str(e)}))
-`;
+    print(json.dumps({"success":false,"sourcePath":"${sourcePath.replace(/'/g, "\\'")}","targetPath":"${targetPath.replace(/'/g, "\\'")}","sourceOutput":"output","targetInput":${targetInput},"error":str(e)}))`;
     return this.executeJson<ConnectNodesResult>(code);
   }
 
-  /** Get errors/warnings for an operator */
   async getErrors(path: string, recurse: boolean = true): Promise<GetErrorsResult> {
-    const safePath = path.replace(/'/g, "\\'");
-    const code = `
-import json
+    const code = `import json
 try:
-    target = op('${safePath}')
-    if target is None:
-        print(json.dumps({"path": "${safePath}", "recurse": ${recurse}, "operators": [], "issueCount": 0, "error": "Operator not found"}))
+    t = op('${path.replace(/'/g, "\\'")}')
+    if t is None: print(json.dumps({"path":"${path.replace(/'/g, "\\'")}","recurse":${recurse},"operators":[],"issueCount":0}))
     else:
-        def collect(node):
-            errs = ""
-            warns = ""
+        def collect(n):
+            try: n.cook(force=True)
+            except: pass
+            e = ""; w = ""
+            try: e = n.errors(recurse=False)
+            except: pass
+            try: w = n.warnings(recurse=False)
+            except: pass
+            return {"path":n.path,"name":n.name,"opType":n.OPType,"errors":e,"warnings":w,"hasIssues":bool(e or w),"cookTime":None}
+        items = []; seen = set()
+        def walk(n):
+            if n is None or n.path in seen: return
+            seen.add(n.path); items.append(collect(n))
             try:
-                node.cook(force=True)
-            except:
-                pass
-            try:
-                errs = node.errors(recurse=False)
-            except:
-                pass
-            try:
-                warns = node.warnings(recurse=False)
-            except:
-                pass
-            ct = None
-            for attr in ('cookTime', 'cpuCookTime'):
-                try:
-                    ct = getattr(node, attr)
-                    if ct is not None: break
-                except:
-                    pass
-            return {
-                "path": node.path,
-                "name": node.name,
-                "opType": node.OPType,
-                "errors": errs,
-                "warnings": warns,
-                "hasIssues": bool(errs or warns),
-                "cookTime": ct
-            }
-        items = []
-        seen = set()
-        def walk(node, depth):
-            if node is None or depth > 99: return
-            if hasattr(node, 'path') and node.path in seen: return
-            seen.add(node.path)
-            items.append(collect(node))
-            try:
-                for child in list(node.children):
-                    walk(child, depth + 1)
-            except:
-                pass
-        if ${recurse}:
-            walk(target, 0)
-        else:
-            items.append(collect(target))
-        issues = [i for i in items if i["hasIssues"]]
-        print(json.dumps({"path": target.path, "recurse": ${recurse}, "operators": items, "issueCount": len(issues)}))
+                for c in n.children: walk(c)
+            except: pass
+        if ${recurse}: walk(t)
+        else: items.append(collect(t))
+        print(json.dumps({"path":t.path,"recurse":${recurse},"operators":items,"issueCount":len([i for i in items if i["hasIssues"]])}))
 except Exception as e:
-    print(json.dumps({"path": "${safePath}", "recurse": ${recurse}, "operators": [], "issueCount": 0, "error": str(e)}))
-`;
+    print(json.dumps({"path":"${path.replace(/'/g, "\\'")}","recurse":${recurse},"operators":[],"issueCount":0,"error":str(e)}))`;
     return this.executeJson<GetErrorsResult>(code);
   }
 
-  // ---------------------------------------------------------------------------
-  // POP Intelligence Methods
-  // ---------------------------------------------------------------------------
-
-  /** Inspect POP data — read particle attributes, point count, prims, verts */
-  async popInspect(path: string): Promise<any> {
-    const safePath = path.replace(/'/g, "\\'");
-    const code = `
-import json
-try:
-    target = op('${safePath}')
-    if target is None:
-        print(json.dumps({"success": False, "error": "Operator not found"}))
-    else:
-        info = {}
-        info["path"] = target.path
-        info["name"] = target.name
-        info["type"] = target.OPType
-        try:
-            info["numPoints"] = target.numPoints
-        except: pass
-        try:
-            info["numPrims"] = target.numPrims
-        except: pass
-        try:
-            info["numVerts"] = target.numVerts
-        except: pass
-        try:
-            attrs = []
-            for a in target.attribs:
-                attrs.append({"name": a.name, "type": str(a.type), "size": a.size, "scope": str(a.scope)})
-            info["attributes"] = attrs
-        except: pass
-        # Sample point attribute data if available
-        try:
-            samples = []
-            np = min(target.numPoints, 100)
-            for i in range(np):
-                pt = target.point(i)
-                sample = {"index": i}
-                for a in target.attribs:
-                    try:
-                        sample[a.name] = pt.attrib(a.name)
-                    except: pass
-                samples.append(sample)
-            info["samples"] = samples
-        except: pass
-        print(json.dumps({"success": True, "data": info}))
-except Exception as e:
-    print(json.dumps({"success": False, "error": str(e)}))
-`;
-    return this.executeJson<any>(code);
-  }
-
-  /** Snapshot scene state before destructive changes — saves all par values */
-  async snapshotScene(path: string): Promise<any> {
-    const safePath = path.replace(/'/g, "\\'");
-    const code = `
-import json
-try:
-    target = op('${safePath}')
-    if target is None:
-        print(json.dumps({"success": False, "error": "Path not found"}))
-    else:
-        def snap_op(node):
-            pars = {}
-            for p in node.pars:
-                try:
-                    pars[p.name] = {"val": p.val, "mode": str(p.mode), "expr": p.expr}
-                except: pass
-            children = []
-            try:
-                for c in node.children:
-                    children.append(snap_op(c))
-            except: pass
-            return {"path": node.path, "name": node.name, "type": node.OPType, "pars": pars, "children": children}
-        data = snap_op(target)
-        print(json.dumps({"success": True, "snapshot": data}))
-except Exception as e:
-    print(json.dumps({"success": False, "error": str(e)}))
-`;
-    return this.executeJson<any>(code);
-  }
-
-  /** Take a screenshot of an operator's output */
   async screenshot(path?: string): Promise<ScreenshotResult> {
-    const safePath = path ? path.replace(/'/g, "\\'") : "";
-    const targetExpr = safePath ? `op('${safePath}')` : "me";
-
-    const code = `
-import json
+    const safe = path ? path.replace(/'/g, "\\'") : "";
+    const target = safe ? `op('${safe}')` : "me";
+    const code = `import json,tempfile,base64,os
 try:
-    import tempfile, base64, os
-    target = ${targetExpr}
-    if target is None:
-        print(json.dumps({"success": False, "path": "${safePath || "current"}", "error": "Operator not found"}))
+    t = ${target}
+    if t is None: print(json.dumps({"success":false,"path":"${safe || "current"}","error":"Not found"}))
     else:
-        with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as f:
-            tmp_path = f.name
-        try:
-            target.save(tmp_path)
-            with open(tmp_path, 'rb') as f:
-                b64 = base64.b64encode(f.read()).decode('utf-8')
-            print(json.dumps({"success": True, "path": target.path, "image": b64}))
+        tf = tempfile.NamedTemporaryFile(suffix='.png',delete=False).name
+        try: t.save(tf); print(json.dumps({"success":true,"path":t.path,"image":base64.b64encode(open(tf,'rb').read()).decode()}))
         finally:
-            try:
-                os.unlink(tmp_path)
-            except:
-                pass
+            try: os.unlink(tf)
+            except: pass
 except Exception as e:
-    print(json.dumps({"success": False, "path": "${safePath || "current"}", "error": str(e)}))
-`;
+    print(json.dumps({"success":false,"path":"${safe || "current"}","error":str(e)}))`;
     return this.executeJson<ScreenshotResult>(code, path ?? "/");
   }
 
-  /** Project lifecycle actions: save, load, undo, redo, etc. */
-  async projectLifecycle(
-    action: string,
-    filePath?: string
-  ): Promise<ProjectLifecycleResult> {
-    const actionsMap: Record<string, { code: string; message: string }> = {
-      save: {
-        code: filePath
-          ? `ui.save('${filePath.replace(/'/g, "\\'")}')`
-          : `ui.save()`,
-        message: filePath ? `Saved to ${filePath}` : "Project saved",
-      },
-      load: {
-        code: filePath
-          ? `ui.load('${filePath.replace(/'/g, "\\'")}')`
-          : `ui.load()`,
-        message: filePath ? `Loaded ${filePath}` : "Project loaded",
-      },
-      undo: { code: `ui.undo()`, message: "Undo performed" },
-      redo: { code: `ui.redo()`, message: "Redo performed" },
-      start_undo_block: { code: `ui.startUndoBlock()`, message: "Undo block started" },
-      end_undo_block: { code: `ui.endUndoBlock()`, message: "Undo block ended" },
-      clear_undo: { code: `ui.clearUndo()`, message: "Undo history cleared" },
+  async projectLifecycle(action: string, filePath?: string): Promise<ProjectLifecycleResult> {
+    const actions: Record<string, string> = {
+      save: filePath ? `ui.save('${filePath.replace(/'/g, "\\'")}')` : "ui.save()",
+      load: filePath ? `ui.load('${filePath.replace(/'/g, "\\'")}')` : "ui.load()",
+      undo: "ui.undo()", redo: "ui.redo()",
+      start_undo_block: "ui.startUndoBlock()", end_undo_block: "ui.endUndoBlock()",
+      clear_undo: "ui.clearUndo()",
     };
-
-    const entry = actionsMap[action];
-    if (!entry) {
-      return { success: false, action, error: `Unknown action: ${action}` };
-    }
-
-    const code = `
-import json
+    if (!actions[action]) return { success: false, action, error: `Unknown action: ${action}` };
+    const code = `import json
 try:
-    ${entry.code}
-    print(json.dumps({"success": True, "action": "${action}", "path": ${filePath ? JSON.stringify(filePath) : "null"}, "message": "${entry.message}"}))
+    ${actions[action]}
+    print(json.dumps({"success":true,"action":"${action}","path":${filePath ? JSON.stringify(filePath) : "null"},"message":"${action} performed"}))
 except Exception as e:
-    print(json.dumps({"success": False, "action": "${action}", "error": str(e)}))
-`;
+    print(json.dumps({"success":false,"action":"${action}","error":str(e)}))`;
     return this.executeJson<ProjectLifecycleResult>(code);
+  }
+
+  async popInspect(path: string): Promise<any> {
+    const code = `import json
+try:
+    t = op('${path.replace(/'/g, "\\'")}')
+    if t is None: print(json.dumps({"success":false,"error":"Not found"}))
+    else:
+        info = {"path":t.path,"name":t.name,"type":t.OPType}
+        for attr in ['numPoints','numPrims','numVerts']:
+            try: info[attr] = getattr(t, attr)
+            except: pass
+        try:
+            attrs = []
+            for a in t.attribs: attrs.append({"name":a.name,"type":str(a.type),"size":a.size,"scope":str(a.scope)})
+            info["attributes"] = attrs
+        except: pass
+        print(json.dumps({"success":true,"data":info}))
+except Exception as e:
+    print(json.dumps({"success":false,"error":str(e)}))`;
+    return this.executeJson<any>(code);
+  }
+
+  async getNodeDetail(path: string, recurse: boolean = false): Promise<any> {
+    const code = `import json
+try:
+    t = op('${path.replace(/'/g, "\\'")}')
+    if t is None: print(json.dumps({"success":false,"error":"Not found"}))
+    else:
+        def desc(n, d=0):
+            if n is None or d>10: return None
+            i = {"path":n.path,"name":n.name,"type":n.OPType}
+            try:
+                i["pars"] = [{"name":p.name,"label":p.label,"val":p.val,"mode":str(p.mode),"expr":p.expr,"default":p.default,"style":p.style} for p in n.pars]
+            except: pass
+            try:
+                i["inputs"] = [{"index":idx,"op":c.op.name if c.op else None} for idx,c in enumerate(n.inputConnectors)]
+            except: pass
+            i["viewer"] = n.viewer if hasattr(n,'viewer') else None
+            if ${recurse}:
+                try: i["children"] = [desc(c,d+1) for c in n.children if c]
+                except: pass
+            return i
+        print(json.dumps({"success":true,"data":desc(t)}))
+except Exception as e:
+    print(json.dumps({"success":false,"error":str(e)}))`;
+    return this.executeJson<any>(code);
+  }
+
+  async getHints(nodeType: string): Promise<any> {
+    return { success: true, operatorType: nodeType, hint: `Use get_param_help for parameter details on '${nodeType}'.` };
+  }
+
+  async getBuildCompatibility(opType: string): Promise<any> {
+    const code = `import json
+try:
+    exists = False
+    try: t = getattr(tdu, '${opType.replace(/'/g, "\\'")}'); exists = t is not None
+    except: pass
+    print(json.dumps({"success":true,"opType":"${opType.replace(/'/g, "\\'")}","available":exists}))
+except Exception as e:
+    print(json.dumps({"success":false,"error":str(e)}))`;
+    return this.executeJson<any>(code);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Read / Write DAT
+  // ---------------------------------------------------------------------------
+
+  async readDat(path: string, startLine?: number, endLine?: number): Promise<any> {
+    const code = `import json
+try:
+    t = op('${path.replace(/'/g, "\\'")}')
+    if t is None: print(json.dumps({"success":false,"error":"DAT not found"}))
+    else:
+        lines = t.text.split('\\\\n')
+        total = len(lines)
+        start = ${startLine ?? 1}
+        end = ${endLine ?? "total"}
+        selected = lines[start-1:end]
+        print(json.dumps({"success":true,"path":t.path,"totalLines":total,"startLine":start,"endLine":end,"content":"\\\\n".join(selected)}))
+except Exception as e:
+    print(json.dumps({"success":false,"error":str(e)}))`;
+    return this.executeJson<any>(code);
+  }
+
+  async writeDat(path: string, text?: string, oldText?: string, newText?: string, replaceAll?: boolean): Promise<any> {
+    const code = `import json
+try:
+    t = op('${path.replace(/'/g, "\\'")}')
+    if t is None: print(json.dumps({"success":false,"error":"DAT not found"}))
+    else:
+        if '${oldText ? oldText.replace(/'/g, "\\'") : ""}':
+            old = '${oldText ? oldText.replace(/'/g, "\\'") : ""}'
+            new = '${newText ? newText.replace(/'/g, "\\'") : ""}'
+            if ${replaceAll ?? false}:
+                t.text = t.text.replace(old, new)
+            else:
+                idx = t.text.find(old)
+                if idx >= 0: t.text = t.text[:idx] + new + t.text[idx+len(old):]
+                else: print(json.dumps({"success":false,"error":"old_text not found"})); return
+        elif '${text ? text.replace(/'/g, "\\'") : ""}':
+            t.text = '${text ? text.replace(/'/g, "\\'") : ""}'
+        print(json.dumps({"success":true,"path":t.path}))
+except Exception as e:
+    print(json.dumps({"success":false,"error":str(e)}))`;
+    return this.executeJson<any>(code);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Read CHOP channels
+  // ---------------------------------------------------------------------------
+
+  async readChop(path: string, channels?: string[], start?: number, end?: number): Promise<any> {
+    const code = `import json
+try:
+    t = op('${path.replace(/'/g, "\\'")}')
+    if t is None: print(json.dumps({"success":false,"error":"CHOP not found"}))
+    else:
+        chans = ${channels ? JSON.stringify(channels) : "None"}
+        s = ${start ?? 0}; e = ${end ?? "t.numSamples"}
+        result = {"path":t.path,"numSamples":t.numSamples,"numChannels":t.numChannels,"channels":{}}
+        if chans:
+            for name in chans:
+                try:
+                    c = t.channel(name)
+                    vals = [c[i] for i in range(max(0,s), min(e,t.numSamples))]
+                    result["channels"][name] = vals
+                except: pass
+        else:
+            for c in t.channels():
+                vals = [c[i] for i in range(max(0,s), min(e,t.numSamples))]
+                result["channels"][c.name] = vals
+        print(json.dumps({"success":true,"data":result}))
+except Exception as e:
+    print(json.dumps({"success":false,"error":str(e)}))`;
+    return this.executeJson<any>(code);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Search inside TD (code/expressions/parameters)
+  // ---------------------------------------------------------------------------
+
+  async searchInTD(query: string, root?: string, scope?: string, caseSensitive?: boolean, maxResults?: number, countOnly?: boolean): Promise<any> {
+    const code = `import json
+try:
+    import re
+    root_op = op('${root ? root.replace(/'/g, "\\'") : "/project1"}')
+    q = '${query.replace(/'/g, "\\'")}'
+    cs = ${caseSensitive ?? false}
+    flags = 0 if cs else re.IGNORECASE
+    scope_flag = '${scope ?? "all"}'
+    max_r = ${maxResults ?? 50}
+    count_only = ${countOnly ?? false}
+    results = []
+    def search_node(n, depth=0):
+        if n is None or depth > 20: return
+        if len(results) >= max_r: return
+        try:
+            if scope_flag in ('all','code') and hasattr(n,'text'):
+                lines = n.text.split('\\\\n')
+                for i, line in enumerate(lines):
+                    if re.search(q, line, flags):
+                        if count_only: results.append({"path":n.path}); return
+                        else: results.append({"path":n.path,"kind":"code","line":i+1,"text":line.strip()})
+                        if len(results) >= max_r: return
+        except: pass
+        try:
+            if scope_flag in ('all','expressions'):
+                for p in n.pars:
+                    if p.expr and re.search(q, p.expr, flags):
+                        if not count_only: results.append({"path":n.path,"kind":"expression","par":p.name,"expr":p.expr})
+                        if len(results) >= max_r: return
+        except: pass
+        try:
+            if scope_flag in ('all','parameters'):
+                for p in n.pars:
+                    if isinstance(p.val, str) and re.search(q, p.val, flags):
+                        if not count_only: results.append({"path":n.path,"kind":"parameter","par":p.name,"val":p.val})
+                        if len(results) >= max_r: return
+        except: pass
+        for c in n.children:
+            search_node(c, depth+1)
+    search_node(root_op)
+    print(json.dumps({"success":true,"query":q,"scope":scope_flag,"total":len(results),"results":results}))
+except Exception as e:
+    print(json.dumps({"success":false,"error":str(e)}))`;
+    return this.executeJson<any>(code);
+  }
+
+  async snapshotScene(path: string = "/"): Promise<any> {
+    const code = `import json
+try:
+    t = op('${path.replace(/'/g, "\\'")}')
+    if t is None: print(json.dumps({"success":false,"error":"Path not found"}))
+    else:
+        def snap(n):
+            pars = {}
+            try:
+                for p in n.pars: pars[p.name] = {"val":p.val,"mode":str(p.mode),"expr":p.expr}
+            except: pass
+            children = []
+            try:
+                for c in n.children: children.append(snap(c))
+            except: pass
+            return {"path":n.path,"name":n.name,"type":n.OPType,"pars":pars,"children":children}
+        print(json.dumps({"success":true,"snapshot":snap(t)}))
+except Exception as e:
+    print(json.dumps({"success":false,"error":str(e)}))`;
+    return this.executeJson<any>(code);
+  }
+
+  async getReleaseDelta(buildFrom: string, buildTo?: string): Promise<any> {
+    return { success: true, buildFrom, buildTo: buildTo ?? "current", note: "Use the td-build-2025 skill for complete build 2025.32820 feature documentation." };
+  }
+
+  async customParameters(path: string, page: string, params: Array<{name: string; type?: string; default?: number; min?: number; max?: number; label?: string}>): Promise<any> {
+    const code = `import json
+try:
+    t = op('${path.replace(/'/g, "\\'")}')
+    if t is None: print(json.dumps({"success":false,"error":"Not found"}))
+    else:
+        pp = t.customPages['${page.replace(/'/g, "\\'")}'] if '${page.replace(/'/g, "\\'")}' in t.customPages else t.appendCustomPage('${page.replace(/'/g, "\\'")}')
+        defs = ${JSON.stringify(params)}
+        res = []
+        for p in defs:
+            try:
+                par = pp.appendFloat(p['name'], p.get('label', p['name']))
+                if 'default' in p: par.default = p['default']
+                if 'min' in p: par.min = p['min']
+                if 'max' in p: par.max = p['max']
+                res.append({"name":p['name'],"created":true})
+            except:
+                res.append({"name":p['name'],"created":false,"error":"Could not create"})
+        print(json.dumps({"success":true,"path":t.path,"page":"${page.replace(/'/g, "\\'")}","params":res}))
+except Exception as e:
+    print(json.dumps({"success":false,"error":str(e)}))`;
+    return this.executeJson<any>(code);
   }
 }

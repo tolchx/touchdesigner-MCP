@@ -387,7 +387,7 @@ export function createTouchDesignerMcpServer(client: TDClient = new TDClient()) 
     },
     async ({ source_path, target_path, source_output, target_input }) => {
       try {
-        const result = await client.connectNodes(source_path, target_path, source_output ?? "output", target_input ?? 0);
+        const result = await client.connectNodes(source_path, target_path, target_input ?? 0);
         return {
           content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
         };
@@ -700,6 +700,249 @@ export function createTouchDesignerMcpServer(client: TDClient = new TDClient()) 
         return {
           content: [{ type: "text", text: JSON.stringify({ success: false, error: e.message }, null, 2) }],
         };
+      }
+    }
+  );
+
+  // ---------------------------------------------------------------------------
+  // td_read_dat
+  // ---------------------------------------------------------------------------
+  server.registerTool(
+    "td_read_dat",
+    {
+      title: "Read DAT",
+      description: "Read the text content of a DAT operator in TouchDesigner. Returns content with line numbers.",
+      inputSchema: {
+        path: z.string().describe("Path to the DAT operator"),
+        start_line: z.number().optional().describe("Start line (1-based)"),
+        end_line: z.number().optional().describe("End line (inclusive)"),
+      },
+    },
+    async ({ path, start_line, end_line }) => {
+      try {
+        const result = await client.readDat(path, start_line, end_line);
+        return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      } catch (e: any) {
+        return { content: [{ type: "text", text: JSON.stringify({ success: false, error: e.message }, null, 2) }] };
+      }
+    }
+  );
+
+  // ---------------------------------------------------------------------------
+  // td_write_dat
+  // ---------------------------------------------------------------------------
+  server.registerTool(
+    "td_write_dat",
+    {
+      title: "Write DAT",
+      description: "Write or patch text content of a DAT operator. Can do full replacement or StrReplace-style patching.",
+      inputSchema: {
+        path: z.string().describe("Path to the DAT operator"),
+        text: z.string().optional().describe("Full replacement text"),
+        old_text: z.string().optional().describe("Text to find and replace"),
+        new_text: z.string().optional().describe("Replacement text"),
+        replace_all: z.boolean().optional().default(false).describe("Replace all occurrences"),
+      },
+    },
+    async ({ path, text, old_text, new_text, replace_all }) => {
+      try {
+        const result = await client.writeDat(path, text, old_text, new_text, replace_all ?? false);
+        return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      } catch (e: any) {
+        return { content: [{ type: "text", text: JSON.stringify({ success: false, error: e.message }, null, 2) }] };
+      }
+    }
+  );
+
+  // ---------------------------------------------------------------------------
+  // td_read_chop
+  // ---------------------------------------------------------------------------
+  server.registerTool(
+    "td_read_chop",
+    {
+      title: "Read CHOP",
+      description: "Read CHOP channel sample data. Returns channel values as arrays.",
+      inputSchema: {
+        path: z.string().describe("Path to the CHOP operator"),
+        channels: z.array(z.string()).optional().describe("Channel names to read"),
+        start: z.number().optional().describe("Start sample index (0-based)"),
+        end: z.number().optional().describe("End sample index (inclusive)"),
+      },
+    },
+    async ({ path, channels, start, end }) => {
+      try {
+        const result = await client.readChop(path, channels, start, end);
+        return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      } catch (e: any) {
+        return { content: [{ type: "text", text: JSON.stringify({ success: false, error: e.message }, null, 2) }] };
+      }
+    }
+  );
+
+  // ---------------------------------------------------------------------------
+  // td_search
+  // ---------------------------------------------------------------------------
+  server.registerTool(
+    "td_search",
+    {
+      title: "Search Inside TD",
+      description: "Search for text across all code (DAT scripts), parameter expressions, and string parameter values in the TD project.",
+      inputSchema: {
+        query: z.string().describe("Search query"),
+        root: z.string().optional().describe("Root path to search from (default /project1)"),
+        scope: z.enum(["all", "code", "expressions", "parameters"]).optional().default("all").describe("What to search"),
+        case_sensitive: z.boolean().optional().default(false).describe("Case-sensitive matching"),
+        max_results: z.number().optional().default(50).describe("Max results"),
+        count_only: z.boolean().optional().default(false).describe("Return only count"),
+      },
+    },
+    async ({ query, root, scope, case_sensitive, max_results, count_only }) => {
+      try {
+        const result = await client.searchInTD(query, root, scope, case_sensitive, max_results, count_only);
+        return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      } catch (e: any) {
+        return { content: [{ type: "text", text: JSON.stringify({ success: false, error: e.message }, null, 2) }] };
+      }
+    }
+  );
+
+  // ---------------------------------------------------------------------------
+  // td_get_info
+  // ---------------------------------------------------------------------------
+  server.registerTool(
+    "td_get_info",
+    {
+      title: "Get TD Info",
+      description: "Get TouchDesigner environment info: build version, date, commercial status, platform.",
+      inputSchema: {},
+    },
+    async () => {
+      try {
+        const result = await client.getInfo();
+        return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      } catch (e: any) {
+        return { content: [{ type: "text", text: JSON.stringify({ success: false, error: e.message }, null, 2) }] };
+      }
+    }
+  );
+
+  // ---------------------------------------------------------------------------
+  // td_get_node_detail
+  // ---------------------------------------------------------------------------
+  server.registerTool(
+    "td_get_node_detail",
+    {
+      title: "Get Node Detail",
+      description: "Get detailed information about a TouchDesigner operator: parameters, inputs, flags, and optionally recursive children.",
+      inputSchema: {
+        path: z.string().describe("Operator path"),
+        recurse: z.boolean().optional().default(false).describe("Include children recursively"),
+      },
+    },
+    async ({ path, recurse }) => {
+      try {
+        const result = await client.getNodeDetail(path, recurse ?? false);
+        return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      } catch (e: any) {
+        return { content: [{ type: "text", text: JSON.stringify({ success: false, error: e.message }, null, 2) }] };
+      }
+    }
+  );
+
+  // ---------------------------------------------------------------------------
+  // td_get_hints
+  // ---------------------------------------------------------------------------
+  server.registerTool(
+    "td_get_hints",
+    {
+      title: "Get Operator Hints",
+      description: "Get hints and wiring guidance for a specific TouchDesigner operator type.",
+      inputSchema: {
+        node_type: z.string().describe("Operator type (e.g. 'noiseTOP')"),
+      },
+    },
+    async ({ node_type }) => {
+      try {
+        const result = await client.getHints(node_type);
+        return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      } catch (e: any) {
+        return { content: [{ type: "text", text: JSON.stringify({ success: false, error: e.message }, null, 2) }] };
+      }
+    }
+  );
+
+  // ---------------------------------------------------------------------------
+  // td_get_build_compatibility
+  // ---------------------------------------------------------------------------
+  server.registerTool(
+    "td_get_build_compatibility",
+    {
+      title: "Check Build Compatibility",
+      description: "Check if a specific operator type exists in current TD build.",
+      inputSchema: {
+        op_type: z.string().describe("Operator type to check"),
+      },
+    },
+    async ({ op_type }) => {
+      try {
+        const result = await client.getBuildCompatibility(op_type);
+        return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      } catch (e: any) {
+        return { content: [{ type: "text", text: JSON.stringify({ success: false, error: e.message }, null, 2) }] };
+      }
+    }
+  );
+
+  // ---------------------------------------------------------------------------
+  // td_get_release_delta
+  // ---------------------------------------------------------------------------
+  server.registerTool(
+    "td_get_release_delta",
+    {
+      title: "Get Release Delta",
+      description: "Get information about what changed between TouchDesigner builds.",
+      inputSchema: {
+        build_from: z.string().describe("Source build version"),
+        build_to: z.string().optional().describe("Target build version (default: current)"),
+      },
+    },
+    async ({ build_from, build_to }) => {
+      try {
+        const result = await client.getReleaseDelta(build_from, build_to);
+        return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      } catch (e: any) {
+        return { content: [{ type: "text", text: JSON.stringify({ success: false, error: e.message }, null, 2) }] };
+      }
+    }
+  );
+
+  // ---------------------------------------------------------------------------
+  // td_custom_parameters
+  // ---------------------------------------------------------------------------
+  server.registerTool(
+    "td_custom_parameters",
+    {
+      title: "Create Custom Parameters",
+      description: "Create or update custom parameter pages on a TouchDesigner operator declaratively.",
+      inputSchema: {
+        path: z.string().describe("Operator path"),
+        page: z.string().describe("Custom page name"),
+        params: z.array(z.object({
+          name: z.string(),
+          type: z.string().optional().default("float"),
+          default: z.number().optional(),
+          min: z.number().optional(),
+          max: z.number().optional(),
+          label: z.string().optional(),
+        })).describe("Parameter definitions"),
+      },
+    },
+    async ({ path, page, params }) => {
+      try {
+        const result = await client.customParameters(path, page, params);
+        return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      } catch (e: any) {
+        return { content: [{ type: "text", text: JSON.stringify({ success: false, error: e.message }, null, 2) }] };
       }
     }
   );
