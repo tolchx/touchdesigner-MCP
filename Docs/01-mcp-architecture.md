@@ -30,7 +30,7 @@
 - `td_selection`: selección actual.
 - `td_operators`: lista hijos en un path.
 
-### Tools expandidas v1 (9)
+### Tools expandidas v1 (10)
 - `td_pops_query`: consulta la base local de POPs.
 - `td_ops_query`: consulta base de operadores (TOP/CHOP/SOP/DAT).
 - `td_pars_get`: leer parámetros de un operador.
@@ -42,7 +42,7 @@
 - `td_network_plan`: planificar o aplicar redes desde lenguaje natural.
 - `td_healthcheck`: forzar cook y validar operadores/redes.
 
-### Tools nuevas v2.0 (11)
+### Tools nuevas v2.0 (10)
 - `td_create_operator`: crear operador por tipo con nombre/posición opcional.
 - `td_delete_operator`: eliminar operador por path.
 - `td_connect_nodes`: conectar dos operadores (salida→entrada).
@@ -53,7 +53,31 @@
 - `td_pop_inspect`: leer datos POP (puntos, primitivas, vértices, atributos).
 - `td_snapshot_scene`: guardar estado de operador antes de cambios destructivos.
 - `td_project_lifecycle`: lifecycle (save/load/undo/redo/bloques).
-- `td_healthcheck`: (existente) validación de red.
+
+## Nuevos Skills v2.0
+
+### td-core-discipline
+Reglas obligatorias para toda operación en TD:
+- STOP rules: no adivinar nombres de parámetros, usar paths relativos en callbacks
+- Node layout: grid spacing (250px horizontal, 200px vertical), left-to-right flow
+- Color coding: blue=generators, green=processing, orange=outputs, purple=control, red=debug
+- Error checking: siempre después de cada modificación
+- Expresssions: absolute paths para op(), .mode = ParMode.EXPRESSION después de .expr
+- Render pipeline pitfalls: geometryCOMP defaults to POP torus, reference params need OP refs, feedbackTOP canonical wiring, viewer flag on test COMPs
+
+### td-build-2025
+Documentación del build TD 2025.32820+ (Mayo 2026):
+- **Trace POP**: reemplaza Polygonize POP (modo 2D)
+- **Triangulate POP**: líneas cerradas a triángulos
+- **Alembic Out POP / File Out POP / Point File In POP**: pipeline I/O de POPs
+- **DMX Fixture POP + DMX Out POP**: lighting/rig workflow con Art-Net/sACN
+- **Layer Mix TOP**: reemplaza pilas de Composite TOPs
+- **Render Simple TOP**: render sin Camera/Light COMP
+- **NVIDIA RTX Video TOP**: AI super-resolution + SDR-to-HDR
+- **ST2110 In/Out TOP**: broadcast media-over-IP
+- **Noise TOP 4D derivatives**, 3D textures/2D arrays nativos
+- **Color management**: ACEScg, DCI-P3, Rec.2020, HDR
+- **Pattern matching unificado**: bracket syntax, sets, boolean operators
 
 ## Bases de Conocimiento
 
@@ -62,7 +86,7 @@
 - `data/pops/index.json`: 99 operadores POP indexados
 - `data/pops/operators/<PageSlug>.json`: 99 POPs con análisis multi-fuente
 
-## Skills (13)
+## Skills (13 total)
 
 - `td-guide`, `td-fundamentals`, `td-pops-advanced`
 - `td-core-discipline` (nuevo v2.0)
@@ -83,7 +107,7 @@
 
 ## Novedades v2.0
 
-- 11 nuevas tools (total: 24)
+- 10 nuevas tools (total: 24)
 - 2 nuevos skills (core-discipline, build-2025)
 - Nuevo sistema de snapshot y POP inspection
 - Project lifecycle tools (save/load/undo/redo)

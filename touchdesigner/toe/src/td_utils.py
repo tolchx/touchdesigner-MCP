@@ -6,6 +6,16 @@ These functions are designed to be imported and bound to TouchDesignerAPI class.
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, NamedTuple
+import queue
+import threading
+import traceback
+import uuid
+import time
+import requests
+import json
+import os
+import platform
+from pathlib import Path
 
 if TYPE_CHECKING:
     from typing import TypeAlias
@@ -44,7 +54,108 @@ __all__ = [
     # Layout utilities
     'GetBounds', 'CheckOverlap', 'GetAllBounds',
     'FindEmptyArea', 'FindTypeConversionPosition',
+    # Phase 1, 2, 3 & 4
+    'ClientQueueManager', 'HTTPClientCache', 'load_json_cache', 'save_json_cache', 'get_modifier_keys',
 ]
+
+# =============================================================================
+# Phase 1 & 2: Asynchronous Foundations & UI/State
+# =============================================================================
+class ClientQueueManager:
+    def __init__(self) -> None:
+        self.refreshPayloadQueue = queue.Queue()
+        self.successPayload = None
+        self.stateLock = threading.Lock()
+
+    def AddInRefreshQueue(self, data: object):
+        self.refreshPayloadQueue.put(data, block=False)
+
+    def SetSuccessPayload(self, data: object):
+        with self.stateLock:
+            self.successPayload = data
+
+    def GetSuccessPayload(self) -> object:
+        with self.stateLock:
+            return self.successPayload
+
+    def Reset(self):
+        self.refreshPayloadQueue = queue.Queue()
+        with self.stateLock:
+            self.successPayload = None
+
+# =============================================================================
+# Phase 3: Integración de Caché y Sesiones HTTP
+# =============================================================================
+class HTTPClientCache:
+    _session = None
+
+    @classmethod
+    def get_session(cls):
+        if cls._session is None:
+            cls._session = requests.Session()
+        return cls._session
+
+def load_json_cache(filepath: str) -> dict:
+    path = Path(filepath)
+    if path.exists():
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception:
+            return {}
+    return {}
+
+def save_json_cache(filepath: str, data: dict):
+    path = Path(filepath)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, 'w', encoding='utf-8') as f:
+        json.dump(data, f, indent=2)
+
+# =============================================================================
+# Phase 4: Detección de Modificadores del SO (ctypes)
+# =============================================================================
+def get_modifier_keys() -> dict:
+    """Detect native OS modifier keys using ctypes."""
+    is_mac = platform.system().lower() == 'darwin'
+    is_win = platform.system().lower() == 'windows'
+
+    if is_win:
+        import ctypes
+        user32 = ctypes.windll.user32
+        def is_key_pressed(vk_code):
+            return (user32.GetAsyncKeyState(vk_code) & 0x8000) != 0
+
+        VK_SHIFT   = 0x10
+        VK_CONTROL = 0x11
+        VK_MENU    = 0x12
+
+        return {
+            'cmd': False,
+            'ctrl': is_key_pressed(VK_CONTROL),
+            'shift': is_key_pressed(VK_SHIFT),
+            'alt': is_key_pressed(VK_MENU)
+        }
+    elif is_mac:
+        import ctypes
+        import ctypes.util
+        lib_path = ctypes.util.find_library('ApplicationServices')
+        if not lib_path:
+            return {'cmd': False, 'ctrl': False, 'shift': False, 'alt': False}
+        
+        app_services = ctypes.CDLL(lib_path)
+        kCGEventSourceStateCombinedSessionState = 0
+        app_services.CGEventSourceFlagsState.argtypes = [ctypes.c_uint32]
+        app_services.CGEventSourceFlagsState.restype  = ctypes.c_uint64
+
+        flags = app_services.CGEventSourceFlagsState(kCGEventSourceStateCombinedSessionState)
+        return {
+            'cmd': (flags & 0x00100000) != 0,
+            'ctrl': (flags & 0x00040000) != 0,
+            'shift': (flags & 0x00020000) != 0,
+            'alt': (flags & 0x00080000) != 0
+        }
+    return {'cmd': False, 'ctrl': False, 'shift': False, 'alt': False}
+
 
 
 def MoveOp(self, target: OP | str, x: int, y: int) -> OP:
