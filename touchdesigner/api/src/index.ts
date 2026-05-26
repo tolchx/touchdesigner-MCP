@@ -349,10 +349,10 @@ export class TDClient {
     const code = `import json
 try:
     t = op('${path.replace(/'/g, "\\'")}')
-    if t is None: print(json.dumps({"success":false,"path":"${path.replace(/'/g, "\\'")}","error":"Not found"}))
-    else: t.destroy(); print(json.dumps({"success":true,"path":"${path.replace(/'/g, "\\'")}"}))
+    if t is None: print(json.dumps({'success':False,'path':'${path.replace(/'/g, "\\'")}'}))
+    else: t.destroy(); print(json.dumps({'success':True,'path':'${path.replace(/'/g, "\\'")}'}))
 except Exception as e:
-    print(json.dumps({"success":false,"path":"${path.replace(/'/g, "\\'")}","error":str(e)}))`;
+    print(json.dumps({'success':False,'path':'${path.replace(/'/g, "\\'")}','error':str(e)}))`;
     return this.executeJson<DeleteOperatorResult>(code);
   }
 
@@ -360,11 +360,11 @@ except Exception as e:
     const code = `import json
 try:
     src = op('${sourcePath.replace(/'/g, "\\'")}'); tgt = op('${targetPath.replace(/'/g, "\\'")}')
-    if src is None: print(json.dumps({"success":false,"sourcePath":"${sourcePath.replace(/'/g, "\\'")}","targetPath":"${targetPath.replace(/'/g, "\\'")}","sourceOutput":"output","targetInput":${targetInput},"error":"Source not found"}))
-    elif tgt is None: print(json.dumps({"success":false,"sourcePath":"${sourcePath.replace(/'/g, "\\'")}","targetPath":"${targetPath.replace(/'/g, "\\'")}","sourceOutput":"output","targetInput":${targetInput},"error":"Target not found"}))
-    else: tgt.inputConnectors[${targetInput}].connect(src); print(json.dumps({"success":true,"sourcePath":src.path,"targetPath":tgt.path,"sourceOutput":"output","targetInput":${targetInput}}))
+    if src is None: print(json.dumps({'success':False,'sourcePath':'${sourcePath.replace(/'/g, "\\'")}','targetPath':'${targetPath.replace(/'/g, "\\'")}','sourceOutput':'output','targetInput':${targetInput},'error':'Source not found'}))
+    elif tgt is None: print(json.dumps({'success':False,'sourcePath':'${sourcePath.replace(/'/g, "\\'")}','targetPath':'${targetPath.replace(/'/g, "\\'")}','sourceOutput':'output','targetInput':${targetInput},'error':'Target not found'}))
+    else: tgt.inputConnectors[${targetInput}].connect(src); print(json.dumps({'success':True,'sourcePath':src.path,'targetPath':tgt.path,'sourceOutput':'output','targetInput':${targetInput}}))
 except Exception as e:
-    print(json.dumps({"success":false,"sourcePath":"${sourcePath.replace(/'/g, "\\'")}","targetPath":"${targetPath.replace(/'/g, "\\'")}","sourceOutput":"output","targetInput":${targetInput},"error":str(e)}))`;
+    print(json.dumps({'success':False,'sourcePath':'${sourcePath.replace(/'/g, "\\'")}','targetPath':'${targetPath.replace(/'/g, "\\'")}','sourceOutput':'output','targetInput':${targetInput},'error':str(e)}))`;
     return this.executeJson<ConnectNodesResult>(code);
   }
 
@@ -404,15 +404,15 @@ except Exception as e:
     const code = `import json,tempfile,base64,os
 try:
     t = ${target}
-    if t is None: print(json.dumps({"success":false,"path":"${safe || "current"}","error":"Not found"}))
+    if t is None: print(json.dumps({'success':False,'path':'${safe || "current"}','error':'Not found'}))
     else:
         tf = tempfile.NamedTemporaryFile(suffix='.png',delete=False).name
-        try: t.save(tf); print(json.dumps({"success":true,"path":t.path,"image":base64.b64encode(open(tf,'rb').read()).decode()}))
+        try: t.save(tf); print(json.dumps({'success':True,'path':t.path,'image':base64.b64encode(open(tf,'rb').read()).decode()}))
         finally:
             try: os.unlink(tf)
             except: pass
 except Exception as e:
-    print(json.dumps({"success":false,"path":"${safe || "current"}","error":str(e)}))`;
+    print(json.dumps({'success':False,'path':'${safe || "current"}','error':str(e)}))`;
     return this.executeJson<ScreenshotResult>(code, path ?? "/");
   }
 
@@ -428,9 +428,9 @@ except Exception as e:
     const code = `import json
 try:
     ${actions[action]}
-    print(json.dumps({"success":true,"action":"${action}","path":${filePath ? JSON.stringify(filePath) : "null"},"message":"${action} performed"}))
+    print(json.dumps({'success':True,'action':'${action}','path':${filePath ? JSON.stringify(filePath) : "null"},'message':'${action} performed'}))
 except Exception as e:
-    print(json.dumps({"success":false,"action":"${action}","error":str(e)}))`;
+    print(json.dumps({'success':False,'action':'${action}','error':str(e)}))`;
     return this.executeJson<ProjectLifecycleResult>(code);
   }
 
@@ -438,7 +438,7 @@ except Exception as e:
     const code = `import json
 try:
     t = op('${path.replace(/'/g, "\\'")}')
-    if t is None: print(json.dumps({"success":false,"error":"Not found"}))
+    if t is None: print(json.dumps({'success':False,"error":"Not found"}))
     else:
         info = {"path":t.path,"name":t.name,"type":t.OPType}
         for attr in ['numPoints','numPrims','numVerts']:
@@ -449,9 +449,9 @@ try:
             for a in t.attribs: attrs.append({"name":a.name,"type":str(a.type),"size":a.size,"scope":str(a.scope)})
             info["attributes"] = attrs
         except: pass
-        print(json.dumps({"success":true,"data":info}))
+        print(json.dumps({'success':True,"data":info}))
 except Exception as e:
-    print(json.dumps({"success":false,"error":str(e)}))`;
+    print(json.dumps({'success':False,"error":str(e)}))`;
     return this.executeJson<any>(code);
   }
 
@@ -459,7 +459,7 @@ except Exception as e:
     const code = `import json
 try:
     t = op('${path.replace(/'/g, "\\'")}')
-    if t is None: print(json.dumps({"success":false,"error":"Not found"}))
+    if t is None: print(json.dumps({'success':False,"error":"Not found"}))
     else:
         def desc(n, d=0):
             if n is None or d>10: return None
@@ -475,9 +475,9 @@ try:
                 try: i["children"] = [desc(c,d+1) for c in n.children if c]
                 except: pass
             return i
-        print(json.dumps({"success":true,"data":desc(t)}))
+        print(json.dumps({'success':True,"data":desc(t)}))
 except Exception as e:
-    print(json.dumps({"success":false,"error":str(e)}))`;
+    print(json.dumps({'success':False,"error":str(e)}))`;
     return this.executeJson<any>(code);
   }
 
@@ -491,9 +491,9 @@ try:
     exists = False
     try: t = getattr(tdu, '${opType.replace(/'/g, "\\'")}'); exists = t is not None
     except: pass
-    print(json.dumps({"success":true,"opType":"${opType.replace(/'/g, "\\'")}","available":exists}))
+    print(json.dumps({'success':True,"opType":"${opType.replace(/'/g, "\\'")}","available":exists}))
 except Exception as e:
-    print(json.dumps({"success":false,"error":str(e)}))`;
+    print(json.dumps({'success':False,"error":str(e)}))`;
     return this.executeJson<any>(code);
   }
 
@@ -505,16 +505,16 @@ except Exception as e:
     const code = `import json
 try:
     t = op('${path.replace(/'/g, "\\'")}')
-    if t is None: print(json.dumps({"success":false,"error":"DAT not found"}))
+    if t is None: print(json.dumps({'success':False,"error":"DAT not found"}))
     else:
         lines = t.text.split('\\\\n')
         total = len(lines)
         start = ${startLine ?? 1}
         end = ${endLine ?? "total"}
         selected = lines[start-1:end]
-        print(json.dumps({"success":true,"path":t.path,"totalLines":total,"startLine":start,"endLine":end,"content":"\\\\n".join(selected)}))
+        print(json.dumps({'success':True,"path":t.path,"totalLines":total,"startLine":start,"endLine":end,"content":"\\\\n".join(selected)}))
 except Exception as e:
-    print(json.dumps({"success":false,"error":str(e)}))`;
+    print(json.dumps({'success':False,"error":str(e)}))`;
     return this.executeJson<any>(code);
   }
 
@@ -522,7 +522,7 @@ except Exception as e:
     const code = `import json
 try:
     t = op('${path.replace(/'/g, "\\'")}')
-    if t is None: print(json.dumps({"success":false,"error":"DAT not found"}))
+    if t is None: print(json.dumps({'success':False,"error":"DAT not found"}))
     else:
         if '${oldText ? oldText.replace(/'/g, "\\'") : ""}':
             old = '${oldText ? oldText.replace(/'/g, "\\'") : ""}'
@@ -532,12 +532,12 @@ try:
             else:
                 idx = t.text.find(old)
                 if idx >= 0: t.text = t.text[:idx] + new + t.text[idx+len(old):]
-                else: print(json.dumps({"success":false,"error":"old_text not found"})); return
+                else: print(json.dumps({'success':False,"error":"old_text not found"})); return
         elif '${text ? text.replace(/'/g, "\\'") : ""}':
             t.text = '${text ? text.replace(/'/g, "\\'") : ""}'
-        print(json.dumps({"success":true,"path":t.path}))
+        print(json.dumps({'success':True,"path":t.path}))
 except Exception as e:
-    print(json.dumps({"success":false,"error":str(e)}))`;
+    print(json.dumps({'success':False,"error":str(e)}))`;
     return this.executeJson<any>(code);
   }
 
@@ -549,7 +549,7 @@ except Exception as e:
     const code = `import json
 try:
     t = op('${path.replace(/'/g, "\\'")}')
-    if t is None: print(json.dumps({"success":false,"error":"CHOP not found"}))
+    if t is None: print(json.dumps({'success':False,"error":"CHOP not found"}))
     else:
         chans = ${channels ? JSON.stringify(channels) : "None"}
         s = ${start ?? 0}; e = ${end ?? "t.numSamples"}
@@ -565,9 +565,9 @@ try:
             for c in t.channels():
                 vals = [c[i] for i in range(max(0,s), min(e,t.numSamples))]
                 result["channels"][c.name] = vals
-        print(json.dumps({"success":true,"data":result}))
+        print(json.dumps({'success':True,"data":result}))
 except Exception as e:
-    print(json.dumps({"success":false,"error":str(e)}))`;
+    print(json.dumps({'success':False,"error":str(e)}))`;
     return this.executeJson<any>(code);
   }
 
@@ -616,9 +616,9 @@ try:
         for c in n.children:
             search_node(c, depth+1)
     search_node(root_op)
-    print(json.dumps({"success":true,"query":q,"scope":scope_flag,"total":len(results),"results":results}))
+    print(json.dumps({'success':True,"query":q,"scope":scope_flag,"total":len(results),"results":results}))
 except Exception as e:
-    print(json.dumps({"success":false,"error":str(e)}))`;
+    print(json.dumps({'success':False,"error":str(e)}))`;
     return this.executeJson<any>(code);
   }
 
@@ -626,7 +626,7 @@ except Exception as e:
     const code = `import json
 try:
     t = op('${path.replace(/'/g, "\\'")}')
-    if t is None: print(json.dumps({"success":false,"error":"Path not found"}))
+    if t is None: print(json.dumps({'success':False,"error":"Path not found"}))
     else:
         def snap(n):
             pars = {}
@@ -638,9 +638,9 @@ try:
                 for c in n.children: children.append(snap(c))
             except: pass
             return {"path":n.path,"name":n.name,"type":n.OPType,"pars":pars,"children":children}
-        print(json.dumps({"success":true,"snapshot":snap(t)}))
+        print(json.dumps({'success':True,"snapshot":snap(t)}))
 except Exception as e:
-    print(json.dumps({"success":false,"error":str(e)}))`;
+    print(json.dumps({'success':False,"error":str(e)}))`;
     return this.executeJson<any>(code);
   }
 
@@ -652,7 +652,7 @@ except Exception as e:
     const code = `import json
 try:
     t = op('${path.replace(/'/g, "\\'")}')
-    if t is None: print(json.dumps({"success":false,"error":"Not found"}))
+    if t is None: print(json.dumps({'success':False,"error":"Not found"}))
     else:
         pp = t.customPages['${page.replace(/'/g, "\\'")}'] if '${page.replace(/'/g, "\\'")}' in t.customPages else t.appendCustomPage('${page.replace(/'/g, "\\'")}')
         defs = ${JSON.stringify(params)}
@@ -666,9 +666,9 @@ try:
                 res.append({"name":p['name'],"created":true})
             except:
                 res.append({"name":p['name'],"created":false,"error":"Could not create"})
-        print(json.dumps({"success":true,"path":t.path,"page":"${page.replace(/'/g, "\\'")}","params":res}))
+        print(json.dumps({'success':True,"path":t.path,"page":"${page.replace(/'/g, "\\'")}","params":res}))
 except Exception as e:
-    print(json.dumps({"success":false,"error":str(e)}))`;
+    print(json.dumps({'success':False,"error":str(e)}))`;
     return this.executeJson<any>(code);
   }
 
@@ -685,9 +685,9 @@ try:
     info["selection"] = [{"path":s.path,"name":s.name,"type":s.OPType} for s in sel if s] if sel else []
     info["currentOperator"] = ui.panes[0].currentOperator.path if ui.panes and ui.panes[0] and ui.panes[0].currentOperator else None
     info["numSelected"] = len(info["selection"])
-    print(json.dumps({"success":true,"focus":info}))
+    print(json.dumps({'success':True,"focus":info}))
 except Exception as e:
-    print(json.dumps({"success":false,"error":str(e)}))`;
+    print(json.dumps({'success':False,"error":str(e)}))`;
     return this.executeJson<any>(code);
   }
 
@@ -695,7 +695,7 @@ except Exception as e:
     const code = `import json
 try:
     target = op('${path ? path.replace(/'/g, "\\'") : "/" }')
-    if target is None: print(json.dumps({"success":false,"error":"Path not found"}))
+    if target is None: print(json.dumps({'success':False,"error":"Path not found"}))
     else:
         prof = target.profile()
         perf = {"fps":0,"cookBudget":0,"gpuMemory":0,"operators":[]}
@@ -723,9 +723,9 @@ try:
         if ${top ?? 20}: ops = ops[:${top ?? 20}]
         perf["operators"] = ops
         perf["totalOps"] = len(ops)
-        print(json.dumps({"success":true,"performance":perf}))
+        print(json.dumps({'success':True,"performance":perf}))
 except Exception as e:
-    print(json.dumps({"success":false,"error":str(e)}))`;
+    print(json.dumps({'success':False,"error":str(e)}))`;
     return this.executeJson<any>(code);
   }
 
@@ -740,9 +740,9 @@ try:
     log = op.TDPerformance.getLog() if hasattr(op.TDPerformance,'getLog') else ""
     lines_list = log.split('\\\\n') if log else []
     recent = lines_list[-count:] if lines_list else []
-    print(json.dumps({"success":true,"totalLines":len(lines_list),"lines":recent}))
+    print(json.dumps({'success':True,"totalLines":len(lines_list),"lines":recent}))
 except Exception as e:
-    print(json.dumps({"success":false,"error":str(e)}))`;
+    print(json.dumps({'success':False,"error":str(e)}))`;
     return this.executeJson<any>(code);
   }
 
@@ -751,9 +751,9 @@ except Exception as e:
 try:
     # TD doesn't have a clear log API, but we can output a divider
     print("--- MCP CLEAR ---", end="")
-    print(json.dumps({"success":true,"message":"Textport marker added"}))
+    print(json.dumps({'success':True,"message":"Textport marker added"}))
 except Exception as e:
-    print(json.dumps({"success":false,"error":str(e)}))`;
+    print(json.dumps({'success':False,"error":str(e)}))`;
     return this.executeJson<any>(code);
   }
 
@@ -765,14 +765,14 @@ except Exception as e:
     const code = `import json
 try:
     t = op('${path.replace(/'/g, "\\'")}')
-    if t is None: print(json.dumps({"success":false,"error":"Operator not found"}))
+    if t is None: print(json.dumps({'success':False,"error":"Operator not found"}))
     else:
         ui.panes[0].currentNetworkPath = t.parent().path
         ui.panes[0].currentSelection = [t]
         ui.panes[0].homeSelection(True)
-        print(json.dumps({"success":true,"path":t.path,"parent":t.parent().path}))
+        print(json.dumps({'success':True,"path":t.path,"parent":t.parent().path}))
 except Exception as e:
-    print(json.dumps({"success":false,"error":str(e)}))`;
+    print(json.dumps({'success':False,"error":str(e)}))`;
     return this.executeJson<any>(code);
   }
 
@@ -784,12 +784,12 @@ except Exception as e:
     const code = `import json
 try:
     t = op('${path.replace(/'/g, "\\'")}')
-    if t is None: print(json.dumps({"success":false,"error":"COMP not found"}))
+    if t is None: print(json.dumps({'success':False,"error":"COMP not found"}))
     else:
         t.reinitExtension()
-        print(json.dumps({"success":true,"path":t.path,"message":"Extension reinitialized"}))
+        print(json.dumps({'success':True,"path":t.path,"message":"Extension reinitialized"}))
 except Exception as e:
-    print(json.dumps({"success":false,"error":str(e)}))`;
+    print(json.dumps({'success':False,"error":str(e)}))`;
     return this.executeJson<any>(code);
   }
 
