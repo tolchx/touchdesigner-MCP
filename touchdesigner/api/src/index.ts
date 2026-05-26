@@ -390,7 +390,7 @@ try:
             try:
                 for c in n.children: walk(c)
             except: pass
-        if ${recurse}: walk(t)
+        if ${recurse ? 'True' : 'False'}: walk(t)
         else: items.append(collect(t))
         print(json.dumps({"path":t.path,"recurse":${recurse},"operators":items,"issueCount":len([i for i in items if i["hasIssues"]])}))
 except Exception as e:
@@ -465,14 +465,14 @@ try:
             if n is None or d>10: return None
             i = {'path':n.path,'name':n.name,'type':n.OPType}
             try:
-                i['pars'] = [{'name':p.name,'label':p.label,'val':p.val,'mode':str(p.mode),'expr':p.expr,'default':p.default,'style':p.style} for p in n.pars]
+                i['pars'] = [{'name':p.name,'label':p.label,'val':p.val,'mode':str(p.mode),'expr':p.expr,'default':p.default,'style':p.style} for p in n.pars()]
             except: pass
             try:
                 i['inputs'] = [{'index':idx,'op':c.op.name if c.op else None} for idx,c in enumerate(n.inputConnectors)]
             except: pass
             try: i['viewer'] = n.viewer
             except: pass
-            if ${recurse}:
+            if ${recurse ? 'True' : 'False'}:
                 try: i['children'] = [desc(c,d+1) for c in n.children if c]
                 except: pass
             return i
