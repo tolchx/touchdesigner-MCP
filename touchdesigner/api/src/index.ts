@@ -843,4 +843,154 @@ except Exception as e:
       "    print(json.dumps({'success':False,'error':str(e)}))";
     return this.executeJson<any>(code);
   }
+
+  // ---------------------------------------------------------------------------
+  // td_pulse_param
+  // ---------------------------------------------------------------------------
+  async pulseParam(path: string, name: string): Promise<any> {
+    const code = `import json
+try:
+    t = op('${path.replace(/'/g, "\\'")}')
+    if t is None: print(json.dumps({'success':False,'error':'Not found'}))
+    else:
+        par = getattr(t.par, '${name.replace(/'/g, "\\'")}')
+        par.pulse()
+        print(json.dumps({'success':True,'path':t.path,'par':'${name.replace(/'/g, "\\'")}'}))
+except Exception as e:
+    print(json.dumps({'success':False,'error':str(e)}))`;
+    return this.executeJson<any>(code);
+  }
+
+  // ---------------------------------------------------------------------------
+  // td_copy_node
+  // ---------------------------------------------------------------------------
+  async copyNode(path: string, destination?: string, name?: string): Promise<any> {
+    const safeSrc = path.replace(/'/g, "\\'");
+    const safeDst = destination ? destination.replace(/'/g, "\\'") : "";
+    const safeName = name ? name.replace(/'/g, "\\'") : "";
+    const code = `import json
+try:
+    src = op('${safeSrc}')
+    if src is None: print(json.dumps({'success':False,'error':'Source not found'}))
+    else:
+        dst_path = '${safeDst}' if '${safeDst}' else src.parent().path
+        dst = op(dst_path)
+        if dst is None: print(json.dumps({'success':False,'error':'Destination not found'}))
+        else:
+            new_name = '${safeName}' if '${safeName}' else src.name + "_copy"
+            newOp = src.duplicate(dst)
+            if newOp: newOp.name = new_name
+            print(json.dumps({'success':True,'source':src.path,'dest':dst.path,'name':new_name}))
+except Exception as e:
+    print(json.dumps({'success':False,'error':str(e)}))`;
+    return this.executeJson<any>(code);
+  }
+
+  // ---------------------------------------------------------------------------
+  // td_disconnect
+  // ---------------------------------------------------------------------------
+  async disconnect(path: string, inputIndex?: number): Promise<any> {
+    const code = `import json
+try:
+    t = op('${path.replace(/'/g, "\\'")}')
+    if t is None: print(json.dumps({'success':False,'error':'Not found'}))
+    else:
+        idx = ${inputIndex ?? 0}
+        if idx < len(t.inputConnectors):
+            t.inputConnectors[idx].disconnect()
+            print(json.dumps({'success':True,'path':t.path,'input':idx}))
+        else:
+            print(json.dumps({'success':False,'error':'Input index out of range'}))
+except Exception as e:
+    print(json.dumps({'success':False,'error':str(e)}))`;
+    return this.executeJson<any>(code);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Memory System (simple JSON-based)
+  // ---------------------------------------------------------------------------
+  async memorySave(key: string, content: string, tags?: string[]): Promise<any> {
+    const code = `import json, os
+try:
+    memDir = op.findPath(op('~').path + '/.hermes/skills/memory') if hasattr(op,'findPath') else os.path.expanduser('~/.hermes/skills/memory')
+    os.makedirs(memDir, exist_ok=True)
+    entry = {'key':'${key.replace(/'/g, "\\'")}','content':'${content.replace(/'/g, "\\'")}','tags':${JSON.stringify(tags ?? [])}}
+    fpath = os.path.join(memDir, '${key.replace(/'/g, "\\'")}.json')
+    with open(fpath,'w') as f: json.dump(entry, f)
+    print(json.dumps({'success':True,'key':'${key.replace(/'/g, "\\'")}','path':fpath}))
+except Exception as e:
+    print(json.dumps({'success':False,'error':str(e)}))`;
+    return this.executeJson<any>(code);
+  }
+
+  async memoryRecall(query: string, limit?: number): Promise<any> {
+    const code = `import json, os, glob, re
+try:
+    memDir = os.path.expanduser('~/.hermes/skills/memory')
+    q = '${query.replace(/'/g, "\\'")}'.lower()
+    limit = ${limit ?? 5}
+    results = []
+    if os.path.isdir(memDir):
+        for f in glob.glob(os.path.join(memDir, '*.json')):
+            try:
+                with open(f) as fh: entry = json.load(fh)
+                score = 0
+                if q in entry.get('key','').lower(): score += 3
+                if q in entry.get('content','').lower(): score += 2
+                for t in entry.get('tags',[]):
+                    if q in t.lower(): score += 1
+                if score > 0:
+                    results.append({'key':entry['key'],'content':entry['content'][:200],'tags':entry.get('tags',[]),'score':score})
+            except: pass
+    results.sort(key=lambda x: -x['score'])
+    print(json.dumps({'success':True,'results':results[:limit],'total':len(results)}))
+except Exception as e:
+    print(json.dumps({'success':False,'error':str(e)}))`;
+    return this.executeJson<any>(code);
+  }
+
+  // ---------------------------------------------------------------------------
+  // tool_batch — execute multiple tools in parallel
+  // ---------------------------------------------------------------------------
+  async toolBatch(tools: Array<{name: string; args?: any}>): Promise<any> {
+    const results = [];
+    for (const tool of tools) {
+      try {
+        const method = (this as any)[tool.name];
+        if (typeof method === 'function') {
+          const r = await method.call(this, tool.args);
+          results.push({name: tool.name, success: true, result: r});
+        } else {
+          results.push({name: tool.name, success: false, error: 'Method not found: ' + tool.name});
+        }
+      } catch (e: any) {
+        results.push({name: tool.name, success: false, error: e.message});
+      }
+    }
+    return {success: true, results};
+  }
+
+  // ---------------------------------------------------------------------------
+  // td_search_official_docs — search the offline help
+  // ---------------------------------------------------------------------------
+  async searchOfficialDocs(query: string, limit?: number): Promise<any> {
+    const code = `import json, re
+try:
+    t = op('/ui/dialogs/parGrabber/offlineHelp')
+    text = t.text
+    q = '${query.replace(/'/g, "\\'")}'
+    limit = ${limit ?? 5}
+    results = []
+    # Search for operator names containing the query
+    for match in re.finditer(r'"([^"]+POP|[^"]+TOP|[^"]+CHOP|[^"]+SOP|[^"]+DAT|[^"]+COMP)":\\s*\\{[^}]+"summary":\\s*"([^"]+)"', text, re.IGNORECASE):
+        name = match.group(1)
+        summary = match.group(2)
+        if q.lower() in name.lower() or q.lower() in summary.lower():
+            results.append({'operator':name,'summary':summary[:200]})
+            if len(results) >= limit: break
+    print(json.dumps({'success':True,'results':results,'query':q}))
+except Exception as e:
+    print(json.dumps({'success':False,'error':str(e)}))`;
+    return this.executeJson<any>(code);
+  }
 }

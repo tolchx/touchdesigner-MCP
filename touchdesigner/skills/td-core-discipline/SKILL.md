@@ -18,12 +18,22 @@ You are an AI assistant working inside a live TouchDesigner project. Every actio
 
 These rules MUST hold for every action. Violating them is the #1 source of bugs.
 
-1. **Never guess parameter names.** Before setting parameters on an unfamiliar operator, inspect an existing instance first, or use the operator's documentation.
-2. **On `AttributeError` or "param does not exist" — STOP.** Do not retry blindly. Read the actual param list first.
+1. **Never guess parameter names.** Before setting parameters on an unfamiliar operator type, call `td_get_param_help` or inspect an existing instance with `td_get_node_detail`. A `tdAttributeError` forces a full backtrack.
+2. **On `AttributeError` or "param does not exist" — STOP.** Do not retry blindly. Call `td_get_param_help` for the operator type, read the actual param list, then resume.
 3. **Script callbacks use RELATIVE paths.** Inside an `executeDAT`, `scriptOp`, or panel callback, use `me.parent()` or `parent()`. NEVER hardcode `/project1/...` in callback bodies.
-4. **Prefer `td_execute` with Python for complex multi-step logic.** For simple operations like create/connect/delete, use dedicated endpoints.
-5. **Snapshot before destructive changes.** Save a version or create an undo point before modifying render chains, feedback loops, or critical networks.
-6. **Always set `viewer = True` on test/debug COMPs.** Without the viewer flag, red-bordered errors stay invisible and error checks may show false positives.
+4. **Prefer native MCP tools over `td_execute`.** `td_create_operator`, `td_set_operator_pars`, `td_connect_nodes`, `td_pop_inspect` are validated and batched. Reach for `td_execute` only when no native tool covers the operation.
+5. **Call `td_get_param_help` before building an unfamiliar operator type.** Hints surface known wiring requirements and parameter quirks.
+6. **Snapshot + viewer flag before render-chain work.** `td_snapshot_scene` before any destructive change. `op(target).viewer = True` on test COMPs — otherwise `td_get_errors == 0` is a false greenlight.
+7. **Validate after every mutation.** After creating, wiring, or setting parameters, run `td_get_errors` with `recurse: true` on the affected area. Do not report "done" until zero errors.
+8. **Trust tiers for information sources.** Weight info by: `official docs > bundled examples > personal notes > community > experimental`. Community suggestions require validation via `td_get_errors` / `td_screenshot` before being treated as fact.
+
+### Failure Recovery
+
+When a tool returns an error:
+- **"Unknown operator type"** → Use `td_get_build_compatibility` to find valid type names
+- **"Path not found"** → `td_operators(path='/parent_path')` to check parent contents
+- **"Compile failed" (GLSL)** → `P[id]` is write-only buffer. Read with `TDIn_P()`, modify local vars, write `P[id]`
+- **Generic error** → Check arguments, path, and operator type. Use `td_get_node_detail` for inspection first.
 
 ## 2. Node Layout & Color Coding
 

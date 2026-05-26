@@ -1099,6 +1099,171 @@ export function createTouchDesignerMcpServer(client: TDClient = new TDClient()) 
     }
   );
 
+  // ---------------------------------------------------------------------------
+  // td_pulse_param
+  // ---------------------------------------------------------------------------
+  server.registerTool(
+    "td_pulse_param",
+    {
+      title: "Pulse Parameter",
+      description: "Pulse a parameter on a TouchDesigner operator (e.g. Cook, Reset, Save).",
+      inputSchema: {
+        path: z.string().describe("Operator path"),
+        name: z.string().describe("Parameter name to pulse"),
+      },
+    },
+    async ({ path, name }) => {
+      try {
+        const result = await client.pulseParam(path, name);
+        return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      } catch (e: any) {
+        return { content: [{ type: "text", text: JSON.stringify({ success: false, error: e.message }, null, 2) }] };
+      }
+    }
+  );
+
+  // ---------------------------------------------------------------------------
+  // td_copy_node
+  // ---------------------------------------------------------------------------
+  server.registerTool(
+    "td_copy_node",
+    {
+      title: "Copy Node",
+      description: "Duplicate a TouchDesigner operator. If destination is omitted, copies to the same parent.",
+      inputSchema: {
+        path: z.string().describe("Source operator path"),
+        destination: z.string().optional().describe("Destination parent path"),
+        name: z.string().optional().describe("New name for the copy"),
+      },
+    },
+    async ({ path, destination, name }) => {
+      try {
+        const result = await client.copyNode(path, destination, name);
+        return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      } catch (e: any) {
+        return { content: [{ type: "text", text: JSON.stringify({ success: false, error: e.message }, null, 2) }] };
+      }
+    }
+  );
+
+  // ---------------------------------------------------------------------------
+  // td_disconnect
+  // ---------------------------------------------------------------------------
+  server.registerTool(
+    "td_disconnect",
+    {
+      title: "Disconnect Nodes",
+      description: "Disconnect an input of a TouchDesigner operator from its source.",
+      inputSchema: {
+        path: z.string().describe("Operator path"),
+        input_index: z.number().optional().default(0).describe("Input index to disconnect"),
+      },
+    },
+    async ({ path, input_index }) => {
+      try {
+        const result = await client.disconnect(path, input_index ?? 0);
+        return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      } catch (e: any) {
+        return { content: [{ type: "text", text: JSON.stringify({ success: false, error: e.message }, null, 2) }] };
+      }
+    }
+  );
+
+  // ---------------------------------------------------------------------------
+  // td_memory_save
+  // ---------------------------------------------------------------------------
+  server.registerTool(
+    "td_memory_save",
+    {
+      title: "Save Memory",
+      description: "Save a persistent memory entry with key, content, and optional tags. Memories survive across sessions.",
+      inputSchema: {
+        key: z.string().describe("Unique memory key"),
+        content: z.string().describe("Memory content"),
+        tags: z.array(z.string()).optional().describe("Optional tags for categorization"),
+      },
+    },
+    async ({ key, content, tags }) => {
+      try {
+        const result = await client.memorySave(key, content, tags);
+        return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      } catch (e: any) {
+        return { content: [{ type: "text", text: JSON.stringify({ success: false, error: e.message }, null, 2) }] };
+      }
+    }
+  );
+
+  // ---------------------------------------------------------------------------
+  // td_memory_recall
+  // ---------------------------------------------------------------------------
+  server.registerTool(
+    "td_memory_recall",
+    {
+      title: "Recall Memory",
+      description: "Search saved memories by query text. Returns scored results from persistent memory store.",
+      inputSchema: {
+        query: z.string().describe("Search query"),
+        limit: z.number().optional().default(5).describe("Max results"),
+      },
+    },
+    async ({ query, limit }) => {
+      try {
+        const result = await client.memoryRecall(query, limit ?? 5);
+        return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      } catch (e: any) {
+        return { content: [{ type: "text", text: JSON.stringify({ success: false, error: e.message }, null, 2) }] };
+      }
+    }
+  );
+
+  // ---------------------------------------------------------------------------
+  // td_search_official_docs
+  // ---------------------------------------------------------------------------
+  server.registerTool(
+    "td_search_official_docs",
+    {
+      title: "Search Official TD Docs",
+      description: "Search TouchDesigner's built-in offline help for operator documentation, parameter info, and usage summaries.",
+      inputSchema: {
+        query: z.string().describe("Search query (operator name or keyword)"),
+        limit: z.number().optional().default(5).describe("Max results"),
+      },
+    },
+    async ({ query, limit }) => {
+      try {
+        const result = await client.searchOfficialDocs(query, limit ?? 5);
+        return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      } catch (e: any) {
+        return { content: [{ type: "text", text: JSON.stringify({ success: false, error: e.message }, null, 2) }] };
+      }
+    }
+  );
+
+  // ---------------------------------------------------------------------------
+  // tool_batch
+  // ---------------------------------------------------------------------------
+  server.registerTool(
+    "tool_batch",
+    {
+      title: "Batch Tools",
+      description: "Execute multiple tool calls in a single batch. Runs tools sequentially and returns all results together. Max 8 tools per batch.",
+      inputSchema: {
+        tools: z.array(z.object({
+          name: z.string().describe("Tool name (e.g. 'getNodeDetail', 'execute')"),
+          args: z.any().describe("Arguments object for the tool"),
+        })).describe("Array of tool calls to batch"),
+      },
+    },
+    async ({ tools }) => {
+      try {
+        const result = await client.toolBatch(tools);
+        return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      } catch (e: any) {
+        return { content: [{ type: "text", text: JSON.stringify({ success: false, error: e.message }, null, 2) }] };
+      }
+    }
+  );
+
   return server;
 }
 
