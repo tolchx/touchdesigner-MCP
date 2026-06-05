@@ -1,0 +1,202 @@
+{
+  "family": "DAT",
+  "pageTitle": "NDI DAT",
+  "pageSlug": "NDI_DAT",
+  "url": "https://docs.derivative.ca/NDI_DAT",
+  "tdOpTypeGuess": "nDIDAT",
+  "summary": "[  edit  ]\nThe NDI  DAT  lists in a table and monitors all NDI sources and streams found on the network. Callbacks are provided to trigger actions when sources are added/removed/changed and when streams start/stop.\nSee  NDI ,  NDI In TOP  and  NDI Out TOP .\nndiDAT_Class\nContents\n1   Summary\n2   Parameters - Monitors Page\n3   Parameters - Common Page\n4   Info CHOP Channels\n4.1   Common DAT Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "Monitors",
+      "label": "Callbacks  DAT",
+      "name": "callbacks",
+      "description": "Script  callbacks for events relating to NDI sources and streams."
+    },
+    {
+      "page": "Monitors",
+      "label": "Extra Search IPs",
+      "name": "extraips",
+      "description": "By default NDI searches using mDNS, which is usually limited to locate networks. To find sources available on machines not reachable by mDNS, this parameter can be filled with a space-separated list of one or more IP address."
+    },
+    {
+      "page": "Monitors",
+      "label": "Persistence (ms)",
+      "name": "persistence",
+      "description": "Persistence affects how long an entry in the  DAT  stays present even after the source has disappeared. This allows for a source to disappear for a bit and then reappear without being removed from the list."
+    },
+    {
+      "page": "Common",
+      "label": "Language",
+      "name": "language",
+      "description": "⊞  - Select how the  DAT  decides which script language to operate on."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Node",
+      "name": "node",
+      "description": "The  DAT  uses it's own script language."
+    },
+    {
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "name": "extension",
+      "description": "⊞  - Select the file extension this  DAT  should expose to external editors."
+    },
+    {
+      "page": "Common",
+      "label": "dat",
+      "name": "dat",
+      "description": "various common file extensions."
+    },
+    {
+      "page": "Common",
+      "label": "From Language",
+      "name": "languageext",
+      "description": "pick extension from DATs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specify a custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specifiy the custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Word Wrap",
+      "name": "wordwrap",
+      "description": "⊞  - Enable Word Wrap for Node Display."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs setting."
+    },
+    {
+      "page": "Common",
+      "label": "On",
+      "name": "on",
+      "description": "Turn on Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Off",
+      "name": "off",
+      "description": "Turn off Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "num_rows",
+      "description": "Number of rows in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "num_cols",
+      "description": "Number of columns in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "Art",
+      "description": "Net    •   Audio Devices    •   CHOP Execute    •   CHOP to    •   Clip    •   Convert    •   CPlusPlus    •   DAT   •    Execute    •   DAT Export   •   Error    •   EtherDream    •   Evaluate    •   Examine    •   Execute    •   FIFO    •   File In    •   File Out    •   Folder    •   In    •   Indices    •   Info    •   Insert    •   JSON    •   Keyboard In    •   Lookup    •   Media File Info    •   Merge    •   MIDI Event    •   MIDI In    •   Monitors    •   MPCDI    •   MQTT Client    •   Multi Touch In    •   NDI    •   Null    •   OP Execute    •   OP Find    •   OSC In    •   OSC Out    •   Out    •   Panel Execute    •   Parameter    •   Parameter Execute    •   ParGroup Execute    •   Perform    •   POP to    •   Render Pick    •   Reorder    •   Script    •   Select    •   Serial    •   Serial Devices    •   SocketIO    •   SOP to    •   Sort    •   Substitute    •   Switch    •   Table    •   TCP/IP    •   Text    •   Touch In    •   Touch Out    •   Transpose    •   TUIO In    •   UDP In    •   UDP Out    •   UDT In    •   UDT Out    •   Video Devices    •   Web Client    •   Web    •   Web Server    •   WebRTC    •   WebSocket    •   XML"
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "A set of commands located in a Text DAT that are triggered to run under certain conditions. There are two scripting languages in TouchDesigner:  Python  and the original  Tscript . Scripts and single",
+      "description": "line commands can also be run in the  Textport ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "01-mcp-architecture.md",
+      "excerpt": "CP (stdio)**: `touchdesigner/mcp/src/index.ts` Expone herramientas para ejecutar Python y consultar estado del editor y operadores. - **Cliente TD (HTTP)**: `touchdesigner/api/src/index.ts` Llama al servidor HTTP levantado dentro de TouchDesigner por el TOX. - **Servidor TD (Python/TOX)**: `touchdesigner/toe/src/TouchDesignerAPI.py` Expone endpoints: - `POST /execute` - `GET /editor/pane` - `GET /editor/selection` - `GET /operators?path=...` ## Tools MCP (existentes + extendidos) - `td_execute`: ejecuta Python en TD. - `td_pane`: estado del Network Editor. - `td_selection`: selección actual. - `td_operators`: lista hijos en un path. - `td_pops_query`: consulta la base local de POPs (sin tocar TD). ## Flujo de extremo a extremo 1. Host MCP arranca `node touchdesigner/mcp/dist/index.js`. 2. El MCP recibe requests de tools. 3. Para acciones en TD: `td-api` hace fetch a `http://localhost:${TDAPI_PORT}`. 4. TouchDesigner ejecuta Python y devuelve JSON."
+    },
+    {
+      "source": "04-pops-database.md",
+      "excerpt": "# Base de datos estructurada de POPs La base de conocimiento POPs vive en: - `touchdesigner/mcp/data/pops/index.json`: índice (lista + metadatos). - `touchdesigner/mcp/data/pops/operators/<PageSlug>.json`: ficha detallada por operador. ## Esquema (alto nivel) Cada operador incluye: - Identidad: `pageTitle`, `pageSlug`, `url`, `experimental`, `tdOpTypeGuess`. - Técnica: `summary`, `inputs[]`, `parameters[]`, `attributes[]`. - Capacitación: `useCases[]`, `examples[]`, `commonCombinations[]`, `troubleshooting[]`. ## Generación automática (docs oficiales) El generador: - Descarga la lista desde `https://docs.deriv"
+    },
+    {
+      "source": "06-master-prompts.md",
+      "excerpt": "rmedio | avanzado | experto - `application`: instalaciones | performances | visualizacion_datos - `touchdesigner_min_version` - `hardware` (GPU/VRAM mínimo cuando aplique) - `performance` (fps objetivo y presupuesto por frame) - `validation[]` (criterios verificables) ## Convenciones de salida Todo prompt maestro debe pedir explícitamente: - Script Python para `td_execute` (idempotente). - Validación Python posterior (existencia de OPs, conexiones críticas). - Declaración de presupuesto de rendimiento (puntos, cooks críticos)."
+    },
+    {
+      "source": "07-testing-protocols.md",
+      "excerpt": "`node touchdesigner/mcp/dist/promptLint.js`. ## 2) Chequeo de dependencias - TouchDesigner 2025+. - `TDAPI_PORT` configurado y coincidente con el TOX. - Ollama (si aplica): `LLM_PROVIDER=ollama` y `OLLAMA_MODEL` instalado. ## 3) Pruebas funcionales (smoke tests) Ejecutar un bloque `td_execute` de validación que confirme: - operadores creados (paths) - conexiones clave (especialmente feedback loops) - atributos reservados presentes cuando aplica (p.ej. PartVel/PartForce) ## 4) Pruebas de rendimiento - Conectar `Info CHOP` a operadores críticos (POP, TOP, COMP). - Medir `cook_time` y `errors/warnings`. - Aplicar presupuestos explícitos: - número de puntos - límites de partículas - resolución TOP - frecuencia de recook ## 5) Reportes de errores y fixes sugeridos Formato recomendado para reportar fallos: - Síntoma observable - Operador/etapa afectada - Causa probable (con evidencia) - Fix sugerido (acción concreta) - Verificación posterior"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "signer Resumen Ejecutivo Este informe presenta un análisis exhaustivo de la familia de Operadores de Puntos (POP) dentro de TouchDesigner, una potente plataforma de desarrollo visual para contenido en tiempo real. Los POPs representan un avance significativo, aprovechando la aceleración de la GPU para una manipulación altamente eficiente de datos 3D, especialmente para sistemas de partículas y geometría compleja. Aunque todavía es una familia de operadores \"Experimental\", como se indica en la documentación 1, los POPs ofrecen un rendimiento inigualable para tareas tradicionalmente manejadas por los SOPs (Operadores de Superficie), lo que permite gráficos interactivos en tiempo real a gran escala. La designación de \"Experimental\" para los operadores POPs, que se reitera en varias secciones de la documentación 1, conlleva implicaciones importantes para los desarrolladores. En primer lugar, indica que la interfaz de programación de aplicaciones (API), los parámetros o incluso"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "líneas, curvas spline y cualquier forma de datos geométricos 3D. Cada POP se compone de tres elementos principales: • Una lista de puntos: Son los elementos fundamentales de cualquier forma 3D. Cada punto tiene atributos, siendo el más común la Posición (P) en el espacio 3D. Otros atributos comunes incluyen Color (Color) y Normal (N) (un vector de dirección). También puedes definir tus propios atributos. • Una lista de vértices: Cada primitiva tiene una lista de vértices. Un vértice es un índice que apunta a un punto específico en la lista de puntos. Los vértices también pueden tener atributos. • Una lista de primitivas: Son conjuntos de puntos que definen una forma geométrica. Los tipos de primitivas en POPs incluyen Punto (1 punto), Línea (2 puntos), Tira de Líneas (1 o más puntos), Triángulo (3 puntos) y Quad (4 puntos). Las primitivas también pueden tener atributos, como Color. Los POPs se renderizan utilizando el Render TOP en TouchDesigner. Son considerados un reemplazo y un"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

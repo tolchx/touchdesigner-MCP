@@ -1,0 +1,309 @@
+{
+  "family": "DAT",
+  "pageTitle": "Perform DAT",
+  "pageSlug": "Perform_DAT",
+  "url": "https://docs.derivative.ca/Perform_DAT",
+  "tdOpTypeGuess": "performDAT",
+  "summary": "[  edit  ]\nThe Perform  DAT  logs various performance times in a  Table DAT  format. These benchmarks are similar to those reported by the  Performance Monitor .\nperformDAT_Class\nContents\n1   Summary\n2   Parameters - Perform Page\n3   Parameters - Common Page\n4   Info CHOP Channels\n4.1   Common DAT Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "Perform",
+      "label": "Active",
+      "name": "active",
+      "description": "⊞  - Turns logging on/off. The  DAT  will continuously log while Active is On."
+    },
+    {
+      "page": "Perform",
+      "label": "Trigger Mode",
+      "name": "triggermode",
+      "description": "⊞  - Offers two options for when to trigger a refresh of the logs."
+    },
+    {
+      "page": "Perform",
+      "label": "When Frame Length Exceeds Threshold",
+      "name": "threshold",
+      "description": "Use the  Trigger Threshold  parameter below to set a maximum frame time to wait before refreshing the log."
+    },
+    {
+      "page": "Perform",
+      "label": "When a Frame is Dropped",
+      "name": "droppedframe",
+      "description": "Refresh the log as soon as a frame is dropped."
+    },
+    {
+      "page": "Perform",
+      "label": "Trigger Threshold",
+      "name": "triggerthreshold",
+      "description": "This is the amount of time, in milliseconds, that a frame must exceed to cause the  DAT  to log and output the frame's timing. For example to see what happens when a frame takes more that 33 ms to cook, put this parameter to 33."
+    },
+    {
+      "page": "Perform",
+      "label": "Cook  Time",
+      "name": "logcook",
+      "description": "Logs the cook time of operators."
+    },
+    {
+      "page": "Perform",
+      "label": "Export  Time",
+      "name": "logexport",
+      "description": "Logs time spent exporting  CHOP  channels."
+    },
+    {
+      "page": "Perform",
+      "label": "Viewport Draw Time",
+      "name": "logviewport",
+      "description": "Logs time to draw 3D geometry and  SOP  viewers."
+    },
+    {
+      "page": "Perform",
+      "label": "Movie Time",
+      "name": "logmovie",
+      "description": "Logs time taken to read video and audio from movie files."
+    },
+    {
+      "page": "Perform",
+      "label": "Draw Channels Time",
+      "name": "logdrawchannels",
+      "description": "Logs time to draw channels in  CHOP  viewers."
+    },
+    {
+      "page": "Perform",
+      "label": "Object View Time",
+      "name": "logobjectview",
+      "description": "Logs time to draw objects in 3D viewers."
+    },
+    {
+      "page": "Perform",
+      "label": "Custom Panel Time",
+      "name": "logcustompanel",
+      "description": "Logs time taken by custom panels build with  Panel Components ."
+    },
+    {
+      "page": "Perform",
+      "label": "MIDI Time",
+      "name": "logmidi",
+      "description": "Logs time spent on MIDI."
+    },
+    {
+      "page": "Perform",
+      "label": "Graphics Time",
+      "name": "loggraphics",
+      "description": "Logs various graphics system calls, such as time spent waiting for the graphics card, calls to the graphic driver, converting  TOP  data to CHOPs, etc."
+    },
+    {
+      "page": "Perform",
+      "label": "Frame Length",
+      "name": "logframelength",
+      "description": "Logs total frame time in milliseconds (ms)."
+    },
+    {
+      "page": "Perform",
+      "label": "Misc",
+      "name": "logmisc",
+      "description": "Logs miscellaneous times that do not fit into other categories."
+    },
+    {
+      "page": "Perform",
+      "label": "Script",
+      "name": "logscript",
+      "description": "Logs time spent running scripts."
+    },
+    {
+      "page": "Perform",
+      "label": "Render",
+      "name": "logrender",
+      "description": "Logs time spend by Render or Renderpass TOPs."
+    },
+    {
+      "page": "Perform",
+      "label": "Callbacks  DAT",
+      "name": "callbacks",
+      "description": "A path to the Callbacks  DAT . Newly created Perform DATs include a docked Callbacks  DAT ."
+    },
+    {
+      "page": "Perform",
+      "label": "Clear",
+      "name": "clear",
+      "description": "Clears the contents of the  DAT ."
+    },
+    {
+      "page": "Perform",
+      "label": "Active  Pulse",
+      "name": "activepulse",
+      "description": "Use resetpulse button to grab a single frame snapshot."
+    },
+    {
+      "page": "Common",
+      "label": "Language",
+      "name": "language",
+      "description": "⊞  - Select how the  DAT  decides which script language to operate on."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Node",
+      "name": "node",
+      "description": "The  DAT  uses it's own script language."
+    },
+    {
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "name": "extension",
+      "description": "⊞  - Select the file extension this  DAT  should expose to external editors."
+    },
+    {
+      "page": "Common",
+      "label": "dat",
+      "name": "dat",
+      "description": "various common file extensions."
+    },
+    {
+      "page": "Common",
+      "label": "From Language",
+      "name": "language",
+      "description": "pick extension from DATs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "custom",
+      "description": "Specify a custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specifiy the custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Word Wrap",
+      "name": "wordwrap",
+      "description": "⊞  - Enable Word Wrap for Node Display."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs setting."
+    },
+    {
+      "page": "Common",
+      "label": "On",
+      "name": "on",
+      "description": "Turn on Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Off",
+      "name": "off",
+      "description": "Turn off Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "num_rows",
+      "description": "Number of rows in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "num_cols",
+      "description": "Number of columns in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "Art",
+      "description": "Net    •   Audio Devices    •   CHOP Execute    •   CHOP to    •   Clip    •   Convert    •   CPlusPlus    •   DAT   •    Execute    •   DAT Export   •   Error    •   EtherDream    •   Evaluate    •   Examine    •   Execute    •   FIFO    •   File In    •   File Out    •   Folder    •   In    •   Indices    •   Info    •   Insert    •   JSON    •   Keyboard In    •   Lookup    •   Media File Info    •   Merge    •   MIDI Event    •   MIDI In    •   Monitors    •   MPCDI    •   MQTT Client    •   Multi Touch In    •   NDI    •   Null    •   OP Execute    •   OP Find    •   OSC In    •   OSC Out    •   Out    •   Panel Execute    •   Parameter    •   Parameter Execute    •   ParGroup Execute    •   Perform    •   POP to    •   Render Pick    •   Reorder    •   Script    •   Select    •   Serial    •   Serial Devices    •   SocketIO    •   SOP to    •   Sort    •   Substitute    •   Switch    •   Table    •   TCP/IP    •   Text    •   Touch In    •   Touch Out    •   Transpose    •   TUIO In    •   UDP In    •   UDP Out    •   UDT In    •   UDT Out    •   Video Devices    •   Web Client    •   Web    •   Web Server    •   WebRTC    •   WebSocket    •   XML"
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "To \"pulse\" a parameter is to send it a signal from (1) an  exported  CHOP channel or (2) a python command or (3) a mouse click that causes a new action to occur immediately. A pulse via python is via the  .pulse()  function on a pulse",
+      "description": "type parameter, such as Reset parameter in a  Speed CHOP . A pulse from a CHOP is typically a 0 to 1 to 0 signal in an exported channel."
+    },
+    {
+      "page": "Common",
+      "label": "To re-compute the output data of the  Operators . An operator cooks when (1) its inputs change, (2) its  Parameters  change, (3) when the timeline moves forward in some cases, or (4)  Scripting  commands are run on the node. When the operator is a  Panel Component , it also cooks when a user interacts with it. When an operator cooks, it usually causes operators connected to its output to re-cook. When TouchDesigner draws the screen, it re-cooks all the",
+      "name": "Dependencies",
+      "description": "the necessary operators in all  Networks , contributing to a frame's total \"cook time\"."
+    },
+    {
+      "page": "Common",
+      "label": "A set of commands located in a Text DAT that are triggered to run under certain conditions. There are two scripting languages in TouchDesigner:  Python  and the original  Tscript . Scripts and single",
+      "description": "line commands can also be run in the  Textport ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "05-skills-curriculum.md",
+      "excerpt": "# Skills especializados (currícula) Skills agregados/propuestos en `touchdesigner/skills/`: - `td-fundamentals`: fundamentos y convenciones reproducibles. - `td-project-architecture`: arquitectura de proyectos complejos y contratos. - `td-performance`: presupuestos y profiling. - `td-pops-advanced`: POPs avanzados + consulta técnica con `td_pops_query`. - `td-integration`: integración POP↔SOP/TOP/CHOP/DAT y render/instancing. - `td-robust-systems`: idempotencia, validación y reportes. ## Estructura recomendada por skill - Objetivo - Herramientas disponibles - Reglas / checklist - Plantilla de respuesta - Validaciones y pruebas (smoke tests)"
+    },
+    {
+      "source": "06-master-prompts.md",
+      "excerpt": "# Prompts maestros (catálogo) Los prompts se almacenan como Markdown con frontmatter YAML en: - `prompts/master/*.md` ## Campos mínimos recomendados - `id`, `title` - `project_type`: particulas | efectos_visuales | generativos | interactivos - `complexity`: basico | intermedio | avanzado | experto - `application`: instalaciones | performances | visualizacion_datos - `touchdesigner_min_version` - `hardware` (GPU/VRAM mínimo cuando aplique) - `performance` (fps objetivo y presupuesto por frame) - `validation[]` (criterios verificables) ## Convenciones de salida Todo prompt maestro debe pedir explícitamente: - Script Python para `td_execute` (idempotente). - Validación Python posterior (existencia de OPs, conexiones críticas). - Declaración de presupuesto de rendimiento (puntos, cooks críticos)."
+    },
+    {
+      "source": "POPs Investigation and Workshop Plan.markdown",
+      "excerpt": "# Detailed Investigation into POPs in TouchDesigner This investigation explores Point Operators (POPs), a new GPU-accelerated operator family in TouchDesigner, to prepare for an informative workshop. POPs create and modify 3D data, replacing the older SOPs (Surface Operators) with enhanced performance and flexibility. ## 1. What are POPs? - **Definition**: POPs (Point Operators) are a family of operators in TouchDesigner that run on the GPU, leveraging high parallelism to create and manipulate 3D data efficiently. - **Purpose**: They generate and modify points, primitives, and attributes for rendering (via Render TOP) or output to external devices like LED arrays or lasers. - **Significance**: POPs replace SOPs with GPU acceleration, memory optimization, and integration with modern work"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

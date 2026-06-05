@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Select POP",
+  "pageSlug": "Select_POP",
+  "url": "https://docs.derivative.ca/Select_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "selectPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "01-mcp-architecture.md",
+      "excerpt": "ner — arquitectura (Node + TouchDesigner) ## Componentes - **Servidor MCP (stdio)**: `touchdesigner/mcp/src/index.ts` Expone herramientas para ejecutar Python y consultar estado del editor y operadores. - **Cliente TD (HTTP)**: `touchdesigner/api/src/index.ts` Llama al servidor HTTP levantado dentro de TouchDesigner por el TOX. - **Servidor TD (Python/TOX)**: `touchdesigner/toe/src/TouchDesignerAPI.py` Expone endpoints: - `POST /execute` - `GET /editor/pane` - `GET /editor/selection` - `GET /operators?path=...` ## Tools MCP (existentes + extendidos) - `td_execute`: ejecuta Python en TD. - `td_pane`: estado del Network Editor. - `td_selection`: selección actual. - `td_operators`: lista hijos en un path. - `td_pops_query`: consulta la base local de POPs (sin tocar TD). ## Flujo de extremo a extremo 1. Host MCP arranca `node touchdesigner/mcp/dist/index.js`. 2. El MCP recibe requests de tools. 3. Para acciones en TD: `td-api` hace fetch a `http://localhost:${TDAPI_PO"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "tputs\") y modificar el número de puntos y primitivas. También soporta la escritura en el búfer de índices y tiene un modo de envío de shader \"Per Primitive Batch\".12 * GLSL Copy POP: Realiza copias de la geometría de entrada y aplica código GLSL personalizado a cada copia. Similar a Copy POP, puede usar un parámetro de \"número de copias\" o un POP de plantilla para la colocación. Un compute shader se ejecuta para cada tipo de elemento (puntos, vértices, primitivas) de una copia.19 * GLSL Select POP: Se utiliza para seleccionar y generar atributos de múltiples entradas POP, particularmente aquellos modificados por las \"Extra Outputs\" de GLSL Advanced POP.20 * Histogram POP: Toma un atributo de un solo componente (por ejemplo, P(1)) de su entrada y crea una distribución de frecuencia. Genera un nuevo POP con un número especificado de puntos (bins) y un atributo \"Count\", que indica cuántos valores de entrada caen en cada bin. Puede manejar valores fuera del rango definido.21 * Par"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "tputs\") y modificar el número de puntos y primitivas. También soporta la escritura en el búfer de índices y tiene un modo de envío de shader \"Per Primitive Batch\".12 * GLSL Copy POP: Realiza copias de la geometría de entrada y aplica código GLSL personalizado a cada copia. Similar a Copy POP, puede usar un parámetro de \"número de copias\" o un POP de plantilla para la colocación. Un compute shader se ejecuta para cada tipo de elemento (puntos, vértices, primitivas) de una copia.19 * GLSL Select POP: Se utiliza para seleccionar y generar atributos de múltiples entradas POP, particularmente aquellos modificados por las \"Extra Outputs\" de GLSL Advanced POP.20 * Histogram POP: Toma un atributo de un solo componente (por ejemplo, P(1)) de su entrada y crea una distribución de frecuencia. Genera un nuevo POP con un número especificado de puntos (bins) y un atributo \"Count\", que indica cuántos valores de entrada caen en cada bin. Puede manejar valores fuera del rango definido.21 *"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "tputs\") y modificar el número de puntos y primitivas. También soporta la escritura en el búfer de índices y tiene un modo de envío de shader \"Per Primitive Batch\".12 * GLSL Copy POP: Realiza copias de la geometría de entrada y aplica código GLSL personalizado a cada copia. Similar a Copy POP, puede usar un parámetro de \"número de copias\" o un POP de plantilla para la colocación. Un compute shader se ejecuta para cada tipo de elemento (puntos, vértices, primitivas) de una copia.19 * GLSL Select POP: Se utiliza para seleccionar y generar atributos de múltiples entradas POP, particularmente aquellos modificados por las \"Extra Outputs\" de GLSL Advanced POP.20 * Histogram POP: Toma un atributo de un solo componente (por ejemplo, P(1)) de su entrada y crea una distribución de frecuencia. Genera un nuevo POP con un número especificado de puntos (bins) y un atributo \"Count\", que indica cuántos valores de entrada caen en cada bin. Puede manejar valores fuera del rango definido.21 * Par"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ntradas, lo que sugiere que puede mezclar o interpolar datos de diferentes fuentes. • Experimental:Box POP: Un operador generador que crea una geometría de caja. • Experimental:Cache Blend POP: Se menciona en relación con el uso de atributos como 'Velocity' (Vel), lo que sugiere su rol en la mezcla de datos temporales o en animaciones. • Experimental:Cache POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Cache Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:CHOP to POP: Permite convertir datos de la familia CHOPs (Channel Operators) a datos de POPs. Esto es eficiente porque los POPs ya implementan muchas funciones de CHOPs directamente en la GPU, evitando conversiones de GPU a CPU y viceversa. • Experimental:Circle POP: Un operador generador que crea formas circulares. Puede generar puntos con sus primitivas correspondient"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ntradas, lo que sugiere que puede mezclar o interpolar datos de diferentes fuentes. • Experimental:Box POP: Un operador generador que crea una geometría de caja. • Experimental:Cache Blend POP: Se menciona en relación con el uso de atributos como 'Velocity' (Vel), lo que sugiere su rol en la mezcla de datos temporales o en animaciones. • Experimental:Cache POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Cache Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:CHOP to POP: Permite convertir datos de la familia CHOPs (Channel Operators) a datos de POPs. Esto es eficiente porque los POPs ya implementan muchas funciones de CHOPs directamente en la GPU, evitando conversiones de GPU a CPU y viceversa. • Experimental:Circle POP: Un operador generador que crea formas circulares. Puede generar puntos con sus primitivas correspond"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

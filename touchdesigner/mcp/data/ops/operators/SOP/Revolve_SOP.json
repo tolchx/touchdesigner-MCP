@@ -1,0 +1,224 @@
+{
+  "family": "SOP",
+  "pageTitle": "Revolve SOP",
+  "pageSlug": "Revolve_SOP",
+  "url": "https://docs.derivative.ca/Revolve_SOP",
+  "tdOpTypeGuess": "revolveSOP",
+  "summary": "[  edit  ]\nThe Revolve  SOP  revolves faces to create a surface of revolution. The revolution's direction and origin are represented by guide geometry that resembles a thick line with a cross hair at the centre. The cross hair represents the origin of the revolve as entered in the dialog and the stick represents the direction. Changing any of these parameters will cause the guide to change appropriately.\nIf the guide geometry is too distracting, you can disable it by entering the Viewport options dialog and clicking on the Guide geometry button so that it no longer appears indented. This procedure is global and will disable the guide geometry of other SOPs as well.\nrevolveSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Parameters - Revolve Page\n4   Parameters - Detail Page\n5   Operator Inputs\n6   Info CHOP Channels\n6.1   Common SOP Info Channels\n6.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Revolve",
+      "label": "Connectivity",
+      "name": "surftype",
+      "description": "⊞  - This option is used to select the type of surface, when using a Mesh  Primitive  Type."
+    },
+    {
+      "page": "Revolve",
+      "label": "Rows",
+      "name": "rows",
+      "description": "Creates horizontal lines."
+    },
+    {
+      "page": "Revolve",
+      "label": "Columns",
+      "name": "cols",
+      "description": "Creates vertical lines."
+    },
+    {
+      "page": "Revolve",
+      "label": "Rows and Columns",
+      "name": "rowcol",
+      "description": "Both Rows and Columns. Looks like Quads in wire frame display, but all polygons are open (if the primitive type is polygon)."
+    },
+    {
+      "page": "Revolve",
+      "label": "Triangles",
+      "name": "triangles",
+      "description": "Build the grid with Triangles."
+    },
+    {
+      "page": "Revolve",
+      "label": "Quadrilaterals",
+      "name": "quads",
+      "description": "Generates sides composed of quadrilaterals (default)."
+    },
+    {
+      "page": "Revolve",
+      "label": "Alternating Triangles",
+      "name": "alttriangles",
+      "description": "Generates triangles that are opposed; similar to the Triangles option."
+    },
+    {
+      "page": "Revolve",
+      "label": "Origin",
+      "name": "origin",
+      "description": "⊞  - Coordinates defining the origin of the revolution."
+    },
+    {
+      "page": "Revolve",
+      "label": "Direction",
+      "name": "dir",
+      "description": "⊞  - X, Y, and Z coordinates of the direction vector defining the direction of the revolve."
+    },
+    {
+      "page": "Revolve",
+      "label": "Convert Mesh to Polygons",
+      "name": "polys",
+      "description": "Changes the output mesh to consist of individual polygons."
+    },
+    {
+      "page": "Revolve",
+      "label": "Imperfect",
+      "name": "imperfect",
+      "description": "Applies to splines only. If selected, the results are approximated nonrational curves, otherwise they are perfect rational curves."
+    },
+    {
+      "page": "Detail",
+      "label": "Revolve Type",
+      "name": "type",
+      "description": "⊞  - Determines how the revolve should be generated."
+    },
+    {
+      "page": "Detail",
+      "label": "Closed",
+      "name": "closed",
+      "description": "An enclosed curve."
+    },
+    {
+      "page": "Detail",
+      "label": "Open Arc",
+      "name": "openarc",
+      "description": "An open curve segment."
+    },
+    {
+      "page": "Detail",
+      "label": "Closed Arc",
+      "name": "closedarc",
+      "description": "An open arc with connecting edges to the centre resembling a slice of pie."
+    },
+    {
+      "page": "Detail",
+      "label": "Start End Angles",
+      "name": "angle",
+      "description": "⊞  - The start and end angles of the revolve. A revolve will start at the beginning angle, and proceed towards the ending angle. If  Beginning  =  0  and  End  =  360  it will be fully revolved. Values greater than 360 are also valid."
+    },
+    {
+      "page": "Detail",
+      "label": "Divisions",
+      "name": "divs",
+      "description": "Density of the resulting mesh surface."
+    },
+    {
+      "page": "Detail",
+      "label": "Order",
+      "name": "order",
+      "description": "If a spline type is selected, it is built at this order."
+    },
+    {
+      "page": "Detail",
+      "label": "End Caps",
+      "name": "cap",
+      "description": "If selected, it adds faceted end caps."
+    },
+    {
+      "page": "Detail",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Detail",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Detail",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Detail",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Detail",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Detail",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Detail",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Detail",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Detail",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Detail",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Detail",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Detail",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Detail",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Detail",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Detail",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "OP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "alores aleatorios. • Experimental:Ray POP: Crea atributos de tipo entero sin signo. Genera atributos con el prefijo Ray. • Experimental:Rectangle POP: Un operador generador que crea una geometría rectangular. • Experimental:ReRange POP: Se utiliza para re-escalar o re-mapear valores dentro de un rango específico. Es muy útil, ya que puede aplicar un re-rango diferente para cada componente de un atributo (ej., X, Y y Z de la posición) sin necesidad de múltiples operadores. • Experimental:Revolve POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Skin Deform POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Skin POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función espec"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "punto o sin primitivas**. * El modo `Fill Camera View` ajusta el rectángulo a las esquinas de la vista de una cámara, útil para fondos. * Si se le conecta una entrada POP, el rectángulo se adaptará al `bounding box` (caja delimitadora) de la entrada. * Puedes añadir **coordenadas de textura (`Tex`)** o **normales (`N`)** a los puntos o vértices. * **Uso simple:** Crear superficies planas, fondos, o áreas de control en 2D dentro de tu entorno 3D. * **Revolve POP (POP de Revolución)** * **Función principal:** Genera una **superficie de revolución** a partir de un conjunto de \"line strips\". Los puntos de la \"line strip\" se \"barren\" alrededor de un eje elegido, creando una malla de puntos conectados. * **Características clave:** * La **conectividad** por defecto es `quads` (cuadrados), pero puede ser líneas, \"line strips\" en cualquier dirección, o solo puntos. * El eje de revolución puede ser X, Y o Z, o puede ser *"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

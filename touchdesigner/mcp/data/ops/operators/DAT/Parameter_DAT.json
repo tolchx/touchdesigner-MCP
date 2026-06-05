@@ -1,0 +1,294 @@
+{
+  "family": "DAT",
+  "pageTitle": "Parameter DAT",
+  "pageSlug": "Parameter_DAT",
+  "url": "https://docs.derivative.ca/Parameter_DAT",
+  "tdOpTypeGuess": "parameterDAT",
+  "summary": "[  edit  ]\nThe Parameter  DAT  outputs a table of parameter names and values of an operator, including custom parameters, from any OP type.\nIt can output pre-evaluated expressions, the  Parameter Mode  plus all attributes that define parameters - their type, label, ranges, menu items, limits, etc. in up to 24 columns of information.\nparameterDAT_Class\nContents\n1   Summary\n2   Parameters - Parameter Page\n3   Parameters - Output Page\n4   Parameters - Define Page\n5   Parameters - Common Page",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "Parameter",
+      "label": "Operators",
+      "name": "ops",
+      "description": "The operators determine where to obtain the channels. Specify or more operator names or paths. Examples:  wave1 ,  slider* ,  constant[1-9] constant[10-19:2] ,  ../base1 . Or select the operators using the menu."
+    },
+    {
+      "page": "Parameter",
+      "label": "Parameters",
+      "name": "parameters",
+      "description": "The list of parameters names (which can include wildcards) you want to get from the  OP (s). One or more parameter, or * for all parameters. You can also specify a \"NOT\" selection with an  ^ . Or select the parameter using the menu. See  Pattern Matching ."
+    },
+    {
+      "page": "Parameter",
+      "label": "Include Op Name",
+      "name": "includeopname",
+      "description": "Adds the OP name to the beginning of each parameter name in the table"
+    },
+    {
+      "page": "Parameter",
+      "label": "Rename from",
+      "name": "renamefrom",
+      "description": "See  Pattern Matching ."
+    },
+    {
+      "page": "Parameter",
+      "label": "Rename to",
+      "name": "renameto",
+      "description": "See  Pattern Expansion ."
+    },
+    {
+      "page": "Parameter",
+      "label": "Custom",
+      "name": "custom",
+      "description": "Output the operators' custom parameters."
+    },
+    {
+      "page": "Parameter",
+      "label": "Built-In",
+      "name": "builtin",
+      "description": "Output the operators' built-in parameters."
+    },
+    {
+      "page": "Output",
+      "label": "Header",
+      "name": "header",
+      "description": "Outputs the column headers."
+    },
+    {
+      "page": "Output",
+      "label": "Name",
+      "name": "name",
+      "description": "Outputs the parameter name."
+    },
+    {
+      "page": "Output",
+      "label": "Value",
+      "name": "value",
+      "description": "Outputs the evaluated parameter value."
+    },
+    {
+      "page": "Output",
+      "label": "Eval",
+      "name": "eval",
+      "description": "Outputs the evaluated parameter value as a python object."
+    },
+    {
+      "page": "Output",
+      "label": "Constant",
+      "name": "constant",
+      "description": "Outputs the current constant value of the parameter."
+    },
+    {
+      "page": "Output",
+      "label": "Expression",
+      "name": "expression",
+      "description": "Outputs the current python expression of the parameter."
+    },
+    {
+      "page": "Output",
+      "label": "Export",
+      "name": "export",
+      "description": "Outputs the export path of the parameter."
+    },
+    {
+      "page": "Output",
+      "label": "Mode",
+      "name": "mode",
+      "description": "Outputs the current mode of the parameter (constant, expression, or export)."
+    },
+    {
+      "page": "Output",
+      "label": "Style",
+      "name": "style",
+      "description": "Outputs what format the parameter is (eg. Float for float parameters, Menu for menu parameters etc.)."
+    },
+    {
+      "page": "Output",
+      "label": "Tuplet  Name",
+      "name": "tupletname",
+      "description": "Outputs the name of the tuplet the parameter is in. For example, tx on the Geometry  COMP  is a part of the 't' tuplet."
+    },
+    {
+      "page": "Output",
+      "label": "Size",
+      "name": "size",
+      "description": "Outputs the size of the tuplet. For example, tx on the Geometry  COMP  would have a tuplet size of 3 since it's a part of the 't' tuplet with 3 parameters."
+    },
+    {
+      "page": "Output",
+      "label": "Path",
+      "name": "path",
+      "description": "Outputs the path to the node."
+    },
+    {
+      "page": "Output",
+      "label": "Menu Index",
+      "name": "menuindex",
+      "description": "If the parameter is a menu, then output the selected index of the menu."
+    },
+    {
+      "page": "Define",
+      "label": "Min/Max",
+      "name": "minmax",
+      "description": "Outputs the minimum and maximum values of the parameter. These values will clamp the value parameter to be within the range. If clampmin is 0 then the minimum will not clamp and the row/column entry will be 0. If clampmax is 0 then the maximum will not clamp and the row/column entry will be 1."
+    },
+    {
+      "page": "Define",
+      "label": "Clamp Min/Max",
+      "name": "clampminmax",
+      "description": "Outputs whether or not the parameter has a clamped min or clamped max. If true, then the values are defined by min/max columns."
+    },
+    {
+      "page": "Define",
+      "label": "Norm Min/Max",
+      "name": "normminmax",
+      "description": "Outputs the minimum and maximum values of the parameter in the interface (ie. the minimum and maximum values of a slider)."
+    },
+    {
+      "page": "Define",
+      "label": "Default",
+      "name": "default",
+      "description": "Outputs the default value of the parameter"
+    },
+    {
+      "page": "Define",
+      "label": "Enabled",
+      "name": "enabled",
+      "description": "Outputs whether the parameter is currently enabled"
+    },
+    {
+      "page": "Define",
+      "label": "Read Only",
+      "name": "readonly",
+      "description": "Outputs whether the parameter is currently read-only"
+    },
+    {
+      "page": "Define",
+      "label": "Section",
+      "name": "section",
+      "description": "Outputs whether the parameter has a section divider/separator (ie. line) above it."
+    },
+    {
+      "page": "Define",
+      "label": "Menu Names",
+      "name": "menunames",
+      "description": "Outputs a list of the menu names for any menu parameters."
+    },
+    {
+      "page": "Define",
+      "label": "Menu Labels",
+      "name": "menulabels",
+      "description": "Outputs a list of the menu labels for any menu parameters."
+    },
+    {
+      "page": "Common",
+      "label": "Language",
+      "name": "language",
+      "description": "⊞  - Select how the  DAT  decides which script language to operate on."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Node",
+      "name": "node",
+      "description": "The  DAT  uses it's own script language."
+    },
+    {
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "name": "extension",
+      "description": "⊞  - Select the file extension this  DAT  should expose to external editors."
+    },
+    {
+      "page": "Common",
+      "label": "dat",
+      "name": "dat",
+      "description": "various common file extensions."
+    },
+    {
+      "page": "Common",
+      "label": "From Language",
+      "name": "language",
+      "description": "pick extension from DATs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "custom",
+      "description": "Specify a custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specifiy the custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Word Wrap",
+      "name": "wordwrap",
+      "description": "⊞  - Enable Word Wrap for Node Display."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs setting."
+    },
+    {
+      "page": "Common",
+      "label": "On",
+      "name": "on",
+      "description": "Turn on Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Off",
+      "name": "off",
+      "description": "Turn off Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Art",
+      "description": "Net    •   Audio Devices    •   CHOP Execute    •   CHOP to    •   Clip    •   Convert    •   CPlusPlus    •   DAT   •    Execute    •   DAT Export   •   Error    •   EtherDream    •   Evaluate    •   Examine    •   Execute    •   FIFO    •   File In    •   File Out    •   Folder    •   In    •   Indices    •   Info    •   Insert    •   JSON    •   Keyboard In    •   Lookup    •   Media File Info    •   Merge    •   MIDI Event    •   MIDI In    •   Monitors    •   MPCDI    •   MQTT Client    •   Multi Touch In    •   NDI    •   Null    •   OP Execute    •   OP Find    •   OSC In    •   OSC Out    •   Out    •   Panel Execute    •   Parameter    •   Parameter Execute    •   ParGroup Execute    •   Perform    •   POP to    •   Render Pick    •   Reorder    •   Script    •   Select    •   Serial    •   Serial Devices    •   SocketIO    •   SOP to    •   Sort    •   Substitute    •   Switch    •   Table    •   TCP/IP    •   Text    •   Touch In    •   Touch Out    •   Transpose    •   TUIO In    •   UDP In    •   UDP Out    •   UDT In    •   UDT Out    •   Video Devices    •   Web Client    •   Web    •   Web Server    •   WebRTC    •   WebSocket    •   XML"
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "04-pops-database.md",
+      "excerpt": "# Base de datos estructurada de POPs La base de conocimiento POPs vive en: - `touchdesigner/mcp/data/pops/index.json`: índice (lista + metadatos). - `touchdesigner/mcp/data/pops/operators/<PageSlug>.json`: ficha detallada por operador. ## Esquema (alto nivel) Cada operador incluye: - Identidad: `pageTitle`, `pageSlug`, `url`, `experimental`, `tdOpTypeGuess`. - Técnica: `summary`, `inputs[]`, `parameters[]`, `attributes[]`. - Capacitación: `useCases[]`, `examples[]`, `commonCombinations[]`, `troubleshooting[]`. ## Generación automática (docs oficiales) El generador: - Descarga la lista desde `https://docs.derivative.ca/Category:POPs`. - Para cada operador descarga la página oficial y extrae: - resumen - inputs - parámetros por página - atributos (cuando la tabla está presente) ### Construir / actualizar la base En `touchdesigner/`: ```powershell npm run build node .\\mcp\\dist\\pops"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ne, Transform Matrix).1 * Página Rename: Rename Attribute (ren), From Attribute (ren0from), To Attribute (ren0to).1 * Página Duplicate: Duplicate Attribute (dup), Duplicate Attribute (dup0name), New Attribute Name (dup0new).1 * Página Delete: Delete Point Attributes (ptdel) (* para todos), Delete Vertex Attributes (vertdel) (* para todos), Delete Primitive Attributes (primdel) (* para todos).1 * Página Common: Bypass (bypass), Delete Input Attributes (delinputattrs), Parameter Color Space (parmcolorspace), Parameter Reference White (parmreferencewhite).1 * Copy POP: Crea copias de su geometría de entrada. Puede generar copias basándose en parámetros (número de copias, transformaciones acumulativas) o utilizando un POP de plantilla, donde los puntos de una entrada definen la ubicación de la copia. Las transformaciones (traslación, rotación, escala) se pueden aplicar en varios órdenes.2 * Parámetros: Incluye la \"Página Copy\" (Number of Copies, Transform Orde"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "nombrando un atributo existente o nuevo en el parámetro Output Scope. TouchDesigner elegirá automáticamente el tamaño y tipo del atributo si no se especifica. • Parámetros Controlados por Atributos: Algunos POPs, como Transform POP o Noise POP, pueden tener sus parámetros controlados por otros atributos mediante su página 'Map', permitiendo transformaciones parciales por punto (ej. usando un atributo Weight para transformar puntos de manera diferencial). • Múltiples Columnas de Parámetros (Parameter Size): Algunos POPs, como ReRange POP, permiten aplicar diferentes rangos o valores a cada componente (X, Y, Z) de un atributo (P por ejemplo), lo que antes requeriría varios operadores. Atributos de Punto, Vértice o Primitiva Aunque los atributos de punto son los más comunes y adecuados para la mayoría de los casos, los vértices y las primitivas también pueden tener atributos. La decisión de dónde colocar un atributo depende de si la propiedad es exclusiva de un punto, o si un punto es compa"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "**: Recorta los valores que exceden el rango al mínimo o máximo definido. * **Loop**: Los valores fuera de rango se \"envuelven\" de nuevo en el rango (ej., 1.2 se convierte en 0.2 si el rango es 0-1). * **Zig Zag**: Los valores \"rebotan\" dentro del rango (ej., 1.2 se convierte en 0.8 si el rango es 0-1). * Si el atributo tiene múltiples componentes (como `Color` con 4 componentes), por defecto los límites se aplican de la misma manera a todos. Pero puedes cambiar el `Parameter Size` (ej., a 3) para tener **parámetros de límite separados para cada componente** (ej., R, G y B pueden tener límites diferentes). * Puedes hacer que los valores finales sean **solo positivos**. * Puedes **convertir (`Cast to`)** los valores finales a enteros (`Int`) o números decimales (`Float`). * Incluye una página de **Quantize** (cuantización) para redondear valores o realizar operaciones lógicas (ej., `>0`, `==0`). * Algunas de estas funcionalidades también e"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "oing on at the end in terms of just that data chain. Let's make it big. (04:27) So we can see here again we've got our point positions and then we've got all these positions and attributes that have been set out by me. So for example, we can see here everything's moving but are initialized positions which are stored as attributes are not. They're static in this feed of data and that means that when I need to reset it's going to move back. (04:50) We can see here I have this do reset and reset parameter. And we can see that it's cycling from zero to one. So when this do reset hits one, it's going to reset that particle. And then I need a secondary way of kind of resetting that back. This is maybe a little bit convoluted, but um this is kind of my first pass at doing this in pops. (05:12) And this is going to get more streamlined as I go. we have this life max parameter which is kind of being fed by this random where I take every value of my points and I'm essentially creating a random value f"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

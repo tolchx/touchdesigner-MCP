@@ -1,0 +1,40 @@
+{
+  "pageTitle": "GLSL Advanced POP",
+  "pageSlug": "GLSL_Advanced_POP",
+  "url": "https://docs.derivative.ca/GLSL_Advanced_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "gLSLAdvancedPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "o cambia el número de elementos de entrada. Los usuarios escriben un compute shader para definir la lógica de modificación de atributos.3 * Parámetros: Compute Shader (referencia DAT), Attribute Class, Number of Threads (Auto, Manual, desde Atributo), Work Group Size, Dispatch Size, Output Attributes, Output Access (Solo Escritura, Lectura-Escritura), Initialize Output Attributes, Passes. También tiene una \"Página Create Attributes\" para definir nuevos atributos dentro del shader.3 * GLSL Advanced POP: Una versión avanzada de GLSL POP, que permite leer, escribir y crear todas las clases de atributos (punto, primitiva, vértice) en un solo shader. Puede escribir en atributos de múltiples POPs (a través de \"Extra Outputs\") y modificar el número de puntos y primitivas. También soporta la escritura en el búfer de índices y tiene un modo de envío de shader \"Per Primitive Batch\".12 * GLSL Copy POP: Realiza copias de la geometría de entrada y aplica código GLSL personalizado a cada copia. Simila"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "o cambia el número de elementos de entrada. Los usuarios escriben un compute shader para definir la lógica de modificación de atributos.3 * Parámetros: Compute Shader (referencia DAT), Attribute Class, Number of Threads (Auto, Manual, desde Atributo), Work Group Size, Dispatch Size, Output Attributes, Output Access (Solo Escritura, Lectura-Escritura), Initialize Output Attributes, Passes. También tiene una \"Página Create Attributes\" para definir nuevos atributos dentro del shader.3 * GLSL Advanced POP: Una versión avanzada de GLSL POP, que permite leer, escribir y crear todas las clases de atributos (punto, primitiva, vértice) en un solo shader. Puede escribir en atributos de múltiples POPs (a través de \"Extra Outputs\") y modificar el número de puntos y primitivas. También soporta la escritura en el búfer de índices y tiene un modo de envío de shader \"Per Primitive Batch\".12 * GLSL Copy POP: Realiza copias de la geometría de entrada y aplica código GLSL personalizado a cada copia. Si"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "o cambia el número de elementos de entrada. Los usuarios escriben un compute shader para definir la lógica de modificación de atributos.3 * Parámetros: Compute Shader (referencia DAT), Attribute Class, Number of Threads (Auto, Manual, desde Atributo), Work Group Size, Dispatch Size, Output Attributes, Output Access (Solo Escritura, Lectura-Escritura), Initialize Output Attributes, Passes. También tiene una \"Página Create Attributes\" para definir nuevos atributos dentro del shader.3 * GLSL Advanced POP: Una versión avanzada de GLSL POP, que permite leer, escribir y crear todas las clases de atributos (punto, primitiva, vértice) en un solo shader. Puede escribir en atributos de múltiples POPs (a través de \"Extra Outputs\") y modificar el número de puntos y primitivas. También soporta la escritura en el búfer de índices y tiene un modo de envío de shader \"Per Primitive Batch\".12 * GLSL Copy POP: Realiza copias de la geometría de entrada y aplica código GLSL personalizado a cada copia. Simila"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "la fuerza en velocidad y la velocidad en posición. • Experimental:Field POP: Genera nuevos atributos, a menudo con nombres predeterminados sugeridos. Este operador genera el atributo Weight. • Experimental:File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner. • Experimental:Force POP: Se utiliza para crear o añadir al atributo PartForce (fuerza de partícula). Es fundamental para definir cómo las fuerzas actúan sobre las partículas. • Experimental:GLSL Advanced POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL Copy POP: Permite ejecutar código de compute shader (GLSL) en cada punto para deformar geometrías basándose en los atributos del punto. Es muy potente para generar formas complejas de manera programática. • Experimental:GLSL Create POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL P"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "la fuerza en velocidad y la velocidad en posición. • Experimental:Field POP: Genera nuevos atributos, a menudo con nombres predeterminados sugeridos. Este operador genera el atributo Weight. • Experimental:File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner. • Experimental:Force POP: Se utiliza para crear o añadir al atributo PartForce (fuerza de partícula). Es fundamental para definir cómo las fuerzas actúan sobre las partículas. • Experimental:GLSL Advanced POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL Copy POP: Permite ejecutar código de compute shader (GLSL) en cada punto para deformar geometrías basándose en los atributos del punto. Es muy potente para generar formas complejas de manera programática. • Experimental:GLSL Create POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GL"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "la fuerza en velocidad y la velocidad en posición. • Experimental:Field POP: Genera nuevos atributos, a menudo con nombres predeterminados sugeridos. Este operador genera el atributo Weight. • Experimental:File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner. • Experimental:Force POP: Se utiliza para crear o añadir al atributo PartForce (fuerza de partícula). Es fundamental para definir cómo las fuerzas actúan sobre las partículas. • Experimental:GLSL Advanced POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL Copy POP: Permite ejecutar código de compute shader (GLSL) en cada punto para deformar geometrías basándose en los atributos del punto. Es muy potente para generar formas complejas de manera programática. • Experimental:GLSL Create POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL P"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

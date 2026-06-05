@@ -1,0 +1,16 @@
+{
+  "family": "SOP",
+  "pageTitle": "Oculus Rift SOP",
+  "pageSlug": "Oculus_Rift_SOP",
+  "url": "https://docs.derivative.ca/Oculus_Rift_SOP",
+  "tdOpTypeGuess": "oculusRiftSOP",
+  "summary": "[  edit  ]\nNOTE\nOS:  This operator is only supported under the  Microsoft Windows  operating system.\nLoads geometry for the Oculus Rift Touch controllers.\noculusriftSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Info CHOP Channels\n3.1   Common SOP Info Channels\n3.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

@@ -1,0 +1,361 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Blob Track CHOP",
+  "pageSlug": "Blob_Track_CHOP",
+  "url": "https://docs.derivative.ca/Blob_Track_CHOP",
+  "tdOpTypeGuess": "blobTrackCHOP",
+  "summary": "[  edit  ]\nThe Blob Track  CHOP  allows tracking blobs in 2D point data.\nInput data should be have two channels named  tx  and  ty  describing the 2D points in cartesian coordinates. See the  OP Snippets  examples.\nGood sources for input scans are the  Hokuyo CHOP  (in Cartesian coordinate mode) and the  Leuze ROD4 CHOP . These devices naturally output a radial scan from the device as the center point, where each point represents (angle, distance). Outputting each scan point in Cartesian coordinate mode gives an (x,y) for each point which is the format required for the Blob Track  CHOP .\nBut any set of (x,y) points in the two channels will be analyzed.  The tracker looks for consecutive points close to each other, and handles the case where one blob passes behind another blob giving the hidden blob a linear motion for a specifiable amount of time while it occluded before it removes the blob from the set of blobs being output.\nSee also  Blob Track TOP\nblobtrackCHOP_Class\nContents\n1   Summary\n2   Parameters - Tracker Page\n3   Parameters - Blobs Page\n4   Parameters - Common Page\n5   Operator Inputs\n6   Info CHOP Channels\n6.1   Specific Blob Track CHOP Info Channels\n6.2   Common CHOP Info Channels\n6.3   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Tracker",
+      "label": "Active",
+      "name": "active",
+      "description": "While on, the  CHOP  receives information from the input. While off, no processing occurs. Existing blobs will remain."
+    },
+    {
+      "page": "Tracker",
+      "label": "Search Mode",
+      "name": "searchmode",
+      "description": "⊞  - Controls how searching for blobs is done across all the points."
+    },
+    {
+      "page": "Tracker",
+      "label": "All",
+      "name": "all",
+      "description": "All the points are compared against each other to find blobs. This mode is slower but more robust for data that has the points randomly assorted in the  CHOP ."
+    },
+    {
+      "page": "Tracker",
+      "label": "Consecutive Points",
+      "name": "consecutive",
+      "description": "Points are only compared against points in neighbouring samples of the  CHOP  data to find blobs. This is much faster but the data much be setup such that points that are close to each other in space are next to each other in the  CHOP  samples. Data coming from devices such as the  Hokuyo CHOP  and  Leuze ROD4 CHOP  output data in this format."
+    },
+    {
+      "page": "Tracker",
+      "label": "Max Blobs",
+      "name": "maxblobs",
+      "description": "The maximum number of blobs that can be tracked."
+    },
+    {
+      "page": "Tracker",
+      "label": "Max Point Distance in Blob",
+      "name": "maxpointdistance",
+      "description": "Two measured points from the input are considered to be part of the same blob if they are this distance or closer to each other."
+    },
+    {
+      "page": "Tracker",
+      "label": "Max Blob Movement",
+      "name": "maxblobmovement",
+      "description": "This controls the maximum distance a blob can move between successive frames and still be considered the same 'blob'."
+    },
+    {
+      "page": "Tracker",
+      "label": "Area of Interest",
+      "name": "areaofinterest",
+      "description": "⊞  - Limits the area in which blobs are tracked. Points outside the area of interest are ignored."
+    },
+    {
+      "page": "Tracker",
+      "label": "Off",
+      "name": "off",
+      "description": "No limitations, blobs tracked throughout the scanned area."
+    },
+    {
+      "page": "Tracker",
+      "label": "Rectangle",
+      "name": "rectangle",
+      "description": "Blobs only tracked within specified rectangle."
+    },
+    {
+      "page": "Tracker",
+      "label": "Circle",
+      "name": "circle",
+      "description": "Blobs only tracked within specified circle (or ellipse)."
+    },
+    {
+      "page": "Tracker",
+      "label": "Center",
+      "name": "center",
+      "description": "⊞  - The center of the area of interest."
+    },
+    {
+      "page": "Tracker",
+      "label": "Size",
+      "name": "size",
+      "description": "⊞  - The size of the area of interest."
+    },
+    {
+      "page": "Tracker",
+      "label": "Rotate",
+      "name": "rotate",
+      "description": "Rotate the area of interest."
+    },
+    {
+      "page": "Tracker",
+      "label": "Allow Movement Outside Area",
+      "name": "allowmovementoutside",
+      "description": "When this is on, blobs detected within the Area of Interest can move outside of that area and still be tracked. When this is off blobs that move outside the area of interest will stop being tracked."
+    },
+    {
+      "page": "Blobs",
+      "label": "Output Centroid",
+      "name": "outputcentroid",
+      "description": "Include the centroid of detected blobs as part of the output channels."
+    },
+    {
+      "page": "Blobs",
+      "label": "Output Velocity",
+      "name": "outputvelocity",
+      "description": "Include the velocity of detected blobs as part of the output channels."
+    },
+    {
+      "page": "Blobs",
+      "label": "Min Points per Blob",
+      "name": "minblobpoints",
+      "description": "Minimum number of points that must be near each other to form a blob. Use to help filter out false positives."
+    },
+    {
+      "page": "Blobs",
+      "label": "Blob Init Time (s)",
+      "name": "blobinittime",
+      "description": "Amount of time a blob must be detected to be considered trustworthy. Use to help filter out false positives. A blob will only be output if it's been detected for at least time amount of time."
+    },
+    {
+      "page": "Blobs",
+      "label": "Lost Blob Timeout (s)",
+      "name": "lostblobtimeout",
+      "description": "The amount of time before a blob that has been lost is removed from the output."
+    },
+    {
+      "page": "Blobs",
+      "label": "Blob Movement Prediction Type",
+      "name": "predicttype",
+      "description": "⊞  - With prediction enabled, blobs from the last frame have their new position predicted before being matched to the current frame."
+    },
+    {
+      "page": "Blobs",
+      "label": "Off",
+      "name": "off",
+      "description": "Blobs are matched against the blob positions from the last frame."
+    },
+    {
+      "page": "Blobs",
+      "label": "Simple Forward Predict",
+      "name": "simple",
+      "description": "Prediction uses constant velocity assumption; blobs are moved the same distance that they moved last frame."
+    },
+    {
+      "page": "Blobs",
+      "label": "Kalman Filter Predict",
+      "name": "kalman",
+      "description": "Prediction uses  kalman filtering , with a constant velocity model, to move the blobs forward from last frame."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "Rename from",
+      "name": "commonrenamefrom",
+      "description": "The channel pattern to rename. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Rename to",
+      "name": "commonrenameto",
+      "description": "The replacement pattern for the names. The default parameters do not rename the channels. See  Pattern Replacement ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Names:  c[1",
+      "description": "10:2] ambient"
+    },
+    {
+      "page": "Common",
+      "label": "Rename To:  b[1",
+      "description": "5] amb    This example fetches channels  c1 c3 c5 c7 c9  and  ambient ."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner Build:   Latest \\n mw",
+      "description": "replace  2022.24140  2021.10000  2020.23680  before 2020.23680"
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

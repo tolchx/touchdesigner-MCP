@@ -1,0 +1,122 @@
+{
+  "family": "SOP",
+  "pageTitle": "Raster SOP",
+  "pageSlug": "Raster_SOP",
+  "url": "https://docs.derivative.ca/Raster_SOP",
+  "tdOpTypeGuess": "rasterSOP",
+  "summary": "[  edit  ]\nThe Raster  SOP  converts  TOP  image data to geometry by scanning left to right, top to bottom, outputting a geometry point at each pixel. This output can be used to display image data on laser devices, oscilloscopes or similar devices using the  Laser CHOP . This is different from the  Trace SOP  which only outputs contour shapes from an image.\nrasterSOP_Class\nContents\n1   Summary\n2   Parameters - Raster Page\n3   Info CHOP Channels\n3.1   Common SOP Info Channels\n3.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "Raster",
+      "label": "TOP",
+      "name": "top",
+      "description": "The path to the  TOP  to rasterize into geometry."
+    },
+    {
+      "page": "Raster",
+      "label": "Direction",
+      "name": "direction",
+      "description": "⊞  - Determines the direction of rasterization. Depending on the image horizontal or vertical might work better."
+    },
+    {
+      "page": "Raster",
+      "label": "Horizontal",
+      "name": "horizontal",
+      "description": "Scan horizontally."
+    },
+    {
+      "page": "Raster",
+      "label": "Vertical",
+      "name": "vertical",
+      "description": "Scan vertically."
+    },
+    {
+      "page": "Raster",
+      "label": "Download Type",
+      "name": "downloadtype",
+      "description": "⊞  - Gives the option for a delayed data download from the  GPU , which is much faster and does not stall the render."
+    },
+    {
+      "page": "Raster",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Raster",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Raster",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Raster",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Raster",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Raster",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Raster",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Raster",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Raster",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Raster",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Raster",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Raster",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Raster",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Raster",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Raster",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

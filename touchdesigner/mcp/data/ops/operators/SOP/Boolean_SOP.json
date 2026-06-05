@@ -1,0 +1,42 @@
+{
+  "family": "SOP",
+  "pageTitle": "Boolean SOP",
+  "pageSlug": "Boolean_SOP",
+  "url": "https://docs.derivative.ca/Boolean_SOP",
+  "tdOpTypeGuess": "booleanSOP",
+  "summary": "[  edit  ]\nThe Boolean  SOP  takes two closed polygonal sets, A and B. Set these Sources to the SOPs with the 3D shapes that you wish to operate on. There are two important requirements for input geometry:\nShapes must be completely closed. A tube with open ends is not an acceptable input. You can close Tube ends with an end-cap. An extruded letter with no back polygons output is also unacceptable (even with backs output it can be unacceptable because of the second requirement).\nAll polygons must be convex and coplanar. In the case of the Extrude  SOP , you must select Output Convex Faces for front and back faces. It will now be a usable input for Boolean. The Divide  SOP  also offers a convexing function for geometry not created with the Extrude  SOP .\nOther caveats for Boolean are the following:\nPoint colors and texture UV coordinates are not interpolated correctly.\nIn some cases polygons can be reversed so that all normals point outwards. The polygon reversal should not usually present much of a problem (use a  Primitive   SOP  > Face/Hull page >  Vertex  > Reverse to reverse them if necessary).\nA  Facet SOP  can be used to prepare inputs when the Boolean  SOP  complaints they are not closed. In that case, use both the Consolidate Points and Orient Polygons options.\nThis  SOP  is quite visual and intuitive; you can experiment with the different combinations on screen to see the effects.\nNote:  The Boolean  SOP  handles polygonal geometry types. For boolean-type operations with nurbs and Bezier surfaces - see  Surfsect SOP .\nbooleanSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Uses\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common SOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Full data.txt",
+      "excerpt": "yor flexibilidad.\" (5) Voz en Off: Conclusión y Futuro de los POPs \"En resumen, los POPs ofrecen un flujo de trabajo más moderno y eficiente que combina lo mejor de SOPs, CHOPs y TOPs en una sola familia de operadores basada en GPU. Han reimplementado características populares como los sistemas de partículas y la manipulación de nubes de puntos.\" \"Aunque los POPs ya son increíblemente capaces, algunas funcionalidades como el trazado, las extrusiones completas de line strips o las operaciones booleanas, aún están en desarrollo o serán portadas desde las funcionalidades de CPU de los SOPs en el futuro.\" \"Esperamos que este tutorial les haya proporcionado una comprensión profunda de qué son los POPs, cómo funcionan sus componentes clave y por qué son una herramienta tan poderosa para el control de puntos y la geometría en TouchDesigner. ¡Ahora es tu turno de experimentar y crear!\" (6) Outro - Pantalla final con enlaces a recursos, etc. A continuación, una discusión detallada sobre los Op"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "imitivas de conexión. * Cada conexión es una **\"primitiva de línea\" de 2 puntos**, no una tira de línea. * **Uso simple:** Crear redes de conexión dinámicas entre puntos, efectos de telaraña o interacciones basadas en la cercanía de elementos. * **Quantize POP (POP de Cuantificación)** * **Función principal:** Toma cualquier atributo de entrada y **cuantifica sus valores** a números enteros o a un tamaño de paso específico. También puede convertir valores en 0 o 1 (booleano) mediante una comparación lógica. * **Características clave:** * Puede redondear valores al paso más cercano, al `Floor` (redondear hacia abajo) o al `Ceiling` (redondear hacia arriba). * Permite **comparaciones lógicas** (mayor que, igual a, etc.) para producir 0 o 1. * Puedes aplicar parámetros de cuantificación **separados para cada componente** de un atributo (por ejemplo, X, Y, Z de la posición). * Puede convertir el atributo de salida a"
+    },
+    {
+      "source": "POPs Investigation and Workshop Plan.markdown",
+      "excerpt": "signed integer (32-bit). - **Creation**: Generated via POPs like `Attribute POP` or on-the-fly by specifying new names in output scopes. ## 3. POPs vs. SOPs - **Execution**: POPs run on the GPU (parallelized compute shaders); SOPs run on the CPU. - **Workflow**: POPs combine strengths of SOPs, CHOPs, and TOPs for a modern approach. - **Attributes**: POPs offer advanced attribute manipulation (e.g., multi-component, high precision). - **Limitations**: POPs lack some SOP features (e.g., tracing, booleans), though these may be added later. ## 4. Key Features - **GPU Acceleration**: Uses compute shaders for speed and efficiency. - **Memory Optimization**: References unchanged attributes, allocating memory only for modified data. - **Math Operations**: POPs like `Math`, `Transform`, and `Normalize` enable coding-free manipulations. - **Multi-Input Support**: POPs like `Merge` and `Switch` handle multiple inputs with flexible configurations. - **Swizzling**: Manipulate attribute components (e.g.,"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "And that's just offering this kind of displacement vector every frame. And then I have a life mix here. And so I've got some uniforms which is basically like what is my maximum life and what is my zero value. (08:02) And then something a little bit more complicated here. So I'm doing a check to see if the actual lived life is exceeding the maximum life and I'm resulting this scope with a parameter I'm calling do reset which is going to just make a reset. So that's that 0 to one and this is a a boolean operation. (08:24) So it's going to be zero or one true or false. So then what I'm doing is I'm minusing my zero value from this dewy set. So this is essentially creating a sort of an inverse. So whatever my value here is, it's going to alternate between zero and one. And that's going to determine if I am staying or resetting. And if it is a stay value, which essentially means my particle is alive, I'm going to times that value by b, which means my particle is going to continue moving as it wo"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

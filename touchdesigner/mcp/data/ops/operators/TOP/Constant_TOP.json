@@ -1,0 +1,798 @@
+{
+  "family": "TOP",
+  "pageTitle": "Constant TOP",
+  "pageSlug": "Constant_TOP",
+  "url": "https://docs.derivative.ca/Constant_TOP",
+  "tdOpTypeGuess": "constantTOP",
+  "summary": "[  edit  ]\nThe Constant  TOP  sets the red, green, blue, and alpha (r, g, b, and a) channels individually. It is commonly used to create a solid color  TOP  image.\nNote:  This  TOP  supports 3D Textures and 2D Texture Arrays.\nconstantTOP_Class\nContents\n1   Summary\n2   Parameters - Constant Page\n3   Parameters - Output Page\n4   Parameters - Common Page\n5   Operator Inputs\n6   Info CHOP Channels\n6.1   Common TOP Info Channels\n6.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "Composite Input  - Control the Composite operation via the parameters on the Output Page of this operator."
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Constant",
+      "label": "Color",
+      "name": "color",
+      "description": "⊞  - Sets the red, green and blue color channels. Clicking on the color swatch opens a color picker with RGB and HSV (Hue, Sat, and Value) pickers."
+    },
+    {
+      "page": "Constant",
+      "label": "Alpha",
+      "name": "alpha",
+      "description": "Sets the alpha channel value."
+    },
+    {
+      "page": "Constant",
+      "label": "Multiply RGB by Alpha.",
+      "name": "multrgbbyalpha",
+      "description": "Premultiplies the image."
+    },
+    {
+      "page": "Constant",
+      "label": "RGBA Units",
+      "name": "rgbaunit",
+      "description": "⊞  - Specify the color values using different ranges. Note that this is only for purposes of setting the color, the data values in the  TOP  always use the RGBA Unit range 0-1."
+    },
+    {
+      "page": "Constant",
+      "label": "0 to 1",
+      "name": "u1",
+      "description": "For each channel, 0 is black, 1 is white."
+    },
+    {
+      "page": "Constant",
+      "label": "0 to 255",
+      "name": "u256",
+      "description": "For each channel, 0 is black, 255 is white."
+    },
+    {
+      "page": "Constant",
+      "label": "0 to 65535",
+      "name": "u65536",
+      "description": "For each channel, 0 is black, 65535 is white."
+    },
+    {
+      "page": "Output",
+      "label": "Comp Over Input",
+      "name": "compoverinput",
+      "description": "Turning this On will composite the input with the image."
+    },
+    {
+      "page": "Output",
+      "label": "Operation",
+      "name": "operand",
+      "description": "⊞  - Choose which composite operation is performed from this menu. Search the web for 'blend modes' for more detailed information on the effects of each type."
+    },
+    {
+      "page": "Output",
+      "label": "Add",
+      "name": "add",
+      "description": "input1.rgba + input2.rgba"
+    },
+    {
+      "page": "Output",
+      "label": "Atop",
+      "name": "atop",
+      "description": "(input1.rgba * input2.a) + (input2.rgba * (1.0 - input1.a))"
+    },
+    {
+      "page": "Output",
+      "label": "Average",
+      "name": "average",
+      "description": "(input1.rgba + input2.rgba)/2"
+    },
+    {
+      "page": "Output",
+      "label": "Difference",
+      "name": "difference",
+      "description": "absoluteValue(input1.rgb - input2.rgb). Alpha always equals 1.0"
+    },
+    {
+      "page": "Output",
+      "label": "Divide",
+      "name": "divide",
+      "description": "input1.rgba  / input2.rgba"
+    },
+    {
+      "page": "Output",
+      "label": "Inside",
+      "name": "inside",
+      "description": "input1.rgba * clamp(input2.a, 0.0, 1.0)"
+    },
+    {
+      "page": "Output",
+      "label": "Maximum",
+      "name": "maximum",
+      "description": "max(input1.r, input2.r), max(input1.g, input2.g), max(input1.b, input2.b), max(input1.a, input2.a)"
+    },
+    {
+      "page": "Output",
+      "label": "Minimum",
+      "name": "minimum",
+      "description": "min(input1.r, input2.r), min(input1.g, input2.g), min(input1.b, input2.b), min(input1.a, input2.a)"
+    },
+    {
+      "page": "Output",
+      "label": "Outside",
+      "name": "outside",
+      "description": "input1.rgba * (1.0 - input2.a)"
+    },
+    {
+      "page": "Output",
+      "label": "Over",
+      "name": "over",
+      "description": "(input2.rgba * (1.0 - input1.a)) + input1.rgba"
+    },
+    {
+      "page": "Output",
+      "label": "Screen",
+      "name": "screen",
+      "description": "1.0 - ((1.0 - input1.rgba) * (1.0 - input2.rgba))"
+    },
+    {
+      "page": "Output",
+      "label": "Subtract",
+      "name": "subtract",
+      "description": "input1.rgba - input2.rgba"
+    },
+    {
+      "page": "Output",
+      "label": "Under",
+      "name": "under",
+      "description": "(input1.rgba * (1.0 - input2.a)) + input2.rgba"
+    },
+    {
+      "page": "Output",
+      "label": "Xor",
+      "name": "xor",
+      "description": "(input1.rgba * (1.0 - input2.a)) + (input2.rgba * (1.0 - input1.a))"
+    },
+    {
+      "page": "Output",
+      "label": "Swap Order",
+      "name": "swaporder",
+      "description": "Swaps the order of the composite with the input."
+    },
+    {
+      "page": "Output",
+      "label": "Output Type",
+      "name": "type",
+      "description": "⊞  - Specify the output texture type to generate.  Note:  This parameter can only be used if there are no inputs to the  TOP ."
+    },
+    {
+      "page": "Output",
+      "label": "2D Texture",
+      "name": "texture2d",
+      "description": "Output is a 2D texture"
+    },
+    {
+      "page": "Output",
+      "label": "3D Texture",
+      "name": "texture3d",
+      "description": "Output is a 3D texture"
+    },
+    {
+      "page": "Output",
+      "label": "2D Texture Array",
+      "name": "texture3darray",
+      "description": "Output is a 2D texture array"
+    },
+    {
+      "page": "Output",
+      "label": "Slices",
+      "name": "slices",
+      "description": "Sets the depth of the texture if the 'Output Type' parameter selects 3D Texture or 2D Texture Array."
+    },
+    {
+      "page": "Common",
+      "label": "Output  Resolution",
+      "name": "outputresolution",
+      "description": "⊞  - quickly change the resolution of the  TOP 's data."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's resolution"
+    },
+    {
+      "page": "Common",
+      "label": "Eighth",
+      "name": "eighth",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Quarter",
+      "name": "quarter",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Half",
+      "name": "half",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "2X",
+      "name": "2x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "4X",
+      "name": "4x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "8X",
+      "name": "8x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Fit  Resolution",
+      "name": "fit",
+      "description": "Grow or shrink the input resolution to fit this resolution, while keeping the aspect ratio the same."
+    },
+    {
+      "page": "Common",
+      "label": "Limit  Resolution",
+      "name": "limit",
+      "description": "Limit the input resolution to be not larger than this resolution, while keeping the aspect ratio the same."
+    },
+    {
+      "page": "Common",
+      "label": "Custom  Resolution",
+      "name": "custom",
+      "description": "Directly control the width and height."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution",
+      "name": "resolution",
+      "description": "⊞  - Enabled only when the  Resolution  parameter is set to Custom  Resolution . Some Generators like Constant and Ramp do not use inputs and only use this field to determine their size. The drop down menu on the right provides some commonly used resolutions."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution  Menu",
+      "name": "resmenu",
+      "description": "A drop-down menu with some commonly used resolutions."
+    },
+    {
+      "page": "Common",
+      "label": "Use Global Res Multiplier",
+      "name": "resmult",
+      "description": "Uses the Global  Resolution  Multiplier found in  Edit>Preferences>TOPs . This multiplies all the TOPs resolutions by the set amount. This is handy when working on computers with different hardware specifications. If a project is designed on a desktop workstation with lots of graphics memory, a user on a laptop with only 64MB VRAM can set the Global  Resolution  Multiplier to a value of half or quarter so it runs at an acceptable speed. By checking this checkbox on, this  TOP  is affected by the global multiplier."
+    },
+    {
+      "page": "Common",
+      "label": "Output Aspect",
+      "name": "outputaspect",
+      "description": "⊞  - Sets the image aspect ratio allowing any textures to be viewed in any size. Watch for unexpected results when compositing TOPs with different aspect ratios. (You can define images with non-square pixels using xres, yres, aspectx, aspecty where xres/yres != aspectx/aspecty.)"
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's aspect ratio."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution",
+      "name": "resolution",
+      "description": "Uses the aspect of the image's defined resolution (ie 512x256 would be 2:1), whereby each pixel is square."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Aspect",
+      "name": "custom",
+      "description": "Lets you explicitly define a custom aspect ratio in the Aspect parameter below."
+    },
+    {
+      "page": "Common",
+      "label": "Aspect",
+      "name": "aspect",
+      "description": "⊞  - Use when Output Aspect parameter is set to Custom Aspect."
+    },
+    {
+      "page": "Common",
+      "label": "Aspect Menu",
+      "name": "armenu",
+      "description": "A drop-down menu with some commonly used aspect ratios."
+    },
+    {
+      "page": "Common",
+      "label": "Input Smoothness",
+      "name": "inputfiltertype",
+      "description": "⊞  - This controls pixel filtering on the input image of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Nearest Pixel",
+      "name": "nearest",
+      "description": "Uses nearest pixel or accurate image representation. Images will look jaggy when viewing at any zoom level other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Interpolate Pixels",
+      "name": "linear",
+      "description": "Uses linear filtering between pixels. This is how you get  TOP  images in viewers to look good at various zoom levels, especially useful when using any Fill Viewer setting other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Mipmap Pixels",
+      "name": "mipmap",
+      "description": "Uses   mipmap  filtering when scaling images. This can be used to reduce artifacts and sparkling in moving/scaling images that have lots of detail."
+    },
+    {
+      "page": "Common",
+      "label": "Fill  Viewer",
+      "name": "fillmode",
+      "description": "⊞  - Determine how the  TOP  image is displayed in the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the same Fill Viewer settings as it's input."
+    },
+    {
+      "page": "Common",
+      "label": "Fill",
+      "name": "fill",
+      "description": "Stretches the image to fit the edges of the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Horizontal",
+      "name": "width",
+      "description": "Stretches image to fit viewer horizontally."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Vertical",
+      "name": "height",
+      "description": "Stretches image to fit viewer vertically."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Best",
+      "name": "best",
+      "description": "Stretches or squashes image so no part of image is cropped."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Outside",
+      "name": "outside",
+      "description": "Stretches or squashes image so image fills viewer while constraining it's proportions. This often leads to part of image getting cropped by viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Native  Resolution",
+      "name": "nativeres",
+      "description": "Displays the native resolution of the image in the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Viewer Smoothness",
+      "name": "filtertype",
+      "description": "⊞  - This controls pixel filtering in the viewers."
+    },
+    {
+      "page": "Common",
+      "label": "Nearest Pixel",
+      "name": "nearest",
+      "description": "Uses nearest pixel or accurate image representation. Images will look jaggy when viewing at any zoom level other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Interpolate Pixels",
+      "name": "linear",
+      "description": "Uses linear filtering between pixels. Use this to get  TOP  images in viewers to look good at various zoom levels, especially useful when using any Fill Viewer setting other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Mipmap Pixels",
+      "name": "mipmap",
+      "description": "Uses   mipmap  filtering when scaling images. This can be used to reduce artifacts and sparkling in moving/scaling images that have lots of detail. When the input is 32-bit float format, only nearest filtering will be used (regardless of what is selected)."
+    },
+    {
+      "page": "Common",
+      "label": "Passes",
+      "name": "npasses",
+      "description": "Duplicates the operation of the  TOP  the specified number of times. For every pass after the first it takes the result of the previous pass and replaces the node's first input with the result of the previous pass. One exception to this is the  GLSL TOP  when using compute shaders, where the input will continue to be the connected  TOP 's image."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Mask",
+      "name": "chanmask",
+      "description": "Allows you to choose which channels (R, G, B, or A) the  TOP  will operate on. All channels are selected by default."
+    },
+    {
+      "page": "Common",
+      "label": "Pixel Format",
+      "name": "format",
+      "description": "⊞  - Format used to store data for each channel in the image (ie. R, G, B, and A). Refer to  Pixel Formats  for more information."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's pixel format."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (RGBA)",
+      "name": "rgba8fixed",
+      "description": "Uses 8-bit integer values for each channel."
+    },
+    {
+      "page": "Common",
+      "label": "sRGB 8-bit fixed (RGBA)",
+      "name": "srgba8fixed",
+      "description": "Uses 8-bit integer values for each channel and stores color in sRGB colorspace. Note that this does  not  apply an sRGB curve to the pixel values, it only stores them using an sRGB curve. This means more data is used for the darker values and less for the brighter values. When the values are read downstream they will be converted back to linear. For more information refer to  sRGB ."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (RGBA)",
+      "name": "rgba16float",
+      "description": "Uses 16-bits per color channel, 64-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (RGBA)",
+      "name": "rgba32float",
+      "description": "Uses 32-bits per color channel, 128-bits per pixels."
+    },
+    {
+      "page": "Common",
+      "label": "10-bit RGB, 2-bit Alpha, fixed (RGBA)",
+      "name": "rgb10a2fixed",
+      "description": "Uses 10-bits per color channel and 2-bits for alpha, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (RGBA)",
+      "name": "rgba16fixed",
+      "description": "Uses 16-bits per color channel, 64-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "11-bit float (RGB), Positive Values Only",
+      "name": "rgba11float",
+      "description": "A RGB floating point format that has 11 bits for the Red and Green channels, and 10-bits for the Blue  Channel , 32-bits total per pixel (therefore the same memory usage as 8-bit RGBA). The Alpha channel in this format will always be 1. Values can go above one, but can't be negative. ie. the range is [0, infinite)."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (Mono)",
+      "name": "mono8fixed",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 8-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (Mono)",
+      "name": "mono16fixed",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (Mono)",
+      "name": "mono16float",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (Mono)",
+      "name": "mono32float",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (RG)",
+      "name": "rg8fixed",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 8-bits per channel, 16-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (RG)",
+      "name": "rg16fixed",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 16-bits per channel, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (RG)",
+      "name": "rg16float",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 16-bits per channel, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (RG)",
+      "name": "rg32float",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 32-bits per channel, 64-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (A)",
+      "name": "a8fixed",
+      "description": "An Alpha only format that has 8-bits per channel, 8-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (A)",
+      "name": "a16fixed",
+      "description": "An Alpha only format that has 16-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (A)",
+      "name": "a16float",
+      "description": "An Alpha only format that has 16-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (A)",
+      "name": "a32float",
+      "description": "An Alpha only format that has 32-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (Mono+Alpha)",
+      "name": "monoalpha8fixed",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 8-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (Mono+Alpha)",
+      "name": "monoalpha16fixed",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 16-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (Mono+Alpha)",
+      "name": "monoalpha16float",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 16-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (Mono+Alpha)",
+      "name": "monoalpha32float",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 32-bits per channel, 64-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "Parameter Color Space",
+      "name": "parmcolorspace",
+      "description": "⊞  - Controls how all color parameters on this node are interpreted. The color values as treated as being in the selected color space, and are converted to the Working  Color Space  before they are used as part of the node's operation. Note that this does not change the color space of the node itself, as that is always in the Working Color Space."
+    },
+    {
+      "page": "Common",
+      "label": "sRGB",
+      "name": "srgb",
+      "description": "sRGB  color space, with sRGB transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "sRGB - Linear",
+      "name": "srgblinear",
+      "description": "sRGB  color space, with linear transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "Rec.601 (NTSC)",
+      "name": "rec601ntsc",
+      "description": "Rec.601  with NTSC primaries color space, with Rec.601 transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "Rec.709",
+      "name": "rec709",
+      "description": "Rec.709  color space, with Rec.709 (same as Rec.2020) transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "Rec.2020",
+      "name": "rec2020",
+      "description": "Rec.2020  color space, with Rec.2020 (same as Rec.709) transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "DCI-P3",
+      "name": "dcip3",
+      "description": "DCI-P3  color space, with D65 white point and 2.6 gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "DCI-P3 (D60)",
+      "name": "dcip3d60",
+      "description": "DCI-P3 \"D60 sim\"  color space, with D60 white point, and 2.6 gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "Display-P3 (D65)",
+      "name": "displayp3d65",
+      "description": "Display-P3  color space, with D65 white point, and sRGB gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "ACES2065-1",
+      "name": "aces2065",
+      "description": "1  -  ACES 2065-1  (also known as ACES AP0) color space, with a linear gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "ACEScg",
+      "name": "acescg",
+      "description": "ACEScg  (also known as ACES AP1) color space, with a linear gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "Passthrough",
+      "name": "passthrough",
+      "description": "When selected, the color values will be used as-is in the operation, without any modification or attempt to convert them into the Working Color Space."
+    },
+    {
+      "page": "Common",
+      "label": "Parameter Reference  White",
+      "name": "parmreferencewhite",
+      "description": "⊞  - When converting a parameter color value to the Working Color Space, this controls how it should be treated with respect to  Reference White . If the Working Color Space is the same  Reference  White, then no adjustment is done. If they are different, then the  Reference  White level (brightness) of this color will be adjusted to the range expected by the Working Color Space. For example if the project is set to have a SDR  Reference  White of 120 nits, and the HDR  Reference  White is 80 nits, then a color of (1, 1, 1), which is 120 nits in the SDR color space, will be converted to be (1.5, 1.5, 1.5), which is 120 nits still in the HDR Working Color Space."
+    },
+    {
+      "page": "Common",
+      "label": "Default For Color Space",
+      "name": "default",
+      "description": "Will use either the SDR or the HDR  Reference  White, based on the color space selected."
+    },
+    {
+      "page": "Common",
+      "label": "Use Parent  Panel",
+      "name": "useparent",
+      "description": "Will use the  Reference  White that the parent panel has selected. If the top-level panel also has 'Use  Parent ' selected, then 'UI  Reference  White' will be used."
+    },
+    {
+      "page": "Common",
+      "label": "Standard (SDR)",
+      "name": "sdr",
+      "description": "Will treat the Parameter Color Space as SDR for it's reference white value."
+    },
+    {
+      "page": "Common",
+      "label": "High (HDR)",
+      "name": "hdr",
+      "description": "Will treat the Parameter Color Space as HDR for it's reference white value."
+    },
+    {
+      "page": "Common",
+      "label": "UI",
+      "name": "ui",
+      "description": "Will treat the Parameter Color Space as UI for it's reference white value. This uses the 'UI  Reference  White Nits' value for it's brightness."
+    },
+    {
+      "page": "Common",
+      "label": "Input 0: Composite Input",
+      "description": "Control the Composite operation via the parameters on the Output Page of this operator."
+    },
+    {
+      "page": "Common",
+      "label": "resx",
+      "description": "Horizontal resolution of the  TOP  in pixels."
+    },
+    {
+      "page": "Common",
+      "label": "resy",
+      "description": "Vertical resolution of the  TOP  in pixels."
+    },
+    {
+      "page": "Common",
+      "label": "aspectx",
+      "description": "Horizontal aspect of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "aspecty",
+      "description": "Vertical aspect of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "depth",
+      "description": "Depth of 2D or 3D array if this  TOP  contains a 2D or 3D texture array."
+    },
+    {
+      "page": "Common",
+      "label": "gpu_memory_used",
+      "description": "Total amount of texture memory used by this  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "The width and height of an image in pixels. Most TOPs, like the  Movie File In TOP  can set the image resolution. See  Aspect Ratio  for the width/height ratio of an image, taking into account non",
+      "description": "square pixels."
+    },
+    {
+      "page": "Common",
+      "label": "The viewer of a node can be (1) the interior of a node (the  Node Viewer ), (2) a floating window (RMB",
+      "description": ">View... on node), or (3) a  Pane  that graphically shows the results of an operator."
+    },
+    {
+      "page": "Common",
+      "label": "There are 2 kinds of parenting. The \"parent component\" is the component in which a node resides. The metaphor is extended to include grand parents, grand",
+      "description": "grand parents, etc. The root  /  is the ultimate parent to all nodes. See also  3D Parenting  and panel  Parenting ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ard Direction, Vectors Maintain Length, Append Dimension) y la \"Página Template\" (Template Matrix Transform, Transform Attribute, Template Transform Order, Template Rotate Order, Template Translate, Template Translate Attribute, Template Rotate, Template Rotate Attribute, Template Scale, Scale Attribute, Template Pivot, Template Pivot Attribute, Template Rotate to Vector, Template Rotate to Order, Rotate to Vector : Forward Direction, Rotate to Vector Attribute, Up Vector Type, Up Attribute, Up Constant, TemplateId Attribute, TemplateId Attrib Name). La \"Página Template Attributes\" permite operaciones (Copiar, Multiplicar, Sumar, Restar) en atributos de plantilla para afectar a los atributos de destino.2 * Noise POP: Aplica un campo de ruido a los puntos, afectando típicamente el atributo P (posición) por defecto. Los usuarios pueden elegir entre ruido Simplex y Perlin en 2-4 dimensiones. Los parámetros controlan el período, los armónicos, la dispersión armónica, la amplitud, el exponente"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "el atributo de Posición (P) de un POP si no lo necesitas. Permite seleccionar qué atributos o grupos específicos deseas procesar de cada entrada. • Experimental:Attribute Convert POP: Se utiliza para transferir atributos entre diferentes \"clases\" (tipos) de datos, como convertir atributos de puntos a atributos de vértices o de primitivas. • Experimental:Attribute POP: Es un operador fundamental para crear nuevos atributos en puntos, vértices o primitivas, y puedes inicializarlos con valores constantes. También es el lugar donde puedes crear \"arrays de atributos\". • Experimental:Blend POP: Es un POP que soporta múltiples entradas, lo que sugiere que puede mezclar o interpolar datos de diferentes fuentes. • Experimental:Box POP: Un operador generador que crea una geometría de caja. • Experimental:Cache Blend POP: Se menciona en relación con el uso de atributos como 'Velocity' (Vel), lo que sugiere su rol en la mezcla de datos temporales o en animaciones. • Experimental:Cache POP: Las"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "nerador básico para cualquier cosa que necesite una forma esférica, desde gotas de agua hasta planetas, o para usarla como base para efectos complejos de dispersión de puntos. * **Sprinkle POP (POP de Salpicadura)** * **Función principal:** Crea puntos **sobre la superficie o dentro del volumen** de un POP de entrada. * **Características clave:** * El método `Per Primitive` crea puntos en la superficie de triángulos o cuadrados, intentando mantener una distribución constante por primitiva, sin importar su tamaño. * El método `Volume` crea puntos aleatoriamente dentro de un volumen cerrado. * El parámetro `Number of Points` es un límite superior aproximado para la cantidad de puntos creados. * Puede crear primitivas de punto por cada punto nuevo, útil si planeas renderizar los puntos directamente. * **Uso simple:** Para rellenar una forma existente con una nube de puntos, útil para efectos de polvo, estrellas, o para crear un"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "dores, como el Lookup Attribute POP. * **Características clave:** * Los valores X de los puntos (`P(0)`) avanzan uniformemente, mientras que los valores Y (`P(1)`) toman diferentes formas interpoladas. La curva también se puede acceder como un atributo llamado `Curve` para mayor claridad. * Por defecto, crea una curva de \"suavizado de entrada y salida\" (ease-in ease-out), pero puedes añadir **múltiples segmentos**. * Cada segmento puede tener su propio **tipo de curva** (Constante, Lineal, Ease In, Ease Out, Ease In Ease Out, Bezier) y valores de inicio/fin. * Tiene una página de \"Lookup\" (Consulta) que le permite actuar como una tabla de búsqueda. Puedes usar un atributo de índice de entrada (entre 0 y 1, o un índice de punto) para buscar valores en la curva. * Los parámetros **`Extend Left` y `Extend Right`** controlan lo que sucede si el índice de búsqueda está fuera del rango (por ejemplo, mantener el valor, ciclar, o reflejar). * Puedes especif"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "offsets using this chain that involves this noise displacement. (09:46) And I have a couple things here. And what we can see I'm doing is I'm setting uniforms here. So for example, this life increment allows me to speed up or slow down how fast my object gets to its end result. So basically its life value. So this is basically like how fast are we stepping through the perceived life of that particle. So we can slow that down or speed it up. (10:17) And so uniforms are basically things like a constant where you would set this like you would in a GLSL uniform and you just put that and it's going to stay static. In this case I just have a float but you have all these options here for things that are going to be multiple streams of data. So vectors and then this is kind of a simpler mathematical operation than what you'll see in a minute but basically I'm just creating a addition every frame. (10:46) So, a plus b. And so, this is life plus life ink. So, whatever the starting life value is, it'"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

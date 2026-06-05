@@ -1,0 +1,21 @@
+{
+  "family": "SOP",
+  "pageTitle": "Superquad SOP",
+  "pageSlug": "Superquad_SOP",
+  "url": "https://docs.derivative.ca/Superquad_SOP",
+  "tdOpTypeGuess": "superquadSOP",
+  "summary": "[  edit  ]\nThe Superquad  SOP  generates an isoquadric surface. This produces a spherical shape that is similar to a metaball, with the difference that it doesn't change it's shape in response to what surrounds it. You can change the  XY Exponent  of an isoquadric surface to define it to be more \"squarish\" or \"starish\" in shape. Also, an isoquadric surface is always defined as a polygonal or mesh type geometry.\nsuperquadSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

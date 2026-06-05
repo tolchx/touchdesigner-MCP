@@ -1,0 +1,30 @@
+{
+  "family": "SOP",
+  "pageTitle": "Rails SOP",
+  "pageSlug": "Rails_SOP",
+  "url": "https://docs.derivative.ca/Rails_SOP",
+  "tdOpTypeGuess": "railsSOP",
+  "summary": "[  edit  ]\nThe Rails  SOP  generates surfaces by stretching cross-sections between two rails. This is similar to the  Sweep SOP , but it gives more control over the orientation and scaling of the cross-sections. The first  SOP  input is the cross-section which will be replicated, and is typically placed in the XY plane. The second input  SOP  source is the rails along which the cross-section is replicated.\nrailsSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "tube.com/watch?v=kqXNH43sO68 77. Limit CHOP – Beginners TouchDesigner - allTD.org, fecha de acceso: julio 1, 2025, https://alltd.org/limit-chop-beginners-touchdesigner/ 78. Line Break POP - Derivative, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Line_Break_POP 79. Please help me. Line Breaking Table Dat - Beginners - TouchDesigner forum, fecha de acceso: julio 1, 2025, https://forum.derivative.ca/t/please-help-me-line-breaking-table-dat/352347 80. POPs Experimental: Line MAT Trails in TouchDesigner - YouTube, fecha de acceso: julio 1, 2025, https://www.youtube.com/watch?v=A5upp-S8Qaw 81. Line Thickness SOP not working! : r/TouchDesigner - Reddit, fecha de acceso: julio 1, 2025, https://www.reddit.com/r/TouchDesigner/comments/1kvzwu0/line_thickness_sop_not_working/ 82. Line Thick SOP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Line_Thick_SOP 83. Lookup DAT - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https:"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

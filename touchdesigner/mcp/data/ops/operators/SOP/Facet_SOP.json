@@ -1,0 +1,42 @@
+{
+  "family": "SOP",
+  "pageTitle": "Facet SOP",
+  "pageSlug": "Facet_SOP",
+  "url": "https://docs.derivative.ca/Facet_SOP",
+  "tdOpTypeGuess": "facetSOP",
+  "summary": "[  edit  ]\nThe Facet  SOP  lets you control the smoothness of faceting of a given object. It also lets you consolidate points or surface normals.\nThe Facet  SOP , like  Divide SOP , works as a pipeline to change geometry in stages. For this reason, Compute Normals appears twice. For example, you can compute surface normals before making vertices (the points of each polygon) unique, which gives you the unusual result of smooth shading and unique point, as the normals get computed while the points are still shared.\nfacetSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "Type (Simplex, Perlin), Period, Harmonics, Harmonic Spread, Amplitude, Exponent, Offset. También tiene una \"Página Transform\" para trasladar, rotar y escalar el campo de ruido, y una \"Página Output\" para generar valores de ruido sin procesar, gradiente o curl.16 * Extrude POP: Un operador simple que añade \"grosor\" aparente a triángulos o quads copiándolos a una distancia especificada, opcionalmente estrechándolos, y añadiendo quads para los lados.17 Requiere un Normal POP para un sombreado facetado adecuado.17 * Facet POP: Realiza operaciones para controlar el intercambio de puntos entre primitivas. Puede crear puntos únicos (sin puntos compartidos por vértice), consolidar puntos (fusionar puntos dentro de una tolerancia) o cusp polygons (hacer que los puntos de borde sean únicos si las caras adyacentes no están alineadas dentro de una tolerancia angular).18 Es útil para controlar el sombreado y la integridad de la malla. * GLSL POP: Permite la modificación de atributos de entr"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:DMX Out POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:Extrude POP: Puede crear grupos automáticamente. Las fuentes indican que los POPs aún no realizan extrusiones completas en cualquier tira de línea. • Experimental:Facet POP: A diferencia de los SOPs donde el Facet SOP crea normales, en POPs, el Normal POP es el encargado de crear normales de superficie y tangentes. • Experimental:Feedback POP: Es esencial para habilitar sistemas de partículas y para la manipulación general de datos que requieren bucles de retroalimentación. Se utiliza para simular el movimiento de partículas a lo largo del tiempo, convirtiendo la fuerza en velocidad y la velocidad en posición. • Experimental:Field POP: Genera nuevos atributos, a menudo con nombres predeterminados sugerid"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "cionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:DMX Out POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:Extrude POP: Puede crear grupos automáticamente. Las fuentes indican que los POPs aún no realizan extrusiones completas en cualquier tira de línea. • Experimental:Facet POP: A diferencia de los SOPs donde el Facet SOP crea normales, en POPs, el Normal POP es el encargado de crear normales de superficie y tangentes. • Experimental:Feedback POP: Es esencial para habilitar sistemas de partículas y para la manipulación general de datos que requieren bucles de retroalimentación. Se utiliza para simular el movimiento de partículas a lo largo del tiempo, convirtiendo la fuerza en velocidad y la velocidad en posición. • Experimental:Field POP: Genera nuevos atribu"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:DMX Out POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:Extrude POP: Puede crear grupos automáticamente. Las fuentes indican que los POPs aún no realizan extrusiones completas en cualquier tira de línea. • Experimental:Facet POP: A diferencia de los SOPs donde el Facet SOP crea normales, en POPs, el Normal POP es el encargado de crear normales de superficie y tangentes. • Experimental:Feedback POP: Es esencial para habilitar sistemas de partículas y para la manipulación general de datos que requieren bucles de retroalimentación. Se utiliza para simular el movimiento de partículas a lo largo del tiempo, convirtiendo la fuerza en velocidad y la velocidad en posición. • Experimental:Field POP: Genera nuevos atributos, a menudo con nombres predeterminados sugerid"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "s 6 caras utiliza 4 puntos únicos, lo que significa que los puntos no se comparten entre caras. * Define la **conectividad** de los puntos: * **None**: Solo puntos, sin primitivas. * **Quadrilaterals (quads)**: Cuadriláteros de 4 puntos. * **Triangles**: Triángulos de 3 puntos. * **Point Prims**: Una primitiva de punto por cada punto. * Puedes elegir tener **normales de vértice** o **normales de primitiva** (que hacen que el cubo se vea \"facetado\" o plano), o **normales de punto** (que hacen que las esquinas se vean suaves). * Ofrece esquinas opcionalmente **redondeadas** con control sobre el radio y la cantidad de subdivisiones. * Puede crear **coordenadas de textura** (para aplicar imágenes) de diferentes maneras: por cara, o un \"mapa de cubo\" que se envuelve en todas las caras. * Puedes aplicar **colores de punto** o **vértice**. * Los parámetros **Anchor** te permiten alinear un lado de la caja a X=0,"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

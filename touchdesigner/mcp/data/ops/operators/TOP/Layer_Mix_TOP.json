@@ -1,0 +1,892 @@
+{
+  "family": "TOP",
+  "pageTitle": "Layer Mix TOP",
+  "pageSlug": "Layer_Mix_TOP",
+  "url": "https://docs.derivative.ca/Layer_Mix_TOP",
+  "tdOpTypeGuess": "layerMixTOP",
+  "summary": "[  edit  ]\nThe Layer Mix  TOP  lets you composite unlimited image layers and do adjustments, all within one node.\nEach of the inputs gets a block of parameters that you can use to modify the incoming images.\nThe possible built-in controls per-layer include crop, pre-fit, justify, extend, scale, rotate, translate, pivot and then layer transparency, gamma and level, and finally the composite (blend) operation.\nTo avoid clutter, on the first page you choose which controls you want to be per-layer.\nThe entire mixing of layers is done with one single-pass shader that is generated on-the-fly.\nYou can composite back to front, or front-to-back.\nYou can specify a large background plate (image or constant) to composite your layers over.  The background plate can be a constant-colored image with the resolution of the first input, or defined as a width-height on the Common page, or a separate  TOP  image.\nThe inputs can be a mix of wired inputs and references to TOPs using pattern matching of names.\nlayermixTOP_Class\nContents\n1   Summary\n2   Parameters - Setup Page\n3   Parameters - Common Page\n4   Parameters - Layers Page\n5   Operator Inputs\n6   Info CHOP Channels\n6.1   Common TOP Info Channels\n6.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Setup",
+      "label": "Background",
+      "name": "background",
+      "description": "⊞  - This menu determines which background plate to use while compositing."
+    },
+    {
+      "page": "Setup",
+      "label": "Off",
+      "name": "off",
+      "description": "No background is used. There must be at least two layer sources provided as inputs if there is no background."
+    },
+    {
+      "page": "Setup",
+      "label": "Background  TOP",
+      "name": "backgroundtop",
+      "description": "Another  TOP 's output image will be used as the background."
+    },
+    {
+      "page": "Setup",
+      "label": "Constant Layer",
+      "name": "constlayer",
+      "description": "A constant RGBA value will be used as the background."
+    },
+    {
+      "page": "Setup",
+      "label": "Size",
+      "name": "size",
+      "description": "⊞  - This menu determines the resolution of the output image. This parameter does not affect what gets composited, regardless of which menu item is selected. It only controls the output resolution."
+    },
+    {
+      "page": "Setup",
+      "label": "First Input",
+      "name": "firstinput",
+      "description": "The resolution is the same size as the first wired input."
+    },
+    {
+      "page": "Setup",
+      "label": "Background  TOP",
+      "name": "bgtopsize",
+      "description": "The resolution is the same size as another  TOP 's output resolution."
+    },
+    {
+      "page": "Setup",
+      "label": "Output  Resolution",
+      "name": "outputres",
+      "description": "The resolution is defined by the  Resolution  parameter on the Common page."
+    },
+    {
+      "page": "Setup",
+      "label": "Background  TOP",
+      "name": "bgtop",
+      "description": "The path of the Background  TOP  being referenced. The Background and Size parameters will share the same  TOP  if the Background  TOP  menu item is selected for both menus."
+    },
+    {
+      "page": "Setup",
+      "label": "Background Color",
+      "name": "bgcolor",
+      "description": "⊞  - Sets the red, green, blue, and alpha color channels if the Constant Layer menu item is selected for the Background parameter."
+    },
+    {
+      "page": "Setup",
+      "label": "Enable Crop",
+      "name": "enablecrop",
+      "description": "Adds crop (left, right, bottom, top) parameters to each layer. If disabled, each layer will have default UV bounds of (0, 1, 0, 1)."
+    },
+    {
+      "page": "Setup",
+      "label": "Crop Unit",
+      "name": "cropunit",
+      "description": "⊞  - Sets the units used by the Crop parameter for each layer."
+    },
+    {
+      "page": "Setup",
+      "label": "Pre-Fit Layer",
+      "name": "prefit",
+      "description": "⊞  - Determines how each layer fills the composite."
+    },
+    {
+      "page": "Setup",
+      "label": "Per Layer",
+      "name": "prefitperlayer",
+      "description": "Adds Pre-Fit Layer menu parameters to each layer, allowing layers to independently adjust their pre-fits."
+    },
+    {
+      "page": "Setup",
+      "label": "Fill",
+      "name": "fill",
+      "description": "All layers are stretched/squashed to fill the resolution and aspect ratio of the output resolution."
+    },
+    {
+      "page": "Setup",
+      "label": "Fit Horizontal",
+      "name": "fithorz",
+      "description": "All layers are stretched/squashed to fit the output resolution horizontally."
+    },
+    {
+      "page": "Setup",
+      "label": "Fit Vertical",
+      "name": "fitvert",
+      "description": "All layers are stretched/squashed to fit the output resolution vertically."
+    },
+    {
+      "page": "Setup",
+      "label": "Fit Best",
+      "name": "fitbest",
+      "description": "All layers are stretch/squashed to fit the output resolution using the best possible match that does not crop any of the layer. The aspect ratio of the layer is maintained."
+    },
+    {
+      "page": "Setup",
+      "label": "Fit Outside",
+      "name": "fitoutside",
+      "description": "All layers are stretched squashed to fit the output resolution using the worst possible match. This is the opposite of Fit Best. The aspect ratio of the layer is maintained."
+    },
+    {
+      "page": "Setup",
+      "label": "Native  Resolution",
+      "name": "nativeres",
+      "description": "All layers are not squashed or stretched. The layers use their own resolution and aspect ratio during the composite. Pixel accurate composites require Native  Resolution . Use this setting to maintain an image's original resolution during the composite."
+    },
+    {
+      "page": "Setup",
+      "label": "Enable Justify",
+      "name": "enablejust",
+      "description": "Adds justify parameters to each layer. If disabled, each layer will default to center horizontal and center vertical alignment."
+    },
+    {
+      "page": "Setup",
+      "label": "Extend",
+      "name": "extend",
+      "description": "⊞  - Sets the extend (or repeat) conditions of the layers. This parameter determines what happens at the edges of the layers."
+    },
+    {
+      "page": "Setup",
+      "label": "Per Layer",
+      "name": "extperlayer",
+      "description": "Adds Extend menu parameters to each layer, allowing layers to independently adjust their extend conditions."
+    },
+    {
+      "page": "Setup",
+      "label": "Hold",
+      "name": "hold",
+      "description": "The pixel values at the edges of all layers continue to extend past that edge."
+    },
+    {
+      "page": "Setup",
+      "label": "Zero",
+      "name": "zero",
+      "description": "The image does not extend past the edges of all layers."
+    },
+    {
+      "page": "Setup",
+      "label": "Repeat",
+      "name": "repeat",
+      "description": "The image is repeated at the edges of all layers."
+    },
+    {
+      "page": "Setup",
+      "label": "Mirror",
+      "name": "mirror",
+      "description": "The image is mirrored at the edges of all layers."
+    },
+    {
+      "page": "Setup",
+      "label": "Scale",
+      "name": "scalemode",
+      "description": "⊞  - Adds scale parameters to the layers."
+    },
+    {
+      "page": "Setup",
+      "label": "Off",
+      "name": "off",
+      "description": "No scale parameters are added, so x and y scales are defaulted to 1."
+    },
+    {
+      "page": "Setup",
+      "label": "Uniform",
+      "name": "uniform",
+      "description": "Adds a uniform scale parameter to each layer that scales the x and y axes simultaneously."
+    },
+    {
+      "page": "Setup",
+      "label": "XY",
+      "name": "xy",
+      "description": "Adds an x and y scale parameter to each layer."
+    },
+    {
+      "page": "Setup",
+      "label": "XY + Uniform",
+      "name": "xyuniform",
+      "description": "Adds both x and y and uniform scale parameters to each layer."
+    },
+    {
+      "page": "Setup",
+      "label": "Enable Rotate",
+      "name": "enabler",
+      "description": "Adds rotation parameters to each layer. If disabled, each layer will have default rotation of 0."
+    },
+    {
+      "page": "Setup",
+      "label": "Enable Translate",
+      "name": "enablet",
+      "description": "Adds translation parameters to each layer. If disabled, each layer will have default translation of 0."
+    },
+    {
+      "page": "Setup",
+      "label": "Enable Pivot",
+      "name": "enablep",
+      "description": "Adds pivot parameters to each layer. If disabled, each layer will default the pivot to the center of the layer."
+    },
+    {
+      "page": "Setup",
+      "label": "Translate / Pivot Unit",
+      "name": "transpvtunit",
+      "description": "⊞  - Sets the units used by the Translate and Pivot parameters for each layer."
+    },
+    {
+      "page": "Setup",
+      "label": "Enable Opacity",
+      "name": "enableopac",
+      "description": "Adds opacity parameters to each layer. If disabled, each layer will have default opacity of 1. Setting a layer's opacity to 0 can be used to optimize the Layer Mix  TOP  to stop wired input nodes from cooking if it isn't being displayed."
+    },
+    {
+      "page": "Setup",
+      "label": "Enable Brightness",
+      "name": "enablebright",
+      "description": "Adds brightness parameters to each layer. If disabled, each layer will have default brightness of 1."
+    },
+    {
+      "page": "Setup",
+      "label": "Enable Levels",
+      "name": "enablelevels",
+      "description": "Adds black level and gamma parameters to each layer, using Luma Level  TOP 's algorithm. If disabled, each layer will have default black level of 0 and gamma of 1."
+    },
+    {
+      "page": "Setup",
+      "label": "Operation / Swap",
+      "name": "operand",
+      "description": "⊞  - Sets the composite (blend) operation and swap order for the layers."
+    },
+    {
+      "page": "Setup",
+      "label": "Operation / Swap",
+      "name": "operand",
+      "description": "If set to Per Layer, it will add Operation / Swap parameters to each layer. If set to a blend operation, this parameter will apply the operation to all layers."
+    },
+    {
+      "page": "Setup",
+      "label": "Swap Order",
+      "name": "swaporder",
+      "description": "Swaps the order of all input pairs. A operation B is changed to B operation A. Operations like Add don't matter, but many do, like Over and Hard Light. If the Operation parameter is set to Per Layer, each layer will have its own Swap Order parameter to allow for swapping of specific layers."
+    },
+    {
+      "page": "Setup",
+      "label": "Composite Order",
+      "name": "comporder",
+      "description": "⊞  - Sets the compositing order of the layers. Front to Back means the first input will be layered at the top of the compositing stack. Back to Front means the first input will be layered at the bottom of the compositing stack."
+    },
+    {
+      "page": "Setup",
+      "label": "Front to Back",
+      "name": "fronttoback",
+      "description": "Compositing follows this order: (((Input_0 op_0 Input_1) op_1 Input_2) op_2 Background). If there is no background plate, op_2 and Background are ignored."
+    },
+    {
+      "page": "Setup",
+      "label": "Back to Front",
+      "name": "backtofront",
+      "description": "Compositing follows this order: (Input_2 op_2 (Input_1 op_1 (Input_0 op_0 Background))). If there is no background plate, op_0 and Background are ignored."
+    },
+    {
+      "page": "Common",
+      "label": "Output  Resolution",
+      "name": "outputresolution",
+      "description": "⊞  - quickly change the resolution of the  TOP 's data."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's resolution."
+    },
+    {
+      "page": "Common",
+      "label": "Eighth",
+      "name": "eighth",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Quarter",
+      "name": "quarter",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Half",
+      "name": "half",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "2X",
+      "name": "2x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "4X",
+      "name": "4x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "8X",
+      "name": "8x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Fit  Resolution",
+      "name": "fit",
+      "description": "Fits the width and height to the resolution given below, while maintaining the aspect ratio."
+    },
+    {
+      "page": "Common",
+      "label": "Limit  Resolution",
+      "name": "limit",
+      "description": "The width and height are limited to the resolution given below. If one of the dimensions exceeds the given resolution, the width and height will be reduced to fit inside the given limits while maintaining the aspect ratio."
+    },
+    {
+      "page": "Common",
+      "label": "Custom  Resolution",
+      "name": "custom",
+      "description": "Enables the  Resolution  parameter below, giving direct control over width and height."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution",
+      "name": "resolution",
+      "description": "⊞  - Enabled only when the  Resolution  parameter is set to Custom  Resolution . Some Generators like Constant and Ramp do not use inputs and only use this field to determine their size. The drop down menu on the right provides some commonly used resolutions."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution  Menu",
+      "name": "resmenu",
+      "description": "A drop-down menu with some commonly used resolutions."
+    },
+    {
+      "page": "Common",
+      "label": "Use Global Res Multiplier",
+      "name": "resmult",
+      "description": "Uses the Global  Resolution  Multiplier found in  Edit>Preferences>TOPs . This multiplies all the TOPs resolutions by the set amount. This is handy when working on computers with different hardware specifications. If a project is designed on a desktop workstation with lots of graphics memory, a user on a laptop with only 64MB VRAM can set the Global  Resolution  Multiplier to a value of half or quarter so it runs at an acceptable speed. By checking this checkbox on, this  TOP  is affected by the global multiplier."
+    },
+    {
+      "page": "Common",
+      "label": "Output Aspect",
+      "name": "outputaspect",
+      "description": "⊞  - Sets the image aspect ratio allowing any textures to be viewed in any size. Watch for unexpected results when compositing TOPs with different aspect ratios. (You can define images with non-square pixels using xres, yres, aspectx, aspecty where xres/yres != aspectx/aspecty.)"
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's aspect ratio."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution",
+      "name": "resolution",
+      "description": "Uses the aspect of the image's defined resolution (ie 512x256 would be 2:1), whereby each pixel is square."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Aspect",
+      "name": "custom",
+      "description": "Lets you explicitly define a custom aspect ratio in the Aspect parameter below."
+    },
+    {
+      "page": "Common",
+      "label": "Aspect",
+      "name": "aspect",
+      "description": "⊞  - Use when Output Aspect parameter is set to Custom Aspect."
+    },
+    {
+      "page": "Common",
+      "label": "Aspect Menu",
+      "name": "armenu",
+      "description": "A drop-down menu with some commonly used aspect ratios."
+    },
+    {
+      "page": "Common",
+      "label": "Input Smoothness",
+      "name": "inputfiltertype",
+      "description": "⊞  - This controls pixel filtering on the input image of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Nearest Pixel",
+      "name": "nearest",
+      "description": "Uses nearest pixel or accurate image representation. Images will look jaggy when viewing at any zoom level other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Interpolate Pixels",
+      "name": "linear",
+      "description": "Uses linear filtering between pixels. This is how you get  TOP  images in viewers to look good at various zoom levels, especially useful when using any Fill Viewer setting other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Mipmap Pixels",
+      "name": "mipmap",
+      "description": "Uses   mipmap  filtering when scaling images. This can be used to reduce artifacts and sparkling in moving/scaling images that have lots of detail."
+    },
+    {
+      "page": "Common",
+      "label": "Fill  Viewer",
+      "name": "fillmode",
+      "description": "⊞  - Determine how the  TOP  image is displayed in the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the same Fill Viewer settings as it's input."
+    },
+    {
+      "page": "Common",
+      "label": "Fill",
+      "name": "fill",
+      "description": "Stretches the image to fit the edges of the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Horizontal",
+      "name": "width",
+      "description": "Stretches image to fit viewer horizontally."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Vertical",
+      "name": "height",
+      "description": "Stretches image to fit viewer vertically."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Best",
+      "name": "best",
+      "description": "Stretches or squashes image so no part of image is cropped."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Outside",
+      "name": "outside",
+      "description": "Stretches or squashes image so image fills viewer while constraining it's proportions. This often leads to part of image getting cropped by viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Native  Resolution",
+      "name": "nativeres",
+      "description": "Displays the native resolution of the image in the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Viewer Smoothness",
+      "name": "filtertype",
+      "description": "⊞  - This controls pixel filtering in the viewers."
+    },
+    {
+      "page": "Common",
+      "label": "Nearest Pixel",
+      "name": "nearest",
+      "description": "Uses nearest pixel or accurate image representation. Images will look jaggy when viewing at any zoom level other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Interpolate Pixels",
+      "name": "linear",
+      "description": "Uses linear filtering between pixels. Use this to get  TOP  images in viewers to look good at various zoom levels, especially useful when using any Fill Viewer setting other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Mipmap Pixels",
+      "name": "mipmap",
+      "description": "Uses   mipmap  filtering when scaling images. This can be used to reduce artifacts and sparkling in moving/scaling images that have lots of detail."
+    },
+    {
+      "page": "Common",
+      "label": "Passes",
+      "name": "npasses",
+      "description": "Duplicates the operation of the  TOP  the specified number of times. Making this larger than 1 is essentially the same as taking the output from each pass, and passing it into the first input of the node and repeating the process. Other inputs and parameters remain the same for each pass."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Mask",
+      "name": "chanmask",
+      "description": "Allows you to choose which channels (R, G, B, or A) the  TOP  will operate on. All channels are selected by default."
+    },
+    {
+      "page": "Common",
+      "label": "Pixel Format",
+      "name": "format",
+      "description": "⊞  - Format used to store data for each channel in the image (ie. R, G, B, and A). Refer to  Pixel Formats  for more information."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's pixel format."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (RGBA)",
+      "name": "rgba8fixed",
+      "description": "Uses 8-bit integer values for each channel."
+    },
+    {
+      "page": "Common",
+      "label": "sRGB 8-bit fixed (RGBA)",
+      "name": "srgba8fixed",
+      "description": "Uses 8-bit integer values for each channel and stores color in sRGB colorspace."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (RGBA)",
+      "name": "rgba16float",
+      "description": "Uses 16-bits per color channel, 64-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (RGBA)",
+      "name": "rgba32float",
+      "description": "Uses 32-bits per color channel, 128-bits per pixels."
+    },
+    {
+      "page": "Common",
+      "label": "10-bit RGB, 2-bit Alpha, fixed (RGBA)",
+      "name": "rgb10a2fixed",
+      "description": "Uses 10-bits per color channel and 2-bits for alpha, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (RGBA)",
+      "name": "rgba16fixed",
+      "description": "Uses 16-bits per color channel, 64-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "11-bit float (RGB), Positive Values Only",
+      "name": "rgba11float",
+      "description": "A RGB floating point format that has 11 bits for the Red and Green channels, and 10-bits for the Blue  Channel , 32-bits total per pixel (therefore the same memory usage as 8-bit RGBA). The Alpha channel in this format will always be 1. Values can go above one, but can't be negative. ie. the range is [0, infinite)."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (Mono)",
+      "name": "mono8fixed",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 8-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (Mono)",
+      "name": "mono16fixed",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (Mono)",
+      "name": "mono16float",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (Mono)",
+      "name": "mono32float",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (RG)",
+      "name": "rg8fixed",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 8-bits per channel, 16-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (RG)",
+      "name": "rg16fixed",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 16-bits per channel, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (RG)",
+      "name": "rg16float",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 16-bits per channel, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (RG)",
+      "name": "rg32float",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 32-bits per channel, 64-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (A)",
+      "name": "a8fixed",
+      "description": "An Alpha only format that has 8-bits per channel, 8-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (A)",
+      "name": "a16fixed",
+      "description": "An Alpha only format that has 16-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (A)",
+      "name": "a16float",
+      "description": "An Alpha only format that has 16-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (A)",
+      "name": "a32float",
+      "description": "An Alpha only format that has 32-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (Mono+Alpha)",
+      "name": "monoalpha8fixed",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 8-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (Mono+Alpha)",
+      "name": "monoalpha16fixed",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 16-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (Mono+Alpha)",
+      "name": "monoalpha16float",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 16-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (Mono+Alpha)",
+      "name": "monoalpha32float",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 32-bits per channel, 64-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "Parameter Color Space",
+      "name": "parmcolorspace",
+      "description": "⊞  - Controls how all color parameters on this node are interpreted. The color values as treated as being in the selected color space, and are converted to the Working  Color Space  before they are used as part of the node's operation. Note that this does not change the color space of the node itself, as that is always in the Working Color Space."
+    },
+    {
+      "page": "Common",
+      "label": "sRGB",
+      "name": "srgb",
+      "description": "sRGB  color space, with sRGB transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "sRGB - Linear",
+      "name": "srgblinear",
+      "description": "sRGB  color space, with linear transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "Rec.601 (NTSC)",
+      "name": "rec601ntsc",
+      "description": "Rec.601  with NTSC primaries color space, with Rec.601 transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "Rec.709",
+      "name": "rec709",
+      "description": "Rec.709  color space, with Rec.709 (same as Rec.2020) transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "Rec.2020",
+      "name": "rec2020",
+      "description": "Rec.2020  color space, with Rec.2020 (same as Rec.709) transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "DCI-P3",
+      "name": "dcip3",
+      "description": "DCI-P3  color space, with D65 white point and 2.6 gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "DCI-P3 (D60)",
+      "name": "dcip3d60",
+      "description": "DCI-P3 \"D60 sim\"  color space, with D60 white point, and 2.6 gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "Display-P3 (D65)",
+      "name": "displayp3d65",
+      "description": "Display-P3  color space, with D65 white point, and sRGB gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "ACES2065-1",
+      "name": "aces2065",
+      "description": "1  -  ACES 2065-1  (also known as ACES AP0) color space, with a linear gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "ACEScg",
+      "name": "acescg",
+      "description": "ACEScg  (also known as ACES AP1) color space, with a linear gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "Passthrough",
+      "name": "passthrough",
+      "description": "When selected, the color values will be used as-is in the operation, without any modification or attempt to convert them into the Working Color Space."
+    },
+    {
+      "page": "Common",
+      "label": "Parameter Reference  White",
+      "name": "parmreferencewhite",
+      "description": "⊞  - When converting a parameter color value to the Working Color Space, this controls how it should be treated with respect to  Reference White . If the Working Color Space is the same  Reference  White, then no adjustment is done. If they are different, then the  Reference  White level (brightness) of this color will be adjusted to the range expected by the Working Color Space. For example if the project is set to have a SDR  Reference  White of 120 nits, and the HDR  Reference  White is 80 nits, then a color of (1, 1, 1), which is 120 nits in the SDR color space, will be converted to be (1.5, 1.5, 1.5), which is 120 nits still in the HDR Working Color Space."
+    },
+    {
+      "page": "Common",
+      "label": "Default For Color Space",
+      "name": "default",
+      "description": "Will use either the SDR or the HDR  Reference  White, based on the color space selected."
+    },
+    {
+      "page": "Common",
+      "label": "Use Parent  Panel",
+      "name": "useparent",
+      "description": "Will use the  Reference  White that the parent panel has selected. If the top-level panel also has 'Use  Parent ' selected, then 'UI  Reference  White' will be used."
+    },
+    {
+      "page": "Common",
+      "label": "Standard (SDR)",
+      "name": "sdr",
+      "description": "Will treat the Parameter Color Space as SDR for it's reference white value."
+    },
+    {
+      "page": "Common",
+      "label": "High (HDR)",
+      "name": "hdr",
+      "description": "Will treat the Parameter Color Space as HDR for it's reference white value."
+    },
+    {
+      "page": "Common",
+      "label": "UI",
+      "name": "ui",
+      "description": "Will treat the Parameter Color Space as UI for it's reference white value. This uses the 'UI  Reference  White Nits' value for it's brightness."
+    },
+    {
+      "page": "Layers",
+      "label": "Layer",
+      "name": "lay",
+      "description": "Sequence of layers."
+    },
+    {
+      "page": "Layers",
+      "label": "TOP  /  Bypass",
+      "name": "lay0top",
+      "description": "⊞  - Sets the path and bypass for the layers."
+    },
+    {
+      "page": "Layers",
+      "label": "TOP  /  Bypass",
+      "name": "lay0top",
+      "description": "The path of inputs. If there are wired inputs, it will override and disable this parameter in sequential order."
+    },
+    {
+      "page": "Layers",
+      "label": "Bypass",
+      "name": "lay0bypass",
+      "description": "Bypassing the layer will ignore the layer when compositing. Bypassing a layer can be used to optimize the Layer Mix  TOP  to stop wired input nodes from cooking if it isn't being displayed."
+    },
+    {
+      "page": "Layers",
+      "label": "resx",
+      "description": "Horizontal resolution of the  TOP  in pixels."
+    },
+    {
+      "page": "Layers",
+      "label": "resy",
+      "description": "Vertical resolution of the  TOP  in pixels."
+    },
+    {
+      "page": "Layers",
+      "label": "aspectx",
+      "description": "Horizontal aspect of the  TOP ."
+    },
+    {
+      "page": "Layers",
+      "label": "aspecty",
+      "description": "Vertical aspect of the  TOP ."
+    },
+    {
+      "page": "Layers",
+      "label": "depth",
+      "description": "Depth of 2D or 3D array if this  TOP  contains a 2D or 3D texture array."
+    },
+    {
+      "page": "Layers",
+      "label": "gpu_memory_used",
+      "description": "Total amount of texture memory used by this  TOP ."
+    },
+    {
+      "page": "Layers",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Layers",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Layers",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Layers",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Layers",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Layers",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Layers",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Layers",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Layers",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Layers",
+      "label": "The width and height of an image in pixels. Most TOPs, like the  Movie File In TOP  can set the image resolution. See  Aspect Ratio  for the width/height ratio of an image, taking into account non",
+      "description": "square pixels."
+    },
+    {
+      "page": "Layers",
+      "label": "The viewer of a node can be (1) the interior of a node (the  Node Viewer ), (2) a floating window (RMB",
+      "description": ">View... on node), or (3) a  Pane  that graphically shows the results of an operator."
+    },
+    {
+      "page": "Layers",
+      "label": "There are 2 kinds of parenting. The \"parent component\" is the component in which a node resides. The metaphor is extended to include grand parents, grand",
+      "description": "grand parents, etc. The root  /  is the ultimate parent to all nodes. See also  3D Parenting  and panel  Parenting ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

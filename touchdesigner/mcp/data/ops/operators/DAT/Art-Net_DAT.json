@@ -1,0 +1,187 @@
+{
+  "family": "DAT",
+  "pageTitle": "Art-Net DAT",
+  "pageSlug": "Art-Net_DAT",
+  "url": "https://docs.derivative.ca/Art-Net_DAT",
+  "tdOpTypeGuess": "art-NetDAT",
+  "summary": "[  edit  ]\nThe Art-Net  DAT  polls and lists all devices on the network.\nTip : If you are having trouble inspecting the Art-Net packets that are or aren’t being read by a device, use the  Wireshark  utility to capture a network stream for comparison.\nSee  Art-Net ,  DMX In CHOP ,  DMX Out CHOP .\nartnetDAT_Class\nContents\n1   Summary\n2   Parameters - ArtNet Page\n3   Parameters - Common Page\n4   Info CHOP Channels\n4.1   Common DAT Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "ArtNet",
+      "label": "Callbacks  DAT",
+      "name": "callbacks",
+      "description": "Runs this script when polling the network for devices. See  artnetDAT_Class  for usage."
+    },
+    {
+      "page": "ArtNet",
+      "label": "Columns",
+      "name": "columns",
+      "description": "Select which columns are included in the table.  Click the drop menu to the right to see all that are available."
+    },
+    {
+      "page": "ArtNet",
+      "label": "Poll Devices",
+      "name": "poll",
+      "description": "Poll the network for devices."
+    },
+    {
+      "page": "Common",
+      "label": "Language",
+      "name": "language",
+      "description": "⊞  - Select how the  DAT  decides which script language to operate on."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Node",
+      "name": "node",
+      "description": "The  DAT  uses it's own script language."
+    },
+    {
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "name": "extension",
+      "description": "⊞  - Select the file extension this  DAT  should expose to external editors."
+    },
+    {
+      "page": "Common",
+      "label": "dat",
+      "name": "dat",
+      "description": "various common file extensions."
+    },
+    {
+      "page": "Common",
+      "label": "From Language",
+      "name": "language",
+      "description": "pick extension from DATs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "custom",
+      "description": "Specify a custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specifiy the custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Word Wrap",
+      "name": "wordwrap",
+      "description": "⊞  - Enable Word Wrap for Node Display."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs setting."
+    },
+    {
+      "page": "Common",
+      "label": "On",
+      "name": "on",
+      "description": "Turn on Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Off",
+      "name": "off",
+      "description": "Turn off Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Extra Information for the Art",
+      "description": "Net  DAT  can be accessed via an  Info CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "num_rows",
+      "description": "Number of rows in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "num_cols",
+      "description": "Number of columns in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "Art",
+      "description": "Net    •   Audio Devices    •   CHOP Execute    •   CHOP to    •   Clip    •   Convert    •   CPlusPlus    •   DAT   •    Execute    •   DAT Export   •   Error    •   EtherDream    •   Evaluate    •   Examine    •   Execute    •   FIFO    •   File In    •   File Out    •   Folder    •   In    •   Indices    •   Info    •   Insert    •   JSON    •   Keyboard In    •   Lookup    •   Media File Info    •   Merge    •   MIDI Event    •   MIDI In    •   Monitors    •   MPCDI    •   MQTT Client    •   Multi Touch In    •   NDI    •   Null    •   OP Execute    •   OP Find    •   OSC In    •   OSC Out    •   Out    •   Panel Execute    •   Parameter    •   Parameter Execute    •   ParGroup Execute    •   Perform    •   POP to    •   Render Pick    •   Reorder    •   Script    •   Select    •   Serial    •   Serial Devices    •   SocketIO    •   SOP to    •   Sort    •   Substitute    •   Switch    •   Table    •   TCP/IP    •   Text    •   Touch In    •   Touch Out    •   Transpose    •   TUIO In    •   UDP In    •   UDP Out    •   UDT In    •   UDT Out    •   Video Devices    •   Web Client    •   Web    •   Web Server    •   WebRTC    •   WebSocket    •   XML"
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "Retrieved from \" https://docs.derivative.ca/index.php?title=Art",
+      "description": "Net_DAT&oldid=27180 \""
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "valores DMX (8-bit, 16-bit, etc.). Un canal DMX es de 8 bits (0-255), por lo que valores de mayor resolución usarán múltiples canales. * Puedes usar una **Tabla de Enrutamiento (Routing Table)** basada en un DAT para asignar manualmente las direcciones de red DMX. --- #### 18. DMX Out POP * **¿Qué hace?** Este operador se encarga de **enviar los universos DMX** generados por otros POPs (como el DMX Fixture POP) a dispositivos externos a través de diferentes protocolos como DMX, Art-Net, sACN, KiNET o FTDI. * **Características clave:** * **Fusiona los universos DMX** de todas sus entradas DMX Fixture POP. Si hay conflictos (varios DMX Fixture POPs intentan escribir en el mismo canal), emitirá una advertencia. * **Interfaz (`Interface`)**: Permite seleccionar el tipo de conexión al dispositivo (serial, Art-Net, sACN, KiNET, etc.). * **Velocidad (`Rate`)**: Controla la frecuencia con la que se envían los datos (DMX512 tiene un máximo de 44Hz). * Pu"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

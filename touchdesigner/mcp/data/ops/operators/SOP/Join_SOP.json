@@ -1,0 +1,26 @@
+{
+  "family": "SOP",
+  "pageTitle": "Join SOP",
+  "pageSlug": "Join_SOP",
+  "url": "https://docs.derivative.ca/Join_SOP",
+  "tdOpTypeGuess": "joinSOP",
+  "summary": "[  edit  ]\nThe Join  SOP  connects a sequence of faces or surfaces into a single primitive that inherits their attributes. Faces of different types can be joined together, and so can surfaces. Mixed face-surface types are not allowed. The surfaces do not have to have the same number of rows or columns in the side being joined. Spline types of different orders and parameterization are all valid inputs. The Join  SOP  converts simpler primitives such as polygons into Bziers and NURBS if necessary.\nJoining is different from filleting (see  Fillet SOP ) or stitching (see  Stitch SOP ) because it takes n primitives and converts them into one after possibly changing the connected ends of the primitives. Filleting creates a new primitive between each input pair and never affects the original shapes. Stitching changes the original shapes but does not change the number of resulting primitives.\njoinSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "ops. And obviously, if I kind of flip that value, well, that's kind of crazy, but if I, you know, if I move these values around, I'm able to get some very different outputs. And that is a lot of fun. So, I'm going to be publishing a sort of a free starter pack of some pop stuff on my Patreon. So, please sign up for that. (37:54) Like and subscribe to my YouTube channel because there's going to be more in the future on pops. And I'm sorry the video kept kind of crashing and if this was a bit disjointed, but I am sort of super excited by these. I'm going to be learning a lot more about them over the coming weeks. (38:10) I'm glad I've been able to spend a couple weeks playing around with these already, and I'm excited to see what everyone else in the community does, too. Thanks for watching."
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

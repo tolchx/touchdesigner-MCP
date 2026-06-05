@@ -1,0 +1,221 @@
+{
+  "family": "DAT",
+  "pageTitle": "SOP to DAT",
+  "pageSlug": "SOP_to_DAT",
+  "url": "https://docs.derivative.ca/SOP_to_DAT",
+  "tdOpTypeGuess": "sOPtoDAT",
+  "summary": "[  edit  ]\nThe  SOP  to  DAT  allows you to extract point, vertex and primitive (e.g. polygon) data and attributes from a  SOP .\nData is output in columns, with the first column being index. The index refers to the Point or  Primitive  number.   Attributes  are output with column name   attrib   if it is a single value attribute, or with multiple columns named   attrib (0) ,   attrib (1) ,   attrib (2)  etc. if it is a multiple value attribute.\nSee also:  Geometry Detail ,  Point ,  Point List ,  Point Class ,  Primitive ,  Prims Class ,  Polygon ,  Vertex ,  SOP ,  SOP Class ,  Script SOP ,  Point Groups ,  Primitive Groups ,  Attributes .\nExample File :   File:SOPtoDATtoSOP.tox\nsoptoDAT_Class\nContents\n1   Summary\n2   Parameters - SOP To Page\n3   Parameters - Common Page\n4   Info CHOP Channels\n4.1   Common DAT Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "SOP  To",
+      "label": "SOP",
+      "name": "sop",
+      "description": "Specify the  SOP  to pull data from."
+    },
+    {
+      "page": "SOP  To",
+      "label": "Extract",
+      "name": "extract",
+      "description": "⊞  - Specify whether to pull point data or primitive data."
+    },
+    {
+      "page": "SOP  To",
+      "label": "Points",
+      "name": "points",
+      "description": "Get point data."
+    },
+    {
+      "page": "SOP  To",
+      "label": "Vertices",
+      "name": "vertices",
+      "description": "Get vertex data."
+    },
+    {
+      "page": "SOP  To",
+      "label": "Primitives",
+      "name": "primitives",
+      "description": "Get primitive data."
+    },
+    {
+      "page": "SOP  To",
+      "label": "Detail",
+      "name": "detail",
+      "description": "Get data for the entire geometry set."
+    },
+    {
+      "page": "SOP  To",
+      "label": "Group",
+      "name": "group",
+      "description": "Point or primitive group to extract. If none specify all data will be extracted."
+    },
+    {
+      "page": "SOP  To",
+      "label": "Attributes",
+      "name": "attrib",
+      "description": "Attributes  to extract."
+    },
+    {
+      "page": "SOP  To",
+      "label": "Copy  Vertex  UV to Points",
+      "name": "uvforpts",
+      "description": "Copies the vertex UVs to point UVs."
+    },
+    {
+      "page": "Common",
+      "label": "Language",
+      "name": "language",
+      "description": "⊞  - Select how the  DAT  decides which script language to operate on."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Node",
+      "name": "node",
+      "description": "The  DAT  uses it's own script language."
+    },
+    {
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "name": "extension",
+      "description": "⊞  - Select the file extension this  DAT  should expose to external editors."
+    },
+    {
+      "page": "Common",
+      "label": "dat",
+      "name": "dat",
+      "description": "various common file extensions."
+    },
+    {
+      "page": "Common",
+      "label": "From Language",
+      "name": "language",
+      "description": "pick extension from DATs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "custom",
+      "description": "Specify a custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specifiy the custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Word Wrap",
+      "name": "wordwrap",
+      "description": "⊞  - Enable Word Wrap for Node Display."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs setting."
+    },
+    {
+      "page": "Common",
+      "label": "On",
+      "name": "on",
+      "description": "Turn on Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Off",
+      "name": "off",
+      "description": "Turn off Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "num_rows",
+      "description": "Number of rows in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "num_cols",
+      "description": "Number of columns in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "Art",
+      "description": "Net    •   Audio Devices    •   CHOP Execute    •   CHOP to    •   Clip    •   Convert    •   CPlusPlus    •   DAT   •    Execute    •   DAT Export   •   Error    •   EtherDream    •   Evaluate    •   Examine    •   Execute    •   FIFO    •   File In    •   File Out    •   Folder    •   In    •   Indices    •   Info    •   Insert    •   JSON    •   Keyboard In    •   Lookup    •   Media File Info    •   Merge    •   MIDI Event    •   MIDI In    •   Monitors    •   MPCDI    •   MQTT Client    •   Multi Touch In    •   NDI    •   Null    •   OP Execute    •   OP Find    •   OSC In    •   OSC Out    •   Out    •   Panel Execute    •   Parameter    •   Parameter Execute    •   ParGroup Execute    •   Perform    •   POP to    •   Render Pick    •   Reorder    •   Script    •   Select    •   Serial    •   Serial Devices    •   SocketIO    •   SOP to    •   Sort    •   Substitute    •   Switch    •   Table    •   TCP/IP    •   Text    •   Touch In    •   Touch Out    •   Transpose    •   TUIO In    •   UDP In    •   UDP Out    •   UDT In    •   UDT Out    •   Video Devices    •   Web Client    •   Web    •   Web Server    •   WebRTC    •   WebSocket    •   XML"
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "en una descripción detallada de la función específica de este operador. • Experimental:Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Skin Deform POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Skin POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:SOP to POP: Permite la conversión de datos de la familia SOPs (Surface Operators) a datos de POPs. • Experimental:Sort POP: Implementa algoritmos de ordenación muy rápidos que pueden organizar los puntos basándose en el valor de cualquier componente de un atributo. • Experimental:Sphere POP: Un operador generador que crea una geometría esférica. • Experimental:Sprinkle POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "unirlas para formar una superficie. * Utiliza la **\"dimensión\" del POP** (una propiedad que define la organización virtual de los puntos, como filas y columnas) para aplicar el \"skinning\". * Puede aplicar el \"skinning\" a todas las primitivas, a grupos de N primitivas, o saltar cada N-ésima primitiva. * **Uso simple:** Para crear superficies complejas a partir de datos estructurados, como perfiles o contornos que quieres \"coser\" juntos para formar una malla. * **SOP to POP (SOP a POP)** * **Función principal:** Convierte geometría del tipo **SOP** (Surface Operators) a geometría del tipo **POP**. * **Características clave:** * Los atributos de los puntos SOP se convierten a atributos de punto POP: `P` a `P`, `uv` a `Tex`, `Cd` (color SOP) a `Color`, `width` a `LineWidth`, y `pscale` a `PointScale`. * Maneja polígonos con 5 o más puntos (que los POPs no soportan directamente) convirtiéndolos a \"line strips\", triangulándolos,"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

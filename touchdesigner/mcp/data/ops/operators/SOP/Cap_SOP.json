@@ -1,0 +1,254 @@
+{
+  "family": "SOP",
+  "pageTitle": "Cap SOP",
+  "pageSlug": "Cap_SOP",
+  "url": "https://docs.derivative.ca/Cap_SOP",
+  "tdOpTypeGuess": "capSOP",
+  "summary": "[  edit  ]\nThe Cap  SOP  is used to close open areas with flat or rounded coverings. Meshes are capped by extending the mesh in either the U or V direction (e.g. a NURBS tube). Faces are capped by appending a separate face or hull cap.\ncapSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Parameters - U Caps Page\n4   Parameters - V Caps Page\n5   Operator Inputs\n6   Info CHOP Channels\n6.1   Common SOP Info Channels\n6.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "U Caps",
+      "label": "Preserve NURB Shape U",
+      "name": "pshapeu",
+      "description": "When capping a NURBS surface, use this option to preserve the original surface by clamping it at the point of capping."
+    },
+    {
+      "page": "U Caps",
+      "label": "First U Cap",
+      "name": "firstu",
+      "description": "⊞  - Select an option from the menu:"
+    },
+    {
+      "page": "U Caps",
+      "label": "No End Cap",
+      "name": "none",
+      "description": "Leave this side of the primitive unaffected."
+    },
+    {
+      "page": "U Caps",
+      "label": "End Cap Faceted",
+      "name": "facet",
+      "description": "Cap by creating a face of a similar type which uses unique points."
+    },
+    {
+      "page": "U Caps",
+      "label": "End Cap Shared",
+      "name": "share",
+      "description": "Cap by creating a face of a similar type which shares points with the original primitive."
+    },
+    {
+      "page": "U Caps",
+      "label": "End Cap Rounded",
+      "name": "round",
+      "description": "Cap by creating / extending a mesh containing a number of concentric circular regions. This creates a bullet or domed shaped cap."
+    },
+    {
+      "page": "U Caps",
+      "label": "Divisions",
+      "name": "divsu1",
+      "description": "Number of cross sections in the rounded cap."
+    },
+    {
+      "page": "U Caps",
+      "label": "Scale",
+      "name": "scaleu1",
+      "description": "Affects the height of the rounded cap (both positive and negative)."
+    },
+    {
+      "page": "U Caps",
+      "label": "Last U Cap",
+      "name": "lastu",
+      "description": "⊞  - Similar to First Cap U / V, but builds a cap on the other end of the primitive in the opposite direction."
+    },
+    {
+      "page": "U Caps",
+      "label": "Divisions",
+      "name": "divsu2",
+      "description": "Number of cross sections in the rounded cap."
+    },
+    {
+      "page": "U Caps",
+      "label": "Scale",
+      "name": "scaleu2",
+      "description": "Affects the height of the rounded cap (both positive and negative)."
+    },
+    {
+      "page": "V Caps",
+      "label": "Preserve NURB Shape V",
+      "name": "pshapev",
+      "description": "When capping a NURBS surface, use this option to preserve the original surface by clamping it at the point of capping."
+    },
+    {
+      "page": "V Caps",
+      "label": "First V Cap",
+      "name": "firstv",
+      "description": "⊞  - Select an option from the menu:"
+    },
+    {
+      "page": "V Caps",
+      "label": "No End Cap",
+      "name": "none",
+      "description": "Leave this side of the primitive unaffected."
+    },
+    {
+      "page": "V Caps",
+      "label": "End Cap Faceted",
+      "name": "facet",
+      "description": "Cap by creating a face of a similar type which uses unique points."
+    },
+    {
+      "page": "V Caps",
+      "label": "End Cap Shared",
+      "name": "share",
+      "description": "Cap by creating a face of a similar type which shares points with the original primitive."
+    },
+    {
+      "page": "V Caps",
+      "label": "End Cap Rounded",
+      "name": "round",
+      "description": "Cap by creating / extending a mesh containing a number of concentric circular regions. This creates a bullet or domed shaped cap."
+    },
+    {
+      "page": "V Caps",
+      "label": "Divisions",
+      "name": "divsv1",
+      "description": "Number of cross sections in the rounded cap."
+    },
+    {
+      "page": "V Caps",
+      "label": "Scale",
+      "name": "scalev1",
+      "description": "Affects the height of the rounded cap (both positive and negative)."
+    },
+    {
+      "page": "V Caps",
+      "label": "Last V Cap",
+      "name": "lastv",
+      "description": "⊞  - Similar to First Cap U / V, but builds a cap on the other end of the primitive in the opposite direction."
+    },
+    {
+      "page": "V Caps",
+      "label": "Divisions",
+      "name": "divsv2",
+      "description": "Number of cross sections in the rounded cap."
+    },
+    {
+      "page": "V Caps",
+      "label": "Scale",
+      "name": "scalev2",
+      "description": "Affects the height of the rounded cap (both positive and negative)."
+    },
+    {
+      "page": "V Caps",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "V Caps",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "V Caps",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "V Caps",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "V Caps",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "V Caps",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "V Caps",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "V Caps",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "V Caps",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "V Caps",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "V Caps",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "V Caps",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "V Caps",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "V Caps",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "V Caps",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "00-overview.md",
+      "excerpt": "# Sistema integral de documentación y capacitación — TouchDesigner MCP (Gemma 4 + POPs) Este repositorio se amplía con un sistema de: - Documentación técnica del MCP (arquitectura, herramientas, flujo). - Adaptación operativa para Gemma 4 vía Ollama (configuración y verificación). - Base de conocimiento estructurada de POPs (derivada de docs oficiales + material local). - Skills especializados para arquitectura avanzada de proyectos en TouchDesigner. - Catálogo de prompts maestros con validaciones y criterios de calidad. - Protocolos"
+    },
+    {
+      "source": "03-twozero-evaluation.md",
+      "excerpt": "# Qué se puede integrar en este MCP (sin depender de TWOZERO) - **Librería curada de patrones (component library)** Crear un catálogo de “recetas” reproducibles (render, instancing, feedback loops, POP sims, GLSL) como: - skills en Markdown (`touchdesigner/skills/*`) - prompts maestros (`docs/06-master-prompts.md` o carpeta `prompts/`) - scripts Python idempotentes (crear/actualizar redes sin duplicar) - **No ensuciar el proyecto (non-invasive)** Convenciones sistemáticas: - encapsular sistemas en `baseCOMP`/`geoCOMP` - nodos “I/O estándar” (`in*`, `out*`, `null*`) - layout determinístico (`nodeX/nodeY`) - nombres consistentes y prefijos por dominio (`pop_`, `top_`, `chop_`) - **Validación y calidad (production tools)** Protocolos para: - verificar existencia de OPs creados - detectar cooks costosos (Info CHOP / cookTime) - validar atributos esperados en POP sims (PartVel/PartForce/…) - reportar errores con causas probables + fixes sugeridos - **Sync/"
+    },
+    {
+      "source": "04-pops-database.md",
+      "excerpt": "# Base de datos estructurada de POPs La base de conocimiento POPs vive en: - `touchdesigner/mcp/data/pops/index.json`: índice (lista + metadatos). - `touchdesigner/mcp/data/pops/operators/<PageSlug>.json`: ficha detallada por operador. ## Esquema (alto nivel) Cada operador incluye: - Identidad: `pageTitle`, `pageSlug`, `url`, `experimental`, `tdOpTypeGuess`. - Técnica: `summary`, `inputs[]`, `parameters[]`, `attributes[]`. - Capacitación: `useCases[]`, `examples[]`, `commonCombinations[]`, `troubleshooting[]`. ## Generación automática (docs oficiales) El generador: - Descarga la lista desde `https://docs.derivative.ca/Category:POPs`. - Para cada operador descarga la página oficial y extrae: - resumen - inputs - parámetros por página - atributos (cuando la tabla está presente) ### Construir / actualizar la base En `touchdesigner/`: ```powershell npm run build node .\\mcp\\dist\\popsBuild.js --out .\\mcp\\data\\p"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "dos iniciales, velocidades, masas y aplicar fuerzas a través de bucles de retroalimentación.6 La arquitectura de los POPs, especialmente para operadores de múltiples entradas como Attribute Combine POP, Math Combine POP, Math Mix POP, Blend POP, Merge POP y Switch POP, está diseñada para una selección, cambio de nombre y resolución de conflictos de atributos eficientes.13 Esto agiliza las tareas complejas de mezcla y manipulación de datos. El énfasis recurrente en la \"aceleración por GPU\" y la capacidad de manejar \"millones de puntos\" 4 sugiere un enfoque claro en el rendimiento. Sin embargo, la etiqueta de \"Experimental\" 1 y las brechas observadas en la documentación implican una compensación. Los POPs ofrecen una vía clara para un mayor rendimiento en sistemas de partículas y grandes conjuntos de datos, lo cual es crucial para los gráficos avanzados en tiempo real. Sin embargo, el cambio a un modelo centrado en la GPU (por ejemplo, GLSL POPs, SSBOs) introduce nuevos conceptos y flujos"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "e convertir un grupo en un atributo. • Experimental:Histogram POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Import Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:In POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Limit POP: Este POP proporciona capacidades de manipulación fundamentales sin necesidad de escribir código. Permite crear nuevos atributos fácilmente y utiliza atributos de solo lectura internos. • Experimental:Line Break POP: Se utiliza para dividir una lista de puntos en múltiples primitivas de \"tira de líneas\", basándose en valores específicos de atributos como LineBreak o LineStripIndex. • Experimental:Line Divide POP: Se utiliza para subdividir cualquier tira de línea. • Experimental:Line Metrics POP: Genera nuevos atr"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "car efectos basados en la proximidad. * **Noise POP (POP de Ruido)** * **Función principal:** Este POP aplica un **campo de ruido** (valores suaves y aleatorios en 3D) a tus puntos, generalmente moviendo su posición (`P`). * **Características clave:** * Ofrece diferentes **tipos de ruido** como Simplex y Perlin, en 2D, 3D o 4D. * Puedes controlar la **\"rugosidad\" o el detalle** del ruido con parámetros como `Period` (distancia entre picos) y `Harmonics` (capas de detalle adicionales). * Permite ajustar la **magnitud** (`Amplitude`) y el `Offset` de los valores de ruido. * Puede generar y nombrar nuevos atributos para los valores de ruido sin procesar, así como sus derivadas (como `NoiseGradient` y `NoiseCurl`). * Puedes hacer que los **parámetros del ruido cambien por cada punto** individualmente, usando atributos de entrada (`Map` page). * **Uso simple:** Ideal para simular el movimiento de humo, agua, o cua"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

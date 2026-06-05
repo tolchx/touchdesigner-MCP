@@ -1,0 +1,249 @@
+{
+  "family": "SOP",
+  "pageTitle": "Sweep SOP",
+  "pageSlug": "Sweep_SOP",
+  "url": "https://docs.derivative.ca/Sweep_SOP",
+  "tdOpTypeGuess": "sweepSOP",
+  "summary": "[  edit  ]\nThe Sweep  SOP  sweeps primitives in the Cross-section input along Backbone Source primitive(s), creating ribbon and tube-like shapes. The cross-section primitives are placed at each point of the backbone perpendicular to it. The Backbone Source can have one or several primitives. If there is more than one, Sweep will sweep the cross section along each one.\nA backbone is a primitive curve that can be open or closed, but must have at least two points. The cross section input can also have multiple primitives, and can be assigned to the backbone in various ways. The origin of the cross section primitive is placed at a point on the backbone by default, but you can also choose a point number of the cross section to place. In most cases, it is best to build 1the cross section primitives in the XY plane; Sweep will automatically orient them properly along the backbone. The orientation of the cross section is based on the direction of the backbone line segment and the positive Z axis. So vertical movement in the backbone will result in the cross section rotating around backbone axis. For example, if you create the cross section in the XY plane, you can maintain its orientation (+Y Up) by building the backbone in the XZ plane.\nIf the backbone primitive(s) have point colors or texture coordinates, they will be maintained and applied to the cross section primitives.\nsweepSOP_Class\nContents\n1   Summary\n2   Parameters - Sweep Page\n3   Parameters - Output Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common SOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    },
+    {
+      "index": 2,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Sweep",
+      "label": "X-Section  Group",
+      "name": "xgrp",
+      "description": "You can use only a subset of primitives from the Cross-section inputs by specifying a group here."
+    },
+    {
+      "page": "Sweep",
+      "label": "Path   Group",
+      "name": "pathgrp",
+      "description": "You can use only a subset of primitives from the Backbone inputs by specifying a group here."
+    },
+    {
+      "page": "Sweep",
+      "label": "Reference   Group",
+      "name": "refgrp",
+      "description": "You can use only a subset of primitives from the  Reference  inputs by specifying a group here."
+    },
+    {
+      "page": "Sweep",
+      "label": "Cycle Type",
+      "name": "cycle",
+      "description": "⊞  - Determines the Cycle Type based on these menu options."
+    },
+    {
+      "page": "Sweep",
+      "label": "All Primitives at Each  Point",
+      "name": "all",
+      "description": "Places all the primitives from the Cross-section input at each point on the Backbone."
+    },
+    {
+      "page": "Sweep",
+      "label": "One  Primitive  at a Time",
+      "name": "each",
+      "description": "Similar to the above, except the transformation is applied to individual primitives rather than to the whole."
+    },
+    {
+      "page": "Sweep",
+      "label": "Cycle Primitives",
+      "name": "cycle",
+      "description": "This cycles through incoming primitives when placing them on a backbone. i.e. Start with 0 at vertex 0, primitive 1 > vertex 1, etc."
+    },
+    {
+      "page": "Sweep",
+      "label": "Angle Fix",
+      "name": "angle",
+      "description": "Attempts to fix buckling twists that may occur when sweeping."
+    },
+    {
+      "page": "Sweep",
+      "label": "Fix Flipping",
+      "name": "noflip",
+      "description": "Attempts to fix buckling twists that may occur when sweeping by fixing flipped normals."
+    },
+    {
+      "page": "Sweep",
+      "label": "Remove Coincident Points on  Path",
+      "name": "skipcoin",
+      "description": "When selected, any points right on top of one another will be ignored."
+    },
+    {
+      "page": "Sweep",
+      "label": "Aim at  Reference  Points",
+      "name": "aimatref",
+      "description": "Reference  Points are used in conjunction with the backbone to control the orientation of the elements along the sweep. This is done by drawing a line between the reference point and corresponding backbone point in order to determine an angle vector which determines the orientation of the cross-section profiles. Enable this parameter to allow this behaviour."
+    },
+    {
+      "page": "Sweep",
+      "label": "Use  Vertex",
+      "name": "usevtx",
+      "description": "Use vertex number of the incoming cross-section to place the cross-section on the backbone."
+    },
+    {
+      "page": "Sweep",
+      "label": "Connection  Vertex",
+      "name": "vertex",
+      "description": "Specify a specific vertex to connect to the backbone."
+    },
+    {
+      "page": "Sweep",
+      "label": "Scale",
+      "name": "scale",
+      "description": "Scales the cross sections globally."
+    },
+    {
+      "page": "Sweep",
+      "label": "Twist",
+      "name": "twist",
+      "description": "Cumulative rotation of the cross sections around the backbone. If a value of five is specified, the cross section at the first point of the backbone is rotated five degrees, the next ten degrees, the next fifteen degrees and so on."
+    },
+    {
+      "page": "Sweep",
+      "label": "Roll",
+      "name": "roll",
+      "description": "Non-cumulative rotation of the cross sections around the backbone. All cross sections get the same rotation."
+    },
+    {
+      "page": "Output",
+      "label": "Create Groups",
+      "name": "newg",
+      "description": "Selecting this option enables the creation of groups. A group is created for each backbone that is incoming. This allows for easy skinning in the  Skin SOP ."
+    },
+    {
+      "page": "Output",
+      "label": "Sweep Groups",
+      "name": "sweepgrp",
+      "description": "Specify the name of your output groups in this field."
+    },
+    {
+      "page": "Output",
+      "label": "Skin Output",
+      "name": "skin",
+      "description": "⊞  - Determines the output based on these menu options."
+    },
+    {
+      "page": "Output",
+      "label": "Off",
+      "name": "off",
+      "description": "Doesn't skin the output."
+    },
+    {
+      "page": "Output",
+      "label": "On",
+      "name": "on",
+      "description": "Skins the output."
+    },
+    {
+      "page": "Output",
+      "label": "On with Auto Close",
+      "name": "auto",
+      "description": "Closes the skinned mesh if the path curve which it follows is also closed. This allows you to close primitives properly."
+    },
+    {
+      "page": "Output",
+      "label": "Tip:  There is a way of speeding the skinning of many points using the second input of the  Point SOP . Suppose you have Thousands of proceedurally animated curves you wish to skin with the Sweep",
+      "name": "SOP",
+      "description": "rather than performing a skining operation after the animation, make a second set of unanimated geometry that is preskinned. Then assuming your have a matching number of points you can just swap in the animated points into the skinned geometry."
+    },
+    {
+      "page": "Output",
+      "label": "Fast Sweep",
+      "name": "fast",
+      "description": "Enables an optimized skinning technique which speeds up output from 2 - 4 times in many cases at the expense of accuracy. In order for it to work correctly, the input topologies must remain consistent between cooks and each cross-section must have the same number of vertices."
+    },
+    {
+      "page": "Output",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Output",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Output",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Output",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Output",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Output",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Output",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Output",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Output",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Output",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Output",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Output",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Output",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Output",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Output",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

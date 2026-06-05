@@ -1,0 +1,162 @@
+{
+  "family": "SOP",
+  "pageTitle": "Lattice SOP",
+  "pageSlug": "Lattice_SOP",
+  "url": "https://docs.derivative.ca/Lattice_SOP",
+  "tdOpTypeGuess": "latticeSOP",
+  "summary": "[  edit  ]\nThe Lattice  SOP  allows you to create animated deformations of its input geometry by manipulating grids or a subdivided box that encloses the input source's geometry.\nIt is much easier to deform an object by moving a few grids than trying to animate every single point of an object.\nThis  SOP  has very few buttons and looks simple, but it is important to understand how it works. The first input, called  Geometry to Deform , is for the geometry you wish to deform. The second input, called  Rest  Geometry  , must be an evenly spaced grid which fully encloses the geometry to deform. The third input, called  Deformed  Geometry  , is a copy of the initial grid that is altered in some way, either by moving parts of it with animation channels, dragging its points in the Model Editor, or by running it through a  Spring SOP  which distorts it with the forces which simulate the laws of physics. Lattice computes a deformation based on the difference between the Rest Geometry and the Deformed  Geometry , and applies it to the input geometry. The output of the  SOP  is the deformation of the geometry in the input source. If the Deformed Geometry is being animated, the output will also bend, twist and stretch every frame.\nlatticeSOP_Class\nContents\n1   Summary\n2   Parameters - Lattice Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "- Geometry to deform."
+    },
+    {
+      "index": 1,
+      "description": "- Rest  Geometry ."
+    },
+    {
+      "index": 2,
+      "description": "- Deformed  Geometry ."
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Lattice",
+      "label": "Group",
+      "name": "group",
+      "description": "Subset of points in the first input to be deformed. Accepts patterns, as described in  Pattern Matching ."
+    },
+    {
+      "page": "Lattice",
+      "label": "Deform Type",
+      "name": "deformtype",
+      "description": "⊞  - Choose if deformation should be done using a regularly spaced lattice or an arbitary point cloud."
+    },
+    {
+      "page": "Lattice",
+      "label": "Lattice",
+      "name": "lattice",
+      "description": "Deform with a regularly spaced lattice."
+    },
+    {
+      "page": "Lattice",
+      "label": "Points",
+      "name": "points",
+      "description": "Deform using an arbitrary point clouds."
+    },
+    {
+      "page": "Lattice",
+      "label": "Divisions",
+      "name": "divs",
+      "description": "⊞  - Must be set to match the number of divisions in the lattice grid object(s)."
+    },
+    {
+      "page": "Lattice",
+      "label": "Kernel Function",
+      "name": "kernel",
+      "description": "⊞  - Deformation by specifying a Kernal Function and Points makes it easier to deform arbitrary clouds of points, as this makes the topology of the lattice behave more like a metaball rather than as a fixed lattice.  Kernel Function  determines which meta kernel to use to determine the influence of a point. For more information on kernel types check here:  Metaball Model Types"
+    },
+    {
+      "page": "Lattice",
+      "label": "Radius",
+      "name": "radius",
+      "description": "The size of the points capture regions."
+    },
+    {
+      "page": "Lattice",
+      "label": "Input 0:",
+      "description": "Geometry to deform."
+    },
+    {
+      "page": "Lattice",
+      "label": "Input 1:",
+      "description": "Rest  Geometry ."
+    },
+    {
+      "page": "Lattice",
+      "label": "Input 2:",
+      "description": "Deformed  Geometry ."
+    },
+    {
+      "page": "Lattice",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Lattice",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Lattice",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Lattice",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Lattice",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Lattice",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Lattice",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Lattice",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Lattice",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Lattice",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Lattice",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Lattice",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Lattice",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Lattice",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Lattice",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Line POP",
+  "pageSlug": "Line_POP",
+  "url": "https://docs.derivative.ca/Line_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "linePOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "de cada vértice es un índice en la lista de puntos.7 Los tipos de primitivas POP incluyen triángulos, quads, tiras de línea, líneas y primitivas de punto.7 Las primitivas de punto, por ejemplo, son primitivas de un solo vértice renderizadas como puntos, ideales para nubes de puntos o sistemas de partículas.7 Una distinción clave con respecto a los SOPs es que los POPs actualmente no admiten primitivas de curva directamente, aunque la subdivisión de splines es posible utilizando operadores como Line POP y Line Divide POP.7 Los atributos son cruciales para almacenar datos adicionales por punto, vértice o primitiva, como normales (N), coordenadas de textura (uv) y color (Cd).1 Los POPs permiten la creación, modificación, duplicación, cambio de nombre y eliminación de estos atributos.1 El énfasis en los \"atributos\" y su manipulación a través de varios POPs (por ejemplo, Attribute POP, GLSL POP, Math Mix POP) apunta a una filosofía de diseño centrada en los atributos para los POPs. Muchos POPs (A"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "tes, a menudo están limitados por la CPU, lo que restringe el rendimiento para geometrías de muy alta densidad o simulaciones complejas. Los POPs abordan este cuello de botella al aprovechar la GPU, permitiendo la manipulación en tiempo real de millones de puntos.6 Esto tiene un impacto directo en la escala y complejidad de las instalaciones interactivas, las simulaciones de partículas y el arte generativo que se pueden lograr en TouchDesigner. Esta orientación hacia operaciones nativas de GPU alinea a TouchDesigner con los modernos pipelines de gráficos en tiempo real, donde el procesamiento de datos se descarga a la GPU para una máxima eficiencia. Esto sugiere una dirección estratégica por parte de Derivative para mejorar el rendimiento en experiencias visuales a gran escala y de alta fidelidad, empujando los límites de lo que es posible en el rendimiento en vivo y los medios interactivos. 1.2 Conceptos Centrales: Puntos, Vértices, Primitivas y Atributos en POPs En su esencia,"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "de cada vértice es un índice en la lista de puntos.7 Los tipos de primitivas POP incluyen triángulos, quads, tiras de línea, líneas y primitivas de punto.7 Las primitivas de punto, por ejemplo, son primitivas de un solo vértice renderizadas como puntos, ideales para nubes de puntos o sistemas de partículas.7 Una distinción clave con respecto a los SOPs es que los POPs actualmente no admiten primitivas de curva directamente, aunque la subdivisión de splines es posible utilizando operadores como Line POP y Line Divide POP.7 Los atributos son cruciales para almacenar datos adicionales por punto, vértice o primitiva, como normales (N), coordenadas de textura (uv) y color (Cd).1 Los POPs permiten la creación, modificación, duplicación, cambio de nombre y eliminación de estos atributos.1 El énfasis en los \"atributos\" y su manipulación a través de varios POPs (por ejemplo, Attribute POP, GLSL POP, Math Mix POP) apunta a una filosofía de diseño centrada en los atributos para los POPs. Muchos POPs (A"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ctura internos. • Experimental:Line Break POP: Se utiliza para dividir una lista de puntos en múltiples primitivas de \"tira de líneas\", basándose en valores específicos de atributos como LineBreak o LineStripIndex. • Experimental:Line Divide POP: Se utiliza para subdividir cualquier tira de línea. • Experimental:Line Metrics POP: Genera nuevos atributos, a menudo de tipo entero sin signo, con nombres predeterminados. Por ejemplo, puede generar el atributo Dir (dirección). • Experimental:Line POP: Un operador que permite la creación de tiras de línea. Puede dividir curvas o generar puntos de control con atributos que definen la forma de la curva, como Weight o Tension. También permite crear y modificar atributos de color y textura. • Experimental:Line Smooth POP: Puede añadir puntos y suavizar líneas. • Experimental:Line Thick POP: El material de línea (Line MAT) de TouchDesigner se implementa internamente usando una conversión a este POP, lo que sugiere su rol en la representación"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "eva familia de operadores en TouchDesigner diseñada para crear y modificar datos de geometría 3D. Su principal ventaja es que se ejecutan en las tarjetas gráficas (GPU), lo que les permite ser muy rápidos debido al alto paralelismo de la GPU y optimizar el uso de memoria, ya que solo se crean los atributos que cambian. Los datos en POPs siempre comienzan como puntos con atributos. A partir de estos puntos, puedes trabajar con sistemas de partículas, nubes de puntos, polígonos, líneas, curvas spline y cualquier forma de datos geométricos 3D. Cada POP se compone de tres elementos principales: • Una lista de puntos: Son los elementos fundamentales de cualquier forma 3D. Cada punto tiene atributos, siendo el más común la Posición (P) en el espacio 3D. Otros atributos comunes incluyen Color (Color) y Normal (N) (un vector de dirección). También puedes definir tus propios atributos. • Una lista de vértices: Cada primitiva tiene una lista de vértices. Un vértice es un índice que apunta a un"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ctura internos. • Experimental:Line Break POP: Se utiliza para dividir una lista de puntos en múltiples primitivas de \"tira de líneas\", basándose en valores específicos de atributos como LineBreak o LineStripIndex. • Experimental:Line Divide POP: Se utiliza para subdividir cualquier tira de línea. • Experimental:Line Metrics POP: Genera nuevos atributos, a menudo de tipo entero sin signo, con nombres predeterminados. Por ejemplo, puede generar el atributo Dir (dirección). • Experimental:Line POP: Un operador que permite la creación de tiras de línea. Puede dividir curvas o generar puntos de control con atributos que definen la forma de la curva, como Weight o Tension. También permite crear y modificar atributos de color y textura. • Experimental:Line Smooth POP: Puede añadir puntos y suavizar líneas. • Experimental:Line Thick POP: El material de línea (Line MAT) de TouchDesigner se implementa internamente usando una conversión a este POP, lo que sugiere su rol en la representación"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

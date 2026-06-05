@@ -1,0 +1,388 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Lookup CHOP",
+  "pageSlug": "Lookup_CHOP",
+  "url": "https://docs.derivative.ca/Lookup_CHOP",
+  "tdOpTypeGuess": "lookupCHOP",
+  "summary": "[  edit  ]\nThe Lookup  CHOP  outputs values from a lookup table. The first input (the Index  Channel ) is an index into the second input (the Lookup Table). Lookup outputs interpolated values from the lookup table.\nBoth the Index and Lookup Tables can contain any number of channels.\nAn Index sample with value 0 maps to the beginning (first sample) of the lookup table, and an index sample with value of 1 maps to the end (last sample) of the lookup table.\nThe output  CHOP  is the same length as the Index input. It is the same number of channels as the Lookup Table input, and has the same channel names as the Lookup Table input. The output is filled with the data extracted from the lookup tables. Indexes that fall between two lookup table samples are interpolated. The lookup table can be sampled outside its range.\nNOTE: The  Extend Conditions  of the lookup table are used in this case where the index is less than 0 or greater than 1.\nThe sample rate of the output is the sample rate of the Index input.\nThe Lookup  CHOP  can be used to fetch values from a color lookup table, where a single index produces red, green and blue channels. It can also be used for rolloff or decay tables, where it specifies how much a parameter drops with distance.\nlookupCHOP_Class\nContents\n1   Summary\n2   Parameters - Lookup Page\n3   Parameters - Common Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common CHOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Lookup",
+      "label": "Index Range",
+      "name": "index",
+      "description": "⊞  - The Index Range maps the index channel's values to the lookup table's start and end and defaults to 0 and 1. The first parameter represents the start of the lookup table. When the index channel has this value, it will index the start of the lookup table. The second parameter represents the end of the lookup table and behaves in the same way."
+    },
+    {
+      "page": "Lookup",
+      "label": "Cyclic Range",
+      "name": "cyclic",
+      "description": "⊞  - Adapts the range of the Lookup Table (2nd input) for cyclic or non-cyclic input indices. When using a cyclic input index (1st input), the lookup value for index 0.0 and 1.0 result in the same value. To avoid this, set Cyclic Range to Yes and the lookup will cycle smoothly."
+    },
+    {
+      "page": "Lookup",
+      "label": "Automatic",
+      "name": "auto",
+      "description": "Checks the right extend condition of each channel (Assumes type cycle and mirror are cyclic lookups)."
+    },
+    {
+      "page": "Lookup",
+      "label": "Yes",
+      "name": "yes",
+      "description": "For looking up a cyclic output (oscillator, beat driven output etc)."
+    },
+    {
+      "page": "Lookup",
+      "label": "No",
+      "name": "no",
+      "description": "For looking up a single wave (slider mapping, etc)."
+    },
+    {
+      "page": "Lookup",
+      "label": "Per Index  Channel",
+      "name": "chanmatch",
+      "description": "⊞  - Determines how index channels are mapped to lookup Channel tables."
+    },
+    {
+      "page": "Lookup",
+      "label": "One Lookup Table  Channel",
+      "name": "onetoone",
+      "description": "The first index channel is matched to the full lookup table."
+    },
+    {
+      "page": "Lookup",
+      "label": "All Lookup Table Channels",
+      "name": "onetomany",
+      "description": "Each index channel is matched with every lookup table."
+    },
+    {
+      "page": "Lookup",
+      "label": "Match by",
+      "name": "match",
+      "description": "⊞  - Determines how index channels are matched with a lookup channel in 'One Lookup Table  Channel ' mode."
+    },
+    {
+      "page": "Lookup",
+      "label": "Channel Number",
+      "name": "index",
+      "description": "An index channel is matched to a lookup table by its index within the clip. Lookup tables are cycled if there are few of them than index channels."
+    },
+    {
+      "page": "Lookup",
+      "label": "Channel Name",
+      "name": "name",
+      "description": "An index channel is matched to a lookup table by name. Unmatched index channels are left \"as is\"."
+    },
+    {
+      "page": "Lookup",
+      "label": "Interpolate",
+      "name": "interp",
+      "description": "When on, the input can be interpolated between samples. When off, the nearest sample is used."
+    },
+    {
+      "page": "Lookup",
+      "label": "Extend Left",
+      "name": "left",
+      "description": "⊞  - The left extend conditions (before/after range) for the lookup output."
+    },
+    {
+      "page": "Lookup",
+      "label": "Hold",
+      "name": "hold",
+      "description": "Hold the current value of the channel."
+    },
+    {
+      "page": "Lookup",
+      "label": "Slope",
+      "name": "slope",
+      "description": "Continue the slope before the start of the channel."
+    },
+    {
+      "page": "Lookup",
+      "label": "Cycle",
+      "name": "cycle",
+      "description": "Cycle the channel repeatedly."
+    },
+    {
+      "page": "Lookup",
+      "label": "Mirror",
+      "name": "mirror",
+      "description": "Cycle the channel repeatedly, mirroring every other cycle."
+    },
+    {
+      "page": "Lookup",
+      "label": "Default Value",
+      "name": "default",
+      "description": "Use the constant value specified in the Default Value parameter"
+    },
+    {
+      "page": "Lookup",
+      "label": "Extend Right",
+      "name": "right",
+      "description": "⊞  - The right extend conditions (before/after range) for the lookup output."
+    },
+    {
+      "page": "Lookup",
+      "label": "Hold",
+      "name": "hold",
+      "description": "Hold the current value of the channel."
+    },
+    {
+      "page": "Lookup",
+      "label": "Slope",
+      "name": "slope",
+      "description": "Continue the slope after the end of the channel."
+    },
+    {
+      "page": "Lookup",
+      "label": "Cycle",
+      "name": "cycle",
+      "description": "Cycle the channel repeatedly."
+    },
+    {
+      "page": "Lookup",
+      "label": "Mirror",
+      "name": "mirror",
+      "description": "Cycle the channel repeatedly, mirroring every other cycle."
+    },
+    {
+      "page": "Lookup",
+      "label": "Default Value",
+      "name": "default",
+      "description": "Use the constant value specified in the Default Value parameter"
+    },
+    {
+      "page": "Lookup",
+      "label": "Default Value",
+      "name": "defval",
+      "description": "The value used for the Default Value extend condition."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "Rename from",
+      "name": "commonrenamefrom",
+      "description": "The channel pattern to rename. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Rename to",
+      "name": "commonrenameto",
+      "description": "The replacement pattern for the names. The default parameters do not rename the channels. See  Pattern Replacement ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Names:  c[1",
+      "description": "10:2] ambient"
+    },
+    {
+      "page": "Common",
+      "label": "Rename To:  b[1",
+      "description": "5] amb    This example fetches channels  c1 c3 c5 c7 c9  and  ambient ."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "In CHOPs, Extend Conditions determine what numbers you get when you try to get a channel value that is outside its start",
+      "description": "end range - in its Extend Regions."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "Parámetros: Attribute Class, Input Attribute, Use Input Range, Input Range, Output Bin Value, Quantize (Floor, Round, Ceiling), Outside Range (Clamp, Discard, Extra Out-of-Range Bins), Number of Bins, Count Attribute.21 * Line Metrics POP: Añade atributos de métricas a las tiras de línea, proporcionando información como la dirección a los puntos siguiente/anterior, la distancia desde el inicio de la tira de línea o el número de tira de línea. Estos atributos son útiles para los Math POPs o Lookup POPs subsiguientes.22 * Math Combine POP: Un potente operador para realizar numerosas operaciones matemáticas en atributos. Amplía las capacidades de Math Mix POP al permitir la selección explícita y el cambio de nombre de atributos de múltiples entradas, la creación de nuevos atributos con valores constantes y la aplicación de bloques de pre/post-procesamiento.23 * Parámetros: Presenta páginas \"New\" (crear nuevos atributos), \"Pre\" (operaciones de un solo atributo), \"Combine\" (operac"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ón de tiras de línea. Puede dividir curvas o generar puntos de control con atributos que definen la forma de la curva, como Weight o Tension. También permite crear y modificar atributos de color y textura. • Experimental:Line Smooth POP: Puede añadir puntos y suavizar líneas. • Experimental:Line Thick POP: El material de línea (Line MAT) de TouchDesigner se implementa internamente usando una conversión a este POP, lo que sugiere su rol en la representación visual de líneas. • Experimental:Lookup Attribute POP: Utiliza uno, dos o tres componentes de un atributo como índices para realizar búsquedas. También puede utilizar atributos de solo lectura. • Experimental:Lookup Channel POP: Similar al Lookup Attribute POP, usa componentes de atributos como índices para realizar búsquedas en canales. • Experimental:Lookup Texture POP: Similar a los anteriores, pero utiliza componentes de atributos como índices para realizar búsquedas en texturas. • Experimental:Math Combine POP: Similar al"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "* **Normalize POP (POP de Normalización)** * **Función principal:** Re-escala los valores de posición XYZ (o cualquier otro atributo) a un **rango de 0 a 1**. * **Características clave:** * Puede convertir coordenadas cartesianas (XYZ) en **coordenadas polares o cilíndricas** (latitud, longitud, radio), también normalizadas a un rango de 0 a 1. * Ofrece opciones para **Bias** (sesgar los números hacia 0 o 1), aplicar una **función de curva de búsqueda** (`Lookup function`), un `Exponent` (potenciar valores) y **Re-range** (re-escalar a otro rango). * Permite asignar los valores normalizados a cualquier componente de un atributo float2, float3 o float4. * **Uso simple:** Útil para preparar datos para mapeo de texturas, shaders, o cualquier proceso que requiera valores dentro de un rango específico. Por ejemplo, para crear un mapa de calor donde los valores más bajos son 0 y los más altos son 1. * **Null POP (POP Nulo)** * *"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "ara identificar cada copia de forma única. * Los atributos del POP de plantilla pueden controlar las transformaciones de las copias (traslación, rotación, escala, pivote). * También puedes combinar atributos de la plantilla con los atributos de entrada (copiar, multiplicar, sumar, restar). --- #### 15. Curve POP * **¿Qué hace?** Este operador se utiliza para **generar una curva en el plano XY** (con Z=0). Es muy útil como \"curva de consulta\" para otros operadores, como el Lookup Attribute POP. * **Características clave:** * Los valores X de los puntos (`P(0)`) avanzan uniformemente, mientras que los valores Y (`P(1)`) toman diferentes formas interpoladas. La curva también se puede acceder como un atributo llamado `Curve` para mayor claridad. * Por defecto, crea una curva de \"suavizado de entrada y salida\" (ease-in ease-out), pero puedes añadir **múltiples segmentos**. * Cada segmento puede tener su propio **tipo de curva** (Constante, Lineal, Ea"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

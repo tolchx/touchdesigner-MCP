@@ -1,0 +1,329 @@
+{
+  "family": "CHOP",
+  "pageTitle": "OSC Out CHOP",
+  "pageSlug": "OSC_Out_CHOP",
+  "url": "https://docs.derivative.ca/OSC_Out_CHOP",
+  "tdOpTypeGuess": "oSCOutCHOP",
+  "summary": "[  edit  ]\nThe OSC Out  CHOP  sends all input channels to a specified network address and port. Each channel name and associated data is transmitted together to the specified location. TouchDesigner time stamps all outgoing Open Sound Control messages with the time of the outgoing frame relative to the system time when the first message was sent. OSC CHOPs in TouchDesigner use the UDP transport protocol.\nOSC Out will either send all the channels each cook or it will only send each channel depending on if it has changed at all since the last time it was sent. This is determined by the  Send Events Every  Cook   flag.\nOSC bundles allows you to send a group of messages in a single command rather than as separate, individual messages. The  OSC Out DAT  has a  sendOSC()  function that will accept a list of messages and send as a bundle.\nSee also  OSC In CHOP ,  OSC Out DAT ,  OSC In DAT ,  iOS and OSC ,  Touch Out CHOP ,  UDP Out DAT ,  TCP/IP DAT .\nNOTE for Windows OS - If experiencing connection issues make sure Windows Firewall is disabled.\noscoutCHOP_Class\nContents\n1   Summary\n2   Parameters - OSC Out Page\n3   Parameters - Common Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common CHOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "OSC Out",
+      "label": "Active",
+      "name": "active",
+      "description": "While On, the  CHOP  sends information to the network port. When Off, data is not sent."
+    },
+    {
+      "page": "OSC Out",
+      "label": "Protocol",
+      "name": "protocol",
+      "description": "⊞  - Selects the network protocol to use. Refer to the  Network Protocols  article for more information."
+    },
+    {
+      "page": "OSC Out",
+      "label": "Multi",
+      "description": "Cast Messaging (UDP)   multicastmsging  -"
+    },
+    {
+      "page": "OSC Out",
+      "label": "Network Address",
+      "name": "netaddress",
+      "description": "The network address of the server computer. This address is a standard WWW address, such as 'foo' or 'foo.bar.com'. You can put an IP address (e.g. 100.123.45.78). If you put \"localhost\", it means the other end of the pipe is on the same computer."
+    },
+    {
+      "page": "OSC Out",
+      "label": "Network Port",
+      "name": "port",
+      "description": "The port which OSC Out will send packets to."
+    },
+    {
+      "page": "OSC Out",
+      "label": "Local Address",
+      "name": "localaddress",
+      "description": "Specify an IP address to send from, useful when the system has mulitple NICs (Network Interface Card) and you want to select which one to use."
+    },
+    {
+      "page": "OSC Out",
+      "label": "Max Queue Size",
+      "name": "maxsize",
+      "description": "Specifies the maximum number of messages OSC Out will try to send at a single time."
+    },
+    {
+      "page": "OSC Out",
+      "label": "Max Queue Size Unit",
+      "name": "maxsizeunit",
+      "description": "Select the units to use for this parameter, Samples, Frames, or Seconds"
+    },
+    {
+      "page": "OSC Out",
+      "label": "Cook  Every  Frame",
+      "name": "cookalways",
+      "description": "Specifies that this  CHOP  should be cooked every frame regardless of CHOPs below it are cooking."
+    },
+    {
+      "page": "OSC Out",
+      "label": "Numeric Format",
+      "name": "numericformat",
+      "description": "⊞  - Choose the data format to send data between 32-bit integer, 32-bit float, or 64-bit double."
+    },
+    {
+      "page": "OSC Out",
+      "label": "Data Format",
+      "name": "format",
+      "description": "⊞  - Specify how to format the outgoing messages."
+    },
+    {
+      "page": "OSC Out",
+      "label": "Sample",
+      "name": "sample",
+      "description": "Sends the current sample in each channel."
+    },
+    {
+      "page": "OSC Out",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Sends all samples of the current  Time Slice  in each channel."
+    },
+    {
+      "page": "OSC Out",
+      "label": "Transpose",
+      "name": "transpose",
+      "description": "Sends the first sample in each channel transposed together into a single multi-sample channel."
+    },
+    {
+      "page": "OSC Out",
+      "label": "Transpose By Name",
+      "name": "transposename",
+      "description": "Transpose By Name groups input channels with the same the root name (ie. first name before the first \"/\") into a message under the same name. The order of values in the message are the same order as the channels in the input  CHOP .  Example : Input channels  A/Red B/Red A/Blue B/Blue  will send two OSC messages:  /A Red Blue  and  /B Red Blue ."
+    },
+    {
+      "page": "OSC Out",
+      "label": "Max Message Bytes",
+      "name": "maxbytes",
+      "description": "Limits the size of the outgoing message packets and splits up the message accordingly."
+    },
+    {
+      "page": "OSC Out",
+      "label": "Send Events Every  Cook",
+      "name": "sendevents",
+      "description": "When on, OSC Out will send all channels every cook regardless if the value has changed. When off, OSC Out only sends data which has changed."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "Rename from",
+      "name": "commonrenamefrom",
+      "description": "The channel pattern to rename. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Rename to",
+      "name": "commonrenameto",
+      "description": "The replacement pattern for the names. The default parameters do not rename the channels. See  Pattern Replacement ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Names:  c[1",
+      "description": "10:2] ambient"
+    },
+    {
+      "page": "Common",
+      "label": "Rename To:  b[1",
+      "description": "5] amb    This example fetches channels  c1 c3 c5 c7 c9  and  ambient ."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "To re-compute the output data of the  Operators . An operator cooks when (1) its inputs change, (2) its  Parameters  change, (3) when the timeline moves forward in some cases, or (4)  Scripting  commands are run on the node. When the operator is a  Panel Component , it also cooks when a user interacts with it. When an operator cooks, it usually causes operators connected to its output to re-cook. When TouchDesigner draws the screen, it re-cooks all the",
+      "name": "Dependencies",
+      "description": "the necessary operators in all  Networks , contributing to a frame's total \"cook time\"."
+    },
+    {
+      "page": "Common",
+      "label": "The term \"Frame\" is a measurement of time used (1) in the  Timeline , (2) as a time",
+      "description": "unit in CHOPs, and (3) as a time unit in movie files that are read into  TOPs  and written out from TOPs. The frame rate is the frames per second ( FPS )."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

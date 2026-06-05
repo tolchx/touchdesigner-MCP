@@ -1,0 +1,26 @@
+{
+  "family": "SOP",
+  "pageTitle": "Trim SOP",
+  "pageSlug": "Trim_SOP",
+  "url": "https://docs.derivative.ca/Trim_SOP",
+  "tdOpTypeGuess": "trimSOP",
+  "summary": "[  edit  ]\nThe Trim  SOP  cuts out parts of a spline surface, or uncuts previously cut pieces. When a portion of the surface is trimmed, it is not actually removed from the surface; instead, that part is made invisible. This means that you can still modify the surface (modify the position of its points, for instance) that is not displayed in order to affect the part that is displayed.\nThe surface can be trimmed by specifying open or closed profiles as inside or outside regions. The profiles need not be contained within the domain (UV space) of the surface; they can also be nested.\nOpen profiles are treated as follows: if both ends of the profile are inside the surface, the ends are connected to one another; if the profile's ends are outside the domain of the surface they are projected onto, that part of the surface appears to be cut away.\nYou will usually need a Trim  SOP ,  Bridge SOP , or  Profile SOP  after a  Project SOP .\nUse a Trim  SOP  to cut a hole in the projected surface.\nUse a  Bridge SOP  to skin the profile curve to another profile curve.\nUse a  Profile SOP  to extract the curve on surface or remap it's position.\nSelection Method - Winding Rule\nThe selection method employed for clarifying overlapping trim loops is the winding rule, which executes overlapping commands instead of having them cancel each other out.\nTip:  Since only surfaces containing profile curves can be trimmed, you will always need a Project or  Carve SOP  in the chain above the Trim  SOP .\ntrimSOP_Class\nContents\n1   Summary\n1.1   Selection Method - Winding Rule\n2   Parameters -  Page\n3   Example\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common SOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "un conjunto de primitivas fusionadas para un mejor rendimiento. * Si los tipos de geometría no son compatibles directamente con POPs, se **convierten automáticamente a triángulos, quads, line strips y primitivas de punto**. * Cuando se fusionan geometrías, se crea un operador `Info DAT` junto a este POP, que muestra las rutas originales de las primitivas dentro del archivo importado. * Tiene sus **propios controles de animación** (Initialize, Start, Cue, Play, Index, Speed, Trim, Extend), o puedes usar la configuración de su componente padre. * La geometría importada se carga **directamente a la GPU**, lo que asegura un alto rendimiento. --- #### 36. In POP * **¿Qué hace?** Este operador se utiliza dentro de un **componente personalizado** para obtener datos de un POP que está conectado a una de las entradas de ese componente padre. Piensa en él como un \"conector de entrada\" para tu módulo personalizado. * **Características clave:** * Por cada"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Torus POP",
+  "pageSlug": "Torus_POP",
+  "url": "https://docs.derivative.ca/Torus_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "torusPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de partículas complejos, simulaciones a gran escala y efectos visuales generativos que superan l"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de partículas complejos, simulaciones a gran escala y efectos visuales generativos que super"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de partículas complejos, simulaciones a gran escala y efectos visuales generativos que superan l"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "bar variaciones o controlar el flujo de datos. • Experimental:Texture Map POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:TOP to POP: Permite convertir datos de la familia TOPs (Texture Operators) a datos de POPs, específicamente para recuperar nubes de puntos. • Experimental:Topology POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Torus POP: Un operador generador que crea una geometría de toroide (forma de dona). • Experimental:Trail POP: Crea un historial de movimiento de un punto a lo largo del tiempo, generando una tira de línea para cada punto. Esto te permite visualizar la trayectoria de una partícula o punto a lo largo del tiempo. • Experimental:Transform POP: Un operador esencial para mover, rotar y escalar puntos o geometrías. Puede usar atributos de \"peso\" (Weight) para aplicar transformaciones parciales a los puntos."
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "bar variaciones o controlar el flujo de datos. • Experimental:Texture Map POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:TOP to POP: Permite convertir datos de la familia TOPs (Texture Operators) a datos de POPs, específicamente para recuperar nubes de puntos. • Experimental:Topology POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Torus POP: Un operador generador que crea una geometría de toroide (forma de dona). • Experimental:Trail POP: Crea un historial de movimiento de un punto a lo largo del tiempo, generando una tira de línea para cada punto. Esto te permite visualizar la trayectoria de una partícula o punto a lo largo del tiempo. • Experimental:Transform POP: Un operador esencial para mover, rotar y escalar puntos o geometrías. Puede usar atributos de \"peso\" (Weight) para aplicar transformaciones parciales a los pun"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "bar variaciones o controlar el flujo de datos. • Experimental:Texture Map POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:TOP to POP: Permite convertir datos de la familia TOPs (Texture Operators) a datos de POPs, específicamente para recuperar nubes de puntos. • Experimental:Topology POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Torus POP: Un operador generador que crea una geometría de toroide (forma de dona). • Experimental:Trail POP: Crea un historial de movimiento de un punto a lo largo del tiempo, generando una tira de línea para cada punto. Esto te permite visualizar la trayectoria de una partícula o punto a lo largo del tiempo. • Experimental:Transform POP: Un operador esencial para mover, rotar y escalar puntos o geometrías. Puede usar atributos de \"peso\" (Weight) para aplicar transformaciones parciales a los puntos."
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

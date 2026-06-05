@@ -1,0 +1,208 @@
+{
+  "family": "DAT",
+  "pageTitle": "File In DAT",
+  "pageSlug": "File_In_DAT",
+  "url": "https://docs.derivative.ca/File_In_DAT",
+  "tdOpTypeGuess": "fileInDAT",
+  "summary": "[  edit  ]\nThe File In  DAT  reads in  .txt  text files and  .dat  table files. It will attempt to read any other file as raw text. The file can be located on disk or on the web. Use  http://  when specifying a URL.\nSee also  Table DAT ,  Text DAT .\nfileinDAT_Class\nContents\n1   Summary\n2   Parameters - File In Page\n3   Parameters - Common Page\n4   Info CHOP Channels\n4.1   Common DAT Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "File In",
+      "label": "File",
+      "name": "file",
+      "description": "The filesystem path and name of the file to load. Accepts  .txt  files for regular text and  .dat  files for text in table format."
+    },
+    {
+      "page": "File In",
+      "label": "Convert Text to Table",
+      "name": "converttable",
+      "description": "Converts the contents of the  DAT  from regular text to table-formatted text (tab-delimited text, each <tab> is a new column in the table)."
+    },
+    {
+      "page": "File In",
+      "label": "Refresh",
+      "name": "refresh",
+      "description": "Reload the file when this parameter is set to On."
+    },
+    {
+      "page": "File In",
+      "label": "Refresh  Pulse",
+      "name": "refreshpulse",
+      "description": "Instantly reload the file from disk."
+    },
+    {
+      "page": "Common",
+      "label": "Language",
+      "name": "language",
+      "description": "⊞  - Select how the  DAT  decides which script language to operate on."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Node",
+      "name": "node",
+      "description": "The  DAT  uses it's own script language."
+    },
+    {
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "name": "extension",
+      "description": "⊞  - Select the file extension this  DAT  should expose to external editors."
+    },
+    {
+      "page": "Common",
+      "label": "dat",
+      "name": "dat",
+      "description": "various common file extensions."
+    },
+    {
+      "page": "Common",
+      "label": "From Language",
+      "name": "language",
+      "description": "pick extension from DATs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "custom",
+      "description": "Specify a custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specifiy the custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Word Wrap",
+      "name": "wordwrap",
+      "description": "⊞  - Enable Word Wrap for Node Display."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs setting."
+    },
+    {
+      "page": "Common",
+      "label": "On",
+      "name": "on",
+      "description": "Turn on Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Off",
+      "name": "off",
+      "description": "Turn off Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "num_rows",
+      "description": "Number of rows in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "num_cols",
+      "description": "Number of columns in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "Art",
+      "description": "Net    •   Audio Devices    •   CHOP Execute    •   CHOP to    •   Clip    •   Convert    •   CPlusPlus    •   DAT   •    Execute    •   DAT Export   •   Error    •   EtherDream    •   Evaluate    •   Examine    •   Execute    •   FIFO    •   File In    •   File Out    •   Folder    •   In    •   Indices    •   Info    •   Insert    •   JSON    •   Keyboard In    •   Lookup    •   Media File Info    •   Merge    •   MIDI Event    •   MIDI In    •   Monitors    •   MPCDI    •   MQTT Client    •   Multi Touch In    •   NDI    •   Null    •   OP Execute    •   OP Find    •   OSC In    •   OSC Out    •   Out    •   Panel Execute    •   Parameter    •   Parameter Execute    •   ParGroup Execute    •   Perform    •   POP to    •   Render Pick    •   Reorder    •   Script    •   Select    •   Serial    •   Serial Devices    •   SocketIO    •   SOP to    •   Sort    •   Substitute    •   Switch    •   Table    •   TCP/IP    •   Text    •   Touch In    •   Touch Out    •   Transpose    •   TUIO In    •   UDP In    •   UDP Out    •   UDT In    •   UDT Out    •   Video Devices    •   Web Client    •   Web    •   Web Server    •   WebRTC    •   WebSocket    •   XML"
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "To \"pulse\" a parameter is to send it a signal from (1) an  exported  CHOP channel or (2) a python command or (3) a mouse click that causes a new action to occur immediately. A pulse via python is via the  .pulse()  function on a pulse",
+      "description": "type parameter, such as Reset parameter in a  Speed CHOP . A pulse from a CHOP is typically a 0 to 1 to 0 signal in an exported channel."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "he Index. Un Cache Index de 0 se refiere a los datos del fotograma actual, -1 a los datos anteriores, y así sucesivamente. Los índices fuera de rango se ajustan.32 * Convert POP: Una utilidad general para reestructurar primitivas. Mantiene los puntos de entrada pero reconfigura su conectividad, permitiendo conversiones entre tiras de línea, apertura/cierre de líneas, conversión de quads a triángulos, eliminación de todas las primitivas o creación de primitivas de punto a partir de puntos.33 * File In POP: Lee un archivo y convierte su geometría en un POP en la memoria de la GPU. Soporta varios formatos de archivo.34 * Lookup Attribute POP: Toma un atributo (el Lookup Attribute) con valores en el rango 0-1 y lo utiliza como índice en los atributos de otro POP (la Lookup Curve). Extrae valores interpolados de la Lookup Curve y los genera. Tiene opciones para manejar índices fuera de rango y reescalar valores.35 * Parámetros: Lookup Attribute, Lookup Curve (segunda entrada), Index Type (n"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "r normales de superficie y tangentes. • Experimental:Feedback POP: Es esencial para habilitar sistemas de partículas y para la manipulación general de datos que requieren bucles de retroalimentación. Se utiliza para simular el movimiento de partículas a lo largo del tiempo, convirtiendo la fuerza en velocidad y la velocidad en posición. • Experimental:Field POP: Genera nuevos atributos, a menudo con nombres predeterminados sugeridos. Este operador genera el atributo Weight. • Experimental:File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner. • Experimental:Force POP: Se utiliza para crear o añadir al atributo PartForce (fuerza de partícula). Es fundamental para definir cómo las fuerzas actúan sobre las partículas. • Experimental:GLSL Advanced POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL Copy POP: Permite ejecutar código de compute shader (GLSL) en cada pun"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "* **Características clave:** * Cada punto anima el atributo `Phaser` de 0 a 1 en un ciclo, pero el valor de cada punto aumenta y llega a 1 en **momentos diferentes**. * Si el atributo de entrada tiene múltiples componentes, `Phase` también será multi-componente. * **Uso simple:** Útil para crear efectos de \"onda\" o \"propagación\" a través de un conjunto de puntos, donde la animación no ocurre en todos los puntos al mismo tiempo, sino que se desfasa. * **Point File In POP (POP de Entrada de Archivo de Puntos)** * **Función principal:** Carga **datos de puntos 3D** en los POPs desde archivos individuales o secuencias de archivos. * **Características clave:** * Soporta varios formatos de archivo como **.obj, .ply, .fits, .exr**, y archivos ASCII de puntos como **.xyz, .pts, .csv, .txt**. * Permite asignar campos del archivo (posición XYZ, normales, coordenadas de textura, color RGBA) a los **atributos** de POP. *"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "* **Múltiples campos**: Puedes usar un `Spec POP` (normalmente un Point POP) donde cada punto del `Spec POP` define un campo separado. Los atributos del `Spec POP` se nombran igual que los parámetros del Field POP y los anulan para cada campo, permitiendo definir muchos campos fácilmente. * Puede **eliminar los puntos con un peso de cero** (`Delete Zeros`). * Puedes aplicar **transformaciones** (traslación, rotación, escala, pivote) a la forma del campo. --- #### 25. File In POP * **¿Qué hace?** Este operador se encarga de **leer un archivo de geometría** y convertirlo en un formato de POP que se almacena directamente en la **memoria de la GPU** (tarjeta gráfica). * **Características clave:** * Soporta varios formatos de archivo. * Puedes especificar un **URL** (empezando con `http://`) para archivos accesibles en la red. * Tiene una opción para **voltear las caras de la primitiva** (`Flip Primitive Faces`). * Parámetros `Refresh`"
+    },
+    {
+      "source": "POPs Investigation and Workshop Plan.markdown",
+      "excerpt": "(15 min) - Points, primitives, attributes, groups. #### Part 2: Hands-On Demos (1.5-2 hours) - **Demo 1: Basic POP Workflow** (30 min) - Create a `Point Generator POP`, add `P` and `Color` attributes, render with a `Render TOP`. - **Demo 2: Attribute Manipulation** (30 min) - Use `Math POP` to modify `P`, create a custom attribute, and swizzle components. - **Demo 3: Particles and Point Clouds** (30 min) - Build a simple particle system with `Particle POP` and a point cloud with `Point File In POP`. - **Demo 4: Integration** (30 min) - Combine POPs with a Geometry COMP and export data to a CHOP for external use. #### Part 3: Q&A and Wrap-Up (15-30 minutes) - Address participant questions. - Share resources (e.g., official docs, intro video). ### Materials - TouchDesigner installed (latest version with POPs support). - Sample project files for demos. - Projector for presentations. ### Tips - Highlight GPU benefits with real-time examples. - Encourage experimentation with custom a"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "So, these are sort of some of the low hanging fruit that I think are really cool. I also wanted to show you a sort of a more sort of just experimental network or a couple of experimental networks where I am just trying some different things out to to see what happens. (29:48) And essentially this is just experimenting and mashing pops together. And so what I've got going on here is I'm loading in a point cloud. And what's really really awesome about the new point cloud pop is that we load our file in, we can determine the fields that it has. So in this case I have position and color and what I can also do is I can go into this rearrange and I can select a attribute that I want to rearrange and as we know when we bring in these point clouds we have color that's often scaled between 0 and 255 versus 0 to one which (30:25) is what touch designer is expecting. So by default, if I kind of remove this and just have it at 0 to one, we can see that my point cloud is not colored in any way. So I'd"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

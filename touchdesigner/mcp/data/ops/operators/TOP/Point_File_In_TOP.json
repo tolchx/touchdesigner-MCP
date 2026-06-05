@@ -1,0 +1,906 @@
+{
+  "family": "TOP",
+  "pageTitle": "Point File In TOP",
+  "pageSlug": "Point_File_In_TOP",
+  "url": "https://docs.derivative.ca/Point_File_In_TOP",
+  "tdOpTypeGuess": "pointFileInTOP",
+  "summary": "[  edit  ]\nThe Point File In  TOP  loads 3D point data into TOPs from either a single file or a sequence of files. Points are composed of one or more floating point values such as XYZ positions, RGB color values, 3D normals, scanner intensity, etc. The Point File in  TOP  will load all available point data, but only four channels can be placed into the output image. By default, the first four point data channels are placed into the red, green, blue and alpha channels respectively; however, you can assign any point channel to a colour channel using the parameters on the Point Data page. Attach a  Point File Select TOP  to create additional output images from the same source file.\nThe Point File In  TOP  will read point data from various mesh and floating point data files including:  .obj ,  .ply ,  .fits  (astronomy format), and  .exr . It can also load ASCII point files ( .xyz ,  .pts ,  .csv ,  .txt , etc) with one point per line and comma or space separated fields. The first line in ASCII point files can either be the number of points, the names of the point fields or the first point in the file.\nFor a complete list, see  File Types . The  OpenEXR  file format is generally best to use as it is binary, can be read in multi-frame file sequences that uses TouchDesigner's movie file pre-reading and buffering, and can be written from TouchDesigner's  Movie File Out TOP  with unlimited numbers of channels.\nExamine the state of a Point File In  TOP  by attaching an  Info CHOP . This will show information like the number of points, fields per point and the number of frames. It also shows dynamic information like the file open status, current frame, readahead frames and queue size, dropped frame count, CPU decode time and  GPU  upload time.\nHeaders : If the file contains any additional header data, this can be viewed by attaching an  Info DAT . Header data is stored as key-value pairs with the keys in the first column and the corresponding data in the second column, which can easily be interpreted with python.\nAll of the ASCII point list formats are loaded the same way whether their extention is  txt ,  csv ,  xyz , etc.  The parser looks for the first separating character (comma, space or tab) and then uses that to delimit the rest of the file. It will ignore delimiters that are inside single or double quotes. There are a few special rules depending on the delimiter style e.g. multiple spaces are merged together, but a comma at the end of a line indicates a blank field afterwards. Once a delimiter is established, The first line can be the number of points, but it is ignored. If the next line are strings then it is treated as a row of headers (channel names). Each row after that is considered a point.\nSee also  OpenEXR .\npointfileinTOP_Class\nContents\n1   Summary\n2   Parameters - Point Data Page\n3   Parameters - Play Page\n4   Parameters - Trim Page\n5   Parameters - Tune Page\n6   Parameters - Common Page\n7   Info CHOP Channels\n7.1   Specific Point File In TOP Info Channels\n7.2   Common TOP Info Channels\n7.3   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "Point Data",
+      "label": "File",
+      "name": "file",
+      "description": "The path and name of the point file to load. Point file formats are those found in  File Types .  You can specify files on the internet using  http://  ..."
+    },
+    {
+      "page": "Point Data",
+      "label": "<?xml version=\"1.0\" encoding=\"ISO",
+      "description": "8859-1\" standalone=\"yes\" ?>"
+    },
+    {
+      "page": "Point Data",
+      "label": "Reload",
+      "name": "reload",
+      "description": "Change from 0 to 1 to force the file to reload. Useful when the file changes or did not exist at first."
+    },
+    {
+      "page": "Point Data",
+      "label": "Reload  Pulse",
+      "name": "reloadpulse",
+      "description": "Immediately reload the point data file."
+    },
+    {
+      "page": "Point Data",
+      "label": "Red",
+      "name": "red",
+      "description": "⊞  - Select one of the available point data channels to place it into the red channel of the output image. Selecting One or Zero will place the constance value into the output channel."
+    },
+    {
+      "page": "Point Data",
+      "label": "Green",
+      "name": "green",
+      "description": "⊞  - Select one of the available point data channels to place it into the green channel of the output image. Selecting One or Zero will place the constance value into the output channel."
+    },
+    {
+      "page": "Point Data",
+      "label": "Blue",
+      "name": "blue",
+      "description": "⊞  - Select one of the available point data channels to place it into the blue channel of the output image. Selecting One or Zero will place the constance value into the output channel."
+    },
+    {
+      "page": "Point Data",
+      "label": "Alpha",
+      "name": "alpha",
+      "description": "⊞  - Select one of the available point data channels to place it into the alpha channel of the output image. Selecting One or Zero will place the constance value into the output channel."
+    },
+    {
+      "page": "Play",
+      "label": "Play Mode",
+      "name": "playmode",
+      "description": "⊞  - Specifies the method used to play the animation, there are 3 options."
+    },
+    {
+      "page": "Play",
+      "label": "Locked to  Timeline",
+      "name": "locked",
+      "description": "This mode locks the animation to the timeline. Scrubbing or jumping in the timeline will change the animation position accordingly. The parameters Play, Reset, Speed, and Index are disabled in this mode since the timeline is directly tied to  position."
+    },
+    {
+      "page": "Play",
+      "label": "Specify Index",
+      "name": "specify",
+      "description": "This mode allows the user to specify a particular position in the animation using the Index parameter below. Use this mode for random access to any location in the movie."
+    },
+    {
+      "page": "Play",
+      "label": "Sequential",
+      "name": "sequential",
+      "description": "This mode continually plays regardless of the timeline position (the Index parameter is disabled). Reset and Speed parameters below are enabled to allow some control."
+    },
+    {
+      "page": "Play",
+      "label": "Play",
+      "name": "play",
+      "description": "Animation plays when 1, stops when 0."
+    },
+    {
+      "page": "Play",
+      "label": "Speed",
+      "name": "speed",
+      "description": "This is a speed multiplier which only works when Play Mode is  Sequential . A value of 1 is the default playback speed. A value of 2 is double speed, 0.5 is half speed and so on. Negative values will play the animation backwards."
+    },
+    {
+      "page": "Play",
+      "label": "Cue",
+      "name": "cue",
+      "description": "Jumps to Cue Point when set to 1. Only available when Play Mode is Sequential."
+    },
+    {
+      "page": "Play",
+      "label": "Cue  Pulse",
+      "name": "cuepulse",
+      "description": "Instantly jumps to the Cue Point position in the movie."
+    },
+    {
+      "page": "Play",
+      "label": "Cue  Point",
+      "name": "cuepoint",
+      "description": "Set any index in the animation as a point to jump to."
+    },
+    {
+      "page": "Play",
+      "label": "Cue Point Unit",
+      "name": "cuepointunit",
+      "description": "⊞  - Select the units for this parameter from Index, Frames, Seconds, and Fraction (percentage)."
+    },
+    {
+      "page": "Play",
+      "label": "Cue Behavior",
+      "name": "cuebehavior",
+      "description": "⊞  - Customize the Cue parameter's behavior."
+    },
+    {
+      "page": "Play",
+      "label": "On Release, Repeat Cued  Frame",
+      "name": "repeat",
+      "description": "When releasing the Cue parameter, immediately play the next frame."
+    },
+    {
+      "page": "Play",
+      "label": "On Release, Play Next  Frame",
+      "name": "play",
+      "description": "When releasing the Cue parameter, first play the cued frame before continuing to play the next frame."
+    },
+    {
+      "page": "Play",
+      "label": "Index",
+      "name": "index",
+      "description": "This parameter explicitly sets the file sequence position when Play Mode is set to Specify Index. The units menu on the right lets you specify the index in the following units: Index, Frames, Seconds, and Fraction (percentage). For example, assume you have a sequence that internally is 25 fps, and the timeline that is 60 fps. If you set Units to Index and the parameter value to 25, you get the image that is 1 second into the sequence. If you set the Units to Frames and set the value to 60 you get the same image at 1 second into the movie."
+    },
+    {
+      "page": "Play",
+      "label": "Index Unit",
+      "name": "indexunit",
+      "description": "⊞  - Select the units for this parameter from Index, Frames, Seconds, and Fraction (percentage)."
+    },
+    {
+      "page": "Play",
+      "label": "Loop Crossfade",
+      "name": "loopcrossfade",
+      "description": "Crossfades the beginning and end of the animation together to create a smooth transition when looping. If the movie uses Trim options, it will crossfade Trim Start with Trim End positions."
+    },
+    {
+      "page": "Play",
+      "label": "Loop Crossfade Unit",
+      "name": "loopcrossfadeunit",
+      "description": "⊞  - Select the units for this parameter from Index, Frames, Seconds, and Fraction (percentage)."
+    },
+    {
+      "page": "Play",
+      "label": "Step Size",
+      "name": "stepsize",
+      "description": "Sets how many frames to skip before displaying next frame. For example, a StepSize of 30 will display every 30th frame. The timing of the animation playback does not change, so with a Step Size of 30 and a sample rate of 30, a new frame will be displayed every second."
+    },
+    {
+      "page": "Play",
+      "label": "Audio Loop",
+      "name": "audioloop",
+      "description": "⊞  - This menu helps you determine how to treat the audio as the end of an animation approaches. This is needed because in some cases of playing an animation, like when driving with an index, the  TOP  will not know if you intend to loop it or not."
+    },
+    {
+      "page": "Play",
+      "label": "Silence",
+      "name": "silence",
+      "description": "Audio will go silent when the animation ends."
+    },
+    {
+      "page": "Play",
+      "label": "Fade",
+      "name": "fade",
+      "description": "Audio will fade out when the animation ends."
+    },
+    {
+      "page": "Play",
+      "label": "Image Sequence Indexing",
+      "name": "imageindexing",
+      "description": "⊞  - Determines how a file sequence is ordered."
+    },
+    {
+      "page": "Play",
+      "label": "Zero Based",
+      "name": "zero",
+      "description": "Index the sequence of files starting at 0, after sorting them alphanumerically."
+    },
+    {
+      "page": "Play",
+      "label": "Filename Based",
+      "name": "filename",
+      "description": "Index the sequence of files using the numbers on the end of the filenames. I.e a file named flower400.obj will be frame index 400, regardless of if there are other files in the directory before it."
+    },
+    {
+      "page": "Play",
+      "label": "Interpolate Frames",
+      "name": "interp",
+      "description": "Interpolates between frames based based on exact time. For example, if the index (in frames) is 1.5, then frames 1 and 2 will be blended 50-50. If the index is 1.7 then 30% of frame 1 is blended with 70% of frame 2 and so on."
+    },
+    {
+      "page": "Play",
+      "label": "Loading/Error Image",
+      "name": "loadingerrorimage",
+      "description": "⊞  - When the file can not be loaded for some reason, select what to display instead."
+    },
+    {
+      "page": "Trim",
+      "label": "Trim",
+      "name": "trim",
+      "description": "Enables the parameters below to set trim in and out points."
+    },
+    {
+      "page": "Trim",
+      "label": "Trim Start",
+      "name": "tstart",
+      "description": "Trim the starting point of the movie."
+    },
+    {
+      "page": "Trim",
+      "label": "Trim Start Unit",
+      "name": "tstartunit",
+      "description": "⊞  - Select the units for this parameter from Index, Frames, Seconds, and Fraction (percentage)."
+    },
+    {
+      "page": "Trim",
+      "label": "Trim End",
+      "name": "tend",
+      "description": "Trim the ending point of the movie."
+    },
+    {
+      "page": "Trim",
+      "label": "Trim End Unit",
+      "name": "tendunit",
+      "description": "⊞  - Select the units for this parameter from Index, Frames, Seconds, and Fraction (percentage)."
+    },
+    {
+      "page": "Trim",
+      "label": "Extend Left",
+      "name": "textendleft",
+      "description": "⊞  - Determines how the Point File In  TOP  handles animation positions that lie before the Trim Start position. For example, if Trim Start is set to 1, and the animation's current index is -10, the Extend Left menu determines how the animation position is calculated."
+    },
+    {
+      "page": "Trim",
+      "label": "Hold",
+      "name": "hold",
+      "description": "Displays the first frame in the animation range (the frame specified by Trim Start) for any position before Trim Start."
+    },
+    {
+      "page": "Trim",
+      "label": "Cycle",
+      "name": "cycle",
+      "description": "Loops the movie range continuously."
+    },
+    {
+      "page": "Trim",
+      "label": "Mirror",
+      "name": "mirror",
+      "description": "Loops the animation range in a zig-zag pattern. For example, playing backwards from Trim Start the animation will index will climb towards Trim End, at which point is will decend down towards Trim Start again and continue to zig-zag (or mirror) the further the animation plays backwards."
+    },
+    {
+      "page": "Trim",
+      "label": "Black",
+      "name": "black",
+      "description": "Displays black frame for any animation position before Trim Start."
+    },
+    {
+      "page": "Trim",
+      "label": "Extend Right",
+      "name": "textendright",
+      "description": "⊞  - Determines how the Point File In  TOP  handles animation positions that lie after the Trim End position. For example, if Trim End is set to 20, and the animation's current index is 25, the Extend Right menu determines how the movie position is calculated."
+    },
+    {
+      "page": "Trim",
+      "label": "Hold",
+      "name": "hold",
+      "description": "Displays the last frame in the animation range (the frame specified by Trim End) for any position after Trim End."
+    },
+    {
+      "page": "Trim",
+      "label": "Cycle",
+      "name": "cycle",
+      "description": "Loops the animation range continuously."
+    },
+    {
+      "page": "Trim",
+      "label": "Mirror",
+      "name": "mirror",
+      "description": "Loops the animation range in a zig-zag pattern. For example, playing forwards from Trim End the movie will index will start decending towards Trim Start, at which point is will start climbing towards Trim End and continue to zig-zag (or mirror) the further the animation plays."
+    },
+    {
+      "page": "Trim",
+      "label": "Black",
+      "name": "black",
+      "description": "Displays black frame for any animation position after Trim End."
+    },
+    {
+      "page": "Trim",
+      "label": "Override  Sample Rate",
+      "name": "overridesample",
+      "description": "Turn On to change the sample rate of the movie. When loading an image sequence, use these parameters to set the playback speed for the sequence."
+    },
+    {
+      "page": "Trim",
+      "label": "Sample Rate",
+      "name": "samplerate",
+      "description": "Set the sample rate for playback when 'Override  Sample Rate ' above is On."
+    },
+    {
+      "page": "Tune",
+      "label": "Pre-Read Frames",
+      "name": "prereadframes",
+      "description": "Sets how many animation frames TouchDesigner reads ahead and stores in memory. The Point File In  TOP  will read and decode frames of the animation into CPU memory before they are used, this can eliminate pops or stutters in playback that occur from some frames taking too long to decode, other resources accessing the hard drive, or looping. When reading a sequence of files, having more Pre-Read Frames will allow multiple files to be decode at the same time. This allows playback of heavy file formats such as .exr in real-time, assuming the machine has enough CPU cores."
+    },
+    {
+      "page": "Tune",
+      "label": "Frame Read Timeout",
+      "name": "frametimeout",
+      "description": "The time (in milliseconds) TouchDesigner will wait for a frame from the hard drive before giving up. If the Disk Read Timeout time is reached, that frame is simply skipped. This also works for network files that are downloaded via http://."
+    },
+    {
+      "page": "Tune",
+      "label": "Frame Timeout Strategy",
+      "name": "frametimeoutstrat",
+      "description": "⊞  - When on, if the Disk Read Timeout is reached TouchDesigner will use the latest available frame in place of the skipped frame."
+    },
+    {
+      "page": "Tune",
+      "label": "Keep  Frame",
+      "name": "keep",
+      "description": "Keep showing the same frame that is currently being output."
+    },
+    {
+      "page": "Tune",
+      "label": "Best for Playback",
+      "name": "playback",
+      "description": "Try to pick the best frame for playback. This may be a newer frame that what is shown, but not quite the frame that is requested."
+    },
+    {
+      "page": "Tune",
+      "label": "Best for Seeking",
+      "name": "seeking",
+      "description": "Try to show any frame, either before or after the target frame. Good for when seeking the movie via a shuttle widget in a UI."
+    },
+    {
+      "page": "Tune",
+      "label": "Always Load Initial  Frame",
+      "name": "alwaysloadinitial",
+      "description": "If this parameter is turned on, then for the first loaded frame the Frame Read Timeout will be ignored, and it will always wait for the first frame to ensure the node always starts up with a valid image."
+    },
+    {
+      "page": "Tune",
+      "label": "File Open Timeout",
+      "name": "opentimeout",
+      "description": "The time (in milliseconds) TouchDesigner will wait for a file to open. If the Disk Open Timout is reached, the Point File In  TOP  will stop waiting and make its image all black, with a grey square in the bottom right corner. If the file still isn't opened the next time the  TOP  cooks, it'll wait again, and do the same. It'll keep doing this until the file is opened, or the open fails."
+    },
+    {
+      "page": "Tune",
+      "label": "Async Upload to  GPU",
+      "name": "asyncupload",
+      "description": "When enabled, this will use OpenGL features to upload movie images to the  GPU  asynchronously. This will reduce the cook time of the Movie File In  TOP  considerably (in the performance monitor the lines that say \"Uploading Image to  GPU \" will go down to almost nothing). There is a  GPU  memory cost to using this feature however. It uses up another (Width * Height * 4 * Read Ahead Size) bytes of  GPU  memory. If you are having poor results with this feature, make sure your graphics drivers are up to date."
+    },
+    {
+      "page": "Tune",
+      "label": "Update Image",
+      "name": "updateimage",
+      "description": "Image will not update when set to 0. Animation index will continue to move forward but the output image will not update."
+    },
+    {
+      "page": "Tune",
+      "label": "Max Decode CPUs",
+      "name": "maxdecodecpus",
+      "description": "Limit the maximum number of CPUs that will be used to decode certain file codecs that are capable of multi-CPU decoding."
+    },
+    {
+      "page": "Tune",
+      "label": "High Performance Read",
+      "name": "highperfread",
+      "description": "This option should be used when playing back files that require very high SSD read speeds. It greatly improves read performance in those cases. It should not be used for low resolution or low data rate files."
+    },
+    {
+      "page": "Tune",
+      "label": "High Performance Read Factor",
+      "name": "highperfreadfactor",
+      "description": "When doing high performance reads, this parameter controls the size of the read operations that are done on disk. Whatever the largest operation the codec asks to be done, this is multiplied by the read factor and all subsequent reads will read that much data instead. This can result in higher throughput depending on the drives. For example if a request is made to read 1MB and the factor is set to 3, then instead the operations will read 3MB from the disk and the extra 2MB read will be ready for the next frame and will likely already have the next 2 frames available in CPU RAM."
+    },
+    {
+      "page": "Tune",
+      "label": "Hardware Decode",
+      "name": "hwdecode",
+      "description": "Controls if this node should use hardware decoding via the Nvidia hardware decoder chip. You can check if hardware decoding is being used using the Info  CHOP , 'hardware_decode' channel. This parameter does nothing for Hap and NotchLC codecs, which are always hardware decoded."
+    },
+    {
+      "page": "Common",
+      "label": "Output  Resolution",
+      "name": "outputresolution",
+      "description": "⊞  - quickly change the resolution of the  TOP 's data."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's resolution"
+    },
+    {
+      "page": "Common",
+      "label": "Eighth",
+      "name": "eighth",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Quarter",
+      "name": "quarter",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Half",
+      "name": "half",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "2X",
+      "name": "2x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "4X",
+      "name": "4x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "8X",
+      "name": "8x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Fit  Resolution",
+      "name": "fit",
+      "description": "Grow or shrink the input resolution to fit this resolution, while keeping the aspect ratio the same."
+    },
+    {
+      "page": "Common",
+      "label": "Limit  Resolution",
+      "name": "limit",
+      "description": "Limit the input resolution to be not larger than this resolution, while keeping the aspect ratio the same."
+    },
+    {
+      "page": "Common",
+      "label": "Custom  Resolution",
+      "name": "custom",
+      "description": "Directly control the width and height."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution",
+      "name": "resolution",
+      "description": "⊞  - Enabled only when the  Resolution  parameter is set to Custom  Resolution . Some Generators like Constant and Ramp do not use inputs and only use this field to determine their size. The drop down menu on the right provides some commonly used resolutions."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution  Menu",
+      "name": "resmenu",
+      "description": "A drop-down menu with some commonly used resolutions."
+    },
+    {
+      "page": "Common",
+      "label": "Use Global Res Multiplier",
+      "name": "resmult",
+      "description": "Uses the Global  Resolution  Multiplier found in  Edit>Preferences>TOPs . This multiplies all the TOPs resolutions by the set amount. This is handy when working on computers with different hardware specifications. If a project is designed on a desktop workstation with lots of graphics memory, a user on a laptop with only 64MB VRAM can set the Global  Resolution  Multiplier to a value of half or quarter so it runs at an acceptable speed. By checking this checkbox on, this  TOP  is affected by the global multiplier."
+    },
+    {
+      "page": "Common",
+      "label": "Output Aspect",
+      "name": "outputaspect",
+      "description": "⊞  - Sets the image aspect ratio allowing any textures to be viewed in any size. Watch for unexpected results when compositing TOPs with different aspect ratios. (You can define images with non-square pixels using xres, yres, aspectx, aspecty where xres/yres != aspectx/aspecty.)"
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's aspect ratio."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution",
+      "name": "resolution",
+      "description": "Uses the aspect of the image's defined resolution (ie 512x256 would be 2:1), whereby each pixel is square."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Aspect",
+      "name": "custom",
+      "description": "Lets you explicitly define a custom aspect ratio in the Aspect parameter below."
+    },
+    {
+      "page": "Common",
+      "label": "Aspect",
+      "name": "aspect",
+      "description": "⊞  - Use when Output Aspect parameter is set to Custom Aspect."
+    },
+    {
+      "page": "Common",
+      "label": "Aspect Menu",
+      "name": "armenu",
+      "description": "A drop-down menu with some commonly used aspect ratios."
+    },
+    {
+      "page": "Common",
+      "label": "Input Smoothness",
+      "name": "inputfiltertype",
+      "description": "⊞  - This controls pixel filtering on the input image of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Nearest Pixel",
+      "name": "nearest",
+      "description": "Uses nearest pixel or accurate image representation. Images will look jaggy when viewing at any zoom level other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Interpolate Pixels",
+      "name": "linear",
+      "description": "Uses linear filtering between pixels. This is how you get  TOP  images in viewers to look good at various zoom levels, especially useful when using any Fill Viewer setting other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Mipmap Pixels",
+      "name": "mipmap",
+      "description": "Uses   mipmap  filtering when scaling images. This can be used to reduce artifacts and sparkling in moving/scaling images that have lots of detail."
+    },
+    {
+      "page": "Common",
+      "label": "Fill  Viewer",
+      "name": "fillmode",
+      "description": "⊞  - Determine how the  TOP  image is displayed in the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the same Fill Viewer settings as it's input."
+    },
+    {
+      "page": "Common",
+      "label": "Fill",
+      "name": "fill",
+      "description": "Stretches the image to fit the edges of the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Horizontal",
+      "name": "width",
+      "description": "Stretches image to fit viewer horizontally."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Vertical",
+      "name": "height",
+      "description": "Stretches image to fit viewer vertically."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Best",
+      "name": "best",
+      "description": "Stretches or squashes image so no part of image is cropped."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Outside",
+      "name": "outside",
+      "description": "Stretches or squashes image so image fills viewer while constraining it's proportions. This often leads to part of image getting cropped by viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Native  Resolution",
+      "name": "nativeres",
+      "description": "Displays the native resolution of the image in the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Viewer Smoothness",
+      "name": "filtertype",
+      "description": "⊞  - This controls pixel filtering in the viewers."
+    },
+    {
+      "page": "Common",
+      "label": "Nearest Pixel",
+      "name": "nearest",
+      "description": "Uses nearest pixel or accurate image representation. Images will look jaggy when viewing at any zoom level other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Interpolate Pixels",
+      "name": "linear",
+      "description": "Uses linear filtering between pixels. Use this to get  TOP  images in viewers to look good at various zoom levels, especially useful when using any Fill Viewer setting other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Mipmap Pixels",
+      "name": "mipmap",
+      "description": "Uses   mipmap  filtering when scaling images. This can be used to reduce artifacts and sparkling in moving/scaling images that have lots of detail. When the input is 32-bit float format, only nearest filtering will be used (regardless of what is selected)."
+    },
+    {
+      "page": "Common",
+      "label": "Passes",
+      "name": "npasses",
+      "description": "Duplicates the operation of the  TOP  the specified number of times. For every pass after the first it takes the result of the previous pass and replaces the node's first input with the result of the previous pass. One exception to this is the  GLSL TOP  when using compute shaders, where the input will continue to be the connected  TOP 's image."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Mask",
+      "name": "chanmask",
+      "description": "Allows you to choose which channels (R, G, B, or A) the  TOP  will operate on. All channels are selected by default."
+    },
+    {
+      "page": "Common",
+      "label": "Pixel Format",
+      "name": "format",
+      "description": "⊞  - Format used to store data for each channel in the image (ie. R, G, B, and A). Refer to  Pixel Formats  for more information."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's pixel format."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (RGBA)",
+      "name": "rgba8fixed",
+      "description": "Uses 8-bit integer values for each channel."
+    },
+    {
+      "page": "Common",
+      "label": "sRGB 8-bit fixed (RGBA)",
+      "name": "srgba8fixed",
+      "description": "Uses 8-bit integer values for each channel and stores color in sRGB colorspace. Note that this does  not  apply an sRGB curve to the pixel values, it only stores them using an sRGB curve. This means more data is used for the darker values and less for the brighter values. When the values are read downstream they will be converted back to linear. For more information refer to  sRGB ."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (RGBA)",
+      "name": "rgba16float",
+      "description": "Uses 16-bits per color channel, 64-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (RGBA)",
+      "name": "rgba32float",
+      "description": "Uses 32-bits per color channel, 128-bits per pixels."
+    },
+    {
+      "page": "Common",
+      "label": "10-bit RGB, 2-bit Alpha, fixed (RGBA)",
+      "name": "rgb10a2fixed",
+      "description": "Uses 10-bits per color channel and 2-bits for alpha, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (RGBA)",
+      "name": "rgba16fixed",
+      "description": "Uses 16-bits per color channel, 64-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "11-bit float (RGB), Positive Values Only",
+      "name": "rgba11float",
+      "description": "A RGB floating point format that has 11 bits for the Red and Green channels, and 10-bits for the Blue  Channel , 32-bits total per pixel (therefore the same memory usage as 8-bit RGBA). The Alpha channel in this format will always be 1. Values can go above one, but can't be negative. ie. the range is [0, infinite)."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (Mono)",
+      "name": "mono8fixed",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 8-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (Mono)",
+      "name": "mono16fixed",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (Mono)",
+      "name": "mono16float",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (Mono)",
+      "name": "mono32float",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (RG)",
+      "name": "rg8fixed",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 8-bits per channel, 16-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (RG)",
+      "name": "rg16fixed",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 16-bits per channel, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (RG)",
+      "name": "rg16float",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 16-bits per channel, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (RG)",
+      "name": "rg32float",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 32-bits per channel, 64-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (A)",
+      "name": "a8fixed",
+      "description": "An Alpha only format that has 8-bits per channel, 8-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (A)",
+      "name": "a16fixed",
+      "description": "An Alpha only format that has 16-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (A)",
+      "name": "a16float",
+      "description": "An Alpha only format that has 16-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (A)",
+      "name": "a32float",
+      "description": "An Alpha only format that has 32-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (Mono+Alpha)",
+      "name": "monoalpha8fixed",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 8-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (Mono+Alpha)",
+      "name": "monoalpha16fixed",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 16-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (Mono+Alpha)",
+      "name": "monoalpha16float",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 16-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (Mono+Alpha)",
+      "name": "monoalpha32float",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 32-bits per channel, 64-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "resx",
+      "description": "Horizontal resolution of the  TOP  in pixels."
+    },
+    {
+      "page": "Common",
+      "label": "resy",
+      "description": "Vertical resolution of the  TOP  in pixels."
+    },
+    {
+      "page": "Common",
+      "label": "aspectx",
+      "description": "Horizontal aspect of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "aspecty",
+      "description": "Vertical aspect of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "depth",
+      "description": "Depth of 2D or 3D array if this  TOP  contains a 2D or 3D texture array."
+    },
+    {
+      "page": "Common",
+      "label": "gpu_memory_used",
+      "description": "Total amount of texture memory used by this  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    },
+    {
+      "page": "Common",
+      "label": "To \"pulse\" a parameter is to send it a signal from (1) an  exported  CHOP channel or (2) a python command or (3) a mouse click that causes a new action to occur immediately. A pulse via python is via the  .pulse()  function on a pulse",
+      "description": "type parameter, such as Reset parameter in a  Speed CHOP . A pulse from a CHOP is typically a 0 to 1 to 0 signal in an exported channel."
+    },
+    {
+      "page": "Common",
+      "label": "The term \"Frame\" is a measurement of time used (1) in the  Timeline , (2) as a time",
+      "description": "unit in CHOPs, and (3) as a time unit in movie files that are read into  TOPs  and written out from TOPs. The frame rate is the frames per second ( FPS )."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "The width and height of an image in pixels. Most TOPs, like the  Movie File In TOP  can set the image resolution. See  Aspect Ratio  for the width/height ratio of an image, taking into account non",
+      "description": "square pixels."
+    },
+    {
+      "page": "Common",
+      "label": "The viewer of a node can be (1) the interior of a node (the  Node Viewer ), (2) a floating window (RMB",
+      "description": ">View... on node), or (3) a  Pane  that graphically shows the results of an operator."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofre"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ra sistemas de partículas como velocidad, dirección, edad, masa y fuerza. Es central para la simulación de partículas en TouchDesigner y genera atributos como PartForce. • Experimental:Pattern POP: Se utiliza para generar patrones para atributos, ofreciendo configuraciones más complejas. Permite crear y modificar atributos de color y textura. • Experimental:Phaser POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Point File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner, específicamente diseñado para este tipo de datos. • Experimental:Point Generator POP: Un operador generador que crea nubes de puntos directamente. Puede generar puntos con sus primitivas correspondientes. • Experimental:Point POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador más allá de su listado. • Experimental:Polygonize POP: Las fuentes pro"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": ". * **Características clave:** * Cada punto anima el atributo `Phaser` de 0 a 1 en un ciclo, pero el valor de cada punto aumenta y llega a 1 en **momentos diferentes**. * Si el atributo de entrada tiene múltiples componentes, `Phase` también será multi-componente. * **Uso simple:** Útil para crear efectos de \"onda\" o \"propagación\" a través de un conjunto de puntos, donde la animación no ocurre en todos los puntos al mismo tiempo, sino que se desfasa. * **Point File In POP (POP de Entrada de Archivo de Puntos)** * **Función principal:** Carga **datos de puntos 3D** en los POPs desde archivos individuales o secuencias de archivos. * **Características clave:** * Soporta varios formatos de archivo como **.obj, .ply, .fits, .exr**, y archivos ASCII de puntos como **.xyz, .pts, .csv, .txt**. * Permite asignar campos del archivo (posición XYZ, normales, coordenadas de textura, color RGBA) a los **atributos** de POP. *"
+    },
+    {
+      "source": "POPs Investigation and Workshop Plan.markdown",
+      "excerpt": "pts** (15 min) - Points, primitives, attributes, groups. #### Part 2: Hands-On Demos (1.5-2 hours) - **Demo 1: Basic POP Workflow** (30 min) - Create a `Point Generator POP`, add `P` and `Color` attributes, render with a `Render TOP`. - **Demo 2: Attribute Manipulation** (30 min) - Use `Math POP` to modify `P`, create a custom attribute, and swizzle components. - **Demo 3: Particles and Point Clouds** (30 min) - Build a simple particle system with `Particle POP` and a point cloud with `Point File In POP`. - **Demo 4: Integration** (30 min) - Combine POPs with a Geometry COMP and export data to a CHOP for external use. #### Part 3: Q&A and Wrap-Up (15-30 minutes) - Address participant questions. - Share resources (e.g., official docs, intro video). ### Materials - TouchDesigner installed (latest version with POPs support). - Sample project files for demos. - Projector for presentations. ### Tips - Highlight GPU benefits with real-time examples. - Encourage experimentation with custom a"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

@@ -1,0 +1,847 @@
+{
+  "family": "TOP",
+  "pageTitle": "Noise TOP",
+  "pageSlug": "Noise_TOP",
+  "url": "https://docs.derivative.ca/Noise_TOP",
+  "tdOpTypeGuess": "noiseTOP",
+  "summary": "[  edit  ]\nThe Noise  TOP  generates a variety of noise patterns including perlin, simplex, sparse, alligator and random. Some types of noise run on the CPU, while others are calculated on the  GPU . The ones that are calculated on the  GPU  will have  GPU  in their name.\nThe first input can be combined with the generated noise in various ways depending on the parameters.\nThe second input can be used to specify noise coordinates per-pixel. Without a 2nd input connected, the noise coordinates are the 0-1 texture coordinates of the output texture, i.e, the position of the pixel in the output texture. With a 2nd input connected the position of the pixel in the output texture is used to look-up into the 2nd input, and the RGBA of the 2nd input for that sampled pixel will be used as the XYZ and W for the noise coordinate.\nNote:  This  TOP  supports 3D Textures and 2D Texture Arrays. For this  TOP  to generate a 3D texture output, it requires a 3D texture type as input. You can use a  Texture 3D TOP  or  GLSL TOP  to create 3D texture types.\nnoiseTOP_Class\nContents\n1   Summary\n2   Parameters - Noise Page\n3   Parameters - Transform Page\n4   Parameters - Output Page\n5   Parameters - Common Page\n6   Operator Inputs\n7   Info CHOP Channels\n7.1   Common TOP Info Channels\n7.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "Composite Input  - Control the Composite operation via the parameters on the Output Page of this operator."
+    },
+    {
+      "index": 1,
+      "description": "Noise Coordinate Map  - A texture specifying the 2, 3 or 4 dimensional lookup into the noise field."
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Noise",
+      "label": "Type",
+      "name": "type",
+      "description": "⊞  - The noise function used to generate noise. The functions available are:"
+    },
+    {
+      "page": "Noise",
+      "label": "Perlin 2D ( GPU )",
+      "name": "perlin2d",
+      "description": "Perlin noise function calculated on the  GPU .  Choose between 2, 3, and 4 dimensional functions."
+    },
+    {
+      "page": "Noise",
+      "label": "Perlin 3D ( GPU )",
+      "name": "perlin3d",
+      "description": "Perlin noise function calculated on the  GPU .  Choose between 2, 3, and 4 dimensional functions."
+    },
+    {
+      "page": "Noise",
+      "label": "Perlin 4D ( GPU )",
+      "name": "perlin4d",
+      "description": "Perlin noise function calculated on the  GPU .  Choose between 2, 3, and 4 dimensional functions."
+    },
+    {
+      "page": "Noise",
+      "label": "Simplex 2D ( GPU )",
+      "name": "simplex2d",
+      "description": "Simplex noise function calculated on the  GPU .  Choose between 2, 3, and 4 dimensional functions."
+    },
+    {
+      "page": "Noise",
+      "label": "Simplex 3D ( GPU )",
+      "name": "simplex3d",
+      "description": "Simplex noise function calculated on the  GPU .  Choose between 2, 3, and 4 dimensional functions."
+    },
+    {
+      "page": "Noise",
+      "label": "Simplex 4D ( GPU )",
+      "name": "simplex4d",
+      "description": "Simplex noise function calculated on the  GPU .  Choose between 2, 3, and 4 dimensional functions."
+    },
+    {
+      "page": "Noise",
+      "label": "Random ( GPU )",
+      "name": "randomgpu",
+      "description": "Every sample is randomly generated, calculated on the  GPU ."
+    },
+    {
+      "page": "Noise",
+      "label": "Sparse",
+      "name": "sparse",
+      "description": "Produces high quality, continuous noise based on Sparse Convolution."
+    },
+    {
+      "page": "Noise",
+      "label": "Hermite",
+      "name": "hermite",
+      "description": "Quicker than Sparse, but produces lower quality noise."
+    },
+    {
+      "page": "Noise",
+      "label": "Harmomic Summation",
+      "name": "harmonic",
+      "description": "Sparse noise with the ability to control the frequency step of the harmonics. Slowest type."
+    },
+    {
+      "page": "Noise",
+      "label": "Random",
+      "name": "random",
+      "description": "(White Noise) Every sample is random and unrelated to any other sample. It is the same as \"white noise\" in audio."
+    },
+    {
+      "page": "Noise",
+      "label": "Alligator",
+      "name": "alligator",
+      "description": "Cell Noise."
+    },
+    {
+      "page": "Noise",
+      "label": "Seed",
+      "name": "seed",
+      "description": "Any number, integer or non-integer, which starts the random number generator. Each number gives completely different noise patterns, but with similar characteristics."
+    },
+    {
+      "page": "Noise",
+      "label": "Period",
+      "name": "period",
+      "description": "The approximate separation between peaks of a noise cycle. It is expressed in Units. Increasing the period stretches the noise pattern out."
+    },
+    {
+      "page": "Noise",
+      "label": "Harmonics",
+      "name": "harmon",
+      "description": "The number of higher frequency components to layer on top of the base frequency. The higher this number, the bumpier the noise will be (as long as roughness is not set to zero). 0 harmonics give the base shape."
+    },
+    {
+      "page": "Noise",
+      "label": "Harmonic Spread",
+      "name": "spread",
+      "description": "The factor by which the frequency of the harmonics are increased. It is normally 2. A spread of 3 and a base frequency of 0.1Hz will produce harmonics at 0.3Hz, 0.9Hz, 2.7Hz, etc.. This parameter is only valid for the Harmonic Summation type."
+    },
+    {
+      "page": "Noise",
+      "label": "Harmonic Gain",
+      "name": "gain",
+      "description": "Amount of the Harmonic Gain layered on top of the base frequency."
+    },
+    {
+      "page": "Noise",
+      "label": "Roughness",
+      "name": "rough",
+      "description": "Controls the effect of the higher frequency noise. When roughness is zero, all harmonics above the base frequency have no effect. At one, all harmonics are equal in amplitude to the base frequency. When roughness is between one and zero, the amplitude of higher harmonics drops off exponentially from the base frequency."
+    },
+    {
+      "page": "Noise",
+      "label": "The default roughness is 0.5. This means the amplitude of the first harmonic is 0.5 of the base frequency, the second is 0.25, the third is 0.125. The harmonics are added to the base to give the final shape. The Harmonics parameter and the Roughness parameter must both be non",
+      "description": "zero to see the harmonic effects."
+    },
+    {
+      "page": "Noise",
+      "label": "Exponent",
+      "name": "exp",
+      "description": "Pushes the noise values toward 0, or +1 and -1. (It raises the value to the power of the exponent.) Exponents greater than one will pull the channel toward zero, and powers less than one will pull peaks towards +1 and -1. It is used to reshape the channels."
+    },
+    {
+      "page": "Noise",
+      "label": "Amplitude",
+      "name": "amp",
+      "description": "Defines the noise value's amplitude (a scale on the values output)."
+    },
+    {
+      "page": "Noise",
+      "label": "Offset",
+      "name": "offset",
+      "description": "Defines the midpoint color of the noise pattern, the default is 0.5 grey."
+    },
+    {
+      "page": "Noise",
+      "label": "Monochrome",
+      "name": "mono",
+      "description": "Toggle color or monochrome noise."
+    },
+    {
+      "page": "Noise",
+      "label": "Aspect Correct",
+      "name": "aspectcorrect",
+      "description": "Controls if the noise takes aspect ratio into account when calculating it's noise coordinates. When this is off, the noise will stretch to fit a non-square aspect ratio texture."
+    },
+    {
+      "page": "Transform",
+      "label": "The Translate, Rotate, Scale and Pivot parameters let you sample in a different part of the 3D noise space. Imagine a different noise value for every XYZ point in space. Normally, the Noise  CHOP  samples the noise space from (0,0,0) along the X",
+      "description": "axis in steps of 2/period. By changing the transform, you are translating, rotating and scaling the plane along which the Noise TOPs samples the noise space. A slight Y-rotation is like walking in a straight path in the mountains, recording your altitude along the way, then re-starting from the same initial location, walking in a slightly different direction. Your altitude starts off being similar but then diverges."
+    },
+    {
+      "page": "Transform",
+      "label": "Transform Order",
+      "name": "xord",
+      "description": "⊞  - The menu attached to this parameter allows you to specify the order in which the transforms will take place. Changing the Transform order will change where things go much the same way as going a block and turning east gets you to a different place than turning east and then going a block."
+    },
+    {
+      "page": "Transform",
+      "label": "Rotate Order",
+      "name": "rord",
+      "description": "⊞  - The rotational matrix presented when you click on this option allows you to set the transform order for the rotations. As with transform order (above), changing the order in which the rotations take place will alter the final position."
+    },
+    {
+      "page": "Transform",
+      "label": "Translate",
+      "name": "t",
+      "description": "⊞  - Translate the sampling plane through the noise space."
+    },
+    {
+      "page": "Transform",
+      "label": "Rotate",
+      "name": "r",
+      "description": "⊞  - Rotate the sampling plane in the noise space."
+    },
+    {
+      "page": "Transform",
+      "label": "Scale",
+      "name": "s",
+      "description": "⊞  - Scale the sampling plane."
+    },
+    {
+      "page": "Transform",
+      "label": "Pivot",
+      "name": "p",
+      "description": "⊞  - Control the pivot for the transform of the sampling plane."
+    },
+    {
+      "page": "Transform",
+      "label": "Translate 4D",
+      "name": "t4d",
+      "description": "When doing 4D noise, this applies a translation to the 4th coordinate. The previous transformation parameters do not affect the 4th coordinate."
+    },
+    {
+      "page": "Transform",
+      "label": "Scale 4D",
+      "name": "s4d",
+      "description": "When doing 4D noise, this applies a scale to the 4th coordinate."
+    },
+    {
+      "page": "Output",
+      "label": "RGB",
+      "name": "rgb",
+      "description": "⊞  - When an input is connected to the Noise  TOP , the noise pattern is placed over the input image using UV coordinates and the settings from this menu."
+    },
+    {
+      "page": "Output",
+      "label": "Noise",
+      "name": "noise",
+      "description": "Just the noise is output."
+    },
+    {
+      "page": "Output",
+      "label": "Input * Noise",
+      "name": "multiply",
+      "description": "The noise is multiplied with the input."
+    },
+    {
+      "page": "Output",
+      "label": "Input + Noise",
+      "name": "add",
+      "description": "The input is added to the noise."
+    },
+    {
+      "page": "Output",
+      "label": "Input - Noise",
+      "name": "subtract",
+      "description": "The input is subtracted from the noise."
+    },
+    {
+      "page": "Output",
+      "label": "Input Scale",
+      "name": "inputscale",
+      "description": "Adjusts how much of the input image is added to the output."
+    },
+    {
+      "page": "Output",
+      "label": "Noise Scale",
+      "name": "noisescale",
+      "description": "Adjusts how much of the noise is added to the output."
+    },
+    {
+      "page": "Output",
+      "label": "Alpha",
+      "name": "alpha",
+      "description": "⊞  - Sets the alpha channel for the output image."
+    },
+    {
+      "page": "Output",
+      "label": "Zero",
+      "name": "zero",
+      "description": "Alpha channel is zero."
+    },
+    {
+      "page": "Output",
+      "label": "One",
+      "name": "one",
+      "description": "Alpha channel is one."
+    },
+    {
+      "page": "Output",
+      "label": "Noise",
+      "name": "random",
+      "description": "Alpha channel is random noise."
+    },
+    {
+      "page": "Output",
+      "label": "Input",
+      "name": "input",
+      "description": "Alpha is the pass through from the input."
+    },
+    {
+      "page": "Output",
+      "label": "Input * Noise",
+      "name": "multiply",
+      "description": "Alpha is the result of the input's alpha channel * the noise."
+    },
+    {
+      "page": "Output",
+      "label": "Input + Noise",
+      "name": "add",
+      "description": "Alpha is the result of the input's alpha channel + the noise."
+    },
+    {
+      "page": "Output",
+      "label": "Input + clamp(Noise)",
+      "name": "addclamp",
+      "description": "Alpha is the result of the input's alpha channel + the noise but clamped around [0-1]."
+    },
+    {
+      "page": "Output",
+      "label": "Dither",
+      "name": "dither",
+      "description": "Dithers the output to help deal with banding and other artifacts created by precision limitations of 8-bit displays."
+    },
+    {
+      "page": "Output",
+      "label": "Gradient",
+      "name": "gradient",
+      "description": "Turn this on to output the gradient (also known as slope) of the noise function. Currently, only supported for Performance mode Simplex and Perlin noise types. For 2D noise derivatives, the RG channels get populated with the XY derivatives. For 3D, the RGB channels get populated with the XYZ derivatives. And for 4D, the RGBA channels get populated with XYZW derivatives. Note that this calculates derivative of the noise function not derivatives along the noise image."
+    },
+    {
+      "page": "Output",
+      "label": "Mode",
+      "name": "mode",
+      "description": "⊞  - Pick between Performance vs Quality noise. Performance noise is the existing TD noise. Quality noise reduces certain artifacts and axis alignment issues with the existing noise at the cost of speed. Currently only enabled for Simplex Noise type."
+    },
+    {
+      "page": "Output",
+      "label": "Performance",
+      "name": "performance",
+      "description": "Performant noise."
+    },
+    {
+      "page": "Output",
+      "label": "Quality",
+      "name": "quality",
+      "description": "Quality noise."
+    },
+    {
+      "page": "Common",
+      "label": "Output  Resolution",
+      "name": "outputresolution",
+      "description": "⊞  - quickly change the resolution of the  TOP 's data."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's resolution"
+    },
+    {
+      "page": "Common",
+      "label": "Eighth",
+      "name": "eighth",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Quarter",
+      "name": "quarter",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Half",
+      "name": "half",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "2X",
+      "name": "2x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "4X",
+      "name": "4x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "8X",
+      "name": "8x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Fit  Resolution",
+      "name": "fit",
+      "description": "Grow or shrink the input resolution to fit this resolution, while keeping the aspect ratio the same."
+    },
+    {
+      "page": "Common",
+      "label": "Limit  Resolution",
+      "name": "limit",
+      "description": "Limit the input resolution to be not larger than this resolution, while keeping the aspect ratio the same."
+    },
+    {
+      "page": "Common",
+      "label": "Custom  Resolution",
+      "name": "custom",
+      "description": "Directly control the width and height."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution",
+      "name": "resolution",
+      "description": "⊞  - Enabled only when the  Resolution  parameter is set to Custom  Resolution . Some Generators like Constant and Ramp do not use inputs and only use this field to determine their size. The drop down menu on the right provides some commonly used resolutions."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution  Menu",
+      "name": "resmenu",
+      "description": "A drop-down menu with some commonly used resolutions."
+    },
+    {
+      "page": "Common",
+      "label": "Use Global Res Multiplier",
+      "name": "resmult",
+      "description": "Uses the Global  Resolution  Multiplier found in  Edit>Preferences>TOPs . This multiplies all the TOPs resolutions by the set amount. This is handy when working on computers with different hardware specifications. If a project is designed on a desktop workstation with lots of graphics memory, a user on a laptop with only 64MB VRAM can set the Global  Resolution  Multiplier to a value of half or quarter so it runs at an acceptable speed. By checking this checkbox on, this  TOP  is affected by the global multiplier."
+    },
+    {
+      "page": "Common",
+      "label": "Output Aspect",
+      "name": "outputaspect",
+      "description": "⊞  - Sets the image aspect ratio allowing any textures to be viewed in any size. Watch for unexpected results when compositing TOPs with different aspect ratios. (You can define images with non-square pixels using xres, yres, aspectx, aspecty where xres/yres != aspectx/aspecty.)"
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's aspect ratio."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution",
+      "name": "resolution",
+      "description": "Uses the aspect of the image's defined resolution (ie 512x256 would be 2:1), whereby each pixel is square."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Aspect",
+      "name": "custom",
+      "description": "Lets you explicitly define a custom aspect ratio in the Aspect parameter below."
+    },
+    {
+      "page": "Common",
+      "label": "Aspect",
+      "name": "aspect",
+      "description": "⊞  - Use when Output Aspect parameter is set to Custom Aspect."
+    },
+    {
+      "page": "Common",
+      "label": "Aspect Menu",
+      "name": "armenu",
+      "description": "A drop-down menu with some commonly used aspect ratios."
+    },
+    {
+      "page": "Common",
+      "label": "Input Smoothness",
+      "name": "inputfiltertype",
+      "description": "⊞  - This controls pixel filtering on the input image of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Nearest Pixel",
+      "name": "nearest",
+      "description": "Uses nearest pixel or accurate image representation. Images will look jaggy when viewing at any zoom level other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Interpolate Pixels",
+      "name": "linear",
+      "description": "Uses linear filtering between pixels. This is how you get  TOP  images in viewers to look good at various zoom levels, especially useful when using any Fill Viewer setting other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Mipmap Pixels",
+      "name": "mipmap",
+      "description": "Uses   mipmap  filtering when scaling images. This can be used to reduce artifacts and sparkling in moving/scaling images that have lots of detail."
+    },
+    {
+      "page": "Common",
+      "label": "Fill  Viewer",
+      "name": "fillmode",
+      "description": "⊞  - Determine how the  TOP  image is displayed in the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the same Fill Viewer settings as it's input."
+    },
+    {
+      "page": "Common",
+      "label": "Fill",
+      "name": "fill",
+      "description": "Stretches the image to fit the edges of the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Horizontal",
+      "name": "width",
+      "description": "Stretches image to fit viewer horizontally."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Vertical",
+      "name": "height",
+      "description": "Stretches image to fit viewer vertically."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Best",
+      "name": "best",
+      "description": "Stretches or squashes image so no part of image is cropped."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Outside",
+      "name": "outside",
+      "description": "Stretches or squashes image so image fills viewer while constraining it's proportions. This often leads to part of image getting cropped by viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Native  Resolution",
+      "name": "nativeres",
+      "description": "Displays the native resolution of the image in the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Viewer Smoothness",
+      "name": "filtertype",
+      "description": "⊞  - This controls pixel filtering in the viewers."
+    },
+    {
+      "page": "Common",
+      "label": "Nearest Pixel",
+      "name": "nearest",
+      "description": "Uses nearest pixel or accurate image representation. Images will look jaggy when viewing at any zoom level other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Interpolate Pixels",
+      "name": "linear",
+      "description": "Uses linear filtering between pixels. Use this to get  TOP  images in viewers to look good at various zoom levels, especially useful when using any Fill Viewer setting other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Mipmap Pixels",
+      "name": "mipmap",
+      "description": "Uses   mipmap  filtering when scaling images. This can be used to reduce artifacts and sparkling in moving/scaling images that have lots of detail. When the input is 32-bit float format, only nearest filtering will be used (regardless of what is selected)."
+    },
+    {
+      "page": "Common",
+      "label": "Passes",
+      "name": "npasses",
+      "description": "Duplicates the operation of the  TOP  the specified number of times. For every pass after the first it takes the result of the previous pass and replaces the node's first input with the result of the previous pass. One exception to this is the  GLSL TOP  when using compute shaders, where the input will continue to be the connected  TOP 's image."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Mask",
+      "name": "chanmask",
+      "description": "Allows you to choose which channels (R, G, B, or A) the  TOP  will operate on. All channels are selected by default."
+    },
+    {
+      "page": "Common",
+      "label": "Pixel Format",
+      "name": "format",
+      "description": "⊞  - Format used to store data for each channel in the image (ie. R, G, B, and A). Refer to  Pixel Formats  for more information."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's pixel format."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (RGBA)",
+      "name": "rgba8fixed",
+      "description": "Uses 8-bit integer values for each channel."
+    },
+    {
+      "page": "Common",
+      "label": "sRGB 8-bit fixed (RGBA)",
+      "name": "srgba8fixed",
+      "description": "Uses 8-bit integer values for each channel and stores color in sRGB colorspace. Note that this does  not  apply an sRGB curve to the pixel values, it only stores them using an sRGB curve. This means more data is used for the darker values and less for the brighter values. When the values are read downstream they will be converted back to linear. For more information refer to  sRGB ."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (RGBA)",
+      "name": "rgba16float",
+      "description": "Uses 16-bits per color channel, 64-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (RGBA)",
+      "name": "rgba32float",
+      "description": "Uses 32-bits per color channel, 128-bits per pixels."
+    },
+    {
+      "page": "Common",
+      "label": "10-bit RGB, 2-bit Alpha, fixed (RGBA)",
+      "name": "rgb10a2fixed",
+      "description": "Uses 10-bits per color channel and 2-bits for alpha, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (RGBA)",
+      "name": "rgba16fixed",
+      "description": "Uses 16-bits per color channel, 64-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "11-bit float (RGB), Positive Values Only",
+      "name": "rgba11float",
+      "description": "A RGB floating point format that has 11 bits for the Red and Green channels, and 10-bits for the Blue  Channel , 32-bits total per pixel (therefore the same memory usage as 8-bit RGBA). The Alpha channel in this format will always be 1. Values can go above one, but can't be negative. ie. the range is [0, infinite)."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (Mono)",
+      "name": "mono8fixed",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 8-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (Mono)",
+      "name": "mono16fixed",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (Mono)",
+      "name": "mono16float",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (Mono)",
+      "name": "mono32float",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (RG)",
+      "name": "rg8fixed",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 8-bits per channel, 16-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (RG)",
+      "name": "rg16fixed",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 16-bits per channel, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (RG)",
+      "name": "rg16float",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 16-bits per channel, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (RG)",
+      "name": "rg32float",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 32-bits per channel, 64-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (A)",
+      "name": "a8fixed",
+      "description": "An Alpha only format that has 8-bits per channel, 8-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (A)",
+      "name": "a16fixed",
+      "description": "An Alpha only format that has 16-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (A)",
+      "name": "a16float",
+      "description": "An Alpha only format that has 16-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (A)",
+      "name": "a32float",
+      "description": "An Alpha only format that has 32-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (Mono+Alpha)",
+      "name": "monoalpha8fixed",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 8-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (Mono+Alpha)",
+      "name": "monoalpha16fixed",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 16-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (Mono+Alpha)",
+      "name": "monoalpha16float",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 16-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (Mono+Alpha)",
+      "name": "monoalpha32float",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 32-bits per channel, 64-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "Input 0: Composite Input",
+      "description": "Control the Composite operation via the parameters on the Output Page of this operator."
+    },
+    {
+      "page": "Common",
+      "label": "Input 1: Noise Coordinate Map",
+      "description": "A texture specifying the 2, 3 or 4 dimensional lookup into the noise field."
+    },
+    {
+      "page": "Common",
+      "label": "resx",
+      "description": "Horizontal resolution of the  TOP  in pixels."
+    },
+    {
+      "page": "Common",
+      "label": "resy",
+      "description": "Vertical resolution of the  TOP  in pixels."
+    },
+    {
+      "page": "Common",
+      "label": "aspectx",
+      "description": "Horizontal aspect of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "aspecty",
+      "description": "Vertical aspect of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "depth",
+      "description": "Depth of 2D or 3D array if this  TOP  contains a 2D or 3D texture array."
+    },
+    {
+      "page": "Common",
+      "label": "gpu_memory_used",
+      "description": "Total amount of texture memory used by this  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    },
+    {
+      "page": "Common",
+      "label": "The width and height of an image in pixels. Most TOPs, like the  Movie File In TOP  can set the image resolution. See  Aspect Ratio  for the width/height ratio of an image, taking into account non",
+      "description": "square pixels."
+    },
+    {
+      "page": "Common",
+      "label": "The viewer of a node can be (1) the interior of a node (the  Node Viewer ), (2) a floating window (RMB",
+      "description": ">View... on node), or (3) a  Pane  that graphically shows the results of an operator."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "tribute, Template Rotate, Template Rotate Attribute, Template Scale, Scale Attribute, Template Pivot, Template Pivot Attribute, Template Rotate to Vector, Template Rotate to Order, Rotate to Vector : Forward Direction, Rotate to Vector Attribute, Up Vector Type, Up Attribute, Up Constant, TemplateId Attribute, TemplateId Attrib Name). La \"Página Template Attributes\" permite operaciones (Copiar, Multiplicar, Sumar, Restar) en atributos de plantilla para afectar a los atributos de destino.2 * Noise POP: Aplica un campo de ruido a los puntos, afectando típicamente el atributo P (posición) por defecto. Los usuarios pueden elegir entre ruido Simplex y Perlin en 2-4 dimensiones. Los parámetros controlan el período, los armónicos, la dispersión armónica, la amplitud, el exponente y el desplazamiento. El campo de ruido puede ser trasladado, rotado o escalado.16 * Parámetros: Los parámetros clave incluyen Type (Simplex, Perlin), Period, Harmonics, Harmonic Spread, Amplitude, Exponent, Off"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "a atributos de solo lectura. • Experimental:Merge POP: Permite combinar múltiples flujos de datos POPs en uno solo. Puedes especificar qué grupos de datos deseas fusionar de cada entrada. Este operador puede afectar solo puntos, vértices o primitivas que estén en un grupo específico. • Experimental:Neighbor POP: Crea atributos de tipo entero sin signo. Genera atributos que comienzan con Nebr*, lo que sugiere su uso para trabajar con información de vecinos (puntos cercanos). • Experimental:Noise POP: Un operador que genera ruido para atributos, lo que permite crear efectos complejos y variaciones aleatorias. Sus parámetros pueden ser controlados por otros atributos. Permite crear y modificar atributos de color y textura. • Experimental:Normal POP: Se encarga de calcular y crear las normales de superficie y las tangentes de la geometría. • Experimental:Normalize POP: Ofrece capacidades de manipulación fundamentales sin necesidad de código. Permite crear y modificar atributos de colo"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "cercanos** en un atributo llamado `Nebr`. * También puede almacenar el **número de vecinos encontrados** en el atributo `NumNebrs` y la **distancia promedio** a ellos. * Permite comparar puntos de una entrada con puntos de una segunda entrada. * **Uso simple:** Imagina que tienes una nube de puntos y quieres que cada punto sepa cuáles son los 5 puntos más cercanos a él para, por ejemplo, crear conexiones visuales o aplicar efectos basados en la proximidad. * **Noise POP (POP de Ruido)** * **Función principal:** Este POP aplica un **campo de ruido** (valores suaves y aleatorios en 3D) a tus puntos, generalmente moviendo su posición (`P`). * **Características clave:** * Ofrece diferentes **tipos de ruido** como Simplex y Perlin, en 2D, 3D o 4D. * Puedes controlar la **\"rugosidad\" o el detalle** del ruido con parámetros como `Period` (distancia entre picos) y `Harmonics` (capas de detalle adicionales). * Permite"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "c POP` define una fuerza local separada. Los atributos de este `Spec POP` coinciden con los nombres de los parámetros del Force POP (ej., `strength` para el parámetro `Strength`), permitiendo definir múltiples fuerzas de forma programática. * El atributo `PartForce` se utiliza en el Particle POP para calcular la velocidad y posición de las partículas en el siguiente fotograma de la simulación. * Puedes crear el atributo `PartForce` de otras maneras, no solo con Force POP (ej., con Noise, Math Mix, Pattern, Lookup, GLSL POPs). * Puedes **\"enmascarar\" cada fuerza** con un Field POP para controlar su área de efecto. --- #### 27. GLSL Advanced POP * **¿Qué hace?** Este operador te permite ejecutar un **\"compute shader\" GLSL** personalizado en la GPU para manipular tus datos de geometría. Es una herramienta muy potente para el control de bajo nivel y la programación visual. Puede leer y escribir simultáneamente en atributos de puntos, vértices y primitivas. * **C"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "ating stuff, we have lots of things that might be familiar to us. We have things like the point generator, which is a bit similar to stuff that was in the pallet earlier, although it's got its own tricks. (01:35) We've got sphere, we have box, we have a grid. So, a lot of this stuff is going to look kind of familiar to us. Let's see. Let's just do one more thing just so we can see. In terms of how we process these generators, we have a bunch of things that we also might be used to like we have noise and twist, but also some things that we are potentially less used to like one of my favorite things that I think is going to solve a lot of problems for people, which is this little thing called proximity. (02:13) And what proximity allows us to do is essentially create these sort of plexus effects. And and maybe this would be more interesting if I popped a noise in here. I'm going to turn up that value and I'm going to animate it. So now we have a really simple inbuilt way of making a plexus"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

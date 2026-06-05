@@ -1,0 +1,498 @@
+{
+  "family": "DAT",
+  "pageTitle": "OP Find DAT",
+  "pageSlug": "OP_Find_DAT",
+  "url": "https://docs.derivative.ca/OP_Find_DAT",
+  "tdOpTypeGuess": "oPFindDAT",
+  "summary": "[  edit  ]\nThe OP Find  DAT  traverses the component hierarchy starting at one component and looking at all nodes within that component, and outputs a table with one row per node that matches criteria the user chooses. For example, the criteria could be all Ramp TOPs, or all nodes whose name starts with “ wave ”, or all nodes with the  Clone  parameter set to “ master1 ”, or all Geometry components with a tag called “ emitter ”.\nThe criteria can limited to include only nodes of certain families, or certain operator types. It can filter on matching its path, certain parameters containing certain values (both constant and expressions), comments, tags, or the content of a  DAT  containing certain strings.\nYou can also cause the  DAT  to only look to some depth of the hierarchy from the specified component, such as 2 levels down, or limitless.\nCriteria can be case-sensitive or not, but case-sensitive On or Off applies to all criteria in the OP Find  DAT .\nFurthermore you can exclude some nodes using more specialized criteria by returning a True of False in a callback contained in the attached callback  DAT .\nWith the Combine Filters Menu (Any or All, Default is All), you can do an \"or\" or \"and\" on the pattern matching criterea.\nIt also takes an optional  DAT  containing a list of operators (eg, another OP Find  DAT ) which can be used to chain filters.\nOutput Columns\nThere is a variety of columns that you can select from including  name ,  id ,  paths ,  type  and  tags .  ( id  is a member of the operator, which is an integer unique to the node, and doesn't change during the running of the TouchDesigner process.)\nYou can also output custom columns by defining the column names in the callback  DAT , and filling in the column cells via another function in the callback  DAT . For example, you can output a custom column which is the  tx  parameter value of the node.\nYou can control when the OP Find  DAT  cooks. Normally it cooks whenever any of the nodes in the specified hierarchy changes. Using the Active  Cook  menu parameter, you can also force-cook it every frame, or turn off cooking entirely.  You can also click the  Pulse  parameter on Active  Cook  in order to force-cook it once, or do the equivalent using the node.cookpulse.pulse() python call.\nInstead of being give the path to a component to start at, the OP Find  DAT  can take an input  DAT  containing a pre-generated list of paths to nodes to start from, and merge the results of each input line together in the output. To use this, the input  DAT  should contain the node “id” as the first column, which can be generated with another OP Find  DAT  with the Column called “ID” turned on.\nFor example, say you first list all components that are panels, then you separate into groups based on type or  Clone  parameter. The first OP Find  DAT  pre-filters a huge hierarchy to a small fraction of the nodes, the subsequent OP Find DATs are operating on simpler sets to eliminate a lot of checking and cooking.\nRefer to Help ->  Operator Snippets .\nSee also:  Script DAT\nopfindDAT_Class\nContents\n1   Summary\n1.1   Output Columns\n2   Parameters - Component Page\n3   Parameters - Families Page\n4   Parameters - Filters Page\n5   Parameters - Columns Page\n6   Parameters - Callbacks Page\n7   Parameters - Common Page\n8   Operator Inputs",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Component",
+      "label": "Active  Cook",
+      "name": "activecook",
+      "description": "⊞  - Determines when to cook the  DAT ."
+    },
+    {
+      "page": "Component",
+      "label": "Off",
+      "name": "off",
+      "description": "This stops the operator from cooking altogether."
+    },
+    {
+      "page": "Component",
+      "label": "Automatic",
+      "name": "auto",
+      "description": "Only cook / update the contents when the results would change."
+    },
+    {
+      "page": "Component",
+      "label": "Always",
+      "name": "always",
+      "description": "Continually cook this operator repeatedly for update cases that might be missed."
+    },
+    {
+      "page": "Component",
+      "label": "Incremental",
+      "name": "incremental",
+      "description": "This will cook each frame, but only add one result per cook, until all results are added. At that point cooking stops."
+    },
+    {
+      "page": "Component",
+      "label": "Cook   Pulse",
+      "name": "cookpulse",
+      "description": "Manually force the OP Find  DAT  to update."
+    },
+    {
+      "page": "Component",
+      "label": "Component",
+      "name": "component",
+      "description": "The path to the component where the search starts from."
+    },
+    {
+      "page": "Component",
+      "label": "Include  Component",
+      "name": "includecomponent",
+      "description": "Include the component the search starts from in the search itself."
+    },
+    {
+      "page": "Component",
+      "label": "Include  Wire   Hierarchy",
+      "name": "includewired",
+      "description": "Any components wired to the starting component are included in the search."
+    },
+    {
+      "page": "Component",
+      "label": "Minimum Depth",
+      "name": "mindepth",
+      "description": "Set a minmum depth for the sub-components the OP Find  DAT  should recursively search through."
+    },
+    {
+      "page": "Component",
+      "label": "Limit Max Depth",
+      "name": "limitmaxdepth",
+      "description": "Turns on the Maximum Depth parameter to limit searching through sub-components. Turning this toggle off will search through all sub-networks."
+    },
+    {
+      "page": "Component",
+      "label": "Maximum Depth",
+      "name": "maxdepth",
+      "description": "Set the maximum depth for the sub-components the OP Find  DAT  should recursively search through."
+    },
+    {
+      "page": "Component",
+      "label": "Limit Max Operators",
+      "name": "limitmaxops",
+      "description": "Limit the total number of operators iterated in the search."
+    },
+    {
+      "page": "Component",
+      "label": "Maximum Operators",
+      "name": "maxops",
+      "description": "Number of operators the search is limited to."
+    },
+    {
+      "page": "Families",
+      "label": "Object COMPs",
+      "name": "objects",
+      "description": "Include Object COMPs, like Geo  COMP , in the search."
+    },
+    {
+      "page": "Families",
+      "label": "Panel COMPs",
+      "name": "panels",
+      "description": "Include Panel COMPs, like  Container   COMP , in the search."
+    },
+    {
+      "page": "Families",
+      "label": "Other COMPs",
+      "name": "other",
+      "description": "Include other type COMPs, like Base  COMP , in the search."
+    },
+    {
+      "page": "Families",
+      "label": "TOPs",
+      "name": "tops",
+      "description": "Include  DAT  family operators in the search."
+    },
+    {
+      "page": "Families",
+      "label": "CHOPs",
+      "name": "chops",
+      "description": "Include  CHOP  family operators in the search."
+    },
+    {
+      "page": "Families",
+      "label": "SOPs",
+      "name": "sops",
+      "description": "Include  SOP  family operators in the search."
+    },
+    {
+      "page": "Families",
+      "label": "MATs",
+      "name": "mats",
+      "description": "Include  MAT  family operators in the search."
+    },
+    {
+      "page": "Families",
+      "label": "DATs",
+      "name": "dats",
+      "description": "Include  DAT  family operators in the search."
+    },
+    {
+      "page": "Filters",
+      "label": "Case Sensitive",
+      "name": "casesensitive",
+      "description": "Use case sensitivity in all pattern matching below."
+    },
+    {
+      "page": "Filters",
+      "label": "Combine Filters",
+      "name": "combinefilters",
+      "description": "⊞  - Combine 'All', 'Any' or 'Custom' of the filters below to get a match. 'Custom' allows for specifying a subselection of filters with 'or' and 'and' keywords."
+    },
+    {
+      "page": "Filters",
+      "label": "All",
+      "name": "all",
+      "description": "All filters must match for an operator to be included in the search result. (AND)"
+    },
+    {
+      "page": "Filters",
+      "label": "Any",
+      "name": "any",
+      "description": "Any of the filter conditions must be met for an operator to be included in the search result. (OR)"
+    },
+    {
+      "page": "Filters",
+      "label": "Custom Combine",
+      "name": "customcombine",
+      "description": "Specify which filters to combine in the search."
+    },
+    {
+      "page": "Filters",
+      "label": "Name",
+      "name": "namefilter",
+      "description": "Use the operator's names like 'wave1', 'wave2', etc."
+    },
+    {
+      "page": "Filters",
+      "label": "Type",
+      "name": "typefilter",
+      "description": "Use names like  waveCHOP  and  panelexecuteDAT . Look at the column Type to see the syntax."
+    },
+    {
+      "page": "Filters",
+      "label": "Parent Shortcut",
+      "name": "parentshortcutfilter",
+      "description": "Only match operators that include the here specified  Parent Shortcut ."
+    },
+    {
+      "page": "Filters",
+      "label": "OP  Shortcut",
+      "name": "opshortcutfilter",
+      "description": "Only match operators that include the here specified OP  Shortcut ."
+    },
+    {
+      "page": "Filters",
+      "label": "Path",
+      "name": "pathfilter",
+      "description": "Specify a path that the operator should be located in."
+    },
+    {
+      "page": "Filters",
+      "label": "Parent  Path  (relative)",
+      "name": "parentfilter",
+      "description": "Specify a relative parent path that operators should be located in. This is a filter option on the  parentPath  column of this  DAT  that can be enabled by toggling the  Parent  Path   parameter on this  DAT 's  Columns  page."
+    },
+    {
+      "page": "Filters",
+      "label": "Exclude  Path  (relative)",
+      "name": "excludefilter",
+      "description": "Specify a relative path that should be excluded from the search."
+    },
+    {
+      "page": "Filters",
+      "label": "Comment",
+      "name": "commentfilter",
+      "description": "Only match operators that include the here specified comment string."
+    },
+    {
+      "page": "Filters",
+      "label": "Tags",
+      "name": "tagsfilter",
+      "description": "Only match operators that match the here specified tags. Multiple tags can be searched for as a space seperated list."
+    },
+    {
+      "page": "Filters",
+      "label": "DAT  Text",
+      "name": "textfilter",
+      "description": "Only include operators that - in the case of being from the  DAT  family - match specified string in their content."
+    },
+    {
+      "page": "Filters",
+      "label": "Par Name",
+      "name": "parnamefilter",
+      "description": "Only match operators with specified parameter name.  Parameters must match ALL of name, value and expression to be included."
+    },
+    {
+      "page": "Filters",
+      "label": "Par Value",
+      "name": "parvaluefilter",
+      "description": "Only include operators that match specified parameter value. Parameters must match ALL of name, value and expression to be included."
+    },
+    {
+      "page": "Filters",
+      "label": "Par  Expression",
+      "name": "parexpressionfilter",
+      "description": "Only include operators that match specified parameter expression string. Parameters must match ALL of name, value and expression to be included."
+    },
+    {
+      "page": "Filters",
+      "label": "Par Non-Default Only",
+      "name": "parnondefaultonly",
+      "description": "Only match with parameters that are non-default values."
+    },
+    {
+      "page": "Columns",
+      "label": "Use Legacy Columns",
+      "name": "legacycols",
+      "description": "Use only when expecting column headers to be named with legacy titles."
+    },
+    {
+      "page": "Columns",
+      "label": "ID",
+      "name": "idcol",
+      "description": "An integer that uniquely defines the node in this process. It's the same number for the duration of the process, but may be different when you run the process again."
+    },
+    {
+      "page": "Columns",
+      "label": "Name",
+      "name": "namecol",
+      "description": "Inlcude the name of the operator in the result table."
+    },
+    {
+      "page": "Columns",
+      "label": "Type",
+      "name": "typecol",
+      "description": "Include the operator type in the result table. For example  rampTOP ."
+    },
+    {
+      "page": "Columns",
+      "label": "Parent Shortcut",
+      "name": "parentshortcutcol",
+      "description": "Include the operator's  Parent Shortcut  in the result table."
+    },
+    {
+      "page": "Columns",
+      "label": "OP  Shortcut",
+      "name": "opshortcutcol",
+      "description": "Include the operator's OP  Shortcut  in the result table."
+    },
+    {
+      "page": "Columns",
+      "label": "Path",
+      "name": "pathcol",
+      "description": "Include the operator's path in the result table."
+    },
+    {
+      "page": "Columns",
+      "label": "Relative  Path",
+      "name": "relpathcol",
+      "description": "Include the operator's, relative to the search root, path in the result table."
+    },
+    {
+      "page": "Columns",
+      "label": "Parent  Path",
+      "name": "parentpath",
+      "description": "Include the parent path."
+    },
+    {
+      "page": "Columns",
+      "label": "Wire   Path",
+      "name": "wirepathcol",
+      "description": "Include the operator's wire path in the result table."
+    },
+    {
+      "page": "Columns",
+      "label": "Depth",
+      "name": "depthcol",
+      "description": "Include a column showing the relative depth to the root path of the found operator."
+    },
+    {
+      "page": "Columns",
+      "label": "Cook  Times",
+      "name": "cooktimescol",
+      "description": "Include cook-time of found operators."
+    },
+    {
+      "page": "Columns",
+      "label": "Tags",
+      "name": "tagscol",
+      "description": "Include the operator's tags."
+    },
+    {
+      "page": "Columns",
+      "label": "General Properties",
+      "name": "genprop",
+      "description": "Include the operator's name, id, isCOMP, node position, node size and dock id in the result table."
+    },
+    {
+      "page": "Columns",
+      "label": "CPU Time",
+      "name": "cputime",
+      "description": "Include the operator's CPU cooktime in the result table."
+    },
+    {
+      "page": "Columns",
+      "label": "GPU  Time",
+      "name": "gputime",
+      "description": "Include the operator's  GPU  cooktime in the result table."
+    },
+    {
+      "page": "Columns",
+      "label": "CPU Memory",
+      "name": "cpumem",
+      "description": "Include the operator's CPU memory in the result table."
+    },
+    {
+      "page": "Columns",
+      "label": "GPU  Memory",
+      "name": "gpumem",
+      "description": "Include the operator's  GPU  memory in the result table."
+    },
+    {
+      "page": "Columns",
+      "label": "Children",
+      "name": "children",
+      "description": "Include the children of the operator in the result table."
+    },
+    {
+      "page": "Callbacks",
+      "label": "Callbacks  DAT",
+      "name": "callbacks",
+      "description": "Path  to a  DAT  containing callbacks for each event received. See  opfindDAT_Class  for usage."
+    },
+    {
+      "page": "Callbacks",
+      "label": "Convert Bool to Int",
+      "name": "convertbool",
+      "description": "For boolean logic values, the value will be '1' or '0'. When this parameter is Off, they will be 'True\" or 'False'."
+    },
+    {
+      "page": "Callbacks",
+      "label": "Convert None to Empty",
+      "name": "convertnone",
+      "description": "For 'None' values, the value will be converted to Empty."
+    },
+    {
+      "page": "Common",
+      "label": "Language",
+      "name": "language",
+      "description": "⊞  - Select how the  DAT  decides which script language to operate on."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Node",
+      "name": "node",
+      "description": "The  DAT  uses it's own script language."
+    },
+    {
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "name": "extension",
+      "description": "⊞  - Select the file extension this  DAT  should expose to external editors."
+    },
+    {
+      "page": "Common",
+      "label": "dat",
+      "name": "dat",
+      "description": "various common file extensions."
+    },
+    {
+      "page": "Common",
+      "label": "From Language",
+      "name": "language",
+      "description": "pick extension from DATs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "custom",
+      "description": "Specify a custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specifiy the custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Word Wrap",
+      "name": "wordwrap",
+      "description": "⊞  - Enable Word Wrap for Node Display."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs setting."
+    },
+    {
+      "page": "Common",
+      "label": "On",
+      "name": "on",
+      "description": "Turn on Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Off",
+      "name": "off",
+      "description": "Turn off Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Art",
+      "description": "Net    •   Audio Devices    •   CHOP Execute    •   CHOP to    •   Clip    •   Convert    •   CPlusPlus    •   DAT   •    Execute    •   DAT Export   •   Error    •   EtherDream    •   Evaluate    •   Examine    •   Execute    •   FIFO    •   File In    •   File Out    •   Folder    •   In    •   Indices    •   Info    •   Insert    •   JSON    •   Keyboard In    •   Lookup    •   Media File Info    •   Merge    •   MIDI Event    •   MIDI In    •   Monitors    •   MPCDI    •   MQTT Client    •   Multi Touch In    •   NDI    •   Null    •   OP Execute    •   OP Find    •   OSC In    •   OSC Out    •   Out    •   Panel Execute    •   Parameter    •   Parameter Execute    •   ParGroup Execute    •   Perform    •   POP to    •   Render Pick    •   Reorder    •   Script    •   Select    •   Serial    •   Serial Devices    •   SocketIO    •   SOP to    •   Sort    •   Substitute    •   Switch    •   Table    •   TCP/IP    •   Text    •   Touch In    •   Touch Out    •   Transpose    •   TUIO In    •   UDP In    •   UDP Out    •   UDT In    •   UDT Out    •   Video Devices    •   Web Client    •   Web    •   Web Server    •   WebRTC    •   WebSocket    •   XML"
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "To re-compute the output data of the  Operators . An operator cooks when (1) its inputs change, (2) its  Parameters  change, (3) when the timeline moves forward in some cases, or (4)  Scripting  commands are run on the node. When the operator is a  Panel Component , it also cooks when a user interacts with it. When an operator cooks, it usually causes operators connected to its output to re-cook. When TouchDesigner draws the screen, it re-cooks all the",
+      "name": "Dependencies",
+      "description": "the necessary operators in all  Networks , contributing to a frame's total \"cook time\"."
+    },
+    {
+      "page": "Common",
+      "label": "To \"pulse\" a parameter is to send it a signal from (1) an  exported  CHOP channel or (2) a python command or (3) a mouse click that causes a new action to occur immediately. A pulse via python is via the  .pulse()  function on a pulse",
+      "description": "type parameter, such as Reset parameter in a  Speed CHOP . A pulse from a CHOP is typically a 0 to 1 to 0 signal in an exported channel."
+    },
+    {
+      "page": "Common",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

@@ -1,0 +1,25 @@
+{
+  "family": "SOP",
+  "pageTitle": "Stitch SOP",
+  "pageSlug": "Stitch_SOP",
+  "url": "https://docs.derivative.ca/Stitch_SOP",
+  "tdOpTypeGuess": "stitchSOP",
+  "summary": "[  edit  ]\nThe Stitch  SOP  is used to stretch two curves or surfaces to cover a smooth area. It can also be used to create certain types of upholstered fabrics such as cushions and parachutes.\nIf a second input is given, it must contain one surface that the primitives in the first input can stitch to. The left input can contain either faces or surfaces; in either case, each primitive in the first input is stitched to a parametric area of the surface in the second input in such a way that the parametric area allocated to each primitive is the same and the size of all areas added together equals the parametric range specified in the R Width (see below).\nPlease refer to the  Align SOP  for a discussion of \"left\" and \"right\" primitives as well as the option of an auxiliary input.\nstitchSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

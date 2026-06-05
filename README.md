@@ -1,9 +1,10 @@
 # TouchDesigner Plugin for Agents
 
-A plugin that enables AI-assisted TouchDesigner network creation and manipulation via MCP (Model Context Protocol). **v2.0 — 21 MCP tools, 99 POPs indexed, 629+ operators documented, 13 skills.**
+A plugin that enables AI-assisted TouchDesigner network creation and manipulation via MCP (Model Context Protocol). **v3.0 — 24+ MCP tools, 507 operators indexed, 98 POPs documented, 16 skills, professional project planning system.**
 
 ## Features
 
+### Core Capabilities
 - **Execute Python in TouchDesigner** — Run Python code directly in your TD project
 - **Query Editor State** — Get current network path, selection, and operator info
 - **Operator Management** — Create, delete, connect, and layout operators with best practices
@@ -15,8 +16,23 @@ A plugin that enables AI-assisted TouchDesigner network creation and manipulatio
 - **Snapshot & Rollback** — Save operator state before destructive changes
 - **Network Planning** — Generate TD networks from natural language prompts
 - **Semantic Resolution** — Map prompt vocabulary to TD operators and parameters
-- **Knowledge Base** — Query 629+ documented operators (TOP/CHOP/SOP/DAT) + 99 POPs
-- **Skill-based Guidance** — 13 built-in patterns for rendering, POPs, performance, etc.
+- **Knowledge Base** — Query 507+ documented operators (TOP/CHOP/SOP/DAT) + 98 POPs
+- **Skill-based Guidance** — 16 built-in patterns for rendering, POPs, performance, etc.
+
+### NEW in v3.0: Professional Project Planning
+- **Mandatory Pre-Generation Flow** — Every project starts with a root COMP container
+- **Anti-Collision Layout Algorithm** — AABB intersection testing prevents node overlap
+- **Left-to-Right / Top-to-Bottom Flow** — Consistent visual organization
+- **Role-Based Node Ordering** — Source → Bridge → Modifier → Solver → Output
+- **Color Coding System** — Blue=source, Green=process, Orange=output, Purple=control
+- **Verification Checklist** — Automated validation after network generation
+
+### NEW in v3.0: Knowledge Integration
+- **Obsidian Vault Sync** — Continuous knowledge import from vault
+- **Toe_Expand Analysis** — Pattern extraction from 96+ decompressed .toe projects
+- **507 Operator Database** — Complete documentation for all TD operators
+- **98 POP Database** — Full POP operator reference with parameters
+- **373 Template Files** — Reusable patterns from real-world projects
 
 ## Tools
 
@@ -26,8 +42,8 @@ A plugin that enables AI-assisted TouchDesigner network creation and manipulatio
 | `td_pane` | Get current network editor state |
 | `td_selection` | Get selected operators |
 | `td_operators` | List operators at a path |
-| `td_pops_query` | Search the POPs knowledge base (99 operators) |
-| `td_ops_query` | Search operator knowledge base (629+ TOP/CHOP/SOP/DAT) |
+| `td_pops_query` | Search the POPs knowledge base (98 operators) |
+| `td_ops_query` | Search operator knowledge base (507+ TOP/CHOP/SOP/DAT) |
 | `td_pars_get` | Read operator parameters with values/expressions |
 | `td_pars_set` | Set parameters with transactional rollback |
 | `td_connections` | Inspect input/output connections |
@@ -47,43 +63,73 @@ A plugin that enables AI-assisted TouchDesigner network creation and manipulatio
 | `td_snapshot_scene` | Save operator state before destructive changes |
 | `td_project_lifecycle` | Save/load/undo/redo/undo blocks |
 
-**Total: 24 MCP tools** (13 original + 11 new)
+**Total: 24 MCP tools**
 
 ## Skills
 
-The plugin includes skills organized under `touchdesigner/skills/`:
-
 | Skill | Description |
 |-------|-------------|
+| `td-project-planner` | **NEW** Professional pre-generation planning system |
+| `td-complex-systems` | **NEW** Complex system generation (flocking, fluids, fractals) |
 | `td-guide` | Reference documentation for operator families |
 | `td-fundamentals` | TouchDesigner fundamentals and common patterns |
-| `td-pops-advanced` | Advanced POP network design and Python scripts |
-| `td-core-discipline` | Mandatory layout, color coding, error checking, expression rules |
-| `td-build-2025` | New operators in TD 2025.32820+ (Trace POP, Triangulate POP, Layer Mix TOP, RTX Video, etc.) |
+| `td-core-discipline` | Mandatory layout, color coding, error checking rules |
+| `td-build-2025` | New operators in TD 2025.32820+ |
 | `td-integration` | POP/SOP/TOP/CHOP/DAT integration patterns |
 | `td-performance` | Performance optimization guidelines |
 | `td-project-architecture` | Project structure and organization |
 | `td-robust-systems` | Building stable, production-ready systems |
-| `.trae/td-pop-architect` | POP particle system architect |
-| `.trae/tdsw-pop-techniques` | GPU-native POP techniques from TDSW project |
-| `.trae/td-project-analyzer` | Project analysis and documentation generation |
+| `td-pops-advanced` | Advanced POP network design |
+| `td-pops-glsl` | GLSL programming for POPs (v3.0) |
+| `td-pops-utility` | Production: DMX, rendering, sensors |
+| `td-pop-expert` | POP particle system expert |
+| `td-pops-research` | POP research patterns |
+| `prompt-enhancer` | Prompt optimization for TD |
 
 ## Knowledge Base
 
 ### Operators (data/ops/)
-- **630+ operators** indexed across TOP/CHOP/SOP/DAT families
+- **507 operators** indexed across TOP/CHOP/SOP/DAT families
+  - CHOP: 171 | TOP: 148 | SOP: 114 | DAT: 73
 - **Detailed JSON files** with parameters, inputs, outputs, and descriptions
 - Generated from Derivative wiki
-- Fields: `summary`, `inputs[]`, `parameters[]` (with label, name, description, page), `attributes[]`
 
 ### POPs (data/pops/)
-- **99 POP operators** indexed and documented
-- 99 detailed JSON files with analysis from Derivative docs
-- Fields: `pageTitle`, `pageSlug`, `url`, `tdOpTypeGuess`, `localNotes` (multi-source)
+- **98 POP operators** indexed and documented
+- 98 detailed JSON files with analysis from Derivative docs
 
 ### Toe_Expand
-- 30+ example projects (.tox files) from TDSW showcase
-- Analyzable Python scripts, node layouts, and parameter configs
+- 373+ example projects from TDSW and community
+- Python scripts, node layouts, parameter configs
+- Continuous analysis pipeline for pattern extraction
+
+## Project Planning System (NEW)
+
+### Mandatory Pre-Generation Flow
+Every project MUST follow this flow:
+
+1. **Create Root Container** — `baseCOMP` as project root
+2. **Create In/Out Ports** — `inPOP`/`outPOP` for container I/O
+3. **Plan Layout** — Anti-collision positioning with AABB testing
+4. **Create Nodes** — Role-based ordering (Source→Process→Output)
+5. **Apply Color Coding** — Blue/Green/Orange/Purple by role
+6. **Connect Nodes** — Left-to-right wiring
+7. **Verify** — `td_healthcheck` + `td_get_errors`
+
+### Anti-Collision Algorithm
+```
+1. Calculate ideal position: (chain * V_SPACING, index * H_SPACING)
+2. Create AABB bounds for new node
+3. Test intersection with ALL placed nodes
+4. If collision: shift right by H_SPACING until clear
+5. Place node and record bounds
+```
+
+### Layout Constants
+- Horizontal spacing: 300px
+- Vertical spacing: 250px
+- Node width: 130px
+- Node height: 90px
 
 ## Architecture
 
@@ -91,78 +137,36 @@ The plugin includes skills organized under `touchdesigner/skills/`:
 Host (Agent CLI / MCP Client)
   │
   ├── stdio ──► MCP Server (touchdesigner/mcp/src/index.ts)
-  │                │                           │
-  │                ├── Knowledge DBs            ├── Skills
-  │                │   data/ops/                 │   skills/td-*/
-  │                │   data/pops/                │
-  │                │   data/templates/            │
   │                │
+  │                ├── Knowledge DBs (507 ops + 98 POPs)
+  │                │   data/ops/ (JSON per operator)
+  │                │   data/pops/ (JSON per POP)
+  │                │
+  │                ├── Templates (373 Toe_Expand docs)
+  │                │   Toe_Expand/*.md
+  │                │
+  │                └── Skills (16 patterns)
+  │                    skills/td-*/SKILL.md
+  │
   └── HTTP ──► TD API Client (touchdesigner/api/src/index.ts)
                    │
                    └── HTTP ──► TouchDesigner WebServer DAT (port 44444)
                                     │
                                     └── TouchDesignerAPI.py
-                                         │
-                                         ├── POST /execute
-                                         ├── POST /execute_async
-                                         ├── GET /task_status
-                                         ├── GET /editor/pane
-                                         ├── GET /editor/selection
-                                         ├── GET /operators
-                                         ├── GET /parameters
-                                         ├── POST /parameters/set
-                                         ├── GET /connections
-                                         ├── GET /find
-                                         └── GET /healthcheck
 ```
 
 ## Installation
 
-### 1. Install the Claude Code Plugin
+### Prerequisites
+- TouchDesigner 2025.32820+ (with POPs support)
+- Node.js 18+
+- MCP Client (Claude Desktop, Cursor, Codebuff)
 
-```bash
-# Add marketplace
-/plugin marketplace add satoruhiga/claude-touchdesigner
-
-# Install plugin
-/plugin install touchdesigner@satoruhiga-claude-touchdesigner
-```
-
-### 2. Load the TOX in TouchDesigner
-
-1. Open your TouchDesigner project
-2. Drag and drop `toe/src/TouchDesignerAPI.tox` anywhere in your project
-3. The MCP server will start automatically on port `44444`
-
-### 3. Verify Connection
-
-In Agents Cli, try:
-
-```bash
-# Test the connection
-td_execute(code='print(op("/").children)')
-```
-
-## MCP Server Configuration
-
-### For Claude Code (stdio mode)
-
-The `.mcp.json` file configures the MCP server:
-
-```json
-{
-  "mcpServers": {
-    "touchdesigner": {
-      "command": "node",
-      "args": ["${CLAUDE_PLUGIN_ROOT}/mcp/dist/index.js"]
-    }
-  }
-}
-```
-
-### For other MCP clients (VS Code, Claude Desktop, Cursor)
-
-Configure the MCP server in your client's settings:
+### Setup
+1. Clone this repository
+2. Install dependencies: `cd touchdesigner && npm install`
+3. Load `TouchDesignerAPI.py` as WebServer DAT in TD (port 44444)
+4. Configure MCP server in your client:
 
 ```json
 {
@@ -175,119 +179,23 @@ Configure the MCP server in your client's settings:
 }
 ```
 
-## Configuration
+## Scripts
 
-### Port Settings
+| Script | Description |
+|--------|-------------|
+| `scripts/sync_vault_knowledge.py` | Sync Obsidian vault to MCP Docs |
+| `scripts/extract_patterns.py` | Extract patterns from Toe_Expand projects |
 
-By default, the MCP server connects to TouchDesigner on port `44444`. You can change this using the `TDAPI_PORT` environment variable.
+## Changelog
 
-**macOS / Linux:**
-```bash
-TDAPI_PORT=12345 claude
-```
-
-**Windows (Command Prompt):**
-```cmd
-set TDAPI_PORT=12345
-claude
-```
-
-The port must match the `Port` parameter in the `TouchDesignerAPI.tox` component inside TouchDesigner.
-
-## Requirements
-
-- TouchDesigner 2025 or later
-- Claude Code CLI
-- Node.js (for MCP server)
-
-## Development
-
-### Build
-
-```bash
-cd touchdesigner
-npm install
-npm run build
-```
-
-### Structure
-
-```
-claude-touchdesigner/
-├── touchdesigner/
-│   ├── mcp/src/           # MCP server (TypeScript)
-│   │   ├── index.ts       # Tool registration
-│   │   ├── popsDb.ts      # POPs knowledge base query
-│   │   ├── opsDb.ts       # Operators knowledge base query
-│   │   ├── templatesDb.ts # Template query
-│   │   ├── semantic.ts    # Semantic alias resolution
-│   │   ├── networkPlanner.ts  # Network plan generation
-│   │   └── data/          # Knowledge bases
-│   │       ├── ops/       # 630+ operator JSON files
-│   │       └── pops/      # 99 POP JSON files
-│   ├── api/src/           # TD HTTP API client (TypeScript)
-│   │   └── index.ts       # TDClient class
-│   ├── toe/src/           # TouchDesigner Python side
-│   │   ├── TouchDesignerAPI.py  # HTTP API server
-│   │   └── td_utils.py    # Utilities
-│   └── skills/            # AI guidance skills
-│       ├── td-core-discipline/
-│       ├── td-build-2025/
-│       ├── td-pops-advanced/
-│       ├── td-integration/
-│       └── ...
-├── .trae/skills/          # TRAE AI skills
-├── Toe_Expand/            # Example TD projects
-└── Docs/                  # System documentation
-```
-
-## Comparison with Other TD MCP Servers
-
-| Feature | tolchx/touchdesigner-MCP | twozero (v2.774+) | iflow-mcp (v2.8.1) | 8beeeaaat | TDPilot DPSK4 (v2.5.5) |
-|---------|-------------------------|--------------------|---------------------|------------|------------------------|
-| **Tools** | **48** | 36 | 21 | 21 | 110 |
-| **Skills / Agent guidance** | **13** | 1 (built-in) | — | — | 3 |
-| **Operators in KB** | **630+** | — | 630 | — | — |
-| **POPs in KB** | **99** | — | — | — | ✓ |
-| **GLSL POP expertise** | **214 shaders analyzed** | — | — | — | — |
-| **Python execution** | ✓ | ✓ | ✓ | ✓ | ✓ |
-| **Create / Delete / Connect** | ✓ | ✓ | ✓ | ✓ | ✓ |
-| **Copy / Disconnect** | ✓ | — | — | — | ✓ |
-| **Pulse parameters** | ✓ | — | — | — | ✓ |
-| **Error checking** | ✓ | ✓ | ✓ | — | ✓ |
-| **Performance profiling** | ✓ | ✓ | — | — | ✓ |
-| **Screenshot** | ✓ (single + batch) | ✓ (single + batch + screen) | — | — | ✓ |
-| **Read/write DATs** | ✓ | ✓ | — | — | ✓ |
-| **Read CHOP channels** | ✓ | ✓ | — | — | ✓ |
-| **Search code/expressions** | ✓ | ✓ | — | — | ✓ |
-| **Search official TD docs** | ✓ | ✓ | — | — | ✓ |
-| **Memory system** | ✓ (save/recall) | — | — | — | ✓ (8 tools) |
-| **Project lifecycle** | ✓ | ✓ | — | — | ✓ |
-| **Custom parameters** | ✓ | ✓ | — | — | ✓ |
-| **Node detail inspection** | ✓ | ✓ | — | — | ✓ |
-| **Build compatibility** | ✓ | ✓ | — | — | ✓ |
-| **Semantic aliases** | ✓ | — | — | — | — |
-| **Network planning** | ✓ | — | — | — | ✓ |
-| **POP inspection** | ✓ | — | — | — | ✓ |
-| **Batch tools** | ✓ | — | — | — | ✓ |
-| **GLSL POP shaders** | **5 verified working** | — | — | — | — |
-| **Focus / Navigation** | ✓ | ✓ | — | — | ✓ |
-| **Input automation** | — | ✓ | — | — | — |
-| **Multi-instance** | — | ✓ | — | — | — |
-| **Skills** | **13** | — | — | — | 3 |
-| **Knowledge base** | **630+ operators, 99 POPs** | — | — | — | BM25 corpora |
-| **Bundle / install** | git clone | npm + .tox | npm | .mcpb | npm + .tox |
-
-### Strengths by project
-
-| Project | Best for |
-|---------|----------|
-| **tolchx/touchdesigner-MCP** | POP expertise, GLSL shaders, educational skills, 48 tools, knowledge base |
-| **twozero** | Input automation, multi-instance, built-in MCP server in TD |
-| **iflow-mcp** | Operator documentation, tutorials, npm package |
-| **8beeeaaat** | One-click .mcpb install, structured development |
-| **TDPilot DPSK4** | Largest tool surface (110), memory system, recipes, agent discipline, patch sessions |
-
-## License
-
-MIT
+### v3.0 (2026-06-05)
+- **Professional Project Planning System** with mandatory pre-generation flow
+- **Anti-Collision Layout Algorithm** (AABB intersection testing)
+- **507 operators** indexed (from 630+ original, unified from claude-touchdesigner)
+- **98 POPs** indexed and documented
+- **16 skills** (added td-project-planner, td-complex-systems, 4 new from expert system)
+- **Obsidian Vault Integration** with continuous sync pipeline
+- **Toe_Expand Analysis Framework** for pattern extraction from 96+ projects
+- **373 template files** from decompressed .toe projects
+- **Layout Engine** (Python) with anti-collision positioning
+- **Project Initialization Template** for standardized project setup

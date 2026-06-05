@@ -1,0 +1,16 @@
+{
+  "family": "SOP",
+  "pageTitle": "Font SOP",
+  "pageSlug": "Font_SOP",
+  "url": "https://docs.derivative.ca/Font_SOP",
+  "tdOpTypeGuess": "fontSOP",
+  "summary": "[  edit  ]\nNote : Font  SOP  deprecated build 2019.14650, use  Text SOP .\nThe Font  SOP  allows you to create text in your model from Adobe Type 1 Postscript Fonts.\nTo install fonts, copy the font files to the  $TFS/touch/fonts  directory of your installation path. They will be ready to be used in the Font  SOP  after restarting TouchDesigner.\nfontSOP_Class\nContents\n1   Summary\n2   Parameters -  Page",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

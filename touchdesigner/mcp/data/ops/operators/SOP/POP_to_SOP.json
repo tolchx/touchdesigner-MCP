@@ -1,0 +1,111 @@
+{
+  "family": "SOP",
+  "pageTitle": "POP to SOP",
+  "pageSlug": "POP_to_SOP",
+  "url": "https://docs.derivative.ca/POP_to_SOP",
+  "tdOpTypeGuess": "pOPtoSOP",
+  "summary": "[  edit  ]\npoptoSOP_Class\nContents\n1   Summary\n2   Parameters - POP to Page\n3   Info CHOP Channels\n3.1   Common SOP Info Channels\n3.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "POP  to",
+      "label": "Download Type",
+      "name": "downloadtype",
+      "description": "⊞  -"
+    },
+    {
+      "page": "POP  to",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "POP  to",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "POP  to",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "POP  to",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "POP  to",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "POP  to",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "POP  to",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "POP  to",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "POP  to",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "POP  to",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "POP  to",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "POP  to",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "POP  to",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "POP  to",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "POP  to",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "rámetro Bypass es una característica común en los operadores de TouchDesigner, que permite a los usuarios deshabilitar temporalmente el efecto de un operador sin eliminarlo de la red.1 * Parámetros de Espacio de Color: Los parámetros Parameter Color Space y Parameter Reference White son importantes para garantizar una gestión de color correcta, especialmente al tratar con diferentes estándares de color (sRGB, Rec.709, ACES, etc.) y flujos de trabajo HDR.1 * Entradas del Operador: El Attribute POP toma una entrada, etiquetada como \"Input 0\".1 * Interacción con otros POPs: El Attribute POP forma parte de la familia POPs. Interactúa con otros operadores modificando los atributos de la geometría de entrada, que luego pueden ser utilizados por operadores posteriores en la red. La documentación enumera muchos otros POPs experimentales, lo que indica su papel dentro de un sistema más grande de manipulación de partículas y geometría.1 3.2 Copy POP 3.2.1 Función y Propósito El C"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "s de puntos: 1. Un conjunto de puntos sin primitivas. 2. Un conjunto de puntos, con un conjunto de \"Primitivas de Punto\", donde cada primitiva de punto es el número de índice de un punto en la lista de puntos. Solo esta segunda forma puede ser renderizada directamente por el Render TOP. • Creación e Importación de Nubes de Puntos ◦ Se pueden leer archivos que contienen nubes de puntos utilizando el Point File In POP o el File In POP. ◦ Se pueden generar con el Point Generator POP. ◦ POP to DAT puede usarse para extraer información de primitivas, vértices o puntos de un POP. • Ventajas de las Nubes de Puntos en POPs sobre TOPs ◦ No es necesario igualar valores XYZ de posición a canales de color RGB. ◦ No se requiere dividir en grupos de 4. ◦ No hay necesidad del canal 'Active' como en las texturas cuadradas. ◦ Permite tener atributos ilimitados por punto. ◦ Es más fácil colapsar a subconjuntos (a través de grupos en POPs o usando el Delete POP). ◦ Los SOPs y las nube"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "de tu geometría y produce **un solo punto que contiene estadísticas resumidas**. Piensa en él como una forma de obtener el promedio, el valor mínimo o el valor máximo de un atributo en toda tu geometría. * **Características clave:** * Funciona con atributos de **puntos**, **vértices** o **primitivas**. * Los resultados se calculan y se mantienen en la **GPU** (tarjeta gráfica), lo cual es muy rápido. Si necesitas esos resultados en la CPU (procesador principal), puedes usar un POP to CHOP, pero ten en cuenta que puede haber un pequeño retraso. * Si el atributo tiene múltiples componentes (como la posición `P` que tiene X, Y, Z), el análisis se realiza por cada componente. Por ejemplo, te dará el valor mínimo de X (`Min(0)`) y el valor mínimo de Y (`Min(1)`) por separado. * Puede calcular la **suma** y la **potencia RMS** de los valores del atributo de entrada. * También puede encontrar el **índice del punto** (el número de punto) que tiene el valor máxi"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

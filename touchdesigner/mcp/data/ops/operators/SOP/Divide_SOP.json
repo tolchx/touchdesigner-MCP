@@ -1,0 +1,38 @@
+{
+  "family": "SOP",
+  "pageTitle": "Divide SOP",
+  "pageSlug": "Divide_SOP",
+  "url": "https://docs.derivative.ca/Divide_SOP",
+  "tdOpTypeGuess": "divideSOP",
+  "summary": "[  edit  ]\nThe Divide  SOP  divides incoming polygonal geometry. It will smooth input polygons, dividing polygons, as well as sub-divide input polygons using the Bricker option. Bricker is also useful for polygon faces with more than four edges to chop them up into quads and triangles allowing for proper shading when using deformation tools.\ndivideSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "es un índice en la lista de puntos.7 Los tipos de primitivas POP incluyen triángulos, quads, tiras de línea, líneas y primitivas de punto.7 Las primitivas de punto, por ejemplo, son primitivas de un solo vértice renderizadas como puntos, ideales para nubes de puntos o sistemas de partículas.7 Una distinción clave con respecto a los SOPs es que los POPs actualmente no admiten primitivas de curva directamente, aunque la subdivisión de splines es posible utilizando operadores como Line POP y Line Divide POP.7 Los atributos son cruciales para almacenar datos adicionales por punto, vértice o primitiva, como normales (N), coordenadas de textura (uv) y color (Cd).1 Los POPs permiten la creación, modificación, duplicación, cambio de nombre y eliminación de estos atributos.1 El énfasis en los \"atributos\" y su manipulación a través de varios POPs (por ejemplo, Attribute POP, GLSL POP, Math Mix POP) apunta a una filosofía de diseño centrada en los atributos para los POPs. Muchos POPs (Attribute POP,"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "escripción detallada de la función específica de este operador. • Experimental:Limit POP: Este POP proporciona capacidades de manipulación fundamentales sin necesidad de escribir código. Permite crear nuevos atributos fácilmente y utiliza atributos de solo lectura internos. • Experimental:Line Break POP: Se utiliza para dividir una lista de puntos en múltiples primitivas de \"tira de líneas\", basándose en valores específicos de atributos como LineBreak o LineStripIndex. • Experimental:Line Divide POP: Se utiliza para subdividir cualquier tira de línea. • Experimental:Line Metrics POP: Genera nuevos atributos, a menudo de tipo entero sin signo, con nombres predeterminados. Por ejemplo, puede generar el atributo Dir (dirección). • Experimental:Line POP: Un operador que permite la creación de tiras de línea. Puede dividir curvas o generar puntos de control con atributos que definen la forma de la curva, como Weight o Tension. También permite crear y modificar atributos de color y textu"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "año. * El método `Volume` crea puntos aleatoriamente dentro de un volumen cerrado. * El parámetro `Number of Points` es un límite superior aproximado para la cantidad de puntos creados. * Puede crear primitivas de punto por cada punto nuevo, útil si planeas renderizar los puntos directamente. * **Uso simple:** Para rellenar una forma existente con una nube de puntos, útil para efectos de polvo, estrellas, o para crear una base para instancias. * **Subdivide POP (POP de Subdivisión)** * **Función principal:** Subdivide y suaviza una superficie. Divide cada cuadrado en dos triángulos, y luego cada triángulo en 4 triángulos más pequeños, cortando en el punto medio de cada borde. * **Características clave:** * Aumentar el `Depth` (profundidad) aplica subdivisiones recursivas en múltiples pasadas para mayor detalle. * El parámetro `Crease Weight` (peso de pliegue) te permite restaurar la forma original, lo que es úti"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": ". * **Por límites (`Bounding Page`)**: Agrupa basado en rangos delimitadores de cualquier atributo, usando cuadros delimitadores (`Bounding Box`) o esferas delimitadoras (`Bounding Sphere`). * En la página `Edit`, puedes **renombrar grupos** o **convertir un grupo de puntos a un grupo de primitivas** y viceversa. --- #### 34. Histogram POP * **¿Qué hace?** Este operador toma un atributo de tu entrada y crea una \"distribución de frecuencia\" o histograma. Básicamente, **divide un rango de valores en \"cubos\" (bins) y cuenta cuántos valores de tu atributo caen en cada cubo**. * **Características clave:** * Toma un **solo componente** de un atributo (ej., `P(1)` para la componente Y de la posición). Si necesitas usar un vector completo, quizás debas convertirlo a un solo número con un Math POP (ej., usando la función `length()`). * La salida es un conjunto de **puntos**, donde cada punto representa un \"cubo\" (bin) y tiene un atributo `Count` que indica"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

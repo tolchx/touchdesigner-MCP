@@ -1,0 +1,308 @@
+{
+  "family": "SOP",
+  "pageTitle": "Text SOP",
+  "pageSlug": "Text_SOP",
+  "url": "https://docs.derivative.ca/Text_SOP",
+  "tdOpTypeGuess": "textSOP",
+  "summary": "[  edit  ]\nThe Text  SOP  creates text geometry from any  TrueType  or  OpenType  font that is installed on the system, or any TrueType/OpenType font file on disk.  Unicode  is supported.\nSee also:  Text TOP ,  Unicode .\ntextSOP_Class\nContents\n1   Summary\n2   Parameters - Text Page\n3   Parameters - Transform Page\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "Text",
+      "label": "Font",
+      "name": "font",
+      "description": "Select the font for the text from this drop down menu. All fonts are provided by the OS, any  TrueType  font that is loaded into the OS can be used."
+    },
+    {
+      "page": "Text",
+      "label": "Font File",
+      "name": "fontfile",
+      "description": "Specify any TrueType or OpenType font file ( .ttf, .otf file ) to use for the text. When using a font file, the Font menu above is disabled."
+    },
+    {
+      "page": "Text",
+      "label": "Bold",
+      "name": "bold",
+      "description": "Displays the text in  bold ."
+    },
+    {
+      "page": "Text",
+      "label": "Italic",
+      "name": "italic",
+      "description": "Displays the text in  Italic ."
+    },
+    {
+      "page": "Text",
+      "label": "Font Size X",
+      "name": "fontsizex",
+      "description": "Sets the font size in X (horizontal). The font size defines the distance from the baseline to the top of the layout box for the given font. The default size of 1 of the default font is close to the vertical size of capital letters with no descenders."
+    },
+    {
+      "page": "Text",
+      "label": "Font Size Y",
+      "name": "fontsizey",
+      "description": "Sets the font size in Y (vertical)."
+    },
+    {
+      "page": "Text",
+      "label": "Keep Font Ratio",
+      "name": "keepfontratio",
+      "description": "Ignores Y value in Font Size. Sets both X and Y size to  Font Size  X."
+    },
+    {
+      "page": "Text",
+      "label": "Scale Font to BBox Height",
+      "name": "scalefontobboxheight",
+      "description": "Scale the font’s vertical size so it’s based on the vertical bounding box of the font."
+    },
+    {
+      "page": "Text",
+      "label": "Output",
+      "name": "output",
+      "description": "⊞  - Specify geometry output of Triangles, Closed Polygons or Open Polygons."
+    },
+    {
+      "page": "Text",
+      "label": "Triangles",
+      "name": "triangles",
+      "description": "The output is a triangulated mesh suitable for shaded renders."
+    },
+    {
+      "page": "Text",
+      "label": "Closed Polygons (Filled Holes)",
+      "name": "closedpolys",
+      "description": "The output is a set of separated closed outlines, suitable for  Laser CHOP ,  Extrude SOP , etc.  Append a  Hole SOP  to preserve holes properly."
+    },
+    {
+      "page": "Text",
+      "label": "Open Polygons",
+      "name": "openpolys",
+      "description": "The output is a set of separated open outlines, suitable for the  Laser CHOP , etc. Renders as a wireframe always."
+    },
+    {
+      "page": "Text",
+      "label": "Level of Detail",
+      "name": "levelofdetail",
+      "description": "Controls the quality of the text's shape by adding/removing subdivisions to the geometry."
+    },
+    {
+      "page": "Text",
+      "label": "Language",
+      "name": "language",
+      "description": "Language type hint to help format the glyphs correctly. This should be a abbreviation from the  Text TOP/SOP Unicode Language Abbreviations  table."
+    },
+    {
+      "page": "Text",
+      "label": "Reading Direction",
+      "name": "readingdirection",
+      "description": "⊞  - Use to set whether the language reads Left to Right or Right to Left."
+    },
+    {
+      "page": "Text",
+      "label": "Kerning",
+      "name": "kerning",
+      "description": "⊞  - The amount of space to add between letters in X and Y. Kerning is way of adding an arbitrary offset between letters. There already is a default offset associated with each font so the letters are flush against each other. The  Kerning  parameter this adds to that and allows for a Y offset."
+    },
+    {
+      "page": "Text",
+      "label": "Line Spacing",
+      "name": "linespacing",
+      "description": "Determines the amount of space between lines of text."
+    },
+    {
+      "page": "Text",
+      "label": "Horizontal Align",
+      "name": "alignx",
+      "description": "⊞  - Sets the horizontal alignment."
+    },
+    {
+      "page": "Text",
+      "label": "Left",
+      "name": "left",
+      "description": "Left justifies the text."
+    },
+    {
+      "page": "Text",
+      "label": "Center",
+      "name": "center",
+      "description": "Centers the text."
+    },
+    {
+      "page": "Text",
+      "label": "Right",
+      "name": "right",
+      "description": "Right justifies the text."
+    },
+    {
+      "page": "Text",
+      "label": "Word Wrap",
+      "name": "wordwrap",
+      "description": "When checked text is automatically line wrapped once it takes up the space set in  Word Wrap Size  parameter below."
+    },
+    {
+      "page": "Text",
+      "label": "Word Wrap Size",
+      "name": "wordwrapsize",
+      "description": "Determines the amount of 3D space used before the line wraps."
+    },
+    {
+      "page": "Text",
+      "label": "Text",
+      "name": "text",
+      "description": "The string of text to create as geometry.  If newlines or tabs are desired, the recommended way is to change this parameter to expression mode, and specify a Python string that includes \\n or \\t to signify newlines and tabs. E.g  'First Line\\nSecond Line' ."
+    },
+    {
+      "page": "Text",
+      "label": "Legacy Parsing",
+      "name": "legacyparsing",
+      "description": "Note, it's recommended to use a Python expression in the Text parameter instead of enabling legacy parsing, as this parsing can easily run into issues with more complex strings.  When enabled and if the Text parameter is in Constant Mode, \\t and \\n character sequences will be turned into tab and newline characters respectively. Otherwise the \\t and \\n sequences will be left as literal \\ and t and \\ and n."
+    },
+    {
+      "page": "Transform",
+      "label": "Transform Order",
+      "name": "xord",
+      "description": "⊞  - Sets the overall transform order for the transformations. The transform order determines the order in which transformations take place. Depending on the order, you can achieve different results using the exact same values. Choose the appropriate order from the menu."
+    },
+    {
+      "page": "Transform",
+      "label": "Rotate Order",
+      "name": "rord",
+      "description": "⊞  - Sets the order of the rotations within the overall transform order."
+    },
+    {
+      "page": "Transform",
+      "label": "Translate",
+      "name": "t",
+      "description": "⊞  - These three fields move the geometry in the three axes."
+    },
+    {
+      "page": "Transform",
+      "label": "Rotate",
+      "name": "r",
+      "description": "⊞  - These three fields rotate the geometry in the three axes."
+    },
+    {
+      "page": "Transform",
+      "label": "Scale",
+      "name": "s",
+      "description": "⊞  - These three fields scale the geometry in the three axes."
+    },
+    {
+      "page": "Transform",
+      "label": "Pivot",
+      "name": "p",
+      "description": "⊞  - The pivot point for the transformations (not the same as the pivot point in the pivot channels). The pivot point parameters allow you to define the point about which geometry scales and rotates. Altering the pivot point produces different results depending on the transformation performed on the object."
+    },
+    {
+      "page": "Transform",
+      "label": "For example, during a scaling operation, if the pivot point of an object is located at:",
+      "description": "1, -1, 0  and you wanted to scale the object by  0.5  (reduce its size by 50%) the object would scale toward the pivot point and appear to slide down and to the left."
+    },
+    {
+      "page": "Transform",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Transform",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Transform",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Transform",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Transform",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Transform",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Transform",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Transform",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Transform",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Transform",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Transform",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Transform",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Transform",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Transform",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Transform",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "03-twozero-evaluation.md",
+      "excerpt": "geoCOMP` - nodos “I/O estándar” (`in*`, `out*`, `null*`) - layout determinístico (`nodeX/nodeY`) - nombres consistentes y prefijos por dominio (`pop_`, `top_`, `chop_`) - **Validación y calidad (production tools)** Protocolos para: - verificar existencia de OPs creados - detectar cooks costosos (Info CHOP / cookTime) - validar atributos esperados en POP sims (PartVel/PartForce/…) - reportar errores con causas probables + fixes sugeridos - **Sync/portabilidad** En este contexto, “cloud sync” se reemplaza por: - base de conocimiento versionada (JSON + Markdown) - scripts reproducibles (sin estado oculto) ## Qué no se integra directamente - UI embebida y herramientas propietarias de TWOZERO. - Sincronización en la nube “integrada” (solo se replica el enfoque de versionado y reproducibilidad)."
+    },
+    {
+      "source": "04-pops-database.md",
+      "excerpt": "presente) ### Construir / actualizar la base En `touchdesigner/`: ```powershell npm run build node .\\mcp\\dist\\popsBuild.js --out .\\mcp\\data\\pops --limit 10 --local-docs ..\\Docs ``` Enriquecimiento opcional con LLM (Gemma 4 vía Ollama): ```powershell $env:LLM_PROVIDER=\"ollama\" $env:OLLAMA_MODEL=\"gemma4:e4b\" node .\\mcp\\dist\\popsBuild.js --out .\\mcp\\data\\pops --enrich --local-docs ..\\Docs ``` ## Consulta desde el MCP Se expone una herramienta MCP adicional: - `td_pops_query`: - `search`: texto libre - `page_slug`: slug exacto (p.ej. `Particle_POP`) - `limit`: máximo de resultados Objetivo: permitir que el asistente consulte documentación técnica antes de generar redes POP complejas."
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "Las primitivas de punto, por ejemplo, son primitivas de un solo vértice renderizadas como puntos, ideales para nubes de puntos o sistemas de partículas.7 Una distinción clave con respecto a los SOPs es que los POPs actualmente no admiten primitivas de curva directamente, aunque la subdivisión de splines es posible utilizando operadores como Line POP y Line Divide POP.7 Los atributos son cruciales para almacenar datos adicionales por punto, vértice o primitiva, como normales (N), coordenadas de textura (uv) y color (Cd).1 Los POPs permiten la creación, modificación, duplicación, cambio de nombre y eliminación de estos atributos.1 El énfasis en los \"atributos\" y su manipulación a través de varios POPs (por ejemplo, Attribute POP, GLSL POP, Math Mix POP) apunta a una filosofía de diseño centrada en los atributos para los POPs. Muchos POPs (Attribute POP, GLSL POP, Math Mix POP, etc.) están explícitamente diseñados para crear, modificar o combinar atributos.1 La documentación destaca que los"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ivide POP: Se utiliza para subdividir cualquier tira de línea. • Experimental:Line Metrics POP: Genera nuevos atributos, a menudo de tipo entero sin signo, con nombres predeterminados. Por ejemplo, puede generar el atributo Dir (dirección). • Experimental:Line POP: Un operador que permite la creación de tiras de línea. Puede dividir curvas o generar puntos de control con atributos que definen la forma de la curva, como Weight o Tension. También permite crear y modificar atributos de color y textura. • Experimental:Line Smooth POP: Puede añadir puntos y suavizar líneas. • Experimental:Line Thick POP: El material de línea (Line MAT) de TouchDesigner se implementa internamente usando una conversión a este POP, lo que sugiere su rol en la representación visual de líneas. • Experimental:Lookup Attribute POP: Utiliza uno, dos o tres componentes de un atributo como índices para realizar búsquedas. También puede utilizar atributos de solo lectura. • Experimental:Lookup Channel POP: Sim"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "nadas polares o cilíndricas** (latitud, longitud, radio), también normalizadas a un rango de 0 a 1. * Ofrece opciones para **Bias** (sesgar los números hacia 0 o 1), aplicar una **función de curva de búsqueda** (`Lookup function`), un `Exponent` (potenciar valores) y **Re-range** (re-escalar a otro rango). * Permite asignar los valores normalizados a cualquier componente de un atributo float2, float3 o float4. * **Uso simple:** Útil para preparar datos para mapeo de texturas, shaders, o cualquier proceso que requiera valores dentro de un rango específico. Por ejemplo, para crear un mapa de calor donde los valores más bajos son 0 y los más altos son 1. * **Null POP (POP Nulo)** * **Función principal:** Este es un operador muy simple que **no hace nada**; simplemente pasa la información de su entrada a su salida sin cambios. * **Características clave:** * **No consume CPU o memoria GPU** para los atributos que no modifica, ya que sol"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "ás creando ya existe. --- #### 5. Attribute POP * **¿Qué hace?** Este operador es fundamental para la gestión de atributos. Te permite **crear nuevos atributos**, **renombrar atributos existentes**, **duplicarlos** o **eliminarlos**. * **Características clave:** * **Crear nuevos atributos**: Cuando creas uno, puedes especificar: * Su **nombre** (puedes usar nombres predefinidos como `P` para posición, `N` para normales, `Color` para color, `Tex` para coordenadas de textura, o crear el tuyo propio). * Su **tipo de dato** (`float`, `double`, `int`, `uint`). * El **número de componentes** (1, 2, 3 o 4). Por ejemplo, un `float` con 3 componentes es un `float3`. * Si es un **array** (lista de valores) y su tamaño. * Un **valor por defecto** para cada componente. * También puede crear **atributos de matriz** (como `mat4x4`). * **Renombrar atributos**: Simplemente cambias el nombre de un atributo existente"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

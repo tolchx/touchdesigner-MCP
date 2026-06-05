@@ -1,0 +1,226 @@
+{
+  "family": "DAT",
+  "pageTitle": "Text DAT",
+  "pageSlug": "Text_DAT",
+  "url": "https://docs.derivative.ca/Text_DAT",
+  "tdOpTypeGuess": "textDAT",
+  "summary": "[  edit  ]\nThe Text  DAT  lets you edit free-form, multi-line ASCII text. It is used for scripts, GLSL shaders, notes, XML and other purposes. \"Free-form text\" is one of the two forms of DATs (the other being tables of rows and columns of cells, each cell containing a text string as in a  Table DAT ).\nText can be typed into the  DAT  when its  Viewer Active  is on, or in an external text editor. The Text  DAT  can get its data from a file on disk or from a file on the web. Use  http://  when specifying a remote text file.\nSee also the Execute DATs which are specialized to run their text as a script:  CHOP Execute DAT  runs its script when a  CHOP  channel changes,  DAT Execute DAT  when a  DAT  changes,  Execute DAT  when you start or end your TouchDesigner process or want to run a script every frame,  Panel Execute DAT  when a control panel changes,  Parameter Execute DAT  when a parameter of a node changes, and  OP Execute DAT  when anything else about an operator changes, including creation and deletion of nodes in a component's network.\nUse the  Web DAT  to fetch via a URL query.\ntextDAT_Class\nContents\n1   Summary\n2   Parameters - File Page\n3   Parameters - Common Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common DAT Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "File",
+      "label": "Edit..",
+      "name": "edit",
+      "description": "Clicking this opens a text editor to add/edit/delete text from the  DAT ."
+    },
+    {
+      "page": "File",
+      "label": "File",
+      "name": "file",
+      "description": "The filesystem path and name of the file to load. Accepts  .txt  and  .dat  files."
+    },
+    {
+      "page": "File",
+      "label": "Sync to File",
+      "name": "syncfile",
+      "description": "When On, loads the file from disk into the  DAT  when the projects starts.  A filename must be specified.  Turning on the option will load the file from disk immediately.  If the file does not exist, it will be created the first time the  DAT  is updated.  The file is monitored so that any changes made to the file will update the  DAT , and any changes made to the  DAT  will be written to the file right away.  If the file is removed, the  DAT  will retain its current contents."
+    },
+    {
+      "page": "File",
+      "label": "Load on Start",
+      "name": "loadonstart",
+      "description": "When On, reloads the file from disk into the  DAT  when the projects starts."
+    },
+    {
+      "page": "File",
+      "label": "Load File",
+      "name": "loadonstartpulse",
+      "description": "Instantly reloads the file."
+    },
+    {
+      "page": "File",
+      "label": "Write on Toe Save",
+      "name": "write",
+      "description": "When On, writes the contents of the  DAT  out to the file on disk when the project is saved."
+    },
+    {
+      "page": "File",
+      "label": "Write File",
+      "name": "writepulse",
+      "description": "Instantly write the file to disk."
+    },
+    {
+      "page": "Common",
+      "label": "Language",
+      "name": "language",
+      "description": "⊞  - Select how the  DAT  decides which script language to operate on."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Node",
+      "name": "node",
+      "description": "The  DAT  uses it's own script language."
+    },
+    {
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "name": "extension",
+      "description": "⊞  - Select the file extension this  DAT  should expose to external editors."
+    },
+    {
+      "page": "Common",
+      "label": "dat",
+      "name": "dat",
+      "description": "various common file extensions."
+    },
+    {
+      "page": "Common",
+      "label": "From Language",
+      "name": "language",
+      "description": "pick extension from DATs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "custom",
+      "description": "Specify a custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specifiy the custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Word Wrap",
+      "name": "wordwrap",
+      "description": "⊞  - Enable Word Wrap for Node Display."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs setting."
+    },
+    {
+      "page": "Common",
+      "label": "On",
+      "name": "on",
+      "description": "Turn on Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Off",
+      "name": "off",
+      "description": "Turn off Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "num_rows",
+      "description": "Number of rows in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "num_cols",
+      "description": "Number of columns in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "Art",
+      "description": "Net    •   Audio Devices    •   CHOP Execute    •   CHOP to    •   Clip    •   Convert    •   CPlusPlus    •   DAT   •    Execute    •   DAT Export   •   Error    •   EtherDream    •   Evaluate    •   Examine    •   Execute    •   FIFO    •   File In    •   File Out    •   Folder    •   In    •   Indices    •   Info    •   Insert    •   JSON    •   Keyboard In    •   Lookup    •   Media File Info    •   Merge    •   MIDI Event    •   MIDI In    •   Monitors    •   MPCDI    •   MQTT Client    •   Multi Touch In    •   NDI    •   Null    •   OP Execute    •   OP Find    •   OSC In    •   OSC Out    •   Out    •   Panel Execute    •   Parameter    •   Parameter Execute    •   ParGroup Execute    •   Perform    •   POP to    •   Render Pick    •   Reorder    •   Script    •   Select    •   Serial    •   Serial Devices    •   SocketIO    •   SOP to    •   Sort    •   Substitute    •   Switch    •   Table    •   TCP/IP    •   Text    •   Touch In    •   Touch Out    •   Transpose    •   TUIO In    •   UDP In    •   UDP Out    •   UDT In    •   UDT Out    •   Video Devices    •   Web Client    •   Web    •   Web Server    •   WebRTC    •   WebSocket    •   XML"
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "03-twozero-evaluation.md",
+      "excerpt": "geoCOMP` - nodos “I/O estándar” (`in*`, `out*`, `null*`) - layout determinístico (`nodeX/nodeY`) - nombres consistentes y prefijos por dominio (`pop_`, `top_`, `chop_`) - **Validación y calidad (production tools)** Protocolos para: - verificar existencia de OPs creados - detectar cooks costosos (Info CHOP / cookTime) - validar atributos esperados en POP sims (PartVel/PartForce/…) - reportar errores con causas probables + fixes sugeridos - **Sync/portabilidad** En este contexto, “cloud sync” se reemplaza por: - base de conocimiento versionada (JSON + Markdown) - scripts reproducibles (sin estado oculto) ## Qué no se integra directamente - UI embebida y herramientas propietarias de TWOZERO. - Sincronización en la nube “integrada” (solo se replica el enfoque de versionado y reproducibilidad)."
+    },
+    {
+      "source": "04-pops-database.md",
+      "excerpt": "presente) ### Construir / actualizar la base En `touchdesigner/`: ```powershell npm run build node .\\mcp\\dist\\popsBuild.js --out .\\mcp\\data\\pops --limit 10 --local-docs ..\\Docs ``` Enriquecimiento opcional con LLM (Gemma 4 vía Ollama): ```powershell $env:LLM_PROVIDER=\"ollama\" $env:OLLAMA_MODEL=\"gemma4:e4b\" node .\\mcp\\dist\\popsBuild.js --out .\\mcp\\data\\pops --enrich --local-docs ..\\Docs ``` ## Consulta desde el MCP Se expone una herramienta MCP adicional: - `td_pops_query`: - `search`: texto libre - `page_slug`: slug exacto (p.ej. `Particle_POP`) - `limit`: máximo de resultados Objetivo: permitir que el asistente consulte documentación técnica antes de generar redes POP complejas."
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "Las primitivas de punto, por ejemplo, son primitivas de un solo vértice renderizadas como puntos, ideales para nubes de puntos o sistemas de partículas.7 Una distinción clave con respecto a los SOPs es que los POPs actualmente no admiten primitivas de curva directamente, aunque la subdivisión de splines es posible utilizando operadores como Line POP y Line Divide POP.7 Los atributos son cruciales para almacenar datos adicionales por punto, vértice o primitiva, como normales (N), coordenadas de textura (uv) y color (Cd).1 Los POPs permiten la creación, modificación, duplicación, cambio de nombre y eliminación de estos atributos.1 El énfasis en los \"atributos\" y su manipulación a través de varios POPs (por ejemplo, Attribute POP, GLSL POP, Math Mix POP) apunta a una filosofía de diseño centrada en los atributos para los POPs. Muchos POPs (Attribute POP, GLSL POP, Math Mix POP, etc.) están explícitamente diseñados para crear, modificar o combinar atributos.1 La documentación destaca que los"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ivide POP: Se utiliza para subdividir cualquier tira de línea. • Experimental:Line Metrics POP: Genera nuevos atributos, a menudo de tipo entero sin signo, con nombres predeterminados. Por ejemplo, puede generar el atributo Dir (dirección). • Experimental:Line POP: Un operador que permite la creación de tiras de línea. Puede dividir curvas o generar puntos de control con atributos que definen la forma de la curva, como Weight o Tension. También permite crear y modificar atributos de color y textura. • Experimental:Line Smooth POP: Puede añadir puntos y suavizar líneas. • Experimental:Line Thick POP: El material de línea (Line MAT) de TouchDesigner se implementa internamente usando una conversión a este POP, lo que sugiere su rol en la representación visual de líneas. • Experimental:Lookup Attribute POP: Utiliza uno, dos o tres componentes de un atributo como índices para realizar búsquedas. También puede utilizar atributos de solo lectura. • Experimental:Lookup Channel POP: Sim"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "nadas polares o cilíndricas** (latitud, longitud, radio), también normalizadas a un rango de 0 a 1. * Ofrece opciones para **Bias** (sesgar los números hacia 0 o 1), aplicar una **función de curva de búsqueda** (`Lookup function`), un `Exponent` (potenciar valores) y **Re-range** (re-escalar a otro rango). * Permite asignar los valores normalizados a cualquier componente de un atributo float2, float3 o float4. * **Uso simple:** Útil para preparar datos para mapeo de texturas, shaders, o cualquier proceso que requiera valores dentro de un rango específico. Por ejemplo, para crear un mapa de calor donde los valores más bajos son 0 y los más altos son 1. * **Null POP (POP Nulo)** * **Función principal:** Este es un operador muy simple que **no hace nada**; simplemente pasa la información de su entrada a su salida sin cambios. * **Características clave:** * **No consume CPU o memoria GPU** para los atributos que no modifica, ya que sol"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "ás creando ya existe. --- #### 5. Attribute POP * **¿Qué hace?** Este operador es fundamental para la gestión de atributos. Te permite **crear nuevos atributos**, **renombrar atributos existentes**, **duplicarlos** o **eliminarlos**. * **Características clave:** * **Crear nuevos atributos**: Cuando creas uno, puedes especificar: * Su **nombre** (puedes usar nombres predefinidos como `P` para posición, `N` para normales, `Color` para color, `Tex` para coordenadas de textura, o crear el tuyo propio). * Su **tipo de dato** (`float`, `double`, `int`, `uint`). * El **número de componentes** (1, 2, 3 o 4). Por ejemplo, un `float` con 3 componentes es un `float3`. * Si es un **array** (lista de valores) y su tamaño. * Un **valor por defecto** para cada componente. * También puede crear **atributos de matriz** (como `mat4x4`). * **Renombrar atributos**: Simplemente cambias el nombre de un atributo existente"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Math POP",
+  "pageSlug": "Math_POP",
+  "url": "https://docs.derivative.ca/Math_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "mathPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": ".21 * Parámetros: Attribute Class, Input Attribute, Use Input Range, Input Range, Output Bin Value, Quantize (Floor, Round, Ceiling), Outside Range (Clamp, Discard, Extra Out-of-Range Bins), Number of Bins, Count Attribute.21 * Line Metrics POP: Añade atributos de métricas a las tiras de línea, proporcionando información como la dirección a los puntos siguiente/anterior, la distancia desde el inicio de la tira de línea o el número de tira de línea. Estos atributos son útiles para los Math POPs o Lookup POPs subsiguientes.22 * Math Combine POP: Un potente operador para realizar numerosas operaciones matemáticas en atributos. Amplía las capacidades de Math Mix POP al permitir la selección explícita y el cambio de nombre de atributos de múltiples entradas, la creación de nuevos atributos con valores constantes y la aplicación de bloques de pre/post-procesamiento.23 * Parámetros: Presenta páginas \"New\" (crear nuevos atributos), \"Pre\" (operaciones de un solo atributo), \"Combin"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "de curva directamente, aunque la subdivisión de splines es posible utilizando operadores como Line POP y Line Divide POP.7 Los atributos son cruciales para almacenar datos adicionales por punto, vértice o primitiva, como normales (N), coordenadas de textura (uv) y color (Cd).1 Los POPs permiten la creación, modificación, duplicación, cambio de nombre y eliminación de estos atributos.1 El énfasis en los \"atributos\" y su manipulación a través de varios POPs (por ejemplo, Attribute POP, GLSL POP, Math Mix POP) apunta a una filosofía de diseño centrada en los atributos para los POPs. Muchos POPs (Attribute POP, GLSL POP, Math Mix POP, etc.) están explícitamente diseñados para crear, modificar o combinar atributos.1 La documentación destaca que los atributos se almacenan como Objetos de Búfer de Almacenamiento de Shader (SSBOs) en los GLSL POPs.12 Esta estructuración de datos en SSBOs, una característica central de la programación de GPU moderna (GLSL, Vulkan), permite un procesamiento altamen"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": ".21 * Parámetros: Attribute Class, Input Attribute, Use Input Range, Input Range, Output Bin Value, Quantize (Floor, Round, Ceiling), Outside Range (Clamp, Discard, Extra Out-of-Range Bins), Number of Bins, Count Attribute.21 * Line Metrics POP: Añade atributos de métricas a las tiras de línea, proporcionando información como la dirección a los puntos siguiente/anterior, la distancia desde el inicio de la tira de línea o el número de tira de línea. Estos atributos son útiles para los Math POPs o Lookup POPs subsiguientes.22 * Math Combine POP: Un potente operador para realizar numerosas operaciones matemáticas en atributos. Amplía las capacidades de Math Mix POP al permitir la selección explícita y el cambio de nombre de atributos de múltiples entradas, la creación de nuevos atributos con valores constantes y la aplicación de bloques de pre/post-procesamiento.23 * Parámetros: Presenta páginas \"New\" (crear nuevos atributos), \"Pre\" (operaciones de un solo atributo), \"Combin"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "para realizar búsquedas en canales. • Experimental:Lookup Texture POP: Similar a los anteriores, pero utiliza componentes de atributos como índices para realizar búsquedas en texturas. • Experimental:Math Combine POP: Similar al Attribute Combine, permite combinar datos de múltiples entradas y especificar qué atributos se deben combinar. También soporta la creación automática de nombres de atributos. • Experimental:Math Mix POP: Permite mezclar datos de múltiples entradas. Al igual que el Math POP, ofrece capacidades de manipulación sin codificación y la creación fácil de nuevos atributos. Soporta la creación automática de nombres de atributos y utiliza atributos de solo lectura. • Experimental:Math POP: Un operador clave para realizar operaciones matemáticas y funciones simples en atributos sin necesidad de escribir código. Permite crear nuevos atributos para almacenar los resultados. También puedes usarlo para crear y modificar atributos de color y textura. Soporta la creación automá"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "neas. • Experimental:Lookup Attribute POP: Utiliza uno, dos o tres componentes de un atributo como índices para realizar búsquedas. También puede utilizar atributos de solo lectura. • Experimental:Lookup Channel POP: Similar al Lookup Attribute POP, usa componentes de atributos como índices para realizar búsquedas en canales. • Experimental:Lookup Texture POP: Similar a los anteriores, pero utiliza componentes de atributos como índices para realizar búsquedas en texturas. • Experimental:Math Combine POP: Similar al Attribute Combine, permite combinar datos de múltiples entradas y especificar qué atributos se deben combinar. También soporta la creación automática de nombres de atributos. • Experimental:Math Mix POP: Permite mezclar datos de múltiples entradas. Al igual que el Math POP, ofrece capacidades de manipulación sin codificación y la creación fácil de nuevos atributos. Soporta la creación automática de nombres de atributos y utiliza atributos de solo lectura. • Experimen"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "para realizar búsquedas en canales. • Experimental:Lookup Texture POP: Similar a los anteriores, pero utiliza componentes de atributos como índices para realizar búsquedas en texturas. • Experimental:Math Combine POP: Similar al Attribute Combine, permite combinar datos de múltiples entradas y especificar qué atributos se deben combinar. También soporta la creación automática de nombres de atributos. • Experimental:Math Mix POP: Permite mezclar datos de múltiples entradas. Al igual que el Math POP, ofrece capacidades de manipulación sin codificación y la creación fácil de nuevos atributos. Soporta la creación automática de nombres de atributos y utiliza atributos de solo lectura. • Experimental:Math POP: Un operador clave para realizar operaciones matemáticas y funciones simples en atributos sin necesidad de escribir código. Permite crear nuevos atributos para almacenar los resultados. También puedes usarlo para crear y modificar atributos de color y textura. Soporta la creación automá"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

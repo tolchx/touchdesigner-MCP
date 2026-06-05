@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Lookup Channel POP",
+  "pageSlug": "Lookup_Channel_POP",
+  "url": "https://docs.derivative.ca/Lookup_Channel_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "lookupChannelPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "cimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operador"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "cimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Oper"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "cimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operador"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ributos de color y textura. • Experimental:Line Smooth POP: Puede añadir puntos y suavizar líneas. • Experimental:Line Thick POP: El material de línea (Line MAT) de TouchDesigner se implementa internamente usando una conversión a este POP, lo que sugiere su rol en la representación visual de líneas. • Experimental:Lookup Attribute POP: Utiliza uno, dos o tres componentes de un atributo como índices para realizar búsquedas. También puede utilizar atributos de solo lectura. • Experimental:Lookup Channel POP: Similar al Lookup Attribute POP, usa componentes de atributos como índices para realizar búsquedas en canales. • Experimental:Lookup Texture POP: Similar a los anteriores, pero utiliza componentes de atributos como índices para realizar búsquedas en texturas. • Experimental:Math Combine POP: Similar al Attribute Combine, permite combinar datos de múltiples entradas y especificar qué atributos se deben combinar. También soporta la creación automática de nombres de atributos. • Experimenta"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ributos de color y textura. • Experimental:Line Smooth POP: Puede añadir puntos y suavizar líneas. • Experimental:Line Thick POP: El material de línea (Line MAT) de TouchDesigner se implementa internamente usando una conversión a este POP, lo que sugiere su rol en la representación visual de líneas. • Experimental:Lookup Attribute POP: Utiliza uno, dos o tres componentes de un atributo como índices para realizar búsquedas. También puede utilizar atributos de solo lectura. • Experimental:Lookup Channel POP: Similar al Lookup Attribute POP, usa componentes de atributos como índices para realizar búsquedas en canales. • Experimental:Lookup Texture POP: Similar a los anteriores, pero utiliza componentes de atributos como índices para realizar búsquedas en texturas. • Experimental:Math Combine POP: Similar al Attribute Combine, permite combinar datos de múltiples entradas y especificar qué atributos se deben combinar. También soporta la creación automática de nombres de atributos. • Experim"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ributos de color y textura. • Experimental:Line Smooth POP: Puede añadir puntos y suavizar líneas. • Experimental:Line Thick POP: El material de línea (Line MAT) de TouchDesigner se implementa internamente usando una conversión a este POP, lo que sugiere su rol en la representación visual de líneas. • Experimental:Lookup Attribute POP: Utiliza uno, dos o tres componentes de un atributo como índices para realizar búsquedas. También puede utilizar atributos de solo lectura. • Experimental:Lookup Channel POP: Similar al Lookup Attribute POP, usa componentes de atributos como índices para realizar búsquedas en canales. • Experimental:Lookup Texture POP: Similar a los anteriores, pero utiliza componentes de atributos como índices para realizar búsquedas en texturas. • Experimental:Math Combine POP: Similar al Attribute Combine, permite combinar datos de múltiples entradas y especificar qué atributos se deben combinar. También soporta la creación automática de nombres de atributos. • Experimenta"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

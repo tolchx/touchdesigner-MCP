@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Feedback POP",
+  "pageSlug": "Feedback_POP",
+  "url": "https://docs.derivative.ca/Feedback_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "feedbackPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "03-twozero-evaluation.md",
+      "excerpt": "# Evaluación de mejoras inspiradas en TWOZERO TWOZERO se describe como un toolkit nativo para TouchDesigner con: - Generación por IA - Librería curada de componentes - Sincronización en la nube - Herramientas de producción - Integración en UI y sin “wrappers” externos ## Qué se puede integrar en este MCP (sin depender de TWOZERO) - **Librería curada de patrones (component library)** Crear un catálogo de “recetas” reproducibles (render, instancing, feedback loops, POP sims, GLSL) como: - skills en Markdown (`touchdesigner/skills/*`) - prompts maestros (`docs/06-master-prompts.md` o carpeta `prompts/`) - scripts Python idempotentes (crear/actualizar redes sin duplicar) - **No ensuciar el proyecto (non-invasive)** Convenciones sistemáticas: - encapsular sistemas en `baseCOMP`/`geoCOMP` - nodos “I/O estándar” (`in*`, `out*`, `null*`) - layout determinístico (`nodeX/nodeY`) - nombres consistentes y prefijos por dominio (`pop_`, `top"
+    },
+    {
+      "source": "07-testing-protocols.md",
+      "excerpt": "entes y usar `from_op`/paths explícitos. - **Prompts maestros**: validar frontmatter y secciones mínimas con `node touchdesigner/mcp/dist/promptLint.js`. ## 2) Chequeo de dependencias - TouchDesigner 2025+. - `TDAPI_PORT` configurado y coincidente con el TOX. - Ollama (si aplica): `LLM_PROVIDER=ollama` y `OLLAMA_MODEL` instalado. ## 3) Pruebas funcionales (smoke tests) Ejecutar un bloque `td_execute` de validación que confirme: - operadores creados (paths) - conexiones clave (especialmente feedback loops) - atributos reservados presentes cuando aplica (p.ej. PartVel/PartForce) ## 4) Pruebas de rendimiento - Conectar `Info CHOP` a operadores críticos (POP, TOP, COMP). - Medir `cook_time` y `errors/warnings`. - Aplicar presupuestos explícitos: - número de puntos - límites de partículas - resolución TOP - frecuencia de recook ## 5) Reportes de errores y fixes sugeridos Formato recomendado para reportar fallos: - Síntoma observable - Operador/etapa afectada - Causa probable (con"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ra el skinning.28 * Topology POP: Proporciona un control preciso sobre la combinación de puntos y topología (vértices y primitivas) existentes, así como su asignación de memoria. Permite utilizar atributos unsigned int como índices de puntos para describir la topología, y fusionar atributos de vértice y primitiva de otros POPs.29 El examen de los POPs modificadores revela un patrón de interconexión y especialización. Operadores como Attribute POP, GLSL POP, Math Combine POP, Neighbor POP y Feedback POP no son herramientas aisladas, sino componentes de un sistema más grande. Attribute POP gestiona la estructura de datos 1, GLSL POP permite lógica personalizada 3, Math Combine/Mix realizan cálculos 11, Neighbor/Proximity POPs definen relaciones espaciales 24, y Feedback POP permite la acumulación basada en el tiempo.30 Esta modularidad implica que las simulaciones complejas (por ejemplo, sistemas de partículas con fuerzas personalizadas, comportamientos de bandada o generación dinámica de malla"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ra el skinning.28 * Topology POP: Proporciona un control preciso sobre la combinación de puntos y topología (vértices y primitivas) existentes, así como su asignación de memoria. Permite utilizar atributos unsigned int como índices de puntos para describir la topología, y fusionar atributos de vértice y primitiva de otros POPs.29 El examen de los POPs modificadores revela un patrón de interconexión y especialización. Operadores como Attribute POP, GLSL POP, Math Combine POP, Neighbor POP y Feedback POP no son herramientas aisladas, sino componentes de un sistema más grande. Attribute POP gestiona la estructura de datos 1, GLSL POP permite lógica personalizada 3, Math Combine/Mix realizan cálculos 11, Neighbor/Proximity POPs definen relaciones espaciales 24, y Feedback POP permite la acumulación basada en el tiempo.30 Esta modularidad implica que las simulaciones complejas (por ejemplo, sistemas de partículas con fuerzas personalizadas, comportamientos de bandada o generación dinámica de m"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ra el skinning.28 * Topology POP: Proporciona un control preciso sobre la combinación de puntos y topología (vértices y primitivas) existentes, así como su asignación de memoria. Permite utilizar atributos unsigned int como índices de puntos para describir la topología, y fusionar atributos de vértice y primitiva de otros POPs.29 El examen de los POPs modificadores revela un patrón de interconexión y especialización. Operadores como Attribute POP, GLSL POP, Math Combine POP, Neighbor POP y Feedback POP no son herramientas aisladas, sino componentes de un sistema más grande. Attribute POP gestiona la estructura de datos 1, GLSL POP permite lógica personalizada 3, Math Combine/Mix realizan cálculos 11, Neighbor/Proximity POPs definen relaciones espaciales 24, y Feedback POP permite la acumulación basada en el tiempo.30 Esta modularidad implica que las simulaciones complejas (por ejemplo, sistemas de partículas con fuerzas personalizadas, comportamientos de bandada o generación dinámica de malla"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "entes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:Extrude POP: Puede crear grupos automáticamente. Las fuentes indican que los POPs aún no realizan extrusiones completas en cualquier tira de línea. • Experimental:Facet POP: A diferencia de los SOPs donde el Facet SOP crea normales, en POPs, el Normal POP es el encargado de crear normales de superficie y tangentes. • Experimental:Feedback POP: Es esencial para habilitar sistemas de partículas y para la manipulación general de datos que requieren bucles de retroalimentación. Se utiliza para simular el movimiento de partículas a lo largo del tiempo, convirtiendo la fuerza en velocidad y la velocidad en posición. • Experimental:Field POP: Genera nuevos atributos, a menudo con nombres predeterminados sugeridos. Este operador genera el atributo Weight. • Experimental:File In POP: Permite cargar archivos externos que contienen nubes d"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

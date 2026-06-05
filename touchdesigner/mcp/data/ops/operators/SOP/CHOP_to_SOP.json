@@ -1,0 +1,34 @@
+{
+  "family": "SOP",
+  "pageTitle": "CHOP to SOP",
+  "pageSlug": "CHOP_to_SOP",
+  "url": "https://docs.derivative.ca/CHOP_to_SOP",
+  "tdOpTypeGuess": "cHOPtoSOP",
+  "summary": "[  edit  ]\nThe  CHOP  to  SOP  takes  CHOP  channels and generates 3D polygons in a  SOP . It reads sample data from a  CHOP  and converts it into point positions and point attributes. This makes it complementary to the  SOP to CHOP . The Channels created by the  SOP to CHOP  can be modified and then re-inserted into the  SOP  network via a  CHOP  to  SOP .\nBy default, the  SOP  is a line from ( -1 0 0 ) to ( 1 0 0 ) containing one point for every sample in the  CHOP .\nIt matches the input channels to the Channel  Scope  ( tx ty tz ) where possible. If  tx  or  ty  or  tz  don’t match anything, it just uses the value from the default line, and it only shows a Warning.\nThe simplest thing to do is to send it a channel named  ty , which will make a 3D curve that looks like the  CHOP  curve.\nThis does what a  Point SOP  with a  op('wave1')['chan1'].eval(0)  function can do, but is much faster.\nBy using point groups from the incoming  SOP , the channels can be inserted only into the group's points.\nThe  CHOP  to  SOP  also supports custom attributes. If the user maps a channel to an attribute that is not found, that attribute is added to the points.  Currently, all custom attributes are floats and of size = 1.\nIn its default state it will attempt to replace the point positions ( P(0) P(1) P(2) ) with the channels named  tx ty  and  tz .\nThe channel and attribute scope are first expanded into individual names and matched on a 1 to 1 basis. If you are filling P it doesn't matter if you specify  t[xyz]  or  tx ty tz , both will replace  P(0) P(1) P(2) , which can be collapsed to  P .\nFor example: Add custom attributes \"Scale\", \"Twist\" or \"Roll\" to the backbone's points with a  CHOP  to  SOP .\nIf you connect a  SOP  to its input, it will use the  SOP  as a starting geometry versus the default line.\nchoptoSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "estigación proporcionado indicó que la información era inaccesible, limitada a menciones muy breves o redirecciones sin contenido, o que las búsquedas arrojaron resultados irrelevantes de otras familias de operadores (SOPs, CHOPs, TOPs, DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "crea una geometría de caja. • Experimental:Cache Blend POP: Se menciona en relación con el uso de atributos como 'Velocity' (Vel), lo que sugiere su rol en la mezcla de datos temporales o en animaciones. • Experimental:Cache POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Cache Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:CHOP to POP: Permite convertir datos de la familia CHOPs (Channel Operators) a datos de POPs. Esto es eficiente porque los POPs ya implementan muchas funciones de CHOPs directamente en la GPU, evitando conversiones de GPU a CPU y viceversa. • Experimental:Circle POP: Un operador generador que crea formas circulares. Puede generar puntos con sus primitivas correspondientes. • Experimental:Convert POP: Se usa para cambiar entre diferentes tipos de primitivas. • Experimental:Copy POP: Permite crear"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "cesita una referencia directa al **Cache POP** del que quieres obtener los datos. * El parámetro **Cache Index** es clave aquí: 0 saca los datos del fotograma actual del Cache POP, -1 saca los datos del fotograma anterior guardado, y así sucesivamente. Los valores que uses para el índice deben ser números enteros negativos o cero. * Si el índice que le das está fuera del rango de datos guardados, el operador lo ajustará para que esté dentro del rango disponible. --- #### 11. CHOP to POP * **¿Qué hace?** Este operador convierte datos de **canales de CHOP** (Component Operators, que manejan secuencias de números como animación, audio, etc.) en **atributos para puntos de POP**. Piensa en él como un puente para llevar datos de movimiento o animación de CHOPs a la geometría de POPs. * **Características clave:** * Cada \"muestra\" de un canal CHOP (un valor en un momento dado) se convierte en un **punto POP**. * Puedes **mapear canales CHOP a atributos POP** de"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

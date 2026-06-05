@@ -1,0 +1,16 @@
+{
+  "family": "SOP",
+  "pageTitle": "Kinect SOP",
+  "pageSlug": "Kinect_SOP",
+  "url": "https://docs.derivative.ca/Kinect_SOP",
+  "tdOpTypeGuess": "kinectSOP",
+  "summary": "[  edit  ]\nThe Kinect  SOP  uses the Kinect v1 sensor to scan and create geometry.\nkinectSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Info CHOP Channels\n3.1   Common SOP Info Channels\n3.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

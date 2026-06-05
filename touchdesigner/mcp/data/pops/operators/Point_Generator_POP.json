@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Point Generator POP",
+  "pageSlug": "Point_Generator_POP",
+  "url": "https://docs.derivative.ca/Point_Generator_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "pointGeneratorPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "h POP: Al igual que Merge POP, se indica que comparte la arquitectura de manejo de múltiples entradas con otros POPs combinadores.13 No se proporcionaron detalles adicionales. 7. Quantize POP: Se encontró una redirección a su página de documentación.48 Un tutorial de YouTube relacionado con la \"cuantificación\" de píxeles 49 no describe el operador POP en sí, sino un concepto visual. 8. Random POP: Se encontró una redirección a su página de documentación 50, pero sin contenido descriptivo. 9. Point Generator POP: Se encontraron redirecciones a su página de documentación.51 Aunque un tutorial de YouTube menciona el uso de un Point Generator POP para distribuir puntos 43, no se proporciona una descripción detallada de sus parámetros. 10. Points, Vertices and Primitives in POPs: Esta es una página conceptual que describe la estructura de datos subyacente de los POPs (puntos, vértices, primitivas, atributos), pero no es un operador en sí mismo.7 4.2 Operadores con Documentación Inaccesible o Muy Limi"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "h POP: Al igual que Merge POP, se indica que comparte la arquitectura de manejo de múltiples entradas con otros POPs combinadores.13 No se proporcionaron detalles adicionales. 7. Quantize POP: Se encontró una redirección a su página de documentación.48 Un tutorial de YouTube relacionado con la \"cuantificación\" de píxeles 49 no describe el operador POP en sí, sino un concepto visual. 8. Random POP: Se encontró una redirección a su página de documentación 50, pero sin contenido descriptivo. 9. Point Generator POP: Se encontraron redirecciones a su página de documentación.51 Aunque un tutorial de YouTube menciona el uso de un Point Generator POP para distribuir puntos 43, no se proporciona una descripción detallada de sus parámetros. 10. Points, Vertices and Primitives in POPs: Esta es una página conceptual que describe la estructura de datos subyacente de los POPs (puntos, vértices, primitivas, atributos), pero no es un operador en sí mismo.7 4.2 Operadores con Documentación Inaccesible o Muy"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "h POP: Al igual que Merge POP, se indica que comparte la arquitectura de manejo de múltiples entradas con otros POPs combinadores.13 No se proporcionaron detalles adicionales. 7. Quantize POP: Se encontró una redirección a su página de documentación.48 Un tutorial de YouTube relacionado con la \"cuantificación\" de píxeles 49 no describe el operador POP en sí, sino un concepto visual. 8. Random POP: Se encontró una redirección a su página de documentación 50, pero sin contenido descriptivo. 9. Point Generator POP: Se encontraron redirecciones a su página de documentación.51 Aunque un tutorial de YouTube menciona el uso de un Point Generator POP para distribuir puntos 43, no se proporciona una descripción detallada de sus parámetros. 10. Points, Vertices and Primitives in POPs: Esta es una página conceptual que describe la estructura de datos subyacente de los POPs (puntos, vértices, primitivas, atributos), pero no es un operador en sí mismo.7 4.2 Operadores con Documentación Inaccesible o Muy Limi"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "e. • Experimental:Pattern POP: Se utiliza para generar patrones para atributos, ofreciendo configuraciones más complejas. Permite crear y modificar atributos de color y textura. • Experimental:Phaser POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Point File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner, específicamente diseñado para este tipo de datos. • Experimental:Point Generator POP: Un operador generador que crea nubes de puntos directamente. Puede generar puntos con sus primitivas correspondientes. • Experimental:Point POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador más allá de su listado. • Experimental:Polygonize POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Primitive POP: Puede eliminar las primitivas de un POP, dejando"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "e. • Experimental:Pattern POP: Se utiliza para generar patrones para atributos, ofreciendo configuraciones más complejas. Permite crear y modificar atributos de color y textura. • Experimental:Phaser POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Point File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner, específicamente diseñado para este tipo de datos. • Experimental:Point Generator POP: Un operador generador que crea nubes de puntos directamente. Puede generar puntos con sus primitivas correspondientes. • Experimental:Point POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador más allá de su listado. • Experimental:Polygonize POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Primitive POP: Puede eliminar las primitivas de un POP, deja"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "e. • Experimental:Pattern POP: Se utiliza para generar patrones para atributos, ofreciendo configuraciones más complejas. Permite crear y modificar atributos de color y textura. • Experimental:Phaser POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Point File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner, específicamente diseñado para este tipo de datos. • Experimental:Point Generator POP: Un operador generador que crea nubes de puntos directamente. Puede generar puntos con sus primitivas correspondientes. • Experimental:Point POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador más allá de su listado. • Experimental:Polygonize POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Primitive POP: Puede eliminar las primitivas de un POP, dejando"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

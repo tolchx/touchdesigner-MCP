@@ -1,0 +1,41 @@
+{
+  "family": "SOP",
+  "pageTitle": "Select SOP",
+  "pageSlug": "Select_SOP",
+  "url": "https://docs.derivative.ca/Select_SOP",
+  "tdOpTypeGuess": "selectSOP",
+  "summary": "[  edit  ]\nThe Select  SOP  allows you to reference a  SOP  from any other location in TouchDesigner. If only one other  SOP  is referenced, its memory is shared instead of re-created in this  SOP .\nselectSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Info CHOP Channels\n3.1   Common SOP Info Channels\n3.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "01-mcp-architecture.md",
+      "excerpt": "ner — arquitectura (Node + TouchDesigner) ## Componentes - **Servidor MCP (stdio)**: `touchdesigner/mcp/src/index.ts` Expone herramientas para ejecutar Python y consultar estado del editor y operadores. - **Cliente TD (HTTP)**: `touchdesigner/api/src/index.ts` Llama al servidor HTTP levantado dentro de TouchDesigner por el TOX. - **Servidor TD (Python/TOX)**: `touchdesigner/toe/src/TouchDesignerAPI.py` Expone endpoints: - `POST /execute` - `GET /editor/pane` - `GET /editor/selection` - `GET /operators?path=...` ## Tools MCP (existentes + extendidos) - `td_execute`: ejecuta Python en TD. - `td_pane`: estado del Network Editor. - `td_selection`: selección actual. - `td_operators`: lista hijos en un path. - `td_pops_query`: consulta la base local de POPs (sin tocar TD). ## Flujo de extremo a extremo 1. Host MCP arranca `node touchdesigner/mcp/dist/index.js`. 2. El MCP recibe requests de tools. 3. Para acciones en TD: `td-api` hace fetch a `http://localhost:${TDAPI_PO"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "tputs\") y modificar el número de puntos y primitivas. También soporta la escritura en el búfer de índices y tiene un modo de envío de shader \"Per Primitive Batch\".12 * GLSL Copy POP: Realiza copias de la geometría de entrada y aplica código GLSL personalizado a cada copia. Similar a Copy POP, puede usar un parámetro de \"número de copias\" o un POP de plantilla para la colocación. Un compute shader se ejecuta para cada tipo de elemento (puntos, vértices, primitivas) de una copia.19 * GLSL Select POP: Se utiliza para seleccionar y generar atributos de múltiples entradas POP, particularmente aquellos modificados por las \"Extra Outputs\" de GLSL Advanced POP.20 * Histogram POP: Toma un atributo de un solo componente (por ejemplo, P(1)) de su entrada y crea una distribución de frecuencia. Genera un nuevo POP con un número especificado de puntos (bins) y un atributo \"Count\", que indica cuántos valores de entrada caen en cada bin. Puede manejar valores fuera del rango definido.21 *"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ntradas, lo que sugiere que puede mezclar o interpolar datos de diferentes fuentes. • Experimental:Box POP: Un operador generador que crea una geometría de caja. • Experimental:Cache Blend POP: Se menciona en relación con el uso de atributos como 'Velocity' (Vel), lo que sugiere su rol en la mezcla de datos temporales o en animaciones. • Experimental:Cache POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Cache Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:CHOP to POP: Permite convertir datos de la familia CHOPs (Channel Operators) a datos de POPs. Esto es eficiente porque los POPs ya implementan muchas funciones de CHOPs directamente en la GPU, evitando conversiones de GPU a CPU y viceversa. • Experimental:Circle POP: Un operador generador que crea formas circulares. Puede generar puntos con sus primitivas correspond"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "Los datos de los atributos seleccionados **no cambian**. * Es principalmente una **preferencia de flujo de trabajo**; no mejora la velocidad ni la eficiencia de la memoria, ya que los atributos no modificados en POPs son solo referencias, no copias. * Puede referenciar otro POP usando un parámetro en lugar de una conexión por cable. * **Uso simple:** Para aislar y trabajar en atributos específicos de tu geometría, o para organizar tu red de operadores, similar a un `Select SOP`. * **Skin Deform POP (POP de Deformación de Piel)** * **Función principal:** Deforma la geometría usando el concepto de \"skinning\", donde cada punto es afectado por múltiples transformaciones (como huesos de un esqueleto), cada una con un **peso diferente**. * **Características clave:** * Utiliza atributos de detalle `pCaptPath` (rutas a los componentes que actúan como huesos) y `pCaptData` (matrices de \"bind/rest pose\"). * Usa el atributo de punto/vért"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "tu red de operadores. Muy útil para organizar tu proyecto o para depurar, aislando partes de tu cadena de operaciones. * **Out POP (POP de Salida)** * **Función principal:** Permite **enviar datos POPs fuera** del componente donde se encuentra. * **Características clave:** * Cada Out POP dentro de un componente añade un **conector de salida** al componente padre. * Puedes conectar un POP directamente a su entrada o referenciar otro POP con el parámetro `Select POP`. * Es posible añadir una `Label` (etiqueta) para que se muestre al pasar el cursor por la salida del componente padre. * **Uso simple:** Cuando construyes estructuras complejas y anidadas de operadores, el Out POP te ayuda a pasar la información clave al siguiente nivel de tu proyecto. * **Particle POP (POP de Partículas)** * **Función principal:** Utilizado para **crear y controlar el movimiento de \"partículas\"** en simulaciones de sistemas de partículas. Una"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "Los datos de los atributos seleccionados **no cambian**. * Es principalmente una **preferencia de flujo de trabajo**; no mejora la velocidad ni la eficiencia de la memoria, ya que los atributos no modificados en POPs son solo referencias, no copias. * Puede referenciar otro POP usando un parámetro en lugar de una conexión por cable. * **Uso simple:** Para aislar y trabajar en atributos específicos de tu geometría, o para organizar tu red de operadores, similar a un `Select SOP`. * **Skin Deform POP (POP de Deformación de Piel)** * **Función principal:** Deforma la geometría usando el concepto de \"skinning\", donde cada punto es afectado por múltiples transformaciones (como huesos de un esqueleto), cada una con un **peso diferente**. * **Características clave:** * Utiliza atributos de detalle `pCaptPath` (rutas a los componentes que actúan como huesos) y `pCaptData` (matrices de \"bind/rest pose\"). * Usa el atributo de punto/vért"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

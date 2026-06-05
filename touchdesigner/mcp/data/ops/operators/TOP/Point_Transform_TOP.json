@@ -1,0 +1,985 @@
+{
+  "family": "TOP",
+  "pageTitle": "Point Transform TOP",
+  "pageSlug": "Point_Transform_TOP",
+  "url": "https://docs.derivative.ca/Point_Transform_TOP",
+  "tdOpTypeGuess": "pointTransformTOP",
+  "summary": "[  edit  ]\nThe Point Transform  TOP  treats the RGB values of the input image as a point cloud of XYZ positions or vectors and performs 3D transformations and alignments. When the input type is set to 'Vector', translations are ignored and only rotation and scaling operations are performed. The alpha channel, if present, is passed along to the output image unchanged.\nTransformations can be defined directly on the Transform page, taken from an input  CHOP  (see  Transform CHOP ), using the Look At parameter, or as a combination of any of those methods.\nThe Align page allows you to move or scale the point cloud relative to the origin, a 1x1x1 cube, or to a reference object. For example, you can scale the cloud to fit inside another point cloud or piece of geometry, or you can align the point cloud to sit on the XZ plane, or directly beside another cloud.\nThe second input can optionally be used as a weight map to control how much of the transformation is applied to each individual point.\npointtransformTOP_Class\nContents\n1   Summary\n2   Parameters - Transform Page\n3   Parameters - Weights Page\n4   Parameters - Align Page\n5   Parameters - Common Page\n6   Operator Inputs\n7   Info CHOP Channels\n7.1   Common TOP Info Channels\n7.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "points  - The first input contains the position data of the points represented in the red, green, and blue channels.,"
+    },
+    {
+      "index": 1,
+      "description": "weights  - The second input contains an optional weight map that controls how much of the transformation is applied to each point. The weight channel and weight range parameters control how the color channels of the image are converted into weights."
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Transform",
+      "label": "Input Type",
+      "name": "inputtype",
+      "description": "⊞  - Choose if the RGB channels of the input texture should be treated as positions or vectors. Vectors will not have the translation portion of the transform applied to them, and can be normalized before and/or after the transformation is applied."
+    },
+    {
+      "page": "Transform",
+      "label": "Position",
+      "name": "position",
+      "description": "The RGB values represent XYZ positions."
+    },
+    {
+      "page": "Transform",
+      "label": "Vector",
+      "name": "vector",
+      "description": "The RGB values represent XYZ directions."
+    },
+    {
+      "page": "Transform",
+      "label": "Normalize Input",
+      "name": "innormalize",
+      "description": "RGB input vectors are rescaled to a length of one before they are transformed."
+    },
+    {
+      "page": "Transform",
+      "label": "Normalize Output",
+      "name": "outnormalize",
+      "description": "RGB vectors are rescaled to a length of one after they are transformed."
+    },
+    {
+      "page": "Transform",
+      "label": "Transform Order",
+      "name": "xord",
+      "description": "⊞  - Changes the order that the translate, rotate and scale operations are performed on the input. Analogous to how you would end up in different locations if you were to move a block and turn east, versus turning east and then moving a block.  In matrix math terms, if we use the 'multiply vector on the right' (column vector) convention, a transform order of Scale, Rotate, Translate would be written as T * R * S * Position"
+    },
+    {
+      "page": "Transform",
+      "label": "Rotate Order",
+      "name": "rord",
+      "description": "⊞  - As with transform order (above), changing the order in which the rotations take place will alter the final position and orientation. A Rotation order of Rx Ry Rz would create the final rotation matrix as follows R = Rz * Ry * Rx"
+    },
+    {
+      "page": "Transform",
+      "label": "Translate",
+      "name": "t",
+      "description": "⊞  - Move the input positions in the X, Y and Z axes. If the input is set to 'Vector', the translate values will have no effect."
+    },
+    {
+      "page": "Transform",
+      "label": "Rotate",
+      "name": "r",
+      "description": "⊞  - Rotate the input RGB values around the corresponding X, Y and Z axes. Angles are given in degrees."
+    },
+    {
+      "page": "Transform",
+      "label": "Scale",
+      "name": "s",
+      "description": "⊞  - Scale the input RGB values in the corresponding X, Y and Z axes. If 'Normalize Output' is on, then all output values will be rescaled to a length of one regardless of the scale values."
+    },
+    {
+      "page": "Transform",
+      "label": "Pivot",
+      "name": "p",
+      "description": "⊞  - The pivot is the point about which the input points or vectors are scaled and rotated. Altering the pivot point produces different results depending on the transformation performed on the object."
+    },
+    {
+      "page": "Transform",
+      "label": "Uniform Scale",
+      "name": "scale",
+      "description": "Scale the input values along all axes simultaneously."
+    },
+    {
+      "page": "Transform",
+      "label": "Invert",
+      "name": "invert",
+      "description": "Invert the transformation i.e. preform the reverse movements."
+    },
+    {
+      "page": "Transform",
+      "label": "Look At",
+      "name": "lookat",
+      "description": "Allows you to orient your input points by naming the object you would like them to Look At, or point to. Once you have designated this object to look at, it will continue to face that object, even if you move it."
+    },
+    {
+      "page": "Transform",
+      "label": "Up Vector",
+      "name": "upvector",
+      "description": "⊞  - When orienting an object towards the 'Look At' target, the Up Vector is used to determine where the positive Y axis points."
+    },
+    {
+      "page": "Transform",
+      "label": "Forward Direction",
+      "name": "forwarddir",
+      "description": "⊞  - Sets which axis and direction is considered the forward direction."
+    },
+    {
+      "page": "Transform",
+      "label": "Transform  CHOP",
+      "name": "chopinput",
+      "description": "Path  to a  CHOP  node with channels describing a 3D transformation. These channels may come from a  Transform CHOP  or another  CHOP  with the correct channels defined."
+    },
+    {
+      "page": "Transform",
+      "label": "Multiply Order",
+      "name": "multiplyorder",
+      "description": "⊞  - Controls whether the transformation from the given  CHOP  is applied to the input values before or after the transformation describe by this node."
+    },
+    {
+      "page": "Weights",
+      "label": "Weight  Channel",
+      "name": "weightchannel",
+      "description": "⊞  - Select how to use the colors of the second input image as weights for transforming the points of the first input."
+    },
+    {
+      "page": "Weights",
+      "label": "Weight Range",
+      "name": "weightrange",
+      "description": "⊞  - Set the range of weight values used to control how much of the transformation is applied to a point. Points with the minimum weight will  not  be transformed, while points with the maximum weight will be  fully  transformed. A linear interpolation is applied to points with weights that fall between the minimum and maximum."
+    },
+    {
+      "page": "Align",
+      "label": "Align Transform Order",
+      "name": "alignxformorder",
+      "description": "⊞  - Determines the order that align operations are performed on the input points.  Note : Unlike Scaling on the transform page, the alignment scale is always done relative to the center of the point cloud so that the point cloud's center does not change."
+    },
+    {
+      "page": "Align",
+      "label": "Reference   Node",
+      "name": "alignref",
+      "description": "A path to a  TOP  or  SOP  node used to align the input points after the transformation.  Note  Using another point cloud  TOP  as a reference will incur additional performance costs because of the need to calculate the dimensions of the reference points."
+    },
+    {
+      "page": "Align",
+      "label": "Align Operation Order",
+      "name": "alignopord",
+      "description": "⊞  - Set the order in which scale and transform is applied when aligning."
+    },
+    {
+      "page": "Align",
+      "label": "Align Translate X",
+      "name": "aligntx",
+      "description": "⊞  - Determines the final position of points along the X axis i.e. shifts values in the red channel."
+    },
+    {
+      "page": "Align",
+      "label": "Off",
+      "name": "off",
+      "description": "X values are not moved."
+    },
+    {
+      "page": "Align",
+      "label": "Origin",
+      "name": "origin",
+      "description": "X values are aligned relative to the origin i.e. zero."
+    },
+    {
+      "page": "Align",
+      "label": "Reference  Input",
+      "name": "reference",
+      "description": "X values are aligned relative to the X position of the reference node."
+    },
+    {
+      "page": "Align",
+      "label": "From Input",
+      "name": "fromx",
+      "description": "⊞  - Determines how the points are aligned relative to the dimensions of the input points."
+    },
+    {
+      "page": "Align",
+      "label": "Min",
+      "name": "min",
+      "description": "Points are aligned relative to the lowest X value."
+    },
+    {
+      "page": "Align",
+      "label": "Center",
+      "name": "center",
+      "description": "Points are aligned relative to the center of the X values."
+    },
+    {
+      "page": "Align",
+      "label": "Max",
+      "name": "max",
+      "description": "Points are aligned relative to the highest X value."
+    },
+    {
+      "page": "Align",
+      "label": "To  Reference",
+      "name": "tox",
+      "description": "⊞  - Determines how the final points are aligned relative to the reference node."
+    },
+    {
+      "page": "Align",
+      "label": "Min",
+      "name": "min",
+      "description": "Points are aligned with the lowest X value in the reference node."
+    },
+    {
+      "page": "Align",
+      "label": "Center",
+      "name": "center",
+      "description": "Points are aligned with the center of the X values in the reference node."
+    },
+    {
+      "page": "Align",
+      "label": "Max",
+      "name": "max",
+      "description": "Points are aligned with the highest X value in the reference node."
+    },
+    {
+      "page": "Align",
+      "label": "Align Translate Y",
+      "name": "alignty",
+      "description": "⊞  - Determines the final position of points along the Y axis i.e. shifts values in the green channel."
+    },
+    {
+      "page": "Align",
+      "label": "Off",
+      "name": "off",
+      "description": "Y values are not moved."
+    },
+    {
+      "page": "Align",
+      "label": "Origin",
+      "name": "origin",
+      "description": "Y values are aligned relative to the origin i.e. zero."
+    },
+    {
+      "page": "Align",
+      "label": "Reference  Input",
+      "name": "reference",
+      "description": "Y values are aligned relative to the X position of the reference node."
+    },
+    {
+      "page": "Align",
+      "label": "From Input",
+      "name": "fromy",
+      "description": "⊞  - Determines how the points are aligned relative to the dimensions of the input points."
+    },
+    {
+      "page": "Align",
+      "label": "Min",
+      "name": "min",
+      "description": "Points are aligned relative to the lowest Y value."
+    },
+    {
+      "page": "Align",
+      "label": "Center",
+      "name": "center",
+      "description": "Points are aligned relative to the center of the Y values."
+    },
+    {
+      "page": "Align",
+      "label": "Max",
+      "name": "max",
+      "description": "Points are aligned relative to the highest Y value."
+    },
+    {
+      "page": "Align",
+      "label": "To  Reference",
+      "name": "toy",
+      "description": "⊞  - Determines how the final points are aligned relative to the reference node."
+    },
+    {
+      "page": "Align",
+      "label": "Min",
+      "name": "min",
+      "description": "Points are aligned with the lowest Y value in the reference node."
+    },
+    {
+      "page": "Align",
+      "label": "Center",
+      "name": "center",
+      "description": "Points are aligned with the center of the Y values in the reference node."
+    },
+    {
+      "page": "Align",
+      "label": "Max",
+      "name": "max",
+      "description": "Points are aligned with the highest Y value in the reference node."
+    },
+    {
+      "page": "Align",
+      "label": "Align Translate Z",
+      "name": "aligntz",
+      "description": "⊞  - Determines the final position of points along the Z axis i.e. shifts values in the blue channel."
+    },
+    {
+      "page": "Align",
+      "label": "Off",
+      "name": "off",
+      "description": "Z values are not moved."
+    },
+    {
+      "page": "Align",
+      "label": "Origin",
+      "name": "origin",
+      "description": "Z values are aligned relative to the origin i.e. zero."
+    },
+    {
+      "page": "Align",
+      "label": "Reference  Input",
+      "name": "reference",
+      "description": "Z values are aligned relative to the X position of the reference node."
+    },
+    {
+      "page": "Align",
+      "label": "From Input",
+      "name": "fromz",
+      "description": "⊞  - Determines how the points are aligned relative to the dimensions of the input points."
+    },
+    {
+      "page": "Align",
+      "label": "Min",
+      "name": "min",
+      "description": "Points are aligned relative to the lowest Z value."
+    },
+    {
+      "page": "Align",
+      "label": "Center",
+      "name": "center",
+      "description": "Points are aligned relative to the center of the Z values."
+    },
+    {
+      "page": "Align",
+      "label": "Max",
+      "name": "max",
+      "description": "Points are aligned relative to the highest Z value."
+    },
+    {
+      "page": "Align",
+      "label": "To  Reference",
+      "name": "toz",
+      "description": "⊞  - Determines how the final points are aligned relative to the reference node."
+    },
+    {
+      "page": "Align",
+      "label": "Min",
+      "name": "min",
+      "description": "Points are aligned relative to the lowest Z value."
+    },
+    {
+      "page": "Align",
+      "label": "Center",
+      "name": "center",
+      "description": "Points are aligned relative to the center of the Z values."
+    },
+    {
+      "page": "Align",
+      "label": "Max",
+      "name": "max",
+      "description": "Points are aligned relative to the highest Z value."
+    },
+    {
+      "page": "Align",
+      "label": "Align Scale",
+      "name": "alignscale",
+      "description": "⊞  - The Align Scale can be used to resize the point cloud to fit inside the given bounds. Scaling can be done per axis (maintaining proportions or stretching), or on all axes."
+    },
+    {
+      "page": "Align",
+      "label": "Per Axis",
+      "name": "peraxis",
+      "description": "Scaling is controlled separately per-axis using the parameters below.  Note:  It is possible to have conflicting scales when setting limits on multiple axes."
+    },
+    {
+      "page": "Align",
+      "label": "Unity",
+      "name": "unity",
+      "description": "The point cloud is resized to fit within a 1x1x1 cube. Proportions are maintained so that the largest dimension will have a length of 1."
+    },
+    {
+      "page": "Align",
+      "label": "Reference",
+      "name": "reference",
+      "description": "The point cloud is resized to fit within the dimensions of the reference object. Proportions are maintained."
+    },
+    {
+      "page": "Align",
+      "label": "Align Scale X",
+      "name": "alignscalex",
+      "description": "⊞  - The point cloud is resized based on its width in the X axis."
+    },
+    {
+      "page": "Align",
+      "label": "Off",
+      "name": "off",
+      "description": "No scaling is done based on the X axis."
+    },
+    {
+      "page": "Align",
+      "label": "Unity",
+      "name": "unity",
+      "description": "The point cloud is resized along the X axis so that the total width is 1. This does not affect the other axes and will distort the overall shape of the cloud."
+    },
+    {
+      "page": "Align",
+      "label": "Reference  Input",
+      "name": "reference",
+      "description": "The point cloud is resized along the X axis to the width of the reference object. This does not affect the other axes and will distort the overall shape of the cloud."
+    },
+    {
+      "page": "Align",
+      "label": "Unity Proportional",
+      "name": "unityprop",
+      "description": "The point cloud is resized so that the total width in the X axis is 1. Other axes are scaled accordingly to maintain proportions."
+    },
+    {
+      "page": "Align",
+      "label": "Reference  Proportional",
+      "name": "referenceprop",
+      "description": "The point cloud is resized to match the width of the reference object. Other axes are scaled accordingly to maintain proportions."
+    },
+    {
+      "page": "Align",
+      "label": "Align Scale Y",
+      "name": "alignscaley",
+      "description": "⊞  - The point cloud is resized based on its height in the Y axis."
+    },
+    {
+      "page": "Align",
+      "label": "Off",
+      "name": "off",
+      "description": "No scaling is done based on the Y axis."
+    },
+    {
+      "page": "Align",
+      "label": "Unity",
+      "name": "unity",
+      "description": "The point cloud is resized along the Y axis so that the total height is 1. This does not affect the other axes and will distort the overall shape of the cloud."
+    },
+    {
+      "page": "Align",
+      "label": "Reference  Input",
+      "name": "reference",
+      "description": "The point cloud is resized along the Y axis to the height of the reference object. This does not affect the other axes and will distort the overall shape of the cloud."
+    },
+    {
+      "page": "Align",
+      "label": "Unity Proportional",
+      "name": "unityprop",
+      "description": "The point cloud is resized so that the total height in the Y axis is 1. Other axes are scaled accordingly to maintain proportions."
+    },
+    {
+      "page": "Align",
+      "label": "Reference  Proportional",
+      "name": "referenceprop",
+      "description": "The point cloud is resized to match the height of the reference object. Other axes are scaled accordingly to maintain proportions."
+    },
+    {
+      "page": "Align",
+      "label": "Align Scale Z",
+      "name": "alignscalez",
+      "description": "⊞  - The point cloud is resized based on its depth in the Z axis."
+    },
+    {
+      "page": "Align",
+      "label": "Off",
+      "name": "off",
+      "description": "No scaling is done based on the Z axis."
+    },
+    {
+      "page": "Align",
+      "label": "Unity",
+      "name": "unity",
+      "description": "The point cloud is resized along the Z axis so that the total depth is 1. This does not affect the other axes and will distort the overall shape of the cloud."
+    },
+    {
+      "page": "Align",
+      "label": "Reference  Input",
+      "name": "reference",
+      "description": "The point cloud is resized along the Z axis to the depth of the reference object. This does not affect the other axes and will distort the overall shape of the cloud."
+    },
+    {
+      "page": "Align",
+      "label": "Unity Proportional",
+      "name": "unityprop",
+      "description": "The point cloud is resized so that the total depth in the Z axis is 1. Other axes are scaled accordingly to maintain proportions."
+    },
+    {
+      "page": "Align",
+      "label": "Reference  Proportional",
+      "name": "referenceprop",
+      "description": "The point cloud is resized to match the depth of the reference object. Other axes are scaled accordingly to maintain proportions."
+    },
+    {
+      "page": "Common",
+      "label": "Output  Resolution",
+      "name": "outputresolution",
+      "description": "⊞  - quickly change the resolution of the  TOP 's data."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's resolution."
+    },
+    {
+      "page": "Common",
+      "label": "Eighth",
+      "name": "eighth",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Quarter",
+      "name": "quarter",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Half",
+      "name": "half",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "2X",
+      "name": "2x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "4X",
+      "name": "4x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "8X",
+      "name": "8x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Fit  Resolution",
+      "name": "fit",
+      "description": "Fits the width and height to the resolution given below, while maintaining the aspect ratio."
+    },
+    {
+      "page": "Common",
+      "label": "Limit  Resolution",
+      "name": "limit",
+      "description": "The width and height are limited to the resolution given below. If one of the dimensions exceeds the given resolution, the width and height will be reduced to fit inside the given limits while maintaining the aspect ratio."
+    },
+    {
+      "page": "Common",
+      "label": "Custom  Resolution",
+      "name": "custom",
+      "description": "Enables the  Resolution  parameter below, giving direct control over width and height."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution",
+      "name": "resolution",
+      "description": "⊞  - Enabled only when the  Resolution  parameter is set to Custom  Resolution . Some Generators like Constant and Ramp do not use inputs and only use this field to determine their size. The drop down menu on the right provides some commonly used resolutions."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution  Menu",
+      "name": "resmenu",
+      "description": "A drop-down menu with some commonly used resolutions."
+    },
+    {
+      "page": "Common",
+      "label": "Use Global Res Multiplier",
+      "name": "resmult",
+      "description": "Uses the Global  Resolution  Multiplier found in  Edit>Preferences>TOPs . This multiplies all the TOPs resolutions by the set amount. This is handy when working on computers with different hardware specifications. If a project is designed on a desktop workstation with lots of graphics memory, a user on a laptop with only 64MB VRAM can set the Global  Resolution  Multiplier to a value of half or quarter so it runs at an acceptable speed. By checking this checkbox on, this  TOP  is affected by the global multiplier."
+    },
+    {
+      "page": "Common",
+      "label": "Output Aspect",
+      "name": "outputaspect",
+      "description": "⊞  - Sets the image aspect ratio allowing any textures to be viewed in any size. Watch for unexpected results when compositing TOPs with different aspect ratios. (You can define images with non-square pixels using xres, yres, aspectx, aspecty where xres/yres != aspectx/aspecty.)"
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's aspect ratio."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution",
+      "name": "resolution",
+      "description": "Uses the aspect of the image's defined resolution (ie 512x256 would be 2:1), whereby each pixel is square."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Aspect",
+      "name": "custom",
+      "description": "Lets you explicitly define a custom aspect ratio in the Aspect parameter below."
+    },
+    {
+      "page": "Common",
+      "label": "Aspect",
+      "name": "aspect",
+      "description": "⊞  - Use when Output Aspect parameter is set to Custom Aspect."
+    },
+    {
+      "page": "Common",
+      "label": "Aspect Menu",
+      "name": "armenu",
+      "description": "A drop-down menu with some commonly used aspect ratios."
+    },
+    {
+      "page": "Common",
+      "label": "Input Smoothness",
+      "name": "inputfiltertype",
+      "description": "⊞  - This controls pixel filtering on the input image of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Nearest Pixel",
+      "name": "nearest",
+      "description": "Uses nearest pixel or accurate image representation. Images will look jaggy when viewing at any zoom level other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Interpolate Pixels",
+      "name": "linear",
+      "description": "Uses linear filtering between pixels. This is how you get  TOP  images in viewers to look good at various zoom levels, especially useful when using any Fill Viewer setting other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Mipmap Pixels",
+      "name": "mipmap",
+      "description": "Uses   mipmap  filtering when scaling images. This can be used to reduce artifacts and sparkling in moving/scaling images that have lots of detail."
+    },
+    {
+      "page": "Common",
+      "label": "Fill  Viewer",
+      "name": "fillmode",
+      "description": "⊞  - Determine how the  TOP  image is displayed in the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the same Fill Viewer settings as it's input."
+    },
+    {
+      "page": "Common",
+      "label": "Fill",
+      "name": "fill",
+      "description": "Stretches the image to fit the edges of the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Horizontal",
+      "name": "width",
+      "description": "Stretches image to fit viewer horizontally."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Vertical",
+      "name": "height",
+      "description": "Stretches image to fit viewer vertically."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Best",
+      "name": "best",
+      "description": "Stretches or squashes image so no part of image is cropped."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Outside",
+      "name": "outside",
+      "description": "Stretches or squashes image so image fills viewer while constraining it's proportions. This often leads to part of image getting cropped by viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Native  Resolution",
+      "name": "nativeres",
+      "description": "Displays the native resolution of the image in the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Viewer Smoothness",
+      "name": "filtertype",
+      "description": "⊞  - This controls pixel filtering in the viewers."
+    },
+    {
+      "page": "Common",
+      "label": "Nearest Pixel",
+      "name": "nearest",
+      "description": "Uses nearest pixel or accurate image representation. Images will look jaggy when viewing at any zoom level other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Interpolate Pixels",
+      "name": "linear",
+      "description": "Uses linear filtering between pixels. Use this to get  TOP  images in viewers to look good at various zoom levels, especially useful when using any Fill Viewer setting other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Mipmap Pixels",
+      "name": "mipmap",
+      "description": "Uses   mipmap  filtering when scaling images. This can be used to reduce artifacts and sparkling in moving/scaling images that have lots of detail."
+    },
+    {
+      "page": "Common",
+      "label": "Passes",
+      "name": "npasses",
+      "description": "Duplicates the operation of the  TOP  the specified number of times. Making this larger than 1 is essentially the same as taking the output from each pass, and passing it into the first input of the node and repeating the process. Other inputs and parameters remain the same for each pass."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Mask",
+      "name": "chanmask",
+      "description": "Allows you to choose which channels (R, G, B, or A) the  TOP  will operate on. All channels are selected by default."
+    },
+    {
+      "page": "Common",
+      "label": "Pixel Format",
+      "name": "format",
+      "description": "⊞  - Format used to store data for each channel in the image (ie. R, G, B, and A). Refer to  Pixel Formats  for more information."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's pixel format."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (RGBA)",
+      "name": "rgba8fixed",
+      "description": "Uses 8-bit integer values for each channel."
+    },
+    {
+      "page": "Common",
+      "label": "sRGB 8-bit fixed (RGBA)",
+      "name": "srgba8fixed",
+      "description": "Uses 8-bit integer values for each channel and stores color in sRGB colorspace."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (RGBA)",
+      "name": "rgba16float",
+      "description": "Uses 16-bits per color channel, 64-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (RGBA)",
+      "name": "rgba32float",
+      "description": "Uses 32-bits per color channel, 128-bits per pixels."
+    },
+    {
+      "page": "Common",
+      "label": "10-bit RGB, 2-bit Alpha, fixed (RGBA)",
+      "name": "rgb10a2fixed",
+      "description": "Uses 10-bits per color channel and 2-bits for alpha, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (RGBA)",
+      "name": "rgba16fixed",
+      "description": "Uses 16-bits per color channel, 64-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "11-bit float (RGB), Positive Values Only",
+      "name": "rgba11float",
+      "description": "A RGB floating point format that has 11 bits for the Red and Green channels, and 10-bits for the Blue  Channel , 32-bits total per pixel (therefore the same memory usage as 8-bit RGBA). The Alpha channel in this format will always be 1. Values can go above one, but can't be negative. ie. the range is [0, infinite)."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (Mono)",
+      "name": "mono8fixed",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 8-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (Mono)",
+      "name": "mono16fixed",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (Mono)",
+      "name": "mono16float",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (Mono)",
+      "name": "mono32float",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (RG)",
+      "name": "rg8fixed",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 8-bits per channel, 16-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (RG)",
+      "name": "rg16fixed",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 16-bits per channel, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (RG)",
+      "name": "rg16float",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 16-bits per channel, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (RG)",
+      "name": "rg32float",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 32-bits per channel, 64-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (A)",
+      "name": "a8fixed",
+      "description": "An Alpha only format that has 8-bits per channel, 8-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (A)",
+      "name": "a16fixed",
+      "description": "An Alpha only format that has 16-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (A)",
+      "name": "a16float",
+      "description": "An Alpha only format that has 16-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (A)",
+      "name": "a32float",
+      "description": "An Alpha only format that has 32-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (Mono+Alpha)",
+      "name": "monoalpha8fixed",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 8-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (Mono+Alpha)",
+      "name": "monoalpha16fixed",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 16-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (Mono+Alpha)",
+      "name": "monoalpha16float",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 16-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (Mono+Alpha)",
+      "name": "monoalpha32float",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 32-bits per channel, 64-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "Input 0: points",
+      "description": "The first input contains the position data of the points represented in the red, green, and blue channels.,"
+    },
+    {
+      "page": "Common",
+      "label": "Input 1: weights",
+      "description": "The second input contains an optional weight map that controls how much of the transformation is applied to each point. The weight channel and weight range parameters control how the color channels of the image are converted into weights."
+    },
+    {
+      "page": "Common",
+      "label": "resx",
+      "description": "Horizontal resolution of the  TOP  in pixels."
+    },
+    {
+      "page": "Common",
+      "label": "resy",
+      "description": "Vertical resolution of the  TOP  in pixels."
+    },
+    {
+      "page": "Common",
+      "label": "aspectx",
+      "description": "Horizontal aspect of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "aspecty",
+      "description": "Vertical aspect of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "depth",
+      "description": "Depth of 2D or 3D array if this  TOP  contains a 2D or 3D texture array."
+    },
+    {
+      "page": "Common",
+      "label": "gpu_memory_used",
+      "description": "Total amount of texture memory used by this  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "The width and height of an image in pixels. Most TOPs, like the  Movie File In TOP  can set the image resolution. See  Aspect Ratio  for the width/height ratio of an image, taking into account non",
+      "description": "square pixels."
+    },
+    {
+      "page": "Common",
+      "label": "The viewer of a node can be (1) the interior of a node (the  Node Viewer ), (2) a floating window (RMB",
+      "description": ">View... on node), or (3) a  Pane  that graphically shows the results of an operator."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

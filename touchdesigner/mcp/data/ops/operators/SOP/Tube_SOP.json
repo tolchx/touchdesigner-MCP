@@ -1,0 +1,299 @@
+{
+  "family": "SOP",
+  "pageTitle": "Tube SOP",
+  "pageSlug": "Tube_SOP",
+  "url": "https://docs.derivative.ca/Tube_SOP",
+  "tdOpTypeGuess": "tubeSOP",
+  "summary": "[  edit  ]\nThe Tube  SOP  generates open or closed tubes, cones, or pyramids along the X, Y or Z axes. It outputs as meshes, polygons or simply a tube  Primitive .\ntubeSOP_Class\nContents\n1   Summary\n2   Parameters - Tube Page\n3   Parameters - Detail Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common SOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Tube",
+      "label": "Primitive  Type",
+      "name": "type",
+      "description": "⊞  - Select from the following types. For information on the different types, see the  Geometry  category articles. Using the ' Primitive ' primitive type is not recommended when using instancing."
+    },
+    {
+      "page": "Tube",
+      "label": "Connectivity",
+      "name": "surftype",
+      "description": "⊞  - This option is used to select the type of surface, when using a Mesh  Primitive  Type."
+    },
+    {
+      "page": "Tube",
+      "label": "Rows",
+      "name": "rows",
+      "description": "Creates horizontal lines."
+    },
+    {
+      "page": "Tube",
+      "label": "Columns",
+      "name": "cols",
+      "description": "Creates vertical lines."
+    },
+    {
+      "page": "Tube",
+      "label": "Rows and Columns",
+      "name": "rowcol",
+      "description": "Both Rows and Columns. Looks like Quads in wire frame display, but all polygons are open (if the primitive type is polygon)."
+    },
+    {
+      "page": "Tube",
+      "label": "Triangles",
+      "name": "triangles",
+      "description": "Build the grid with Triangles."
+    },
+    {
+      "page": "Tube",
+      "label": "Quadrilaterals",
+      "name": "quads",
+      "description": "Generates sides composed of quadrilaterals (default)."
+    },
+    {
+      "page": "Tube",
+      "label": "Alternating Triangles",
+      "name": "alttriangles",
+      "description": "Generates triangles that are opposed; similar to the Triangles option."
+    },
+    {
+      "page": "Tube",
+      "label": "Orientation",
+      "name": "orient",
+      "description": "⊞  - Primary axis of tube (long axis)."
+    },
+    {
+      "page": "Tube",
+      "label": "Orient Bounds",
+      "name": "orientbounds",
+      "description": "Available only when an input is connected to the Tube  SOP  to set bounds for the tube. When Orient Bounds = On it will rotate the geometry to match the orientation of the input  SOP  used for bounds."
+    },
+    {
+      "page": "Tube",
+      "label": "Modify Bounds",
+      "name": "modifybounds",
+      "description": "Enabled only when an input is connected to the Tube  SOP  to set bounds for the tube. Turn Modify Bounds = On to enable the transform parameters below to further modify the position, scale, radius and height of the bounds."
+    },
+    {
+      "page": "Tube",
+      "label": "Rotate Order",
+      "name": "rord",
+      "description": "⊞  - Sets the order in which the rotations are applied."
+    },
+    {
+      "page": "Tube",
+      "label": "Center",
+      "name": "t",
+      "description": "⊞  - Location of the tube center from the object origin."
+    },
+    {
+      "page": "Tube",
+      "label": "Rotate",
+      "name": "r",
+      "description": "⊞  - These three fields rotate the Tube along the X, Y, and Z axes."
+    },
+    {
+      "page": "Tube",
+      "label": "Radius",
+      "name": "rad",
+      "description": "⊞  - The first field is the radius of the top of the tube and the second field represents the radius of the bottom of the tube."
+    },
+    {
+      "page": "Tube",
+      "label": "Height",
+      "name": "height",
+      "description": "The height of the tube."
+    },
+    {
+      "page": "Tube",
+      "label": "Reverse Anchors",
+      "name": "reverseanchors",
+      "description": "Invert the direction of anchors."
+    },
+    {
+      "page": "Tube",
+      "label": "Anchor U",
+      "name": "anchoru",
+      "description": "Set the point in X about which the geometry is positioned, scaled and rotated."
+    },
+    {
+      "page": "Tube",
+      "label": "Anchor V",
+      "name": "anchorv",
+      "description": "Set the point in Y about which the geometry is positioned, scaled and rotated."
+    },
+    {
+      "page": "Tube",
+      "label": "Anchor W",
+      "name": "anchorw",
+      "description": "Set the point in Z about which the geometry is positioned, scaled and rotated."
+    },
+    {
+      "page": "Tube",
+      "label": "Imperfect",
+      "name": "imperfect",
+      "description": "This option applies only to Bezier and NURBS types. If selected, the tube is an approximated nonrational curve, otherwise it is a perfect rational curve."
+    },
+    {
+      "page": "Detail",
+      "label": "Rows",
+      "name": "rows",
+      "description": "Number of rows in tube."
+    },
+    {
+      "page": "Detail",
+      "label": "Columns",
+      "name": "cols",
+      "description": "Number of columns in tube."
+    },
+    {
+      "page": "Detail",
+      "label": "U Order",
+      "name": "orderu",
+      "description": "If a spline surface is selected, it is built at this order for U."
+    },
+    {
+      "page": "Detail",
+      "label": "V Order",
+      "name": "orderv",
+      "description": "If a spline surface is selected, it is built at this order for V."
+    },
+    {
+      "page": "Detail",
+      "label": "End Caps",
+      "name": "cap",
+      "description": "If selected, it adds faceted end caps to the ends of the tube."
+    },
+    {
+      "page": "Detail",
+      "label": "Texture Coordinates",
+      "name": "texture",
+      "description": "⊞  - Adds UV texture coordinates to the sphere."
+    },
+    {
+      "page": "Detail",
+      "label": "Off",
+      "name": "off",
+      "description": "No UV coordinates added to surface."
+    },
+    {
+      "page": "Detail",
+      "label": "Row & Columns",
+      "name": "rowcol",
+      "description": "Adds vertex UV coordinates."
+    },
+    {
+      "page": "Detail",
+      "label": "Compute Normals",
+      "name": "normals",
+      "description": "Checking this option On will compute surface normals."
+    },
+    {
+      "page": "Detail",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Detail",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Detail",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Detail",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Detail",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Detail",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Detail",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Detail",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Detail",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Detail",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Detail",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Detail",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Detail",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Detail",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Detail",
+      "label": "A polygon is a type of  Primitive  that is formed from a set of  Vertices  in 3D that are implicitly connected together to form a multi",
+      "description": "edge shape."
+    },
+    {
+      "page": "Detail",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "de manejo de múltiples entradas con Attribute Combine POP, Math Combine POP, Math Mix POP, Blend POP y Switch POP.13 También se encontró una redirección a su página de documentación 47, pero sin contenido descriptivo. 6. Switch POP: Al igual que Merge POP, se indica que comparte la arquitectura de manejo de múltiples entradas con otros POPs combinadores.13 No se proporcionaron detalles adicionales. 7. Quantize POP: Se encontró una redirección a su página de documentación.48 Un tutorial de YouTube relacionado con la \"cuantificación\" de píxeles 49 no describe el operador POP en sí, sino un concepto visual. 8. Random POP: Se encontró una redirección a su página de documentación 50, pero sin contenido descriptivo. 9. Point Generator POP: Se encontraron redirecciones a su página de documentación.51 Aunque un tutorial de YouTube menciona el uso de un Point Generator POP para distribuir puntos 43, no se proporciona una descripción detallada de sus parámetros. 10. Points, Vertices and Primit"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "largo del tiempo. • Experimental:Transform POP: Un operador esencial para mover, rotar y escalar puntos o geometrías. Puede usar atributos de \"peso\" (Weight) para aplicar transformaciones parciales a los puntos. Sus parámetros pueden ser controlados por otros atributos. Puede afectar puntos, vértices o primitivas dentro de un grupo específico. • Experimental:Trig POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Tube POP: Un operador generador que crea una geometría de tubo. • Experimental:Twist POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Aquí tienes un guion con voz en off para un video tutorial sobre los operadores POPs en TouchDesigner, enfatizando sus características, la capacidad de usar la GPU y el control efectivo de puntos: -------------------------------------------------------------------------------- (0) Intro - Título en"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "**Uso simple:** Para importar geometrías o nubes de puntos creadas en otros softwares o generadas a partir de datos externos. * **Point Generator POP (POP Generador de Puntos)** * **Función principal:** Crea un número específico de puntos, de forma aleatoria o con un patrón, sobre la **superficie** o dentro del **volumen** de una forma matemática básica (esfera, cubo, toro, etc.). * **Características clave:** * Permite elegir la **forma base** (Sphere, Box, Torus, Tube, Rectangle, Circle, Line). * Puedes generar puntos en la **superficie** o dentro del **volumen** de la forma. * Ofrece un control de `Random` (aleatoriedad) y `Seed` (semilla para el patrón aleatorio). * Capaz de añadir **normales (`N`) y tangentes (`T`)** a los puntos, vértices o primitivas, con opciones de aleatorización. * **Uso simple:** Una manera fácil de crear nubes de puntos o distribuir elementos en formas geométricas básicas para simulaciones o"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "TouchDesigner POPs - a first look - YouTube https://www.youtube.com/watch?v=UxChrbyKOj8 Transcript: (00:00) Hey everyone. So POPs are out in Touch Designer. POPs stand for point operators and they let us do a lot of the cool stuff that we could do with soaps and chops and to an extent some tops. But today I'm going to just give you a first look because I've been playing it with these for a little while and show you some of the ins and outs and some of the things that I have really enjoyed playing with. (00:28) And this is going to be"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

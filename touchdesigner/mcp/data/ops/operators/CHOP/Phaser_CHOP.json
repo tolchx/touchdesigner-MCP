@@ -1,0 +1,322 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Phaser CHOP",
+  "pageSlug": "Phaser_CHOP",
+  "url": "https://docs.derivative.ca/Phaser_CHOP",
+  "tdOpTypeGuess": "phaserCHOP",
+  "summary": "[  edit  ]\nThe Phaser  CHOP  does staggered (time-offset) animation interpolation. Phaser outputs one channel with multi-samples. Each sample animates from 0 to 1 over a cycle, but each sample value rises from 0 and arrives at 1 at different times.\nFor example, you may have a set of N objects that you want to animate from a start position to an end position. You set Num Samples to N, which will make the Phaser  CHOP  output one channel with N samples that will animate the samples from 0 to 1 and be interpolated with an easing function. In the Phaser  CHOP  the start-to-end cycle is controlled by the first input of the  CHOP , which is expected to be one channel with value between 0 to 1.\nThe 0-1 values can be used with the  Lookup CHOP  to animate groups of channels.\nBy default the timing is staggered uniformly.  If you want to stagger their transitions irregularly, you use the second input, a set of values in one  CHOP  channel (typically N samples) that are between 0 and 1. The phase value specifies the object's timing relationship with the rest of those in the  CHOP . A phase value of 1 corresponds to an animated object thats \"ahead of the pack\" (ie. it will start animating before the others). A value of 0 corresponds to an object that is late (ie. it will be the last to start easing/animating). If a phase input is not provided then the phase will simply be i/N where N is the total number of objects (ie. samples), and i is the index of the current sample.\nThere is also a notion of an \"Edge\" in the Phaser, which describes the cohesiveness of the group of animated objects and how fast the samples rise. A small value will cause the objects to go through the animation very quickly or at high value, very slowly and in unison with other samples.\nLook at David Braun's   TouchDesigner Summit Talk   to see the background of the Phaser  CHOP . Its functionality draws heavily from David's research and development in quantitative easing.\nSee also the  OP Snippets .\nphaserCHOP_Class\nContents\n1   Summary\n2   Parameters - Phaser Page\n3   Parameters - Common Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common CHOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "Time  - The timing of the phase. When not wired the timing will default to an LFO ramp over 4 seconds. The  CHOP  should only contain one channel; all other channels except the first will be ignored."
+    },
+    {
+      "index": 1,
+      "description": "Phase  - When wired the Phaser  CHOP 's output will mirror the phase input's. However, if Mult-Channel Output Format is selected it will in effect transpose the output."
+    },
+    {
+      "index": 2,
+      "description": "Edge  - Edge samples will be used instead of the Edge parameter."
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Phaser",
+      "label": "Edge",
+      "name": "edge",
+      "description": "The separation edge of the phasing between two states. A smaller edge corresponds to sharper separation according to differences in phase. Edge Parameter will not be used if there is an Edge Input."
+    },
+    {
+      "page": "Phaser",
+      "label": "Num Samples",
+      "name": "nsamples",
+      "description": "Specify the size of the output. This parameter will not be used if there is a phase input."
+    },
+    {
+      "page": "Phaser",
+      "label": "Output Format",
+      "name": "outputformat",
+      "description": "⊞  - Specifies the format of the output."
+    },
+    {
+      "page": "Phaser",
+      "label": "Multi-Samples",
+      "name": "samples",
+      "description": "Multiple samples in a channel."
+    },
+    {
+      "page": "Phaser",
+      "label": "Multi- Channel",
+      "name": "channels",
+      "description": "Multiple channels."
+    },
+    {
+      "page": "Phaser",
+      "label": "Extend Input",
+      "name": "extend",
+      "description": "⊞  - Specifies how the time input is interpreted to calculate the phaser value, if the time input is outside the 0-1 range."
+    },
+    {
+      "page": "Phaser",
+      "label": "Clamp",
+      "name": "clamp",
+      "description": "Time input clamped to 0-1 range."
+    },
+    {
+      "page": "Phaser",
+      "label": "Cycle",
+      "name": "cycle",
+      "description": "The phaser cycles the input time 0-1."
+    },
+    {
+      "page": "Phaser",
+      "label": "Mirror",
+      "name": "mirror",
+      "description": "The phaser Zig-Zags the input time between 0-1."
+    },
+    {
+      "page": "Phaser",
+      "label": "Mirror Slope",
+      "name": "mirrorslope",
+      "description": "The phaser Zig-Zags the input time between 0-1, with the slope of the phaser flipped."
+    },
+    {
+      "page": "Phaser",
+      "label": "Add",
+      "name": "add",
+      "description": "The phaser values keep on increasing (or decreasing) when the time input goes over 1 (or below 0)."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "Rename from",
+      "name": "commonrenamefrom",
+      "description": "The channel pattern to rename. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Rename to",
+      "name": "commonrenameto",
+      "description": "The replacement pattern for the names. The default parameters do not rename the channels. See  Pattern Replacement ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Names:  c[1",
+      "description": "10:2] ambient"
+    },
+    {
+      "page": "Common",
+      "label": "Rename To:  b[1",
+      "description": "5] amb    This example fetches channels  c1 c3 c5 c7 c9  and  ambient ."
+    },
+    {
+      "page": "Common",
+      "label": "Input 0: Time",
+      "description": "The timing of the phase. When not wired the timing will default to an LFO ramp over 4 seconds. The  CHOP  should only contain one channel; all other channels except the first will be ignored."
+    },
+    {
+      "page": "Common",
+      "label": "Input 1: Phase",
+      "description": "When wired the Phaser  CHOP 's output will mirror the phase input's. However, if Mult-Channel Output Format is selected it will in effect transpose the output."
+    },
+    {
+      "page": "Common",
+      "label": "Input 2: Edge",
+      "description": "Edge samples will be used instead of the Edge parameter."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ors en un atributo de arreglo (Nebr) y el recuento de neighbors (NumNebrs). También puede generar la distancia promedio o el promedio ponderado inverso de la distancia de los atributos de los neighbors.24 * Parámetros: Neighbors Type (By Distance, Connected), Max Neighbors Distance, Max Neighbors, Output (Neighbors, Average, Inverse Distance Weighted Average), Neighbor Attrib Name, Num Neighbors Attrib Name, Add Distance Attribute, Neighbor Point Attributes.24 * Phaser POP: Similar a Phaser CHOP, realiza una interpolación de animación escalonada (con desfase temporal) en un atributo POP. Genera un nuevo atributo \"Phaser\" donde cada punto anima de 0 a 1 en un ciclo, pero en diferentes momentos.25 * Projection POP: Transforma un atributo espacial 3D de tipo float3 (como P) entre diferentes sistemas de coordenadas (Cartesiano, Esférico, Cilíndrico, Espacio de Pantalla, Coordenadas de Dispositivo Normalizadas). Permite especificar los sistemas de coordenadas de entrada y salida y las u"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ndices de estos neighbors en un atributo de arreglo (Nebr) y el recuento de neighbors (NumNebrs). También puede generar la distancia promedio o el promedio ponderado inverso de la distancia de los atributos de los neighbors.24 * Parámetros: Neighbors Type (By Distance, Connected), Max Neighbors Distance, Max Neighbors, Output (Neighbors, Average, Inverse Distance Weighted Average), Neighbor Attrib Name, Num Neighbors Attrib Name, Add Distance Attribute, Neighbor Point Attributes.24 * Phaser POP: Similar a Phaser CHOP, realiza una interpolación de animación escalonada (con desfase temporal) en un atributo POP. Genera un nuevo atributo \"Phaser\" donde cada punto anima de 0 a 1 en un ciclo, pero en diferentes momentos.25 * Projection POP: Transforma un atributo espacial 3D de tipo float3 (como P) entre diferentes sistemas de coordenadas (Cartesiano, Esférico, Cilíndrico, Espacio de Pantalla, Coordenadas de Dispositivo Normalizadas). Permite especificar los sistemas de coordenadas"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ors en un atributo de arreglo (Nebr) y el recuento de neighbors (NumNebrs). También puede generar la distancia promedio o el promedio ponderado inverso de la distancia de los atributos de los neighbors.24 * Parámetros: Neighbors Type (By Distance, Connected), Max Neighbors Distance, Max Neighbors, Output (Neighbors, Average, Inverse Distance Weighted Average), Neighbor Attrib Name, Num Neighbors Attrib Name, Add Distance Attribute, Neighbor Point Attributes.24 * Phaser POP: Similar a Phaser CHOP, realiza una interpolación de animación escalonada (con desfase temporal) en un atributo POP. Genera un nuevo atributo \"Phaser\" donde cada punto anima de 0 a 1 en un ciclo, pero en diferentes momentos.25 * Projection POP: Transforma un atributo espacial 3D de tipo float3 (como P) entre diferentes sistemas de coordenadas (Cartesiano, Esférico, Cilíndrico, Espacio de Pantalla, Coordenadas de Dispositivo Normalizadas). Permite especificar los sistemas de coordenadas de entrada y salida y las u"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "Experimental:Particle POP: Representa una partícula individual como un punto POP. Este operador añade opcionalmente atributos clave para sistemas de partículas como velocidad, dirección, edad, masa y fuerza. Es central para la simulación de partículas en TouchDesigner y genera atributos como PartForce. • Experimental:Pattern POP: Se utiliza para generar patrones para atributos, ofreciendo configuraciones más complejas. Permite crear y modificar atributos de color y textura. • Experimental:Phaser POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Point File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner, específicamente diseñado para este tipo de datos. • Experimental:Point Generator POP: Un operador generador que crea nubes de puntos directamente. Puede generar puntos con sus primitivas correspondientes. • Experimental:Point POP: Las fuentes proporcionadas no ofrec"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "al mismo tiempo. * También puede **añadir o modificar atributos** existentes en un POP de entrada. * Los parámetros controlan la `Phase` (fase), `Repeats` (repeticiones) y `Re-ranging` (re-escalado de rangos) de las funciones. * Permite crear un POP sin el atributo `P`, generando solo una curva en un nuevo atributo. * **Uso simple:** Perfecto para crear ondas, espirales, o cualquier patrón geométrico regular para animaciones o base de geometría. * **Phaser POP (POP de Fases)** * **Función principal:** Realiza una **interpolación de animación escalonada** (con desfase temporal) en un atributo POP. Produce un nuevo atributo llamado `Phase`. * **Características clave:** * Cada punto anima el atributo `Phaser` de 0 a 1 en un ciclo, pero el valor de cada punto aumenta y llega a 1 en **momentos diferentes**. * Si el atributo de entrada tiene múltiples componentes, `Phase` también será multi-componente. * **Uso"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

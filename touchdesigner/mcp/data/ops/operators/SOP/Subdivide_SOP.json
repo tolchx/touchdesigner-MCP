@@ -1,0 +1,42 @@
+{
+  "family": "SOP",
+  "pageTitle": "Subdivide SOP",
+  "pageSlug": "Subdivide_SOP",
+  "url": "https://docs.derivative.ca/Subdivide_SOP",
+  "tdOpTypeGuess": "subdivideSOP",
+  "summary": "[  edit  ]\nThe Subdivide  SOP  takes an input polygon surface (which can be piped into one or both inputs), and divides each face to create a smoothed polygon surface using a Catmull-Clark subdivision algorithm. Especially useful for avoiding the angular appearance often associated with polygonal models - without adding lots of extra geometry to the entire object. For best results, polygons should be convex and relatively uniform in distribution.\nSubdivision surfaces also allows you to create the smoothed surface based on a polygon control shape. As the control shape changes, so does the smooth shape within.\nsubdivideSOP_Class\nContents\n1   Summary\n2   Creases and Cracks\n2.1   Creases\n2.2   The Crease Algorithm\n2.3   Closing Cracks\n3   Parameters -  Page\n4   Example\n5   Operator Inputs\n6   Info CHOP Channels\n6.1   Common SOP Info Channels\n6.2   Common Operator Info Channels\nCreases and Cracks\nCreases\nCreases control the strength of pull of the polygon faces on the subdivision surfaces, much like a magnet drawing the surface towards the reference polygon. They can be applied selectively using the  Creases  field to specify an input group to use.\nCreases work by controlling the strength of the pull of the polygon faces on the subdivision surfaces, like a magnet drawing the surface towards the reference polygon. The figure below shows the result of setting the  Crease Weight  to  0, 1, 2  reading from left to right. As the weight increases so the pull effect strengthens and the shape approaches the reference polygon.\nThe Crease Algorithm\nIf there is a second input:\nIf the Override button is enabled, each edge defined in the second input will have its edge crease weight set to the value of the override.\nIf the vertex attribute \" creaseweight \" exists on the second input, each matching edge in the input will have its crease weight set to the maximum of the vertex attributes for any shared edges.\nIf the primitive attribute \" creaseweight \" exists on the second input, each polygon in the second input will set matching edges to the appropriate weights.   If there is no second input:\nIf an override is specified, the value of the override is used for all edges in the sub-divided surface.\nIf the vertex attribute \" creaseweight \" exists, this attribute will be used to define the crease weights on the edges of the surface.\nIf the primitive attribute \" creaseweight \" exists, this attribute will be used to define the crease weights for the subdivision surface.   When defining crease weights on shared edges, the maximum of the weights of the shared edges is used. For example, if two polygons share an edge and the primitive attribute is used, the maximum of the crease weight will be used for the shared edge.\nClosing Cracks\nCracks can be closed by either  Pull Cracks Closed  or  Stitch Cracks Together , so only one of these two options can be chosen at a time from the  Surrounding Faces  parameter.  Bias  applies only to Pulling, and is disabled when Stitching is chosen.",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": ". GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de partículas complejos, simulaciones a"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "POP: Permite la conversión de datos de la familia SOPs (Surface Operators) a datos de POPs. • Experimental:Sort POP: Implementa algoritmos de ordenación muy rápidos que pueden organizar los puntos basándose en el valor de cualquier componente de un atributo. • Experimental:Sphere POP: Un operador generador que crea una geometría esférica. • Experimental:Sprinkle POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Subdivide POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Switch POP: Un operador que permite cambiar entre diferentes entradas. Es útil para probar variaciones o controlar el flujo de datos. • Experimental:Texture Map POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:TOP to POP: Permite convertir datos de la familia TOPs (Texture Operators) a d"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "tamaño. * El método `Volume` crea puntos aleatoriamente dentro de un volumen cerrado. * El parámetro `Number of Points` es un límite superior aproximado para la cantidad de puntos creados. * Puede crear primitivas de punto por cada punto nuevo, útil si planeas renderizar los puntos directamente. * **Uso simple:** Para rellenar una forma existente con una nube de puntos, útil para efectos de polvo, estrellas, o para crear una base para instancias. * **Subdivide POP (POP de Subdivisión)** * **Función principal:** Subdivide y suaviza una superficie. Divide cada cuadrado en dos triángulos, y luego cada triángulo en 4 triángulos más pequeños, cortando en el punto medio de cada borde. * **Características clave:** * Aumentar el `Depth` (profundidad) aplica subdivisiones recursivas en múltiples pasadas para mayor detalle. * El parámetro `Crease Weight` (peso de pliegue) te permite restaurar la forma original, lo que es úti"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "nterpolación**: Similares al Line Divide POP (Lineal, Cardinal, BSpline, Bezier). Para \"splines\", se añaden parámetros para peso, tangentes y tensión. También puedes tener un método de interpolación diferente por cada punto. * **`Multiple Line Strips`**: Un parámetro en la página `Setup` que te permite dividir los puntos en \"line strips\" separadas. Puedes indicar dónde están los saltos de línea. * Las \"line strips\" pueden ser **abiertas o cerradas**. * La página `Divisions` subdivide las líneas en dos etapas: divisiones totales, por segmento, por distancia, y luego un re-muestreo adicional. * Puede generar la lista de puntos pre-divididos con los atributos necesarios (como `SegMethod` para el tipo de interpolación, peso, tangentes) para ser utilizada por el Line Divide POP. --- #### 42. Line Smooth POP * **¿Qué hace?** Este operador **suaviza las \"tiras de líneas\" (`line strips`)** mezclando las posiciones de los puntos adyacentes a lo largo de la línea. *"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

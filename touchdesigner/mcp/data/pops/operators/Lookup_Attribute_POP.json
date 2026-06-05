@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Lookup Attribute POP",
+  "pageSlug": "Lookup_Attribute_POP",
+  "url": "https://docs.derivative.ca/Lookup_Attribute_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "lookupAttributePOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "dices fuera de rango se ajustan.32 * Convert POP: Una utilidad general para reestructurar primitivas. Mantiene los puntos de entrada pero reconfigura su conectividad, permitiendo conversiones entre tiras de línea, apertura/cierre de líneas, conversión de quads a triángulos, eliminación de todas las primitivas o creación de primitivas de punto a partir de puntos.33 * File In POP: Lee un archivo y convierte su geometría en un POP en la memoria de la GPU. Soporta varios formatos de archivo.34 * Lookup Attribute POP: Toma un atributo (el Lookup Attribute) con valores en el rango 0-1 y lo utiliza como índice en los atributos de otro POP (la Lookup Curve). Extrae valores interpolados de la Lookup Curve y los genera. Tiene opciones para manejar índices fuera de rango y reescalar valores.35 * Parámetros: Lookup Attribute, Lookup Curve (segunda entrada), Index Type (normalizado 0-1 o número de punto), Extend Left/Right (Hold, Slope, Cycle, Mirror), Value Attributes a buscar, From/To Low/High para reescalar."
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "dices fuera de rango se ajustan.32 * Convert POP: Una utilidad general para reestructurar primitivas. Mantiene los puntos de entrada pero reconfigura su conectividad, permitiendo conversiones entre tiras de línea, apertura/cierre de líneas, conversión de quads a triángulos, eliminación de todas las primitivas o creación de primitivas de punto a partir de puntos.33 * File In POP: Lee un archivo y convierte su geometría en un POP en la memoria de la GPU. Soporta varios formatos de archivo.34 * Lookup Attribute POP: Toma un atributo (el Lookup Attribute) con valores en el rango 0-1 y lo utiliza como índice en los atributos de otro POP (la Lookup Curve). Extrae valores interpolados de la Lookup Curve y los genera. Tiene opciones para manejar índices fuera de rango y reescalar valores.35 * Parámetros: Lookup Attribute, Lookup Curve (segunda entrada), Index Type (normalizado 0-1 o número de punto), Extend Left/Right (Hold, Slope, Cycle, Mirror), Value Attributes a buscar, From/To Low/High para reesca"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "dices fuera de rango se ajustan.32 * Convert POP: Una utilidad general para reestructurar primitivas. Mantiene los puntos de entrada pero reconfigura su conectividad, permitiendo conversiones entre tiras de línea, apertura/cierre de líneas, conversión de quads a triángulos, eliminación de todas las primitivas o creación de primitivas de punto a partir de puntos.33 * File In POP: Lee un archivo y convierte su geometría en un POP en la memoria de la GPU. Soporta varios formatos de archivo.34 * Lookup Attribute POP: Toma un atributo (el Lookup Attribute) con valores en el rango 0-1 y lo utiliza como índice en los atributos de otro POP (la Lookup Curve). Extrae valores interpolados de la Lookup Curve y los genera. Tiene opciones para manejar índices fuera de rango y reescalar valores.35 * Parámetros: Lookup Attribute, Lookup Curve (segunda entrada), Index Type (normalizado 0-1 o número de punto), Extend Left/Right (Hold, Slope, Cycle, Mirror), Value Attributes a buscar, From/To Low/High para reescalar."
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ón de tiras de línea. Puede dividir curvas o generar puntos de control con atributos que definen la forma de la curva, como Weight o Tension. También permite crear y modificar atributos de color y textura. • Experimental:Line Smooth POP: Puede añadir puntos y suavizar líneas. • Experimental:Line Thick POP: El material de línea (Line MAT) de TouchDesigner se implementa internamente usando una conversión a este POP, lo que sugiere su rol en la representación visual de líneas. • Experimental:Lookup Attribute POP: Utiliza uno, dos o tres componentes de un atributo como índices para realizar búsquedas. También puede utilizar atributos de solo lectura. • Experimental:Lookup Channel POP: Similar al Lookup Attribute POP, usa componentes de atributos como índices para realizar búsquedas en canales. • Experimental:Lookup Texture POP: Similar a los anteriores, pero utiliza componentes de atributos como índices para realizar búsquedas en texturas. • Experimental:Math Combine POP: Similar al Attribute Comb"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ón de tiras de línea. Puede dividir curvas o generar puntos de control con atributos que definen la forma de la curva, como Weight o Tension. También permite crear y modificar atributos de color y textura. • Experimental:Line Smooth POP: Puede añadir puntos y suavizar líneas. • Experimental:Line Thick POP: El material de línea (Line MAT) de TouchDesigner se implementa internamente usando una conversión a este POP, lo que sugiere su rol en la representación visual de líneas. • Experimental:Lookup Attribute POP: Utiliza uno, dos o tres componentes de un atributo como índices para realizar búsquedas. También puede utilizar atributos de solo lectura. • Experimental:Lookup Channel POP: Similar al Lookup Attribute POP, usa componentes de atributos como índices para realizar búsquedas en canales. • Experimental:Lookup Texture POP: Similar a los anteriores, pero utiliza componentes de atributos como índices para realizar búsquedas en texturas. • Experimental:Math Combine POP: Similar al Attribute"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ón de tiras de línea. Puede dividir curvas o generar puntos de control con atributos que definen la forma de la curva, como Weight o Tension. También permite crear y modificar atributos de color y textura. • Experimental:Line Smooth POP: Puede añadir puntos y suavizar líneas. • Experimental:Line Thick POP: El material de línea (Line MAT) de TouchDesigner se implementa internamente usando una conversión a este POP, lo que sugiere su rol en la representación visual de líneas. • Experimental:Lookup Attribute POP: Utiliza uno, dos o tres componentes de un atributo como índices para realizar búsquedas. También puede utilizar atributos de solo lectura. • Experimental:Lookup Channel POP: Similar al Lookup Attribute POP, usa componentes de atributos como índices para realizar búsquedas en canales. • Experimental:Lookup Texture POP: Similar a los anteriores, pero utiliza componentes de atributos como índices para realizar búsquedas en texturas. • Experimental:Math Combine POP: Similar al Attribute Comb"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

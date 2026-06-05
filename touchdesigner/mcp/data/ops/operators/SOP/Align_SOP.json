@@ -1,0 +1,179 @@
+{
+  "family": "SOP",
+  "pageTitle": "Align SOP",
+  "pageSlug": "Align_SOP",
+  "url": "https://docs.derivative.ca/Align_SOP",
+  "tdOpTypeGuess": "alignSOP",
+  "summary": "[  edit  ]\nThe Align  SOP  aligns a group of primitives to each other or to an auxiliary input, by translating or rotating each primitive along any pivot point.\nLeft and Right Primitives  - The notions of \"left\" and \"right\" which follow depend on context. If an auxiliary input is used, it is always the right primitive and the primary input geometry are all left primitives. If only one input is used, then for each pair being aligned, there is a left and a right primitive. This means that relative to neighbouring primitives, one primitive can be both left and right.\nalignSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Parameters - Align Page\n4   Parameters - Transform Page\n5   Operator Inputs\n6   Info CHOP Channels\n6.1   Common SOP Info Channels\n6.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Align",
+      "label": "Bias",
+      "name": "bias",
+      "description": "Determines which primitive remains unaffected: 0 Left, 1 Right."
+    },
+    {
+      "page": "Align",
+      "label": "Left UV",
+      "name": "leftuv",
+      "description": "⊞  - Pivot Location for each \"left\" primitive."
+    },
+    {
+      "page": "Align",
+      "label": "Right UV",
+      "name": "rightuv",
+      "description": "⊞  - Pivot location for each \"right\" primitive."
+    },
+    {
+      "page": "Align",
+      "label": "Right UV End",
+      "name": "rightuvend",
+      "description": "⊞  - If an auxiliary input is used, this location specifies an end point for the alignment. Left primitives are then distributed uniformly between the  Right UV  and the  Right UV End ."
+    },
+    {
+      "page": "Align",
+      "label": "Individual Alignment",
+      "name": "individual",
+      "description": "Causes each primitive of the input to be aligned. If unchecked, only the first primitive is aligned and all others are placed relative to it, preserving the spatial layout of the left primitives."
+    },
+    {
+      "page": "Align",
+      "label": "Translate",
+      "name": "dotrans",
+      "description": "When enabled, translates primitives during alignment by translating the left UV position to the right UV position."
+    },
+    {
+      "page": "Align",
+      "label": "Rotate",
+      "name": "dorotate",
+      "description": "When enabled, rotates primitives during alignment by aligning the left UV tangents (at the left UV position) to the right UV tangents (at the right UV position)."
+    },
+    {
+      "page": "Transform",
+      "label": "Transform Order",
+      "name": "xord",
+      "description": "⊞  - Sets the overall transform and rotation order for the transformations. The transform and rotation order determines the order in which transformations take place. Depending on the order, you can achieve different results using the exact same values."
+    },
+    {
+      "page": "Transform",
+      "label": "Rotate Order",
+      "name": "rord",
+      "description": "⊞  - Sets the overall transform and rotation order for the transformations. The transform and rotation order determines the order in which transformations take place. Depending on the order, you can achieve different results using the exact same values."
+    },
+    {
+      "page": "Transform",
+      "label": "Translate",
+      "name": "t",
+      "description": "⊞  - Allows you to perform a post-alignment transformation. Specify the amount of translation about the local  xyz  axes."
+    },
+    {
+      "page": "Transform",
+      "label": "Rotate",
+      "name": "r",
+      "description": "⊞  - Allows you to perform a post-alignment transformation. Specify the amount of rotation about the local  xyz  axes."
+    },
+    {
+      "page": "Transform",
+      "label": "Scale",
+      "name": "s",
+      "description": "⊞  - Allows you to perform a post-alignment transformation. Specify the amount of scaling about the local  xyz  axes."
+    },
+    {
+      "page": "Transform",
+      "label": "Pivot",
+      "name": "p",
+      "description": "⊞  - Allows you to perform a post-alignment transformation. Specify the amount of translation / rotation / scaling about the local  xyz  axes"
+    },
+    {
+      "page": "Transform",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Transform",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Transform",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Transform",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Transform",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Transform",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Transform",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Transform",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Transform",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Transform",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Transform",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Transform",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Transform",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Transform",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Transform",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

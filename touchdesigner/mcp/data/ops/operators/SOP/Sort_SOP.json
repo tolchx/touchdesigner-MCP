@@ -1,0 +1,418 @@
+{
+  "family": "SOP",
+  "pageTitle": "Sort SOP",
+  "pageSlug": "Sort_SOP",
+  "url": "https://docs.derivative.ca/Sort_SOP",
+  "tdOpTypeGuess": "sortSOP",
+  "summary": "[  edit  ]\nThe Sort  SOP  allows you to sort points and primitives in different ways. Sometimes the primitives are arranged in the desired order, but the point order is not. There are many possible combinations. To sort vertices, use the  Primitive SOP .\nsortSOP_Class\nContents\n1   Summary\n2   Parameters - Point Page\n3   Parameters - Primitive Page\n4   Parameters - Particle Page\n5   Operator Inputs\n6   Info CHOP Channels\n6.1   Common SOP Info Channels\n6.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Point",
+      "label": "Point Sort",
+      "name": "ptsort",
+      "description": "⊞  - Sort the points in the input geometry, according to the following criteria:"
+    },
+    {
+      "page": "Point",
+      "label": "No change",
+      "name": "none",
+      "description": "No sorting is applied."
+    },
+    {
+      "page": "Point",
+      "label": "By vertex order",
+      "name": "vtxord",
+      "description": "Order points in same order as vertices."
+    },
+    {
+      "page": "Point",
+      "label": "By x",
+      "name": "byx",
+      "description": "Sort according to X position."
+    },
+    {
+      "page": "Point",
+      "label": "By y",
+      "name": "byy",
+      "description": "Sort according to Y position."
+    },
+    {
+      "page": "Point",
+      "label": "By z",
+      "name": "byz",
+      "description": "Sort according to Z position."
+    },
+    {
+      "page": "Point",
+      "label": "Reverse",
+      "name": "rev",
+      "description": "Reverse the point order."
+    },
+    {
+      "page": "Point",
+      "label": "Random",
+      "name": "seed",
+      "description": "Randomize point order using the specified seed without changing the point positions."
+    },
+    {
+      "page": "Point",
+      "label": "Shift",
+      "name": "shift",
+      "description": "Shift points by the amount specified on the Offset parameter."
+    },
+    {
+      "page": "Point",
+      "label": "Proximity to  Point",
+      "name": "prox",
+      "description": "Sort points by their proximity to the specified point."
+    },
+    {
+      "page": "Point",
+      "label": "Along Vector",
+      "name": "vector",
+      "description": "Sorts points along either a user or object-defined vector."
+    },
+    {
+      "page": "Point",
+      "label": "Distance to  Object",
+      "name": "object",
+      "description": "Sorts points based on distance to the object specified in the Vector Object parameter."
+    },
+    {
+      "page": "Point",
+      "label": "Closest Neighbour",
+      "name": "neighbour",
+      "description": "Reorders points based on next closest. Slow nxn search."
+    },
+    {
+      "page": "Point",
+      "label": "Seed",
+      "name": "pointseed",
+      "description": "The random seed when  Point Sort  is set to  Random ."
+    },
+    {
+      "page": "Point",
+      "label": "Offset",
+      "name": "pointoffset",
+      "description": "Shift point order by the amount specified on the offset line."
+    },
+    {
+      "page": "Point",
+      "label": "Point",
+      "name": "pointprox",
+      "description": "⊞  - The X, Y and Z coordinates to reference when sorting by  Proximity to  Point  ."
+    },
+    {
+      "page": "Point",
+      "label": "Vector  Object",
+      "name": "pointobj",
+      "description": "Sort points along a vector defined by the object's transformation values."
+    },
+    {
+      "page": "Point",
+      "label": "Vector",
+      "name": "pointdir",
+      "description": "⊞  - Allows you to specify a unique vector along which points can be sorted."
+    },
+    {
+      "page": "Primitive",
+      "label": "Primitive  Sort",
+      "name": "primsort",
+      "description": "⊞  - Sort the primitives according to the following criteria:"
+    },
+    {
+      "page": "Primitive",
+      "label": "No change",
+      "name": "none",
+      "description": "No sorting is applied."
+    },
+    {
+      "page": "Primitive",
+      "label": "By x",
+      "name": "byx",
+      "description": "Sort according to X position."
+    },
+    {
+      "page": "Primitive",
+      "label": "By y",
+      "name": "byy",
+      "description": "Sort according to Y position."
+    },
+    {
+      "page": "Primitive",
+      "label": "By z",
+      "name": "byz",
+      "description": "Sort according to Z position."
+    },
+    {
+      "page": "Primitive",
+      "label": "Reverse",
+      "name": "rev",
+      "description": "Reverse primitive order."
+    },
+    {
+      "page": "Primitive",
+      "label": "Random",
+      "name": "seed",
+      "description": "Randomize primitive order using the specified seed without changing the primitive positions."
+    },
+    {
+      "page": "Primitive",
+      "label": "Shift",
+      "name": "shift",
+      "description": "Shift primitives by the amount the specified on the Offset parameter."
+    },
+    {
+      "page": "Primitive",
+      "label": "Proximity to  Point",
+      "name": "prox",
+      "description": "Sort primitives by their proximity to the specified point."
+    },
+    {
+      "page": "Primitive",
+      "label": "Along Vector",
+      "name": "vector",
+      "description": "Sorts primitives along either a user or object-defined vector."
+    },
+    {
+      "page": "Primitive",
+      "label": "Distance to  Object",
+      "name": "object",
+      "description": "Sorts primitive based on distance to the object specified in the Vector Object parameter."
+    },
+    {
+      "page": "Primitive",
+      "label": "Seed",
+      "name": "primseed",
+      "description": "Random seed when sorting by  Random ."
+    },
+    {
+      "page": "Primitive",
+      "label": "Offset",
+      "name": "primoffset",
+      "description": "Shift primitive order by the amount specified on the offset line."
+    },
+    {
+      "page": "Primitive",
+      "label": "Point",
+      "name": "primprox",
+      "description": "⊞  - The X, Y and Z coordinates to reference when sorting by  Proximity to  Point  ."
+    },
+    {
+      "page": "Primitive",
+      "label": "Vector  Object",
+      "name": "primobj",
+      "description": "Sort primitives along a vector defined by the object's translation."
+    },
+    {
+      "page": "Primitive",
+      "label": "Vector",
+      "name": "primdir",
+      "description": "⊞  - Allows you to specify a unique vector along which primitives can be sorted."
+    },
+    {
+      "page": "Particle",
+      "label": "Particles are sorted on a per",
+      "description": "particle system basis. That is if you have a  SOP  with 2 different particle system primitives, they are sorted independently of each other."
+    },
+    {
+      "page": "Particle",
+      "label": "Particle Sort",
+      "name": "partsort",
+      "description": "⊞  - Sort the primitives according to the following criteria:"
+    },
+    {
+      "page": "Particle",
+      "label": "No change",
+      "name": "none",
+      "description": "No sorting is applied."
+    },
+    {
+      "page": "Particle",
+      "label": "By x",
+      "name": "byx",
+      "description": "Sort according to X position."
+    },
+    {
+      "page": "Particle",
+      "label": "By y",
+      "name": "byy",
+      "description": "Sort according to Y position."
+    },
+    {
+      "page": "Particle",
+      "label": "By z",
+      "name": "byz",
+      "description": "Sort according to Z position."
+    },
+    {
+      "page": "Particle",
+      "label": "Reverse",
+      "name": "rev",
+      "description": "Reverse particle order."
+    },
+    {
+      "page": "Particle",
+      "label": "Shift",
+      "name": "shift",
+      "description": "Shift particles by the amount the specified on the Offset parameter."
+    },
+    {
+      "page": "Particle",
+      "label": "Proximity to  Point",
+      "name": "prox",
+      "description": "Sort particle by their proximity to the specified point."
+    },
+    {
+      "page": "Particle",
+      "label": "Along Vector",
+      "name": "vector",
+      "description": "Sorts particles along either a user or object-defined vector."
+    },
+    {
+      "page": "Particle",
+      "label": "Distance to  Object",
+      "name": "object",
+      "description": "Sorts particles based on distance to the object specified in the Vector Object parameter."
+    },
+    {
+      "page": "Particle",
+      "label": "Reverse Results",
+      "name": "partreverse",
+      "description": "Reverses the result from the Particle Sort as defined above."
+    },
+    {
+      "page": "Particle",
+      "label": "Offset",
+      "name": "partoffset",
+      "description": "Shift particle order by the amount specified on the offset line."
+    },
+    {
+      "page": "Particle",
+      "label": "Point",
+      "name": "partprox",
+      "description": "⊞  - The X, Y and Z coordinates to reference when sorting by  Proximity to  Point  ."
+    },
+    {
+      "page": "Particle",
+      "label": "Vector  Object",
+      "name": "partobj",
+      "description": "Sort particles along a vector defined by the object's translation."
+    },
+    {
+      "page": "Particle",
+      "label": "Vector",
+      "name": "partdir",
+      "description": "⊞  - Allows you to specify a unique vector along which particles can be sorted."
+    },
+    {
+      "page": "Particle",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Particle",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Particle",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Particle",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Particle",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Particle",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Particle",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Particle",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Particle",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Particle",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Particle",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Particle",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Particle",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Particle",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Particle",
+      "label": "The sub",
+      "description": "Family  of  Component  types that are used to define and render 3D scenes. A  Geometry Component  is an Object that contains the 3D shapes to render. A  Camera COMP  and  Light COMP  are other Object types. Separately, \"Objects\" also refers to Python objects."
+    },
+    {
+      "page": "Particle",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "d POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de pa"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "porcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Skin Deform POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Skin POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:SOP to POP: Permite la conversión de datos de la familia SOPs (Surface Operators) a datos de POPs. • Experimental:Sort POP: Implementa algoritmos de ordenación muy rápidos que pueden organizar los puntos basándose en el valor de cualquier componente de un atributo. • Experimental:Sphere POP: Un operador generador que crea una geometría esférica. • Experimental:Sprinkle POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Subdivide POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este o"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "tamente) convirtiéndolos a \"line strips\", triangulándolos, o ignorándolos. * Las mallas SOP se pueden convertir en `quads`, \"line strips\" o primitivas de punto. * Las primitivas SOP como esferas, Bézier o NURBS se convierten **solo en puntos** en los POPs. * **Uso simple:** Para llevar geometrías estáticas o animadas (pero no basadas en partículas) creadas con SOPs al entorno de POPs para aplicar simulaciones de partículas u otros efectos basados en puntos. * **Sort POP (POP de Ordenamiento)** * **Función principal:** Ordena la lista de **puntos** y/o la lista de **primitivas** basándose en la posición (`P`) o cualquier componente de atributo. * **Características clave:** * Puede ordenar puntos en relación con un vector, la proximidad a un punto, o el eje Z de un componente de Geometría (`Geometry COMP`). * Permite **aleatorizar el orden** o **desplazar** (circularmente) el orden de los puntos. * Realiza las m"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "is going to look kind of familiar to us. Let's see. Let's just do one more thing just so we can see. In terms of how we process these generators, we have a bunch of things that we also might be used to like we have noise and twist, but also some things that we are potentially less used to like one of my favorite things that I think is going to solve a lot of problems for people, which is this little thing called proximity. (02:13) And what proximity allows us to do is essentially create these sort of plexus effects. And and maybe this would be more interesting if I popped a noise in here. I'm going to turn up that value and I'm going to animate it. So now we have a really simple inbuilt way of making a plexus model. And what's actually happening here is kind of the power of POPS. (02:43) And this is what I'm going to show you and expand upon. So what we can see here, and let's bring that out into a bigger view, is we have all this data and all the attributes from these objects. And so w"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Neighbor POP",
+  "pageSlug": "Neighbor_POP",
+  "url": "https://docs.derivative.ca/Neighbor_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "neighborPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "control sobre atributos temporales). Maneja la combinación de floats con floats, floats con vectores y vectores con vectores.23 * Math Mix POP: Una versión más simple de Math Combine POP, que realiza una serie de operaciones matemáticas en un solo nodo. Cada bloque en su página \"Combine\" puede combinar uno, dos o tres atributos utilizando más de 70 operaciones (por ejemplo, A+B, sin(A), clamp(A,B,C)). Nombra automáticamente los atributos de múltiples entradas (por ejemplo, in1_Tex).11 * Neighbor POP: Encuentra los puntos más cercanos (neighbors) para cada punto de entrada basándose en la proximidad (distancia) o la conectividad. Genera los índices de estos neighbors en un atributo de arreglo (Nebr) y el recuento de neighbors (NumNebrs). También puede generar la distancia promedio o el promedio ponderado inverso de la distancia de los atributos de los neighbors.24 * Parámetros: Neighbors Type (By Distance, Connected), Max Neighbors Distance, Max Neighbors, Output (Neighbors, Average,"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "control sobre atributos temporales). Maneja la combinación de floats con floats, floats con vectores y vectores con vectores.23 * Math Mix POP: Una versión más simple de Math Combine POP, que realiza una serie de operaciones matemáticas en un solo nodo. Cada bloque en su página \"Combine\" puede combinar uno, dos o tres atributos utilizando más de 70 operaciones (por ejemplo, A+B, sin(A), clamp(A,B,C)). Nombra automáticamente los atributos de múltiples entradas (por ejemplo, in1_Tex).11 * Neighbor POP: Encuentra los puntos más cercanos (neighbors) para cada punto de entrada basándose en la proximidad (distancia) o la conectividad. Genera los índices de estos neighbors en un atributo de arreglo (Nebr) y el recuento de neighbors (NumNebrs). También puede generar la distancia promedio o el promedio ponderado inverso de la distancia de los atributos de los neighbors.24 * Parámetros: Neighbors Type (By Distance, Connected), Max Neighbors Distance, Max Neighbors, Output (Neighbors, Aver"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "control sobre atributos temporales). Maneja la combinación de floats con floats, floats con vectores y vectores con vectores.23 * Math Mix POP: Una versión más simple de Math Combine POP, que realiza una serie de operaciones matemáticas en un solo nodo. Cada bloque en su página \"Combine\" puede combinar uno, dos o tres atributos utilizando más de 70 operaciones (por ejemplo, A+B, sin(A), clamp(A,B,C)). Nombra automáticamente los atributos de múltiples entradas (por ejemplo, in1_Tex).11 * Neighbor POP: Encuentra los puntos más cercanos (neighbors) para cada punto de entrada basándose en la proximidad (distancia) o la conectividad. Genera los índices de estos neighbors en un atributo de arreglo (Nebr) y el recuento de neighbors (NumNebrs). También puede generar la distancia promedio o el promedio ponderado inverso de la distancia de los atributos de los neighbors.24 * Parámetros: Neighbors Type (By Distance, Connected), Max Neighbors Distance, Max Neighbors, Output (Neighbors, Average,"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ite crear nuevos atributos para almacenar los resultados. También puedes usarlo para crear y modificar atributos de color y textura. Soporta la creación automática de nombres de atributos y utiliza atributos de solo lectura. • Experimental:Merge POP: Permite combinar múltiples flujos de datos POPs en uno solo. Puedes especificar qué grupos de datos deseas fusionar de cada entrada. Este operador puede afectar solo puntos, vértices o primitivas que estén en un grupo específico. • Experimental:Neighbor POP: Crea atributos de tipo entero sin signo. Genera atributos que comienzan con Nebr*, lo que sugiere su uso para trabajar con información de vecinos (puntos cercanos). • Experimental:Noise POP: Un operador que genera ruido para atributos, lo que permite crear efectos complejos y variaciones aleatorias. Sus parámetros pueden ser controlados por otros atributos. Permite crear y modificar atributos de color y textura. • Experimental:Normal POP: Se encarga de calcular y crear las normales de supe"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ite crear nuevos atributos para almacenar los resultados. También puedes usarlo para crear y modificar atributos de color y textura. Soporta la creación automática de nombres de atributos y utiliza atributos de solo lectura. • Experimental:Merge POP: Permite combinar múltiples flujos de datos POPs en uno solo. Puedes especificar qué grupos de datos deseas fusionar de cada entrada. Este operador puede afectar solo puntos, vértices o primitivas que estén en un grupo específico. • Experimental:Neighbor POP: Crea atributos de tipo entero sin signo. Genera atributos que comienzan con Nebr*, lo que sugiere su uso para trabajar con información de vecinos (puntos cercanos). • Experimental:Noise POP: Un operador que genera ruido para atributos, lo que permite crear efectos complejos y variaciones aleatorias. Sus parámetros pueden ser controlados por otros atributos. Permite crear y modificar atributos de color y textura. • Experimental:Normal POP: Se encarga de calcular y crear las normales de"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ite crear nuevos atributos para almacenar los resultados. También puedes usarlo para crear y modificar atributos de color y textura. Soporta la creación automática de nombres de atributos y utiliza atributos de solo lectura. • Experimental:Merge POP: Permite combinar múltiples flujos de datos POPs en uno solo. Puedes especificar qué grupos de datos deseas fusionar de cada entrada. Este operador puede afectar solo puntos, vértices o primitivas que estén en un grupo específico. • Experimental:Neighbor POP: Crea atributos de tipo entero sin signo. Genera atributos que comienzan con Nebr*, lo que sugiere su uso para trabajar con información de vecinos (puntos cercanos). • Experimental:Noise POP: Un operador que genera ruido para atributos, lo que permite crear efectos complejos y variaciones aleatorias. Sus parámetros pueden ser controlados por otros atributos. Permite crear y modificar atributos de color y textura. • Experimental:Normal POP: Se encarga de calcular y crear las normales de supe"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

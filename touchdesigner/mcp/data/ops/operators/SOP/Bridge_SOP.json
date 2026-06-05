@@ -1,0 +1,229 @@
+{
+  "family": "SOP",
+  "pageTitle": "Bridge SOP",
+  "pageSlug": "Bridge_SOP",
+  "url": "https://docs.derivative.ca/Bridge_SOP",
+  "tdOpTypeGuess": "bridgeSOP",
+  "summary": "[  edit  ]\nThe Bridge  SOP  is useful for skinning trimmed surfaces, holes, creating highly controllable joins between arms and body, branches or tube intersections.\nThe Bridge  SOP  is similar to the Skin  SOP  but with much greater control over the resulting surface. Given a set of profiles (i.e. curves on surface) and/or spatial faces, the Bridge  SOP  builds a NURBS skin with specified tangent and curvature characteristics. The precision of the resulting surface is highly dependent on the number of required cross-sections and on the quality of the profile extraction. High precisions will generate a very dense surface with, potentially, many multiple knots.\nIn general, the higher the order of the curve, the better the fit the Bridge  SOP  will be able to provide. However, it is generally better to stick to cubics (order 4) curves, as the software is optimized for cubics.\nBecause the Bridge  SOP  can join both a set of spatial curves and trim curves, it can be used much like the Skin  SOP  and/or the Fillet   SOP  . However, bridging trimmed surfaces is more expensive than bridging carved surfaces.\nYou will usually need a Trim, Bridge, or Profile  SOP  after a Project  SOP .\nUse a Trim  SOP  to cut a hole in the projected surface\nUse a Bridge SOPto skin the profile curve to another profile curve.\nUse a Profile  SOP  to extract the curve on surface or remap it's position.\nNote:  To texture-map the resulting skin, use an Orthographic projection rather than a Spline-based projection. This results in better continuity across the surfaces.\nbridgeSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Parameters - Surface Properties Page\n4   Parameters - Profile Extraction Page\n5   Example\n6   Operator Inputs\n7   Info CHOP Channels\n7.1   Common SOP Info Channels\n7.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Surface Properties",
+      "label": "Min X-Sections",
+      "name": "isodivs",
+      "description": "The minimum number of cross-sections in the resulting skin. If you create a high-density surface, TouchDesigner's level of detail may display the surface less smoothly than it actually is. You can increase the level of detail by adjusting the viewdisplay options (e.g.  viewdisplay -l 1.5 SOPmain.persp1  ) for the Viewport."
+    },
+    {
+      "page": "Surface Properties",
+      "label": "Use",
+      "name": "frenet",
+      "description": "⊞  - Specifies the type of normal to use for computing direction:"
+    },
+    {
+      "page": "Surface Properties",
+      "label": "The Frenet Frame of the Face",
+      "name": "frenet",
+      "description": "The Frenet Frame of the face. This option uses a local coordinate system on the curve to compute the direction."
+    },
+    {
+      "page": "Surface Properties",
+      "label": "The Normal of the Face",
+      "name": "normal",
+      "description": "The Normal of the face."
+    },
+    {
+      "page": "Surface Properties",
+      "label": "Circular Arc Fillet",
+      "name": "circular",
+      "description": "Tells TouchDesigner to try to generate a round fillet rather than a free-form fillet. Only the sign (positive or negative) of the tangent scales is used; the scale magnitude is ignored when building a circular fillet."
+    },
+    {
+      "page": "Surface Properties",
+      "label": "Rotate Tangents",
+      "name": "rotatet",
+      "description": "⊞  - The scaling and rotation parameters contain three fields. The rotation fields (degrees) apply further rotation to the tangents, while the scale parameter further scales the tangents."
+    },
+    {
+      "page": "Surface Properties",
+      "label": "rotatet1",
+      "description": "Applies to the first face in the input."
+    },
+    {
+      "page": "Surface Properties",
+      "label": "rotatet2",
+      "description": "Applies to all intermediate faces."
+    },
+    {
+      "page": "Surface Properties",
+      "label": "rotatet3",
+      "description": "Applies to the last face in the input."
+    },
+    {
+      "page": "Surface Properties",
+      "label": "Scale  Tangents",
+      "name": "scalet",
+      "description": "⊞  - The scaling and rotation parameters contain three fields. The rotation fields (degrees) apply further rotation to the tangents, while the scale parameter further scales the tangents."
+    },
+    {
+      "page": "Surface Properties",
+      "label": "scalet1",
+      "description": "Applies to the first face in the input."
+    },
+    {
+      "page": "Surface Properties",
+      "label": "scalet2",
+      "description": "Applies to all intermediate faces."
+    },
+    {
+      "page": "Surface Properties",
+      "label": "scalet3",
+      "description": "Applies to the last face in the input."
+    },
+    {
+      "page": "Surface Properties",
+      "label": "Use Curvature",
+      "name": "curvature",
+      "description": "Takes curvature into consideration as well."
+    },
+    {
+      "page": "Surface Properties",
+      "label": "Scale Curvatures",
+      "name": "scalec",
+      "description": "⊞  - Further scaling of the curvature."
+    },
+    {
+      "page": "Profile Extraction",
+      "label": "Divisions per Span",
+      "name": "sdivs",
+      "description": "Number of 2-D points evaluated in each span."
+    },
+    {
+      "page": "Profile Extraction",
+      "label": "Tolerance",
+      "name": "tolerance",
+      "description": "Precision of 2-D fitting algorithm."
+    },
+    {
+      "page": "Profile Extraction",
+      "label": "Preserve Sharp Corners",
+      "name": "csharp",
+      "description": "Enables or disables fitting of sharp turns. If cracks appear in the resulting skin,  Preserve Sharp Corners  is usually a good solution; however, it may add additional knots which can create undesirable \"ripples\" in some cases."
+    },
+    {
+      "page": "Profile Extraction",
+      "label": "Feed both the Circle and Grid SOPs into a Project  SOP . Make it the display  SOP . You notice the projected circle on the grid",
+      "description": "our trim curve."
+    },
+    {
+      "page": "Profile Extraction",
+      "label": "Append a Trim  SOP  and make it the display  SOP . Turn on Gouraud shading for the Viewport",
+      "description": "you now see the trimmed holes in the surface of the grid."
+    },
+    {
+      "page": "Profile Extraction",
+      "label": "We need to specify which profile curves to skin. Turn on Profile Numbers in the Viewport options (click M at the bottom",
+      "description": "right of Viewport, and enable the icon). We can see the profile numbers of the two trim curves are 0.0 and 1.0 - meaning the 0th profile of the 0th primitive and the 0th profile of the 1st primitive). The strange numbering is because primitive numbers start at 0 instead of 1."
+    },
+    {
+      "page": "Profile Extraction",
+      "label": "In the Bridge  SOP 's  Group  field enter:  .0",
+      "description": "this means to include the 0th (first) curve from all (the  *  wildcard character) primitives in the skin. You now see the resulting bridge between the two trim curves. The skin bulges outwards."
+    },
+    {
+      "page": "Profile Extraction",
+      "label": "We can control the bulge by playing with the Scale Curvatures and the Tangent Magnitudes. Set the Scale Curvatures to:",
+      "description": "3, -3, -3  . Now we have an inward-bulging tube connecting the two holes."
+    },
+    {
+      "page": "Profile Extraction",
+      "label": "Experiment with moving the location and size of the holes (change the Translation and Radius in the Circle  SOP ). The Bridge  SOP  dynamically updates the geometry connecting the two surfaces. Setting the Scale Curvature to:  0, 0, 0  produces a straight",
+      "description": "through connection between the two holes."
+    },
+    {
+      "page": "Profile Extraction",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Profile Extraction",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Profile Extraction",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Profile Extraction",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Profile Extraction",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Profile Extraction",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Profile Extraction",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Profile Extraction",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Profile Extraction",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Profile Extraction",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Profile Extraction",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Profile Extraction",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Profile Extraction",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Profile Extraction",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Profile Extraction",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

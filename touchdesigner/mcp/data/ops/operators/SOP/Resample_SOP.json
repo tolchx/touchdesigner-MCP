@@ -1,0 +1,21 @@
+{
+  "family": "SOP",
+  "pageTitle": "Resample SOP",
+  "pageSlug": "Resample_SOP",
+  "url": "https://docs.derivative.ca/Resample_SOP",
+  "tdOpTypeGuess": "resampleSOP",
+  "summary": "[  edit  ]\nThe Resample  SOP  will resample one or more primitives into even length segments. It only applies to polygons so when presented with a NURBS or Bzier curve input, it first converts it to polygons using the Level of Detail parameter.\nresampleSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Example\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common SOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

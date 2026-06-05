@@ -1,0 +1,328 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Extend CHOP",
+  "pageSlug": "Extend_CHOP",
+  "url": "https://docs.derivative.ca/Extend_CHOP",
+  "tdOpTypeGuess": "extendCHOP",
+  "summary": "[  edit  ]\nThe Extend  CHOP  only sets the \"extend conditions\" of a  CHOP , which determines what values you get when sampling the  CHOP  before or after its interval.\nThe Extend  CHOP  has separate menus to control both the pre-interval and the post-interval. For example, before the interval, you may want to hold a constant value, and after the interval you may want to cycle or repeat the curves in the interval.\nTo shorten or lengthen the interval (the start or end of the  CHOP ), use the  Trim CHOP .\nYou can see the state of  Extend Conditions  in the pop-up info of any  CHOP  (use middle-mouse click on the  CHOP ).\nextendCHOP_Class\nContents\n1   Summary\n2   Parameters - Extend Page\n3   Parameters - Common Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common CHOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Extend",
+      "label": "Left Behavior",
+      "name": "left",
+      "description": "⊞  - The extend condition before the  CHOP  interval. They are:"
+    },
+    {
+      "page": "Extend",
+      "label": "No Change",
+      "name": "asis",
+      "description": "Leave the channel as is."
+    },
+    {
+      "page": "Extend",
+      "label": "Hold",
+      "name": "hold",
+      "description": "Hold the current value of the channel."
+    },
+    {
+      "page": "Extend",
+      "label": "Slope",
+      "name": "slope",
+      "description": "Continue the slope before the start of the channel."
+    },
+    {
+      "page": "Extend",
+      "label": "Cycle",
+      "name": "cycle",
+      "description": "Cycle the channel repeatedly."
+    },
+    {
+      "page": "Extend",
+      "label": "Mirror",
+      "name": "mirror",
+      "description": "Cycle the channel repeatedly, mirroring every other cycle."
+    },
+    {
+      "page": "Extend",
+      "label": "Default Value",
+      "name": "default",
+      "description": "Use the constant value specified in the Default Value parameter."
+    },
+    {
+      "page": "Extend",
+      "label": "Right Behavior",
+      "name": "right",
+      "description": "⊞  - Extend condition after the interval. Same options as Extend Left."
+    },
+    {
+      "page": "Extend",
+      "label": "No Change",
+      "name": "asis",
+      "description": "Leave the channel as is."
+    },
+    {
+      "page": "Extend",
+      "label": "Hold",
+      "name": "hold",
+      "description": "Hold the current value of the channel."
+    },
+    {
+      "page": "Extend",
+      "label": "Slope",
+      "name": "slope",
+      "description": "Continue the slope after the end of the channel."
+    },
+    {
+      "page": "Extend",
+      "label": "Cycle",
+      "name": "cycle",
+      "description": "Cycle the channel repeatedly."
+    },
+    {
+      "page": "Extend",
+      "label": "Mirror",
+      "name": "mirror",
+      "description": "Cycle the channel repeatedly, mirroring every other cycle."
+    },
+    {
+      "page": "Extend",
+      "label": "Default Value",
+      "name": "default",
+      "description": "Use the constant value specified in the Default Value parameter."
+    },
+    {
+      "page": "Extend",
+      "label": "Default Value",
+      "name": "defval",
+      "description": "The value used for the Default Value extend condition."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "Rename from",
+      "name": "commonrenamefrom",
+      "description": "The channel pattern to rename. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Rename to",
+      "name": "commonrenameto",
+      "description": "The replacement pattern for the names. The default parameters do not rename the channels. See  Pattern Replacement ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Names:  c[1",
+      "description": "10:2] ambient"
+    },
+    {
+      "page": "Common",
+      "label": "Rename To:  b[1",
+      "description": "5] amb    This example fetches channels  c1 c3 c5 c7 c9  and  ambient ."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "In CHOPs, Extend Conditions determine what numbers you get when you try to get a channel value that is outside its start",
+      "description": "end range - in its Extend Regions."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "01-mcp-architecture.md",
+      "excerpt": "or MCP (stdio)**: `touchdesigner/mcp/src/index.ts` Expone herramientas para ejecutar Python y consultar estado del editor y operadores. - **Cliente TD (HTTP)**: `touchdesigner/api/src/index.ts` Llama al servidor HTTP levantado dentro de TouchDesigner por el TOX. - **Servidor TD (Python/TOX)**: `touchdesigner/toe/src/TouchDesignerAPI.py` Expone endpoints: - `POST /execute` - `GET /editor/pane` - `GET /editor/selection` - `GET /operators?path=...` ## Tools MCP (existentes + extendidos) - `td_execute`: ejecuta Python en TD. - `td_pane`: estado del Network Editor. - `td_selection`: selección actual. - `td_operators`: lista hijos en un path. - `td_pops_query`: consulta la base local de POPs (sin tocar TD). ## Flujo de extremo a extremo 1. Host MCP arranca `node touchdesigner/mcp/dist/index.js`. 2. El MCP recibe requests de tools. 3. Para acciones en TD: `td-api` hace fetch a `http://localhost:${TDAPI_PORT}`. 4. TouchDesigner ejecuta Python y devuelve JSON."
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "geometría en un POP en la memoria de la GPU. Soporta varios formatos de archivo.34 * Lookup Attribute POP: Toma un atributo (el Lookup Attribute) con valores en el rango 0-1 y lo utiliza como índice en los atributos de otro POP (la Lookup Curve). Extrae valores interpolados de la Lookup Curve y los genera. Tiene opciones para manejar índices fuera de rango y reescalar valores.35 * Parámetros: Lookup Attribute, Lookup Curve (segunda entrada), Index Type (normalizado 0-1 o número de punto), Extend Left/Right (Hold, Slope, Cycle, Mirror), Value Attributes a buscar, From/To Low/High para reescalar.35 * Out POP: Genera datos de POPs ubicados dentro de un componente hacia fuera de su componente padre. Añade un conector de salida al componente padre y puede mostrar una etiqueta al pasar el cursor por encima.37 * Particle POP: Se utiliza para crear y controlar el movimiento de \"partículas\" en simulaciones de sistemas de partículas. Las partículas son puntos POP con atributos especiales (P, P"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ero también pueden tener otros atributos como Color, N (normal), y atributos definidos por el usuario o generados por operadores POP específicos. Partículas (Particles) Las partículas en POPs representan un enfoque moderno y acelerado por la GPU para sistemas de partículas, reemplazando y repensando la funcionalidad histórica de los SOPs. • ¿Qué es una Partícula? ◦ Una partícula es, fundamentalmente, un único punto POP. ◦ Su requisito mínimo es el atributo P para su posición. ◦ Pueden extenderse con una variedad de atributos adicionales como velocity (velocidad), direction (dirección), speed (velocidad escalar), age (edad), mass (masa), force (fuerza), e incluso una transformación completa 3x3 o 4x4 por punto. • Creación y Manipulación de Partículas ◦ El Particle POP está diseñado para añadir opcionalmente estos atributos y utilizarlos en un bucle de retroalimentación de partículas. ◦ Los sistemas de partículas se habilitan con el Feedback POP y la manipulación general de dat"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "las se crean con una **posición inicial** (`P`), **velocidad** (`PartVel`), y **masa** (`PartMass`). * Se basa en un **bucle de retroalimentación (feedback loop)**: la salida del Particle POP se envía a otros POPs (como el Force POP) para aplicar fuerzas, y el resultado vuelve al Particle POP para calcular el estado del siguiente fotograma. * El Particle POP es quien **crea y elimina partículas**, pero puedes controlar su nacimiento (emisión) y muerte. * Permite extender la simulación inyectando fuerzas, límites espaciales o colisiones a través del mecanismo de feedback. * **Uso simple:** Fundamental para crear efectos como humo, fuego, polvo, lluvia, o cualquier sistema que implique muchos elementos pequeños y en movimiento. * **Pattern POP (POP de Patrones)** * **Función principal:** Es un **generador** que crea formas simples de \"line strips\" (tiras de líneas conectadas) usando funciones matemáticas básicas (seno, coseno, ondas cuadradas"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "a curva de \"suavizado de entrada y salida\" (ease-in ease-out), pero puedes añadir **múltiples segmentos**. * Cada segmento puede tener su propio **tipo de curva** (Constante, Lineal, Ease In, Ease Out, Ease In Ease Out, Bezier) y valores de inicio/fin. * Tiene una página de \"Lookup\" (Consulta) que le permite actuar como una tabla de búsqueda. Puedes usar un atributo de índice de entrada (entre 0 y 1, o un índice de punto) para buscar valores en la curva. * Los parámetros **`Extend Left` y `Extend Right`** controlan lo que sucede si el índice de búsqueda está fuera del rango (por ejemplo, mantener el valor, ciclar, o reflejar). * Puedes especificar dónde se colocan los valores consultados en los atributos de salida (`P`, `N`, `Color`, `Tex`, etc.). --- #### 16. DAT to POP * **¿Qué hace?** Este operador convierte una **tabla de datos (DAT)** en una **lista de puntos de POP**. Es una forma de tomar datos estructurados en filas y columnas y convertirlos en ge"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

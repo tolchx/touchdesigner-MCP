@@ -1,0 +1,858 @@
+{
+  "family": "TOP",
+  "pageTitle": "NVIDIA Flow TOP",
+  "pageSlug": "NVIDIA_Flow_TOP",
+  "url": "https://docs.derivative.ca/NVIDIA_Flow_TOP",
+  "tdOpTypeGuess": "nVIDIAFlowTOP",
+  "summary": "[  edit  ]\nNOTE\nOS:  This operator is only supported under the  Microsoft Windows  operating system.\nHardware:  This operator only works with  Nvidia GPUs .\nNVIDIA Flow is a volumetric fluid based simulation of a burning gas system. The user controls the 3 main factors of temperature, fuel, and smoke to create fire and smoke simulations.\nThe Nvidia Flow  TOP  calculates the Flow simulation and renders it. It requires a  Nvidia Flow Emitter COMP  to emit gas into the Flow simulation.\nSee also  Nvidia Flow Emitter COMP ,  Nvidia Flow .\nRead more here  Nvidia Flow Artist Tools\nflowTOP_Class\nContents\n1   Summary\n2   Parameters - Setup Page\n3   Parameters - Settings Page\n4   Parameters - Volume Shadow Page\n5   Parameters - Common Page\n6   Operator Inputs\n7   Info CHOP Channels\n7.1   Specific Nvidia Flow TOP Info Channels\n7.2   Common TOP Info Channels\n7.3   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "Background Image  - Texture the Flow simulation will be overlayed onto."
+    },
+    {
+      "index": 1,
+      "description": "Depth Map  - A  Depth TOP  to obscure parts of the Flow Simulation."
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Setup",
+      "label": "Initialize",
+      "name": "initialize",
+      "description": "Initializes the simulation."
+    },
+    {
+      "page": "Setup",
+      "label": "Start",
+      "name": "start",
+      "description": "Starts the simulation playback."
+    },
+    {
+      "page": "Setup",
+      "label": "Play",
+      "name": "play",
+      "description": "The simulation only steps forward when Play = On, when off the simulation is paused."
+    },
+    {
+      "page": "Setup",
+      "label": "Camera",
+      "name": "camera",
+      "description": "Specify the  Camera COMP  to view the simulation from. Note: Must be camera with Projection = Perspective."
+    },
+    {
+      "page": "Setup",
+      "label": "Flow Emitters",
+      "name": "emitters",
+      "description": "Specify the  Nvidia Flow Emitter COMPs  to include in the simulation."
+    },
+    {
+      "page": "Setup",
+      "label": "Sim Position",
+      "name": "simposition",
+      "description": "⊞  - The position of the simulation volume's center, in the world. The simulation cannot extend outside of the volume."
+    },
+    {
+      "page": "Setup",
+      "label": "Sim Size",
+      "name": "simsize",
+      "description": "⊞  - The size of the simulation volume in the world. The simulation cannot extend outside of the volume. Also controls the size of simulation blocks, so the total number of blocks in the volume stays the same. Smaller size blocks will require more blocks for the same size simulation. This increases accuracy but makes the simulation more taxing on the  GPU  as there are more blocks to calculate."
+    },
+    {
+      "page": "Setup",
+      "label": "Mem Usage",
+      "name": "memusage",
+      "description": "Controls relative memory usage, the fraction of the total simulation blocks that will be allocated. Most simulations will not fill the simulation volume uniformly, so only a small value is needed. High values will cause extremely high memory usage."
+    },
+    {
+      "page": "Setup",
+      "label": "Show Blocks",
+      "name": "showblocks",
+      "description": "Displays the simulation blocks being used. Useful for debugging or optimizing your Flow simulation. Also shows the edges of the simulation volume."
+    },
+    {
+      "page": "Setup",
+      "label": "Show Emit Bounds",
+      "name": "showemitbounds",
+      "description": "Displays the bounds of the emitters."
+    },
+    {
+      "page": "Setup",
+      "label": "Show Shapes",
+      "name": "showshapes",
+      "description": "Displays the shapes of the emitters."
+    },
+    {
+      "page": "Setup",
+      "label": "Speed",
+      "name": "speed",
+      "description": "Controls the update rate of the simulation."
+    },
+    {
+      "page": "Setup",
+      "label": "Max Simulation Steps",
+      "name": "maxsteps",
+      "description": "Maximum number of simulation steps per update. A higher number of steps will increase quality for fast moving object at the cost of performance."
+    },
+    {
+      "page": "Setup",
+      "label": "Render Mode",
+      "name": "rendermode",
+      "description": "Provides two debug render modes in addition to the default of Density. Debug Density gives a \"rainbow\" render, where density is mapped to a colour, and Dubug Velocity converts velocity xyz to an rgb colour."
+    },
+    {
+      "page": "Settings",
+      "label": "Gravity",
+      "name": "gravity",
+      "description": "⊞  - Gravity direction for use with Buoyancy parameter, where amount controls strength of buoyancy force."
+    },
+    {
+      "page": "Settings",
+      "label": "Velocity Damping",
+      "name": "veldamping",
+      "description": "Higher values reduce velocity faster. Uses exponential decay curve."
+    },
+    {
+      "page": "Settings",
+      "label": "Velocity Fade",
+      "name": "velfade",
+      "description": "Compared to damping, fade reduces low velocity values faster. Fade velocity rate is in units per second."
+    },
+    {
+      "page": "Settings",
+      "label": "Vel MacCormack Blend",
+      "name": "velmaccormackblend",
+      "description": "Higher values make a sharper appearance, but with more artifacts."
+    },
+    {
+      "page": "Settings",
+      "label": "Smoke Damping",
+      "name": "smokedamping",
+      "description": "Higher values reduce smoke faster. Uses exponential decay curve."
+    },
+    {
+      "page": "Settings",
+      "label": "Smoke Fade",
+      "name": "smokefade",
+      "description": "Compared to damping, fade reduces low smoke values faster. Fade velocity rate is in units per second."
+    },
+    {
+      "page": "Settings",
+      "label": "Smoke MacCormack Blend",
+      "name": "smokemaccormackblend",
+      "description": "Higher values make a sharper appearance, but with more artifacts."
+    },
+    {
+      "page": "Settings",
+      "label": "Temp Damping",
+      "name": "tempdamping",
+      "description": "Higher values reduce temperature faster. Uses exponential decay curve."
+    },
+    {
+      "page": "Settings",
+      "label": "Temp Fade",
+      "name": "tempfade",
+      "description": "Compared to damping, fade reduces low temperature values faster. Fade velocity rate is in units per second."
+    },
+    {
+      "page": "Settings",
+      "label": "Fuel Damping",
+      "name": "fueldamping",
+      "description": "Higher values reduce fuel faster. Uses exponential decay curve."
+    },
+    {
+      "page": "Settings",
+      "label": "Fuel Fade",
+      "name": "fuelfade",
+      "description": "Compared to damping, fade reduces low fuel values faster. Fade velocity rate is in units per second."
+    },
+    {
+      "page": "Settings",
+      "label": "Vorticity Strength",
+      "name": "vortstrength",
+      "description": "Controls amount of rotation turbulence as a multiplier, a value of 0 will result in no vorticity. High values increase turbulent flow while low values increase laminar flow."
+    },
+    {
+      "page": "Settings",
+      "label": "Vorticity from Velocity",
+      "name": "vortfromvel",
+      "description": "Amount of vorticity added from velocity."
+    },
+    {
+      "page": "Settings",
+      "label": "Vorticity from Smoke",
+      "name": "vortfromsmoke",
+      "description": "Amount of vorticity added from smoke."
+    },
+    {
+      "page": "Settings",
+      "label": "Vorticity from Temp",
+      "name": "vortfromtemp",
+      "description": "Amount of vorticity added from temperature."
+    },
+    {
+      "page": "Settings",
+      "label": "Vorticity from Fuel",
+      "name": "vortfromfuel",
+      "description": "Amount of vorticity added from fuel."
+    },
+    {
+      "page": "Settings",
+      "label": "Vorticity Constant",
+      "name": "vortconstant",
+      "description": "The baseline vorticity in the simulation."
+    },
+    {
+      "page": "Settings",
+      "label": "Ignition Temp",
+      "name": "ignitiontemp",
+      "description": "Specify the minimum temperature required for combustion."
+    },
+    {
+      "page": "Settings",
+      "label": "Burn per Temp",
+      "name": "burnpertemp",
+      "description": "Control how much fuel is burned for a given temperature level. Lower Burn per Temp may result in some fuel not burning completely at a certain temperature."
+    },
+    {
+      "page": "Settings",
+      "label": "Smoke per Burn",
+      "name": "smokeperburn",
+      "description": "Controls amount of smoke generated for each unit of combustion (per burn)."
+    },
+    {
+      "page": "Settings",
+      "label": "Temp per Burn",
+      "name": "tempperburn",
+      "description": "Controls amount of temperature generated for each unit of combustion (per burn)."
+    },
+    {
+      "page": "Settings",
+      "label": "Fuel per Burn",
+      "name": "fuelperburn",
+      "description": "Controls amount of fuel used for each unit of combustion (per burn)."
+    },
+    {
+      "page": "Settings",
+      "label": "Buoyancy",
+      "name": "buoyancy",
+      "description": "Works in conjunction with the parameter Gravity above which sets a vector for use by Buoyancy. Higher values result in greater effect by the Gravity parameter."
+    },
+    {
+      "page": "Settings",
+      "label": "Cooling Rate",
+      "name": "coolingrate",
+      "description": "The rate of cooling in the system, exponential."
+    },
+    {
+      "page": "Settings",
+      "label": "Expansion",
+      "name": "expansion",
+      "description": "Controls the amount the system's gaseous volume expands."
+    },
+    {
+      "page": "Settings",
+      "label": "Velocity Alloc Weight",
+      "name": "velallocweight",
+      "description": "If zero, block allocation and deallocation depend on an internal threshold and weighting of Velocity. If non-zero,  block allocation and deallocation will be affected by the value of Velocity Alloc Threshold."
+    },
+    {
+      "page": "Settings",
+      "label": "Velocity Alloc Threshold",
+      "name": "velallocthreshold",
+      "description": "If Velocity Alloc Weight is non-zero, block allocation and deallocation is based on this value. In particular, if the velocity magnitude is below this threshold, the block will be deallocated, unless smoke and fuel thresholding (see below) are active."
+    },
+    {
+      "page": "Settings",
+      "label": "Smoke Alloc Weight",
+      "name": "smokeallocweight",
+      "description": "If zero, block allocation and deallocation depend on an internal threshold and weighting of Smoke density. If non-zero, smoke density affects block allocation and deallocation based on the value of Smoke Alloc Threshold."
+    },
+    {
+      "page": "Settings",
+      "label": "Smoke Alloc Threshold",
+      "name": "smokeallocthreshold",
+      "description": "If Smoke Alloc Weight is non-zero, block allocation and deallocation is based on this value. In particular, if the Smoke density is below this threshold, the block will be deallocated, unless velocity and fuel thresholding are active."
+    },
+    {
+      "page": "Settings",
+      "label": "Fuel Alloc Weight",
+      "name": "fuelallocweight",
+      "description": "If zero, block allocation and deallocation depend on an internal threshold and weighting of fuel density. If non-zero, fuel density affects block allocation and deallocation based on the value of Fuel Alloc Threshold."
+    },
+    {
+      "page": "Settings",
+      "label": "Fuel Alloc Threshold",
+      "name": "fuelallocthreshold",
+      "description": "If Fuel Alloc Weight is non-zero, block allocation and deallocation is based on this value. In particular, if the Smoke density is below this threshold, the block will be deallocated, unless velocity and smoke thresholding are active."
+    },
+    {
+      "page": "Volume Shadow",
+      "label": "Enable",
+      "name": "enableshadow",
+      "description": "Enables Volume shadow rendering for the simulation. Shadowing generates light intensity values that overwrite the \"burn\" channel of the grid. Values range from 0 to 1, where 0 is fully shadowed. Shadow visibilty can be controlled by enabling 'Override Emitter Intensity Mask' or by adjusting the 'Burn Intensity Mask', 'Burn Alpha Mask', and 'Burn Color Mask' in  Nvidia Flow Emitter COMP"
+    },
+    {
+      "page": "Volume Shadow",
+      "label": "Draw Debug",
+      "name": "drawshadowdebug",
+      "description": "Displays the volume shadow blocks being used. Useful for debugging or optimizing."
+    },
+    {
+      "page": "Volume Shadow",
+      "label": "Override Emitter Intensity Mask",
+      "name": "overrideemitter",
+      "description": "Automatically adjusts the emitters' render material, so volume shadows are visible. Will override 'Burn Intensity Mask' and 'Intensity Bias' of emitters."
+    },
+    {
+      "page": "Volume Shadow",
+      "label": "Light",
+      "name": "light",
+      "description": "The light source used to generate volume shadow. The light should be a shadow caster. Only the position and orientation of the light are used, color and intensity are ignored."
+    },
+    {
+      "page": "Volume Shadow",
+      "label": "Shadow  Resolution",
+      "name": "shadowresolution",
+      "description": "The resolution of the shadow map volume texture. The texture is allocated as a cube, so there will be space for shadowresolution^3 blocks."
+    },
+    {
+      "page": "Volume Shadow",
+      "label": "Min Memory Usage",
+      "name": "shadowminusage",
+      "description": "The initial fraction of volume shadow blocks to allocate memory for."
+    },
+    {
+      "page": "Volume Shadow",
+      "label": "Max Memory Usage",
+      "name": "shadowmaxusage",
+      "description": "The maximum fraction of volume shadow blocks to allocate memory for."
+    },
+    {
+      "page": "Volume Shadow",
+      "label": "Intensity Scale",
+      "name": "shadowintensityscale",
+      "description": "Scales how dark the shadow will be."
+    },
+    {
+      "page": "Volume Shadow",
+      "label": "Min Intensity",
+      "name": "shadowminintensity",
+      "description": "A lower limit for shadow intensity."
+    },
+    {
+      "page": "Volume Shadow",
+      "label": "Burn Blend Mask",
+      "name": "shadowburnmask",
+      "description": "Allows the burn value in the simulation to control the blend strength of the shadow. Postive values mean burn increases the blend strength, negative values mean burn decreases the blend strength"
+    },
+    {
+      "page": "Volume Shadow",
+      "label": "Smoke Blend Mask",
+      "name": "shadowsmokemask",
+      "description": "Allows the smoke value in the simulation to control the blend strength of the shadow. Postive values mean smoke increases the blend strength, negative values mean smoke decreases the blend strength"
+    },
+    {
+      "page": "Volume Shadow",
+      "label": "Temp Blend Mask",
+      "name": "shadowtempmask",
+      "description": "Allows the temperature value in the simulation to control the blend strength of the shadow. Postive values mean temp increases the blend strength, negative values mean temp decreases the blend strength"
+    },
+    {
+      "page": "Volume Shadow",
+      "label": "Fuel Blend Mask",
+      "name": "shadowfuelmask",
+      "description": "Allows the fuel value in the simulation to control the blend strength of the shadow. Postive values mean fuel increases the blend strength, negative values mean fuel decreases the blend strength"
+    },
+    {
+      "page": "Volume Shadow",
+      "label": "Blend Bias",
+      "name": "shadowblendbias",
+      "description": "An offset that increases or decreases the blend strength by a constant amount. Parts of the grid with a blend value over 1 will have shadows. Parts of the grid with blend value under 1 will not have shadows. Blend values between 0 and 1 scale the strength of shadow."
+    },
+    {
+      "page": "Common",
+      "label": "Output  Resolution",
+      "name": "outputresolution",
+      "description": "⊞  - quickly change the resolution of the  TOP 's data."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's resolution"
+    },
+    {
+      "page": "Common",
+      "label": "Eighth",
+      "name": "eighth",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Quarter",
+      "name": "quarter",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Half",
+      "name": "half",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "2X",
+      "name": "2x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "4X",
+      "name": "4x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "8X",
+      "name": "8x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Fit  Resolution",
+      "name": "fit",
+      "description": "Grow or shrink the input resolution to fit this resolution, while keeping the aspect ratio the same."
+    },
+    {
+      "page": "Common",
+      "label": "Limit  Resolution",
+      "name": "limit",
+      "description": "Limit the input resolution to be not larger than this resolution, while keeping the aspect ratio the same."
+    },
+    {
+      "page": "Common",
+      "label": "Custom  Resolution",
+      "name": "custom",
+      "description": "Directly control the width and height."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution",
+      "name": "resolution",
+      "description": "⊞  - Enabled only when the  Resolution  parameter is set to Custom  Resolution . Some Generators like Constant and Ramp do not use inputs and only use this field to determine their size. The drop down menu on the right provides some commonly used resolutions."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution  Menu",
+      "name": "resmenu",
+      "description": "A drop-down menu with some commonly used resolutions."
+    },
+    {
+      "page": "Common",
+      "label": "Use Global Res Multiplier",
+      "name": "resmult",
+      "description": "Uses the Global  Resolution  Multiplier found in  Edit>Preferences>TOPs . This multiplies all the TOPs resolutions by the set amount. This is handy when working on computers with different hardware specifications. If a project is designed on a desktop workstation with lots of graphics memory, a user on a laptop with only 64MB VRAM can set the Global  Resolution  Multiplier to a value of half or quarter so it runs at an acceptable speed. By checking this checkbox on, this  TOP  is affected by the global multiplier."
+    },
+    {
+      "page": "Common",
+      "label": "Output Aspect",
+      "name": "outputaspect",
+      "description": "⊞  - Sets the image aspect ratio allowing any textures to be viewed in any size. Watch for unexpected results when compositing TOPs with different aspect ratios. (You can define images with non-square pixels using xres, yres, aspectx, aspecty where xres/yres != aspectx/aspecty.)"
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's aspect ratio."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution",
+      "name": "resolution",
+      "description": "Uses the aspect of the image's defined resolution (ie 512x256 would be 2:1), whereby each pixel is square."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Aspect",
+      "name": "custom",
+      "description": "Lets you explicitly define a custom aspect ratio in the Aspect parameter below."
+    },
+    {
+      "page": "Common",
+      "label": "Aspect",
+      "name": "aspect",
+      "description": "⊞  - Use when Output Aspect parameter is set to Custom Aspect."
+    },
+    {
+      "page": "Common",
+      "label": "Aspect Menu",
+      "name": "armenu",
+      "description": "A drop-down menu with some commonly used aspect ratios."
+    },
+    {
+      "page": "Common",
+      "label": "Input Smoothness",
+      "name": "inputfiltertype",
+      "description": "⊞  - This controls pixel filtering on the input image of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Nearest Pixel",
+      "name": "nearest",
+      "description": "Uses nearest pixel or accurate image representation. Images will look jaggy when viewing at any zoom level other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Interpolate Pixels",
+      "name": "linear",
+      "description": "Uses linear filtering between pixels. This is how you get  TOP  images in viewers to look good at various zoom levels, especially useful when using any Fill Viewer setting other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Mipmap Pixels",
+      "name": "mipmap",
+      "description": "Uses   mipmap  filtering when scaling images. This can be used to reduce artifacts and sparkling in moving/scaling images that have lots of detail."
+    },
+    {
+      "page": "Common",
+      "label": "Fill  Viewer",
+      "name": "fillmode",
+      "description": "⊞  - Determine how the  TOP  image is displayed in the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the same Fill Viewer settings as it's input."
+    },
+    {
+      "page": "Common",
+      "label": "Fill",
+      "name": "fill",
+      "description": "Stretches the image to fit the edges of the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Horizontal",
+      "name": "width",
+      "description": "Stretches image to fit viewer horizontally."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Vertical",
+      "name": "height",
+      "description": "Stretches image to fit viewer vertically."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Best",
+      "name": "best",
+      "description": "Stretches or squashes image so no part of image is cropped."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Outside",
+      "name": "outside",
+      "description": "Stretches or squashes image so image fills viewer while constraining it's proportions. This often leads to part of image getting cropped by viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Native  Resolution",
+      "name": "nativeres",
+      "description": "Displays the native resolution of the image in the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Viewer Smoothness",
+      "name": "filtertype",
+      "description": "⊞  - This controls pixel filtering in the viewers."
+    },
+    {
+      "page": "Common",
+      "label": "Nearest Pixel",
+      "name": "nearest",
+      "description": "Uses nearest pixel or accurate image representation. Images will look jaggy when viewing at any zoom level other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Interpolate Pixels",
+      "name": "linear",
+      "description": "Uses linear filtering between pixels. Use this to get  TOP  images in viewers to look good at various zoom levels, especially useful when using any Fill Viewer setting other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Mipmap Pixels",
+      "name": "mipmap",
+      "description": "Uses   mipmap  filtering when scaling images. This can be used to reduce artifacts and sparkling in moving/scaling images that have lots of detail. When the input is 32-bit float format, only nearest filtering will be used (regardless of what is selected)."
+    },
+    {
+      "page": "Common",
+      "label": "Passes",
+      "name": "npasses",
+      "description": "Duplicates the operation of the  TOP  the specified number of times. For every pass after the first it takes the result of the previous pass and replaces the node's first input with the result of the previous pass. One exception to this is the  GLSL TOP  when using compute shaders, where the input will continue to be the connected  TOP 's image."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Mask",
+      "name": "chanmask",
+      "description": "Allows you to choose which channels (R, G, B, or A) the  TOP  will operate on. All channels are selected by default."
+    },
+    {
+      "page": "Common",
+      "label": "Pixel Format",
+      "name": "format",
+      "description": "⊞  - Format used to store data for each channel in the image (ie. R, G, B, and A). Refer to  Pixel Formats  for more information."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's pixel format."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (RGBA)",
+      "name": "rgba8fixed",
+      "description": "Uses 8-bit integer values for each channel."
+    },
+    {
+      "page": "Common",
+      "label": "sRGB 8-bit fixed (RGBA)",
+      "name": "srgba8fixed",
+      "description": "Uses 8-bit integer values for each channel and stores color in sRGB colorspace. Note that this does  not  apply an sRGB curve to the pixel values, it only stores them using an sRGB curve. This means more data is used for the darker values and less for the brighter values. When the values are read downstream they will be converted back to linear. For more information refer to  sRGB ."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (RGBA)",
+      "name": "rgba16float",
+      "description": "Uses 16-bits per color channel, 64-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (RGBA)",
+      "name": "rgba32float",
+      "description": "Uses 32-bits per color channel, 128-bits per pixels."
+    },
+    {
+      "page": "Common",
+      "label": "10-bit RGB, 2-bit Alpha, fixed (RGBA)",
+      "name": "rgb10a2fixed",
+      "description": "Uses 10-bits per color channel and 2-bits for alpha, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (RGBA)",
+      "name": "rgba16fixed",
+      "description": "Uses 16-bits per color channel, 64-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "11-bit float (RGB), Positive Values Only",
+      "name": "rgba11float",
+      "description": "A RGB floating point format that has 11 bits for the Red and Green channels, and 10-bits for the Blue  Channel , 32-bits total per pixel (therefore the same memory usage as 8-bit RGBA). The Alpha channel in this format will always be 1. Values can go above one, but can't be negative. ie. the range is [0, infinite)."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (Mono)",
+      "name": "mono8fixed",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 8-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (Mono)",
+      "name": "mono16fixed",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (Mono)",
+      "name": "mono16float",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (Mono)",
+      "name": "mono32float",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (RG)",
+      "name": "rg8fixed",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 8-bits per channel, 16-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (RG)",
+      "name": "rg16fixed",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 16-bits per channel, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (RG)",
+      "name": "rg16float",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 16-bits per channel, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (RG)",
+      "name": "rg32float",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 32-bits per channel, 64-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (A)",
+      "name": "a8fixed",
+      "description": "An Alpha only format that has 8-bits per channel, 8-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (A)",
+      "name": "a16fixed",
+      "description": "An Alpha only format that has 16-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (A)",
+      "name": "a16float",
+      "description": "An Alpha only format that has 16-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (A)",
+      "name": "a32float",
+      "description": "An Alpha only format that has 32-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (Mono+Alpha)",
+      "name": "monoalpha8fixed",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 8-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (Mono+Alpha)",
+      "name": "monoalpha16fixed",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 16-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (Mono+Alpha)",
+      "name": "monoalpha16float",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 16-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (Mono+Alpha)",
+      "name": "monoalpha32float",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 32-bits per channel, 64-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "Input 0: Background Image",
+      "description": "Texture the Flow simulation will be overlayed onto."
+    },
+    {
+      "page": "Common",
+      "label": "Input 1: Depth Map",
+      "description": "A  Depth TOP  to obscure parts of the Flow Simulation."
+    },
+    {
+      "page": "Common",
+      "label": "resx",
+      "description": "Horizontal resolution of the  TOP  in pixels."
+    },
+    {
+      "page": "Common",
+      "label": "resy",
+      "description": "Vertical resolution of the  TOP  in pixels."
+    },
+    {
+      "page": "Common",
+      "label": "aspectx",
+      "description": "Horizontal aspect of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "aspecty",
+      "description": "Vertical aspect of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "depth",
+      "description": "Depth of 2D or 3D array if this  TOP  contains a 2D or 3D texture array."
+    },
+    {
+      "page": "Common",
+      "label": "gpu_memory_used",
+      "description": "Total amount of texture memory used by this  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    },
+    {
+      "page": "Common",
+      "label": "The width and height of an image in pixels. Most TOPs, like the  Movie File In TOP  can set the image resolution. See  Aspect Ratio  for the width/height ratio of an image, taking into account non",
+      "description": "square pixels."
+    },
+    {
+      "page": "Common",
+      "label": "The viewer of a node can be (1) the interior of a node (the  Node Viewer ), (2) a floating window (RMB",
+      "description": ">View... on node), or (3) a  Pane  that graphically shows the results of an operator."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

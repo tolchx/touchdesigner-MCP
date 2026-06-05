@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Skin Deform POP",
+  "pageSlug": "Skin_Deform_POP",
+  "url": "https://docs.derivative.ca/Skin_Deform_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "skinDeformPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ion POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ion POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental p"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ion POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "e-mapear valores dentro de un rango específico. Es muy útil, ya que puede aplicar un re-rango diferente para cada componente de un atributo (ej., X, Y y Z de la posición) sin necesidad de múltiples operadores. • Experimental:Revolve POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Skin Deform POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Skin POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:SOP to POP: Permite la conversión de datos de la familia SOPs (Surface Operators) a datos de POPs. • Experimental:Sort POP: Implementa algoritmos de ordenación muy rápidos que pueden organizar los puntos basándose en el valor de cualquier"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "e-mapear valores dentro de un rango específico. Es muy útil, ya que puede aplicar un re-rango diferente para cada componente de un atributo (ej., X, Y y Z de la posición) sin necesidad de múltiples operadores. • Experimental:Revolve POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Skin Deform POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Skin POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:SOP to POP: Permite la conversión de datos de la familia SOPs (Surface Operators) a datos de POPs. • Experimental:Sort POP: Implementa algoritmos de ordenación muy rápidos que pueden organizar los puntos basándose en el valor de cualq"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "e-mapear valores dentro de un rango específico. Es muy útil, ya que puede aplicar un re-rango diferente para cada componente de un atributo (ej., X, Y y Z de la posición) sin necesidad de múltiples operadores. • Experimental:Revolve POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Skin Deform POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Skin POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:SOP to POP: Permite la conversión de datos de la familia SOPs (Surface Operators) a datos de POPs. • Experimental:Sort POP: Implementa algoritmos de ordenación muy rápidos que pueden organizar los puntos basándose en el valor de cualquier"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

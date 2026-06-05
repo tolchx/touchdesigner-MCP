@@ -1,0 +1,46 @@
+{
+  "family": "SOP",
+  "pageTitle": "Out SOP",
+  "pageSlug": "Out_SOP",
+  "url": "https://docs.derivative.ca/Out_SOP",
+  "tdOpTypeGuess": "outSOP",
+  "summary": "[  edit  ]\nThe Out  SOP  is used to create a  SOP  output in a  Component .  Component  outputs are positioned alphanumerically on the right side of the  Component .\noutSOP_Class\nOut SOP on Old Wiki\nContents\n1   Summary\n2   Parameters -  Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "03-twozero-evaluation.md",
+      "excerpt": "curada de patrones (component library)** Crear un catálogo de “recetas” reproducibles (render, instancing, feedback loops, POP sims, GLSL) como: - skills en Markdown (`touchdesigner/skills/*`) - prompts maestros (`docs/06-master-prompts.md` o carpeta `prompts/`) - scripts Python idempotentes (crear/actualizar redes sin duplicar) - **No ensuciar el proyecto (non-invasive)** Convenciones sistemáticas: - encapsular sistemas en `baseCOMP`/`geoCOMP` - nodos “I/O estándar” (`in*`, `out*`, `null*`) - layout determinístico (`nodeX/nodeY`) - nombres consistentes y prefijos por dominio (`pop_`, `top_`, `chop_`) - **Validación y calidad (production tools)** Protocolos para: - verificar existencia de OPs creados - detectar cooks costosos (Info CHOP / cookTime) - validar atributos esperados en POP sims (PartVel/PartForce/…) - reportar errores con causas probables + fixes sugeridos - **Sync/portabilidad** En este contexto, “cloud sync” se reemplaza por: - base"
+    },
+    {
+      "source": "04-pops-database.md",
+      "excerpt": "ibutes[]`. - Capacitación: `useCases[]`, `examples[]`, `commonCombinations[]`, `troubleshooting[]`. ## Generación automática (docs oficiales) El generador: - Descarga la lista desde `https://docs.derivative.ca/Category:POPs`. - Para cada operador descarga la página oficial y extrae: - resumen - inputs - parámetros por página - atributos (cuando la tabla está presente) ### Construir / actualizar la base En `touchdesigner/`: ```powershell npm run build node .\\mcp\\dist\\popsBuild.js --out .\\mcp\\data\\pops --limit 10 --local-docs ..\\Docs ``` Enriquecimiento opcional con LLM (Gemma 4 vía Ollama): ```powershell $env:LLM_PROVIDER=\"ollama\" $env:OLLAMA_MODEL=\"gemma4:e4b\" node .\\mcp\\dist\\popsBuild.js --out .\\mcp\\data\\pops --enrich --local-docs ..\\Docs ``` ## Consulta desde el MCP Se expone una herramienta MCP adicional: - `td_pops_query`: - `search`: texto libre - `page_slug`: slug exacto (p.ej. `Particle_POP`) - `limit`: máximo de resultados Objetivo: permitir que el asiste"
+    },
+    {
+      "source": "07-testing-protocols.md",
+      "excerpt": "# Sistema de validación y testing Objetivo: asegurar que redes generadas por prompts complejos sean estables, reproducibles y eficientes. ## 1) Validación de sintaxis y formato - **LLM output (router/CLI)**: debe ser JSON único (sin markdown). - **Scripts Python**: deben ser idempotentes y usar `from_op`/paths explícitos. - **Prompts maestros**: validar frontmatter y secciones mínimas con `node touchdesigner/mcp/dist/promptLint.js`. ## 2) Chequeo de dependencias - TouchDesigner 2025+. - `TDAPI_PORT` configurado y coincidente con el TOX. - Ollama (si aplica): `LLM_PROVIDER=ollama` y `OLLAMA_MODEL` instalado. ## 3) Pruebas funcionales (smoke tests) Ejecutar un bloque `td_execut"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "e Operadores POP Los POPs pueden clasificarse ampliamente según su función principal dentro de una red de TouchDesigner, reflejando las divisiones funcionales observadas en otras familias de operadores. 2.1 POPs Generadores Estos operadores son responsables de crear nueva geometría o datos 3D desde cero. * Pattern POP: Un generador versátil que crea formas simples de tiras de línea utilizando funciones matemáticas elementales (seno, coseno, ondas triangulares, cuadradas, ease in/out, aleatorias) en X, Y y Z. También puede añadir nuevos atributos o modificar los existentes basándose en estas funciones.14 Permite controlar el número de puntos, el comportamiento cíclico, la conectividad (tira de línea, líneas, primitivas de punto) y varios parámetros para dar forma a las curvas (por ejemplo, número de ciclos, fase, exponente, mapeo de rango).14 * Sprinkle POP: Crea puntos ya sea en la superficie o dentro del volumen de un POP de entrada. Ofrece métodos como \"Per Primitive\" p"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "itivas a un subconjunto más pequeño. Puede utilizar atributos de solo lectura incorporados para la selección. • Experimental:Dimension POP: Relacionado con una organización de orden superior de los puntos dentro de un POP. Sugiere una forma más avanzada de estructurar los datos de puntos. • Experimental:DMX Fixture POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:DMX Out POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:Extrude POP: Puede crear grupos automáticamente. Las fuentes indican que los POPs aún no realizan extrusiones completas en cualquier tira de línea. • Experimental:Facet POP: A diferencia de los SOPs donde el Facet SOP crea normales, en POPs, el Normal POP es el encargado de crear normales de superficie y tangentes. • E"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "olo \"apunta\" o hace referencia a la ubicación de los datos originales. * Actúa como un **marcador de posición** y es una buena práctica colocarlo al final de una cadena de POPs. Esto te permite insertar nuevos operadores en el medio sin tener que reajustar las conexiones de los operadores posteriores. * **Uso simple:** Es como una \"conexión limpia\" en tu red de operadores. Muy útil para organizar tu proyecto o para depurar, aislando partes de tu cadena de operaciones. * **Out POP (POP de Salida)** * **Función principal:** Permite **enviar datos POPs fuera** del componente donde se encuentra. * **Características clave:** * Cada Out POP dentro de un componente añade un **conector de salida** al componente padre. * Puedes conectar un POP directamente a su entrada o referenciar otro POP con el parámetro `Select POP`. * Es posible añadir una `Label` (etiqueta) para que se muestre al pasar el cursor por la salida del componen"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

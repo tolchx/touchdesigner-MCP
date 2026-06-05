@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Projection POP",
+  "pageSlug": "Projection_POP",
+  "url": "https://docs.derivative.ca/Projection_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "projectionPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "os: Neighbors Type (By Distance, Connected), Max Neighbors Distance, Max Neighbors, Output (Neighbors, Average, Inverse Distance Weighted Average), Neighbor Attrib Name, Num Neighbors Attrib Name, Add Distance Attribute, Neighbor Point Attributes.24 * Phaser POP: Similar a Phaser CHOP, realiza una interpolación de animación escalonada (con desfase temporal) en un atributo POP. Genera un nuevo atributo \"Phaser\" donde cada punto anima de 0 a 1 en un ciclo, pero en diferentes momentos.25 * Projection POP: Transforma un atributo espacial 3D de tipo float3 (como P) entre diferentes sistemas de coordenadas (Cartesiano, Esférico, Cilíndrico, Espacio de Pantalla, Coordenadas de Dispositivo Normalizadas). Permite especificar los sistemas de coordenadas de entrada y salida y las unidades angulares.26 * Proximity POP: Conecta puntos a puntos cercanos dentro de una distancia mínima/máxima especificada, creando \"primitivas de línea\" de 2 puntos. Puede limitar el número de líneas por punto y generar l"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "os: Neighbors Type (By Distance, Connected), Max Neighbors Distance, Max Neighbors, Output (Neighbors, Average, Inverse Distance Weighted Average), Neighbor Attrib Name, Num Neighbors Attrib Name, Add Distance Attribute, Neighbor Point Attributes.24 * Phaser POP: Similar a Phaser CHOP, realiza una interpolación de animación escalonada (con desfase temporal) en un atributo POP. Genera un nuevo atributo \"Phaser\" donde cada punto anima de 0 a 1 en un ciclo, pero en diferentes momentos.25 * Projection POP: Transforma un atributo espacial 3D de tipo float3 (como P) entre diferentes sistemas de coordenadas (Cartesiano, Esférico, Cilíndrico, Espacio de Pantalla, Coordenadas de Dispositivo Normalizadas). Permite especificar los sistemas de coordenadas de entrada y salida y las unidades angulares.26 * Proximity POP: Conecta puntos a puntos cercanos dentro de una distancia mínima/máxima especificada, creando \"primitivas de línea\" de 2 puntos. Puede limitar el número de líneas por punto y gener"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "os: Neighbors Type (By Distance, Connected), Max Neighbors Distance, Max Neighbors, Output (Neighbors, Average, Inverse Distance Weighted Average), Neighbor Attrib Name, Num Neighbors Attrib Name, Add Distance Attribute, Neighbor Point Attributes.24 * Phaser POP: Similar a Phaser CHOP, realiza una interpolación de animación escalonada (con desfase temporal) en un atributo POP. Genera un nuevo atributo \"Phaser\" donde cada punto anima de 0 a 1 en un ciclo, pero en diferentes momentos.25 * Projection POP: Transforma un atributo espacial 3D de tipo float3 (como P) entre diferentes sistemas de coordenadas (Cartesiano, Esférico, Cilíndrico, Espacio de Pantalla, Coordenadas de Dispositivo Normalizadas). Permite especificar los sistemas de coordenadas de entrada y salida y las unidades angulares.26 * Proximity POP: Conecta puntos a puntos cercanos dentro de una distancia mínima/máxima especificada, creando \"primitivas de línea\" de 2 puntos. Puede limitar el número de líneas por punto y generar l"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador más allá de su listado. • Experimental:Polygonize POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Primitive POP: Puede eliminar las primitivas de un POP, dejando solo los puntos. También permite crear tiras de línea. Si lo deseas, puedes usarlo para crear primitivas en su pestaña correspondiente. • Experimental:Projection POP: Permite crear y modificar atributos de color y textura. Al igual que el Normalize POP, genera atributos normalizados. • Experimental:Proximity POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Quantize POP: Proporciona opciones para cuantizar valores, como redondear hacia abajo (Floor), redondear al entero más cercano (Round) o redondear hacia arriba (Ceiling). • Experimental:Random POP: Permite crear y modifica"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador más allá de su listado. • Experimental:Polygonize POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Primitive POP: Puede eliminar las primitivas de un POP, dejando solo los puntos. También permite crear tiras de línea. Si lo deseas, puedes usarlo para crear primitivas en su pestaña correspondiente. • Experimental:Projection POP: Permite crear y modificar atributos de color y textura. Al igual que el Normalize POP, genera atributos normalizados. • Experimental:Proximity POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Quantize POP: Proporciona opciones para cuantizar valores, como redondear hacia abajo (Floor), redondear al entero más cercano (Round) o redondear hacia arriba (Ceiling). • Experimental:Random POP: Permite crear y modi"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador más allá de su listado. • Experimental:Polygonize POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Primitive POP: Puede eliminar las primitivas de un POP, dejando solo los puntos. También permite crear tiras de línea. Si lo deseas, puedes usarlo para crear primitivas en su pestaña correspondiente. • Experimental:Projection POP: Permite crear y modificar atributos de color y textura. Al igual que el Normalize POP, genera atributos normalizados. • Experimental:Proximity POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Quantize POP: Proporciona opciones para cuantizar valores, como redondear hacia abajo (Floor), redondear al entero más cercano (Round) o redondear hacia arriba (Ceiling). • Experimental:Random POP: Permite crear y modifica"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Facet POP",
+  "pageSlug": "Facet_POP",
+  "url": "https://docs.derivative.ca/Facet_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "facetPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "riod, Harmonics, Harmonic Spread, Amplitude, Exponent, Offset. También tiene una \"Página Transform\" para trasladar, rotar y escalar el campo de ruido, y una \"Página Output\" para generar valores de ruido sin procesar, gradiente o curl.16 * Extrude POP: Un operador simple que añade \"grosor\" aparente a triángulos o quads copiándolos a una distancia especificada, opcionalmente estrechándolos, y añadiendo quads para los lados.17 Requiere un Normal POP para un sombreado facetado adecuado.17 * Facet POP: Realiza operaciones para controlar el intercambio de puntos entre primitivas. Puede crear puntos únicos (sin puntos compartidos por vértice), consolidar puntos (fusionar puntos dentro de una tolerancia) o cusp polygons (hacer que los puntos de borde sean únicos si las caras adyacentes no están alineadas dentro de una tolerancia angular).18 Es útil para controlar el sombreado y la integridad de la malla. * GLSL POP: Permite la modificación de atributos de entrada utilizando shaders GLSL. Op"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "Type (Simplex, Perlin), Period, Harmonics, Harmonic Spread, Amplitude, Exponent, Offset. También tiene una \"Página Transform\" para trasladar, rotar y escalar el campo de ruido, y una \"Página Output\" para generar valores de ruido sin procesar, gradiente o curl.16 * Extrude POP: Un operador simple que añade \"grosor\" aparente a triángulos o quads copiándolos a una distancia especificada, opcionalmente estrechándolos, y añadiendo quads para los lados.17 Requiere un Normal POP para un sombreado facetado adecuado.17 * Facet POP: Realiza operaciones para controlar el intercambio de puntos entre primitivas. Puede crear puntos únicos (sin puntos compartidos por vértice), consolidar puntos (fusionar puntos dentro de una tolerancia) o cusp polygons (hacer que los puntos de borde sean únicos si las caras adyacentes no están alineadas dentro de una tolerancia angular).18 Es útil para controlar el sombreado y la integridad de la malla. * GLSL POP: Permite la modificación de atributos de entr"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "riod, Harmonics, Harmonic Spread, Amplitude, Exponent, Offset. También tiene una \"Página Transform\" para trasladar, rotar y escalar el campo de ruido, y una \"Página Output\" para generar valores de ruido sin procesar, gradiente o curl.16 * Extrude POP: Un operador simple que añade \"grosor\" aparente a triángulos o quads copiándolos a una distancia especificada, opcionalmente estrechándolos, y añadiendo quads para los lados.17 Requiere un Normal POP para un sombreado facetado adecuado.17 * Facet POP: Realiza operaciones para controlar el intercambio de puntos entre primitivas. Puede crear puntos únicos (sin puntos compartidos por vértice), consolidar puntos (fusionar puntos dentro de una tolerancia) o cusp polygons (hacer que los puntos de borde sean únicos si las caras adyacentes no están alineadas dentro de una tolerancia angular).18 Es útil para controlar el sombreado y la integridad de la malla. * GLSL POP: Permite la modificación de atributos de entrada utilizando shaders GLSL. Op"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "cionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:DMX Out POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:Extrude POP: Puede crear grupos automáticamente. Las fuentes indican que los POPs aún no realizan extrusiones completas en cualquier tira de línea. • Experimental:Facet POP: A diferencia de los SOPs donde el Facet SOP crea normales, en POPs, el Normal POP es el encargado de crear normales de superficie y tangentes. • Experimental:Feedback POP: Es esencial para habilitar sistemas de partículas y para la manipulación general de datos que requieren bucles de retroalimentación. Se utiliza para simular el movimiento de partículas a lo largo del tiempo, convirtiendo la fuerza en velocidad y la velocidad en posición. • Experimental:Field POP: Genera nuevos atributos,"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "cionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:DMX Out POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:Extrude POP: Puede crear grupos automáticamente. Las fuentes indican que los POPs aún no realizan extrusiones completas en cualquier tira de línea. • Experimental:Facet POP: A diferencia de los SOPs donde el Facet SOP crea normales, en POPs, el Normal POP es el encargado de crear normales de superficie y tangentes. • Experimental:Feedback POP: Es esencial para habilitar sistemas de partículas y para la manipulación general de datos que requieren bucles de retroalimentación. Se utiliza para simular el movimiento de partículas a lo largo del tiempo, convirtiendo la fuerza en velocidad y la velocidad en posición. • Experimental:Field POP: Genera nuevos atribu"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "cionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:DMX Out POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:Extrude POP: Puede crear grupos automáticamente. Las fuentes indican que los POPs aún no realizan extrusiones completas en cualquier tira de línea. • Experimental:Facet POP: A diferencia de los SOPs donde el Facet SOP crea normales, en POPs, el Normal POP es el encargado de crear normales de superficie y tangentes. • Experimental:Feedback POP: Es esencial para habilitar sistemas de partículas y para la manipulación general de datos que requieren bucles de retroalimentación. Se utiliza para simular el movimiento de partículas a lo largo del tiempo, convirtiendo la fuerza en velocidad y la velocidad en posición. • Experimental:Field POP: Genera nuevos atributos,"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

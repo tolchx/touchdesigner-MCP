@@ -1,0 +1,307 @@
+{
+  "family": "SOP",
+  "pageTitle": "Extrude SOP",
+  "pageSlug": "Extrude_SOP",
+  "url": "https://docs.derivative.ca/Extrude_SOP",
+  "tdOpTypeGuess": "extrudeSOP",
+  "summary": "[  edit  ]\nThe Extrude  SOP  can be used for:\nExtruding and bevelling Text and other geometry\nCusping the bevelled edges to get sharp edges\nMaking primitives thicker or thinner\nThe default is a 1 unit extrusion directly backwards from the input geometry's normals.\nIt uses the normal of the surface to determine the direction of extrusion. In the case of planar or open polygons, the normal is difficult to determine, and may not always provide the result that you expect. Turn on the  Primitive  Normals display in the  Viewer  display options to see the normals.\nThe extrusion is created by extending surfaces from the vertices of the input geometry along the cross-section curve given in the second input (Input 1). The first vertex of the cross-section curve is placed by default at the vertices of the input geometry and aligned so that the curve's positive Y axis extends opposite to the input geometry's normal. The cross-section's positive X axis by default extends outwards from center of the input geometry.\nIf no cross-section curve is given, a vertical line going from (0,0,0) to (0,1,0) is used. This results in a 1 unit extrusion directly backwards from the input geometry's normals. As another example, using a straight line from (0,0,0) to (.1,.1,0) will result in an extrusion that extends 1 unit backwards from the input and flares .1 unit outwards on all sides. The Thickness and Depth parameters can be used to shift and scale the cross-section without directly changing the curve.\nNote:  The shape of the cross-section is always relative to its first vertex, so shifting the entire cross-section curve will have no effect. Also, only the X and Y axes of the curve are used i.e. Z position values are ignored.\nAfter the new geometry is created, normals are computed by default.\nWarning:  If you take a default output from a  Text SOP  and Extrude it, it may have bad rendering artifacts (and too many polygons) as it's extruding each of the triangles of the triangulated letters. You need to change the Output parameter of the Text  SOP  to Closed Polygons. See  OP Snippets .\nextrudeSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Parameters - Values Page\n4   Parameters - Groups Page\n5   Production Tips\n6   Operator Inputs\n7   Info CHOP Channels\n7.1   Common SOP Info Channels\n7.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Values",
+      "label": "Fuse Points",
+      "name": "dofuse",
+      "description": "⊞  - This should almost always be turned on when cross-sections are used. It consolidates points of polygons that would otherwise cross or overlap when the bevel takes place."
+    },
+    {
+      "page": "Values",
+      "label": "Front Face",
+      "name": "fronttype",
+      "description": "⊞  - Control how the front face of the extrusion should be built. You may wish to have a \"No Output\" because some faces are never actually seen when doing animation and, therefore, would only take up additional overhead if left on."
+    },
+    {
+      "page": "Values",
+      "label": "No Output",
+      "name": "off",
+      "description": "No face is created."
+    },
+    {
+      "page": "Values",
+      "label": "Output Face",
+      "name": "face",
+      "description": "Faces are created."
+    },
+    {
+      "page": "Values",
+      "label": "Convex Face",
+      "name": "convex",
+      "description": "Create faces built with Convex Polygons (use this option if faces are to be deformed, i.e.  Twist SOP ,  Lattice SOP )."
+    },
+    {
+      "page": "Values",
+      "label": "Back Face",
+      "name": "backtype",
+      "description": "⊞  - This value controls whether or not the back of the extruded object will have a face or not. The options are the same as the Front Face options above."
+    },
+    {
+      "page": "Values",
+      "label": "Side Mesh",
+      "name": "sidetype",
+      "description": "⊞  - Controls how the cross-section(s) will be extruded. If the input cross-section is a Bzier or NURBS curve, the surface will be constructed with a patch of the same geometry type."
+    },
+    {
+      "page": "Values",
+      "label": "No Output",
+      "name": "off",
+      "description": "No mesh is created."
+    },
+    {
+      "page": "Values",
+      "label": "Rows",
+      "name": "rows",
+      "description": "Creates horizontal lines."
+    },
+    {
+      "page": "Values",
+      "label": "Columns",
+      "name": "cols",
+      "description": "Creates vertical lines."
+    },
+    {
+      "page": "Values",
+      "label": "Rows and Columns",
+      "name": "rowcol",
+      "description": "Both Rows and Columns. Looks like Quads in wire frame display, but all polygons are open (if the primitive type is polygon). Compare them in the Model Editor."
+    },
+    {
+      "page": "Values",
+      "label": "Triangles",
+      "name": "triangles",
+      "description": "Build the grid with Triangles."
+    },
+    {
+      "page": "Values",
+      "label": "Quadrilaterals",
+      "name": "quads",
+      "description": "Generates sides composed of quadrilaterals (default)."
+    },
+    {
+      "page": "Values",
+      "label": "Alternating triangles",
+      "name": "alttriangles",
+      "description": "Generates triangles that are opposed; similar to the Triangles option."
+    },
+    {
+      "page": "Values",
+      "label": "Initialize Extrusion",
+      "name": "initextrude",
+      "description": "If the cross-section face that you created doesn't match up nicely to the size of the geometry you are extruding, this command will scale and translate it so that it fits nicely."
+    },
+    {
+      "page": "Values",
+      "label": "The reason it might not be nice to begin with is that the curve wasn't drawn exactly on the world",
+      "description": "axis in Model-mode and/or was drawn at a grossly different scale than the object it is extruding."
+    },
+    {
+      "page": "Values",
+      "label": "Thickness Translate",
+      "name": "thickxlate",
+      "description": "Shifts the cross-section profile perpendicularly to the normals of the input geometry. This relates to the X axis of the cross-section profile. When used with text, this typically has the effect of making the text lighter (narrower) or heavier (bolder)."
+    },
+    {
+      "page": "Values",
+      "label": "Thickness Scale",
+      "name": "thickscale",
+      "description": "Scales the cross-section profile perpendicularly to the normals of the input geometry. This is equivalent to scaling the cross-section in its X axis. This parameter has no effect on the default profile, which is equivalent to a vertical line along the Y axis. Negative scaling values are allowed."
+    },
+    {
+      "page": "Values",
+      "label": "Depth Translate",
+      "name": "depthxlate",
+      "description": "Moves the cross-section in the direction of the normal. Positive values will move backwards to the direction of the normal. Depth movement relates to the Y axis of the input cross-section. Using this parameter will shift the position of the output geometry in direction of the normal."
+    },
+    {
+      "page": "Values",
+      "label": "Depth Scale",
+      "name": "depthscale",
+      "description": "Scales the cross-section in the direction of the source geometry's normals. This is equivalent to scaling the input cross-section in its Y axis and will determine how deep (thick) the resulting extrusion is."
+    },
+    {
+      "page": "Values",
+      "label": "Vertex",
+      "name": "vertex",
+      "description": "Translates the cross-section such that the vertex specified is at the cross-section origin."
+    },
+    {
+      "page": "Values",
+      "label": "Cusp Polygonal Sides",
+      "name": "docusp",
+      "description": "Determines whether or not sides are to be smooth-shaded or faceted using the angle value in Side Cusp Angle field."
+    },
+    {
+      "page": "Values",
+      "label": "Cusping lets you specify at which angle between adjacent polygons, a sharp edge (faceted edge where vertices are un",
+      "description": "shared) should be displayed instead."
+    },
+    {
+      "page": "Values",
+      "label": "Side Cusp Angle",
+      "name": "cuspangle",
+      "description": "When checked, this value will control the angle at which faceting of the sides will occur. A value of 20 is default."
+    },
+    {
+      "page": "Values",
+      "label": "Consolidate Faces to Mesh",
+      "name": "sharefaces",
+      "description": "If selected the extrusion will share points between the front face and the first row of the side mesh and between the last face and the last row of the side mesh."
+    },
+    {
+      "page": "Values",
+      "label": "Remove Shared Sides",
+      "name": "removesharedsides",
+      "description": "Prevents the creation of duplicate sides."
+    },
+    {
+      "page": "Groups",
+      "label": "Create Output Groups",
+      "name": "newg",
+      "description": "When this option is checked, it causes the Extrude  SOP  to generate three new groups representing the primitives belonging to the front faces, back faces, and the side bevel/extrusion. The name of the groups are determined by the three option fields below."
+    },
+    {
+      "page": "Groups",
+      "label": "Front  Group",
+      "name": "frontgrp",
+      "description": "Output group name to create for front face geometry."
+    },
+    {
+      "page": "Groups",
+      "label": "Back  Group",
+      "name": "backgrp",
+      "description": "Output group name to create for back face geometry."
+    },
+    {
+      "page": "Groups",
+      "label": "Side  Group",
+      "name": "sidegrp",
+      "description": "Output group name to create for side bevel/extrude geometry."
+    },
+    {
+      "page": "Groups",
+      "label": "This  SOP  is mainly used for generating bevels and extrusions of text where the input cross",
+      "description": "sections are fed from a  Font SOP . Any curve or group of curves can also be used as input."
+    },
+    {
+      "page": "Groups",
+      "label": "Offsets",
+      "description": "This  SOP  can be used for generating two offsetting curves where the distance between the two curves remains constant. To do this, make sure that you set Side Mesh to No Output, the first thickness to zero and adjust the second to increase or decrease the distance of the offset."
+    },
+    {
+      "page": "Groups",
+      "label": "Fixing Stray Normals",
+      "description": "If your geometry contains normals that are pointed in many directions (say after reading geometry from a  File In SOP , or if you have a lot of open or non-planar polygons), you can fix it so that they are suitable for extrusion."
+    },
+    {
+      "page": "Groups",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Groups",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Groups",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Groups",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Groups",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Groups",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Groups",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Groups",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Groups",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Groups",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Groups",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Groups",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Groups",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Groups",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Groups",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "parámetros controlan el período, los armónicos, la dispersión armónica, la amplitud, el exponente y el desplazamiento. El campo de ruido puede ser trasladado, rotado o escalado.16 * Parámetros: Los parámetros clave incluyen Type (Simplex, Perlin), Period, Harmonics, Harmonic Spread, Amplitude, Exponent, Offset. También tiene una \"Página Transform\" para trasladar, rotar y escalar el campo de ruido, y una \"Página Output\" para generar valores de ruido sin procesar, gradiente o curl.16 * Extrude POP: Un operador simple que añade \"grosor\" aparente a triángulos o quads copiándolos a una distancia especificada, opcionalmente estrechándolos, y añadiendo quads para los lados.17 Requiere un Normal POP para un sombreado facetado adecuado.17 * Facet POP: Realiza operaciones para controlar el intercambio de puntos entre primitivas. Puede crear puntos únicos (sin puntos compartidos por vértice), consolidar puntos (fusionar puntos dentro de una tolerancia) o cusp polygons (hacer que los punto"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "rden superior de los puntos dentro de un POP. Sugiere una forma más avanzada de estructurar los datos de puntos. • Experimental:DMX Fixture POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:DMX Out POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:Extrude POP: Puede crear grupos automáticamente. Las fuentes indican que los POPs aún no realizan extrusiones completas en cualquier tira de línea. • Experimental:Facet POP: A diferencia de los SOPs donde el Facet SOP crea normales, en POPs, el Normal POP es el encargado de crear normales de superficie y tangentes. • Experimental:Feedback POP: Es esencial para habilitar sistemas de partículas y para la manipulación general de datos que requieren bucles de retroalimentación. Se utiliza para simular"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "se visualiza la organización de los puntos. * Puedes: * **Añadir una dimensión**: Por ejemplo, de una lista de puntos 2D (20x33) a una 3D (20x33x1) o (1x20x33). * **Eliminar una dimensión**: Por ejemplo, de 12x5x30 a 60x39 (aplanando una de las dimensiones). * **Intercambiar dimensiones**: Por ejemplo, de 12x25 a 25x12. * **Dividir una dimensión**: Por ejemplo, de 160x5x15 a 80x2x5x15 (dividiendo la primera dimensión en dos). --- #### 21. Extrude POP * **¿Qué hace?** Este es un operador sencillo que da una **apariencia de \"grosor\" a los triángulos o quads** (cuadriláteros). Es como darle volumen a una forma plana. * **Características clave:** * Copia la forma (triángulo o quad) y la mueve a una **distancia** especificable. * Opcionalmente, puede **encogerla (`Inset`)** para darle un efecto de ahusamiento (taper). * Añade **quads para formar los lados** del objeto extruido. * Para que se renderice correc"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

@@ -1,0 +1,299 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Info CHOP",
+  "pageSlug": "Info_CHOP",
+  "url": "https://docs.derivative.ca/Info_CHOP",
+  "tdOpTypeGuess": "infoCHOP",
+  "summary": "[  edit  ]\nThe Info  CHOP  gives you extra information about a node. All nodes contain extra inside information, and different types of nodes (TOPs, CHOPs, etc) contain different subsets of information. This additional information can be accessed via an Info  CHOP .\nThe Info  CHOP 's extra attributes for specific OPs are also expressed as python members of those operators. The the operators python class for more information.\nAny OP that has a  .timecode  member will also have a Timecode Info Type available to view the timecode value as a set of  CHOP  channels. See  OPs with a timecode member  and the  Timecode  page for more info.\ninfoCHOP_Class\nContents\n1   Summary\n2   Parameters - Info Page\n3   Parameters - Common Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common CHOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Info",
+      "label": "Operator",
+      "name": "op",
+      "description": "The path of the node that the Info  CHOP  is getting information from. You can drag and drop any node onto this path, or type the path directly into the field."
+    },
+    {
+      "page": "Info",
+      "label": "Info Type",
+      "name": "infotype",
+      "description": "⊞  - Select the channel set associated with the Info Type."
+    },
+    {
+      "page": "Info",
+      "label": "All",
+      "name": "all",
+      "description": "Selects all channel sets and appends them to the output."
+    },
+    {
+      "page": "Info",
+      "label": "General",
+      "name": "general",
+      "description": "Selects the channels of the specific OP type and the OP family as a whole."
+    },
+    {
+      "page": "Info",
+      "label": "Timecode",
+      "name": "timecode",
+      "description": "(Optional)  Note:  Timecode entry will only appear in the list if the Operator referenced has a  .timecode  member. Provides the .timecode value as a set of  CHOP  channels:  hour ,  minute ,  second ,  frame ."
+    },
+    {
+      "page": "Info",
+      "label": "Scope",
+      "name": "iscope",
+      "description": "The names of the attributes to keep. Name patterns may be used as detailed in  Pattern Matching ."
+    },
+    {
+      "page": "Info",
+      "label": "Values",
+      "name": "values",
+      "description": "⊞  - Select channel with values inside or outside the range specified in  Range ."
+    },
+    {
+      "page": "Info",
+      "label": "All",
+      "name": "all",
+      "description": "All channels selected."
+    },
+    {
+      "page": "Info",
+      "label": "Inside Range",
+      "name": "inside",
+      "description": "Channels with values inside  Range  selected."
+    },
+    {
+      "page": "Info",
+      "label": "Outside Range",
+      "name": "outside",
+      "description": "Channels with values outside  Range  selected."
+    },
+    {
+      "page": "Info",
+      "label": "Range",
+      "name": "range",
+      "description": "⊞  - Set the bounds for selecting channels by value."
+    },
+    {
+      "page": "Info",
+      "label": "Passive",
+      "name": "passive",
+      "description": "When Passive is Off the Info  CHOP  will cook the   Operator   it is pointing to before querying its values. When Passive is On it will not force a cook. A side effect: If the Info  CHOP  and the target are both cooking that frame, the Info may cook before the target, so it’s data will be a frame late."
+    },
+    {
+      "page": "Info",
+      "label": "Children  Cook  Time",
+      "name": "childcooktime",
+      "description": "When the Info  CHOP  is monitoring a  Component , this toggle will enable a channel called  children_cpu_cook_time  which is the total cooktime of all the component's children. This is off by default, enabling it for a large network may impact performance as all cooktimes need to be summed."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "To re-compute the output data of the  Operators . An operator cooks when (1) its inputs change, (2) its  Parameters  change, (3) when the timeline moves forward in some cases, or (4)  Scripting  commands are run on the node. When the operator is a  Panel Component , it also cooks when a user interacts with it. When an operator cooks, it usually causes operators connected to its output to re-cook. When TouchDesigner draws the screen, it re-cooks all the",
+      "name": "Dependencies",
+      "description": "the necessary operators in all  Networks , contributing to a frame's total \"cook time\"."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "03-twozero-evaluation.md",
+      "excerpt": ") - scripts Python idempotentes (crear/actualizar redes sin duplicar) - **No ensuciar el proyecto (non-invasive)** Convenciones sistemáticas: - encapsular sistemas en `baseCOMP`/`geoCOMP` - nodos “I/O estándar” (`in*`, `out*`, `null*`) - layout determinístico (`nodeX/nodeY`) - nombres consistentes y prefijos por dominio (`pop_`, `top_`, `chop_`) - **Validación y calidad (production tools)** Protocolos para: - verificar existencia de OPs creados - detectar cooks costosos (Info CHOP / cookTime) - validar atributos esperados en POP sims (PartVel/PartForce/…) - reportar errores con causas probables + fixes sugeridos - **Sync/portabilidad** En este contexto, “cloud sync” se reemplaza por: - base de conocimiento versionada (JSON + Markdown) - scripts reproducibles (sin estado oculto) ## Qué no se integra directamente - UI embebida y herramientas propietarias de TWOZERO. - Sincronización en la nube “integrada” (solo se replica el enfoque de versionado y reproduci"
+    },
+    {
+      "source": "03-twozero-evaluation.md",
+      "excerpt": ") - scripts Python idempotentes (crear/actualizar redes sin duplicar) - **No ensuciar el proyecto (non-invasive)** Convenciones sistemáticas: - encapsular sistemas en `baseCOMP`/`geoCOMP` - nodos “I/O estándar” (`in*`, `out*`, `null*`) - layout determinístico (`nodeX/nodeY`) - nombres consistentes y prefijos por dominio (`pop_`, `top_`, `chop_`) - **Validación y calidad (production tools)** Protocolos para: - verificar existencia de OPs creados - detectar cooks costosos (Info CHOP / cookTime) - validar atributos esperados en POP sims (PartVel/PartForce/…) - reportar errores con causas probables + fixes sugeridos - **Sync/portabilidad** En este contexto, “cloud sync” se reemplaza por: - base de conocimiento versionada (JSON + Markdown) - scripts reproducibles (sin estado oculto) ## Qué no se integra directamente - UI embebida y herramientas propietarias de TWOZERO. - Sincronización en la nube “integrada” (solo se replica el enfoque de versionado y repr"
+    },
+    {
+      "source": "03-twozero-evaluation.md",
+      "excerpt": ") - scripts Python idempotentes (crear/actualizar redes sin duplicar) - **No ensuciar el proyecto (non-invasive)** Convenciones sistemáticas: - encapsular sistemas en `baseCOMP`/`geoCOMP` - nodos “I/O estándar” (`in*`, `out*`, `null*`) - layout determinístico (`nodeX/nodeY`) - nombres consistentes y prefijos por dominio (`pop_`, `top_`, `chop_`) - **Validación y calidad (production tools)** Protocolos para: - verificar existencia de OPs creados - detectar cooks costosos (Info CHOP / cookTime) - validar atributos esperados en POP sims (PartVel/PartForce/…) - reportar errores con causas probables + fixes sugeridos - **Sync/portabilidad** En este contexto, “cloud sync” se reemplaza por: - base de conocimiento versionada (JSON + Markdown) - scripts reproducibles (sin estado oculto) ## Qué no se integra directamente - UI embebida y herramientas propietarias de TWOZERO. - Sincronización en la nube “integrada” (solo se replica el enfoque de versionado y reproduci"
+    },
+    {
+      "source": "07-testing-protocols.md",
+      "excerpt": "/dist/promptLint.js`. ## 2) Chequeo de dependencias - TouchDesigner 2025+. - `TDAPI_PORT` configurado y coincidente con el TOX. - Ollama (si aplica): `LLM_PROVIDER=ollama` y `OLLAMA_MODEL` instalado. ## 3) Pruebas funcionales (smoke tests) Ejecutar un bloque `td_execute` de validación que confirme: - operadores creados (paths) - conexiones clave (especialmente feedback loops) - atributos reservados presentes cuando aplica (p.ej. PartVel/PartForce) ## 4) Pruebas de rendimiento - Conectar `Info CHOP` a operadores críticos (POP, TOP, COMP). - Medir `cook_time` y `errors/warnings`. - Aplicar presupuestos explícitos: - número de puntos - límites de partículas - resolución TOP - frecuencia de recook ## 5) Reportes de errores y fixes sugeridos Formato recomendado para reportar fallos: - Síntoma observable - Operador/etapa afectada - Causa probable (con evidencia) - Fix sugerido (acción concreta) - Verificación posterior"
+    },
+    {
+      "source": "07-testing-protocols.md",
+      "excerpt": "/dist/promptLint.js`. ## 2) Chequeo de dependencias - TouchDesigner 2025+. - `TDAPI_PORT` configurado y coincidente con el TOX. - Ollama (si aplica): `LLM_PROVIDER=ollama` y `OLLAMA_MODEL` instalado. ## 3) Pruebas funcionales (smoke tests) Ejecutar un bloque `td_execute` de validación que confirme: - operadores creados (paths) - conexiones clave (especialmente feedback loops) - atributos reservados presentes cuando aplica (p.ej. PartVel/PartForce) ## 4) Pruebas de rendimiento - Conectar `Info CHOP` a operadores críticos (POP, TOP, COMP). - Medir `cook_time` y `errors/warnings`. - Aplicar presupuestos explícitos: - número de puntos - límites de partículas - resolución TOP - frecuencia de recook ## 5) Reportes de errores y fixes sugeridos Formato recomendado para reportar fallos: - Síntoma observable - Operador/etapa afectada - Causa probable (con evidencia) - Fix sugerido (acción concreta) - Verificación posterior"
+    },
+    {
+      "source": "07-testing-protocols.md",
+      "excerpt": "/dist/promptLint.js`. ## 2) Chequeo de dependencias - TouchDesigner 2025+. - `TDAPI_PORT` configurado y coincidente con el TOX. - Ollama (si aplica): `LLM_PROVIDER=ollama` y `OLLAMA_MODEL` instalado. ## 3) Pruebas funcionales (smoke tests) Ejecutar un bloque `td_execute` de validación que confirme: - operadores creados (paths) - conexiones clave (especialmente feedback loops) - atributos reservados presentes cuando aplica (p.ej. PartVel/PartForce) ## 4) Pruebas de rendimiento - Conectar `Info CHOP` a operadores críticos (POP, TOP, COMP). - Medir `cook_time` y `errors/warnings`. - Aplicar presupuestos explícitos: - número de puntos - límites de partículas - resolución TOP - frecuencia de recook ## 5) Reportes de errores y fixes sugeridos Formato recomendado para reportar fallos: - Síntoma observable - Operador/etapa afectada - Causa probable (con evidencia) - Fix sugerido (acción concreta) - Verificación posterior"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

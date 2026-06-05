@@ -1,0 +1,190 @@
+{
+  "family": "DAT",
+  "pageTitle": "In DAT",
+  "pageSlug": "In_DAT",
+  "url": "https://docs.derivative.ca/In_DAT",
+  "tdOpTypeGuess": "inDAT",
+  "summary": "[  edit  ]\nThe In  DAT  is used to create a  DAT  input in a  Component .  Component  inputs are positioned alphanumerically on the left side of the  Component . Disconnecting an input to an In  DAT  will still keep the contents instanced to the original input.\ninDAT_Class\nContents\n1   Summary\n2   Parameters - In Page\n3   Parameters - Common Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common DAT Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "In",
+      "label": "Label",
+      "name": "label",
+      "description": "Creates a pop-up label when the cursor rolls over this  Component  input."
+    },
+    {
+      "page": "Common",
+      "label": "Language",
+      "name": "language",
+      "description": "⊞  - Select how the  DAT  decides which script language to operate on."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Node",
+      "name": "node",
+      "description": "The  DAT  uses it's own script language."
+    },
+    {
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "name": "extension",
+      "description": "⊞  - Select the file extension this  DAT  should expose to external editors."
+    },
+    {
+      "page": "Common",
+      "label": "dat",
+      "name": "dat",
+      "description": "various common file extensions."
+    },
+    {
+      "page": "Common",
+      "label": "From Language",
+      "name": "languageext",
+      "description": "pick extension from DATs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specify a custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specifiy the custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Word Wrap",
+      "name": "wordwrap",
+      "description": "⊞  - Enable Word Wrap for Node Display."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs setting."
+    },
+    {
+      "page": "Common",
+      "label": "On",
+      "name": "on",
+      "description": "Turn on Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Off",
+      "name": "off",
+      "description": "Turn off Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "num_rows",
+      "description": "Number of rows in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "num_cols",
+      "description": "Number of columns in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "Art",
+      "description": "Net    •   Audio Devices    •   CHOP Execute    •   CHOP to    •   Clip    •   Convert    •   CPlusPlus    •   DAT   •    Execute    •   DAT Export   •   Error    •   EtherDream    •   Evaluate    •   Examine    •   Execute    •   FIFO    •   File In    •   File Out    •   Folder    •   In    •   Indices    •   Info    •   Insert    •   JSON    •   Keyboard In    •   Lookup    •   Media File Info    •   Merge    •   MIDI Event    •   MIDI In    •   Monitors    •   MPCDI    •   MQTT Client    •   Multi Touch In    •   NDI    •   Null    •   OP Execute    •   OP Find    •   OSC In    •   OSC Out    •   Out    •   Panel Execute    •   Parameter    •   Parameter Execute    •   ParGroup Execute    •   Perform    •   POP to    •   Render Pick    •   Reorder    •   Script    •   Select    •   Serial    •   Serial Devices    •   SocketIO    •   SOP to    •   Sort    •   Substitute    •   Switch    •   Table    •   TCP/IP    •   Text    •   Touch In    •   Touch Out    •   Transpose    •   TUIO In    •   UDP In    •   UDP Out    •   UDT In    •   UDT Out    •   Video Devices    •   Web Client    •   Web    •   Web Server    •   WebRTC    •   WebSocket    •   XML"
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "00-overview.md",
+      "excerpt": "# Sistema integral de documentación y capacitación — TouchDesigner MCP (Gemma 4 + POPs) Este repositorio se amplía con un sistema de: - Documentación técnica del MCP (arquitectura, herramientas, flujo). - Adaptación operativa para Gemma 4 vía Ollama (configuración y verificación). - Base de conocimiento estructurada de POPs (derivada de docs oficiales + material local). - Skills especializados para arquitectura avanzada de proyectos en TouchDesigner. - Catálogo de prompts maestros con validaciones y crite"
+    },
+    {
+      "source": "01-mcp-architecture.md",
+      "excerpt": "# MCP TouchDesigner — arquitectura (Node + TouchDesigner) ## Componentes - **Servidor MCP (stdio)**: `touchdesigner/mcp/src/index.ts` Expone herramientas para ejecutar Python y consultar estado del editor y operadores. - **Cliente TD (HTTP)**: `touchdesigner/api/src/index.ts` Llama al servidor HTTP levantado dentro de TouchDesigner por el TOX. - **Servidor TD (Python/TOX)**: `touchdesigner/toe/src/TouchDesignerAPI.py` Expone endpoints: - `POST /execute` - `GET /editor/pane` - `GET /editor/selection` - `GET /operators?path=...` ## Tools MCP (existentes + extendidos) - `td_execute`: ejecuta Python"
+    },
+    {
+      "source": "02-gemma4-ollama.md",
+      "excerpt": "# Gemma 4 vía Ollama — configuración y validación El paquete `touchdesigner/mcp` incluye un proveedor LLM para Ollama (HTTP `POST /api/chat`) configurable por variables de entorno: - `LLM_PROVIDER=ollama` - `OLLAMA_BASE_URL=http://127.0.0.1:11434` (por defecto) - `OLLAMA_MODEL=gemma4:e4b` (ejemplo; usa el nombre exacto instalado en tu Ollama) - Alternativa: `OLLAMA_MODELS=model1,model2,...` para fallback ## Prueba rápida (sin TouchDesigner) En `touchdesigner/`: ```powershell npm install npm test ``` La prueba `ollamaProvider.test.js` verifica que: - El cliente lee `LLM_P"
+    },
+    {
+      "source": "03-twozero-evaluation.md",
+      "excerpt": "# Evaluación de mejoras inspiradas en TWOZERO TWOZERO se describe como un toolkit nativo para TouchDesigner con: - Generación por IA - Librería curada de componentes - Sincronización en la nube - Herramientas de producción - Integración en UI y sin “wrappers” externos ## Qué se puede integrar en este MCP (sin depender de TWOZERO) - **Librería curada de patrones (component library)** Crear un catálogo de “recetas” reproducibles (render, instancing, feedback loops, POP sims, GLSL) como: - skills en Markdown (`tou"
+    },
+    {
+      "source": "04-pops-database.md",
+      "excerpt": "# Base de datos estructurada de POPs La base de conocimiento POPs vive en: - `touchdesigner/mcp/data/pops/index.json`: índice (lista + metadatos). - `touchdesigner/mcp/data/pops/operators/<PageSlug>.json`: ficha detallada por operador. ## Esquema (alto nivel) Cada operador incluye: - Identidad: `pageTitle`, `pageSlug`, `url`, `experimental`, `tdOpTypeGuess`. - Técnica: `summary`, `inputs[]`, `parameters[]`, `attributes[]`. - Capacitación: `useCases[]`, `examples[]`, `commonCombinations[]`, `troubleshooting[]`. ## Generación automática (docs oficiales) El generador: - Descarga la lista desde `htt"
+    },
+    {
+      "source": "05-skills-curriculum.md",
+      "excerpt": "# Skills especializados (currícula) Skills agregados/propuestos en `touchdesigner/skills/`: - `td-fundamentals`: fundamentos y convenciones reproducibles. - `td-project-architecture`: arquitectura de proyectos complejos y contratos. - `td-performance`: presupuestos y profiling. - `td-pops-advanced`: POPs avanzados + consulta técnica con `td_pops_query`. - `td-integration`: integración POP↔SOP/TOP/CHOP/DAT y render/instancing. - `td-robust-systems`: idempotencia, validación y reportes. ## Estructura recomendada por skill - Objetivo - Herramientas disponibles - Reglas / checklist - Plantilla de respuesta - Validaciones y pruebas (smoke tests)"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

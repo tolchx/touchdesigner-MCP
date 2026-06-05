@@ -1,0 +1,556 @@
+{
+  "family": "SOP",
+  "pageTitle": "LSystem SOP",
+  "pageSlug": "LSystem_SOP",
+  "url": "https://docs.derivative.ca/LSystem_SOP",
+  "tdOpTypeGuess": "lSystemSOP",
+  "summary": "[  edit  ]\nThe Lsystem  SOP  implements L-systems (Lindenmayer-systems, named after Aristid Lindenmayer (1925-1989)), allow definition of complex shapes through the use of iteration. They use a mathematical language in which an initial string of characters is evaluated repeatedly, and the results are used to generate geometry. The result of each evaluation becomes the basis for the next iteration of geometry, giving the illusion of growth.\nYou begin building an L-system by defining a sequence of rules which are evaluated to produce a new string of characters. Each character of the new string represents one command which affects an imaginary stylus, or \"turtle\". Repeating this process will grow your geometry.\nYou can use L-systems to create things such as:\nCreate organic objects such as trees, plants, flowers over time.\nCreate animated branching objects such as lightning and snowflakes.\nThe file can be read in from disk or from the web. Use http:// when specifying a URL.\nThe Algorithmic Beauty of Plants\nThe descriptions located here should be enough to get you started in writing your own L-system rules, however, if you have any serious interests in creating L-systems, you should obtain the book:\nThe Algorithmic Beauty of Plants\nPrzemyslaw Prusinkiewicz & Aristid Lindenmayer\nSpringer-Verlag, New York, Phone: 212.460.1500\nISBN: 0-387-94676-4, 1996.\nwhich is the definitive reference on the subject. It contains a multitude of L-systems examples complete with descriptions of the ideas and theories behind modelling realistic plant growth.\nlsystemSOP_Class\nContents\n1   Summary\n1.1   The Algorithmic Beauty of Plants\n2   Parameters - Geometry Page\n3   Parameters - Tube Page\n4   Parameters - Values Page\n5   Parameters - Funcs Page\n6   Rule Substitution\n6.1   Limitations to Rules\n6.2   Turtle Operators\n7   Production Rule Syntax\n7.1   Context Sensitivity\n8   Parameter Symbols\n9   Operator Override\n9.1   Examples",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    },
+    {
+      "index": 2,
+      "description": "-"
+    },
+    {
+      "index": 3,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Geometry",
+      "label": "Type",
+      "name": "type",
+      "description": "⊞  - Provides two options for output geometry:"
+    },
+    {
+      "page": "Geometry",
+      "label": "Skeleton",
+      "name": "skel",
+      "description": "Creates wire frame geometry. This option is ideal for geometry that is stiff and jagged like lightning or snowflakes. It is also useful to reduce  SOP  cooking time."
+    },
+    {
+      "page": "Geometry",
+      "label": "Tube",
+      "name": "tube",
+      "description": "Creates tube geometry. This option can be used with solid geometry that would need smooth curves, like trees or shrubs. Parameters on the  Tube Page  are only enabled when this Type is selected."
+    },
+    {
+      "page": "Geometry",
+      "label": "Generations",
+      "name": "generations",
+      "description": "Determines the number of times to apply the rules to the initial string. This value controls the growth of the L-system. Place a time-based function here to animate the L-system growth."
+    },
+    {
+      "page": "Geometry",
+      "label": "Random Scale",
+      "name": "randscale",
+      "description": "Random Scale as a percentage. This will apply a random scale to the changing geometry's lengths, angles and thickness."
+    },
+    {
+      "page": "Geometry",
+      "label": "Random Seed",
+      "name": "randseed",
+      "description": "Random Seed for the  SOP . This value can be used to select different sequences of random values."
+    },
+    {
+      "page": "Geometry",
+      "label": "Continuous Angles",
+      "name": "contangl",
+      "description": "Calculates the incremental angles of branches, if a non-integer generational value is used. If the Generations field is animating, this should be set to ensure smooth growth."
+    },
+    {
+      "page": "Geometry",
+      "label": "Continuous Length",
+      "name": "contlength",
+      "description": "Calculates the incremental lengths of the geometry points if a non-integer generational value is used. As with Continuous Angles, if the Generations field is animating, this should be set to ensure smooth, continuous growth. The Continuous Width field applies to tube thickness."
+    },
+    {
+      "page": "Geometry",
+      "label": "Continuous Width",
+      "name": "contwidth",
+      "description": "Calculates the incremental lengths of the geometry points if a non-integer generational value is used. As with Continuous Angles, if the Generations field is animating, this should be set to ensure smooth, continuous growth. The Continuous Width field applies to tube thickness."
+    },
+    {
+      "page": "Geometry",
+      "label": "Apply Color",
+      "name": "docolor",
+      "description": "Use a  TOP  to apply color to the L-system as it grows."
+    },
+    {
+      "page": "Geometry",
+      "label": "Image File",
+      "name": "colormap",
+      "description": "Defines a  TOP  to use when the Apply Color button is selected. Also see the ` and # turtle operators."
+    },
+    {
+      "page": "Geometry",
+      "label": "UV Increment",
+      "name": "inc",
+      "description": "⊞  - Defines the default color U, V index increments when the turtle symbols ` or # are used."
+    },
+    {
+      "page": "Geometry",
+      "label": "Point Width Attribute",
+      "name": "pointwidth",
+      "description": "Adds a point  width  attribute to each point in the geometry. This width is effected by the Thickness and Thickness Scale parameters on the Tube Page."
+    },
+    {
+      "page": "Tube",
+      "label": "Rows",
+      "name": "rows",
+      "description": "The first option sets the number of tube sides and the second sets the number of divisions per step length if tube geometry is selected."
+    },
+    {
+      "page": "Tube",
+      "label": "Columns",
+      "name": "cols",
+      "description": "The first option sets the number of tube sides and the second sets the number of divisions per step length if tube geometry is selected."
+    },
+    {
+      "page": "Tube",
+      "label": "Tension",
+      "name": "tension",
+      "description": "Tension defines the smoothness of branching corners."
+    },
+    {
+      "page": "Tube",
+      "label": "Branch Blend",
+      "name": "smooth",
+      "description": "Enabling this option allows a child branch to be continuously joined to its parent branch."
+    },
+    {
+      "page": "Tube",
+      "label": "Thickness",
+      "name": "thickinit",
+      "description": "This number defines the default tube thickness."
+    },
+    {
+      "page": "Tube",
+      "label": "Thickness Scale",
+      "name": "thickscale",
+      "description": "This number is the scale factor used with the ! or ? operator."
+    },
+    {
+      "page": "Tube",
+      "label": "Apply Tube Texture Coordinates",
+      "name": "dotexture",
+      "description": "When enabled, UV texture coordinates are applied to the tube segments, such that the texture wraps smoothly and continuously over branches."
+    },
+    {
+      "page": "Tube",
+      "label": "Vertical Increment",
+      "name": "vertinc",
+      "description": "Defines the vertical spacing of texture coordinates over tube geometry when tube texture is applied."
+    },
+    {
+      "page": "Values",
+      "label": "Step Size",
+      "name": "stepinit",
+      "description": "Step Size allows you to define the default length of the edges when new geometry is generated."
+    },
+    {
+      "page": "Values",
+      "label": "Step Size Scale",
+      "name": "stepscale",
+      "description": "Step Size Scale defines the scale by which the geometry will be modified by the \" or _ (double quote, or underscore) turtle operators."
+    },
+    {
+      "page": "Values",
+      "label": "Angle",
+      "name": "angleinit",
+      "description": "Angle defines the default turning angle for turns, rolls and pitches."
+    },
+    {
+      "page": "Values",
+      "label": "Angle Scale",
+      "name": "anglescale",
+      "description": "Angle Scale allows you to enter the scaling factor to be employed when the ; or @ operators are used."
+    },
+    {
+      "page": "Values",
+      "label": "Variable b",
+      "name": "varb",
+      "description": "Substitutes user-defined b, c and d variables in rules or premise. These variables are expanded and so may include system variables such as  $F  and  $T ."
+    },
+    {
+      "page": "Values",
+      "label": "Variable c",
+      "name": "varc",
+      "description": "Substitutes user-defined b, c and d variables in rules or premise. These variables are expanded and so may include system variables such as  $F  and  $T ."
+    },
+    {
+      "page": "Values",
+      "label": "Variable d",
+      "name": "vard",
+      "description": "Substitutes user-defined b, c and d variables in rules or premise. These variables are expanded and so may include system variables such as  $F  and  $T ."
+    },
+    {
+      "page": "Values",
+      "label": "Gravity",
+      "name": "gravity",
+      "description": "This parameter determines the amount of gravity applied to the geometry via the T (tropism vector) turtle operator.  Tropism  is when a plant bends or curves in response to an external stimulus. L-systems employ a tropism vector to simulate this behaviour. The bending is characterised by the fact that the thicker or shorter parts bend less than the longer or thinner parts."
+    },
+    {
+      "page": "Funcs",
+      "label": "The parameters on this page allow you to stamp your leaf geometry (each copy can be different) as opposed to simply copying them. See the example in",
+      "name": "Example",
+      "description": "Stamping L-system Leaves ."
+    },
+    {
+      "page": "Funcs",
+      "label": "Pic Image  TOP",
+      "name": "pictop",
+      "description": "This is the  TOP  which the pic() function uses. See  #Expressions L-system Specific Expression Functions  below."
+    },
+    {
+      "page": "Funcs",
+      "label": "Group  Prefix",
+      "name": "grpprefix",
+      "description": "If the production g(n) is encountered, all subsequent geometry is included in a primitive group prefixed with this label and ending with the ascii value of n. See  #CreateGroup Creating Groups within L-systems  below for an example."
+    },
+    {
+      "page": "Funcs",
+      "label": "Channel Prefix",
+      "name": "chanprefix",
+      "description": "If the expression chan(n) is encountered, it is replaced with the local channel prefixed with this label and ending with the ascii value of n."
+    },
+    {
+      "page": "Funcs",
+      "label": "Leaf Param A",
+      "name": "stampa",
+      "description": "You can determine which parameters are used by leaves."
+    },
+    {
+      "page": "Funcs",
+      "label": "See  #CreateGroup Creating Groups within L",
+      "description": "systems  below for an example."
+    },
+    {
+      "page": "Funcs",
+      "label": "Leaf Param B",
+      "name": "stampb",
+      "description": "You can determine which parameters are used by leaves."
+    },
+    {
+      "page": "Funcs",
+      "label": "See  #CreateGroup Creating Groups within L",
+      "description": "systems  below for an example."
+    },
+    {
+      "page": "Funcs",
+      "label": "Leaf Param C",
+      "name": "stampc",
+      "description": "You can determine which parameters are used by leaves."
+    },
+    {
+      "page": "Funcs",
+      "label": "See  #CreateGroup Creating Groups within L",
+      "description": "systems  below for an example."
+    },
+    {
+      "page": "Funcs",
+      "label": "Rules  DAT",
+      "name": "rules",
+      "description": "Path  to the  DAT  defining the rules for the LSystem."
+    },
+    {
+      "page": "Funcs",
+      "label": "Context Ignore  context_ignore:",
+      "description": "Defining this in the Rules  DAT  specifies all characters which are to be skipped when testing context sensitivity in the rules below."
+    },
+    {
+      "page": "Funcs",
+      "label": "Premise  premise:",
+      "description": "Define an initial string of characters to which the substitution rules are applied."
+    },
+    {
+      "page": "Funcs",
+      "label": "Rules",
+      "description": "This is where the turtle substitution rules are defined."
+    },
+    {
+      "page": "Funcs",
+      "label": "You create the highly structured organic and branching objects using L",
+      "description": "systems grammar. An L-system is a process in which a sequence of rules are applied to an initial string of characters to create a new string. To build the geometry, each character of the final string represents one command which affects an imaginary stylus, or \"turtle\"."
+    },
+    {
+      "page": "Funcs",
+      "label": "/  Roll counter",
+      "description": "clockwise"
+    },
+    {
+      "page": "Funcs",
+      "label": "A Touch L",
+      "description": "system rule is specified as:"
+    },
+    {
+      "page": "Funcs",
+      "label": "pred",
+      "description": "predecessor symbol to be replaced"
+    },
+    {
+      "page": "Funcs",
+      "label": "cond",
+      "description": "Condition expression (optional)"
+    },
+    {
+      "page": "Funcs",
+      "label": "succ",
+      "description": "Replacement string"
+    },
+    {
+      "page": "Funcs",
+      "label": "prob",
+      "description": "Probability of rule execution (optional)"
+    },
+    {
+      "page": "Funcs",
+      "label": "Each symbol can have up to five user",
+      "description": "defined variables associated with it which can be referenced or assigned in expressions. Variables in the predecessor are instanced while variables in the successor are assigned."
+    },
+    {
+      "page": "Funcs",
+      "label": "The rule  A(i, j) = A(i+1, j",
+      "description": "1) , will replace each  A  with a new  A  in which the first parameter has been incremented and the second parameter decremented."
+    },
+    {
+      "page": "Funcs",
+      "label": "F(i, j)",
+      "description": "Moves forward a distance of  i,  creating geometry of thickness  j ."
+    },
+    {
+      "page": "Funcs",
+      "label": "H(i, j)",
+      "description": "Move forward half the distance of  i , creating geometry of thickness half of  j ."
+    },
+    {
+      "page": "Funcs",
+      "label": "+(i)",
+      "description": "Turn by i degrees."
+    },
+    {
+      "page": "Funcs",
+      "label": "~(i)",
+      "description": "Override random angle with value of  i ."
+    },
+    {
+      "page": "Funcs",
+      "label": "$(x0,y0,z0)",
+      "description": "Points the turtle to location  (x0,y0,z0) ."
+    },
+    {
+      "page": "Funcs",
+      "label": "F(r) =",
+      "description": "F(l)-F(r)"
+    },
+    {
+      "page": "Funcs",
+      "label": "However, Touch doesn't know what  F(l)  and  F(r)  are. In this case, we can modify the rules to use parameter passing. For the  F  turtle symbol, the first four parameters are length, width, tubesides, and tubesegs, leaving the last parameter user",
+      "description": "definable. We can define this last parameter such that  0  is left, and  1  is right:"
+    },
+    {
+      "page": "Funcs",
+      "label": "After two generations this produces:  Fl+Fr+",
+      "description": "Fl-Fr . There should not be any difference between this final string and  F+F+-F-F."
+    },
+    {
+      "page": "Funcs",
+      "label": "r:t<b=",
+      "description": "l-r"
+    },
+    {
+      "page": "Funcs",
+      "label": "F+F++",
+      "description": "F-F+"
+    },
+    {
+      "page": "Funcs",
+      "label": "( )",
+      "description": "brackets for nesting priority"
+    },
+    {
+      "page": "Funcs",
+      "label": "^ +",
+      "description": "* / %  - arithmetic operators"
+    },
+    {
+      "page": "Funcs",
+      "label": "min() max() sin() cos() asin() acos() pic() in()",
+      "description": "supported functions"
+    },
+    {
+      "page": "Funcs",
+      "label": "== != = < <= > >=",
+      "description": "logical operators"
+    },
+    {
+      "page": "Funcs",
+      "label": "& | !",
+      "description": "logical operators: and, or, not"
+    },
+    {
+      "page": "Funcs",
+      "label": "b c d",
+      "description": "SOP  b, c, d parameters after expansion"
+    },
+    {
+      "page": "Funcs",
+      "label": "x y z",
+      "description": "current turtle position"
+    },
+    {
+      "page": "Funcs",
+      "label": "The pre",
+      "description": "defined variables above should not be used in the arguments of the predecessor."
+    },
+    {
+      "page": "Funcs",
+      "label": "pic(u, v, c)",
+      "description": "Using the image specified with  Pic Image File , this function returns a normalized value (between  0  and  1 ) of the pixel at the normalized coordinates  (u,v) ;  c  selects one of four channels to examine:"
+    },
+    {
+      "page": "Funcs",
+      "label": "in(q, r, s)",
+      "description": "Given a MetaTest input source containing a metaball geometry, this function returns a  1  if the point  (q, r, s)  is contained within the metaball, and  0  if not. Use  in(x, y, z)  (the letters  x ,  y , and  z  are special and contain the X, Y, and Z location of the turtle) to test whether or not the turtle is currently inside the metaball to create pruned outputs."
+    },
+    {
+      "page": "Funcs",
+      "label": "Creating Groups with L",
+      "description": "Systems"
+    },
+    {
+      "page": "Funcs",
+      "label": "gF [ gFF] F",
+      "description": "The first and last  F 's are put into group  0 , and the middle  FF 's are put into group  1 ."
+    },
+    {
+      "page": "Funcs",
+      "label": "gF [ FF] F",
+      "description": "The geometry from all four  F 's are put into group  0 , (pushing the turtle adopts the parent's group)."
+    },
+    {
+      "page": "Funcs",
+      "label": "To exclude the middle  FF  from the parent's group type:  gF [ g(",
+      "description": "1)FF ] F"
+    },
+    {
+      "page": "Funcs",
+      "label": "To create an L",
+      "description": "system which goes forward X percent less for each iteration, you need to start your  Premise  with a value, and then within a rule, multiply that value by the percentage you want to remain:"
+    },
+    {
+      "page": "Funcs",
+      "label": "Step 2)   Pipe  this into the J input of a L",
+      "description": "System  SOP . If the L-system  Premise  is:"
+    },
+    {
+      "page": "Funcs",
+      "label": "This creates a line of increasing",
+      "description": "order polygons."
+    },
+    {
+      "page": "Funcs",
+      "label": "Step 5)  Then in your L",
+      "description": "system, J(,,0) gives you the first  SOP , J(,,1) gives you the second, and so on. This solves the problem of a limited number of leaves using only JKM."
+    },
+    {
+      "page": "Funcs",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Funcs",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Funcs",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Funcs",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Funcs",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Funcs",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Funcs",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Funcs",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Funcs",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Funcs",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Funcs",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Funcs",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Funcs",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Funcs",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Funcs",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Funcs",
+      "label": "A polygon is a type of  Primitive  that is formed from a set of  Vertices  in 3D that are implicitly connected together to form a multi",
+      "description": "edge shape."
+    },
+    {
+      "page": "Funcs",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

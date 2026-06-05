@@ -1,0 +1,46 @@
+{
+  "family": "SOP",
+  "pageTitle": "Box SOP",
+  "pageSlug": "Box_SOP",
+  "url": "https://docs.derivative.ca/Box_SOP",
+  "tdOpTypeGuess": "boxSOP",
+  "summary": "[  edit  ]\nThe Box  SOP  creates cuboids. These can be used as geometries by themselves, or they can be sub-divided for use with the Lattice  SOP .\nIf it has an input then it will create a box that bounds the incoming geometry. Otherwise, the parameters determine the size and location of the box.\nboxSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Uses\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common SOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "1, 2025, https://docs.derivative.ca/Analyze_TOP 56. docs.derivative.ca, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:Attribute_Convert_POP 57. docs.derivative.ca, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:Blend_POP 58. Blend SOP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Blend_SOP 59. docs.derivative.ca, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:Box_POP 60. Box SOP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Box_SOP 61. docs.derivative.ca, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:CHOP_to_POP 62. CHOP to POP - Derivative, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/CHOP_to_POP 63. POP to CHOP - Derivative, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/POP_to_CHOP 64. docs.derivative.ca, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Expe"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "material de investigación proporcionado indicó que la información era inaccesible, limitada a menciones muy breves o redirecciones sin contenido, o que las búsquedas arrojaron resultados irrelevantes de otras familias de operadores (SOPs, CHOPs, TOPs, DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 3"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "1, 2025, https://docs.derivative.ca/Analyze_TOP 56. docs.derivative.ca, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:Attribute_Convert_POP 57. docs.derivative.ca, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:Blend_POP 58. Blend SOP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Blend_SOP 59. docs.derivative.ca, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:Box_POP 60. Box SOP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Box_SOP 61. docs.derivative.ca, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:CHOP_to_POP 62. CHOP to POP - Derivative, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/CHOP_to_POP 63. POP to CHOP - Derivative, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/POP_to_CHOP 64. docs.derivative.ca, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Expe"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "tes \"clases\" (tipos) de datos, como convertir atributos de puntos a atributos de vértices o de primitivas. • Experimental:Attribute POP: Es un operador fundamental para crear nuevos atributos en puntos, vértices o primitivas, y puedes inicializarlos con valores constantes. También es el lugar donde puedes crear \"arrays de atributos\". • Experimental:Blend POP: Es un POP que soporta múltiples entradas, lo que sugiere que puede mezclar o interpolar datos de diferentes fuentes. • Experimental:Box POP: Un operador generador que crea una geometría de caja. • Experimental:Cache Blend POP: Se menciona en relación con el uso de atributos como 'Velocity' (Vel), lo que sugiere su rol en la mezcla de datos temporales o en animaciones. • Experimental:Cache POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Cache Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "me. * **Uso simple:** Para importar geometrías o nubes de puntos creadas en otros softwares o generadas a partir de datos externos. * **Point Generator POP (POP Generador de Puntos)** * **Función principal:** Crea un número específico de puntos, de forma aleatoria o con un patrón, sobre la **superficie** o dentro del **volumen** de una forma matemática básica (esfera, cubo, toro, etc.). * **Características clave:** * Permite elegir la **forma base** (Sphere, Box, Torus, Tube, Rectangle, Circle, Line). * Puedes generar puntos en la **superficie** o dentro del **volumen** de la forma. * Ofrece un control de `Random` (aleatoriedad) y `Seed` (semilla para el patrón aleatorio). * Capaz de añadir **normales (`N`) y tangentes (`T`)** a los puntos, vértices o primitivas, con opciones de aleatorización. * **Uso simple:** Una manera fácil de crear nubes de puntos o distribuir elementos en formas geométricas básicas para si"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "rada, lo que te da un control preciso sobre cómo se mezclan. * Puedes mezclar múltiples atributos de puntos, vértices y primitivas al mismo tiempo. * Puede obtener los **pesos de la mezcla** de atributos de las propias entradas POP. * Su arquitectura para manejar múltiples entradas es similar a la del Attribute Combine POP. * Maneja las **diferencias en la longitud** (número de puntos/primitivas) entre las entradas, similar al Attribute Combine POP. --- #### 7. Box POP * **¿Qué hace?** Este operador se utiliza para **crear cajas de 6 lados**. Es un generador de geometría básico. * **Características clave:** * Puedes elegir cómo se construyen los puntos de la caja: * **8 puntos**: Uno en cada esquina, donde cada cara comparte puntos con otras dos. * **24 puntos** (usando el parámetro `Unique Points`): Cada una de las 6 caras utiliza 4 puntos únicos, lo que significa que los puntos no se comparten entre caras. * Def"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Point File In POP",
+  "pageSlug": "Point_File_In_POP",
+  "url": "https://docs.derivative.ca/Point_File_In_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "pointFileInPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofrecien"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofre"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofrecien"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ra sistemas de partículas como velocidad, dirección, edad, masa y fuerza. Es central para la simulación de partículas en TouchDesigner y genera atributos como PartForce. • Experimental:Pattern POP: Se utiliza para generar patrones para atributos, ofreciendo configuraciones más complejas. Permite crear y modificar atributos de color y textura. • Experimental:Phaser POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Point File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner, específicamente diseñado para este tipo de datos. • Experimental:Point Generator POP: Un operador generador que crea nubes de puntos directamente. Puede generar puntos con sus primitivas correspondientes. • Experimental:Point POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador más allá de su listado. • Experimental:Polygonize POP: Las fuentes proporc"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ra sistemas de partículas como velocidad, dirección, edad, masa y fuerza. Es central para la simulación de partículas en TouchDesigner y genera atributos como PartForce. • Experimental:Pattern POP: Se utiliza para generar patrones para atributos, ofreciendo configuraciones más complejas. Permite crear y modificar atributos de color y textura. • Experimental:Phaser POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Point File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner, específicamente diseñado para este tipo de datos. • Experimental:Point Generator POP: Un operador generador que crea nubes de puntos directamente. Puede generar puntos con sus primitivas correspondientes. • Experimental:Point POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador más allá de su listado. • Experimental:Polygonize POP: Las fuentes pro"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ra sistemas de partículas como velocidad, dirección, edad, masa y fuerza. Es central para la simulación de partículas en TouchDesigner y genera atributos como PartForce. • Experimental:Pattern POP: Se utiliza para generar patrones para atributos, ofreciendo configuraciones más complejas. Permite crear y modificar atributos de color y textura. • Experimental:Phaser POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Point File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner, específicamente diseñado para este tipo de datos. • Experimental:Point Generator POP: Un operador generador que crea nubes de puntos directamente. Puede generar puntos con sus primitivas correspondientes. • Experimental:Point POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador más allá de su listado. • Experimental:Polygonize POP: Las fuentes proporc"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

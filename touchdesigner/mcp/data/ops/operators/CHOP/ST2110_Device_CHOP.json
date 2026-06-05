@@ -1,0 +1,359 @@
+{
+  "family": "CHOP",
+  "pageTitle": "ST2110 Device CHOP",
+  "pageSlug": "ST2110_Device_CHOP",
+  "url": "https://docs.derivative.ca/ST2110_Device_CHOP",
+  "tdOpTypeGuess": "sT2110DeviceCHOP",
+  "summary": "[  edit  ]\nNOTE\nLicense:  Only available in  TouchDesigner Pro .\nThis node is used to configure the IP settings of a ST2110 Device such as the DHCP settings, IP configuration and PTP settings. Currently this node does not have any channels it outputs, but it does have some  Info CHOP  channels that give diagnostic information.\nSee also  ST2110 In TOP ,  ST2110 Out TOP .\nst2110deviceCHOP_Class\nContents\n1   Summary\n2   Parameters - ST2110 Device Page\n3   Parameters - SPS Page\n4   Parameters - Common Page\n5   Info CHOP Channels\n5.1   Specific ST2110 Device CHOP Info Channels\n5.2   Common CHOP Info Channels\n5.3   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "ST2110 Device",
+      "label": "Active",
+      "name": "active",
+      "description": "Controls if this node is actively configuring this device's settings."
+    },
+    {
+      "page": "ST2110 Device",
+      "label": "Driver",
+      "name": "driver",
+      "description": "⊞  - Select which device driver to use to search and communicate with devices."
+    },
+    {
+      "page": "ST2110 Device",
+      "label": "Blackmagic",
+      "name": "blackmagic",
+      "description": "Use the Blackmagic driver."
+    },
+    {
+      "page": "ST2110 Device",
+      "label": "Deltacast",
+      "name": "deltacast",
+      "description": "Use the Deltacast driver."
+    },
+    {
+      "page": "ST2110 Device",
+      "label": "Device",
+      "name": "device",
+      "description": "Select the device to configure."
+    },
+    {
+      "page": "ST2110 Device",
+      "label": "Use DHCP",
+      "name": "usedhcp",
+      "description": "Chooses if the IP address of the primary port on the device should be configured using DHCP."
+    },
+    {
+      "page": "ST2110 Device",
+      "label": "IP Address",
+      "name": "ipaddress",
+      "description": "Manually set the IP address, if DHCP is disabled."
+    },
+    {
+      "page": "ST2110 Device",
+      "label": "Subnet",
+      "name": "subnet",
+      "description": "Manually set the subnet, if DHCP is disabled."
+    },
+    {
+      "page": "ST2110 Device",
+      "label": "Gateway",
+      "name": "gateway",
+      "description": "Manually set the gateway, if DHCP is disabled."
+    },
+    {
+      "page": "ST2110 Device",
+      "label": "PTP Profile",
+      "name": "ptpprofile",
+      "description": "⊞  - Select the PTP profile to use, for devices that support selection."
+    },
+    {
+      "page": "ST2110 Device",
+      "label": "ST2059-2",
+      "name": "st2059",
+      "description": "2  -"
+    },
+    {
+      "page": "ST2110 Device",
+      "label": "PTP Address",
+      "name": "ptpaddress",
+      "description": "Manually set the address of the PTP grandmaster."
+    },
+    {
+      "page": "ST2110 Device",
+      "label": "PTP Domain",
+      "name": "ptpdomain",
+      "description": "Manually set the PTP domain."
+    },
+    {
+      "page": "ST2110 Device",
+      "label": "IGMP Version",
+      "name": "igmpversion",
+      "description": "⊞  - Select the IGMP version(s) to use for multicast join/leave and other IGMP operations."
+    },
+    {
+      "page": "SPS",
+      "label": "Enable SPS",
+      "name": "enablesps",
+      "description": "Enables the SPS port on the device."
+    },
+    {
+      "page": "SPS",
+      "label": "Use DHCP",
+      "name": "spsusedhcp",
+      "description": "Chooses if the IP address of the SPS port on the device should be configured using DHCP."
+    },
+    {
+      "page": "SPS",
+      "label": "SPS IP Address",
+      "name": "spsipaddress",
+      "description": "Manually set the IP address, if DHCP is disabled."
+    },
+    {
+      "page": "SPS",
+      "label": "SPS Subnet",
+      "name": "spssubnet",
+      "description": "Manually set the subnet, if DHCP is disabled."
+    },
+    {
+      "page": "SPS",
+      "label": "SPS Gateway",
+      "name": "spsgateway",
+      "description": "Manually set the gateway, if DHCP is disabled."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "packets_received",
+      "description": "The number of packets received on the primary port, or -1 if this query isn't supported by the device."
+    },
+    {
+      "page": "Common",
+      "label": "packet_errors",
+      "description": "The number of packets errors that occured on primary port, or -1 if this query isn't supported by the device."
+    },
+    {
+      "page": "Common",
+      "label": "multicast_groups_joined",
+      "description": "The number of times a multicast group has been joined by primary port, or -1 if this query isn't supported by the device."
+    },
+    {
+      "page": "Common",
+      "label": "multicast_sources_added",
+      "description": "The number of times a multicast source has been added by primary port, or -1 if this query isn't supported by the device."
+    },
+    {
+      "page": "Common",
+      "label": "multicast_changes",
+      "description": "The number of multicast change operations that have occurred on the primary port, or -1 if this query isn't supported by the device."
+    },
+    {
+      "page": "Common",
+      "label": "ptp_locked",
+      "description": "1 if the PTP on the primary port is locked to a PTP grandmaster, 0 if PTP is not locked, or -1 if this query isn't supported by the device."
+    },
+    {
+      "page": "Common",
+      "label": "sps_packets_received",
+      "description": "The number of packets received on the SPS port, or -1 if this query isn't supported by the device."
+    },
+    {
+      "page": "Common",
+      "label": "sps_packet_errors",
+      "description": "The number of packets errors that occured on SPS port, or -1 if this query isn't supported by the device."
+    },
+    {
+      "page": "Common",
+      "label": "sps_multicast_groups_joined",
+      "description": "The number of times a multicast group has been joined by SPS port, or -1 if this query isn't supported by the device."
+    },
+    {
+      "page": "Common",
+      "label": "sps_multicast_sources_added",
+      "description": "The number of times a multicast source has been added by SPS port, or -1 if this query isn't supported by the device."
+    },
+    {
+      "page": "Common",
+      "label": "sps_multicast_changes",
+      "description": "The number of multicast change operations that have occurred on the SPS port, or -1 if this query isn't supported by the device."
+    },
+    {
+      "page": "Common",
+      "label": "sps_ptp_locked",
+      "description": "1 if the PTP on the SPS port is locked to a PTP grandmaster, 0 if PTP is not locked, or -1 if this query isn't supported by the device."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

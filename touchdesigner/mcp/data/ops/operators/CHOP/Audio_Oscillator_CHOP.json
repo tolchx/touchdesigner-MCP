@@ -1,0 +1,341 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Audio Oscillator CHOP",
+  "pageSlug": "Audio_Oscillator_CHOP",
+  "url": "https://docs.derivative.ca/Audio_Oscillator_CHOP",
+  "tdOpTypeGuess": "audioOscillatorCHOP",
+  "summary": "[  edit  ]\nThe Audio Oscillator  CHOP  generates sounds in three ways. It repeats common waveforms (sine, triangle), it generates white noise (a random number for each sample), or it repeats a prepared incoming audio clip of any duration. It outputs typically 44100 samples per second. In contrast, the  LFO CHOP  by default generates waves at lower frequencies and lower sample rates (60 samples/second), however both Audio Oscillator and LFO are interchangeable by changing their frequencies and sample rates.\nWhen it is synthesizing tones from the basic waveforms, the Audio Oscillator  CHOP  steps through the waveform at a rate that depends on the Pitch Control input. By default, a Pitch Control of 0 gives a middle A at 440 Hz; a 1 gives 880 Hz; a -1 gives 220 Hz. Steps of 1 in Pitch Control are 1 octave apart. Steps of 1/12 (.08333) are 1 semitone apart.\nThe Audio Oscillator is roughly modelled after the  APR 2600 voltage-controlled oscillator  (VCO).\nUp to three input CHOPs can be connected to the Audio Oscillator  CHOP .\nPitch Control  - The first (optional) input affects the pitch. Output channels are generated for each Pitch Control channel. When pitch control is 0, it outputs a wave at the base frequency (default 440 Hz at 44,100 samples per second). It is \"logarithmic\": By default, increasing the pitch control by 1 increases the pitch by 1 octave, by 2 it increases by 2 octaves (4 times the frequency).\nReset  Pulse   - The second (optional) input contains pulses that restart the oscillator from the beginning of the wave or the Playback Source. 0 in the input means \"play the oscillator\". 1 means \"stop the oscillator and cue it at the start of the waveform or Playback Source\".\nPlayback Source  - The third (optional) input is a replacement of the waveform Type. It is a sound clip to play at a rate modified by the Pitch Control, and can contain any number of channels. These channels are generated for each Pitch Control channel. The waveform Type and the Base Frequency parameters are disabled.\nIf you plug any sound clip into the Audio Oscillator  CHOP 's Playback Source, and Pitch Control is a constant value of 0 of any duration, it will just repeat the Playback Source. If you feed a  Wave CHOP  as its Pitch Control, it will raise and lower the speed/pitch of the input.\nThe Audio Oscillator  CHOP  can serve as a general motion time-warper and repeater. If you put motion channels into the third input, you can control the time warp by feeding different Pitch Control curves. 0 pitch is normal speed, 1 is double speed.\nUnlike the Wave  CHOP , this is an iterating  CHOP , that is, it steps through the waveform while the pitch changes. To see this effect, feed an LFO  CHOP  into the Audio Oscillator. Unlike the LFO  CHOP , the Audio Oscillator  CHOP  is designed for audio frequencies.\nSee also:  LFO CHOP ,  Wave CHOP .\naudiooscillatorCHOP_Class\nContents\n1   Summary\n2   Parameters - Waveform Page\n3   Parameters - Channel Page\n4   Parameters - Common Page\n5   Operator Inputs\n6   Info CHOP Channels\n6.1   Common CHOP Info Channels\n6.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    },
+    {
+      "index": 2,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Waveform",
+      "label": "Type",
+      "name": "wavetype",
+      "description": "⊞  - The shape of the waveform to repeat, unless overridden by the Playback Source:"
+    },
+    {
+      "page": "Waveform",
+      "label": "Sine",
+      "name": "sin",
+      "description": "(-1 to 1)"
+    },
+    {
+      "page": "Waveform",
+      "label": "Gaussian",
+      "name": "normal",
+      "description": "(0 to 1)"
+    },
+    {
+      "page": "Waveform",
+      "label": "Triangle",
+      "name": "tri",
+      "description": "(-1 to 1)"
+    },
+    {
+      "page": "Waveform",
+      "label": "Ramp",
+      "name": "ramp",
+      "description": "(0 to 1)"
+    },
+    {
+      "page": "Waveform",
+      "label": "Square",
+      "name": "square",
+      "description": "(-1 to 1)"
+    },
+    {
+      "page": "Waveform",
+      "label": "Pulse",
+      "name": "pulse",
+      "description": "(0 to 1)"
+    },
+    {
+      "page": "Waveform",
+      "label": "White Noise",
+      "name": "whitenoise",
+      "description": "Random samples between -1 and 1"
+    },
+    {
+      "page": "Waveform",
+      "label": "Base Frequency",
+      "name": "frequency",
+      "description": "The cycles per second when the Pitch Control is zero."
+    },
+    {
+      "page": "Waveform",
+      "label": "Units per Octave",
+      "name": "octave",
+      "description": "Amount that the Pitch Control needs to increase by to raise the pitch by one octave. The default of 1 means that Pitch Control of 1 raises the pitch by 1 octave. Units per Octave of .08333 means that a Pitch Control of 3 raises the pitch by a factor of 3 x .08333 (three semitones). This is suitable for using MIDI note numbers as pitch control."
+    },
+    {
+      "page": "Waveform",
+      "label": "Offset",
+      "name": "offset",
+      "description": "Values output from the  CHOP  can have an offset added to them."
+    },
+    {
+      "page": "Waveform",
+      "label": "Amplitude",
+      "name": "amp",
+      "description": "Values output from the  CHOP  can be scaled."
+    },
+    {
+      "page": "Waveform",
+      "label": "Bias",
+      "name": "bias",
+      "description": "Shape control for Triangle, Gaussian and Square waves. For triangle waves, it moves the peak. For square waves, it alters the width of the peak. Zero means no bias."
+    },
+    {
+      "page": "Waveform",
+      "label": "Phase",
+      "name": "phase",
+      "description": "A value of .5 is a phase shift of 180 degrees, or one half cycle."
+    },
+    {
+      "page": "Waveform",
+      "label": "Smooth Pitch Changes",
+      "name": "smooth",
+      "description": "If the Pitch Control channel input to the Audio Oscillator  CHOP  is rising and is running at the Touch default of 60 frames per second, then the pitch will hold for 1/60 second before stepping up for another 1/60 second. This is an audible step. With this option On, the pitch rises for every audio sample, giving perfectly smooth glissando at extra compute cost."
+    },
+    {
+      "page": "Waveform",
+      "label": "Reset Condition",
+      "name": "resetcondition",
+      "description": "⊞  - This menu determines how the Reset input triggers a reset of the channel(s)."
+    },
+    {
+      "page": "Waveform",
+      "label": "Off to On",
+      "name": "offtoon",
+      "description": "Channels are reset when the Reset input goes off to on."
+    },
+    {
+      "page": "Waveform",
+      "label": "While On",
+      "name": "on",
+      "description": "Channels are reset when the Reset input goes on. The channel will hold the reset value until the input turns off."
+    },
+    {
+      "page": "Waveform",
+      "label": "On to Off",
+      "name": "ontooff",
+      "description": "Channels are reset when the Reset input goes on to off."
+    },
+    {
+      "page": "Waveform",
+      "label": "While Off",
+      "name": "off",
+      "description": "Channels are reset when the Reset input goes off. The channel will hold the reset value until the input turns on."
+    },
+    {
+      "page": "Waveform",
+      "label": "Reset",
+      "name": "reset",
+      "description": "This button resets the channel(s) to 0 when On."
+    },
+    {
+      "page": "Waveform",
+      "label": "Reset  Pulse",
+      "name": "resetpulse",
+      "description": "Instantly resets the channel(s) to 0."
+    },
+    {
+      "page": "Channel",
+      "label": "Sample Rate",
+      "name": "rate",
+      "description": "Set the sample rate of the  CHOP  in samples per second."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "To \"pulse\" a parameter is to send it a signal from (1) an  exported  CHOP channel or (2) a python command or (3) a mouse click that causes a new action to occur immediately. A pulse via python is via the  .pulse()  function on a pulse",
+      "description": "type parameter, such as Reset parameter in a  Speed CHOP . A pulse from a CHOP is typically a 0 to 1 to 0 signal in an exported channel."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

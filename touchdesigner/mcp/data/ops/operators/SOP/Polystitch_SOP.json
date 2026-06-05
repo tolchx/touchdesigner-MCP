@@ -1,0 +1,21 @@
+{
+  "family": "SOP",
+  "pageTitle": "Polystitch SOP",
+  "pageSlug": "Polystitch_SOP",
+  "url": "https://docs.derivative.ca/Polystitch_SOP",
+  "tdOpTypeGuess": "polystitchSOP",
+  "summary": "[  edit  ]\nThe Polystitch  SOP  attempts to stitch polygonal surfaces together, thereby eliminating cracks that result from evaluating the surfaces at differing levels of detail.\nFirst, the boundaries of all the polygons to be stitched are found. An edge is a boundary edge if it is shared by no other polygon. The uniqueness of edges is determined by point numbers, and not by spatial positioning. Each boundary is then split at each \"corner\" into a number of pieces. A list of corner points can be manually specified, or any point at which the boundary changes direction by a certain amount can be flagged as a corner.\nFinally, any two boundary pieces that are within the tolerance of each other are stitched together. This is performed by snapping the points of the high detail edge to those of the low detail edge.\npolystitchSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

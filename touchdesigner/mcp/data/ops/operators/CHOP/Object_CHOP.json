@@ -1,0 +1,552 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Object CHOP",
+  "pageSlug": "Object_CHOP",
+  "url": "https://docs.derivative.ca/Object_CHOP",
+  "tdOpTypeGuess": "objectCHOP",
+  "summary": "[  edit  ]\nThe Object  CHOP  compares two objects and outputs channels containing their raw or relative positions and orientations. The information that can be output is:\nPosition of one object relative to another\nRotation of one object relative to another\nBearing of one object relative to another\nSingle Bearing Angle between two objects\nDistance between the origin of two objects\nInverse Square of the Distance between two objects\nThe optional two inputs allow you to compare X,Y,Z points in world space with objects or each other. The inputs are expected to have three channels containing XYZ points (three channels with the suffix x, y and z). Alternatively, they can be in the standard transform formats as described by the  Transform CHOP  help. These inputs replace the target and/or reference objects. Object and points can be compared with each other, but \"Rotation\" mode will always return zero.\nSee also the  SOP to CHOP  and the  Parameter CHOP . They retrieve other information from  objects  and  SOPs .\nobjectCHOP_Class\nContents\n1   Summary\n2   Parameters - Object Page\n3   Parameters - Output Page\n4   Parameters - Channel Page\n5   Parameters - Common Page\n6   Operator Inputs\n7   Info CHOP Channels\n7.1   Common CHOP Info Channels\n7.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Object",
+      "label": "DAT  Table",
+      "name": "dat",
+      "description": "Uses a  Table DAT  to specify the target and reference objects to use. The first column will be the target objects while the second column will be the reference objects. No headers are used."
+    },
+    {
+      "page": "Object",
+      "label": "Target  Object",
+      "name": "target",
+      "description": "The object that is being compared to the position of the reference object. The Target Object can be expressed as a text string. This can be useful when the object name needs to be a variable - it allows you to type in a name which may include expressions or variables."
+    },
+    {
+      "page": "Object",
+      "label": "Reference   Object",
+      "name": "reference",
+      "description": "The object that acts as the origin of the comparison. The  Reference  Object can be expressed as a text string."
+    },
+    {
+      "page": "Object",
+      "label": "Swap Target/ Reference",
+      "name": "swaptargetreference",
+      "description": "Swap the objects defined above in the Target Object and  Reference  Object parameters."
+    },
+    {
+      "page": "Output",
+      "label": "Compute",
+      "name": "compute",
+      "description": "⊞  - Specify the information to output from the objects as described in the parameters below. Except for 'measurements', these match the standard transform formats as described by the  Transform CHOP ."
+    },
+    {
+      "page": "Output",
+      "label": "Transform (Euler)",
+      "name": "transform",
+      "description": "A transform using euler (rx ry rz) for the rotation."
+    },
+    {
+      "page": "Output",
+      "label": "Transform (Quaternion)",
+      "name": "transformquat",
+      "description": "A transform using quaternion (qx qy qz qw) for the rotation."
+    },
+    {
+      "page": "Output",
+      "label": "4x4 Matrix",
+      "name": "mat",
+      "description": "A 4x4 transform matrix."
+    },
+    {
+      "page": "Output",
+      "label": "3x3 Matrix",
+      "name": "mat3",
+      "description": "A 3x3 transform matrix. This includes scale/rotation but no translation."
+    },
+    {
+      "page": "Output",
+      "label": "Measurements",
+      "name": "measure",
+      "description": "Enables the toggles below to select what to measure. Measurements give you one object's position relative to another. You get the XYZ of the origin of the Target Object relative to the origin and rotation of the  Reference   Object . That is, you get the XYZ of the target object's origin as if you were at the 0,0,0 location (origin) of the  Reference   Object , looking down the  Reference   Object 's Z-axis."
+    },
+    {
+      "page": "Output",
+      "label": "Position",
+      "name": "translate",
+      "description": "The displacement from the reference object to the target object."
+    },
+    {
+      "page": "Output",
+      "label": "Rotation",
+      "name": "rotate",
+      "description": "The orientation difference from the reference object to the target object."
+    },
+    {
+      "page": "Output",
+      "label": "Scale",
+      "name": "scale",
+      "description": "The scale difference from reference object to the target object."
+    },
+    {
+      "page": "Output",
+      "label": "Quaternion",
+      "name": "quat",
+      "description": "The quaternion from reference object to the target object."
+    },
+    {
+      "page": "Output",
+      "label": "Bearing",
+      "name": "bear",
+      "description": "The rotation necessary for the reference object to be facing the target object."
+    },
+    {
+      "page": "Output",
+      "label": "Single Bearing Angle",
+      "name": "singlebear",
+      "description": "An angle representing where the target object is relative to the reference object. Zero degrees is directly in front, 90 degrees is beside and 180 degrees is behind."
+    },
+    {
+      "page": "Output",
+      "label": "Distance",
+      "name": "distance",
+      "description": "The distance between the two objects."
+    },
+    {
+      "page": "Output",
+      "label": "Inverse Square Distance",
+      "name": "invsqr",
+      "description": "The inverse squared distance between the two objects, useful for modeling electric forces, audio dropoff and gravity."
+    },
+    {
+      "page": "Output",
+      "label": "Transform Order",
+      "name": "xord",
+      "description": "⊞  - The transform order to use for Rotation, Scale, Transform, Bearing, or Single Bearing Angle  Compute  modes."
+    },
+    {
+      "page": "Output",
+      "label": "Rotate Order",
+      "name": "rord",
+      "description": "⊞  - The rotation order to use for Rotation, Scale, Transform, Bearing, or Single Bearing Angle  Compute  modes."
+    },
+    {
+      "page": "Output",
+      "label": "Include Order Channels",
+      "name": "includeorderchans",
+      "description": "Turn on to include channels for Transform Order and Rotate Order."
+    },
+    {
+      "page": "Output",
+      "label": "Bearing  Reference",
+      "name": "bearingref",
+      "description": "⊞  - Bearing requires a direction to use as a reference base."
+    },
+    {
+      "page": "Output",
+      "label": "Bearing Vector",
+      "name": "bearing",
+      "description": "⊞  - An arbitrary base direction for the bearing calculation."
+    },
+    {
+      "page": "Output",
+      "label": "Point  Scope  X",
+      "name": "tscopex",
+      "description": "When one of the optional point inputs is connected, this determines which channels represent X, Y and Z."
+    },
+    {
+      "page": "Output",
+      "label": "Point  Scope  Y",
+      "name": "tscopey",
+      "description": "When one of the optional point inputs is connected, this determines which channels represent X, Y and Z."
+    },
+    {
+      "page": "Output",
+      "label": "Point  Scope  Z",
+      "name": "tscopez",
+      "description": "When one of the optional point inputs is connected, this determines which channels represent X, Y and Z."
+    },
+    {
+      "page": "Output",
+      "label": "Append  Attributes",
+      "name": "appendattribs",
+      "description": "Adds a rotate attribute to any rotation channels the Object  CHOP  creates."
+    },
+    {
+      "page": "Output",
+      "label": "Smooth Rotation",
+      "name": "smoothrotate",
+      "description": "When on outputs a smooth rotation curve without graphical jumps at 0, 90, etc."
+    },
+    {
+      "page": "Channel",
+      "label": "Channel Names",
+      "name": "nameformat",
+      "description": "⊞  - Sets how the created channels are named."
+    },
+    {
+      "page": "Channel",
+      "label": "Channel Name",
+      "name": "channel",
+      "description": "Automatically names channels.  For example :  tx, ty, tz ."
+    },
+    {
+      "page": "Channel",
+      "label": "Target and Channel Names",
+      "name": "target",
+      "description": "Names channels with target prefix.  For example : if target =  obj1 , then  obj1:tx, obj1:ty, obj1:tz ."
+    },
+    {
+      "page": "Channel",
+      "label": "Reference  and Channel Names",
+      "name": "reference",
+      "description": "Names channels with reference parameter prefix. Behaves like  Target and Channel Names  above but uses the name of the reference object."
+    },
+    {
+      "page": "Channel",
+      "label": "Output Range",
+      "name": "outputrange",
+      "description": "⊞  - The start and end time of the desired interval of the object path."
+    },
+    {
+      "page": "Channel",
+      "label": "Current  Frame",
+      "name": "currentframe",
+      "description": "Output a single sample at the current frame."
+    },
+    {
+      "page": "Channel",
+      "label": "Current  Time Slice",
+      "name": "timeslice",
+      "description": "Span of samples covering the current  Time Slice ."
+    },
+    {
+      "page": "Channel",
+      "label": "Start / End",
+      "name": "startend",
+      "description": "Uses range defined by the  Start  /  End  parameters below."
+    },
+    {
+      "page": "Channel",
+      "label": "Cook  Past Values (slow)",
+      "name": "cookpast",
+      "description": "If the project has skipped one or more frames, this will attempt to cook it's inputs at multiple previous frames to avoid discontinuities in it's calculations."
+    },
+    {
+      "page": "Channel",
+      "label": "Start",
+      "name": "start",
+      "description": "The start time of the desired interval of the object path."
+    },
+    {
+      "page": "Channel",
+      "label": "Start Unit",
+      "name": "startunit",
+      "description": "Select the units to use for this parameter, Samples, Frames, or Seconds."
+    },
+    {
+      "page": "Channel",
+      "label": "End",
+      "name": "end",
+      "description": "The end time of the desired interval of the object path."
+    },
+    {
+      "page": "Channel",
+      "label": "End Unit",
+      "name": "endunit",
+      "description": "Select the units to use for this parameter, Samples, Frames, or Seconds."
+    },
+    {
+      "page": "Channel",
+      "label": "Extend Left",
+      "name": "left",
+      "description": "⊞  - The extend condition before the  CHOP  interval. They are:"
+    },
+    {
+      "page": "Channel",
+      "label": "Hold",
+      "name": "hold",
+      "description": "Hold the current value of the channel."
+    },
+    {
+      "page": "Channel",
+      "label": "Slope",
+      "name": "slope",
+      "description": "Continue the slope before the start of the channel."
+    },
+    {
+      "page": "Channel",
+      "label": "Cycle",
+      "name": "cycle",
+      "description": "Cycle the channel repeatedly."
+    },
+    {
+      "page": "Channel",
+      "label": "Mirror",
+      "name": "mirror",
+      "description": "Cycle the channel repeatedly, mirroring every other cycle."
+    },
+    {
+      "page": "Channel",
+      "label": "Default Value",
+      "name": "default",
+      "description": "Use the constant value specified in the Default Value parameter."
+    },
+    {
+      "page": "Channel",
+      "label": "Extend Right",
+      "name": "right",
+      "description": "⊞  - Extend condition after the interval. Same options as Extend Left."
+    },
+    {
+      "page": "Channel",
+      "label": "Hold",
+      "name": "hold",
+      "description": "Hold the current value of the channel."
+    },
+    {
+      "page": "Channel",
+      "label": "Slope",
+      "name": "slope",
+      "description": "Continue the slope after the end of the channel."
+    },
+    {
+      "page": "Channel",
+      "label": "Cycle",
+      "name": "cycle",
+      "description": "Cycle the channel repeatedly."
+    },
+    {
+      "page": "Channel",
+      "label": "Mirror",
+      "name": "mirror",
+      "description": "Cycle the channel repeatedly, mirroring every other cycle."
+    },
+    {
+      "page": "Channel",
+      "label": "Default Value",
+      "name": "default",
+      "description": "Use the constant value specified in the Default Value parameter."
+    },
+    {
+      "page": "Channel",
+      "label": "Default Value",
+      "name": "defval",
+      "description": "The value used for the Default Value extend condition."
+    },
+    {
+      "page": "Channel",
+      "label": "Note:  When creating rotation channels, the  Transform CHOP  and Object  CHOP  will select values which minimize frame",
+      "description": "to-frame discontinuity. The graphs will appear continuous and free of 180 degree shifts."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "The sub",
+      "description": "Family  of  Component  types that are used to define and render 3D scenes. A  Geometry Component  is an Object that contains the 3D shapes to render. A  Camera COMP  and  Light COMP  are other Object types. Separately, \"Objects\" also refers to Python objects."
+    },
+    {
+      "page": "Common",
+      "label": "The term \"Frame\" is a measurement of time used (1) in the  Timeline , (2) as a time",
+      "description": "unit in CHOPs, and (3) as a time unit in movie files that are read into  TOPs  and written out from TOPs. The frame rate is the frames per second ( FPS )."
+    },
+    {
+      "page": "Common",
+      "label": "To re-compute the output data of the  Operators . An operator cooks when (1) its inputs change, (2) its  Parameters  change, (3) when the timeline moves forward in some cases, or (4)  Scripting  commands are run on the node. When the operator is a  Panel Component , it also cooks when a user interacts with it. When an operator cooks, it usually causes operators connected to its output to re-cook. When TouchDesigner draws the screen, it re-cooks all the",
+      "name": "Dependencies",
+      "description": "the necessary operators in all  Networks , contributing to a frame's total \"cook time\"."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Full data.txt",
+      "excerpt": "Vértices: ◦ Cada primitiva tiene una lista de vértices. Un vértice es un índice que apunta a un punto en la lista de puntos. ◦ Los vértices también pueden tener atributos. • Atributos: ◦ Son cruciales para almacenar datos adicionales por punto, vértice o primitiva. ◦ Los atributos son la piedra angular del diseño de los POPs, permitiendo la creación, modificación, duplicación, cambio de nombre y eliminación de datos. ◦ Se almacenan de manera muy eficiente como Shader Storage Buffer Objects (SSBOs) en los GLSL POPs, lo que permite un procesamiento altamente paralelo en la GPU. ◦ Los atributos pueden ser de varios tipos de datos (float, double, int, uint) y tener de 1 a 4 componentes (como RGB o RGBA para color). También pueden ser matrices (mat2x2 a mat4x4) o arreglos de componentes. ◦ Los nombres de los atributos estándar de Derivative (como \"P\" o \"Color\") comienzan con mayúscula, mientras que se recomienda que los atributos definidos por el usuario comiencen con minúscula p"
+    },
+    {
+      "source": "POPs Investigation and Workshop Plan.markdown",
+      "excerpt": "andle multiple inputs with flexible configurations. - **Swizzling**: Manipulate attribute components (e.g., `P.xy` for X and Y). ## 5. Practical Applications - **Rendering**: POPs drive 3D geometry with attributes like `Color` and `Normal`. - **Particles**: Points with attributes (e.g., `Vel`, `PartForce`) for simulations. - **Point Clouds**: Efficiently manage large datasets without TOPs’ 4-channel limitations. - **External Output**: Send data to lasers, DMX, or LEDs. ## 6. Workshop Plan ### Objective Equip participants with a solid understanding of POPs, their advantages, and practical use in TouchDesigner projects. ### Duration 2-3 hours, split into theory and hands-on segments. ### Structure #### Part 1: Introduction (30-45 minutes) - **What are POPs?** (10 min) - Definition, purpose, GPU benefits. - **POPs vs. SOPs** (15 min) - Key differences, when to use each. - **Core Concepts** (15 min) - Points, primitives, attributes, groups. #### Part 2: Hands-On Demos (1.5-2 hours) -"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "create these sort of plexus effects. And and maybe this would be more interesting if I popped a noise in here. I'm going to turn up that value and I'm going to animate it. So now we have a really simple inbuilt way of making a plexus model. And what's actually happening here is kind of the power of POPS. (02:43) And this is what I'm going to show you and expand upon. So what we can see here, and let's bring that out into a bigger view, is we have all this data and all the attributes from these objects. And so we have our index, we've got our point values, our normals, but then we've also got the attributes of this noise that are coming in too. (03:04) So essentially we have this chain of all this data that we can work with and this becomes really powerful with some newer objects which I'm going to show you called the math object and they kind of really develop on the math objects that we have before. I'm going to close this up and show you a few other projects and just things that I have s"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

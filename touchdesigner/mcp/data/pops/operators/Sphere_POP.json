@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Sphere POP",
+  "pageSlug": "Sphere_POP",
+  "url": "https://docs.derivative.ca/Sphere_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "spherePOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de partículas complejos,"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de partículas complej"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de partículas complejos,"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "escripción detallada de la función específica de este operador. • Experimental:Skin POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:SOP to POP: Permite la conversión de datos de la familia SOPs (Surface Operators) a datos de POPs. • Experimental:Sort POP: Implementa algoritmos de ordenación muy rápidos que pueden organizar los puntos basándose en el valor de cualquier componente de un atributo. • Experimental:Sphere POP: Un operador generador que crea una geometría esférica. • Experimental:Sprinkle POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Subdivide POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Switch POP: Un operador que permite cambiar entre diferentes entradas. Es útil para probar variaciones o controlar el flujo de datos. • Experimenta"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "escripción detallada de la función específica de este operador. • Experimental:Skin POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:SOP to POP: Permite la conversión de datos de la familia SOPs (Surface Operators) a datos de POPs. • Experimental:Sort POP: Implementa algoritmos de ordenación muy rápidos que pueden organizar los puntos basándose en el valor de cualquier componente de un atributo. • Experimental:Sphere POP: Un operador generador que crea una geometría esférica. • Experimental:Sprinkle POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Subdivide POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Switch POP: Un operador que permite cambiar entre diferentes entradas. Es útil para probar variaciones o controlar el flujo de datos. • Experim"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "escripción detallada de la función específica de este operador. • Experimental:Skin POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:SOP to POP: Permite la conversión de datos de la familia SOPs (Surface Operators) a datos de POPs. • Experimental:Sort POP: Implementa algoritmos de ordenación muy rápidos que pueden organizar los puntos basándose en el valor de cualquier componente de un atributo. • Experimental:Sphere POP: Un operador generador que crea una geometría esférica. • Experimental:Sprinkle POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Subdivide POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Switch POP: Un operador que permite cambiar entre diferentes entradas. Es útil para probar variaciones o controlar el flujo de datos. • Experimenta"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

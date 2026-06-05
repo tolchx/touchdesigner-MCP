@@ -1,0 +1,278 @@
+{
+  "family": "DAT",
+  "pageTitle": "TCP/IP DAT",
+  "pageSlug": "TCP/IP_DAT",
+  "url": "https://docs.derivative.ca/TCP/IP_DAT",
+  "tdOpTypeGuess": "tCP/IPDAT",
+  "summary": "[  edit  ]\nThe TCP/IP  DAT  is used for sending and receiving information over a TCP/IP connection between two remotely located computers. It captures all the messages without any queuing or buffering, and allows you to send it any messages you want.\nSend messages using the  tcpipDAT_Class . Handle received messages using the callback  DAT  attached to the TCP/IP  DAT . See  Network Protocols .\nThis  DAT  can be used to intercept all the raw information being sent from a  Pipe  Out  CHOP  for example. The  Pipe In CHOP  and  Pipe Out CHOP  also communicate through a TCP/IP connection, though they use a specific syntax.\nSee also  Peer Class ,  UDP In DAT ,  UDP Out DAT .\nFor  Tscript . see  Tscript   send  Command.\nNOTE for Windows OS - If experiencing connection issues make sure Windows Firewall is disabled.\ntcpipDAT_Class\nContents\n1   Summary\n2   Parameters - Connect Page\n3   Parameters - Received Data Page\n4   Parameters - Common Page\n5   Info CHOP Channels\n5.1   Specific TCP/IP DAT Info Channels\n5.2   Common DAT Info Channels\n5.3   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "Connect",
+      "label": "Connection Mode",
+      "name": "mode",
+      "description": "⊞  - Specify if this operator is communicating as a  client  or a  server ."
+    },
+    {
+      "page": "Connect",
+      "label": "Network Address",
+      "name": "address",
+      "description": "If this node is communicating as a client, this should be the IP address of the server."
+    },
+    {
+      "page": "Connect",
+      "label": "Port",
+      "name": "port",
+      "description": "The network port to listen on or connect to, depending on of the node is the server or client respectively."
+    },
+    {
+      "page": "Connect",
+      "label": "Shared Connection",
+      "name": "shared",
+      "description": "Use the same connection as other networking DATs using the same network protocol."
+    },
+    {
+      "page": "Connect",
+      "label": "Row/ Callback  Format",
+      "name": "format",
+      "description": "⊞  - Determines how the incoming data is parsed into the table."
+    },
+    {
+      "page": "Connect",
+      "label": "One Per Byte",
+      "name": "perbyte",
+      "description": "One row is added to the table per byte received."
+    },
+    {
+      "page": "Connect",
+      "label": "One Per Line",
+      "name": "perline",
+      "description": "One row is added to the table per line received. The end of a line is delimited by \\n, \\r or a null character (\\0)."
+    },
+    {
+      "page": "Connect",
+      "label": "One For All Received Data",
+      "name": "all",
+      "description": "One row is added to the table per message received. Since TCP/IP is a stream-based protocol, the end of a 'message' is arbitrary. It is simply the contents of the last read operation from the socket. If you are reading a custom message format, you'll likely need to build up a full message from multiple reads from the socket in Python."
+    },
+    {
+      "page": "Connect",
+      "label": "Active",
+      "name": "active",
+      "description": "This check box enables the connection."
+    },
+    {
+      "page": "Received Data",
+      "label": "Callbacks  DAT",
+      "name": "callbacks",
+      "description": "The Callbacks  DAT  will execute once for each message received."
+    },
+    {
+      "page": "Received Data",
+      "label": "Execute from",
+      "name": "executeloc",
+      "description": "⊞  - Determines the location the script is run from."
+    },
+    {
+      "page": "Received Data",
+      "label": "Current  Node",
+      "name": "current",
+      "description": "The script is executed from the current node location."
+    },
+    {
+      "page": "Received Data",
+      "label": "Callbacks  DAT",
+      "name": "callbacks",
+      "description": "The script is executed from the location of the  DAT  specified in the   Script   DAT   parameter."
+    },
+    {
+      "page": "Received Data",
+      "label": "Specified  Operator",
+      "name": "op",
+      "description": "The script is executed from the component specified in the   Component   parameter below."
+    },
+    {
+      "page": "Received Data",
+      "label": "From  Operator",
+      "name": "fromop",
+      "description": "The component who's state change will trigger the  DAT  to execute its script when  Execute from  is set to  On Panel Change . This component is also the path that the script will be executed from if the  Execute from  parameter is set to  Specified  Component  ."
+    },
+    {
+      "page": "Received Data",
+      "label": "Clamp Output",
+      "name": "clamp",
+      "description": "The  DAT  is limited to 100 messages by default but with Clamp Output, this can be set to anything including unlimited."
+    },
+    {
+      "page": "Received Data",
+      "label": "Maximum Lines",
+      "name": "maxlines",
+      "description": "Limits the number of messages, older messages are removed from the list first."
+    },
+    {
+      "page": "Received Data",
+      "label": "Clear Output",
+      "name": "clear",
+      "description": "Deletes all lines except the heading. To clear with a script command, here is an example:  opparm -c /serial1 clear"
+    },
+    {
+      "page": "Received Data",
+      "label": "Bytes Column",
+      "name": "bytes",
+      "description": "Outputs the raw bytes of the message in a separate column."
+    },
+    {
+      "page": "Common",
+      "label": "Language",
+      "name": "language",
+      "description": "⊞  - Select how the  DAT  decides which script language to operate on."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Node",
+      "name": "node",
+      "description": "The  DAT  uses it's own script language."
+    },
+    {
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "name": "extension",
+      "description": "⊞  - Select the file extension this  DAT  should expose to external editors."
+    },
+    {
+      "page": "Common",
+      "label": "dat",
+      "name": "dat",
+      "description": "various common file extensions."
+    },
+    {
+      "page": "Common",
+      "label": "From Language",
+      "name": "language",
+      "description": "pick extension from DATs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "custom",
+      "description": "Specify a custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specifiy the custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Word Wrap",
+      "name": "wordwrap",
+      "description": "⊞  - Enable Word Wrap for Node Display."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs setting."
+    },
+    {
+      "page": "Common",
+      "label": "On",
+      "name": "on",
+      "description": "Turn on Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Off",
+      "name": "off",
+      "description": "Turn off Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "num_rows",
+      "description": "Number of rows in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "num_cols",
+      "description": "Number of columns in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "Art",
+      "description": "Net    •   Audio Devices    •   CHOP Execute    •   CHOP to    •   Clip    •   Convert    •   CPlusPlus    •   DAT   •    Execute    •   DAT Export   •   Error    •   EtherDream    •   Evaluate    •   Examine    •   Execute    •   FIFO    •   File In    •   File Out    •   Folder    •   In    •   Indices    •   Info    •   Insert    •   JSON    •   Keyboard In    •   Lookup    •   Media File Info    •   Merge    •   MIDI Event    •   MIDI In    •   Monitors    •   MPCDI    •   MQTT Client    •   Multi Touch In    •   NDI    •   Null    •   OP Execute    •   OP Find    •   OSC In    •   OSC Out    •   Out    •   Panel Execute    •   Parameter    •   Parameter Execute    •   ParGroup Execute    •   Perform    •   POP to    •   Render Pick    •   Reorder    •   Script    •   Select    •   Serial    •   Serial Devices    •   SocketIO    •   SOP to    •   Sort    •   Substitute    •   Switch    •   Table    •   TCP/IP    •   Text    •   Touch In    •   Touch Out    •   Transpose    •   TUIO In    •   UDP In    •   UDP Out    •   UDT In    •   UDT Out    •   Video Devices    •   Web Client    •   Web    •   Web Server    •   WebRTC    •   WebSocket    •   XML"
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner's original built",
+      "description": "in Command scripting language prior to  Python ."
+    },
+    {
+      "page": "Common",
+      "label": "A set of commands located in a Text DAT that are triggered to run under certain conditions. There are two scripting languages in TouchDesigner:  Python  and the original  Tscript . Scripts and single",
+      "description": "line commands can also be run in the  Textport ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

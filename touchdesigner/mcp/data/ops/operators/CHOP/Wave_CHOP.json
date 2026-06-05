@@ -1,0 +1,435 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Wave CHOP",
+  "pageSlug": "Wave_CHOP",
+  "url": "https://docs.derivative.ca/Wave_CHOP",
+  "tdOpTypeGuess": "waveCHOP",
+  "summary": "[  edit  ]\nThe Wave  CHOP  makes repeating waves with a variety of shapes. It is by default 10-seconds of 1-second sine waves, a total of 600 frames. You can adjust period (frequency), phase, shape, amplitude and offset.\nThe Wave  CHOP  gives a set of waves in channels of a specifiable time-range. It is superceded by the  LFO CHOP  which gives an endless stream of waves that is  Time Sliced , and the  Pattern CHOP  that has more control over shaping waveform samples (and is time-independent). The  Audio Oscillator CHOP  also creates waveforms that are continually repeated, but its defaults are for higher-frequency waves at higher (audio) sample rates.\nBecause the  Extend Conditions  of the Wave  CHOP  are set to Repeat, the wave will repeat outside the 10-second range.\nApplied to the actual waveform can be an offset, decay and ramp.\nMultiple channels can be generated in the Channel Name parameter using  Pattern Expansion . A few examples of name pattern name expansion:\ntx ty tz\nt[xyz]  - expands to  tx ty tz\nchan[1-4]  - expands to  chan1 chan2 chan3 chan4\nc[xyz][1-5:2]  - expands to  cx1 cx3 cx5 cy1 cy3 cy5 cz1 cz3 cz5\nSee also:  LFO CHOP ,  Pattern CHOP ,  Audio Oscillator CHOP .\nwaveCHOP_Class\nContents\n1   Summary\n2   Parameters - Wave Page\n3   Parameters - Channel Page\n4   Parameters - Common Page\n5   Info CHOP Channels\n5.1   Common CHOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "Wave",
+      "label": "Type",
+      "name": "wavetype",
+      "description": "⊞  - There is a choice of waveforms shapes:"
+    },
+    {
+      "page": "Wave",
+      "label": "Constant",
+      "name": "const",
+      "description": "(1) A constant-valued \"wave\"."
+    },
+    {
+      "page": "Wave",
+      "label": "Sine",
+      "name": "sin",
+      "description": "(-1 to 1) A Sine wave."
+    },
+    {
+      "page": "Wave",
+      "label": "Gaussian",
+      "name": "normal",
+      "description": "(0 to 1) A Gaussian (also known as a bell or normal) curve."
+    },
+    {
+      "page": "Wave",
+      "label": "Triangle",
+      "name": "tri",
+      "description": "(-1 to 1) A ramp-up to 1 and ramp-down to 0 that can be shaped with the Bias parameter."
+    },
+    {
+      "page": "Wave",
+      "label": "Ramp",
+      "name": "ramp",
+      "description": "(0 to 1) A ramp from 0 to 1."
+    },
+    {
+      "page": "Wave",
+      "label": "Square",
+      "name": "square",
+      "description": "(-1 to 1) Step-up/step-down, with Bias control to make it rectangular."
+    },
+    {
+      "page": "Wave",
+      "label": "Pulse",
+      "name": "pulse",
+      "description": "(0 to 1) Produces a 1 for one sample, 0 otherwise."
+    },
+    {
+      "page": "Wave",
+      "label": "Expression",
+      "name": "expr",
+      "description": "A user defined expression."
+    },
+    {
+      "page": "Wave",
+      "label": "out   =   Amplitude   *   (  Offset   +   sin   ((  Period  *",
+      "name": "index",
+      "description": "Phase  )  *  360  ))"
+    },
+    {
+      "page": "Wave",
+      "label": "Period",
+      "name": "period",
+      "description": "The period is the number of seconds, frames or samples that the waveform repeats in. It is expressed in the chop's Units (default is Seconds), found on the Common page."
+    },
+    {
+      "page": "Wave",
+      "label": "Period Unit",
+      "name": "periodunit",
+      "description": "Select the units to use for this parameter, Samples, Frames, or Seconds."
+    },
+    {
+      "page": "Wave",
+      "label": "Phase",
+      "name": "phase",
+      "description": "The phase shifts the waveform in time, and is expressed as a fraction of a period, usually between 0 and 1."
+    },
+    {
+      "page": "Wave",
+      "label": "Bias",
+      "name": "bias",
+      "description": "You can vary the shape of some of the waveform types by changing the bias within the range -1 to +1."
+    },
+    {
+      "page": "Wave",
+      "label": "Offset",
+      "name": "offset",
+      "description": "The waveform's value can be offset. A sine wave can remain always positive by setting Offset to 1."
+    },
+    {
+      "page": "Wave",
+      "label": "Amplitude",
+      "name": "amp",
+      "description": "The wave's value can be scaled."
+    },
+    {
+      "page": "Wave",
+      "label": "Decay Rate",
+      "name": "decay",
+      "description": "The wave's amplitude can be reduced over time with an \"exponential decay\". For example, if the Decay is 0.2 and the Units are seconds, then the amplitude will decay to 0.8 after 1 second, and 0.8 of 0.8 (or 0.64) after 2 seconds."
+    },
+    {
+      "page": "Wave",
+      "label": "Decay Rate Unit",
+      "name": "decayunit",
+      "description": "Select the units to use for this parameter, Samples, Frames, or Seconds."
+    },
+    {
+      "page": "Wave",
+      "label": "Ramp Slope",
+      "name": "ramp",
+      "description": "Then a ramp is added to the result with a slope of Ramp. The channel increases by the Ramp Slope value every Unit of time. For example, if Ramp is 1.2, the channel increases by 1.2 every second, in addition to the shape of the wave."
+    },
+    {
+      "page": "Wave",
+      "label": "Ramp Slope Unit",
+      "name": "rampunit",
+      "description": "Select the units to use for this parameter, Samples, Frames, or Seconds."
+    },
+    {
+      "page": "Wave",
+      "label": "Expression",
+      "name": "exprs",
+      "description": "If the waveform type is  Expression , the  Expression  parameter is used to input a math expression. Some local variables are available: $I (Index), $L (the loop variable over the period 0 to 1), $C (the cycle variable, the integer number of cycles the waveform has passed at the current index)."
+    },
+    {
+      "page": "Channel",
+      "label": "Channel Names",
+      "name": "channelname",
+      "description": "You can creates many channels with simple patterns like \" chan[1-20] \", which generates 20 channels from chan1 to chan20. See the section, Common  CHOP  Parameters for a description of this and all Options.  See  Scope and Channel Name Matching  Options."
+    },
+    {
+      "page": "Channel",
+      "label": "Start",
+      "name": "start",
+      "description": "Start of the interval, expressed in Units (seconds, frames or samples)."
+    },
+    {
+      "page": "Channel",
+      "label": "Start Unit",
+      "name": "startunit",
+      "description": "Select the units to use for this parameter, Samples, Frames, or Seconds."
+    },
+    {
+      "page": "Channel",
+      "label": "End",
+      "name": "end",
+      "description": "End of the interval, expressed in Units (seconds, frames or samples)."
+    },
+    {
+      "page": "Channel",
+      "label": "End Unit",
+      "name": "endunit",
+      "description": "Select the units to use for this parameter, Samples, Frames, or Seconds."
+    },
+    {
+      "page": "Channel",
+      "label": "Sample Rate",
+      "name": "rate",
+      "description": "The sample rate of the channels, in samples per second."
+    },
+    {
+      "page": "Channel",
+      "label": "Extend Left",
+      "name": "left",
+      "description": "⊞  - The left extend conditions (before/after range)."
+    },
+    {
+      "page": "Channel",
+      "label": "Hold",
+      "name": "hold",
+      "description": "Hold the current value of the channel."
+    },
+    {
+      "page": "Channel",
+      "label": "Slope",
+      "name": "slope",
+      "description": "Continue the slope before the start of the channel."
+    },
+    {
+      "page": "Channel",
+      "label": "Cycle",
+      "name": "cycle",
+      "description": "Cycle the channel repeatedly."
+    },
+    {
+      "page": "Channel",
+      "label": "Mirror",
+      "name": "mirror",
+      "description": "Cycle the channel repeatedly, mirroring every other cycle."
+    },
+    {
+      "page": "Channel",
+      "label": "Default Value",
+      "name": "default",
+      "description": "Use the constant value specified in the Default Value parameter"
+    },
+    {
+      "page": "Channel",
+      "label": "Extend Right",
+      "name": "right",
+      "description": "⊞  - The right extend conditions (before/after range)."
+    },
+    {
+      "page": "Channel",
+      "label": "Hold",
+      "name": "hold",
+      "description": "Hold the current value of the channel."
+    },
+    {
+      "page": "Channel",
+      "label": "Slope",
+      "name": "slope",
+      "description": "Continue the slope after the end of the channel."
+    },
+    {
+      "page": "Channel",
+      "label": "Cycle",
+      "name": "cycle",
+      "description": "Cycle the channel repeatedly."
+    },
+    {
+      "page": "Channel",
+      "label": "Mirror",
+      "name": "mirror",
+      "description": "Cycle the channel repeatedly, mirroring every other cycle."
+    },
+    {
+      "page": "Channel",
+      "label": "Default Value",
+      "name": "default",
+      "description": "Use the constant value specified in the Default Value parameter"
+    },
+    {
+      "page": "Channel",
+      "label": "Default Value",
+      "name": "defval",
+      "description": "The value used for the Default Value extend condition."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "In CHOPs, Extend Conditions determine what numbers you get when you try to get a channel value that is outside its start",
+      "description": "end range - in its Extend Regions."
+    },
+    {
+      "page": "Common",
+      "label": "To \"pulse\" a parameter is to send it a signal from (1) an  exported  CHOP channel or (2) a python command or (3) a mouse click that causes a new action to occur immediately. A pulse via python is via the  .pulse()  function on a pulse",
+      "description": "type parameter, such as Reset parameter in a  Speed CHOP . A pulse from a CHOP is typically a 0 to 1 to 0 signal in an exported channel."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

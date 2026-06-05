@@ -1,0 +1,42 @@
+{
+  "family": "SOP",
+  "pageTitle": "Line Thick SOP",
+  "pageSlug": "Line_Thick_SOP",
+  "url": "https://docs.derivative.ca/Line_Thick_SOP",
+  "tdOpTypeGuess": "lineThickSOP",
+  "summary": "[  edit  ]\nThe Line Thick  SOP  extrudes a surface from a curved line. The line can be of polygon, NURBS, or Bezier geometry type.\nlinethickSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ine Breaking Table Dat - Beginners - TouchDesigner forum, fecha de acceso: julio 1, 2025, https://forum.derivative.ca/t/please-help-me-line-breaking-table-dat/352347 80. POPs Experimental: Line MAT Trails in TouchDesigner - YouTube, fecha de acceso: julio 1, 2025, https://www.youtube.com/watch?v=A5upp-S8Qaw 81. Line Thickness SOP not working! : r/TouchDesigner - Reddit, fecha de acceso: julio 1, 2025, https://www.reddit.com/r/TouchDesigner/comments/1kvzwu0/line_thickness_sop_not_working/ 82. Line Thick SOP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Line_Thick_SOP 83. Lookup DAT - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Lookup_DAT 84. Lookup Texture POP | Derivative - TouchDesigner, fecha de acceso: julio 1, 2025, https://derivative.ca/UserGuide/Lookup_Texture_POP 85. Experimental:Extrude POP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:Extrude"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ine Breaking Table Dat - Beginners - TouchDesigner forum, fecha de acceso: julio 1, 2025, https://forum.derivative.ca/t/please-help-me-line-breaking-table-dat/352347 80. POPs Experimental: Line MAT Trails in TouchDesigner - YouTube, fecha de acceso: julio 1, 2025, https://www.youtube.com/watch?v=A5upp-S8Qaw 81. Line Thickness SOP not working! : r/TouchDesigner - Reddit, fecha de acceso: julio 1, 2025, https://www.reddit.com/r/TouchDesigner/comments/1kvzwu0/line_thickness_sop_not_working/ 82. Line Thick SOP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Line_Thick_SOP 83. Lookup DAT - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Lookup_DAT 84. Lookup Texture POP | Derivative - TouchDesigner, fecha de acceso: julio 1, 2025, https://derivative.ca/UserGuide/Lookup_Texture_POP 85. Experimental:Extrude POP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:Extrude"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "enera nuevos atributos, a menudo de tipo entero sin signo, con nombres predeterminados. Por ejemplo, puede generar el atributo Dir (dirección). • Experimental:Line POP: Un operador que permite la creación de tiras de línea. Puede dividir curvas o generar puntos de control con atributos que definen la forma de la curva, como Weight o Tension. También permite crear y modificar atributos de color y textura. • Experimental:Line Smooth POP: Puede añadir puntos y suavizar líneas. • Experimental:Line Thick POP: El material de línea (Line MAT) de TouchDesigner se implementa internamente usando una conversión a este POP, lo que sugiere su rol en la representación visual de líneas. • Experimental:Lookup Attribute POP: Utiliza uno, dos o tres componentes de un atributo como índices para realizar búsquedas. También puede utilizar atributos de solo lectura. • Experimental:Lookup Channel POP: Similar al Lookup Attribute POP, usa componentes de atributos como índices para realizar búsquedas en canale"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "untos encontrados dentro de la distancia especificada tienen el mismo peso en la mezcla. * **Smooth by Point Steps**: (La fuente no detalla este método, solo el parámetro `Point Step Filter Size`). * Puede **pre-dividir** las líneas por distancia o curvatura antes de suavizar. * El parámetro **`Effect`** controla la intensidad del suavizado. * Puedes elegir si los **puntos finales** (`End Points Fixed`) se mantienen fijos o también se suavizan. --- #### 43. Line Thick POP * **¿Qué hace?** Este operador es el \"motor\" detrás de cómo se renderizan las líneas gruesas y detalladas en TouchDesigner, especialmente cuando se usa el **Line MAT (Material)**. Genera los polígonos que dan grosor y forma a tus líneas. * **Características clave:** * Toma **\"tiras de líneas\" (`line strips`) o puntos** como entrada. * Trabaja en conjunto con un **Camera COMP** para crear líneas que \"miran\" hacia la cámara y cuyo grosor puede depender de la distancia a la"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

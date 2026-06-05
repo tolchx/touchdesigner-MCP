@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Rectangle POP",
+  "pageSlug": "Rectangle_POP",
+  "url": "https://docs.derivative.ca/Rectangle_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "rectanglePOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta fam"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ión detallada de la función específica de este operador. • Experimental:Quantize POP: Proporciona opciones para cuantizar valores, como redondear hacia abajo (Floor), redondear al entero más cercano (Round) o redondear hacia arriba (Ceiling). • Experimental:Random POP: Permite crear y modificar atributos de color y textura, presumiblemente para aplicar valores aleatorios. • Experimental:Ray POP: Crea atributos de tipo entero sin signo. Genera atributos con el prefijo Ray. • Experimental:Rectangle POP: Un operador generador que crea una geometría rectangular. • Experimental:ReRange POP: Se utiliza para re-escalar o re-mapear valores dentro de un rango específico. Es muy útil, ya que puede aplicar un re-rango diferente para cada componente de un atributo (ej., X, Y y Z de la posición) sin necesidad de múltiples operadores. • Experimental:Revolve POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Select POP: Las"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ión detallada de la función específica de este operador. • Experimental:Quantize POP: Proporciona opciones para cuantizar valores, como redondear hacia abajo (Floor), redondear al entero más cercano (Round) o redondear hacia arriba (Ceiling). • Experimental:Random POP: Permite crear y modificar atributos de color y textura, presumiblemente para aplicar valores aleatorios. • Experimental:Ray POP: Crea atributos de tipo entero sin signo. Genera atributos con el prefijo Ray. • Experimental:Rectangle POP: Un operador generador que crea una geometría rectangular. • Experimental:ReRange POP: Se utiliza para re-escalar o re-mapear valores dentro de un rango específico. Es muy útil, ya que puede aplicar un re-rango diferente para cada componente de un atributo (ej., X, Y y Z de la posición) sin necesidad de múltiples operadores. • Experimental:Revolve POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Select POP:"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ión detallada de la función específica de este operador. • Experimental:Quantize POP: Proporciona opciones para cuantizar valores, como redondear hacia abajo (Floor), redondear al entero más cercano (Round) o redondear hacia arriba (Ceiling). • Experimental:Random POP: Permite crear y modificar atributos de color y textura, presumiblemente para aplicar valores aleatorios. • Experimental:Ray POP: Crea atributos de tipo entero sin signo. Genera atributos con el prefijo Ray. • Experimental:Rectangle POP: Un operador generador que crea una geometría rectangular. • Experimental:ReRange POP: Se utiliza para re-escalar o re-mapear valores dentro de un rango específico. Es muy útil, ya que puede aplicar un re-rango diferente para cada componente de un atributo (ej., X, Y y Z de la posición) sin necesidad de múltiples operadores. • Experimental:Revolve POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Select POP: Las"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

@@ -1,0 +1,285 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Null CHOP",
+  "pageSlug": "Null_CHOP",
+  "url": "https://docs.derivative.ca/Null_CHOP",
+  "tdOpTypeGuess": "nullCHOP",
+  "summary": "[  edit  ]\nThe Null  CHOP  is used as a place-holder and does not alter the data coming in.\nIt is often used to  Export  channels to parameters, which allows you to experiment with the CHOPs that feed into the Null without having to un-export from one  CHOP  and re-export from another.\nThe Null  CHOP  also has options to force-cook nodes downstream from it, or the opposite, to stop cooking nodes downstream if its inputs are not changing.\nnullCHOP_Class\nContents\n1   Summary\n2   Parameters - Null Page\n3   Parameters - Common Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common CHOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Null",
+      "label": "Cook  Type",
+      "name": "cooktype",
+      "description": "⊞  - This controls how nodes downstream from the Null  CHOP  are triggered for recooking when the Null  CHOP  output changes. See also:  Cook"
+    },
+    {
+      "page": "Null",
+      "label": "Automatic",
+      "name": "auto",
+      "description": "Downstream nodes are triggered for recooking normally."
+    },
+    {
+      "page": "Null",
+      "label": "Always",
+      "name": "always",
+      "description": "This node and dirty upstream nodes will cook every frame. Downstream nodes will recook every frame their data is requested."
+    },
+    {
+      "page": "Null",
+      "label": "Selective",
+      "name": "selective",
+      "description": "Select which criteria will cause downstream nodes to require recooking, using the parameters below. This option can optimize your network by reducing the number of cooks downstream if the upstream  CHOP  has inputs that are time dependent or changes often, but output is mostly static (e.g. a Math  CHOP  rounding a constantly changing float to 0 or 1). The downside is that the nodes upstream of the Null will cook whenever something changes, even if no data is requested downstream. See  Cook  for more information on when data is requested."
+    },
+    {
+      "page": "Null",
+      "label": "Check Values",
+      "name": "checkvalues",
+      "description": "Recook when the Null  CHOP  values change."
+    },
+    {
+      "page": "Null",
+      "label": "Check Names",
+      "name": "checknames",
+      "description": "Recook when the Null  CHOP  channel names change."
+    },
+    {
+      "page": "Null",
+      "label": "Check Range",
+      "name": "checkrange",
+      "description": "Recook when the Null  CHOP  channel range changes."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "Rename from",
+      "name": "commonrenamefrom",
+      "description": "The channel pattern to rename. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Rename to",
+      "name": "commonrenameto",
+      "description": "The replacement pattern for the names. The default parameters do not rename the channels. See  Pattern Replacement ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Names:  c[1",
+      "description": "10:2] ambient"
+    },
+    {
+      "page": "Common",
+      "label": "Rename To:  b[1",
+      "description": "5] amb    This example fetches channels  c1 c3 c5 c7 c9  and  ambient ."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "To re-compute the output data of the  Operators . An operator cooks when (1) its inputs change, (2) its  Parameters  change, (3) when the timeline moves forward in some cases, or (4)  Scripting  commands are run on the node. When the operator is a  Panel Component , it also cooks when a user interacts with it. When an operator cooks, it usually causes operators connected to its output to re-cook. When TouchDesigner draws the screen, it re-cooks all the",
+      "name": "Dependencies",
+      "description": "the necessary operators in all  Networks , contributing to a frame's total \"cook time\"."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "02-gemma4-ollama.md",
+      "excerpt": "te lee `LLM_PROVIDER=ollama` y `OLLAMA_MODEL`. - Se hace una llamada a `/api/chat`. - Se acepta una respuesta JSON. ## Uso con TouchDesigner (CLI) Ejecuta comandos en lenguaje natural y rutea a una herramienta: ```powershell $env:TDAPI_PORT=\"44444\" $env:LLM_PROVIDER=\"ollama\" $env:OLLAMA_MODEL=\"gemma4:e4b\" node .\\mcp\\dist\\chat.js \"Lista los operadores en /\" ``` Para ejecutar Python directo (sin LLM): ```powershell $env:TDAPI_PORT=\"44444\" node .\\mcp\\dist\\chat.js --py \"op('/project1').create('null', 'ok')\" ``` ## Recomendaciones para Gemma (robustez) - Preferir prompts con salida JSON estricta (sin markdown). - Ajustar reintentos con: - `LLM_RETRY_MAX` - `LLM_RETRY_BASE_MS` - `LLM_RETRY_MAX_MS` - Usar `OLLAMA_MODELS` para fallback si un modelo produce JSON inválido."
+    },
+    {
+      "source": "03-twozero-evaluation.md",
+      "excerpt": "e patrones (component library)** Crear un catálogo de “recetas” reproducibles (render, instancing, feedback loops, POP sims, GLSL) como: - skills en Markdown (`touchdesigner/skills/*`) - prompts maestros (`docs/06-master-prompts.md` o carpeta `prompts/`) - scripts Python idempotentes (crear/actualizar redes sin duplicar) - **No ensuciar el proyecto (non-invasive)** Convenciones sistemáticas: - encapsular sistemas en `baseCOMP`/`geoCOMP` - nodos “I/O estándar” (`in*`, `out*`, `null*`) - layout determinístico (`nodeX/nodeY`) - nombres consistentes y prefijos por dominio (`pop_`, `top_`, `chop_`) - **Validación y calidad (production tools)** Protocolos para: - verificar existencia de OPs creados - detectar cooks costosos (Info CHOP / cookTime) - validar atributos esperados en POP sims (PartVel/PartForce/…) - reportar errores con causas probables + fixes sugeridos - **Sync/portabilidad** En este contexto, “cloud sync” se reemplaza por: - base de conoc"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "4 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de dato"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "aciones aleatorias. Sus parámetros pueden ser controlados por otros atributos. Permite crear y modificar atributos de color y textura. • Experimental:Normal POP: Se encarga de calcular y crear las normales de superficie y las tangentes de la geometría. • Experimental:Normalize POP: Ofrece capacidades de manipulación fundamentales sin necesidad de código. Permite crear y modificar atributos de color y textura. Este operador, al igual que otros, genera atributos normalizados. • Experimental:Null POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Out POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Particle POP: Representa una partícula individual como un punto POP. Este operador añade opcionalmente atributos clave para sistemas de partículas como velocidad, dirección, edad, masa y fuerza. Es central para la simulación de partícula"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "de curva de búsqueda** (`Lookup function`), un `Exponent` (potenciar valores) y **Re-range** (re-escalar a otro rango). * Permite asignar los valores normalizados a cualquier componente de un atributo float2, float3 o float4. * **Uso simple:** Útil para preparar datos para mapeo de texturas, shaders, o cualquier proceso que requiera valores dentro de un rango específico. Por ejemplo, para crear un mapa de calor donde los valores más bajos son 0 y los más altos son 1. * **Null POP (POP Nulo)** * **Función principal:** Este es un operador muy simple que **no hace nada**; simplemente pasa la información de su entrada a su salida sin cambios. * **Características clave:** * **No consume CPU o memoria GPU** para los atributos que no modifica, ya que solo \"apunta\" o hace referencia a la ubicación de los datos originales. * Actúa como un **marcador de posición** y es una buena práctica colocarlo al final de una cadena de POPs. Esto te per"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "um in what makes sense to show other things we can other things we can do is we can move from tops to pops. (14:01) So in this case, I have this kind of little network here that's going on in tops and basically I have some noise and I'm just manipulating that noise with a blur. And then I'm also taking a UV. And so I'm feeding these things together in a math mix. We can see there's no uniforms there. I'm just taking the normalization of a from position. (14:27) So from this top here from this null and I'm giving that a result scope of L and then I'm using this little A minus B. So I'm taking my parameter from in1 for position which is this thing and I'm minusing L. So let's see if I just minused P, we get a different output. Or let's see if I go back to L and say a times. (14:56) And let's turn this to a panel and actually view this in the panel. So I can actually move it around. But basically we can do a bunch of just fun math experimentation here. Just kind of seeing what happens. And"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

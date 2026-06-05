@@ -1,0 +1,34 @@
+{
+  "family": "SOP",
+  "pageTitle": "DAT to SOP",
+  "pageSlug": "DAT_to_SOP",
+  "url": "https://docs.derivative.ca/DAT_to_SOP",
+  "tdOpTypeGuess": "dATtoSOP",
+  "summary": "[  edit  ]\nThe  DAT  to  SOP  can be used to create geometry from  DAT  tables, or if a  SOP  input is specified, to modify attributes on existing geometry. See also the  Add SOP .\nWithout a  SOP  input, the output is created entirely from the  DAT , one  SOP  point per row of the  DAT , except for an optional top row with column headings. The common columns headings include the point number  index , point position  P(0) P(1) P(2) , point weight  Pw , the color and alpha  Cd(0) Cd(1) Cd(2) Cd(3) , texture coordinates  uv(0) uv(1) uv(2) , and point normal  N(0) N(1) N(2) . If no index column is specified, row number is used as the point number. If there is no heading for the Point  DAT , the list of attributes is assumed to be in order  P(0) P(1) P(2) Pw Cd(0) Cd(1) Cd(2) Cd(3) N(0) N(1) N(2) uv(0) uv(1) uv(2)  for the first 14 columns.\nIf an input is used, attributes are read in and replace the ones in the existing geometry. The  Merge  parameter will be enabled when an input is connected. Depending on the Merge menu setting, either the   Points  DAT   or    Primitive   DAT   parameter used for the merge data. If an input is used, the Points or Primitives  DAT  must have a column named   index  . This column is used to match the point or primitive to the incoming geometry by point or primitive number.",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "inaccesible, limitada a menciones muy breves o redirecciones sin contenido, o que las búsquedas arrojaron resultados irrelevantes de otras familias de operadores (SOPs, CHOPs, TOPs, DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "res. Puede generar puntos con sus primitivas correspondientes. • Experimental:Convert POP: Se usa para cambiar entre diferentes tipos de primitivas. • Experimental:Copy POP: Permite crear copias de geometría dentro de un POP, las cuales pueden ser manipuladas o animadas antes de la renderización. También puede generar grupos automáticamente. • Experimental:Curve POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:DAT to POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Delete POP: Permite reducir un conjunto de puntos o primitivas a un subconjunto más pequeño. Puede utilizar atributos de solo lectura incorporados para la selección. • Experimental:Dimension POP: Relacionado con una organización de orden superior de los puntos dentro de un POP. Sugiere una forma más avanzada de estructurar los datos de puntos. • Experimental:DMX F"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "ta) que le permite actuar como una tabla de búsqueda. Puedes usar un atributo de índice de entrada (entre 0 y 1, o un índice de punto) para buscar valores en la curva. * Los parámetros **`Extend Left` y `Extend Right`** controlan lo que sucede si el índice de búsqueda está fuera del rango (por ejemplo, mantener el valor, ciclar, o reflejar). * Puedes especificar dónde se colocan los valores consultados en los atributos de salida (`P`, `N`, `Color`, `Tex`, etc.). --- #### 16. DAT to POP * **¿Qué hace?** Este operador convierte una **tabla de datos (DAT)** en una **lista de puntos de POP**. Es una forma de tomar datos estructurados en filas y columnas y convertirlos en geometría de puntos. * **Características clave:** * Cada **fila** en la tabla DAT se convierte en un **punto POP**. * Los **encabezados de las columnas** de la tabla DAT deben seguir las convenciones de nombres de atributos de POP. Por ejemplo, `P(0)` para la componente X de la posición, o"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

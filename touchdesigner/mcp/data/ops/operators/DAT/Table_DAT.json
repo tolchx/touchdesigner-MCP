@@ -1,0 +1,314 @@
+{
+  "family": "DAT",
+  "pageTitle": "Table DAT",
+  "pageSlug": "Table_DAT",
+  "url": "https://docs.derivative.ca/Table_DAT",
+  "tdOpTypeGuess": "tableDAT",
+  "summary": "[  edit  ]\nThe  Table DAT  lets you hand-edit or create a table of rows and columns of cells, each cell containing a text string. A \"table\" is one of the two forms of DATs (the other being simply lines of \"free-form\" text via the  Text DAT ).\nManually editing cells  - When a  Table DAT  has its  Viewer Active  on, you can add rows and columns by right-clicking on row 0 or column 0 to add rows/columns, and typing text into any cell of its  node viewer . Use the Tab key to jump to the next cell, and the up/down arrow keys to navigate to adjacent cells.\nProcedurally filling cells  - You can conveniently create and fill rows and columns of a table. On the Fill page, the Fill Type menu gives 5 options: Manual, Set Size, Set Size and Contents, Fill by Column, and Fill by Row. When a Fill option is chosen, you can generate multiple rows/columns with specific headings using space-separated names or an expression, plus expressions to fill the cells.\nYou can use  me.subRow  and  me.subCol  (for sub-section being filled) in your expressions. See the popup menu on the Cell  Expression  parameter for suggestions.\nClick the + below the parameters to you generate multiple sets of new cols or rows.\nFilling cells externally with python   - If you are not auto-filling, you can put strings into table cells using something like  op('table1')[2,'select'] = 'yes'  in a python script elsewhere, or append rows using  .appendRow()  in python. See also the  Script DAT  and its  Snippets .\nLoading from external files  - The  Table DAT  can also can load a table from a comma-separated file  (.csv) , tab-separated file  (.tsv) , or TouchDesigner  DAT  file  (.dat)  file on disk or on the web. Other text files  (.txt, .py, .glsl, etc)  can also be loaded, but will be treated as tab-separated files. Either drag-drop the file into a network, or use the File parameter.\nUse  http://  when specifying a table on the internet.\nIf you drag the  Table DAT  to a desktop or folder, The  DAT  text will be converted into tab-delimited tables in a  .txt  file.\nSee also  Script DAT ,  Text DAT .\ntableDAT_Class\nContents\n1   Summary\n2   Parameters - Table Page\n3   Parameters - Fill Page\n4   Parameters - Common Page\n5   Info CHOP Channels\n5.1   Common DAT Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "Table",
+      "label": "Edit..",
+      "name": "edit",
+      "description": "Clicking this opens a text editor to add/edit/delete text from the  DAT ."
+    },
+    {
+      "page": "Table",
+      "label": "File",
+      "name": "file",
+      "description": "The filesystem path and name of the file to load. Supports comma-separated  (.csv) , tab-separated  (.tsv) , or TouchDesigner  DAT  files  (.dat) . Other text file formats   (.txt, .py, .glsl, etc)  will be treated as tab-separated files."
+    },
+    {
+      "page": "Table",
+      "label": "Sync to File",
+      "name": "syncfile",
+      "description": "When On, loads the file from disk into the  DAT  when the projects starts.  A filename must be specified.  Turning on the option will load the file from disk immediately.  If the file does not exist, it will be created the first time the  DAT  is updated.  The file is monitored so that any changes made to the file will update the  DAT , and any changes made to the  DAT  will be written to the file right away.  If the file is removed, the  DAT  will retain its current contents."
+    },
+    {
+      "page": "Table",
+      "label": "Default Read Encoding",
+      "name": "defaultreadencoding",
+      "description": "⊞  - Sets the expected file encoding format, or auto-detects the format.  UTF8, UTF16-LE, UTF16-BE, CP1252"
+    },
+    {
+      "page": "Table",
+      "label": "UTF16",
+      "description": "LE   utf16le  -"
+    },
+    {
+      "page": "Table",
+      "label": "UTF16",
+      "description": "BE   utf16be  -"
+    },
+    {
+      "page": "Table",
+      "label": "Load on Start",
+      "name": "loadonstart",
+      "description": "When On, reloads the file from disk into the  DAT  when the projects starts."
+    },
+    {
+      "page": "Table",
+      "label": "Write on Toe Save",
+      "name": "write",
+      "description": "When On, writes the contents of the  DAT  out to the file on disk when the project is saved."
+    },
+    {
+      "page": "Table",
+      "label": "Remove Blank Lines",
+      "name": "removeblank",
+      "description": "When enabled, do not convert blank lines into empty rows when loading files."
+    },
+    {
+      "page": "Fill",
+      "label": "Fill Type",
+      "name": "fill",
+      "description": "⊞  - You can create and fill rows and columns of a table. Fill Type menu gives 5 options: Manual, Set Size, Set Size and Contents, Fill by Column, and Fill by Row. When a Fill option is chosen, you can generate multiple rows/columns with specific headings using space-separated names or an expression, plus expressions to fill the cells."
+    },
+    {
+      "page": "Fill",
+      "label": "Manual",
+      "name": "manual",
+      "description": "Rows and Columns will be added manually by user."
+    },
+    {
+      "page": "Fill",
+      "label": "Set Size",
+      "name": "setsize",
+      "description": "The size will be set by the Rows and Columns parameters, but the cells will not be filled in."
+    },
+    {
+      "page": "Fill",
+      "label": "Set Size and Contents",
+      "name": "setsizeandcontents",
+      "description": "The size will be set by the Rows and Columns parameters, and the cells will be filled based on the Cell  Expression ."
+    },
+    {
+      "page": "Fill",
+      "label": "Fill by Column",
+      "name": "fillbycol",
+      "description": "The number of rows will be set by the Rows parameter, and the content of the columns will be defined by the Names 0 and Cell  Expression  0 parameters."
+    },
+    {
+      "page": "Fill",
+      "label": "Fill by Row",
+      "name": "fillbyrow",
+      "description": "The number of columns will be set by the Columns parameter, and the content of the rows will be defined by the Names 0 and Cell  Expression  0 parameters."
+    },
+    {
+      "page": "Fill",
+      "label": "Rows",
+      "name": "rows",
+      "description": "Defines the number of rows in the table, where applicable."
+    },
+    {
+      "page": "Fill",
+      "label": "Columns",
+      "name": "cols",
+      "description": "Defines the number of columns in the table, where applicable."
+    },
+    {
+      "page": "Fill",
+      "label": "Cell  Expression",
+      "name": "cellexpr",
+      "description": "Expression  used to fill each cell if the Fill Type is Set Size and Contents. Can include expressions  me.subRow  and  me.subCol"
+    },
+    {
+      "page": "Fill",
+      "label": "Include Names",
+      "name": "includenames",
+      "description": "Creates an extra row at the top, or a column at the left for the names of the columns or rows, filled with the Include Names parameter."
+    },
+    {
+      "page": "Fill",
+      "label": "Fills",
+      "name": "fills",
+      "description": "Sequence of fill information for  Fill by Column  and  Fill by Row  Fill Types"
+    },
+    {
+      "page": "Fill",
+      "label": "Names",
+      "name": "fills0names",
+      "description": "Space-separated names of one or more columns or rows. If it is an expression, each name can be the member of a python list, like  ['heading1', 'heading2'] . This parameter is the start of a sequential block."
+    },
+    {
+      "page": "Fill",
+      "label": "Cell  Expression",
+      "name": "fills0expr",
+      "description": "Expression  used to fill each cell if the Fill Type is Fill by Row or Fill by Column.  Can include expressions  me.subRow  and  me.subCol ."
+    },
+    {
+      "page": "Common",
+      "label": "Language",
+      "name": "language",
+      "description": "⊞  - Select how the  DAT  decides which script language to operate on."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Node",
+      "name": "node",
+      "description": "The  DAT  uses it's own script language."
+    },
+    {
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "name": "extension",
+      "description": "⊞  - Select the file extension this  DAT  should expose to external editors."
+    },
+    {
+      "page": "Common",
+      "label": "dat",
+      "name": "dat",
+      "description": "various common file extensions."
+    },
+    {
+      "page": "Common",
+      "label": "From Language",
+      "name": "language",
+      "description": "pick extension from DATs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "custom",
+      "description": "Specify a custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specifiy the custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Word Wrap",
+      "name": "wordwrap",
+      "description": "⊞  - Enable Word Wrap for Node Display."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs setting."
+    },
+    {
+      "page": "Common",
+      "label": "On",
+      "name": "on",
+      "description": "Turn on Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Off",
+      "name": "off",
+      "description": "Turn off Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "num_rows",
+      "description": "Number of rows in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "num_cols",
+      "description": "Number of columns in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "Art",
+      "description": "Net    •   Audio Devices    •   CHOP Execute    •   CHOP to    •   Clip    •   Convert    •   CPlusPlus    •   DAT   •    Execute    •   DAT Export   •   Error    •   EtherDream    •   Evaluate    •   Examine    •   Execute    •   FIFO    •   File In    •   File Out    •   Folder    •   In    •   Indices    •   Info    •   Insert    •   JSON    •   Keyboard In    •   Lookup    •   Media File Info    •   Merge    •   MIDI Event    •   MIDI In    •   Monitors    •   MPCDI    •   MQTT Client    •   Multi Touch In    •   NDI    •   Null    •   OP Execute    •   OP Find    •   OSC In    •   OSC Out    •   Out    •   Panel Execute    •   Parameter    •   Parameter Execute    •   ParGroup Execute    •   Perform    •   POP to    •   Render Pick    •   Reorder    •   Script    •   Select    •   Serial    •   Serial Devices    •   SocketIO    •   SOP to    •   Sort    •   Substitute    •   Switch    •   Table    •   TCP/IP    •   Text    •   Touch In    •   Touch Out    •   Transpose    •   TUIO In    •   UDP In    •   UDP Out    •   UDT In    •   UDT Out    •   Video Devices    •   Web Client    •   Web    •   Web Server    •   WebRTC    •   WebSocket    •   XML"
+    },
+    {
+      "page": "Common",
+      "label": "OP Snippets   is a set of 700+ live examples of TouchDesigner operators. You can access snippets via the Help menu, or by right",
+      "description": "clicking on network operators, or r-clicking on OP Create dialog items."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "07-testing-protocols.md",
+      "excerpt": "# Sistema de validación y testing Objetivo: asegurar que redes generadas por prompts complejos sean estables, reproducibles y eficientes. ## 1) Validación de sintaxis y formato - **LLM output (router/CLI)**: debe ser JSON único (sin markdown). - **Scripts Python**: deben ser idempotentes y usar `from_op`/paths explícitos. - **Prompts maestros**: validar frontmatter y secciones mínimas con `node touchdesigner/mcp/dist/promptLint.js`. ## 2) Chequeo de dependencias - TouchDesigner 2025+. - `TDAPI_PORT` configurado y coincidente con el TOX. - Ollama (si aplica): `LLM_PROVIDER=ollama` y `OLLAMA_MODEL`"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "julio 1, 2025, https://www.youtube.com/watch?v=U_mCv_5H6Mw 76. Demystifying TouchDesigner SOPs 01. Add, Limit, CHOP to, DAT to. - YouTube, fecha de acceso: julio 1, 2025, https://www.youtube.com/watch?v=kqXNH43sO68 77. Limit CHOP – Beginners TouchDesigner - allTD.org, fecha de acceso: julio 1, 2025, https://alltd.org/limit-chop-beginners-touchdesigner/ 78. Line Break POP - Derivative, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Line_Break_POP 79. Please help me. Line Breaking Table Dat - Beginners - TouchDesigner forum, fecha de acceso: julio 1, 2025, https://forum.derivative.ca/t/please-help-me-line-breaking-table-dat/352347 80. POPs Experimental: Line MAT Trails in TouchDesigner - YouTube, fecha de acceso: julio 1, 2025, https://www.youtube.com/watch?v=A5upp-S8Qaw 81. Line Thickness SOP not working! : r/TouchDesigner - Reddit, fecha de acceso: julio 1, 2025, https://www.reddit.com/r/TouchDesigner/comments/1kvzwu0/line_thickness_sop_not_working/ 82. Line Thick SOP - Touch"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ón de aplicaciones (API), los parámetros o incluso la funcionalidad central de estos operadores pueden estar sujetos a cambios en futuras versiones de TouchDesigner. Esto significa que los proyectos que dependen en gran medida de los POPs experimentales podrían requerir actualizaciones o refactorizaciones a medida que la plataforma evolucione. En segundo lugar, aunque potentes, las características experimentales podrían no estar tan optimizadas o probadas para errores como las características estables. Esto podría resultar en comportamientos inesperados, problemas de rendimiento o fallos en entornos de producción complejos. Los desarrolladores deben ser conscientes de este riesgo al implementar aplicaciones que hagan un uso intensivo de los POPs. Finalmente, la documentación para características experimentales a veces puede ser menos exhaustiva o quedarse atrás con respecto al desarrollo, como se observa en la cantidad de POPs con información limitada o inaccesible. El soporte de la comunid"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "julio 1, 2025, https://www.youtube.com/watch?v=U_mCv_5H6Mw 76. Demystifying TouchDesigner SOPs 01. Add, Limit, CHOP to, DAT to. - YouTube, fecha de acceso: julio 1, 2025, https://www.youtube.com/watch?v=kqXNH43sO68 77. Limit CHOP – Beginners TouchDesigner - allTD.org, fecha de acceso: julio 1, 2025, https://alltd.org/limit-chop-beginners-touchdesigner/ 78. Line Break POP - Derivative, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Line_Break_POP 79. Please help me. Line Breaking Table Dat - Beginners - TouchDesigner forum, fecha de acceso: julio 1, 2025, https://forum.derivative.ca/t/please-help-me-line-breaking-table-dat/352347 80. POPs Experimental: Line MAT Trails in TouchDesigner - YouTube, fecha de acceso: julio 1, 2025, https://www.youtube.com/watch?v=A5upp-S8Qaw 81. Line Thickness SOP not working! : r/TouchDesigner - Reddit, fecha de acceso: julio 1, 2025, https://www.reddit.com/r/TouchDesigner/comments/1kvzwu0/line_thickness_sop_not_working/ 82. Line Thick SOP - Touch"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "de Procesamiento Gráfico). Es fundamental entender que los POPs son una familia de operadores \"Experimentales\". Esta designación tiene implicaciones importantes: • La interfaz de programación (API), los parámetros y la funcionalidad central pueden cambiar en futuras versiones de TouchDesigner, lo que podría requerir actualizaciones en tus proyectos. • Aunque son potentes, las características experimentales podrían no estar tan optimizadas o probadas para errores como las características estables, lo que podría llevar a comportamientos inesperados o fallos. • La documentación puede ser menos exhaustiva o quedarse atrás, y el soporte de la comunidad podría ser incipiente. Por lo tanto, la etiqueta \"Experimental\" es una advertencia crucial. A pesar de su estado experimental, los POPs ofrecen un camino claro hacia un mayor rendimiento en sistemas de partículas y grandes conjuntos de datos, lo cual es vital para gráficos avanzados en tiempo real. -------------------------------------"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "para cada componente** de un atributo (por ejemplo, X, Y, Z de la posición). * Puede convertir el atributo de salida a un tipo de dato entero si es necesario. * **Uso simple:** Para \"snap\" (ajustar) puntos a una cuadrícula, simplificar rangos de valores, o crear máscaras binarias basadas en el valor de un atributo. * **Random POP (POP de Aleatoriedad)** * **Función principal:** Genera un **nuevo atributo con valores aleatorios** o modifica un atributo existente (estableciendo, añadiendo o multiplicando) con un valor aleatorio para cada punto. * **Características clave:** * Los valores aleatorios pueden aplicarse a **atributos de punto, vértice o primitiva**. * Ofrece una **variedad de distribuciones** (Uniforme, Gaussiana, Dirección, Dentro de Esfera, Exponencial, Log-Normal, Cauchy-Lorentz, o una rampa personalizada). * Los valores pueden generarse dentro de un `Value A` y `Value B` especificados, y opcionalmente limita"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

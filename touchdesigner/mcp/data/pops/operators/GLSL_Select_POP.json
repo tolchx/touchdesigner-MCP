@@ -1,0 +1,40 @@
+{
+  "pageTitle": "GLSL Select POP",
+  "pageSlug": "GLSL_Select_POP",
+  "url": "https://docs.derivative.ca/GLSL_Select_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "gLSLSelectPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ra Outputs\") y modificar el número de puntos y primitivas. También soporta la escritura en el búfer de índices y tiene un modo de envío de shader \"Per Primitive Batch\".12 * GLSL Copy POP: Realiza copias de la geometría de entrada y aplica código GLSL personalizado a cada copia. Similar a Copy POP, puede usar un parámetro de \"número de copias\" o un POP de plantilla para la colocación. Un compute shader se ejecuta para cada tipo de elemento (puntos, vértices, primitivas) de una copia.19 * GLSL Select POP: Se utiliza para seleccionar y generar atributos de múltiples entradas POP, particularmente aquellos modificados por las \"Extra Outputs\" de GLSL Advanced POP.20 * Histogram POP: Toma un atributo de un solo componente (por ejemplo, P(1)) de su entrada y crea una distribución de frecuencia. Genera un nuevo POP con un número especificado de puntos (bins) y un atributo \"Count\", que indica cuántos valores de entrada caen en cada bin. Puede manejar valores fuera del rango definido.21 * Par"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ra Outputs\") y modificar el número de puntos y primitivas. También soporta la escritura en el búfer de índices y tiene un modo de envío de shader \"Per Primitive Batch\".12 * GLSL Copy POP: Realiza copias de la geometría de entrada y aplica código GLSL personalizado a cada copia. Similar a Copy POP, puede usar un parámetro de \"número de copias\" o un POP de plantilla para la colocación. Un compute shader se ejecuta para cada tipo de elemento (puntos, vértices, primitivas) de una copia.19 * GLSL Select POP: Se utiliza para seleccionar y generar atributos de múltiples entradas POP, particularmente aquellos modificados por las \"Extra Outputs\" de GLSL Advanced POP.20 * Histogram POP: Toma un atributo de un solo componente (por ejemplo, P(1)) de su entrada y crea una distribución de frecuencia. Genera un nuevo POP con un número especificado de puntos (bins) y un atributo \"Count\", que indica cuántos valores de entrada caen en cada bin. Puede manejar valores fuera del rango definido.21 *"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ra Outputs\") y modificar el número de puntos y primitivas. También soporta la escritura en el búfer de índices y tiene un modo de envío de shader \"Per Primitive Batch\".12 * GLSL Copy POP: Realiza copias de la geometría de entrada y aplica código GLSL personalizado a cada copia. Similar a Copy POP, puede usar un parámetro de \"número de copias\" o un POP de plantilla para la colocación. Un compute shader se ejecuta para cada tipo de elemento (puntos, vértices, primitivas) de una copia.19 * GLSL Select POP: Se utiliza para seleccionar y generar atributos de múltiples entradas POP, particularmente aquellos modificados por las \"Extra Outputs\" de GLSL Advanced POP.20 * Histogram POP: Toma un atributo de un solo componente (por ejemplo, P(1)) de su entrada y crea una distribución de frecuencia. Genera un nuevo POP con un número especificado de puntos (bins) y un atributo \"Count\", que indica cuántos valores de entrada caen en cada bin. Puede manejar valores fuera del rango definido.21 * Par"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "compute shader (GLSL) en cada punto para deformar geometrías basándose en los atributos del punto. Es muy potente para generar formas complejas de manera programática. • Experimental:GLSL Create POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL POP: Un operador que te permite escribir tu propio código GLSL para manipular puntos y atributos. Ideal para simulaciones o efectos muy personalizados. • Experimental:GLSL Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Grid POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Group POP: Se usa para crear grupos de puntos, vértices o primitivas. Puedes usar estos grupos para afectar solo ciertas partes de tu geometría con otros operadores, como el Transform POP. También puede convertir un grupo en un atributo. •"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "compute shader (GLSL) en cada punto para deformar geometrías basándose en los atributos del punto. Es muy potente para generar formas complejas de manera programática. • Experimental:GLSL Create POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL POP: Un operador que te permite escribir tu propio código GLSL para manipular puntos y atributos. Ideal para simulaciones o efectos muy personalizados. • Experimental:GLSL Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Grid POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Group POP: Se usa para crear grupos de puntos, vértices o primitivas. Puedes usar estos grupos para afectar solo ciertas partes de tu geometría con otros operadores, como el Transform POP. También puede convertir un grupo en un atributo"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "compute shader (GLSL) en cada punto para deformar geometrías basándose en los atributos del punto. Es muy potente para generar formas complejas de manera programática. • Experimental:GLSL Create POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL POP: Un operador que te permite escribir tu propio código GLSL para manipular puntos y atributos. Ideal para simulaciones o efectos muy personalizados. • Experimental:GLSL Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Grid POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Group POP: Se usa para crear grupos de puntos, vértices o primitivas. Puedes usar estos grupos para afectar solo ciertas partes de tu geometría con otros operadores, como el Transform POP. También puede convertir un grupo en un atributo. •"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

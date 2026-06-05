@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Line Metrics POP",
+  "pageSlug": "Line_Metrics_POP",
+  "url": "https://docs.derivative.ca/Line_Metrics_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "lineMetricsPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "por ejemplo, P(1)) de su entrada y crea una distribución de frecuencia. Genera un nuevo POP con un número especificado de puntos (bins) y un atributo \"Count\", que indica cuántos valores de entrada caen en cada bin. Puede manejar valores fuera del rango definido.21 * Parámetros: Attribute Class, Input Attribute, Use Input Range, Input Range, Output Bin Value, Quantize (Floor, Round, Ceiling), Outside Range (Clamp, Discard, Extra Out-of-Range Bins), Number of Bins, Count Attribute.21 * Line Metrics POP: Añade atributos de métricas a las tiras de línea, proporcionando información como la dirección a los puntos siguiente/anterior, la distancia desde el inicio de la tira de línea o el número de tira de línea. Estos atributos son útiles para los Math POPs o Lookup POPs subsiguientes.22 * Math Combine POP: Un potente operador para realizar numerosas operaciones matemáticas en atributos. Amplía las capacidades de Math Mix POP al permitir la selección explícita y el cambio de nombre de atributos"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "por ejemplo, P(1)) de su entrada y crea una distribución de frecuencia. Genera un nuevo POP con un número especificado de puntos (bins) y un atributo \"Count\", que indica cuántos valores de entrada caen en cada bin. Puede manejar valores fuera del rango definido.21 * Parámetros: Attribute Class, Input Attribute, Use Input Range, Input Range, Output Bin Value, Quantize (Floor, Round, Ceiling), Outside Range (Clamp, Discard, Extra Out-of-Range Bins), Number of Bins, Count Attribute.21 * Line Metrics POP: Añade atributos de métricas a las tiras de línea, proporcionando información como la dirección a los puntos siguiente/anterior, la distancia desde el inicio de la tira de línea o el número de tira de línea. Estos atributos son útiles para los Math POPs o Lookup POPs subsiguientes.22 * Math Combine POP: Un potente operador para realizar numerosas operaciones matemáticas en atributos. Amplía las capacidades de Math Mix POP al permitir la selección explícita y el cambio de nombre de atrib"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "por ejemplo, P(1)) de su entrada y crea una distribución de frecuencia. Genera un nuevo POP con un número especificado de puntos (bins) y un atributo \"Count\", que indica cuántos valores de entrada caen en cada bin. Puede manejar valores fuera del rango definido.21 * Parámetros: Attribute Class, Input Attribute, Use Input Range, Input Range, Output Bin Value, Quantize (Floor, Round, Ceiling), Outside Range (Clamp, Discard, Extra Out-of-Range Bins), Number of Bins, Count Attribute.21 * Line Metrics POP: Añade atributos de métricas a las tiras de línea, proporcionando información como la dirección a los puntos siguiente/anterior, la distancia desde el inicio de la tira de línea o el número de tira de línea. Estos atributos son útiles para los Math POPs o Lookup POPs subsiguientes.22 * Math Combine POP: Un potente operador para realizar numerosas operaciones matemáticas en atributos. Amplía las capacidades de Math Mix POP al permitir la selección explícita y el cambio de nombre de atributos"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "Limit POP: Este POP proporciona capacidades de manipulación fundamentales sin necesidad de escribir código. Permite crear nuevos atributos fácilmente y utiliza atributos de solo lectura internos. • Experimental:Line Break POP: Se utiliza para dividir una lista de puntos en múltiples primitivas de \"tira de líneas\", basándose en valores específicos de atributos como LineBreak o LineStripIndex. • Experimental:Line Divide POP: Se utiliza para subdividir cualquier tira de línea. • Experimental:Line Metrics POP: Genera nuevos atributos, a menudo de tipo entero sin signo, con nombres predeterminados. Por ejemplo, puede generar el atributo Dir (dirección). • Experimental:Line POP: Un operador que permite la creación de tiras de línea. Puede dividir curvas o generar puntos de control con atributos que definen la forma de la curva, como Weight o Tension. También permite crear y modificar atributos de color y textura. • Experimental:Line Smooth POP: Puede añadir puntos y suavizar líneas. • Experiment"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "Limit POP: Este POP proporciona capacidades de manipulación fundamentales sin necesidad de escribir código. Permite crear nuevos atributos fácilmente y utiliza atributos de solo lectura internos. • Experimental:Line Break POP: Se utiliza para dividir una lista de puntos en múltiples primitivas de \"tira de líneas\", basándose en valores específicos de atributos como LineBreak o LineStripIndex. • Experimental:Line Divide POP: Se utiliza para subdividir cualquier tira de línea. • Experimental:Line Metrics POP: Genera nuevos atributos, a menudo de tipo entero sin signo, con nombres predeterminados. Por ejemplo, puede generar el atributo Dir (dirección). • Experimental:Line POP: Un operador que permite la creación de tiras de línea. Puede dividir curvas o generar puntos de control con atributos que definen la forma de la curva, como Weight o Tension. También permite crear y modificar atributos de color y textura. • Experimental:Line Smooth POP: Puede añadir puntos y suavizar líneas. • Experi"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "Limit POP: Este POP proporciona capacidades de manipulación fundamentales sin necesidad de escribir código. Permite crear nuevos atributos fácilmente y utiliza atributos de solo lectura internos. • Experimental:Line Break POP: Se utiliza para dividir una lista de puntos en múltiples primitivas de \"tira de líneas\", basándose en valores específicos de atributos como LineBreak o LineStripIndex. • Experimental:Line Divide POP: Se utiliza para subdividir cualquier tira de línea. • Experimental:Line Metrics POP: Genera nuevos atributos, a menudo de tipo entero sin signo, con nombres predeterminados. Por ejemplo, puede generar el atributo Dir (dirección). • Experimental:Line POP: Un operador que permite la creación de tiras de línea. Puede dividir curvas o generar puntos de control con atributos que definen la forma de la curva, como Weight o Tension. También permite crear y modificar atributos de color y textura. • Experimental:Line Smooth POP: Puede añadir puntos y suavizar líneas. • Experiment"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

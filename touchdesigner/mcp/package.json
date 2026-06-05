@@ -5,8 +5,12 @@
   "type": "module",
   "main": "dist/index.js",
   "dependencies": {
-    "td-api": "*",
     "@modelcontextprotocol/sdk": "^1.0.0",
+    "td-api": "*",
     "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "typescript": "^6.0.3"
   }
 }

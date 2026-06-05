@@ -1,0 +1,25 @@
+{
+  "family": "SOP",
+  "pageTitle": "Creep SOP",
+  "pageSlug": "Creep_SOP",
+  "url": "https://docs.derivative.ca/Creep_SOP",
+  "tdOpTypeGuess": "creepSOP",
+  "summary": "[  edit  ]\nThe Creep  SOP  lets you deform and animate Source Input (input0) geometry along the surface of the  Path  Input (input1) geometry.\ncreepSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n2.1   Note\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Sprinkle POP",
+  "pageSlug": "Sprinkle_POP",
+  "url": "https://docs.derivative.ca/Sprinkle_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "sprinklePOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "s simples de tiras de línea utilizando funciones matemáticas elementales (seno, coseno, ondas triangulares, cuadradas, ease in/out, aleatorias) en X, Y y Z. También puede añadir nuevos atributos o modificar los existentes basándose en estas funciones.14 Permite controlar el número de puntos, el comportamiento cíclico, la conectividad (tira de línea, líneas, primitivas de punto) y varios parámetros para dar forma a las curvas (por ejemplo, número de ciclos, fase, exponente, mapeo de rango).14 * Sprinkle POP: Crea puntos ya sea en la superficie o dentro del volumen de un POP de entrada. Ofrece métodos como \"Per Primitive\" para la distribución en superficie y \"Volume\" para la distribución aleatoria dentro de un volumen cerrado.15 También puede crear primitivas de punto por defecto, lo que puede desactivarse para ahorrar memoria si solo se necesita una lista de puntos.15 Los generadores como Pattern POP y Sprinkle POP 14 son fundamentales. Resaltan la naturaleza procedural de TouchDesigner y la conf"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "s simples de tiras de línea utilizando funciones matemáticas elementales (seno, coseno, ondas triangulares, cuadradas, ease in/out, aleatorias) en X, Y y Z. También puede añadir nuevos atributos o modificar los existentes basándose en estas funciones.14 Permite controlar el número de puntos, el comportamiento cíclico, la conectividad (tira de línea, líneas, primitivas de punto) y varios parámetros para dar forma a las curvas (por ejemplo, número de ciclos, fase, exponente, mapeo de rango).14 * Sprinkle POP: Crea puntos ya sea en la superficie o dentro del volumen de un POP de entrada. Ofrece métodos como \"Per Primitive\" para la distribución en superficie y \"Volume\" para la distribución aleatoria dentro de un volumen cerrado.15 También puede crear primitivas de punto por defecto, lo que puede desactivarse para ahorrar memoria si solo se necesita una lista de puntos.15 Los generadores como Pattern POP y Sprinkle POP 14 son fundamentales. Resaltan la naturaleza procedural de TouchDesigner y la"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "s simples de tiras de línea utilizando funciones matemáticas elementales (seno, coseno, ondas triangulares, cuadradas, ease in/out, aleatorias) en X, Y y Z. También puede añadir nuevos atributos o modificar los existentes basándose en estas funciones.14 Permite controlar el número de puntos, el comportamiento cíclico, la conectividad (tira de línea, líneas, primitivas de punto) y varios parámetros para dar forma a las curvas (por ejemplo, número de ciclos, fase, exponente, mapeo de rango).14 * Sprinkle POP: Crea puntos ya sea en la superficie o dentro del volumen de un POP de entrada. Ofrece métodos como \"Per Primitive\" para la distribución en superficie y \"Volume\" para la distribución aleatoria dentro de un volumen cerrado.15 También puede crear primitivas de punto por defecto, lo que puede desactivarse para ahorrar memoria si solo se necesita una lista de puntos.15 Los generadores como Pattern POP y Sprinkle POP 14 son fundamentales. Resaltan la naturaleza procedural de TouchDesigner y la conf"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "n POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:SOP to POP: Permite la conversión de datos de la familia SOPs (Surface Operators) a datos de POPs. • Experimental:Sort POP: Implementa algoritmos de ordenación muy rápidos que pueden organizar los puntos basándose en el valor de cualquier componente de un atributo. • Experimental:Sphere POP: Un operador generador que crea una geometría esférica. • Experimental:Sprinkle POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Subdivide POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Switch POP: Un operador que permite cambiar entre diferentes entradas. Es útil para probar variaciones o controlar el flujo de datos. • Experimental:Texture Map POP: Las fuentes proporcionadas no ofrecen una descripción detallada de"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "n POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:SOP to POP: Permite la conversión de datos de la familia SOPs (Surface Operators) a datos de POPs. • Experimental:Sort POP: Implementa algoritmos de ordenación muy rápidos que pueden organizar los puntos basándose en el valor de cualquier componente de un atributo. • Experimental:Sphere POP: Un operador generador que crea una geometría esférica. • Experimental:Sprinkle POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Subdivide POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Switch POP: Un operador que permite cambiar entre diferentes entradas. Es útil para probar variaciones o controlar el flujo de datos. • Experimental:Texture Map POP: Las fuentes proporcionadas no ofrecen una descripción detallada"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "n POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:SOP to POP: Permite la conversión de datos de la familia SOPs (Surface Operators) a datos de POPs. • Experimental:Sort POP: Implementa algoritmos de ordenación muy rápidos que pueden organizar los puntos basándose en el valor de cualquier componente de un atributo. • Experimental:Sphere POP: Un operador generador que crea una geometría esférica. • Experimental:Sprinkle POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Subdivide POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Switch POP: Un operador que permite cambiar entre diferentes entradas. Es útil para probar variaciones o controlar el flujo de datos. • Experimental:Texture Map POP: Las fuentes proporcionadas no ofrecen una descripción detallada de"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

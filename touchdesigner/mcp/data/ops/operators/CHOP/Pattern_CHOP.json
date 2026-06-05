@@ -1,0 +1,526 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Pattern CHOP",
+  "pageSlug": "Pattern_CHOP",
+  "url": "https://docs.derivative.ca/Pattern_CHOP",
+  "tdOpTypeGuess": "patternCHOP",
+  "summary": "[  edit  ]\nThe Pattern  CHOP  generates a sequence of samples in a channel. Unlike the  Wave CHOP  its purpose is generating arrays of samples that have no reference to time (seconds or frames).\nIt is useful for curve generation like lookup tables, simple shapes that can be converted to SOPs, generating channels that are passed to the  Geometry COMP  to generate instances, and other non-time-based curve-generation, with as little need to make expressions in Python.\nAll defaults are in samples, not seconds or frames (though like all CHOPs, it carries with it a sample rate). There is no start-end, just Length in samples.\nTip : To display a  CHOP  viewer in the units of samples, make the  Viewer Active  and change  RMB  -> Units to be Samples.\nThe Pattern  CHOP  optionally takes one input  CHOP  to match the length and sample rate, and, choosing via the Combine Channels menu, Appends or Inserts the new channel(s), Replaces the incoming channels, Adds to the incoming channels or Multiplies the incoming channels.\nThe Pattern  CHOP  defaults to one cycle of the curve over the length of the  CHOP , no matter how many samples long.\nTip: Customizing each channel:  The python object for the Pattern  CHOP  has a  chanIndex  member, so if Pattern generates three channels you can put something like  [1, 3, 7][me.chanIndex]  in any parameter to customize its value for each channel. For example, in the Type parameter, put the expression  ['sin', 'cos', 'ramp'][me.chanIndex]  to get 3 different curve types.\npatternCHOP_Class\nContents\n1   Summary\n2   Parameters - Pattern Page\n3   Parameters - Channel Page\n4   Parameters - Common Page\n5   Operator Inputs\n6   Info CHOP Channels\n6.1   Common CHOP Info Channels\n6.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Pattern",
+      "label": "Type",
+      "name": "wavetype",
+      "description": "⊞  - The shape of one cycle of the pattern."
+    },
+    {
+      "page": "Pattern",
+      "label": "Constant",
+      "name": "const",
+      "description": "(1)"
+    },
+    {
+      "page": "Pattern",
+      "label": "Sine",
+      "name": "sin",
+      "description": "(-1 to 1)"
+    },
+    {
+      "page": "Pattern",
+      "label": "Cosine",
+      "name": "cos",
+      "description": "(-1 to 1)"
+    },
+    {
+      "page": "Pattern",
+      "label": "Triangle",
+      "name": "tri",
+      "description": "(-1 to 1)"
+    },
+    {
+      "page": "Pattern",
+      "label": "Ramp",
+      "name": "ramp",
+      "description": "(0-1)"
+    },
+    {
+      "page": "Pattern",
+      "label": "Ramp Samples",
+      "name": "rampsamples",
+      "description": "(0 to numSamples-1)"
+    },
+    {
+      "page": "Pattern",
+      "label": "Square",
+      "name": "square",
+      "description": "(-1 to -1)"
+    },
+    {
+      "page": "Pattern",
+      "label": "Pulse",
+      "name": "pulse",
+      "description": "(0-1)"
+    },
+    {
+      "page": "Pattern",
+      "label": "Random",
+      "name": "random",
+      "description": "(0-1)"
+    },
+    {
+      "page": "Pattern",
+      "label": "Random per Cycle",
+      "name": "randomcycle",
+      "description": "All samples in a cycle will have the same randomly generated value."
+    },
+    {
+      "page": "Pattern",
+      "label": "Random Non-Repeating Integers",
+      "name": "randomnonrepint",
+      "description": "This wave type is used in conjunction with the Randomize pulse. Between each Randomize pulse, the random values at each sample will be non-repeating. For example in the simplest case with a channel length of 1, each time Randomize is pulsed the random value of sample 1 after the pulse will be different than the random value before the pulse."
+    },
+    {
+      "page": "Pattern",
+      "label": "Step",
+      "name": "step",
+      "description": "(0 to 1) step function"
+    },
+    {
+      "page": "Pattern",
+      "label": "Cyclic Ramp",
+      "name": "rampcyclic",
+      "description": "(0 to (numSamples -1) / numSamples). Same as 'Ramp' type, but on phase shifting the value never goes out of range."
+    },
+    {
+      "page": "Pattern",
+      "label": "Length",
+      "name": "length",
+      "description": "Set the number of samples for this  CHOP ."
+    },
+    {
+      "page": "Pattern",
+      "label": "Number of Cycles",
+      "name": "numcycles",
+      "description": "Set the number of repeating cycles of the Type shapes over the Length, except for Random."
+    },
+    {
+      "page": "Pattern",
+      "label": "Bias",
+      "name": "bias",
+      "description": "Makes Triangle type into a sawtooth wave, and sets the Square type variable-width."
+    },
+    {
+      "page": "Pattern",
+      "label": "Seed",
+      "name": "seed",
+      "description": "The seed for the random Types."
+    },
+    {
+      "page": "Pattern",
+      "label": "Phase",
+      "name": "phase",
+      "description": "Shifts the cycle."
+    },
+    {
+      "page": "Pattern",
+      "label": "Phase Step per  Channel",
+      "name": "phasestep",
+      "description": "Increases the phase for each channel. A Phase Step of .25 when there are 2 channels will shift the second channel to be 1/4 cycle later phase than the first phase, where if the 2 channels are used for x and y, will draw a circle when passed to a  CHOP  to  SOP ."
+    },
+    {
+      "page": "Pattern",
+      "label": "Taper",
+      "name": "taper",
+      "description": "⊞  - Two parameters to multiply by a line from  taper1  at the start to  taper2  at the end. The default of ( 1 1 ) has no effect."
+    },
+    {
+      "page": "Pattern",
+      "label": "Taper Decay Rate",
+      "name": "taperdecay",
+      "description": "An exponent that is applied to the result of the taper."
+    },
+    {
+      "page": "Pattern",
+      "label": "Amplitude",
+      "name": "amp",
+      "description": "See also the Range."
+    },
+    {
+      "page": "Pattern",
+      "label": "Offset",
+      "name": "offset",
+      "description": "See also the Range."
+    },
+    {
+      "page": "Pattern",
+      "label": "From Range",
+      "name": "fromrange",
+      "description": "⊞  - A value at each From Range will become its corresponding To Range value."
+    },
+    {
+      "page": "Pattern",
+      "label": "To Range",
+      "name": "torange",
+      "description": "⊞  - A value at each From Range will become its corresponding To Range value."
+    },
+    {
+      "page": "Pattern",
+      "label": "Integer",
+      "name": "integer",
+      "description": "⊞  - A round-off menu to convert all numbers to integers."
+    },
+    {
+      "page": "Pattern",
+      "label": "Reverse",
+      "name": "reverse",
+      "description": "Reverses the final order of the samples as in the  Stretch CHOP ."
+    },
+    {
+      "page": "Pattern",
+      "label": "Randomize",
+      "name": "randomize",
+      "description": "When the Type parameter above is set to Random Non-Repeating Integers, this trigger will randomize all the values."
+    },
+    {
+      "page": "Channel",
+      "label": "Channel Names",
+      "name": "channelname",
+      "description": "You can creates many channels with simple patterns like  chan[1-20] , which generates 20 channels from  chan1  to  chan20 , or  t[xyz]  which generates  tx ,  ty  and  tz . See the section, Common  CHOP  Parameters for a description of this and all Options. See  Scope and Channel Name Matching  Options."
+    },
+    {
+      "page": "Channel",
+      "label": "Combine Channels",
+      "name": "combine",
+      "description": "⊞  - If an input  CHOP  is attached, it adopts the length and sample rate of the input  CHOP , and"
+    },
+    {
+      "page": "Channel",
+      "label": "Off",
+      "name": "off",
+      "description": "It only adopts the length and sample rate of the input."
+    },
+    {
+      "page": "Channel",
+      "label": "Append",
+      "name": "append",
+      "description": "It appends the new Pattern  CHOP  channels after the last incoming channel."
+    },
+    {
+      "page": "Channel",
+      "label": "Insert",
+      "name": "insert",
+      "description": "It inserts the new channels before the first incoming channel."
+    },
+    {
+      "page": "Channel",
+      "label": "Replace",
+      "name": "replace",
+      "description": "It replaces the incoming channels using channel-name-matching."
+    },
+    {
+      "page": "Channel",
+      "label": "Add",
+      "name": "add",
+      "description": "It adds incoming channels to the generated channels, matching by channel-name-matching."
+    },
+    {
+      "page": "Channel",
+      "label": "Multiply",
+      "name": "multiply",
+      "description": "It multiplies incoming channels with the generated channels, matching by channel-name-matching."
+    },
+    {
+      "page": "Channel",
+      "label": "Sample Rate",
+      "name": "rate",
+      "description": "The sample rate of the channels, in samples per second."
+    },
+    {
+      "page": "Channel",
+      "label": "Extend Left",
+      "name": "left",
+      "description": "⊞  - The left right extend conditions (before/after range)."
+    },
+    {
+      "page": "Channel",
+      "label": "Hold",
+      "name": "hold",
+      "description": "Hold the current value of the channel."
+    },
+    {
+      "page": "Channel",
+      "label": "Slope",
+      "name": "slope",
+      "description": "Continue the slope before the start of the channel."
+    },
+    {
+      "page": "Channel",
+      "label": "Cycle",
+      "name": "cycle",
+      "description": "Cycle the channel repeatedly."
+    },
+    {
+      "page": "Channel",
+      "label": "Mirror",
+      "name": "mirror",
+      "description": "Cycle the channel repeatedly, mirroring every other cycle."
+    },
+    {
+      "page": "Channel",
+      "label": "Default Value",
+      "name": "default",
+      "description": "Use the constant value specified in the Default Value parameter."
+    },
+    {
+      "page": "Channel",
+      "label": "Extend Right",
+      "name": "right",
+      "description": "⊞  - The right extend conditions (before/after range)."
+    },
+    {
+      "page": "Channel",
+      "label": "Hold",
+      "name": "hold",
+      "description": "Hold the current value of the channel."
+    },
+    {
+      "page": "Channel",
+      "label": "Slope",
+      "name": "slope",
+      "description": "Continue the slope after the end of the channel."
+    },
+    {
+      "page": "Channel",
+      "label": "Cycle",
+      "name": "cycle",
+      "description": "Cycle the channel repeatedly."
+    },
+    {
+      "page": "Channel",
+      "label": "Mirror",
+      "name": "mirror",
+      "description": "Cycle the channel repeatedly, mirroring every other cycle."
+    },
+    {
+      "page": "Channel",
+      "label": "Default Value",
+      "name": "default",
+      "description": "Use the constant value specified in the Default Value parameter."
+    },
+    {
+      "page": "Channel",
+      "label": "Default Value",
+      "name": "defval",
+      "description": "The value used for the Default Value extend condition."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "To \"pulse\" a parameter is to send it a signal from (1) an  exported  CHOP channel or (2) a python command or (3) a mouse click that causes a new action to occur immediately. A pulse via python is via the  .pulse()  function on a pulse",
+      "description": "type parameter, such as Reset parameter in a  Speed CHOP . A pulse from a CHOP is typically a 0 to 1 to 0 signal in an exported channel."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "s experimentados. Los usuarios expertos, sin embargo, encontrarán estas herramientas invaluables para expandir los límites creativos. 2. Visión General de las Categorías de Operadores POP Los POPs pueden clasificarse ampliamente según su función principal dentro de una red de TouchDesigner, reflejando las divisiones funcionales observadas en otras familias de operadores. 2.1 POPs Generadores Estos operadores son responsables de crear nueva geometría o datos 3D desde cero. * Pattern POP: Un generador versátil que crea formas simples de tiras de línea utilizando funciones matemáticas elementales (seno, coseno, ondas triangulares, cuadradas, ease in/out, aleatorias) en X, Y y Z. También puede añadir nuevos atributos o modificar los existentes basándose en estas funciones.14 Permite controlar el número de puntos, el comportamiento cíclico, la conectividad (tira de línea, líneas, primitivas de punto) y varios parámetros para dar forma a las curvas (por ejemplo, número de ciclo"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "e la función específica de este operador. • Experimental:Out POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Particle POP: Representa una partícula individual como un punto POP. Este operador añade opcionalmente atributos clave para sistemas de partículas como velocidad, dirección, edad, masa y fuerza. Es central para la simulación de partículas en TouchDesigner y genera atributos como PartForce. • Experimental:Pattern POP: Se utiliza para generar patrones para atributos, ofreciendo configuraciones más complejas. Permite crear y modificar atributos de color y textura. • Experimental:Phaser POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Point File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner, específicamente diseñado para este tipo de datos. • Experimental:Point Generator POP: Un ope"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "lve al Particle POP para calcular el estado del siguiente fotograma. * El Particle POP es quien **crea y elimina partículas**, pero puedes controlar su nacimiento (emisión) y muerte. * Permite extender la simulación inyectando fuerzas, límites espaciales o colisiones a través del mecanismo de feedback. * **Uso simple:** Fundamental para crear efectos como humo, fuego, polvo, lluvia, o cualquier sistema que implique muchos elementos pequeños y en movimiento. * **Pattern POP (POP de Patrones)** * **Función principal:** Es un **generador** que crea formas simples de \"line strips\" (tiras de líneas conectadas) usando funciones matemáticas básicas (seno, coseno, ondas cuadradas, etc.) en las coordenadas X, Y y Z. * **Características clave:** * Puede generar el atributo de **posición (`P`)** y, opcionalmente, las **coordenadas de textura (`Tex`)** al mismo tiempo. * También puede **añadir o modificar atributos** existentes en un P"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "ísticas clave:** * Puedes elegir si quieres eliminar **puntos** o **primitivas**. * **Métodos de eliminación:** * **Por atributo (`Attribute Page`)**: Elimina basado en los valores de los atributos de puntos o primitivas. Puedes combinar lógicas como \"P(0) > 0 Y P(1) < 0\" para eliminar puntos en una sección específica del espacio. * **\"Thin\" (`Thin Page`)**: Elimina basado en rangos definidos por parámetros, pasos o aleatoriamente. * **Por patrón (`Pattern Page`)**: Elimina basado en la coincidencia de patrones. * **Por grupo (`Group Page`)**: Elimina basado en si los puntos o primitivas pertenecen a ciertos grupos. * **Por límites (`Bounding Page`)**: Elimina basado en rangos delimitadores de cualquier atributo. * Cuando eliminas primitivas, los puntos o vértices que ya no se usan también se eliminan automáticamente. * Cuando eliminas puntos, los vértices y primitivas que los usan pueden ser eliminados parcial"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "we have this way of getting sort of the central point of a lot of data, which is kind of super cool. Other things that we can do that I think are really awesome is we have a much more souped up version of sorting. Touch Designer team has really developed and made a really efficient way of sorting here. (26:08) And what you can do is by combining different textures, you can have these attributes that allow you to basically sort by an external image. So I could take in this case I'm taking this pattern chop which is generating a ramp or in this case a sign um but I can then sort by a secondary value which is this image here. (26:31) And let's just take a look at what's happening here um without that whole like section. It looks like I'm probably sorting something that is not available to sort. So I'm going to go into a top just so we can see that output. Okay. So if I go for a sort and I'm sorting by attribute, I can sort by position, which obviously isn't going to do that much. (27:05) We've go"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "back to L and say a times. (14:56) And let's turn this to a panel and actually view this in the panel. So I can actually move it around. But basically we can do a bunch of just fun math experimentation here. Just kind of seeing what happens. And essentially that's what happened here is I was just playing around with with some of the things that I kind of vaguely knew and just trying to see what would happen. (15:17) And I think the result is kind of neat. And you can also get just cool static patterns by manipulating these as well. So this is something that is worth playing with. And what we can see is again very few operators are used to make this thing that's actually reasonably complex looking. (15:40) Something I find also very cool about these operators is that we can actually just bang this into a geo and render it. We don't have to instance. We obviously could instance because we have all of that point information. But in this case, I can just move through and have it be kind of out"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

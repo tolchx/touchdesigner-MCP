@@ -1,0 +1,188 @@
+{
+  "family": "DAT",
+  "pageTitle": "CPlusPlus DAT",
+  "pageSlug": "CPlusPlus_DAT",
+  "url": "https://docs.derivative.ca/CPlusPlus_DAT",
+  "tdOpTypeGuess": "cPlusPlusDAT",
+  "summary": "[  edit  ]\nThe CPlusPlus  DAT  allows you to make custom  DAT  operators by writing your own plugin using C++.\nUsing the CPlusPlus  DAT , you can create either a Table or Text  DAT  output depending what type you specify at the time of creation.\nSee  Write a CPlusPlus Plugin  and the other articles in the  C++ category  for more detailed information on how to make .dll for use with this  DAT . Note that regardless of the type of  DAT  node (i.e. Table or Text), all the names for searching the cells and assigned texts have to be a encoded as a valid UTF-8.\nExample for CPlusPlus  DAT  as a Visual Studio project in Windows are available in  C:/Program Files/Derivative/TouchDesigner/Samples/CPlusPlus/ DAT   or your custom TouchDesigner installation folder. (NOTE: On macOS it is here:  TouchDesigner.app/Contents/Resources/tfs/Samples/CPlusPlus/ DAT\nCustom Parameters  - Custom Parameters can be automatically created by the C++  DAT   .dll . This custom parameter page can be removed, edited, or appended to from within the  setupParameters()  function in CPlusPlusDATExample.cpp. The defined custom parameters can be enabled or disabled depending on whether they are valid for a specific task or not.)\ncplusplusDAT_Class\nContents\n1   Summary\n2   Parameters - Load Page\n3   Parameters - Common Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common DAT Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Load",
+      "label": "Plugin  Path",
+      "name": "plugin",
+      "description": "The path to the plugin you want to load."
+    },
+    {
+      "page": "Load",
+      "label": "Re-Init Class",
+      "name": "reinit",
+      "description": "When this parameter is On 1, it will delete the instance of the class created by the plugin, and create a new one."
+    },
+    {
+      "page": "Load",
+      "label": "Re-Init Class",
+      "name": "reinitpulse",
+      "description": "Instantly reinitialize the class."
+    },
+    {
+      "page": "Load",
+      "label": "Unload Plugin",
+      "name": "unloadplugin",
+      "description": "When this parameter goes above 1, it will delete the instance of the class created by the plugin and unload the plugin. If multiple DATs have loaded the same plugin they will all need to unload it to release the file."
+    },
+    {
+      "page": "Common",
+      "label": "Language",
+      "name": "language",
+      "description": "⊞  - Select how the  DAT  decides which script language to operate on."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Node",
+      "name": "node",
+      "description": "The  DAT  uses it's own script language."
+    },
+    {
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "name": "extension",
+      "description": "⊞  - Select the file extension this  DAT  should expose to external editors."
+    },
+    {
+      "page": "Common",
+      "label": "dat",
+      "name": "dat",
+      "description": "various common file extensions."
+    },
+    {
+      "page": "Common",
+      "label": "From Language",
+      "name": "languageext",
+      "description": "pick extension from DATs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specify a custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specifiy the custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Word Wrap",
+      "name": "wordwrap",
+      "description": "⊞  - Enable Word Wrap for Node Display."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs setting."
+    },
+    {
+      "page": "Common",
+      "label": "On",
+      "name": "on",
+      "description": "Turn on Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Off",
+      "name": "off",
+      "description": "Turn off Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "num_rows",
+      "description": "Number of rows in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "num_cols",
+      "description": "Number of columns in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "Art",
+      "description": "Net    •   Audio Devices    •   CHOP Execute    •   CHOP to    •   Clip    •   Convert    •   CPlusPlus    •   DAT   •    Execute    •   DAT Export   •   Error    •   EtherDream    •   Evaluate    •   Examine    •   Execute    •   FIFO    •   File In    •   File Out    •   Folder    •   In    •   Indices    •   Info    •   Insert    •   JSON    •   Keyboard In    •   Lookup    •   Media File Info    •   Merge    •   MIDI Event    •   MIDI In    •   Monitors    •   MPCDI    •   MQTT Client    •   Multi Touch In    •   NDI    •   Null    •   OP Execute    •   OP Find    •   OSC In    •   OSC Out    •   Out    •   Panel Execute    •   Parameter    •   Parameter Execute    •   ParGroup Execute    •   Perform    •   POP to    •   Render Pick    •   Reorder    •   Script    •   Select    •   Serial    •   Serial Devices    •   SocketIO    •   SOP to    •   Sort    •   Substitute    •   Switch    •   Table    •   TCP/IP    •   Text    •   Touch In    •   Touch Out    •   Transpose    •   TUIO In    •   UDP In    •   UDP Out    •   UDT In    •   UDT Out    •   Video Devices    •   Web Client    •   Web    •   Web Server    •   WebRTC    •   WebSocket    •   XML"
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "xperimental:Import Select POP | Derivative - TouchDesigner, fecha de acceso: julio 1, 2025, https://derivative.ca/UserGuide/Experimental%3AImport_Select_POP 42. A Look at the Particle POP in TouchDesigner - TouchDesigner Tutorial 211 - YouTube, fecha de acceso: julio 1, 2025, https://www.youtube.com/watch?v=MTtmGBRC8vM 43. TouchDesigner POPs Exploding Particles - TouchDesigner Tutorial 213 - YouTube, fecha de acceso: julio 1, 2025, https://www.youtube.com/watch?v=iTe-2B764vg 44. Experimental:CPlusPlus POP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:CPlusPlus_POP 45. Cache POP - Derivative, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Cache_POP 46. RFE: DMX Fixture POP - Attribute Channel Split across Universe - TouchDesigner forum, fecha de acceso: julio 1, 2025, https://forum.derivative.ca/t/rfe-dmx-fixture-pop-attribute-channel-split-across-universe/696642 47. Merge POP - Derivative, fecha de acceso: julio 1, 2025,"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

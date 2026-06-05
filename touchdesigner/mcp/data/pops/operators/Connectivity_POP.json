@@ -1,0 +1,20 @@
+{
+  "pageTitle": "Connectivity POP",
+  "pageSlug": "Connectivity_POP",
+  "url": "https://docs.derivative.ca/Connectivity_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "connectivityPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Full data.txt",
+      "excerpt": "ntos y vértices, las primitivas también pueden tener sus propios Atributos de Primitiva. Por ejemplo, un atributo Color aplicado a una primitiva afectaría a toda la primitiva. Creación y Manipulación de Primitivas Varios operadores POP permiten la creación y manipulación de primitivas: • Los POPs generadores como Circle POP, Torus POP, Tube POP, Point Generator POP, Box POP, Rectangle POP y Sphere POP pueden crear puntos con sus primitivas correspondientes, especialmente cuando su parámetro Connectivity está configurado adecuadamente. • El Primitive POP puede usarse para eliminar primitivas, dejando solo los puntos, a menos que se creen nuevas primitivas en su pestaña de Primitivas. • El Convert POP se utiliza específicamente para convertir entre diferentes tipos de primitivas. Diferencias entre POPs y SOPs en cuanto a Primitivas Los POPs representan una revisión del concepto de geometría 3D en comparación con los SOPs (que operan en la CPU): • Tipos de Superficie: En POPs, las superfi"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

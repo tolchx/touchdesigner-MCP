@@ -1,0 +1,289 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Fan CHOP",
+  "pageSlug": "Fan_CHOP",
+  "url": "https://docs.derivative.ca/Fan_CHOP",
+  "tdOpTypeGuess": "fanCHOP",
+  "summary": "[  edit  ]\nThe Fan  CHOP  converts one channel out to many channels, or converts many channels down to one.\nIts first operation,  Fan Out , takes one channel and generates 2 or more channels. It sets to 1 one of the output channels while all others are 0, based on the input channel's value. The first output channel is index value 0, the second, 1, and so on. If the input value is above N-1 or below 0, the value can be clamped, cycled or ignored.\nFor example, if the value of the input channel at a certain frame is 4, and if the  CHOP  outputs 8 channels, the fifth channel will have a value of 1, and all other channels will have a zero value at that frame.\nThe input is assumed to have 1 channel which contains integer values; fractions are truncated and extra channels are ignored. The output channels are binary (0 or 1) channels.\nThe second operation,  Fan In , does the opposite: it takes a bunch of binary inputs and produces one channel containing the index of the \"On\" channel. If more than one input channel is \"On\", the first \"On\" input channel is selected.\nfanCHOP_Class\nContents\n1   Summary\n2   Parameters - Fan Page\n3   Parameters - Common Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common CHOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Fan",
+      "label": "Operation",
+      "name": "fanop",
+      "description": "⊞  - Selects either Fan In or Fan Out."
+    },
+    {
+      "page": "Fan",
+      "label": "Fan Out",
+      "name": "out",
+      "description": "Takes one channel and generates 2 or more channels. It sets to 1 one of the output channels while all others are 0, based on the input channel's value. The first output channel is index value 0, the second, 1, and so on. If the input value is above N-1 or below 0, the value can be clamped, cycled or ignored. The number of channels generated depends on the 'Channel Names' parameter."
+    },
+    {
+      "page": "Fan",
+      "label": "Fan In",
+      "name": "in",
+      "description": "Takes multiple channels as input and produces one channel containing the index of the \"On\" channel. If more than one input channel is \"On\", the first \"On\" input channel is selected. For example if there are 5 channels (chan1, chan2, chan3, chan4, chan5), and chan3 is 1 while the others are 0, then the output channel value will be equal to 2, since the indexing is 0-based."
+    },
+    {
+      "page": "Fan",
+      "label": "Channel Names",
+      "name": "channame",
+      "description": "The names for the output channels that this  CHOP  creates. This also controls how many output channels are created (one for each name) in Fan Out mode. In Fan In mode, only one channel is created, and its name is the base name (minus the number suffix) of the first input channel."
+    },
+    {
+      "page": "Fan",
+      "label": "Outside Range",
+      "name": "range",
+      "description": "⊞  - Determines how to handle input values that are outside the index range (0 to N-1)."
+    },
+    {
+      "page": "Fan",
+      "label": "Clamp Index",
+      "name": "clamp",
+      "description": "If less than 0, clamp to 0, and if greater than N-1, clamp to N-1."
+    },
+    {
+      "page": "Fan",
+      "label": "Loop Index",
+      "name": "loop",
+      "description": "Loop back through the index list."
+    },
+    {
+      "page": "Fan",
+      "label": "Set Channels To 0",
+      "name": "zero",
+      "description": "Don't select any channels; set every channel to zero."
+    },
+    {
+      "page": "Fan",
+      "label": "All Channels Off",
+      "name": "alloff",
+      "description": "⊞  - For a Fan In operation, when all input channels are off, set the output to -1 or 0."
+    },
+    {
+      "page": "Fan",
+      "label": "Set To 0",
+      "name": "set0",
+      "description": "Selects the first channel."
+    },
+    {
+      "page": "Fan",
+      "label": "Set To -1",
+      "name": "setneg",
+      "description": "Doesn't select any of the channels."
+    },
+    {
+      "page": "Fan",
+      "label": "Quantize Output",
+      "name": "quantize",
+      "description": "On by default. Channels are quatized to the nearest integer. For example, if the input channel's value is 5.6 and 6 channels are created, channel 5 is 1, while the rest are 0."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "Rename from",
+      "name": "commonrenamefrom",
+      "description": "The channel pattern to rename. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Rename to",
+      "name": "commonrenameto",
+      "description": "The replacement pattern for the names. The default parameters do not rename the channels. See  Pattern Replacement ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Names:  c[1",
+      "description": "10:2] ambient"
+    },
+    {
+      "page": "Common",
+      "label": "Rename To:  b[1",
+      "description": "5] amb    This example fetches channels  c1 c3 c5 c7 c9  and  ambient ."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "d let's turn the period up to something really high. So, more or less it's going to be the same. Turn it up a little bit. And this can kind of just very easily give you some sort of fun VHS type effects. And I find this really um exciting actually. Oops. Time. And multiply it by way more. And let's just make sure there's a bit of an offset there. (29:16) So, this is like a super cool effect that I don't think um many people find sort of immediately, but this is something that I'm sort of a big fan of. Also, remove that fit and something different's going to happen there. So, these are sort of some of the low hanging fruit that I think are really cool. I also wanted to show you a sort of a more sort of just experimental network or a couple of experimental networks where I am just trying some different things out to to see what happens. (29:48) And essentially this is just experimenting and mashing pops together. And so what I've got going on here is I'm loading in a point cloud. And what"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

@@ -1,0 +1,40 @@
+{
+  "pageTitle": "File In POP",
+  "pageSlug": "File_In_POP",
+  "url": "https://docs.derivative.ca/File_In_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "fileInPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "he Index. Un Cache Index de 0 se refiere a los datos del fotograma actual, -1 a los datos anteriores, y así sucesivamente. Los índices fuera de rango se ajustan.32 * Convert POP: Una utilidad general para reestructurar primitivas. Mantiene los puntos de entrada pero reconfigura su conectividad, permitiendo conversiones entre tiras de línea, apertura/cierre de líneas, conversión de quads a triángulos, eliminación de todas las primitivas o creación de primitivas de punto a partir de puntos.33 * File In POP: Lee un archivo y convierte su geometría en un POP en la memoria de la GPU. Soporta varios formatos de archivo.34 * Lookup Attribute POP: Toma un atributo (el Lookup Attribute) con valores en el rango 0-1 y lo utiliza como índice en los atributos de otro POP (la Lookup Curve). Extrae valores interpolados de la Lookup Curve y los genera. Tiene opciones para manejar índices fuera de rango y reescalar valores.35 * Parámetros: Lookup Attribute, Lookup Curve (segunda entrada), Index Type (norma"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "he Index. Un Cache Index de 0 se refiere a los datos del fotograma actual, -1 a los datos anteriores, y así sucesivamente. Los índices fuera de rango se ajustan.32 * Convert POP: Una utilidad general para reestructurar primitivas. Mantiene los puntos de entrada pero reconfigura su conectividad, permitiendo conversiones entre tiras de línea, apertura/cierre de líneas, conversión de quads a triángulos, eliminación de todas las primitivas o creación de primitivas de punto a partir de puntos.33 * File In POP: Lee un archivo y convierte su geometría en un POP en la memoria de la GPU. Soporta varios formatos de archivo.34 * Lookup Attribute POP: Toma un atributo (el Lookup Attribute) con valores en el rango 0-1 y lo utiliza como índice en los atributos de otro POP (la Lookup Curve). Extrae valores interpolados de la Lookup Curve y los genera. Tiene opciones para manejar índices fuera de rango y reescalar valores.35 * Parámetros: Lookup Attribute, Lookup Curve (segunda entrada), Index Type (n"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "he Index. Un Cache Index de 0 se refiere a los datos del fotograma actual, -1 a los datos anteriores, y así sucesivamente. Los índices fuera de rango se ajustan.32 * Convert POP: Una utilidad general para reestructurar primitivas. Mantiene los puntos de entrada pero reconfigura su conectividad, permitiendo conversiones entre tiras de línea, apertura/cierre de líneas, conversión de quads a triángulos, eliminación de todas las primitivas o creación de primitivas de punto a partir de puntos.33 * File In POP: Lee un archivo y convierte su geometría en un POP en la memoria de la GPU. Soporta varios formatos de archivo.34 * Lookup Attribute POP: Toma un atributo (el Lookup Attribute) con valores en el rango 0-1 y lo utiliza como índice en los atributos de otro POP (la Lookup Curve). Extrae valores interpolados de la Lookup Curve y los genera. Tiene opciones para manejar índices fuera de rango y reescalar valores.35 * Parámetros: Lookup Attribute, Lookup Curve (segunda entrada), Index Type (norma"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "r normales de superficie y tangentes. • Experimental:Feedback POP: Es esencial para habilitar sistemas de partículas y para la manipulación general de datos que requieren bucles de retroalimentación. Se utiliza para simular el movimiento de partículas a lo largo del tiempo, convirtiendo la fuerza en velocidad y la velocidad en posición. • Experimental:Field POP: Genera nuevos atributos, a menudo con nombres predeterminados sugeridos. Este operador genera el atributo Weight. • Experimental:File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner. • Experimental:Force POP: Se utiliza para crear o añadir al atributo PartForce (fuerza de partícula). Es fundamental para definir cómo las fuerzas actúan sobre las partículas. • Experimental:GLSL Advanced POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL Copy POP: Permite ejecutar código de compute shader (GLSL) en cada punto p"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "r normales de superficie y tangentes. • Experimental:Feedback POP: Es esencial para habilitar sistemas de partículas y para la manipulación general de datos que requieren bucles de retroalimentación. Se utiliza para simular el movimiento de partículas a lo largo del tiempo, convirtiendo la fuerza en velocidad y la velocidad en posición. • Experimental:Field POP: Genera nuevos atributos, a menudo con nombres predeterminados sugeridos. Este operador genera el atributo Weight. • Experimental:File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner. • Experimental:Force POP: Se utiliza para crear o añadir al atributo PartForce (fuerza de partícula). Es fundamental para definir cómo las fuerzas actúan sobre las partículas. • Experimental:GLSL Advanced POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL Copy POP: Permite ejecutar código de compute shader (GLSL) en cada pun"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "r normales de superficie y tangentes. • Experimental:Feedback POP: Es esencial para habilitar sistemas de partículas y para la manipulación general de datos que requieren bucles de retroalimentación. Se utiliza para simular el movimiento de partículas a lo largo del tiempo, convirtiendo la fuerza en velocidad y la velocidad en posición. • Experimental:Field POP: Genera nuevos atributos, a menudo con nombres predeterminados sugeridos. Este operador genera el atributo Weight. • Experimental:File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner. • Experimental:Force POP: Se utiliza para crear o añadir al atributo PartForce (fuerza de partícula). Es fundamental para definir cómo las fuerzas actúan sobre las partículas. • Experimental:GLSL Advanced POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL Copy POP: Permite ejecutar código de compute shader (GLSL) en cada punto p"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

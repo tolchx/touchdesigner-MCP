@@ -1,0 +1,642 @@
+{
+  "family": "TOP",
+  "pageTitle": "RealSense TOP",
+  "pageSlug": "RealSense_TOP",
+  "url": "https://docs.derivative.ca/RealSense_TOP",
+  "tdOpTypeGuess": "realSenseTOP",
+  "summary": "[  edit  ]\nNOTE\nHardware:  The  librealsense SDK v2.50.0  does not look like it will be updated for Apple Silicon, so it is not an option to add to these builds.\nRealSense  is a tracking device from Intel. The RealSense  TOP  connects to Intel  RealSense  devices and outputs color, depth and IR data from it.\nSee also  RealSense  for hardware information and installation instruction, and the  RealSense CHOP .\nrealsenseTOP_Class\nContents\n1   Summary\n2   Parameters - Setup Page\n3   Parameters - Common Page\n4   Info CHOP Channels\n4.1   Specific RealSense TOP Info Channels\n4.2   Common TOP Info Channels\n4.3   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "Setup",
+      "label": "Active",
+      "name": "active",
+      "description": "When set to 1 the  TOP  captures the image stream from the camera."
+    },
+    {
+      "page": "Setup",
+      "label": "Model",
+      "name": "model",
+      "description": "⊞  - Select the model of device to use."
+    },
+    {
+      "page": "Setup",
+      "label": "Sensor",
+      "name": "sensor",
+      "description": "Select which device to use."
+    },
+    {
+      "page": "Setup",
+      "label": "Image",
+      "name": "image",
+      "description": "⊞  - Select the image type to output."
+    },
+    {
+      "page": "Setup",
+      "label": "Color",
+      "name": "color",
+      "description": "The video from the color sensor."
+    },
+    {
+      "page": "Setup",
+      "label": "Depth",
+      "name": "depth",
+      "description": "The calculated depth value for each pixel. The data is re-range to be between 0 and the 'Max Depth' parameter, specified in Meters. A pixel value of 0 means 0 meters from the camera while a pixel value of 1 means 'Max Depth' or more pixels from the camera."
+    },
+    {
+      "page": "Setup",
+      "label": "Raw Depth",
+      "name": "rawdepth",
+      "description": "The raw depth value for each pixel from the SDK. Not well documented by the SDK. The data is re-range to be between 0 and the 'Max Depth' parameter, specified in Meters. A pixel value of 0 means 0 meters from the camera while a pixel value of 1 means 'Max Depth' or more pixels from the camera."
+    },
+    {
+      "page": "Setup",
+      "label": "Depth Aligned to Color",
+      "name": "depthalignedtocolor",
+      "description": "Outputs the depth image adjusted to match the uv of the color image. (RealSense Cross Platform API only)"
+    },
+    {
+      "page": "Setup",
+      "label": "Color Aligned to Depth",
+      "name": "coloralignedtodepth",
+      "description": "Outputs the color image adjusted to match the uv of the depth image. (RealSense Cross Platform API only)"
+    },
+    {
+      "page": "Setup",
+      "label": "Infrared",
+      "name": "infrared",
+      "description": "The raw video from the infrared sensor."
+    },
+    {
+      "page": "Setup",
+      "label": "Point Cloud",
+      "name": "pointcloud",
+      "description": "Literally a cloud of points in 3d space (X, Y, Z coordinates) or data points created by the scanner of the RealSense Camera."
+    },
+    {
+      "page": "Setup",
+      "label": "Point Cloud Color UVs",
+      "name": "pointcloudcoloruv",
+      "description": "Which can be used to get each point’s color from the Color image stream."
+    },
+    {
+      "page": "Setup",
+      "label": "Visualized Depth",
+      "name": "visualizeddepth",
+      "description": "The depth values as output from the SDK when requesting a RGBA image. This output is useful for visualizing the depth, but the pixels values are dyanmically re-ranged by the SDK so it can't be used to determine a pixel's actual depth from the camera. (RealSense SDK for Windows only)"
+    },
+    {
+      "page": "Setup",
+      "label": "Depth To Color UV Map",
+      "name": "depthtocoloruv",
+      "description": "A RG 32-bit float texture that is the UV values needed to remap the Depth image to line up with the Color image. Use a  Remap TOP  with this and the Depth image to produce something that will be aligned with the Color image. (RealSense SDK for Windows only)"
+    },
+    {
+      "page": "Setup",
+      "label": "Color To Depth UV Map",
+      "name": "colortodepthuv",
+      "description": "A RG 32-bit float texture that is the UV values needed to remap the Color image to line up with the Depth image. Use a  Remap TOP  with this and the Color image to produce something that will be aligned with the Depth image. (RealSense SDK for Windows only)"
+    },
+    {
+      "page": "Setup",
+      "label": "Segmented Color (with Alpha)",
+      "name": "segmentedcolor",
+      "description": "Which outputs masked color image of the detected person in front of the camera. (RealSense SDK for Windows only)"
+    },
+    {
+      "page": "Setup",
+      "label": "Fisheye",
+      "name": "fisheye",
+      "description": "(RealSense SDK for Windows only)"
+    },
+    {
+      "page": "Setup",
+      "label": "Color Camera  Resolution",
+      "name": "colorres",
+      "description": "Select the resolution of the video. Currently only usable for the Color image."
+    },
+    {
+      "page": "Setup",
+      "label": "Max Depth",
+      "name": "maxdepth",
+      "description": "The depth value pixels with a value of 1 will be set to. Specified in Meters. Pixels with a depth larger than this will be clamped to 1 for fixed point texture output, or go above 1 for floating point output."
+    },
+    {
+      "page": "Setup",
+      "label": "Mirror Image",
+      "name": "mirrorimage",
+      "description": "Flip the image horizontally."
+    },
+    {
+      "page": "Setup",
+      "label": "Use Default Tradeoff",
+      "name": "defaulttradeoff",
+      "description": "Use the default Motion Range Tradeoff specified by the device."
+    },
+    {
+      "page": "Setup",
+      "label": "Motion Range Tradeoff",
+      "name": "tradeoff",
+      "description": "Specifies the tradeoff between motion and range. Value is from 0 (short exposure, short range, and better motion) to 100 (long exposure and long range)."
+    },
+    {
+      "page": "Setup",
+      "label": "Options  CHOP",
+      "name": "optionschop",
+      "description": "Channels specified in this  CHOP  allow for setting all of the options that the RealSense camera supports. Channel names should be the same as the C enumeration, with the RS2_OPTION_ prefix removed, and all lowercase. E.g RS2_OPTION_ENABLE_AUTO_EXPOSURE can be set by using a channel named \"enable_auto_exposure\". A list of options can be found  here."
+    },
+    {
+      "page": "Setup",
+      "label": "Skeleton Tracking",
+      "name": "skeltracking",
+      "description": "When enabled, performs skeleton tracking using the  Cubemos Skeleton Tracking API . The results can be fetched via the  RealSense CHOP . A Cubemos license is required for usage. A trial license is available."
+    },
+    {
+      "page": "Setup",
+      "label": "Use Default Paths",
+      "name": "usedefaultpaths",
+      "description": "When enabled, will search for the license and model files in the default location (LOCALAPPDATA). For the files to appear there the Cubemos SDK will need to be installed. If a specific license directory or model file is desired then this can be disabled."
+    },
+    {
+      "page": "Setup",
+      "label": "License Directory",
+      "name": "licensedir",
+      "description": "Specify the directory with the license files (activation_key.json and cubemos_license.json)."
+    },
+    {
+      "page": "Setup",
+      "label": "Skeleton Tracking Model File",
+      "name": "modelfile",
+      "description": "Specify the model file (.cubemos)"
+    },
+    {
+      "page": "Common",
+      "label": "Output  Resolution",
+      "name": "outputresolution",
+      "description": "⊞  - quickly change the resolution of the  TOP 's data."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's resolution"
+    },
+    {
+      "page": "Common",
+      "label": "Eighth",
+      "name": "eighth",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Quarter",
+      "name": "quarter",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Half",
+      "name": "half",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "2X",
+      "name": "2x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "4X",
+      "name": "4x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "8X",
+      "name": "8x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Fit  Resolution",
+      "name": "fit",
+      "description": "Grow or shrink the input resolution to fit this resolution, while keeping the aspect ratio the same."
+    },
+    {
+      "page": "Common",
+      "label": "Limit  Resolution",
+      "name": "limit",
+      "description": "Limit the input resolution to be not larger than this resolution, while keeping the aspect ratio the same."
+    },
+    {
+      "page": "Common",
+      "label": "Custom  Resolution",
+      "name": "custom",
+      "description": "Directly control the width and height."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution",
+      "name": "resolution",
+      "description": "⊞  - Enabled only when the  Resolution  parameter is set to Custom  Resolution . Some Generators like Constant and Ramp do not use inputs and only use this field to determine their size. The drop down menu on the right provides some commonly used resolutions."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution  Menu",
+      "name": "resmenu",
+      "description": "A drop-down menu with some commonly used resolutions."
+    },
+    {
+      "page": "Common",
+      "label": "Use Global Res Multiplier",
+      "name": "resmult",
+      "description": "Uses the Global  Resolution  Multiplier found in  Edit>Preferences>TOPs . This multiplies all the TOPs resolutions by the set amount. This is handy when working on computers with different hardware specifications. If a project is designed on a desktop workstation with lots of graphics memory, a user on a laptop with only 64MB VRAM can set the Global  Resolution  Multiplier to a value of half or quarter so it runs at an acceptable speed. By checking this checkbox on, this  TOP  is affected by the global multiplier."
+    },
+    {
+      "page": "Common",
+      "label": "Output Aspect",
+      "name": "outputaspect",
+      "description": "⊞  - Sets the image aspect ratio allowing any textures to be viewed in any size. Watch for unexpected results when compositing TOPs with different aspect ratios. (You can define images with non-square pixels using xres, yres, aspectx, aspecty where xres/yres != aspectx/aspecty.)"
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's aspect ratio."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution",
+      "name": "resolution",
+      "description": "Uses the aspect of the image's defined resolution (ie 512x256 would be 2:1), whereby each pixel is square."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Aspect",
+      "name": "custom",
+      "description": "Lets you explicitly define a custom aspect ratio in the Aspect parameter below."
+    },
+    {
+      "page": "Common",
+      "label": "Aspect",
+      "name": "aspect",
+      "description": "⊞  - Use when Output Aspect parameter is set to Custom Aspect."
+    },
+    {
+      "page": "Common",
+      "label": "Aspect Menu",
+      "name": "armenu",
+      "description": "A drop-down menu with some commonly used aspect ratios."
+    },
+    {
+      "page": "Common",
+      "label": "Input Smoothness",
+      "name": "inputfiltertype",
+      "description": "⊞  - This controls pixel filtering on the input image of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Nearest Pixel",
+      "name": "nearest",
+      "description": "Uses nearest pixel or accurate image representation. Images will look jaggy when viewing at any zoom level other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Interpolate Pixels",
+      "name": "linear",
+      "description": "Uses linear filtering between pixels. This is how you get  TOP  images in viewers to look good at various zoom levels, especially useful when using any Fill Viewer setting other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Mipmap Pixels",
+      "name": "mipmap",
+      "description": "Uses   mipmap  filtering when scaling images. This can be used to reduce artifacts and sparkling in moving/scaling images that have lots of detail."
+    },
+    {
+      "page": "Common",
+      "label": "Fill  Viewer",
+      "name": "fillmode",
+      "description": "⊞  - Determine how the  TOP  image is displayed in the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the same Fill Viewer settings as it's input."
+    },
+    {
+      "page": "Common",
+      "label": "Fill",
+      "name": "fill",
+      "description": "Stretches the image to fit the edges of the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Horizontal",
+      "name": "width",
+      "description": "Stretches image to fit viewer horizontally."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Vertical",
+      "name": "height",
+      "description": "Stretches image to fit viewer vertically."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Best",
+      "name": "best",
+      "description": "Stretches or squashes image so no part of image is cropped."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Outside",
+      "name": "outside",
+      "description": "Stretches or squashes image so image fills viewer while constraining it's proportions. This often leads to part of image getting cropped by viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Native  Resolution",
+      "name": "nativeres",
+      "description": "Displays the native resolution of the image in the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Viewer Smoothness",
+      "name": "filtertype",
+      "description": "⊞  - This controls pixel filtering in the viewers."
+    },
+    {
+      "page": "Common",
+      "label": "Nearest Pixel",
+      "name": "nearest",
+      "description": "Uses nearest pixel or accurate image representation. Images will look jaggy when viewing at any zoom level other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Interpolate Pixels",
+      "name": "linear",
+      "description": "Uses linear filtering between pixels. Use this to get  TOP  images in viewers to look good at various zoom levels, especially useful when using any Fill Viewer setting other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Mipmap Pixels",
+      "name": "mipmap",
+      "description": "Uses   mipmap  filtering when scaling images. This can be used to reduce artifacts and sparkling in moving/scaling images that have lots of detail. When the input is 32-bit float format, only nearest filtering will be used (regardless of what is selected)."
+    },
+    {
+      "page": "Common",
+      "label": "Passes",
+      "name": "npasses",
+      "description": "Duplicates the operation of the  TOP  the specified number of times. For every pass after the first it takes the result of the previous pass and replaces the node's first input with the result of the previous pass. One exception to this is the  GLSL TOP  when using compute shaders, where the input will continue to be the connected  TOP 's image."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Mask",
+      "name": "chanmask",
+      "description": "Allows you to choose which channels (R, G, B, or A) the  TOP  will operate on. All channels are selected by default."
+    },
+    {
+      "page": "Common",
+      "label": "Pixel Format",
+      "name": "format",
+      "description": "⊞  - Format used to store data for each channel in the image (ie. R, G, B, and A). Refer to  Pixel Formats  for more information."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's pixel format."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (RGBA)",
+      "name": "rgba8fixed",
+      "description": "Uses 8-bit integer values for each channel."
+    },
+    {
+      "page": "Common",
+      "label": "sRGB 8-bit fixed (RGBA)",
+      "name": "srgba8fixed",
+      "description": "Uses 8-bit integer values for each channel and stores color in sRGB colorspace. Note that this does  not  apply an sRGB curve to the pixel values, it only stores them using an sRGB curve. This means more data is used for the darker values and less for the brighter values. When the values are read downstream they will be converted back to linear. For more information refer to  sRGB ."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (RGBA)",
+      "name": "rgba16float",
+      "description": "Uses 16-bits per color channel, 64-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (RGBA)",
+      "name": "rgba32float",
+      "description": "Uses 32-bits per color channel, 128-bits per pixels."
+    },
+    {
+      "page": "Common",
+      "label": "10-bit RGB, 2-bit Alpha, fixed (RGBA)",
+      "name": "rgb10a2fixed",
+      "description": "Uses 10-bits per color channel and 2-bits for alpha, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (RGBA)",
+      "name": "rgba16fixed",
+      "description": "Uses 16-bits per color channel, 64-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "11-bit float (RGB), Positive Values Only",
+      "name": "rgba11float",
+      "description": "A RGB floating point format that has 11 bits for the Red and Green channels, and 10-bits for the Blue  Channel , 32-bits total per pixel (therefore the same memory usage as 8-bit RGBA). The Alpha channel in this format will always be 1. Values can go above one, but can't be negative. ie. the range is [0, infinite)."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (Mono)",
+      "name": "mono8fixed",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 8-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (Mono)",
+      "name": "mono16fixed",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (Mono)",
+      "name": "mono16float",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (Mono)",
+      "name": "mono32float",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (RG)",
+      "name": "rg8fixed",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 8-bits per channel, 16-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (RG)",
+      "name": "rg16fixed",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 16-bits per channel, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (RG)",
+      "name": "rg16float",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 16-bits per channel, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (RG)",
+      "name": "rg32float",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 32-bits per channel, 64-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (A)",
+      "name": "a8fixed",
+      "description": "An Alpha only format that has 8-bits per channel, 8-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (A)",
+      "name": "a16fixed",
+      "description": "An Alpha only format that has 16-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (A)",
+      "name": "a16float",
+      "description": "An Alpha only format that has 16-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (A)",
+      "name": "a32float",
+      "description": "An Alpha only format that has 32-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (Mono+Alpha)",
+      "name": "monoalpha8fixed",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 8-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (Mono+Alpha)",
+      "name": "monoalpha16fixed",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 16-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (Mono+Alpha)",
+      "name": "monoalpha16float",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 16-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (Mono+Alpha)",
+      "name": "monoalpha32float",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 32-bits per channel, 64-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "resx",
+      "description": "Horizontal resolution of the  TOP  in pixels."
+    },
+    {
+      "page": "Common",
+      "label": "resy",
+      "description": "Vertical resolution of the  TOP  in pixels."
+    },
+    {
+      "page": "Common",
+      "label": "aspectx",
+      "description": "Horizontal aspect of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "aspecty",
+      "description": "Vertical aspect of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "depth",
+      "description": "Depth of 2D or 3D array if this  TOP  contains a 2D or 3D texture array."
+    },
+    {
+      "page": "Common",
+      "label": "gpu_memory_used",
+      "description": "Total amount of texture memory used by this  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "The width and height of an image in pixels. Most TOPs, like the  Movie File In TOP  can set the image resolution. See  Aspect Ratio  for the width/height ratio of an image, taking into account non",
+      "description": "square pixels."
+    },
+    {
+      "page": "Common",
+      "label": "The viewer of a node can be (1) the interior of a node (the  Node Viewer ), (2) a floating window (RMB",
+      "description": ">View... on node), or (3) a  Pane  that graphically shows the results of an operator."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

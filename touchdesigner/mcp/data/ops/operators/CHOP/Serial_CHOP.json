@@ -1,0 +1,282 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Serial CHOP",
+  "pageSlug": "Serial_CHOP",
+  "url": "https://docs.derivative.ca/Serial_CHOP",
+  "tdOpTypeGuess": "serialCHOP",
+  "summary": "[  edit  ]\nThe Serial  CHOP  is used for serial communication through an external port, using the RS-232 protocol. These ports are usually a 9 pin connector, or a USB port on new machines. (Using a USB port requires a USB-to-serial adaptor and driver.) All of a computer's available serial ports can be found in the Device Manager under the Windows operating system. Their names begin with 'COM'. Example: COM1, COM2, COM3, etc.\nThis  CHOP  monitors changes in its input channels, and sends the corresponding script through the serial connection.\nAny ASCII numeric digits '0'..'9' that are received, are stored and reflected in the output channel named 'return'.\nWhen you need to receive more complex data, other than simple ASCII numbers use the  Serial DAT .\nSee also  Serial DAT ,  serialDAT_Class ,  Arduino .\nserialCHOP_Class\nContents\n1   Summary\n2   Parameters - Port Page\n3   Parameters - Scripts Page\n4   Parameters - Common Page\n5   Operator Inputs\n6   Info CHOP Channels\n6.1   Common CHOP Info Channels\n6.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Port",
+      "label": "Active",
+      "name": "active",
+      "description": "This check box enables the serial connection."
+    },
+    {
+      "page": "Port",
+      "label": "State",
+      "name": "state",
+      "description": "⊞  - The type of input transition to monitor."
+    },
+    {
+      "page": "Port",
+      "label": "Port",
+      "name": "port",
+      "description": "⊞  - Selects the COM port that the serial connection will use."
+    },
+    {
+      "page": "Port",
+      "label": "Baud Rate",
+      "name": "baudrate",
+      "description": "The maximum number of bits of information, including \"control\" bits, that are transmitted per second. Check your input device's default baud rate and set accordingly."
+    },
+    {
+      "page": "Port",
+      "label": "Baud Rate Menu",
+      "name": "baudmenu",
+      "description": "⊞  - Use this menu to select from some commonly used baud rates."
+    },
+    {
+      "page": "Port",
+      "label": "Data Bits",
+      "name": "databits",
+      "description": "⊞  - This parameter sets the number of data bits sent in each. Data bits are transmitted \"backwards\". Backwards refers to the order of transmission, which is from least significant bit (LSB) to most significant bit (MSB). To interpret the data bits, you must read from right to left."
+    },
+    {
+      "page": "Port",
+      "label": "Parity",
+      "name": "parity",
+      "description": "⊞  - This parameter can be set to none, even, or odd. The optional parity bit follows the data bits and is included as a simple means of error checking. Parity bits work by specifying ahead of time whether the parity of the transmission is to be even or odd. If the parity is set to be odd, the transmitter will then set the parity bit in such a way as to make an odd number of 1's among the data bits and the parity bit."
+    },
+    {
+      "page": "Port",
+      "label": "Stop Bits",
+      "name": "stopbits",
+      "description": "⊞  - The last part of transmission packet consists of 1 or 2 Stop bits. The connection will now wait for the next Start bit."
+    },
+    {
+      "page": "Scripts",
+      "label": "Script",
+      "name": "script",
+      "description": "Sequence of scripts corresponding to input channels. These strings are sent out the serial port when the corresponding channel change is detected. For example,  Script  2 is sent to the serial port when the third input channel goes from off to on. These scripts will also convert escape sequences like <CR> and \\n for carriage returns and \\r for line feed."
+    },
+    {
+      "page": "Scripts",
+      "label": "Callback",
+      "name": "script0callback",
+      "description": "Enter the script for  Script  0 here."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "Rename from",
+      "name": "commonrenamefrom",
+      "description": "The channel pattern to rename. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Rename to",
+      "name": "commonrenameto",
+      "description": "The replacement pattern for the names. The default parameters do not rename the channels. See  Pattern Replacement ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Names:  c[1",
+      "description": "10:2] ambient"
+    },
+    {
+      "page": "Common",
+      "label": "Rename To:  b[1",
+      "description": "5] amb    This example fetches channels  c1 c3 c5 c7 c9  and  ambient ."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "A set of commands located in a Text DAT that are triggered to run under certain conditions. There are two scripting languages in TouchDesigner:  Python  and the original  Tscript . Scripts and single",
+      "description": "line commands can also be run in the  Textport ."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "se encarga de **enviar los universos DMX** generados por otros POPs (como el DMX Fixture POP) a dispositivos externos a través de diferentes protocolos como DMX, Art-Net, sACN, KiNET o FTDI. * **Características clave:** * **Fusiona los universos DMX** de todas sus entradas DMX Fixture POP. Si hay conflictos (varios DMX Fixture POPs intentan escribir en el mismo canal), emitirá una advertencia. * **Interfaz (`Interface`)**: Permite seleccionar el tipo de conexión al dispositivo (serial, Art-Net, sACN, KiNET, etc.). * **Velocidad (`Rate`)**: Controla la frecuencia con la que se envían los datos (DMX512 tiene un máximo de 44Hz). * Puedes especificar una **Tabla de Enrutamiento (Routing Table)** desde un DAT para definir direcciones de red personalizadas para cada universo DMX512. * Soporta **Multicast** para sACN, que automáticamente construye la dirección IP para enviar a múltiples dispositivos. * Puedes especificar una **dirección de red** específi"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

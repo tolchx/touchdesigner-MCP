@@ -1,0 +1,26 @@
+{
+  "family": "SOP",
+  "pageTitle": "Fractal SOP",
+  "pageSlug": "Fractal_SOP",
+  "url": "https://docs.derivative.ca/Fractal_SOP",
+  "tdOpTypeGuess": "fractalSOP",
+  "summary": "[  edit  ]\nThe Fractal  SOP  allows you created jagged mountain-like divisions of the input geometry. It will create random-looking deviations and sub-divisions along either a specified normal vector (the Direction xyz fields) or the vertex normals of the input geometry. This is great for the creation of terrains and landscapes.\nfractalSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "untos (por ejemplo, generada por un Sprinkle POP) como plantilla para colocar copias de un objeto. Esto permite poblar espacios 3D con elementos de forma controlada o aleatoria.2 * Creación de arreglos o cuadrículas: Generar disposiciones estructuradas de objetos con espaciado y transformaciones controladas, lo que es útil para diseños modulares o efectos de mosaico.2 * Generación de patrones procedurales: Construir patrones complejos transformando copias de forma acumulativa, como espirales, fractales o estructuras recursivas. La naturaleza acumulativa de las transformaciones permite una gran variedad de diseños.2 * Variaciones impulsadas por atributos: Utilizar atributos de plantilla (por ejemplo, color, vectores personalizados) para impulsar modificaciones por copia, lo que permite efectos visuales altamente dinámicos y basados en datos. Por ejemplo, la escala de cada copia podría depender de un atributo de \"edad\" de la partícula.2 3.2.4 Notas Importantes, Advertencias e Interaccio"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

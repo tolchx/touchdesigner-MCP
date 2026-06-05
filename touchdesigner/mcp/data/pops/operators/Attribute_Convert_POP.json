@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Attribute Convert POP",
+  "pageSlug": "Attribute_Convert_POP",
+  "url": "https://docs.derivative.ca/Attribute_Convert_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "attributeConvertPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "itada Para los siguientes operadores, el material de investigación proporcionado indicó que la información era inaccesible, limitada a menciones muy breves o redirecciones sin contenido, o que las búsquedas arrojaron resultados irrelevantes de otras familias de operadores (SOPs, CHOPs, TOPs, DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "itada Para los siguientes operadores, el material de investigación proporcionado indicó que la información era inaccesible, limitada a menciones muy breves o redirecciones sin contenido, o que las búsquedas arrojaron resultados irrelevantes de otras familias de operadores (SOPs, CHOPs, TOPs, DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point F"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "itada Para los siguientes operadores, el material de investigación proporcionado indicó que la información era inaccesible, limitada a menciones muy breves o redirecciones sin contenido, o que las búsquedas arrojaron resultados irrelevantes de otras familias de operadores (SOPs, CHOPs, TOPs, DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "de la función específica de este operador. • Experimental:Analyze POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Attribute Combine POP: Este operador es útil para combinar atributos de múltiples entradas. También puedes usarlo para, por ejemplo, quitar el atributo de Posición (P) de un POP si no lo necesitas. Permite seleccionar qué atributos o grupos específicos deseas procesar de cada entrada. • Experimental:Attribute Convert POP: Se utiliza para transferir atributos entre diferentes \"clases\" (tipos) de datos, como convertir atributos de puntos a atributos de vértices o de primitivas. • Experimental:Attribute POP: Es un operador fundamental para crear nuevos atributos en puntos, vértices o primitivas, y puedes inicializarlos con valores constantes. También es el lugar donde puedes crear \"arrays de atributos\". • Experimental:Blend POP: Es un POP que soporta múltiples entradas, lo que sugiere que puede mezclar o inter"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "de la función específica de este operador. • Experimental:Analyze POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Attribute Combine POP: Este operador es útil para combinar atributos de múltiples entradas. También puedes usarlo para, por ejemplo, quitar el atributo de Posición (P) de un POP si no lo necesitas. Permite seleccionar qué atributos o grupos específicos deseas procesar de cada entrada. • Experimental:Attribute Convert POP: Se utiliza para transferir atributos entre diferentes \"clases\" (tipos) de datos, como convertir atributos de puntos a atributos de vértices o de primitivas. • Experimental:Attribute POP: Es un operador fundamental para crear nuevos atributos en puntos, vértices o primitivas, y puedes inicializarlos con valores constantes. También es el lugar donde puedes crear \"arrays de atributos\". • Experimental:Blend POP: Es un POP que soporta múltiples entradas, lo que sugiere que puede mezclar o i"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "de la función específica de este operador. • Experimental:Analyze POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Attribute Combine POP: Este operador es útil para combinar atributos de múltiples entradas. También puedes usarlo para, por ejemplo, quitar el atributo de Posición (P) de un POP si no lo necesitas. Permite seleccionar qué atributos o grupos específicos deseas procesar de cada entrada. • Experimental:Attribute Convert POP: Se utiliza para transferir atributos entre diferentes \"clases\" (tipos) de datos, como convertir atributos de puntos a atributos de vértices o de primitivas. • Experimental:Attribute POP: Es un operador fundamental para crear nuevos atributos en puntos, vértices o primitivas, y puedes inicializarlos con valores constantes. También es el lugar donde puedes crear \"arrays de atributos\". • Experimental:Blend POP: Es un POP que soporta múltiples entradas, lo que sugiere que puede mezclar o inter"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

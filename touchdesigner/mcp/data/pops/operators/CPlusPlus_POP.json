@@ -1,0 +1,28 @@
+{
+  "pageTitle": "CPlusPlus POP",
+  "pageSlug": "CPlusPlus_POP",
+  "url": "https://docs.derivative.ca/CPlusPlus_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "cPlusPlusPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "xperimental:Import Select POP | Derivative - TouchDesigner, fecha de acceso: julio 1, 2025, https://derivative.ca/UserGuide/Experimental%3AImport_Select_POP 42. A Look at the Particle POP in TouchDesigner - TouchDesigner Tutorial 211 - YouTube, fecha de acceso: julio 1, 2025, https://www.youtube.com/watch?v=MTtmGBRC8vM 43. TouchDesigner POPs Exploding Particles - TouchDesigner Tutorial 213 - YouTube, fecha de acceso: julio 1, 2025, https://www.youtube.com/watch?v=iTe-2B764vg 44. Experimental:CPlusPlus POP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:CPlusPlus_POP 45. Cache POP - Derivative, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Cache_POP 46. RFE: DMX Fixture POP - Attribute Channel Split across Universe - TouchDesigner forum, fecha de acceso: julio 1, 2025, https://forum.derivative.ca/t/rfe-dmx-fixture-pop-attribute-channel-split-across-universe/696642 47. Merge POP - Derivative, fecha de acceso: julio 1, 2025, htt"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "xperimental:Import Select POP | Derivative - TouchDesigner, fecha de acceso: julio 1, 2025, https://derivative.ca/UserGuide/Experimental%3AImport_Select_POP 42. A Look at the Particle POP in TouchDesigner - TouchDesigner Tutorial 211 - YouTube, fecha de acceso: julio 1, 2025, https://www.youtube.com/watch?v=MTtmGBRC8vM 43. TouchDesigner POPs Exploding Particles - TouchDesigner Tutorial 213 - YouTube, fecha de acceso: julio 1, 2025, https://www.youtube.com/watch?v=iTe-2B764vg 44. Experimental:CPlusPlus POP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:CPlusPlus_POP 45. Cache POP - Derivative, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Cache_POP 46. RFE: DMX Fixture POP - Attribute Channel Split across Universe - TouchDesigner forum, fecha de acceso: julio 1, 2025, https://forum.derivative.ca/t/rfe-dmx-fixture-pop-attribute-channel-split-across-universe/696642 47. Merge POP - Derivative, fecha de acceso: julio 1, 2025,"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "xperimental:Import Select POP | Derivative - TouchDesigner, fecha de acceso: julio 1, 2025, https://derivative.ca/UserGuide/Experimental%3AImport_Select_POP 42. A Look at the Particle POP in TouchDesigner - TouchDesigner Tutorial 211 - YouTube, fecha de acceso: julio 1, 2025, https://www.youtube.com/watch?v=MTtmGBRC8vM 43. TouchDesigner POPs Exploding Particles - TouchDesigner Tutorial 213 - YouTube, fecha de acceso: julio 1, 2025, https://www.youtube.com/watch?v=iTe-2B764vg 44. Experimental:CPlusPlus POP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:CPlusPlus_POP 45. Cache POP - Derivative, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Cache_POP 46. RFE: DMX Fixture POP - Attribute Channel Split across Universe - TouchDesigner forum, fecha de acceso: julio 1, 2025, https://forum.derivative.ca/t/rfe-dmx-fixture-pop-attribute-channel-split-across-universe/696642 47. Merge POP - Derivative, fecha de acceso: julio 1, 2025, htt"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

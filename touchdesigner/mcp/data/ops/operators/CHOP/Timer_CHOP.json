@@ -1,0 +1,735 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Timer CHOP",
+  "pageSlug": "Timer_CHOP",
+  "url": "https://docs.derivative.ca/Timer_CHOP",
+  "tdOpTypeGuess": "timerCHOP",
+  "summary": "[  edit  ]\nThe Timer  CHOP  is an engine for running timed processes. It outputs channels such as timing fractions, counters, pulses and timer states, and it calls python functions (callbacks) when various timing events occur.\nExamples using the Timer  CHOP  include triggering multiple timed cues, running playlists, timelines, state machines, and driving pre-animated animation components in 3D scenes. See Help -> Operator  Snippets  for numerous examples.\nYou set a timer to a number of seconds (or unlimited), frames or samples, and trigger it to start via the Start parameter or the second input  CHOP . The Timer  CHOP  outputs in seconds, frames, samples, fraction and on-off states as it’s counting, including a  done  channel that goes on when it is complete.  When it reaches certain states like end-of-cycles or when it’s done, various python callbacks are called allowing you to customize its behavior.\nThe Timer  CHOP  gets triggered by events (via pulsing its parameters or driving its two inputs). It takes events in, counts time, changes state. Via its python callback functions, you can send events out to other nodes, set parameters, get/set values in DATs, CHOPs and storage, restart itself, or trigger other nodes. As such, it can operate as a state machine.\nIt has play/pause, plus a speed control to slow down or speed up the timer.\nIt can also cycle indefinitely and then can be signaled to end immediately or at the end of the current cycle.\nRecommended : the  OP  Snippets  for Timer  CHOP  .  See the channel descriptions in  Initialize Start .\nMultiple Timer segments  - One Timer  CHOP  can also have multiple timers within it. By attaching a  Table DAT  you can define one timer (segment) per row. In Serial Timers mode it allows for one time segment followed by another. In Parallel Timers mode, the timers all run in parallel, each with its own begin time and length, and its own set of output channels.\nThe Timer  CHOP  can be Locked to  Timeline  in a deterministic way, or run more freely in Sequential Mode. When run independently from the timeline, you can jump ahead, break out of cycles, pause,  goTo()  exact position or timecode in the timer, and dynamically adjust the speed.\nAttach an Info  DAT  to the Timer  CHOP  to see the timecodes, or use the  .timecode  members. Custom text strings can be placed in the Info  DAT  for each segment, and custom animated channels can be created.\nTo make an entire Timer  CHOP  loop after the last segment, set the On Done menu to Re-Start.\nTip: What happens when you press Start  - The timers are at 0 when you Initialize, for example  timer_frames  = 0. On the frame when you press Start, by default, the  running  channel goes from 0 to 1, and all the  timer_  counter channels step forward by 1 frame.   If you want the timers to hold at 0 until the next frame, set the Run Value parameter to Zero. This is useful when you are cutting from black or other media to a visible first-frame of a movie when  running  goes to 1.\nChaining Timers  - The Timer CHOPs can be chained together, so that when one ends, the next can begin. They just need to all be Initialized together, where the  ready_pulse  channel of one Timer  CHOP  is exported to the Initialize parameter of the next Timer  CHOP . Then they can be run in sequence, where the output of one Timer  CHOP ’s  done_pulse  channel is wired to the Start input (or exported to the Start parameter) of the next Timer  CHOP .  You start the chain of timers by starting the first Timer  CHOP . By using some Timer CHOPs to loop awaiting input or response, or by adding logic to decide which  CHOP  to start next, state machines can be implemented.\nCallbacks\nThe callbacks are called at different moments during the timer progression.\nonInitialize()  gets called when you pulse the Initialize parameter. Here you can prepare any part of your setup prior to starting. At the end of Initialize the timer goes into a \"ready\" state.\nonStart()  gets called on the frame that the Start parameter is pulsed. The timer then goes into a \"running\" state.\nonTimerActive()  gets called every frame that the timer is running and there is no Delay or Play is off.\nonCycleStart()  gets called if the timer is set to cycle via the Cycle parameters.\nBefore a cycle or segment ends, an  onCycleEndAlert()  callback based on the Cycle End Alert parameter can be called to allow you to prepare for the next cycle, segment or Timer  CHOP .\nonSegmentEnter()  and  onSegmentExit()  get called if the timer is being driven by a Segments  DAT  which acts like several timers in one.  The argument  segment  in these callbacks is actually an object with useful members including any custom columns you have in your segment table: In  onSegmentEnter() , put the code  print(help(segment))\nonDone()  gets called when the timer reaches its finished state.\nYou can initialize at a specific time by using  .masterSeconds  in  onInitialize() .\nSee also :  Trigger CHOP ,  Event CHOP ,  Speed CHOP ,  Count CHOP ,  Beat CHOP ,  Event CHOP ,  Clock CHOP ,  Delay CHOP ,  CHOP Execute DAT ,  LFO CHOP .\ntime measurements{| class=\"wikitable\"|+ Time Measurements and what affects them|-\n! Name !! Speed !! Play !! Cycles !! Go To and Cueing !! Subrange !! Delay Between Segments|-| Cumulative Time Count |\n| slows if speed<1 |\n| pauses when off |\n| keeps counting |",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Timer",
+      "label": "Active",
+      "name": "active",
+      "description": "⊞  - The Timer cooks: Never / Always / While Running (while in \"running\" state) / While Playing (while in \"running\" state and Play is on)."
+    },
+    {
+      "page": "Timer",
+      "label": "Time Control",
+      "name": "timecontrol",
+      "description": "⊞  -  Sequential  (timeline-independent) or  Locked to  Timeline  . In Locked to  Timeline , non-deterministic features are disabled.  External  CHOP   Channel   lets you drive the master time ( .masterSeconds  etc) using a  CHOP  channel defined by the parameters on the External page.  External Timecode  lets you drive the master time using a timecode  CHOP / DAT / Object ."
+    },
+    {
+      "page": "Timer",
+      "label": "Lock To  Timeline",
+      "name": "lock",
+      "description": "Output is determined by the current frame position."
+    },
+    {
+      "page": "Timer",
+      "label": "Sequential",
+      "name": "sequential",
+      "description": "Output runs continuously, regardless of current frame position."
+    },
+    {
+      "page": "Timer",
+      "label": "External  CHOP   Channel",
+      "name": "chop",
+      "description": "Output is determined by external  CHOP  channel value."
+    },
+    {
+      "page": "Timer",
+      "label": "External Timecode",
+      "name": "timecode",
+      "description": "Output is determined by the value of an external timecode."
+    },
+    {
+      "page": "Timer",
+      "label": "Defer Par Changes",
+      "name": "deferpars",
+      "description": "When On, parameter changes like Length, Cycles and others are ignored until the next Intitalize. When Off, paraameter changes affect the timer immediately (possibly giving jumps in state)."
+    },
+    {
+      "page": "Timer",
+      "label": "Initialize",
+      "name": "initialize",
+      "description": "(pulse parameter) Initialize is the signal to get the timer ready: sets the frames, samples and fraction counters to zero (delay, timer, cycle, segment), set the output channels in the proper state,  done  to be off, the onInitialize() callback is run, and when initialize is complete, it indicates it’s ready by turning on the  ready  channel, awaiting a Start pulse."
+    },
+    {
+      "page": "Timer",
+      "label": "Start",
+      "name": "start",
+      "description": "(pulse) Start is the signal to begin the timers counting. It will count through the delay first, then the timer length. It does an Initialize if it is not already initialized, and then starts counting."
+    },
+    {
+      "page": "Timer",
+      "label": "Length Type",
+      "name": "lengthtype",
+      "description": "⊞  - Describes how the length is defined."
+    },
+    {
+      "page": "Timer",
+      "label": "Fixed",
+      "name": "fixed",
+      "description": "Lengths are finite, that is of a specific duration."
+    },
+    {
+      "page": "Timer",
+      "label": "Infinite",
+      "name": "infinite",
+      "description": "The segments run continuously without end."
+    },
+    {
+      "page": "Timer",
+      "label": "Length",
+      "name": "length",
+      "description": "⊞  - (float) the time-length of the timer. Set the Units menu to Seconds, Frames or Samples."
+    },
+    {
+      "page": "Timer",
+      "label": "Delay",
+      "name": "delay",
+      "description": "⊞  - (float) after Start, the delay before the timer begins counting."
+    },
+    {
+      "page": "Timer",
+      "label": "Run Values",
+      "name": "runvalues",
+      "description": "⊞  - On the frame that Start is triggered and the  running  channel goes from 0 to 1, this determines what the channels  timer_frames ,  timer_samples  and  timer_fraction  will be. If the menu is set to Zero, these channels will be 0 as they are when the timer is initialized. If set to One, on the first frame running is 1,  timer_frames  and  timer_samples  will be set to one frame, and  timer_fraction  will also have stepped forward by a frame."
+    },
+    {
+      "page": "Timer",
+      "label": "Play",
+      "name": "play",
+      "description": "(onoff) Pauses the timer. It is basically a 0 or 1 multiplier on the Speed."
+    },
+    {
+      "page": "Timer",
+      "label": "Speed",
+      "name": "speed",
+      "description": "(default 1) Slows down or speeds up the timer."
+    },
+    {
+      "page": "Timer",
+      "label": "Cue",
+      "name": "cue",
+      "description": "⊞  - Freezes playing at the Cue  Point ."
+    },
+    {
+      "page": "Timer",
+      "label": "Cue  Point",
+      "name": "cuepoint",
+      "description": "⊞  - Time (Seconds, Frames or Fraction) which the cue point is frozen to."
+    },
+    {
+      "page": "Timer",
+      "label": "Cycle",
+      "name": "cycle",
+      "description": "(default Off) causes the timer to loop back to 0 when it reaches the end of the cycle."
+    },
+    {
+      "page": "Timer",
+      "label": "Cycle Limit",
+      "name": "cyclelimit",
+      "description": "When the Cycle parameter is On, this determines if it will cycle indefinitely or cycle some maximum number of cycles."
+    },
+    {
+      "page": "Timer",
+      "label": "Maximum Cycles",
+      "name": "maxcycles",
+      "description": "When Cycle is on and Cycle Limit is on, this sets the maximum number of cycles."
+    },
+    {
+      "page": "Timer",
+      "label": "Cycle End Alert",
+      "name": "cycleendalert",
+      "description": "⊞  - The number of seconds, frames or samples before a cycle, segment or done state is reached that the  onCycleEndAlert()  callback is called. This allows you to prepare for the next cycle, segment or timer."
+    },
+    {
+      "page": "Timer",
+      "label": "Exit Segment at End of Cycle",
+      "name": "exitendcycle",
+      "description": "When pulsed, it will exit the cycle (and segment) at the end of the currently-playing cycle."
+    },
+    {
+      "page": "Timer",
+      "label": "Go to End of Cycle",
+      "name": "gotoendcycle",
+      "description": "When pulsed, it will exit the cycle (and segment) immediately."
+    },
+    {
+      "page": "Timer",
+      "label": "Go to Done",
+      "name": "gotodone",
+      "description": "Will immediately go to the Done state."
+    },
+    {
+      "page": "Timer",
+      "label": "On Done",
+      "name": "ondone",
+      "description": "⊞  - Determines which action to take when the timer gets to the end, ie \"is done\" or finished. Note there is also a onDone callback that can be used for customizing behavior."
+    },
+    {
+      "page": "Timer",
+      "label": "Do Nothing",
+      "name": "donothing",
+      "description": "No action taken."
+    },
+    {
+      "page": "Timer",
+      "label": "Re-Initialize",
+      "name": "reinit",
+      "description": "Will re-initialize the timer, this is the same as pulsing the Initialize parameter above."
+    },
+    {
+      "page": "Timer",
+      "label": "Re-Start",
+      "name": "restart",
+      "description": "Will re-initialize and re-start the timer, this is the same as pulsing the Start parameter above."
+    },
+    {
+      "page": "Timer",
+      "label": "Re-Start without Initializing",
+      "name": "restartnoinit",
+      "description": "Will re-star the timeer without re-initializing."
+    },
+    {
+      "page": "Timer",
+      "label": "Callbacks  DAT",
+      "name": "callbacks",
+      "description": "The path to the  DAT  containing callbacks for this Timer  CHOP ."
+    },
+    {
+      "page": "Timer",
+      "label": "Length Units",
+      "name": "lengthunits",
+      "description": "⊞  - Choose between using Samples, Frames, or Seconds as the units for this parameter."
+    },
+    {
+      "page": "Timer",
+      "label": "Delay Units",
+      "name": "delayunits",
+      "description": "⊞  - Choose between using Samples, Frames, or Seconds as the units for this parameter."
+    },
+    {
+      "page": "Timer",
+      "label": "Cue  Pulse",
+      "name": "cuepulse",
+      "description": "Jump instantly to the Cue  Point ."
+    },
+    {
+      "page": "Timer",
+      "label": "Cue Units",
+      "name": "cueunits",
+      "description": "⊞  - Choose between using Samples, Frames, Seconds, Fraction(0-1) as the units for this parameter."
+    },
+    {
+      "page": "Timer",
+      "label": "Notify Units",
+      "name": "notifyunits",
+      "description": "⊞  - Choose between using Samples, Frames, or Seconds as the units for this parameter."
+    },
+    {
+      "page": "Segments",
+      "label": "Segments  DAT",
+      "name": "segdat",
+      "description": "A table  DAT  that contains one row per timer (segment). The column headings can be  delay  or  begin ,  length ,  cycle ,  cyclelimit ,  maxcycles  and  cycleendalert , which override the equivalent parameters. (These are the internal names for the corresponding parameters.)  begin  is unique as it replaces  delay , and it represents the time from Start that the timer will begin counting, whether the  CHOP  is set to Serial Timers or Parallel Timers (see Segment Method)."
+    },
+    {
+      "page": "Segments",
+      "label": "Segment Method",
+      "name": "segmethod",
+      "description": "⊞  - If the Segment Method is  Serial Timers , the timers will be played back-to-back. If the Segment Method is  Parallel Timers , the timers can be played at the same time, and a set of channels will be output for each timer."
+    },
+    {
+      "page": "Segments",
+      "label": "Segment Units",
+      "name": "segunits",
+      "description": "⊞  - For the columns  delay ,  begin ,  length  and  cycleendalert , you specify whether it’s seconds, frames or samples with this menu."
+    },
+    {
+      "page": "Segments",
+      "label": "Segments End Time",
+      "name": "segsendtime",
+      "description": "⊞  - Describes how the end time is calculated."
+    },
+    {
+      "page": "Segments",
+      "label": "From Segments  DAT",
+      "name": "dat",
+      "description": "The end time is based on the Segments  DAT  values."
+    },
+    {
+      "page": "Segments",
+      "label": "From Length  Parameter",
+      "name": "par",
+      "description": "The end time is based on the Length parameter value."
+    },
+    {
+      "page": "Segments",
+      "label": "Max of  Parameter /Table",
+      "name": "max",
+      "description": "The end time is based on the greater of the Length parameter value and the Segments  DAT  values."
+    },
+    {
+      "page": "Segments",
+      "label": "Columns to Custom Channels",
+      "name": "channelcolumns",
+      "description": "Optional extra columns (any name) in the segments  DAT  can be output as extra channels (the columns must contain numbers). Specify their names in the Columns to Channels parameter. The channel name will be the column name. You can also output the  length ,  delay , etc columns as channels."
+    },
+    {
+      "page": "Segments",
+      "label": "Custom Channel Interpolation",
+      "name": "interpolation",
+      "description": "⊞  - By default, custom channels step to their new value at the begin of the segment. This menu lets you interpolate to the new value linearly, or any combination of ease-in and ease-out."
+    },
+    {
+      "page": "Segments",
+      "label": "Ease In",
+      "description": "Out to Value   easeinouttovalue  -"
+    },
+    {
+      "page": "Segments",
+      "label": "Columns to Info  DAT",
+      "name": "infocolumns",
+      "description": "Optional extra columns (any name) in the segments  DAT  can be output to the Info  DAT  (attach an Info  DAT  to the Timer  CHOP ) if you specify their names in this parameter."
+    },
+    {
+      "page": "Segments",
+      "label": "Go to Previous Segment",
+      "name": "gotoprevseg",
+      "description": "(pulse) Jump to Previous Segment."
+    },
+    {
+      "page": "Segments",
+      "label": "Go to Next Segment",
+      "name": "gotonextseg",
+      "description": "(pulse) Jump to Next Segment."
+    },
+    {
+      "page": "Segments",
+      "label": "Running Time – Zero at Start, the wall",
+      "description": "clock time since Start was called no matter what are the delays, speeds, cycles or premature clicking of Go To Segment End. It stops counting when Done has been reached."
+    },
+    {
+      "page": "Sub Range",
+      "label": "Sub Range",
+      "name": "subrange",
+      "description": "Turn this parameter on to limit the timer output to a subrange of the full length."
+    },
+    {
+      "page": "Sub Range",
+      "label": "Sub Start",
+      "name": "substart",
+      "description": "⊞  - The beginning point of the sub range."
+    },
+    {
+      "page": "Sub Range",
+      "label": "Sub End",
+      "name": "subend",
+      "description": "⊞  - The end point of the sub range."
+    },
+    {
+      "page": "Sub Range",
+      "label": "Sub End Action",
+      "name": "subendaction",
+      "description": "⊞  - Controls the behavior once the sub range end point is reached: Loop at End, or Pause at End."
+    },
+    {
+      "page": "Sub Range",
+      "label": "Sub Start Units",
+      "name": "substartunits",
+      "description": "⊞  - Choose between using Samples, Frames, or Seconds as the units for this parameter."
+    },
+    {
+      "page": "Sub Range",
+      "label": "Sub End Units",
+      "name": "subendunits",
+      "description": "⊞  - Choose between using Samples, Frames, or Seconds as the units for this parameter."
+    },
+    {
+      "page": "Outputs",
+      "label": "Timer Fraction",
+      "name": "outfraction",
+      "description": "Outputs channel  timer_fraction  for each segment."
+    },
+    {
+      "page": "Outputs",
+      "label": "Timer Count",
+      "name": "outtimercount",
+      "description": "⊞  - Outputs the elapsed Seconds channel as  timer_seconds , Frames outputs channel as  timer_frames , or Samples outputs channel as  timer_samples . Because this is elapsed time,  timer_frames  starts at 0, as do the others."
+    },
+    {
+      "page": "Outputs",
+      "label": "Timer Active",
+      "name": "outtimeractive",
+      "description": "Outputs channel  timer_active  which is on only while the timer fraction is counting (is non-zero)."
+    },
+    {
+      "page": "Outputs",
+      "label": "Timer  Pulse",
+      "name": "outtimerpulse",
+      "description": "Outputs channel  timer_pulse  when the timer reaches its length."
+    },
+    {
+      "page": "Outputs",
+      "label": "Delay Fraction",
+      "name": "outdelayfraction",
+      "description": "Outputs a 0-1 fraction in  delay_fraction  while the delay occurs."
+    },
+    {
+      "page": "Outputs",
+      "label": "Delay Count",
+      "name": "outdelaycount",
+      "description": "⊞  - Outputs the delay count in seconds, frames or samples."
+    },
+    {
+      "page": "Outputs",
+      "label": "Initializing",
+      "name": "outinit",
+      "description": "Outputs channel  initializing  = 1 while the timer is initalizing (i.e. while the callback  onInitialize()  returns non-zero)."
+    },
+    {
+      "page": "Outputs",
+      "label": "Ready",
+      "name": "outready",
+      "description": "Outputs channel  ready  which is 1 after an Initialize and before a Start."
+    },
+    {
+      "page": "Outputs",
+      "label": "Ready  Pulse",
+      "name": "outreadypulse",
+      "description": "Outputs a pulse when initialization has finished and the timer is ready to start. It pulses even when the timer starts rights away after an initialization."
+    },
+    {
+      "page": "Outputs",
+      "label": "Running",
+      "name": "outrunning",
+      "description": "Outputs channel  running  which is 1 after a Start and before the Done."
+    },
+    {
+      "page": "Outputs",
+      "label": "Done",
+      "name": "outdone",
+      "description": "Outputs channel  done  when done or complete."
+    },
+    {
+      "page": "Outputs",
+      "label": "Done  Pulse",
+      "name": "outdonepulse",
+      "description": "Outputs channel  done  when the all timers have reached their completion."
+    },
+    {
+      "page": "Outputs",
+      "label": "Cycles",
+      "name": "outcycle",
+      "description": "Outputs channel  cycles , which is the number of cycles completed (In a segment), starting with 0 during the entire first cycle. If you jump to Done, cycle is incremented as if it played normally to the done state."
+    },
+    {
+      "page": "Outputs",
+      "label": "Cycle  Pulse",
+      "name": "outcyclepulse",
+      "description": "Outputs a pulse at the end of every cycle, even on the first and only cycle."
+    },
+    {
+      "page": "Outputs",
+      "label": "Cycles + Fraction",
+      "name": "outcycleplusfraction",
+      "description": "Outputs channel  cycle_plus_fraction , starting with 0 for entire first cycle."
+    },
+    {
+      "page": "Outputs",
+      "label": "Segment",
+      "name": "outseg",
+      "description": "Outputs channel  segment , starting with 0 for first segment."
+    },
+    {
+      "page": "Outputs",
+      "label": "Segment  Pulse",
+      "name": "outsegpulse",
+      "description": "Outputs channel  segment_pulse  which is a pulse at the end of each segment."
+    },
+    {
+      "page": "Outputs",
+      "label": "Segment + Fraction",
+      "name": "outsegplusfraction",
+      "description": "Outputs channel  segment_plus_fraction , starting with 0 for first segment ending at #segments at end."
+    },
+    {
+      "page": "Outputs",
+      "label": "Length",
+      "name": "outlength",
+      "description": "⊞  - Outputs channel  length , starting with 0 for first segment ending at #segments at end."
+    },
+    {
+      "page": "Outputs",
+      "label": "Cumulative Timer Count",
+      "name": "outcumulativecount",
+      "description": "⊞  - Outputs  cumulative_seconds ,  cumulative_frames  or  cumulative_samples . It is a time count that adds up all the Timer Active times for all segments since Start: it is affected by \"Speed\", and counts up only while  timer_active  (Play) is on.   See the python member  .cumulativeSeconds ."
+    },
+    {
+      "page": "Outputs",
+      "label": "Playing Timer Count",
+      "name": "outplayingcount",
+      "description": "⊞  - Outputs  playing_seconds ,  playing_frames  or  playing_samples . It is a time count that adds up all the Timer Active times for all segments since Start: it is not affected by \"Speed\", and counts up only while  timer_active  and  play  is on.  See the python member  .playingSeconds ."
+    },
+    {
+      "page": "Outputs",
+      "label": "Running Time Count",
+      "name": "outrunningcount",
+      "description": "⊞  - Outputs the \"wall-clock\" time since Start occurred, no matter what are the delays, speeds, cycles or pre-mature clicking of Go To Segment End, etc. It stops counting when Done has been reached.  running_seconds ,  running_frames , or  running_samples . When  CHOP  is set to Parallel Timers, this will output a channel per segment plus one global running time channel.   See the python member  .runningSeconds ."
+    },
+    {
+      "page": "Outputs",
+      "label": "Master Time Count",
+      "name": "outmastercount",
+      "description": "⊞  - Outputs  master_seconds ,  master_frames  or  master_samples . It is a time count that adds up all the Timer Active times for all segments since Start: it is affected by \"Speed\", and counts up only while  timer_active  and  play  is on. It also includes any delay times.   See the python member  .masterSeconds ."
+    },
+    {
+      "page": "External",
+      "label": "External  CHOP",
+      "name": "extchop",
+      "description": "The  CHOP  used to control the current point in the timer."
+    },
+    {
+      "page": "External",
+      "label": "External Units",
+      "name": "extunits",
+      "description": "⊞  - Choose between using Samples, Frames, or Seconds as the units for this parameter."
+    },
+    {
+      "page": "External",
+      "label": "External  Channel",
+      "name": "extchannel",
+      "description": "The channel that will control the current point of the timer."
+    },
+    {
+      "page": "External",
+      "label": "External Timecode  Object / CHOP / DAT",
+      "name": "exttcop",
+      "description": "Time is specified using a timecode. Should be a reference to either a  CHOP  with channels 'hour', 'second', 'minute', 'frame', a  DAT  with a timecode string in its first cell, or a  Timecode Class  object."
+    },
+    {
+      "page": "External",
+      "label": "External Start Offset",
+      "name": "extstartoff",
+      "description": "Specifies the external time at which the timer should start."
+    },
+    {
+      "page": "External",
+      "label": "External Initialize Offset",
+      "name": "extinitoff",
+      "description": "Specifies the external time at which the timer should initialize."
+    },
+    {
+      "page": "External",
+      "label": "Sample Rate",
+      "name": "rate",
+      "description": "The sample rate that the  CHOP  outputs at, which is also used when the units of Length, Delay and Cycle End Alert time are set to Samples. The default sample rate is 60 samples per second."
+    },
+    {
+      "page": "External",
+      "label": "External Timecode  Object",
+      "name": "exttcobj",
+      "description": "Time is specified using a timecode. Should be a reference to either a  CHOP  with channels 'hour', 'second', 'minute', 'frame', a  DAT  with a timecode string in its first cell, or a  Timecode Class  object."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "OP Snippets   is a set of 700+ live examples of TouchDesigner operators. You can access snippets via the Help menu, or by right",
+      "description": "clicking on network operators, or r-clicking on OP Create dialog items."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "The sub",
+      "description": "Family  of  Component  types that are used to define and render 3D scenes. A  Geometry Component  is an Object that contains the 3D shapes to render. A  Camera COMP  and  Light COMP  are other Object types. Separately, \"Objects\" also refers to Python objects."
+    },
+    {
+      "page": "Common",
+      "label": "To \"pulse\" a parameter is to send it a signal from (1) an  exported  CHOP channel or (2) a python command or (3) a mouse click that causes a new action to occur immediately. A pulse via python is via the  .pulse()  function on a pulse",
+      "description": "type parameter, such as Reset parameter in a  Speed CHOP . A pulse from a CHOP is typically a 0 to 1 to 0 signal in an exported channel."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

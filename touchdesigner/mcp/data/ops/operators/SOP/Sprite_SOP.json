@@ -1,0 +1,21 @@
+{
+  "family": "SOP",
+  "pageTitle": "Sprite SOP",
+  "pageSlug": "Sprite_SOP",
+  "url": "https://docs.derivative.ca/Sprite_SOP",
+  "tdOpTypeGuess": "spriteSOP",
+  "summary": "[  edit  ]\nThe Sprite  SOP  creates geometry (quad sprites) at point positions defined by the  CHOP  referenced in the XYZ  CHOP  parameter.\nspriteSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Info CHOP Channels\n3.1   Common SOP Info Channels\n3.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "asonably complex looking. (15:40) Something I find also very cool about these operators is that we can actually just bang this into a geo and render it. We don't have to instance. We obviously could instance because we have all of that point information. But in this case, I can just move through and have it be kind of output and it's going to directly output all those points and I can just add on whatever I want. (16:05) And because we have these point normals, we can easily work with a point sprite and have that attenuate via this control. So that's super cool. Something else that I think is really useful is we have this ability to essentially delete data. And this is kind of like if you work in 3D where you can delete subdivisions and all that kind of stuff. (16:27) But in this case, let's say I wanted to have a more sparse version of this. I could thin this out and instance some kind of different geometry. So let's give that a go. So for that I would go to the thin tab. And we can do t"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

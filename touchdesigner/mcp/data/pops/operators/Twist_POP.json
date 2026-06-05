@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Twist POP",
+  "pageSlug": "Twist_POP",
+  "url": "https://docs.derivative.ca/Twist_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "twistPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de partículas complejos, simulaciones a gran escala y efectos visuales generativos que superan las capacidades de las metodologías tradicionales basadas en CPU. El análisis"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de partículas complejos, simulaciones a gran escala y efectos visuales generativos que superan las capacidades de las metodologías tradicionales basadas en CPU. El anál"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de partículas complejos, simulaciones a gran escala y efectos visuales generativos que superan las capacidades de las metodologías tradicionales basadas en CPU. El análisis"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "r, rotar y escalar puntos o geometrías. Puede usar atributos de \"peso\" (Weight) para aplicar transformaciones parciales a los puntos. Sus parámetros pueden ser controlados por otros atributos. Puede afectar puntos, vértices o primitivas dentro de un grupo específico. • Experimental:Trig POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Tube POP: Un operador generador que crea una geometría de tubo. • Experimental:Twist POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Aquí tienes un guion con voz en off para un video tutorial sobre los operadores POPs en TouchDesigner, enfatizando sus características, la capacidad de usar la GPU y el control efectivo de puntos: -------------------------------------------------------------------------------- (0) Intro - Título en pantalla: \"Aprendiendo sobre POPs en TouchDesigner: El Poder de la GPU para el Control"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "r, rotar y escalar puntos o geometrías. Puede usar atributos de \"peso\" (Weight) para aplicar transformaciones parciales a los puntos. Sus parámetros pueden ser controlados por otros atributos. Puede afectar puntos, vértices o primitivas dentro de un grupo específico. • Experimental:Trig POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Tube POP: Un operador generador que crea una geometría de tubo. • Experimental:Twist POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Aquí tienes un guion con voz en off para un video tutorial sobre los operadores POPs en TouchDesigner, enfatizando sus características, la capacidad de usar la GPU y el control efectivo de puntos: -------------------------------------------------------------------------------- (0) Intro - Título en pantalla: \"Aprendiendo sobre POPs en TouchDesigner: El Poder de la GPU para el Con"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "r, rotar y escalar puntos o geometrías. Puede usar atributos de \"peso\" (Weight) para aplicar transformaciones parciales a los puntos. Sus parámetros pueden ser controlados por otros atributos. Puede afectar puntos, vértices o primitivas dentro de un grupo específico. • Experimental:Trig POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Tube POP: Un operador generador que crea una geometría de tubo. • Experimental:Twist POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Aquí tienes un guion con voz en off para un video tutorial sobre los operadores POPs en TouchDesigner, enfatizando sus características, la capacidad de usar la GPU y el control efectivo de puntos: -------------------------------------------------------------------------------- (0) Intro - Título en pantalla: \"Aprendiendo sobre POPs en TouchDesigner: El Poder de la GPU para el Control"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

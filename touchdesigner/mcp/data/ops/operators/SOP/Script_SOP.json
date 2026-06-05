@@ -1,0 +1,149 @@
+{
+  "family": "SOP",
+  "pageTitle": "Script SOP",
+  "pageSlug": "Script_SOP",
+  "url": "https://docs.derivative.ca/Script_SOP",
+  "tdOpTypeGuess": "scriptSOP",
+  "summary": "[  edit  ]\nThe  Script   SOP  runs a python script each time the  Script   SOP  cooks. It can create, delete and modify points, primitives and their vertices. It can create custom attributes or built-in attributes like  Cd  (color),  uv  and  N  (normals). It can add polygons, bezier curves and meshes among others. It can combine multiple inputs. By default, the  Script   SOP  is created with a docked  DAT  that contains three Python methods:  cook() ,  onPulse() , and  setupParameters() . The  cook()  method is run each time the  Script   SOP  cooks. The  setupParameters()  method is run whenever the Setup Parameter button on the  Script  page is pressed. The  onPulse()  method is run whenever a custom pulse parameter is pushed.\nRefer to Help -> Python Examples, and Help ->  Operator Snippets .\nNote: Because the  Script   SOP  can get data from anywhere, it's difficult to determine what it procedurally depends on. So every time that a  Script  OP runs it will make a list of operators, parameters, nodes etc that it depends upon, and when they change, the  Script  OP will re-cook.\nSee also:  Geometry Detail ,  Point ,  Point List ,  Point Class ,  Primitive ,  Prims Class ,  Polygon ,  Vertex ,  SOP ,  SOP Class ,  SOP to DAT ,  Point SOP ,  Point Groups ,  Primitive Groups ,  Attributes .\nSee also:  Script CHOP ,  Script DAT ,  Script TOP .\nscriptSOP_Class\nContents\n1   Summary\n2   Parameters - Script Page\n3   Default Functions\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common SOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Script",
+      "label": "Callbacks  DAT",
+      "name": "callbacks",
+      "description": "Specifies the  DAT  which holds the callbacks. See  scriptSOP_Class  for usage."
+    },
+    {
+      "page": "Script",
+      "label": "Setup Parameters",
+      "name": "setuppars",
+      "description": "Clicking the button runs the  setupParameters()  callback function."
+    },
+    {
+      "page": "Script",
+      "label": "# press 'Setup Parameters' in the OP to call this function to re",
+      "description": "create the parameters."
+    },
+    {
+      "page": "Script",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Script",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Script",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Script",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Script",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Script",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Script",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Script",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Script",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Script",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Script",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Script",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Script",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Script",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Script",
+      "label": "A set of commands located in a Text DAT that are triggered to run under certain conditions. There are two scripting languages in TouchDesigner:  Python  and the original  Tscript . Scripts and single",
+      "description": "line commands can also be run in the  Textport ."
+    },
+    {
+      "page": "Script",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Script",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "03-twozero-evaluation.md",
+      "excerpt": "ión por IA - Librería curada de componentes - Sincronización en la nube - Herramientas de producción - Integración en UI y sin “wrappers” externos ## Qué se puede integrar en este MCP (sin depender de TWOZERO) - **Librería curada de patrones (component library)** Crear un catálogo de “recetas” reproducibles (render, instancing, feedback loops, POP sims, GLSL) como: - skills en Markdown (`touchdesigner/skills/*`) - prompts maestros (`docs/06-master-prompts.md` o carpeta `prompts/`) - scripts Python idempotentes (crear/actualizar redes sin duplicar) - **No ensuciar el proyecto (non-invasive)** Convenciones sistemáticas: - encapsular sistemas en `baseCOMP`/`geoCOMP` - nodos “I/O estándar” (`in*`, `out*`, `null*`) - layout determinístico (`nodeX/nodeY`) - nombres consistentes y prefijos por dominio (`pop_`, `top_`, `chop_`) - **Validación y calidad (production tools)** Protocolos para: - verificar existencia de OPs creados - detectar cooks costosos (Info CHOP /"
+    },
+    {
+      "source": "06-master-prompts.md",
+      "excerpt": "# Campos mínimos recomendados - `id`, `title` - `project_type`: particulas | efectos_visuales | generativos | interactivos - `complexity`: basico | intermedio | avanzado | experto - `application`: instalaciones | performances | visualizacion_datos - `touchdesigner_min_version` - `hardware` (GPU/VRAM mínimo cuando aplique) - `performance` (fps objetivo y presupuesto por frame) - `validation[]` (criterios verificables) ## Convenciones de salida Todo prompt maestro debe pedir explícitamente: - Script Python para `td_execute` (idempotente). - Validación Python posterior (existencia de OPs, conexiones críticas). - Declaración de presupuesto de rendimiento (puntos, cooks críticos)."
+    },
+    {
+      "source": "07-testing-protocols.md",
+      "excerpt": "# Sistema de validación y testing Objetivo: asegurar que redes generadas por prompts complejos sean estables, reproducibles y eficientes. ## 1) Validación de sintaxis y formato - **LLM output (router/CLI)**: debe ser JSON único (sin markdown). - **Scripts Python**: deben ser idempotentes y usar `from_op`/paths explícitos. - **Prompts maestros**: validar frontmatter y secciones mínimas con `node touchdesigner/mcp/dist/promptLint.js`. ## 2) Chequeo de dependencias - TouchDesigner 2025+. - `TDAPI_PORT` configurado y coincidente con el TOX. - Ollama (si aplica): `LLM_PROVIDER=ollama` y `OLLAMA_MODEL` instalado. ## 3) Pruebas funcionales (smoke tests) Ejecutar un bloque `td_execute` de validación que confirme: - operadores creados (paths) - con"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "omVector\" para puntos, con el fin de almacenar datos direccionales específicos. Esto es fundamental para simulaciones personalizadas o para pasar datos complejos a shaders GLSL.1 * Inicialización de atributos: Establecer valores predeterminados para atributos recién creados, como inicializar todos los colores de los puntos a rojo. Esto asegura un estado base consistente para los datos.1 * Renombrar atributos para mayor claridad: Cambiar un nombre de atributo genérico como \"attr1\" a algo más descriptivo como \"velocity\". Esto mejora la legibilidad y el mantenimiento de redes complejas.1 * Duplicar atributos para variaciones: Crear una copia de un atributo existente para modificarlo sin afectar el original. Esto es útil para experimentar con diferentes efectos o para crear variaciones visuales.1 * Limpieza de atributos no utilizados: Eliminar atributos innecesarios para optimizar el rendimiento o simplificar la estructura de datos, lo cual es crucial en proyectos grandes y en tiempo real.1"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ntal\". POPs Parcialmente Documentados: Estos se mencionan pero carecen de una descripción detallada de su función y parámetros: • Cache POP: Referenciado por otros Cache POPs, pero sin descripción propia. • DMX Fixture POP: Mención de un problema en un foro, sin descripción general. • Line POP / Line Divide POP: Mencionados para subdivisión de splines, pero sin detalles propios. • Merge POP / Switch POP: Mencionados por compartir arquitectura de múltiples entradas, pero sin contenido descriptivo. • Quantize POP / Random POP / Point Generator POP: Redirecciones a documentación, pero sin contenido descriptivo en las fuentes. POPs con Documentación Inaccesible o Muy Limitada: Para un número significativo de POPs (40 identificados), la información era muy escasa o irrelevante en el material de investigación proporcionado. Esto significa que, como usuario principiante, es posible que encuentres poca o ninguna información sobre estos POPs específicos en las fuentes base si los buscas."
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "TouchDesigner POPs - a first look - YouTube https://www.youtube.com/watch?v=UxChrbyKOj8 Transcript: (00:00) Hey everyone. So POPs are out in Touch Designer. POPs stand for point operators and they let us do a lot of the cool stuff that we could do with soaps and chops and to an extent some tops. But today I'm going to just give you a first look because I've been playing it with these for a little while and show you some of the ins and outs and some of the things that I have really enjoyed playing with. (00:28) And this is going to be far from an exhaustive list because I am also getting to"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

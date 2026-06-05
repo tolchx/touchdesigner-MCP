@@ -1,7 +1,7 @@
 # Informe de instalación y pruebas — claude-touchdesigner
 
 Repositorio: https://github.com/satoruhiga/claude-touchdesigner  
-Workspace local: `c:\Users\Tolch\Documents\AI_Code\Touchdesigner_MCP\claude-touchdesigner`
+
 
 ## 1) Resumen ejecutivo
 
@@ -51,7 +51,7 @@ $env:TDAPI_PORT="44444"
 
 El servidor MCP sigue disponible como antes:
 - Entrada: `touchdesigner/mcp/dist/index.js`
-- Configurado en [touchdesigner/.mcp.json](file:///c:/Users/Tolch/Documents/AI_Code/Touchdesigner_MCP/claude-touchdesigner/touchdesigner/.mcp.json)
+- Configurado en [touchdesigner/.mcp.json]
 
 Build:
 ```bash
@@ -156,13 +156,4 @@ npm run typecheck
 - `tdLatencyMs`: P50/P95 con TD local
 - Tasa de error: % de ejecuciones con JSON inválido o tool incorrecta
 
-## 10) Archivos clave modificados/agregados
 
-- [package.json](file:///c:/Users/Tolch/Documents/AI_Code/Touchdesigner_MCP/claude-touchdesigner/touchdesigner/package.json)
-- [api/package.json](file:///c:/Users/Tolch/Documents/AI_Code/Touchdesigner_MCP/claude-touchdesigner/touchdesigner/api/package.json)
-- [mcp/src/index.ts](file:///c:/Users/Tolch/Documents/AI_Code/Touchdesigner_MCP/claude-touchdesigner/touchdesigner/mcp/src/index.ts)
-- [mcp/src/chat.ts](file:///c:/Users/Tolch/Documents/AI_Code/Touchdesigner_MCP/claude-touchdesigner/touchdesigner/mcp/src/chat.ts)
-- [mcp/src/llm.ts](file:///c:/Users/Tolch/Documents/AI_Code/Touchdesigner_MCP/claude-touchdesigner/touchdesigner/mcp/src/llm.ts)
-- [mcp/src/commandRunner.ts](file:///c:/Users/Tolch/Documents/AI_Code/Touchdesigner_MCP/claude-touchdesigner/touchdesigner/mcp/src/commandRunner.ts)
-- [mcp/src/lib.ts](file:///c:/Users/Tolch/Documents/AI_Code/Touchdesigner_MCP/claude-touchdesigner/touchdesigner/mcp/src/lib.ts)
-- [mcp/test](file:///c:/Users/Tolch/Documents/AI_Code/Touchdesigner_MCP/claude-touchdesigner/touchdesigner/mcp/test)

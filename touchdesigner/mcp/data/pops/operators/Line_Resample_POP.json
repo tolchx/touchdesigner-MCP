@@ -1,0 +1,15 @@
+{
+  "pageTitle": "Line Resample POP",
+  "pageSlug": "Line_Resample_POP",
+  "url": "https://docs.derivative.ca/Line_Resample_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "lineResamplePOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

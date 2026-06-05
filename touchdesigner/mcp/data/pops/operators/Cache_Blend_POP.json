@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Cache Blend POP",
+  "pageSlug": "Cache_Blend_POP",
+  "url": "https://docs.derivative.ca/Cache_Blend_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "cacheBlendPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "rquitectura se comparte con Math Combine POP, Math Mix POP, Blend POP, Merge POP y Switch POP.13 * Parámetros: Se centra en la \"Página Inputs\" con bloques secuenciales para cada entrada, permitiendo In POP(s) (coincidencia de patrón), In Attributes (coincidencia de patrón), Rename Attribute y opciones de Duplicate Attributes. También incluye la selección de Attribute Class y el manejo de Length Mismatch (None, Warning, Error, con opciones para entradas más cortas: hold, 0, 1, nothing).13 * Cache Blend POP: Toma una referencia a un Cache POP y genera una mezcla de sus conjuntos de datos en caché basándose en un Cache Index y Cache Weight para bloques secuenciales. La mezcla se realiza por punto, lo que es útil para efectos basados en el tiempo como el desenfoque de movimiento o el cálculo de la velocidad de los puntos a partir de datos históricos.31 * Cache Select POP: Toma una referencia a un Cache POP y genera uno de sus conjuntos de datos en caché utilizando un parámetro Cache Index. Un Cache"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "rquitectura se comparte con Math Combine POP, Math Mix POP, Blend POP, Merge POP y Switch POP.13 * Parámetros: Se centra en la \"Página Inputs\" con bloques secuenciales para cada entrada, permitiendo In POP(s) (coincidencia de patrón), In Attributes (coincidencia de patrón), Rename Attribute y opciones de Duplicate Attributes. También incluye la selección de Attribute Class y el manejo de Length Mismatch (None, Warning, Error, con opciones para entradas más cortas: hold, 0, 1, nothing).13 * Cache Blend POP: Toma una referencia a un Cache POP y genera una mezcla de sus conjuntos de datos en caché basándose en un Cache Index y Cache Weight para bloques secuenciales. La mezcla se realiza por punto, lo que es útil para efectos basados en el tiempo como el desenfoque de movimiento o el cálculo de la velocidad de los puntos a partir de datos históricos.31 * Cache Select POP: Toma una referencia a un Cache POP y genera uno de sus conjuntos de datos en caché utilizando un parámetro Cache Index. Un C"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "rquitectura se comparte con Math Combine POP, Math Mix POP, Blend POP, Merge POP y Switch POP.13 * Parámetros: Se centra en la \"Página Inputs\" con bloques secuenciales para cada entrada, permitiendo In POP(s) (coincidencia de patrón), In Attributes (coincidencia de patrón), Rename Attribute y opciones de Duplicate Attributes. También incluye la selección de Attribute Class y el manejo de Length Mismatch (None, Warning, Error, con opciones para entradas más cortas: hold, 0, 1, nothing).13 * Cache Blend POP: Toma una referencia a un Cache POP y genera una mezcla de sus conjuntos de datos en caché basándose en un Cache Index y Cache Weight para bloques secuenciales. La mezcla se realiza por punto, lo que es útil para efectos basados en el tiempo como el desenfoque de movimiento o el cálculo de la velocidad de los puntos a partir de datos históricos.31 * Cache Select POP: Toma una referencia a un Cache POP y genera uno de sus conjuntos de datos en caché utilizando un parámetro Cache Index. Un Cache"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "vértices o de primitivas. • Experimental:Attribute POP: Es un operador fundamental para crear nuevos atributos en puntos, vértices o primitivas, y puedes inicializarlos con valores constantes. También es el lugar donde puedes crear \"arrays de atributos\". • Experimental:Blend POP: Es un POP que soporta múltiples entradas, lo que sugiere que puede mezclar o interpolar datos de diferentes fuentes. • Experimental:Box POP: Un operador generador que crea una geometría de caja. • Experimental:Cache Blend POP: Se menciona en relación con el uso de atributos como 'Velocity' (Vel), lo que sugiere su rol en la mezcla de datos temporales o en animaciones. • Experimental:Cache POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Cache Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:CHOP to POP: Permite convertir datos de la familia CHOPs (Ch"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "vértices o de primitivas. • Experimental:Attribute POP: Es un operador fundamental para crear nuevos atributos en puntos, vértices o primitivas, y puedes inicializarlos con valores constantes. También es el lugar donde puedes crear \"arrays de atributos\". • Experimental:Blend POP: Es un POP que soporta múltiples entradas, lo que sugiere que puede mezclar o interpolar datos de diferentes fuentes. • Experimental:Box POP: Un operador generador que crea una geometría de caja. • Experimental:Cache Blend POP: Se menciona en relación con el uso de atributos como 'Velocity' (Vel), lo que sugiere su rol en la mezcla de datos temporales o en animaciones. • Experimental:Cache POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Cache Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:CHOP to POP: Permite convertir datos de la familia CHOPs"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "vértices o de primitivas. • Experimental:Attribute POP: Es un operador fundamental para crear nuevos atributos en puntos, vértices o primitivas, y puedes inicializarlos con valores constantes. También es el lugar donde puedes crear \"arrays de atributos\". • Experimental:Blend POP: Es un POP que soporta múltiples entradas, lo que sugiere que puede mezclar o interpolar datos de diferentes fuentes. • Experimental:Box POP: Un operador generador que crea una geometría de caja. • Experimental:Cache Blend POP: Se menciona en relación con el uso de atributos como 'Velocity' (Vel), lo que sugiere su rol en la mezcla de datos temporales o en animaciones. • Experimental:Cache POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Cache Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:CHOP to POP: Permite convertir datos de la familia CHOPs (Ch"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

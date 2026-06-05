@@ -1,0 +1,315 @@
+{
+  "family": "CHOP",
+  "pageTitle": "OSC In CHOP",
+  "pageSlug": "OSC_In_CHOP",
+  "url": "https://docs.derivative.ca/OSC_In_CHOP",
+  "tdOpTypeGuess": "oSCInCHOP",
+  "summary": "[  edit  ]\nThe OSC In  CHOP  is used to accept Open Sound Control Messages. OSC In can be used to accept messages from either a 3rd party application which adheres to the Open Sound Control specification ( http://www.cnmat.berkeley.edu/OpenSoundControl/ ). OSC In is based on a connection-less system, meaning that it can accept multiple messages for any number of sources at the same time. The user must specify a port number which OSC In will look for incoming messages. This port must not have anything running on it before OSC In attempts to use it. OSC CHOPs in TouchDesigner use the UDP transport protocol.\nSee also  OSC In DAT ,  OSC Out CHOP ,  iOS and OSC ,  Touch In CHOP .\nThere are options which allow the user to adjust the default message queuing system to optimize it for their specific network conditions and usage needs. The Min/Max Target size specifies a range which the queue attempts to keep the buffer size at in seconds. Increasing the Queue Adjust Time will determine how long the queue can be outside that range before it tries to correct it.\nIf the user wishes to use OSC In to detect when messages are arriving, there is a  Pulse  Mode toggle which will read a single sample of any incoming message when it arrives and displays the pulse reset values any other time. This is useful for syncing beats between TouchDesigner and another applications.\nNOTE for Windows OS - If experiencing connection issues make sure Windows Firewall is disabled.\noscinCHOP_Class\nContents\n1   Summary\n2   Parameters - OSC In Page\n3   Parameters - Common Page\n4   Info CHOP Channels\n4.1   Specific OSC In CHOP Info Channels\n4.2   Common CHOP Info Channels\n4.3   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "OSC In",
+      "label": "Active",
+      "name": "active",
+      "description": "While on, the  CHOP  receives information sent to the network port. While Off, no updating occurs. Data sent to the port is lost."
+    },
+    {
+      "page": "OSC In",
+      "label": "Protocol",
+      "name": "protocol",
+      "description": "⊞  - The network protocol to use. Refer to the  Network Protocols  article for more information."
+    },
+    {
+      "page": "OSC In",
+      "label": "Multi",
+      "description": "Cast Messaging (UDP)   multicastmsging  -"
+    },
+    {
+      "page": "OSC In",
+      "label": "Network Address",
+      "name": "netaddress",
+      "description": "When using Multicast, this is the address that OSC In will listen for packets on."
+    },
+    {
+      "page": "OSC In",
+      "label": "Network Port",
+      "name": "port",
+      "description": "The port which OSC-In will accept packets on."
+    },
+    {
+      "page": "OSC In",
+      "label": "Local Address",
+      "name": "localaddress",
+      "description": "Specify an IP address to receive on, useful when the system has mulitple NICs (Network Interface Card) and you want to select which one to use."
+    },
+    {
+      "page": "OSC In",
+      "label": "OSC Address  Scope",
+      "name": "oscaddressscope",
+      "description": "To reduce which channels are generated, you can use channel name patterns to include or exclude channels. For example,  ^*accel*  will exclude accelerometer channels coming in from an iPhone or iOS app like mrmr. See  Pattern Matching  for the syntax of the possible channel name patterns."
+    },
+    {
+      "page": "OSC In",
+      "label": "Use Global Rate",
+      "name": "useglobalrate",
+      "description": "When on, the  CHOP  will sample at the  global  sample rate specified by TouchDesigner."
+    },
+    {
+      "page": "OSC In",
+      "label": "Default  Sample Rate",
+      "name": "samplerate",
+      "description": "When Use Global Rate is off, this parameter is used to determine the sample rate of this  CHOP ."
+    },
+    {
+      "page": "OSC In",
+      "label": "Queued",
+      "name": "queued",
+      "description": "Turn this on to enable queuing to help avoid lost messages. Use the parameters below to setup the queue behavior."
+    },
+    {
+      "page": "OSC In",
+      "label": "Queue Variance",
+      "name": "queuevariance",
+      "description": "The range around the Queue Target that's acceptable. If the queue's length is within the target and variance range, the  CHOP  will not bother to adjust the queue length."
+    },
+    {
+      "page": "OSC In",
+      "label": "Queue Variance Unit",
+      "name": "queuevarianceunit",
+      "description": "Choose between using Samples, Frames, or Seconds as the units for this parameter."
+    },
+    {
+      "page": "OSC In",
+      "label": "Maximum Queue",
+      "name": "maxqueue",
+      "description": "The maximum size of the queue when full. Incoming samples will be dropped if the maximum queue is reached."
+    },
+    {
+      "page": "OSC In",
+      "label": "Max Queue Unit",
+      "name": "maxqueueunit",
+      "description": "Choose between using Samples, Frames, or Seconds as the units for this parameter."
+    },
+    {
+      "page": "OSC In",
+      "label": "Queue Adjust Time",
+      "name": "adjusttime",
+      "description": "Specifies how often to repeat/drop a samples in order to get closer to the queue target range. If the value = 1 and the units = seconds, then it will try to repeat/drop a sample once per second to maintain the queue target set in the  Minimum Target  and  Maximum Target  parameters above."
+    },
+    {
+      "page": "OSC In",
+      "label": "Adjust Unit",
+      "name": "adjusttimeunit",
+      "description": "Choose between using Samples, Frames, or Seconds as the units for this parameter."
+    },
+    {
+      "page": "OSC In",
+      "label": "Strip Prefix Segments",
+      "name": "stripsegments",
+      "description": "Strip a number of prefixes from the incoming address. Example:  An address of /a/b/c/d/e  with 3 segments removed would show d/e (or d_e as a final channel name)."
+    },
+    {
+      "page": "OSC In",
+      "label": "Reset\tChannels",
+      "name": "resetchannels",
+      "description": "Deletes all channels when set to On, new channels will not be added until Reset Channels is turned Off."
+    },
+    {
+      "page": "OSC In",
+      "label": "Reset Channels  Pulse",
+      "name": "resetchannelspulse",
+      "description": "Instantly deletes all channels."
+    },
+    {
+      "page": "OSC In",
+      "label": "Reset\tValues",
+      "name": "resetvalues",
+      "description": "Resets all channel values to 0 when On, channel values will not be updated until Reset Values is turned Off."
+    },
+    {
+      "page": "OSC In",
+      "label": "Reset Channels  Pulse",
+      "name": "resetchannelspulse",
+      "description": "Instantly resets all channels to 0."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "To \"pulse\" a parameter is to send it a signal from (1) an  exported  CHOP channel or (2) a python command or (3) a mouse click that causes a new action to occur immediately. A pulse via python is via the  .pulse()  function on a pulse",
+      "description": "type parameter, such as Reset parameter in a  Speed CHOP . A pulse from a CHOP is typically a 0 to 1 to 0 signal in an exported channel."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

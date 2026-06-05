@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Topology POP",
+  "pageSlug": "Topology_POP",
+  "url": "https://docs.derivative.ca/Topology_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "topologyPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "to y generar líneas de conexión o primitivas de punto dentro del rango. También puede generar atributos de los puntos coincidentes (por ejemplo, EndP, EndN).27 * Skin POP: Toma una disposición de datos bidimensional (o más) (por ejemplo, tiras de línea) y los conecta como una malla de triángulos o quads. Aplica el skinning a las dos primeras dimensiones y lo repite para dimensiones superiores. Puede forzarse a tratar un número especificado de primitivas como grupos para el skinning.28 * Topology POP: Proporciona un control preciso sobre la combinación de puntos y topología (vértices y primitivas) existentes, así como su asignación de memoria. Permite utilizar atributos unsigned int como índices de puntos para describir la topología, y fusionar atributos de vértice y primitiva de otros POPs.29 El examen de los POPs modificadores revela un patrón de interconexión y especialización. Operadores como Attribute POP, GLSL POP, Math Combine POP, Neighbor POP y Feedback POP no son herramientas ais"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "to y generar líneas de conexión o primitivas de punto dentro del rango. También puede generar atributos de los puntos coincidentes (por ejemplo, EndP, EndN).27 * Skin POP: Toma una disposición de datos bidimensional (o más) (por ejemplo, tiras de línea) y los conecta como una malla de triángulos o quads. Aplica el skinning a las dos primeras dimensiones y lo repite para dimensiones superiores. Puede forzarse a tratar un número especificado de primitivas como grupos para el skinning.28 * Topology POP: Proporciona un control preciso sobre la combinación de puntos y topología (vértices y primitivas) existentes, así como su asignación de memoria. Permite utilizar atributos unsigned int como índices de puntos para describir la topología, y fusionar atributos de vértice y primitiva de otros POPs.29 El examen de los POPs modificadores revela un patrón de interconexión y especialización. Operadores como Attribute POP, GLSL POP, Math Combine POP, Neighbor POP y Feedback POP no son herramientas"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "to y generar líneas de conexión o primitivas de punto dentro del rango. También puede generar atributos de los puntos coincidentes (por ejemplo, EndP, EndN).27 * Skin POP: Toma una disposición de datos bidimensional (o más) (por ejemplo, tiras de línea) y los conecta como una malla de triángulos o quads. Aplica el skinning a las dos primeras dimensiones y lo repite para dimensiones superiores. Puede forzarse a tratar un número especificado de primitivas como grupos para el skinning.28 * Topology POP: Proporciona un control preciso sobre la combinación de puntos y topología (vértices y primitivas) existentes, así como su asignación de memoria. Permite utilizar atributos unsigned int como índices de puntos para describir la topología, y fusionar atributos de vértice y primitiva de otros POPs.29 El examen de los POPs modificadores revela un patrón de interconexión y especialización. Operadores como Attribute POP, GLSL POP, Math Combine POP, Neighbor POP y Feedback POP no son herramientas ais"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ción específica de este operador. • Experimental:Switch POP: Un operador que permite cambiar entre diferentes entradas. Es útil para probar variaciones o controlar el flujo de datos. • Experimental:Texture Map POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:TOP to POP: Permite convertir datos de la familia TOPs (Texture Operators) a datos de POPs, específicamente para recuperar nubes de puntos. • Experimental:Topology POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Torus POP: Un operador generador que crea una geometría de toroide (forma de dona). • Experimental:Trail POP: Crea un historial de movimiento de un punto a lo largo del tiempo, generando una tira de línea para cada punto. Esto te permite visualizar la trayectoria de una partícula o punto a lo largo del tiempo. • Experimental:Transform POP: Un operador esencial para mo"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ción específica de este operador. • Experimental:Switch POP: Un operador que permite cambiar entre diferentes entradas. Es útil para probar variaciones o controlar el flujo de datos. • Experimental:Texture Map POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:TOP to POP: Permite convertir datos de la familia TOPs (Texture Operators) a datos de POPs, específicamente para recuperar nubes de puntos. • Experimental:Topology POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Torus POP: Un operador generador que crea una geometría de toroide (forma de dona). • Experimental:Trail POP: Crea un historial de movimiento de un punto a lo largo del tiempo, generando una tira de línea para cada punto. Esto te permite visualizar la trayectoria de una partícula o punto a lo largo del tiempo. • Experimental:Transform POP: Un operador esencial par"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ción específica de este operador. • Experimental:Switch POP: Un operador que permite cambiar entre diferentes entradas. Es útil para probar variaciones o controlar el flujo de datos. • Experimental:Texture Map POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:TOP to POP: Permite convertir datos de la familia TOPs (Texture Operators) a datos de POPs, específicamente para recuperar nubes de puntos. • Experimental:Topology POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Torus POP: Un operador generador que crea una geometría de toroide (forma de dona). • Experimental:Trail POP: Crea un historial de movimiento de un punto a lo largo del tiempo, generando una tira de línea para cada punto. Esto te permite visualizar la trayectoria de una partícula o punto a lo largo del tiempo. • Experimental:Transform POP: Un operador esencial para mo"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

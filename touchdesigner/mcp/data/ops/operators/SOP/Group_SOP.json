@@ -1,0 +1,494 @@
+{
+  "family": "SOP",
+  "pageTitle": "Group SOP",
+  "pageSlug": "Group_SOP",
+  "url": "https://docs.derivative.ca/Group_SOP",
+  "tdOpTypeGuess": "groupSOP",
+  "summary": "[  edit  ]\nThe  Group   SOP  generates groups of points or primitives according to various criteria and allows you to act upon these groups. Elements can occur in more than one group. Groups are used in many parts of the  SOP  Editor to specify which portion(s) of input geometry you wish a  SOP  to act upon.\nYou can also create ordered groups. To do so, check the Ordered button.\ngroupSOP_Class\nContents\n1   Summary\n2   Parameters - Group Page\n3   Parameters - Create Page\n4   Parameters - Combine Page\n5   Parameters - Edit Page\n6   Operator Inputs\n7   Info CHOP Channels\n7.1   Common SOP Info Channels\n7.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Group",
+      "label": "Group  Name",
+      "name": "crname",
+      "description": "The name of the group to be created. The default name is set to match the name of the  SOP ."
+    },
+    {
+      "page": "Group",
+      "label": "Entity",
+      "name": "entity",
+      "description": "⊞  - Primitives or Points."
+    },
+    {
+      "page": "Group",
+      "label": "Geometry Type",
+      "name": "geotype",
+      "description": "⊞  - Select the geometry type group. The selection will only pertain to the geometry type specified. e.g. If you only wanted to group polygons."
+    },
+    {
+      "page": "Group",
+      "label": "All Types",
+      "name": "all",
+      "description": "All geometry will be selected."
+    },
+    {
+      "page": "Create",
+      "label": "Use Number",
+      "name": "usenumber",
+      "description": "Allows selection of grouping of entities by number. When the Enable button is Active, the selection options become active and can be used to select entities. The fields available are listed below."
+    },
+    {
+      "page": "Create",
+      "label": "Create Ordered",
+      "name": "ordered",
+      "description": "When selected, elements in the group are traversed in the order they are selected; otherwise they are traversed in creation order."
+    },
+    {
+      "page": "Create",
+      "label": "Operation",
+      "name": "groupop",
+      "description": "⊞  - When the Number Enable button is checked, this option groups entities based on a defined Pattern or by a Range."
+    },
+    {
+      "page": "Create",
+      "label": "Group  by Pattern",
+      "name": "grppattern",
+      "description": "Select a pattern in the Pattern field below."
+    },
+    {
+      "page": "Create",
+      "label": "Group  by Range",
+      "name": "grprange",
+      "description": "Select a Range using the Start/End and Select_of_ fields below."
+    },
+    {
+      "page": "Create",
+      "label": "Group  by  Expression",
+      "name": "grpexpression",
+      "description": "Select a range using the Filter  Expression  field below."
+    },
+    {
+      "page": "Create",
+      "label": "Pattern",
+      "name": "pattern",
+      "description": "Activated when Operation is set to  Group  by Pattern. In this field, enter the range of primitives to select. The required syntax is \"S.P\", where S is the index of the parent surface, and P the profile index on that surface. You can mix primitives with profiles in the list. A mixed group is automatically ordered."
+    },
+    {
+      "page": "Create",
+      "label": "0.0",
+      "description": "6  selects six profiles on primitive 0,"
+    },
+    {
+      "page": "Create",
+      "label": "Transfer Selection to Pattern",
+      "name": "transfer",
+      "description": "This allows you to define the range of points / primitives visually by selecting them in the Viewport with the Select state. Clicking this button transfers the selected points/primitives into the Pattern field as a compacted range (e.g.  1-23 40 67-100 ). This eliminates the need for typing the point or primitive numbers manually."
+    },
+    {
+      "page": "Create",
+      "label": "Note:  Point and primitive selections can be dumped directly into  Group  fields without use of the  Group   SOP . Do this by selecting the points or primitives in the Viewport with the Select state. Then the pop",
+      "description": "up N menu beside the  Group  field of the  SOP  you want to cook should display the selection in the input  SOP  (e.g. \"grid1's  Primitive  Selection\"). Ranges are automatically compacted."
+    },
+    {
+      "page": "Create",
+      "label": "Start / End",
+      "name": "range",
+      "description": "⊞  - Activated when Operation is set to  Group  by Range. Select the start and end of the primitive/point number selection."
+    },
+    {
+      "page": "Create",
+      "label": "Select _ of _",
+      "name": "select",
+      "description": "⊞  - Activated when Operation is set to  Group  by Range. Select every nth occurrence of every mth entity in the above Start/End range."
+    },
+    {
+      "page": "Create",
+      "label": "Filter  Expression",
+      "name": "filter",
+      "description": "The Filter  Expression  provided is evaluated for every point/primitive. Wherever it is true, the entity is added. All the local variables of point and primitive are present, though only accessable when the right type of group is being created."
+    },
+    {
+      "page": "Create",
+      "label": "Use Bounds",
+      "name": "usebounds",
+      "description": "This option is used for selecting entities based on bounding volumes: Bounding Box, or Bounding Sphere. When Active, the selection options become active and can be used to select entities. The fields available are listed below. The bounding volume can be seen in the viewport as guide geometry."
+    },
+    {
+      "page": "Create",
+      "label": "Bounding Type",
+      "name": "boundtype",
+      "description": "⊞  - Selects the type of bounding volume to use"
+    },
+    {
+      "page": "Create",
+      "label": "Bounding Box",
+      "name": "usebbox",
+      "description": "Entities contained within the box are selected."
+    },
+    {
+      "page": "Create",
+      "label": "Bounding Sphere",
+      "name": "usebsphere",
+      "description": "Entities contained within the sphere are selected."
+    },
+    {
+      "page": "Create",
+      "label": "Bounding Object (points only)",
+      "name": "usebobject",
+      "description": "Points contained within the Object are selected. Make sure the object consists of well formed polygons. If using an irregular mesh, convert to polygons with a Convert  SOP , then use a Divide  SOP  to convex sides to 3."
+    },
+    {
+      "page": "Create",
+      "label": "Size",
+      "name": "size",
+      "description": "⊞  - Dimensions of either the Bounding Box or Bounding Sphere in X, Y and Z."
+    },
+    {
+      "page": "Create",
+      "label": "Center",
+      "name": "t",
+      "description": "⊞  - The X, Y, and Z coordinates of the center of the bounding volume."
+    },
+    {
+      "page": "Create",
+      "label": "Use Normal",
+      "name": "usenormal",
+      "description": "This option is used for selecting entities based on the angle of the entity normals. When the Active, the selection options become active and can be used to select entities. The fields available are listed below."
+    },
+    {
+      "page": "Create",
+      "label": "Direction",
+      "name": "dir",
+      "description": "⊞  - The default values of 0, 1, 0 create a normal vector straight up in Y, which is perpendicular to the XZ plane, which becomes the primary axis. The 1, 0, 0 points the normal in positive X, giving a normal axis perpendicular to the YZ. The plane may be positioned at an angle by using values typed in (1, 1, 0 gives a 45 angle plane) or interactively by using the direction vector jack. Values between 0 and 1 should be used."
+    },
+    {
+      "page": "Create",
+      "label": "Spread Angle",
+      "name": "angle",
+      "description": "The value entered in this field generates an angle of deviation from the primary axis. This can be visualized as a cone where the radius of the base of the cone is defined by the Spread Angle and the axis of the cone is determined by the Direction axis. Viewing the primitive normals in the viewport, you can see that any primitives with normals that have an angle that lies in the range of angles defined by the cone will be selected and grouped."
+    },
+    {
+      "page": "Create",
+      "label": "Backface from",
+      "name": "camera",
+      "description": "This menu allows you to select an object. Typically, a camera object would be chosen. The primitives which are backface when viewed from the object specified will be grouped or selected."
+    },
+    {
+      "page": "Create",
+      "label": "Use Edges",
+      "name": "useedges",
+      "description": "Allows you to group primitives by edges."
+    },
+    {
+      "page": "Create",
+      "label": "Edge Angle",
+      "name": "doangle",
+      "description": "Enables the Edge Angle parameter."
+    },
+    {
+      "page": "Create",
+      "label": "Edge Angle",
+      "name": "edgeangle",
+      "description": "Specifies an angle between edges in which to group. Works only for primitive groups."
+    },
+    {
+      "page": "Create",
+      "label": "Edge Depth",
+      "name": "dodepth",
+      "description": "Enables the Edge Depth parameter."
+    },
+    {
+      "page": "Create",
+      "label": "Edge Depth",
+      "name": "edgestep",
+      "description": "Enter the depth of the edge (only for point groups)."
+    },
+    {
+      "page": "Create",
+      "label": "Point Number",
+      "name": "point",
+      "description": "Enter the specific point numbers (only for point groups)."
+    },
+    {
+      "page": "Create",
+      "label": "Unshared Edges",
+      "name": "unshared",
+      "description": "When selecting points, this option selects the points of a ploygonal mesh which appear on the boundary (i.e. those which are not shared) for inclusion in the group, and orders them. In addition to polygonal meshes, this option also finds the boundaries of geo Hulls and open faces."
+    },
+    {
+      "page": "Create",
+      "label": "Create Boundary Groups",
+      "name": "boundarygroups",
+      "description": "When selecting points with the Unshared Edges parameter, this option becomes available. Enabling it creates new groups of the form: <name>__< n> , (two underscores) where the < name> is the  Group  Name specified in the Create page. Numbers < n> begin at zero, and increment as more groups are created."
+    },
+    {
+      "page": "Create",
+      "label": "These groups contain the points on each boundary of the surface. For example, if you have a grid with a hole in the middle of it, two new point groups are created",
+      "description": "one containing the points for the outer boundary and one with the points from the hole. These new point groups are also ordered."
+    },
+    {
+      "page": "Combine",
+      "label": "Group  =",
+      "name": "grpequal",
+      "description": "Specify the group whose members you wish to edit. This can be one of the input groups or a new group created in this  SOP  specified in the  Group  Name parameter on the  Group  page."
+    },
+    {
+      "page": "Combine",
+      "label": "Not",
+      "name": "not1",
+      "description": "When Off, include the members of the group specified in  Group  1 parameter below. When On, include all members that are not part of the group specified in  Group  1 parameter below."
+    },
+    {
+      "page": "Combine",
+      "label": "Group  1",
+      "name": "grp1",
+      "description": "Select one of the input groups to start with, noting the setting of the Not (not1) parameter above."
+    },
+    {
+      "page": "Combine",
+      "label": "Operation",
+      "name": "op1",
+      "description": "⊞  - Select the operation used to combine the group specified in  Group  1 parameter with the group specified in  Group  2 parameter."
+    },
+    {
+      "page": "Combine",
+      "label": "None",
+      "name": "none",
+      "description": "No operation is performed between the groups."
+    },
+    {
+      "page": "Combine",
+      "label": "Union (Or)",
+      "name": "or",
+      "description": "A OR B"
+    },
+    {
+      "page": "Combine",
+      "label": "Intersect (And)",
+      "name": "and",
+      "description": "A AND B"
+    },
+    {
+      "page": "Combine",
+      "label": "Exclusive Or",
+      "name": "xor",
+      "description": "!A OR !B"
+    },
+    {
+      "page": "Combine",
+      "label": "Subtraction",
+      "name": "sub",
+      "description": "A minus B"
+    },
+    {
+      "page": "Combine",
+      "label": "Not",
+      "name": "not2",
+      "description": "When Off, include the members of the group specified in  Group  2 parameter below. When On, include all members that are not part of the group specified in  Group  2 parameter below."
+    },
+    {
+      "page": "Combine",
+      "label": "Group  2",
+      "name": "grp2",
+      "description": "Select one of the input groups to combine with the group above, noting the setting of the Not (not2) parameter above."
+    },
+    {
+      "page": "Combine",
+      "label": "Operation",
+      "name": "op2",
+      "description": "⊞  - Select the operation used to combine the group specified in  Group  2 parameter with the group specified in  Group  3 parameter."
+    },
+    {
+      "page": "Combine",
+      "label": "Not",
+      "name": "not3",
+      "description": "When Off, include the members of the group specified in  Group  3 parameter below. When On, include all members that are not part of the group specified in  Group  3 parameter below."
+    },
+    {
+      "page": "Combine",
+      "label": "Group  3",
+      "name": "grp3",
+      "description": "Select one of the input groups to combine with the group combination above, noting the setting of the Not (not3) parameter above."
+    },
+    {
+      "page": "Combine",
+      "label": "Operation",
+      "name": "op3",
+      "description": "⊞  - Select the operation used to combine the group specified in  Group  3 parameter with the group specified in  Group  4 parameter."
+    },
+    {
+      "page": "Combine",
+      "label": "Not",
+      "name": "not4",
+      "description": "When Off, include the members of the group specified in  Group  4 parameter below. When On, include all members that are not part of the group specified in  Group  4 parameter below."
+    },
+    {
+      "page": "Combine",
+      "label": "Group  4",
+      "name": "grp4",
+      "description": "Select one of the input groups to combine with the group combination above, noting the setting of the Not (not4) parameter above."
+    },
+    {
+      "page": "Edit",
+      "label": "Convert Type",
+      "name": "cnvtype",
+      "description": "⊞  - Converts a group from a point group to a primitive group, and vice versa."
+    },
+    {
+      "page": "Edit",
+      "label": "Group",
+      "name": "convertg",
+      "description": "Name of the group to convert."
+    },
+    {
+      "page": "Edit",
+      "label": "Convert Name",
+      "name": "cnvtname",
+      "description": "New group name."
+    },
+    {
+      "page": "Edit",
+      "label": "Preserve Original",
+      "name": "preserve",
+      "description": "When checked, preserves original geometry."
+    },
+    {
+      "page": "Edit",
+      "label": "Group",
+      "name": "oldname",
+      "description": "Allows you to rename an existing group to something else."
+    },
+    {
+      "page": "Edit",
+      "label": "New Name",
+      "name": "newname",
+      "description": "Allows you to rename an existing group to something else."
+    },
+    {
+      "page": "Edit",
+      "label": "Group",
+      "name": "destroyname",
+      "description": "Allows you to delete an existing point or primitive group."
+    },
+    {
+      "page": "Edit",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Edit",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Edit",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Edit",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Edit",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Edit",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Edit",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Edit",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Edit",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Edit",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Edit",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Edit",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Edit",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Edit",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Edit",
+      "label": "A polygon is a type of  Primitive  that is formed from a set of  Vertices  in 3D that are implicitly connected together to form a multi",
+      "description": "edge shape."
+    },
+    {
+      "page": "Edit",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ite a los usuarios crear nuevos atributos (especificando clase, nombre, tipo, componentes, tamaño de arreglo, valor por defecto), cambiar el nombre de atributos existentes, duplicar atributos y eliminar atributos (de punto, vértice o primitiva). También soporta la creación de atributos de matriz.1 * Parámetros: Se organiza lógicamente en varias páginas de parámetros, cada una dedicada a una función específica.1 * Página Create: Attribute Class (attrclass) (Punto, Vértice, Primitiva), Group (group), Notification if Attribute Exists (notificationifexists) (Ignorar, Advertencia, Error), Override if Attribute Exists (overrideifexists), Pre-Multiply RGB by Alpha (premultcolor), New Attribute (attr), Name (attr0name) (N, Color, Tex, PointScale, LineWidth, Custom), Custom Name (attr0customname), Type (attr0type) (float, double, int, uint, dir, dbl dir), Number of Components (attr0numcomps) (1-4), Array (attr0isarray), Array Size (attr0arraysize), Value (attr0value) (R, G, B, A).1"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ción específica de este operador. • Experimental:GLSL POP: Un operador que te permite escribir tu propio código GLSL para manipular puntos y atributos. Ideal para simulaciones o efectos muy personalizados. • Experimental:GLSL Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Grid POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Group POP: Se usa para crear grupos de puntos, vértices o primitivas. Puedes usar estos grupos para afectar solo ciertas partes de tu geometría con otros operadores, como el Transform POP. También puede convertir un grupo en un atributo. • Experimental:Histogram POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Import Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "* **Características clave:** * Utiliza atributos de detalle `pCaptPath` (rutas a los componentes que actúan como huesos) y `pCaptData` (matrices de \"bind/rest pose\"). * Usa el atributo de punto/vértice `pCapt[]` que contiene pares de índice de transformación y peso. * Puede realizar deformaciones en la **CPU** (usando `Deform SOP`) o en la **GPU** para mayor velocidad. * Para la deformación en GPU, la geometría puede necesitar ser dividida en \"Bone Groups\" si hay muchos huesos. * **Uso simple:** Para animar personajes o modelos 3D que tienen un esqueleto, permitiendo que la malla se deforme de manera realista a medida que los huesos se mueven. * **Skin POP (POP de Superficie)** * **Función principal:** Conecta arreglos de datos en 2D (o más) para formar una **malla de triángulos o cuadrados**. * **Características clave:** * Por ejemplo, puede tomar varias \"line strips\" y unirlas para formar una superficie."
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "* **Métodos de eliminación:** * **Por atributo (`Attribute Page`)**: Elimina basado en los valores de los atributos de puntos o primitivas. Puedes combinar lógicas como \"P(0) > 0 Y P(1) < 0\" para eliminar puntos en una sección específica del espacio. * **\"Thin\" (`Thin Page`)**: Elimina basado en rangos definidos por parámetros, pasos o aleatoriamente. * **Por patrón (`Pattern Page`)**: Elimina basado en la coincidencia de patrones. * **Por grupo (`Group Page`)**: Elimina basado en si los puntos o primitivas pertenecen a ciertos grupos. * **Por límites (`Bounding Page`)**: Elimina basado en rangos delimitadores de cualquier atributo. * Cuando eliminas primitivas, los puntos o vértices que ya no se usan también se eliminan automáticamente. * Cuando eliminas puntos, los vértices y primitivas que los usan pueden ser eliminados parcial o totalmente. Esto puede hacer que las \"line strips\" (tiras de líneas) se dividan, recort"
+    },
+    {
+      "source": "POPs Investigation and Workshop Plan.markdown",
+      "excerpt": "lasers, DMX, or LEDs. ## 6. Workshop Plan ### Objective Equip participants with a solid understanding of POPs, their advantages, and practical use in TouchDesigner projects. ### Duration 2-3 hours, split into theory and hands-on segments. ### Structure #### Part 1: Introduction (30-45 minutes) - **What are POPs?** (10 min) - Definition, purpose, GPU benefits. - **POPs vs. SOPs** (15 min) - Key differences, when to use each. - **Core Concepts** (15 min) - Points, primitives, attributes, groups. #### Part 2: Hands-On Demos (1.5-2 hours) - **Demo 1: Basic POP Workflow** (30 min) - Create a `Point Generator POP`, add `P` and `Color` attributes, render with a `Render TOP`. - **Demo 2: Attribute Manipulation** (30 min) - Use `Math POP` to modify `P`, create a custom attribute, and swizzle components. - **Demo 3: Particles and Point Clouds** (30 min) - Build a simple particle system with `Particle POP` and a point cloud with `Point File In POP`. - **Demo 4: Integration** (30 min)"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "o, let's see if I can figure out how to change this. Yeah, if I turn that down, what we're going to see is our centrid particle is much more kind of centered to the middle. (24:49) And if I turn it up, and I guess I'm going to press home because we want to home everything in our camera. Again, we can see the centroidid is kind of stuck in the middle. and that is going to maintain. So this is basically a way that you can find the center of a cluster of points. You also have much more accessible grouping options with the new pops. (25:12) So if I make some of these things available, let's say I make the RMS power available, I can go in here and so when I actually access this, I can choose what I'm accessing. So I can have my average and my RMS power. So I can feed out all of these things. probably won't use RMS power for this, but for average, I could just drag and drop that into my controls here. (25:38) And it's probably going to be somewhat similar because the average should probably be"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

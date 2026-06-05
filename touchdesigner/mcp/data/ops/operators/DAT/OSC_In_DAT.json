@@ -1,0 +1,290 @@
+{
+  "family": "DAT",
+  "pageTitle": "OSC In DAT",
+  "pageSlug": "OSC_In_DAT",
+  "url": "https://docs.derivative.ca/OSC_In_DAT",
+  "tdOpTypeGuess": "oSCInDAT",
+  "summary": "[  edit  ]\nThe OSC In  DAT  receives and parses full Open Sound Control packets using UDP by default.  Each packet is parsed and appended as a row in the  DAT 's table. The table is FIFO \"fisrt-in first-out\" and limited to parameter-set number of lines. An optional script may be run for each packet received. Each packet/row represents either one OSC message, or an entire OSC bundle.  Each argument is translated into readable ASCII text.\nThe supported argument tag types are:\ni int32\nf float32\ns OSC-string\nb OSC-blob\nh 64 bit big-endian two's complement integer\nt OSC-timetag\nd 64 bit (\"double\") IEEE 754 floating point number\nS alternate type represented as an OSC-string\nc ASCII character\nr 32 bit RGBA color\nm 4 byte MIDI message\nT True\nF False\nN Nil\nI Infinitum\n[ Beginning of an array\n] End of an array\nIn the case of multi-vectored arguments (example \"blob\", \"midi\", \"rgb\", etc), the list of values is enclosed in double quotes.  In the case of unknown argument types, a quoted list of decimal values representing the bytes of that argument are included instead.\nNOTE for Windows OS - If experiencing connection issues make sure Windows Firewall is disabled.\nSee also  OSC ,  OSC Out DAT ,  Peer Class ,  OSC In CHOP ,  OSC Out CHOP ,  iOS and OSC ,  Network Protocols .\noscinDAT_Class\nContents\n1   Summary\n2   Parameters - Connect Page\n3   Parameters - Received Messages Page\n4   Parameters - Common Page\n5   Operator Inputs",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Connect",
+      "label": "Active",
+      "name": "active",
+      "description": "While on, the  DAT  receives information sent to the network port. While Off, no updating occurs. Data sent to the port is lost."
+    },
+    {
+      "page": "Connect",
+      "label": "Protocol",
+      "name": "protocol",
+      "description": "⊞  - Select which protocol to use, refer to the  Network Protocols  article for more information."
+    },
+    {
+      "page": "Connect",
+      "label": "Multi",
+      "description": "Cast Messaging (UDP)   multicastmsging  -"
+    },
+    {
+      "page": "Connect",
+      "label": "Network Address",
+      "name": "address",
+      "description": "For multi-cast protocol, this is the multi-cast address to listen for. For UDT protocol this is the IP address of the server."
+    },
+    {
+      "page": "Connect",
+      "label": "Port",
+      "name": "port",
+      "description": "The port which OSC-In will accept packets on."
+    },
+    {
+      "page": "Connect",
+      "label": "Local Address",
+      "name": "localaddress",
+      "description": "Specify an IP address to receive on, useful when the system has mulitple NICs (Network Interface Card) and you want to select which one to use."
+    },
+    {
+      "page": "Connect",
+      "label": "Shared Connection",
+      "name": "shared",
+      "description": "Use the same connection as other networking DATs using the same network protocol."
+    },
+    {
+      "page": "Connect",
+      "label": "OSC Address  Scope",
+      "name": "addscope",
+      "description": "To reduce which message are generated, you can use message address name patterns to include or exclude messages. For example,  ^*accel*  will exclude accelerometer messages coming in from an iOS or iPhone app like mrmr. See  Pattern Matching  for the syntax of the possible address name patterns."
+    },
+    {
+      "page": "Connect",
+      "label": "Include Type  Tag",
+      "name": "typetag",
+      "description": "Includes the argument list type tag in each message. It includes the parameter type keywords (in case the parsing application needs to identify parameter types)."
+    },
+    {
+      "page": "Connect",
+      "label": "Split Bundle into Messages",
+      "name": "splitbundle",
+      "description": "When On, each message contained within a bundle is given its own row."
+    },
+    {
+      "page": "Connect",
+      "label": "Split Message into Columns",
+      "name": "splitmessage",
+      "description": "When On, OSC address and arguments are given individual columns, otherwise they are included in the message column."
+    },
+    {
+      "page": "Connect",
+      "label": "Bundle Timestamp Column",
+      "name": "bundletimestamp",
+      "description": "When On, each bundle timestamp value is included in a column."
+    },
+    {
+      "page": "Received Messages",
+      "label": "Callbacks  DAT",
+      "name": "callbacks",
+      "description": "The Callbacks  DAT  will execute once for each message received. See  oscinDAT_Class  for usage."
+    },
+    {
+      "page": "Received Messages",
+      "label": "Execute from",
+      "name": "executeloc",
+      "description": "⊞  - Determines the location the script is run from."
+    },
+    {
+      "page": "Received Messages",
+      "label": "Current  Node",
+      "name": "current",
+      "description": "The script is executed from the current node location."
+    },
+    {
+      "page": "Received Messages",
+      "label": "Callbacks  DAT",
+      "name": "callbacks",
+      "description": "The script is executed from the location of the  DAT  specified in the  Callbacks  DAT   parameter."
+    },
+    {
+      "page": "Received Messages",
+      "label": "Specified  Operator",
+      "name": "op",
+      "description": "The script is executed from the operator specified in the  From  Operator   parameter below."
+    },
+    {
+      "page": "Received Messages",
+      "label": "From  Operator",
+      "name": "fromop",
+      "description": "The operator whose state change will trigger the  DAT  to execute its script when  Execute from  is set to  Specified  Operator  . This operator is also the path that the script will be executed from if the  Execute From  parameter is set to  Specified  Operator  ."
+    },
+    {
+      "page": "Received Messages",
+      "label": "Clamp Output",
+      "name": "clamp",
+      "description": "The  DAT  is limited to 100 messages by default but with Clamp Output, this can be set to anything including unlimited."
+    },
+    {
+      "page": "Received Messages",
+      "label": "Maximum Lines",
+      "name": "maxlines",
+      "description": "Limits the number of messages, older messages are removed from the list first."
+    },
+    {
+      "page": "Received Messages",
+      "label": "Clear Output",
+      "name": "clear",
+      "description": "Deletes all lines except the heading. To clear with a python script  op( \"opname\" ).par.clear.pulse()"
+    },
+    {
+      "page": "Received Messages",
+      "label": "Bytes Column",
+      "name": "bytes",
+      "description": "Outputs the raw bytes of the message in a separate column."
+    },
+    {
+      "page": "Common",
+      "label": "Language",
+      "name": "language",
+      "description": "⊞  - Select how the  DAT  decides which script language to operate on."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Node",
+      "name": "node",
+      "description": "The  DAT  uses it's own script language."
+    },
+    {
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "name": "extension",
+      "description": "⊞  - Select the file extension this  DAT  should expose to external editors."
+    },
+    {
+      "page": "Common",
+      "label": "dat",
+      "name": "dat",
+      "description": "various common file extensions."
+    },
+    {
+      "page": "Common",
+      "label": "From Language",
+      "name": "language",
+      "description": "pick extension from DATs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "custom",
+      "description": "Specify a custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specifiy the custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Word Wrap",
+      "name": "wordwrap",
+      "description": "⊞  - Enable Word Wrap for Node Display."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs setting."
+    },
+    {
+      "page": "Common",
+      "label": "On",
+      "name": "on",
+      "description": "Turn on Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Off",
+      "name": "off",
+      "description": "Turn off Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "num_rows",
+      "description": "Number of rows in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "num_cols",
+      "description": "Number of columns in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "Art",
+      "description": "Net    •   Audio Devices    •   CHOP Execute    •   CHOP to    •   Clip    •   Convert    •   CPlusPlus    •   DAT   •    Execute    •   DAT Export   •   Error    •   EtherDream    •   Evaluate    •   Examine    •   Execute    •   FIFO    •   File In    •   File Out    •   Folder    •   In    •   Indices    •   Info    •   Insert    •   JSON    •   Keyboard In    •   Lookup    •   Media File Info    •   Merge    •   MIDI Event    •   MIDI In    •   Monitors    •   MPCDI    •   MQTT Client    •   Multi Touch In    •   NDI    •   Null    •   OP Execute    •   OP Find    •   OSC In    •   OSC Out    •   Out    •   Panel Execute    •   Parameter    •   Parameter Execute    •   ParGroup Execute    •   Perform    •   POP to    •   Render Pick    •   Reorder    •   Script    •   Select    •   Serial    •   Serial Devices    •   SocketIO    •   SOP to    •   Sort    •   Substitute    •   Switch    •   Table    •   TCP/IP    •   Text    •   Touch In    •   Touch Out    •   Transpose    •   TUIO In    •   UDP In    •   UDP Out    •   UDT In    •   UDT Out    •   Video Devices    •   Web Client    •   Web    •   Web Server    •   WebRTC    •   WebSocket    •   XML"
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

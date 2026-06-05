@@ -1,0 +1,307 @@
+{
+  "family": "SOP",
+  "pageTitle": "Noise SOP",
+  "pageSlug": "Noise_SOP",
+  "url": "https://docs.derivative.ca/Noise_SOP",
+  "tdOpTypeGuess": "noiseSOP",
+  "summary": "[  edit  ]\nThe Noise  SOP  displaces geometry points using noise patterns. It uses the same math as the  Noise CHOP .\nnoiseSOP_Class\nContents\n1   Summary\n2   Parameters - Noise Page\n3   Parameters - Transform Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common SOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Noise",
+      "label": "Group",
+      "name": "group",
+      "description": "If there are input groups, specifying a group name in this field will cause this  SOP  to act only upon the group specified. Accepts patterns, as described in  Pattern Matching ."
+    },
+    {
+      "page": "Noise",
+      "label": "Attribute",
+      "name": "attribute",
+      "description": "⊞  - This menu sets which attribute of the geometry the Noise  SOP  acts on."
+    },
+    {
+      "page": "Noise",
+      "label": "Point Position",
+      "name": "pos",
+      "description": "Noise is applied in the direction of the point normal. If no normal is specified, a normal is computed."
+    },
+    {
+      "page": "Noise",
+      "label": "Point Normals",
+      "name": "n",
+      "description": "Noise is applied to each component of the normal independently and then the vector is renormalized."
+    },
+    {
+      "page": "Noise",
+      "label": "Point Diffuse Color",
+      "name": "cd",
+      "description": "Noise is applied to each component of the color independently."
+    },
+    {
+      "page": "Noise",
+      "label": "Point Alpha",
+      "name": "alpha",
+      "description": "Noise is applied to alpha."
+    },
+    {
+      "page": "Noise",
+      "label": "Point Texture UV",
+      "name": "uv",
+      "description": "Noise is applied to each component uv independently."
+    },
+    {
+      "page": "Noise",
+      "label": "Point Texture W",
+      "name": "w",
+      "description": "Noise is applied to texture w."
+    },
+    {
+      "page": "Noise",
+      "label": "Type",
+      "name": "type",
+      "description": "⊞  - The noise function used to generate noise. The functions available are:"
+    },
+    {
+      "page": "Noise",
+      "label": "Sparse",
+      "name": "sparse",
+      "description": "Produces high quality, continuous noise based on Sparse Convolution."
+    },
+    {
+      "page": "Noise",
+      "label": "Hermite",
+      "name": "hermite",
+      "description": "Quicker than Sparse, but produces lower quality noise."
+    },
+    {
+      "page": "Noise",
+      "label": "Harmomic Summation",
+      "name": "harmonic",
+      "description": "Sparse noise with the ability to control the frequency step of the harmonics. Takes the longest to compute."
+    },
+    {
+      "page": "Noise",
+      "label": "Brownian",
+      "name": "brownian",
+      "description": "Works like a bug in random flight. With Num of Integrals at 2, its acceleration is changed randomly every frame."
+    },
+    {
+      "page": "Noise",
+      "label": "Random",
+      "name": "random",
+      "description": "(White Noise) Every sample is random and unrelated to any other sample. It is the same as \"white noise\" in audio."
+    },
+    {
+      "page": "Noise",
+      "label": "Alligator",
+      "name": "alligator",
+      "description": "Cell Noise."
+    },
+    {
+      "page": "Noise",
+      "label": "Seed",
+      "name": "seed",
+      "description": "Any number, integer or non-integer, which starts the random number generator. Each number gives completely different noise patterns, but with similar characteristics."
+    },
+    {
+      "page": "Noise",
+      "label": "Period",
+      "name": "period",
+      "description": "The approximate separation between peaks of a noise cycle. It is expressed in Units. Increasing the period stretches the noise pattern out."
+    },
+    {
+      "page": "Noise",
+      "label": "Harmonics",
+      "name": "harmon",
+      "description": "The number of higher frequency components to layer on top of the base frequency. The higher this number, the bumpier the noise will be (as long as roughness is not set to zero). 0 Harmonics give the base shape."
+    },
+    {
+      "page": "Noise",
+      "label": "Harmonic Spread",
+      "name": "spread",
+      "description": "The factor by which the frequency of the harmonics are increased. It is normally 2. A spread of 3 and a base frequency of 0.1Hz will produce harmonics at 0.3Hz, 0.9Hz, 2.7Hz, etc.. This parameter is only valid for the Harmonic Summation type."
+    },
+    {
+      "page": "Noise",
+      "label": "Roughness",
+      "name": "rough",
+      "description": "Controls the effect of the higher frequency noise. When Roughness is zero, all harmonics above the base frequency have no effect. At one, all harmonics are equal in amplitude to the base frequency. When Roughness is between one and zero, the amplitude of higher harmonics drops off exponentially from the base frequency."
+    },
+    {
+      "page": "Noise",
+      "label": "The default roughness is 0.5. This means the amplitude of the first harmonic is 0.5 of the base frequency, the second is 0.25, the third is 0.125. The harmonics are added to the base to give the final shape. The Harmonics parameter and the Roughness parameter must both be non",
+      "description": "zero to see the harmonic effects."
+    },
+    {
+      "page": "Noise",
+      "label": "Exponent",
+      "name": "exp",
+      "description": "Pushes the noise values toward 0, or +1 and -1. (It raises the value to the power of the exponent.) Exponents greater than one will pull the channel toward zero, and powers less than one will pull peaks towards +1 and -1. It is used to reshape the channels."
+    },
+    {
+      "page": "Noise",
+      "label": "Number of Integrals",
+      "name": "numint",
+      "description": "Defines the number of times to integrate (see the  Speed CHOP ) the Brownian noise. Higher values produce smoother curves with fewer features. Values beyond 4 produce somewhat identical curves. This parameter is only valid for the Random noise type."
+    },
+    {
+      "page": "Noise",
+      "label": "Amplitude",
+      "name": "amp",
+      "description": "Defines the noise value's amplitude (a scale on the values output)."
+    },
+    {
+      "page": "Transform",
+      "label": "The Translate, Rotate, Scale and Pivot parameters let you sample in a different part of the 3D noise space. Imagine a different noise value for every XYZ point in space. Normally, the Noise  SOP  samples the noise space from (0,0,0) along the X",
+      "description": "axis in steps of 2/period."
+    },
+    {
+      "page": "Transform",
+      "label": "By changing the transform, you are translating, rotating and scaling the line along which the Noise SOPs samples the noise space. A slight Y",
+      "description": "rotation is like walking in a straight path in the mountains, recording your altitude along the way, then re-starting from the same initial location, walking in a slightly different direction. Your altitude starts off being similar but then diverges."
+    },
+    {
+      "page": "Transform",
+      "label": "Transform Order",
+      "name": "xord",
+      "description": "⊞  - The menu attached to this parameter allows you to specify the order in which the transforms will take place. Changing the Transform order will change where things go much the same way as going a block and turning east gets you to a different place than turning east and then going a block."
+    },
+    {
+      "page": "Transform",
+      "label": "Rotate Order",
+      "name": "rord",
+      "description": "⊞  - The rotational matrix presented when you click on this option allows you to set the transform order for the rotations. As with transform order (above), changing the order in which the rotations take place will alter the final position."
+    },
+    {
+      "page": "Transform",
+      "label": "Translate",
+      "name": "t",
+      "description": "⊞  - Translate the sampling plane through the noise space."
+    },
+    {
+      "page": "Transform",
+      "label": "Rotate",
+      "name": "r",
+      "description": "⊞  - Rotate the sampling plane in the noise space."
+    },
+    {
+      "page": "Transform",
+      "label": "Scale",
+      "name": "s",
+      "description": "⊞  - Scale the sampling plane."
+    },
+    {
+      "page": "Transform",
+      "label": "Pivot",
+      "name": "p",
+      "description": "⊞  - Control the pivot for the transform of the sampling plane."
+    },
+    {
+      "page": "Transform",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Transform",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Transform",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Transform",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Transform",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Transform",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Transform",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Transform",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Transform",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Transform",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Transform",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Transform",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Transform",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Transform",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Transform",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "tribute, Template Rotate, Template Rotate Attribute, Template Scale, Scale Attribute, Template Pivot, Template Pivot Attribute, Template Rotate to Vector, Template Rotate to Order, Rotate to Vector : Forward Direction, Rotate to Vector Attribute, Up Vector Type, Up Attribute, Up Constant, TemplateId Attribute, TemplateId Attrib Name). La \"Página Template Attributes\" permite operaciones (Copiar, Multiplicar, Sumar, Restar) en atributos de plantilla para afectar a los atributos de destino.2 * Noise POP: Aplica un campo de ruido a los puntos, afectando típicamente el atributo P (posición) por defecto. Los usuarios pueden elegir entre ruido Simplex y Perlin en 2-4 dimensiones. Los parámetros controlan el período, los armónicos, la dispersión armónica, la amplitud, el exponente y el desplazamiento. El campo de ruido puede ser trasladado, rotado o escalado.16 * Parámetros: Los parámetros clave incluyen Type (Simplex, Perlin), Period, Harmonics, Harmonic Spread, Amplitude, Exponent, Off"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "a atributos de solo lectura. • Experimental:Merge POP: Permite combinar múltiples flujos de datos POPs en uno solo. Puedes especificar qué grupos de datos deseas fusionar de cada entrada. Este operador puede afectar solo puntos, vértices o primitivas que estén en un grupo específico. • Experimental:Neighbor POP: Crea atributos de tipo entero sin signo. Genera atributos que comienzan con Nebr*, lo que sugiere su uso para trabajar con información de vecinos (puntos cercanos). • Experimental:Noise POP: Un operador que genera ruido para atributos, lo que permite crear efectos complejos y variaciones aleatorias. Sus parámetros pueden ser controlados por otros atributos. Permite crear y modificar atributos de color y textura. • Experimental:Normal POP: Se encarga de calcular y crear las normales de superficie y las tangentes de la geometría. • Experimental:Normalize POP: Ofrece capacidades de manipulación fundamentales sin necesidad de código. Permite crear y modificar atributos de colo"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "cercanos** en un atributo llamado `Nebr`. * También puede almacenar el **número de vecinos encontrados** en el atributo `NumNebrs` y la **distancia promedio** a ellos. * Permite comparar puntos de una entrada con puntos de una segunda entrada. * **Uso simple:** Imagina que tienes una nube de puntos y quieres que cada punto sepa cuáles son los 5 puntos más cercanos a él para, por ejemplo, crear conexiones visuales o aplicar efectos basados en la proximidad. * **Noise POP (POP de Ruido)** * **Función principal:** Este POP aplica un **campo de ruido** (valores suaves y aleatorios en 3D) a tus puntos, generalmente moviendo su posición (`P`). * **Características clave:** * Ofrece diferentes **tipos de ruido** como Simplex y Perlin, en 2D, 3D o 4D. * Puedes controlar la **\"rugosidad\" o el detalle** del ruido con parámetros como `Period` (distancia entre picos) y `Harmonics` (capas de detalle adicionales). * Permite"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "c POP` define una fuerza local separada. Los atributos de este `Spec POP` coinciden con los nombres de los parámetros del Force POP (ej., `strength` para el parámetro `Strength`), permitiendo definir múltiples fuerzas de forma programática. * El atributo `PartForce` se utiliza en el Particle POP para calcular la velocidad y posición de las partículas en el siguiente fotograma de la simulación. * Puedes crear el atributo `PartForce` de otras maneras, no solo con Force POP (ej., con Noise, Math Mix, Pattern, Lookup, GLSL POPs). * Puedes **\"enmascarar\" cada fuerza** con un Field POP para controlar su área de efecto. --- #### 27. GLSL Advanced POP * **¿Qué hace?** Este operador te permite ejecutar un **\"compute shader\" GLSL** personalizado en la GPU para manipular tus datos de geometría. Es una herramienta muy potente para el control de bajo nivel y la programación visual. Puede leer y escribir simultáneamente en atributos de puntos, vértices y primitivas. * **C"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "ating stuff, we have lots of things that might be familiar to us. We have things like the point generator, which is a bit similar to stuff that was in the pallet earlier, although it's got its own tricks. (01:35) We've got sphere, we have box, we have a grid. So, a lot of this stuff is going to look kind of familiar to us. Let's see. Let's just do one more thing just so we can see. In terms of how we process these generators, we have a bunch of things that we also might be used to like we have noise and twist, but also some things that we are potentially less used to like one of my favorite things that I think is going to solve a lot of problems for people, which is this little thing called proximity. (02:13) And what proximity allows us to do is essentially create these sort of plexus effects. And and maybe this would be more interesting if I popped a noise in here. I'm going to turn up that value and I'm going to animate it. So now we have a really simple inbuilt way of making a plexus"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

@@ -1,0 +1,322 @@
+{
+  "family": "CHOP",
+  "pageTitle": "DMX In CHOP",
+  "pageSlug": "DMX_In_CHOP",
+  "url": "https://docs.derivative.ca/DMX_In_CHOP",
+  "tdOpTypeGuess": "dMXInCHOP",
+  "summary": "[  edit  ]\nThe DMX In  CHOP  receives channels from DMX,  Art-Net ,  sACN  or  KiNET  devices. Channel values for DMX are 0-255. Note that input rate is limited to the DMX maximum refresh rate of 44Hz.\nA Filter Table can be provided in a  DAT  where addresses can be specified by adding rows for each channel and specifying  net ,  subnet  and  universe . Optionally, packets can be filtered using the  srcaddress  and  destaddress  columns; only packets that have a matching source IP address and destination IP address will be accepted. The cell values for these columns should be a single IP address (ie.  Pattern Matching   not  supported); if left blank then all packets will be accepted.\nThe  srcaddress  column is useful for when there is DMX noise on the network that needs to be filtered out; the IP of the desired controller can be specified in the  srcaddress  cell. The  id  column should be used in conjunction with  srcaddress  and  destaddress  to provide a unique channel suffix.\nWireshark  is a useful tool for debugging network issues. In the Art-Net case, packets can easily be filtered using  artnet ,  dmx , or  dmx_chan .\nENTTEC NOTE:  - Use ENTTEC's  NMU (Node Management Utility)  to configure and inspect the ENTTEC devices found on your network.\nSee also:  DMX Out POP ,  Art-Net ,  DMX Out CHOP ,  DMX\ndmxinCHOP_Class\nContents\n1   Summary\n2   Parameters - Port Page\n3   Parameters - Common Page\n4   Info CHOP Channels\n4.1   Common CHOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "Port",
+      "label": "Active",
+      "name": "active",
+      "description": "Connects to the device while On."
+    },
+    {
+      "page": "Port",
+      "label": "Interface",
+      "name": "interface",
+      "description": "⊞  - Select the type of interface to connect to the device with."
+    },
+    {
+      "page": "Port",
+      "label": "Enttec Generic Serial",
+      "name": "serial",
+      "description": "Uses the operating system's serial calls to read data."
+    },
+    {
+      "page": "Port",
+      "label": "Art-Net",
+      "name": "artnet",
+      "description": "Sets the interface to  Art-Net  protocol."
+    },
+    {
+      "page": "Port",
+      "label": "sACN",
+      "name": "sacn",
+      "description": "Sets the interface to  sACN  protocol."
+    },
+    {
+      "page": "Port",
+      "label": "KiNET",
+      "name": "kinet",
+      "description": "Sets the interface to  KiNET  protocol."
+    },
+    {
+      "page": "Port",
+      "label": "KiNET Version",
+      "name": "kinetversion",
+      "description": "⊞  - Set the version of the KiNET protocol to use."
+    },
+    {
+      "page": "Port",
+      "label": "Device",
+      "name": "device",
+      "description": "Select a DMX device from the menu."
+    },
+    {
+      "page": "Port",
+      "label": "Serial Port",
+      "name": "serialport",
+      "description": "When the  Interface  parameter is set Generic Serial this parameter lets you select which Serial (COM) port to use."
+    },
+    {
+      "page": "Port",
+      "label": "Format",
+      "name": "format",
+      "description": "⊞  - Select between receiving Packet Per Sample (Timesliced), Packet Per Channel (Latest) or Packet Per Channel (All). When selecting Packet Per Channel (Latest), any messages outside the last cook are being discarded while the option Packet Per Channel (All) will append channels that would get otherwise skipped by dropped frames."
+    },
+    {
+      "page": "Port",
+      "label": "Art-Net Net (0-127)",
+      "name": "net",
+      "description": "When the  Interface  parameter is set to Art-Net, this sets the net address. A net is a groups of 16 consecutive subnets or 256 consecutive universes. The range for this parameter is 0-127. This is  not  a network IP address."
+    },
+    {
+      "page": "Port",
+      "label": "Art-Net Subnet (0-15)",
+      "name": "subnet",
+      "description": "When the  Interface  parameter is set to Art-Net, this sets the subnet address. A subnet is a group of 16 consecutive universes. The range for this parameter is 0-15. This is  not  a network subnet mask."
+    },
+    {
+      "page": "Port",
+      "label": "Art-Net Universe (0-15)",
+      "name": "universe",
+      "description": "When the  Interface  parameter is set to Art-Net, this sets the universe address. A single DMX512 frame of 512 channels is referred to as a universe. The range for this parameter is 0-15."
+    },
+    {
+      "page": "Port",
+      "label": "Filter Table",
+      "name": "filterdat",
+      "description": "Available when using Packet Per Channel Format for Art-Net or sACN. Use the docked  Table DAT  to specify which net, subnet, universe channels are being received from."
+    },
+    {
+      "page": "Port",
+      "label": "Net Name",
+      "name": "netname",
+      "description": "Specify the channel prefix for the net part of the address."
+    },
+    {
+      "page": "Port",
+      "label": "Subnet Name",
+      "name": "subnetname",
+      "description": "Specify the channel prefix for the subnet part of the address."
+    },
+    {
+      "page": "Port",
+      "label": "Universe Name",
+      "name": "universename",
+      "description": "Specify the channel prefix for the universe part of the address."
+    },
+    {
+      "page": "Port",
+      "label": "KiNET Port Name",
+      "name": "kinetportname",
+      "description": "Specify the channel prefix for the KiNET port part of the address."
+    },
+    {
+      "page": "Port",
+      "label": "Start Codes",
+      "name": "startcodes",
+      "description": "A list of accepted start codes when using sACN. If the DMX In  CHOP  receives an sACN packet with a start code not in the list then it will discard it."
+    },
+    {
+      "page": "Port",
+      "label": "Multicast",
+      "name": "multicast",
+      "description": "Enable multicast for sACN. Multicast automatically builds the IP based on Net, Subnet, and Universe of the device. This allows for the DMX In  CHOP  to automatically receive from a sender without knowledge of it's address."
+    },
+    {
+      "page": "Port",
+      "label": "Queue Size",
+      "name": "queuesize",
+      "description": "When using interface Art-Net or sACN, this will set the size of the incoming packets queue.  This can be used to smooth data, though latency will be higher.  In the case of Packet Per Channel (All), this parameter controls the maximum number of packets created per cook."
+    },
+    {
+      "page": "Port",
+      "label": "Rate",
+      "name": "rate",
+      "description": "Resample the incoming data to this rate."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "** (`float`, `double`, `int`, `uint`, `dir`, `dbl dir`) y el **número de componentes** (1-4) para los nuevos atributos creados. --- #### 17. DMX Fixture POP * **¿Qué hace?** Este operador se utiliza para **construir \"universos\" DMX** a partir de una entrada POP, y se usa junto con un DMX Out POP para enviar señales DMX a dispositivos de iluminación u otros equipos. * **Características clave:** * Cada **primitiva** en la entrada POP es tratada como un **dispositivo (fixture)** DMX independiente. * El **perfil DMX** (qué canales DMX se usan para qué) se define en la página `Channels`. * Puedes usar atributos de primitiva especiales (como `DMXFixtureNet`, `DMXFixtureUniverse`) para personalizar la configuración DMX de cada dispositivo sin usar una tabla de enrutamiento. * **Tipo de Valor (`Value Type`)**: Puedes elegir si los valores de los canales se toman por **punto** (cada punto se itera para cada canal) o por **primitiva** (un valor por primitiva/dis"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

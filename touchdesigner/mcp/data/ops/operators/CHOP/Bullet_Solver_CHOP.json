@@ -1,0 +1,257 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Bullet Solver CHOP",
+  "pageSlug": "Bullet_Solver_CHOP",
+  "url": "https://docs.derivative.ca/Bullet_Solver_CHOP",
+  "tdOpTypeGuess": "bulletSolverCHOP",
+  "summary": "[  edit  ]\nThe Bullet Solver  CHOP  is used in conjunction with a  Bullet Dynamics  system. It outputs the solved results from a Bullet simulation and can include the results for the entire system ( Bullet Solver COMP ) or an individual actor ( Actor COMP ) within a system.\nThe Bullet Solver  CHOP  can also be used with the \"Feedback  CHOP \" parameter on the Bullet Solver  COMP  or Actor  COMP . Bullet Solver simulation results can be grabbed using the Bullet Solver  CHOP , modified, then fed back into the  Bullet Solver COMP  it came from. The values at the beginning of the next step of the simulation will be whatever values are in the  CHOP  that is fed back. This allows any  CHOP  data to be injected into the simulation at the beginning of the next frame (time step).\nFor example: making an actor in the simulation jump to the mouse cursor when clicked.\nOutput Channels:\nactor_id:  the OP id of the Actor  COMP\nbody_id:  the id of the body within the Actor  COMP . Actor COMPs can have multiple bodies if they are static or if instancing (see: Actor  COMP ). Body id's increment from 0 to N-1, where N is the total number of bodies in an Actor  COMP .\nactive:  whether the body is active in the simulation\ncolliding:  whether the body is currently colliding with another body\ncolliding_actor_id  the ID of the Actor  COMP  that contains the body we are colliding with\ncolliding_body_id  the ID of the body we are colliding with; together with colliding_actor_id will map back to a specific body in the simulation\ntotal_collisions:  the total number of collisions this body has had\nt[xyz]:  the translation of the body in the given transform space\nr[xyz]:  the rotation of the body in the given transform space\ns[xyz]:  the scale of the body in the given transform space\nvel_t[xyz]:  linear velocity of the body\nvel_r[xyz]:  angular velocity of the body\nSee also:  Bullet Dynamics ,  Bullet Solver COMP ,  Actor COMP ,  Force COMP ,  Impulse Force COMP ,  Constraint COMP .\nbulletsolverCHOP_Class\nContents\n1   Summary\n2   Parameters - General Page\n3   Parameters - Common Page\n4   Info CHOP Channels\n4.1   Common CHOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "General",
+      "label": "Solver or Actor  COMP",
+      "name": "comp",
+      "description": "A reference to either a  Bullet Solver COMP  or  Actor COMP . If a Bullet Solver  COMP  is referenced then the  CHOP  will output the simulation results for all of its actors. If an Actor  COMP  is referenced then the  CHOP  will output the simulation results for only that actor."
+    },
+    {
+      "page": "General",
+      "label": "Transform Space",
+      "name": "xformspace",
+      "description": "⊞  - The space in which to output the transformation values. That is, the transform values (translation/rotation) will be outputted relative to the selected space."
+    },
+    {
+      "page": "General",
+      "label": "World",
+      "name": "world",
+      "description": "The output transform is in the world coordinate system."
+    },
+    {
+      "page": "General",
+      "label": "Bullet Solver",
+      "name": "bulletsolver",
+      "description": "The transform output is relative to the Bullet Solver  COMP ."
+    },
+    {
+      "page": "General",
+      "label": "Actor",
+      "name": "actor",
+      "description": "The output transform is relative to the Actor  COMP ."
+    },
+    {
+      "page": "General",
+      "label": "Collision Info",
+      "name": "collisioninfo",
+      "description": "Adds colliding, colliding_actor_id, colliding_body_id, and total_collisions channels to the  CHOP . In order to track these values for a body, \"Perform Contact Test\" must be enabled on the Bullet Solver  COMP ."
+    },
+    {
+      "page": "General",
+      "label": "Translation",
+      "name": "trans",
+      "description": "Adds translation channels to the  CHOP ."
+    },
+    {
+      "page": "General",
+      "label": "Rotation",
+      "name": "rot",
+      "description": "Adds rotation channels to the  CHOP ."
+    },
+    {
+      "page": "General",
+      "label": "Scale",
+      "name": "scale",
+      "description": "Adds scale channels to the  CHOP ."
+    },
+    {
+      "page": "General",
+      "label": "Linear Velocity",
+      "name": "linvel",
+      "description": "Adds linear velocity channels to the  CHOP ."
+    },
+    {
+      "page": "General",
+      "label": "Angular Velocity",
+      "name": "angvel",
+      "description": "Adds angular velocity channels to the  CHOP ."
+    },
+    {
+      "page": "General",
+      "label": "Sample Rate",
+      "name": "rate",
+      "description": "The sample rate of the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

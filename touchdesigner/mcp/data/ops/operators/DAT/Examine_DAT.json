@@ -1,0 +1,280 @@
+{
+  "family": "DAT",
+  "pageTitle": "Examine DAT",
+  "pageSlug": "Examine_DAT",
+  "url": "https://docs.derivative.ca/Examine_DAT",
+  "tdOpTypeGuess": "examineDAT",
+  "summary": "[  edit  ]\nThe Examine  DAT  lets you inspect an operator's python storage, locals, globals, expressions, and extensions.\nexamineDAT_Class\nContents\n1   Summary\n2   Parameters - Examine Page\n3   Parameters - Common Page\n4   Info CHOP Channels\n4.1   Common DAT Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "Examine",
+      "label": "Operator",
+      "name": "op",
+      "description": "Path  to the operator to examine."
+    },
+    {
+      "page": "Examine",
+      "label": "Source",
+      "name": "source",
+      "description": "⊞  - Specifies what part of the operator to examine."
+    },
+    {
+      "page": "Examine",
+      "label": "Operator  Storage",
+      "name": "storage",
+      "description": "Examine the operator's  storage ."
+    },
+    {
+      "page": "Examine",
+      "label": "Operator Locals",
+      "name": "locals",
+      "description": "Examine the local dictionary associated with the operator's module. (DATs only)."
+    },
+    {
+      "page": "Examine",
+      "label": "Extensions",
+      "name": "extensions",
+      "description": "Examine any  extension  objects defined in the  Component ."
+    },
+    {
+      "page": "Examine",
+      "label": "Globals",
+      "name": "globals",
+      "description": "Examine the global dictionary associated with the project (accessible via the textport)."
+    },
+    {
+      "page": "Examine",
+      "label": "Expression",
+      "name": "expression",
+      "description": "Specify the object to be examined."
+    },
+    {
+      "page": "Examine",
+      "label": "Subkey",
+      "name": "subkey",
+      "description": "If the object to be examined is a dictionary you can specify which element to examine here."
+    },
+    {
+      "page": "Examine",
+      "label": "Expression",
+      "name": "expression",
+      "description": "When source is set to  Expression , enter your expression in this parameter."
+    },
+    {
+      "page": "Examine",
+      "label": "Level",
+      "name": "level",
+      "description": "Clamp the maximum depth level."
+    },
+    {
+      "page": "Examine",
+      "label": "Key",
+      "name": "key",
+      "description": "Filter Key results."
+    },
+    {
+      "page": "Examine",
+      "label": "Type",
+      "name": "type",
+      "description": "Filter Type results."
+    },
+    {
+      "page": "Examine",
+      "label": "Value",
+      "name": "value",
+      "description": "Filter Value results."
+    },
+    {
+      "page": "Examine",
+      "label": "Expand Classes",
+      "name": "expandclasses",
+      "description": "When true, complex object structures (example  OP ) are further expanded."
+    },
+    {
+      "page": "Examine",
+      "label": "Max Levels",
+      "name": "maxlevels",
+      "description": "Specify the maximum depth in which to expand a python object."
+    },
+    {
+      "page": "Examine",
+      "label": "Format",
+      "name": "format",
+      "description": "⊞  - Determines whether the output is raw text or in table format."
+    },
+    {
+      "page": "Examine",
+      "label": "Output Headers",
+      "name": "outputheaders",
+      "description": "Turn this on to display the column names when  Format  is set to Table."
+    },
+    {
+      "page": "Examine",
+      "label": "Output Level",
+      "name": "outputlevel",
+      "description": "Turn this on to output the  Level  column of the results."
+    },
+    {
+      "page": "Examine",
+      "label": "Output Key",
+      "name": "outputkey",
+      "description": "Turn this on to output the  Key  column of the results."
+    },
+    {
+      "page": "Examine",
+      "label": "Output Type",
+      "name": "outputtype",
+      "description": "Turn this on to output the  Type  column of the results."
+    },
+    {
+      "page": "Examine",
+      "label": "Output Value",
+      "name": "outputvalue",
+      "description": "Turn this on to output the  Value  column of the results."
+    },
+    {
+      "page": "Common",
+      "label": "Language",
+      "name": "language",
+      "description": "⊞  - Select how the  DAT  decides which script language to operate on."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Node",
+      "name": "node",
+      "description": "The  DAT  uses it's own script language."
+    },
+    {
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "name": "extension",
+      "description": "⊞  - Select the file extension this  DAT  should expose to external editors."
+    },
+    {
+      "page": "Common",
+      "label": "dat",
+      "name": "dat",
+      "description": "various common file extensions."
+    },
+    {
+      "page": "Common",
+      "label": "From Language",
+      "name": "language",
+      "description": "pick extension from DATs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "custom",
+      "description": "Specify a custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specifiy the custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Word Wrap",
+      "name": "wordwrap",
+      "description": "⊞  - Enable Word Wrap for Node Display."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs setting."
+    },
+    {
+      "page": "Common",
+      "label": "On",
+      "name": "on",
+      "description": "Turn on Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Off",
+      "name": "off",
+      "description": "Turn off Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "num_rows",
+      "description": "Number of rows in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "num_cols",
+      "description": "Number of columns in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "Art",
+      "description": "Net    •   Audio Devices    •   CHOP Execute    •   CHOP to    •   Clip    •   Convert    •   CPlusPlus    •   DAT   •    Execute    •   DAT Export   •   Error    •   EtherDream    •   Evaluate    •   Examine    •   Execute    •   FIFO    •   File In    •   File Out    •   Folder    •   In    •   Indices    •   Info    •   Insert    •   JSON    •   Keyboard In    •   Lookup    •   Media File Info    •   Merge    •   MIDI Event    •   MIDI In    •   Monitors    •   MPCDI    •   MQTT Client    •   Multi Touch In    •   NDI    •   Null    •   OP Execute    •   OP Find    •   OSC In    •   OSC Out    •   Out    •   Panel Execute    •   Parameter    •   Parameter Execute    •   ParGroup Execute    •   Perform    •   POP to    •   Render Pick    •   Reorder    •   Script    •   Select    •   Serial    •   Serial Devices    •   SocketIO    •   SOP to    •   Sort    •   Substitute    •   Switch    •   Table    •   TCP/IP    •   Text    •   Touch In    •   Touch Out    •   Transpose    •   TUIO In    •   UDP In    •   UDP Out    •   UDT In    •   UDT Out    •   Video Devices    •   Web Client    •   Web    •   Web Server    •   WebRTC    •   WebSocket    •   XML"
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

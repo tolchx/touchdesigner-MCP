@@ -1,0 +1,253 @@
+{
+  "family": "SOP",
+  "pageTitle": "Carve SOP",
+  "pageSlug": "Carve_SOP",
+  "url": "https://docs.derivative.ca/Carve_SOP",
+  "tdOpTypeGuess": "carveSOP",
+  "summary": "[  edit  ]\nThe Carve  SOP  works with any face or surface type, be that polygon, Bzier, or NURBS. It can be used to slice a primitive, cut it into multiple sections, or extract points or cross-sections from it.\nLike the Project  SOP , it also creates profile curves, but they are extracted as iso-parametric (2D) profiles directly from a surface, whereas the Project  SOP  extracts a 3D curve projected onto a surface.\nNote: When using a Carve  SOP  on a trimmed surface, you can't fillet or join the trim curves.\ncarveSOP_Class\nContents\n1   Summary\n2   Parameters - Carve Page\n3   Parameters - Method Page\n4   Example\n4.1   Opening a Closed Primitive\n4.2   Dicing a Face or Surface\n4.3   Cutting a Hole in a Surface\n4.4   Animating a Point Over a Face or Surface\n5   Operator Inputs\n6   Info CHOP Channels\n6.1   Common SOP Info Channels\n6.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Carve",
+      "label": "Group",
+      "name": "group",
+      "description": "If there are input groups, specifying a group name in this field will cause this  SOP  to act only upon the  Group  specified. Accepts patterns, as described in the Scripting Guide under  Pattern Matching ."
+    },
+    {
+      "page": "Carve",
+      "label": "First U",
+      "name": "firstu",
+      "description": "Enables the parameter to set the first position in U."
+    },
+    {
+      "page": "Carve",
+      "label": "First U",
+      "name": "domainu1",
+      "description": "This specifies a starting location to begin the cut/extract. Select this and a parametric U location between 0 and 1."
+    },
+    {
+      "page": "Carve",
+      "label": "Second U",
+      "name": "secondu",
+      "description": "Enables the parameter to set the second position in U."
+    },
+    {
+      "page": "Carve",
+      "label": "Second U",
+      "name": "domainu2",
+      "description": "This specifies an ending location to complete the cut / extract. Select this and a parametric U location between 0 and 1."
+    },
+    {
+      "page": "Carve",
+      "label": "First V",
+      "name": "firstv",
+      "description": "Enables the parameter to set the first position in V."
+    },
+    {
+      "page": "Carve",
+      "label": "First V",
+      "name": "domainv1",
+      "description": "This specifies a starting location to begin the cut/extract. Select this and a parametric V location between 0 and 1. Applies only to surfaces."
+    },
+    {
+      "page": "Carve",
+      "label": "Second V",
+      "name": "secondv",
+      "description": "Enables the parameter to set the second position in V."
+    },
+    {
+      "page": "Carve",
+      "label": "Second V",
+      "name": "domainv2",
+      "description": "This specifies an ending location to complete the cut / extract. Select this and a parametric V location between 0 and 1. Applies only to surfaces."
+    },
+    {
+      "page": "Method",
+      "label": "Carve Method",
+      "name": "method",
+      "description": "⊞  - Select between Cut and Extract methods."
+    },
+    {
+      "page": "Method",
+      "label": "Cut",
+      "name": "cut",
+      "description": "Cut will slice (or 'cut-out') the original geometry within the area specified on the Carve Page."
+    },
+    {
+      "page": "Method",
+      "label": "Extract",
+      "name": "extract",
+      "description": "Extract will create 3D curves, points, or 2D profiles within the area specified on the Carve page. The Extract Type parameter is used to determine what is extracted."
+    },
+    {
+      "page": "Method",
+      "label": "Keep Inside",
+      "name": "keepin",
+      "description": "Keep the primitives specified between the first and second locations."
+    },
+    {
+      "page": "Method",
+      "label": "Keep Outside",
+      "name": "keepout",
+      "description": "Keep the primitives lying outside the first and second locations."
+    },
+    {
+      "page": "Method",
+      "label": "Extract Type",
+      "name": "extractop",
+      "description": "⊞  - If enabled, it will extract a cross-section along each location specified above."
+    },
+    {
+      "page": "Method",
+      "label": "Extract 3D Isoparametric Curve(s)",
+      "name": "xisoparm",
+      "description": "The extraction operation creates a 3-D, free-floating curve that matches the surface perfectly at the given U or V location."
+    },
+    {
+      "page": "Method",
+      "label": "Extract  Point (s)",
+      "name": "xpoint",
+      "description": "Available for Mesh and surfaces only. If selected, it will create a point at every U, V location specified, rather than removing a U cross section and a V cross section."
+    },
+    {
+      "page": "Method",
+      "label": "Extract 2D Isoparametric Profile(s)",
+      "name": "xprofile",
+      "description": "Creates a 2D curve at the specified U/V location that matches the surface perfectly."
+    },
+    {
+      "page": "Method",
+      "label": "Keep Original",
+      "name": "keeporiginal",
+      "description": "If selected, it will not remove the original primitive."
+    },
+    {
+      "page": "Method",
+      "label": "Location",
+      "name": "location",
+      "description": "⊞  - Determines how the Cut/Extract is defined at the boundaries. Additionally, extra subdivisions can be added in two ways using the parameters below."
+    },
+    {
+      "page": "Method",
+      "label": "Divisions",
+      "name": "div",
+      "description": "The Cut/Extract occurs precisely at the locations defined on the Carve page. Additional divisions can be specified using the U/V Divisions parameters below and they are evenly distributed across the Cut/Extracted geoemtry."
+    },
+    {
+      "page": "Method",
+      "label": "Breakpoints",
+      "name": "break",
+      "description": "Performs cutting or extractions at breakpoints for curves and surfaces, at vertices for polygons, and along isoparms for meshes."
+    },
+    {
+      "page": "Method",
+      "label": "U Divisions",
+      "name": "divsu",
+      "description": "This specifies the number of cuts / extracts to be performed between first U and the second U."
+    },
+    {
+      "page": "Method",
+      "label": "V Divisions",
+      "name": "divsv",
+      "description": "Specifies the number of cuts/extracts to be performed between first V and second V."
+    },
+    {
+      "page": "Method",
+      "label": "Cut at All Internal U Breakpoints",
+      "name": "allubreakpoints",
+      "description": "When using Location = Breakpoints, the resulting primitive is divided at all U breakpoints into separate primitives."
+    },
+    {
+      "page": "Method",
+      "label": "Cut at All Internal V Breakpoints",
+      "name": "allvbreakpoints",
+      "description": "When using Location = Breakpoints, the resulting primitive is divided at all V breakpoints into separate primitives."
+    },
+    {
+      "page": "Method",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Method",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Method",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Method",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Method",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Method",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Method",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Method",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Method",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Method",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Method",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Method",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Method",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Method",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Method",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

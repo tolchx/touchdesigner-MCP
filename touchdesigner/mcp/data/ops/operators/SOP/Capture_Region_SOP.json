@@ -1,0 +1,145 @@
+{
+  "family": "SOP",
+  "pageTitle": "Capture Region SOP",
+  "pageSlug": "Capture_Region_SOP",
+  "url": "https://docs.derivative.ca/Capture_Region_SOP",
+  "tdOpTypeGuess": "captureRegionSOP",
+  "summary": "[  edit  ]\nThe Capture Region  SOP  defines capture region (cregion), which is a type of primitive which can be thought of as a modified tube primitive (a tube with half a sphere on either end). The hemispheres on the ends of the tubes are called \"caps\". Like any other primitive, each Capture Region has a primitive number and can be assigned primitive attributes. A Capture Region is simply a volume which is used to define the point capture weighting for a geometry. It is then animated to deform the geometry.\nCapture Regions are always shown in wireframe (even in shaded mode) so that you can focus on the geometry for which the region will act on.\ncaptureregionSOP_Class\nContents\n1   Summary\n2   Parameters - Region Page\n3   Parameters - Display Page\n4   How Weighting is Calculated\n5   Info CHOP Channels\n5.1   Common SOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "Region",
+      "label": "Orientation",
+      "name": "orient",
+      "description": "⊞  - Defines the direction axis of the region. Use Z axis when the region is inside a bone object."
+    },
+    {
+      "page": "Region",
+      "label": "Center",
+      "name": "t",
+      "description": "⊞  - Position of the center of the region."
+    },
+    {
+      "page": "Region",
+      "label": "Top Height",
+      "name": "theight",
+      "description": "Height of the region from the centre to the top cap."
+    },
+    {
+      "page": "Region",
+      "label": "Top Cap",
+      "name": "tcap",
+      "description": "⊞  - The X, Y, Z radii of the top/bottom hemisphere."
+    },
+    {
+      "page": "Region",
+      "label": "Bottom Height",
+      "name": "bheight",
+      "description": "Height of the region from the centre to the top cap."
+    },
+    {
+      "page": "Region",
+      "label": "Bottom Cap",
+      "name": "bcap",
+      "description": "⊞  - The X, Y, Z radii of the top/bottom hemisphere."
+    },
+    {
+      "page": "Region",
+      "label": "Max/Min Weight",
+      "name": "weight",
+      "description": "⊞  - Defines the weight of a point exactly on the centre line and edge of the region respectively. Point weights in-between are blended."
+    },
+    {
+      "page": "Display",
+      "label": "Display Color",
+      "name": "color",
+      "description": "⊞  - The Capture Region  SOP <uses region colors for helpful feedback."
+    },
+    {
+      "page": "Display",
+      "label": "Weighting is based on distance to the center line of the region. The center line's length is the height of the tube and runs down its center. When viewed in cross",
+      "description": "section, the distance is measured perpendicular to the center line for the tube section and radially for the hemisphere region. This scheme is shown below. The lines represent the distance of points along the edge of the region."
+    },
+    {
+      "page": "Display",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Display",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Display",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Display",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Display",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Display",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Display",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Display",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Display",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Display",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Display",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Display",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Display",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Display",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Display",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

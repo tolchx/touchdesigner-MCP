@@ -1,0 +1,1113 @@
+{
+  "family": "TOP",
+  "pageTitle": "Render TOP",
+  "pageSlug": "Render_TOP",
+  "url": "https://docs.derivative.ca/Render_TOP",
+  "tdOpTypeGuess": "renderTOP",
+  "summary": "[  edit  ]\nThe Render  TOP  is used to render all 3D scenes in TouchDesigner. You need to give it a  Camera  object and a  Geometry  object as a minimum.\nThe Geometry object needs to have a  Material  assigned to it. Materials can be pre-packaged ones like the  Phong  material, or they can be OpenGL GLSL shaders. All textures and bump maps in TouchDesigner materials are TOPs, i.e. files must be read in via  Movie File In TOPs .\nRendering  in TouchDesigner ties in nicely with compositing via the Render  TOP  and all other TOPs.\nThe Render  TOP  renders in many RGBA and single-channel formats, in 8-bit fixed-point up to to 32-bit floating point per pixel component.\nIt can render transparent surfaces correctly using Multi-Pass Depth Peeling. See below: Order Independent Transparency.\nMultiple Cameras: The Render  TOP  is able to render multiple cameras (more quickly than separately) in a single node. You specify multiple cameras in one Camera parameter, and use Render Select  TOP  to pull out those camera results. This feature is even faster on GPUs that support  Multi-Camera Rendering .\nMultiple Images out: The Render  TOP , working with the GLSL MATs, can output multiple image at arbitrary formats, through the Images page.\nSee also  Rendering , all the articles in the  Rendering Category , the  Render Pass TOP , and the troubleshooting page  Why is My Render Black .\nNOTE: If you are doing non-realtime  GPU -intensive renders (ones that take multiple seconds to render a single  SOP ), see the note in Windows  GPU  Driver Timeouts in the  Movie File Out TOP .\nrenderTOP_Class\nContents\n1   Summary\n2   Parameters - Render Page\n3   Parameters - Advanced Page\n4   Parameters - Crop Page\n5   Parameters - Vectors Page\n6   Parameters - Samplers Page\n7   Parameters - Images Page\n8   Parameters - Common Page\n9   Info CHOP Channels\n9.1   Common TOP Info Channels\n9.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "Render",
+      "label": "Camera(s)",
+      "name": "camera",
+      "description": "Specifies which  Cameras  to look through when rendering the scene. You can specify multiple cameras and retrieve each camera image using the Render Select  TOP ."
+    },
+    {
+      "page": "Render",
+      "label": "Multi-Camera Hint",
+      "name": "multicamerahint",
+      "description": "⊞  - Helps the Render  TOP  optimize rendering when multiple cameras are used. Controls the  Multi-Camera Rendering  behavior for this node."
+    },
+    {
+      "page": "Render",
+      "label": "Automatic",
+      "name": "automatic",
+      "description": "The node will decide based on the  GPU  and setup if  Multi-Camera Rendering  can be used and enable it if possible. Currently Multi-Camera rendering works for 2D and Cube Map renders on supported GPUs. For 2D renders multiple cameras can not be rendered in a single pass if their 'Camera Light Mask' parameters don't result in the same lights being used in the scene. Use of Depth Peeling or Order Independent Transparency will also disable Multi-Camera rendering."
+    },
+    {
+      "page": "Render",
+      "label": "Off (One Pass Per Camera)",
+      "name": "off",
+      "description": "Forces Multi-Camera Render to be disabled, so each camera is rendered one pass at a time."
+    },
+    {
+      "page": "Render",
+      "label": "X-Offset Stereo Cameras",
+      "name": "stereocameras",
+      "description": "Should be set only if the pair of cameras have transform/projection matrices that result in a difference only in the X-axis after being applied, as is the case for most VR headsets. Other differences between the cameras such as FOV, near/far plane etc will be ignored, and the values form the first camera will be used. This hint allows the  TOP  to run faster for this particular case, when appropriate hardware is available."
+    },
+    {
+      "page": "Render",
+      "label": "Geometry",
+      "name": "geometry",
+      "description": "Specifies which  Geometry  will be included in the rendered scene. You can use  Pattern Matching  to specify objects using patterns. Example:  geo* ^geo7  will render all Geometry components whose names start with  geo  except  geo7 ."
+    },
+    {
+      "page": "Render",
+      "label": "Lights",
+      "name": "lights",
+      "description": "Specifies which  Lights  will be used to render the scene. You can use  Pattern Matching  here as well."
+    },
+    {
+      "page": "Render",
+      "label": "Anti-Alias",
+      "name": "antialias",
+      "description": "⊞  - Sets the level of anti-aliasing in the scene. Setting this to higher values uses more graphics memory."
+    },
+    {
+      "page": "Render",
+      "label": "Background Color",
+      "name": "bgcolor",
+      "description": "⊞  - This is combined with the  Camera COMP 's Background Color to determine the final Background Color of the render."
+    },
+    {
+      "page": "Render",
+      "label": "Pre",
+      "description": "Multiply RGB by Alpha    premultrgbbyalpha  -"
+    },
+    {
+      "page": "Render",
+      "label": "Render Mode",
+      "name": "rendermode",
+      "description": "⊞  - You can render different projections:  normal 2D, Cube Map, Fish Eye (180), or Dual Paraboloid. The Cube Map renders 6 views as needed for environment maps in the  Phong MAT  and  Environment Light COMP ."
+    },
+    {
+      "page": "Render",
+      "label": "2D",
+      "name": "render2d",
+      "description": "The standard 2D render mode."
+    },
+    {
+      "page": "Render",
+      "label": "Cube Map",
+      "name": "cubemap",
+      "description": "Does 6 renders, each with 90 degree FOV. The camera is automatically turned to face down each of the 6 axis, with the -Z axis being where the camera is facing to start."
+    },
+    {
+      "page": "Render",
+      "label": "Fish-Eye (180)",
+      "name": "fisheye180",
+      "description": "A single 2D render that warps the projection so it renders 180 degree FOV in all directions from where the camera is pointing (90 to each side). Since this render doesn't preserve straight lines, geometry that has large polygons that cover a lot of the viewport will suffer from artifacts. Well tesselated geometry is best for this mode."
+    },
+    {
+      "page": "Render",
+      "label": "Dual Paraboloid",
+      "name": "dualparaboloid",
+      "description": "Similar to Fisheye, but renders twice at 180 degrees, once forward and once backwards. The projection isn't the same as fisheye either. This is a legacy mode that isn't currently consumed by anything in TouchDesigner, but there are articles online that discuss how to sample from it."
+    },
+    {
+      "page": "Render",
+      "label": "UV Unwrap",
+      "name": "uvunwrap",
+      "description": "A 2D render that uses the UV coordinates of the geometry to unwrap it across the output image."
+    },
+    {
+      "page": "Render",
+      "label": "Cube Map (Omnidirectional Stereo)",
+      "name": "cubemapods",
+      "description": "This mode renders a stereo pair (two eyes) of cubemaps that can be used to record out stereo 360 videos. You can obtain the second eye's output by using a  Render Select TOP  and selecting Camera Index=1. The  Camera COMP 's IPD Shift parameter is used here to offset each eye viewport."
+    },
+    {
+      "page": "Render",
+      "label": "Positive Sides",
+      "name": "posside",
+      "description": "⊞  - When Render Mode is Cube Map, specify which sides if the cube map are rendered, +X, +Y, or +Z."
+    },
+    {
+      "page": "Render",
+      "label": "Negative Sides",
+      "name": "negside",
+      "description": "⊞  - When Render Mode is Cube Map, specify which sides if the cube map are rendered, -X, -Y, or -Z."
+    },
+    {
+      "page": "Render",
+      "label": "UV Unwrap  SOP  Coord",
+      "name": "uvunwrapcoord",
+      "description": "⊞  - When Render Mode is UV Unwrap Coord, for SOPs this selects which Texture Layer coordinates the rendering is done to."
+    },
+    {
+      "page": "Render",
+      "label": "Texture Layer 0 (uv[0",
+      "description": "2])   uv0  -"
+    },
+    {
+      "page": "Render",
+      "label": "Texture Layer 1 (uv[3",
+      "description": "5])   uv1  -"
+    },
+    {
+      "page": "Render",
+      "label": "Texture Layer 2 (uv[6",
+      "description": "8])   uv2  -"
+    },
+    {
+      "page": "Render",
+      "label": "Texture Layer 3 (uv[9",
+      "description": "11])   uv3  -"
+    },
+    {
+      "page": "Render",
+      "label": "Texture Layer 4 (uv[12",
+      "description": "14])   uv4  -"
+    },
+    {
+      "page": "Render",
+      "label": "Texture Layer 5 (uv[15",
+      "description": "17])   uv5  -"
+    },
+    {
+      "page": "Render",
+      "label": "Texture Layer 6 (uv[18",
+      "description": "20])   uv6  -"
+    },
+    {
+      "page": "Render",
+      "label": "Texture Layer 7 (uv[21",
+      "description": "23])   uv7  -"
+    },
+    {
+      "page": "Render",
+      "label": "UV Unwrap POP Coord  Attribute",
+      "name": "uvunwrapcoordattrib",
+      "description": "When Render Mode is UV Unwrap Coord, for POPs this should be the name of the texture coordinate attribute rendering is done to."
+    },
+    {
+      "page": "Render",
+      "label": "Transparency",
+      "name": "transparency",
+      "description": "⊞  - Helps to render transparent geometry in proper depth order. More in-depth discussion available in the   Transparency article ."
+    },
+    {
+      "page": "Render",
+      "label": "Sorted Draw with Blending",
+      "name": "sortedblending",
+      "description": "https://docs.derivative.ca/Transparency#Sorting_Geometry_Objects"
+    },
+    {
+      "page": "Render",
+      "label": "Order Independent Transparency",
+      "name": "orderind",
+      "description": "https://docs.derivative.ca/Transparency#Order-Independent_Transparency"
+    },
+    {
+      "page": "Render",
+      "label": "Alpha-to-Coverage",
+      "name": "alphatocoverage",
+      "description": "https://docs.derivative.ca/Transparency#Alpha-to-Coverage"
+    },
+    {
+      "page": "Render",
+      "label": "Depth Peel",
+      "name": "depthpeel",
+      "description": "Depth peeling is a technique used as part of Order-Independent Transparency, but this parameter allows you to use it in a different way. This parameter enables rendering depth-peels, but without combining all the layers using blending to create order independent transparency. Instead is keeps all the layers separate and they can be retrieved using a  Render Select TOP . Depth peeling is done by first rendering rendering geometry normally and saving that image and depth. Then another render is done but the closest pixels that were occluded by the previous pass are written to the color buffer instead. This can be done multiple times, each time peeling back farther into the scene. If you are rendering a sphere the first render will be the outside of the sphere, and the second peel layer will be the back-inside of the sphere."
+    },
+    {
+      "page": "Render",
+      "label": "Transparency/Peel Layers",
+      "name": "transpeellayers",
+      "description": "Number of passes the renderer will use when  Order Independant Transparency  is turned on."
+    },
+    {
+      "page": "Advanced",
+      "label": "Render",
+      "name": "render",
+      "description": "Enables rendering; 1 = on, 0 = off."
+    },
+    {
+      "page": "Advanced",
+      "label": "Render  Pulse",
+      "name": "renderpulse",
+      "description": "The the 'Render' toggle above is Off, click this to render a sinlge frame."
+    },
+    {
+      "page": "Advanced",
+      "label": "Dither",
+      "name": "dither",
+      "description": "Dithers the rendering to help deal with banding and other artifacts created by precision limitations of 8-bit displays."
+    },
+    {
+      "page": "Advanced",
+      "label": "Color Output Needed",
+      "name": "coloroutputneeded",
+      "description": "This is an optimization if you don't actually need the color result from this pass. Turning this off avoids a copy from the offscreen render buffer to the  TOP 's texture. When anti-aliasing is enabled, turning this off will also avoid 'resolving' the anti-aliasing."
+    },
+    {
+      "page": "Advanced",
+      "label": "Draw Depth Only",
+      "name": "drawdepthonly",
+      "description": "This will cause the render to only draw depth values to the depth buffer. No color values will be created.  To make use of the depth buffer, use the  Depth TOP ."
+    },
+    {
+      "page": "Advanced",
+      "label": "# of Color Buffers",
+      "name": "numcolorbufs",
+      "description": "Any shader you write can output to more than one RGBA buffer at a time. For GLSL 3.3+ you would use the layout(location = 1) specifier on an out variable in the pixel shader to write to the 2nd buffer. In GLSL 1.2 instead of writing to  gl_FragColor  in your shader, you write to  gl_FragData[i]  where i is the color buffer index you want to write the value to."
+    },
+    {
+      "page": "Advanced",
+      "label": "Allow Blending for Extra Buffers",
+      "name": "allowbufblending",
+      "description": "Controls if blending (as enabled by the  MAT  common page setting) will be enabled for extra buffers beyond the first one. Often the extra buffers are used to write other types of information such as normals or positions, where blending wouldn't be desirable."
+    },
+    {
+      "page": "Advanced",
+      "label": "Depth Buffer Format",
+      "name": "depthformat",
+      "description": "⊞  - Use either a 24-bit Fixed-Point or 32-bit Floating-Point depth buffer (single channel image)."
+    },
+    {
+      "page": "Advanced",
+      "label": "Cull Face",
+      "name": "cullface",
+      "description": "⊞  - Front Faces, Back Faces, Both Faces, Neither. Will cause the render to avoid rendering certain polygon faces depending on their orientation to the camera. Refer to  Back-Face Culling  for more information."
+    },
+    {
+      "page": "Advanced",
+      "label": "Override  Material",
+      "name": "overridemat",
+      "description": "This allows you to specify a material that will be applied to every Geometry that is rendered in the Render  TOP . It is useful for pre-processing passes where we are outputting information about the geometry rather then lighting them and outputting RGB."
+    },
+    {
+      "page": "Advanced",
+      "label": "Polygon  Depth Offset",
+      "name": "polygonoffset",
+      "description": "This feature pushes the polygons back into space a tiny fraction. This is useful when you are rendering two polygons directly ontop of each other and are experiencing  Z-Fighting . Refer to  Polygon Depth Offset  for more information. This is also an important feature when doing shadows."
+    },
+    {
+      "page": "Advanced",
+      "label": "Offset Factor",
+      "name": "polygonoffsetfactor",
+      "description": "Adds an offset to the Z value that depends on how sloped the surface is to the viewer."
+    },
+    {
+      "page": "Advanced",
+      "label": "Offset Units",
+      "name": "polygonoffsetunits",
+      "description": "Adds a constant offset to the Z value."
+    },
+    {
+      "page": "Advanced",
+      "label": "Display Overdraw",
+      "name": "overdraw",
+      "description": "This feature visually shows the overdraw in the scene. Refer to the  Early Depth-Test  article for more information. In particular the Analyzing Overdraw section."
+    },
+    {
+      "page": "Advanced",
+      "label": "Overdraw Limit",
+      "name": "overdrawlimit",
+      "description": "This value quantizes the outputted color value to some # of overdraws. Refer to the  Early Depth-Test  for more information."
+    },
+    {
+      "page": "Crop",
+      "label": "Cropping here occurs using the projection matrix. It reduces the amount of the output render that is visible, without changing the resolution. It's particuarly useful to create sub",
+      "description": "portion of an overall render in different buffers, such as for rendering across multiple instances of TouchDesigner. Be careful to set the aspect ratio of the Render  TOP  to match the 'real' aspect of the overall output image, not the aspect of this subsection. Otherwise the projection will be stretched incorrectly."
+    },
+    {
+      "page": "Crop",
+      "label": "Crop Left",
+      "name": "cropleft",
+      "description": "Positions the left edge of the rendered image."
+    },
+    {
+      "page": "Crop",
+      "label": "Crop Left Unit",
+      "name": "cropleftunit",
+      "description": "⊞  - Select the units for this parameter from Pixels, Fraction (0-1), Fraction Aspect (0-1 considering aspect ratio)."
+    },
+    {
+      "page": "Crop",
+      "label": "Crop Right",
+      "name": "cropright",
+      "description": "Positions the right edge of the rendered image."
+    },
+    {
+      "page": "Crop",
+      "label": "Crop Right Unit",
+      "name": "croprightunit",
+      "description": "⊞  - Select the units for this parameter from Pixels, Fraction (0-1), Fraction Aspect (0-1 considering aspect ratio)."
+    },
+    {
+      "page": "Crop",
+      "label": "Crop Bottom",
+      "name": "cropbottom",
+      "description": "Positions the bottom edge of the rendered image."
+    },
+    {
+      "page": "Crop",
+      "label": "Crop Bottom Unit",
+      "name": "cropbottomunit",
+      "description": "⊞  - Select the units for this parameter from Pixels, Fraction (0-1), Fraction Aspect (0-1 considering aspect ratio)."
+    },
+    {
+      "page": "Crop",
+      "label": "Crop Top",
+      "name": "croptop",
+      "description": "Positions the top edge of the rendered image."
+    },
+    {
+      "page": "Crop",
+      "label": "Crop Top Unit",
+      "name": "croptopunit",
+      "description": "⊞  - Select the units for this parameter from Pixels, Fraction (0-1), Fraction Aspect (0-1 considering aspect ratio)."
+    },
+    {
+      "page": "Vectors",
+      "label": "Vector",
+      "name": "vec",
+      "description": "Sequence of uniform name and value pairs."
+    },
+    {
+      "page": "Vectors",
+      "label": "Uniform Name",
+      "name": "vec0name",
+      "description": "The uniform name, as declared in the shader."
+    },
+    {
+      "page": "Vectors",
+      "label": "Value",
+      "name": "vec0value",
+      "description": "⊞  - The value to assign the vector uniform."
+    },
+    {
+      "page": "Samplers",
+      "label": "Uniform Name",
+      "name": "uni0name",
+      "description": "The uniform name, as declared in the shader."
+    },
+    {
+      "page": "Samplers",
+      "label": "Sampler",
+      "name": "sampler",
+      "description": "Sequence of sampler parmaeters, including uniform name,  TOP  reference, and sampling parameters."
+    },
+    {
+      "page": "Samplers",
+      "label": "Sampler Name",
+      "name": "sampler0name",
+      "description": "This is the sampler name that the GLSL program will use to sample from this  TOP . The samplers need to be declared as the same dimensions as the  TOP  (sampler2D for a 2D  TOP , sampler3D for 3D  TOP )."
+    },
+    {
+      "page": "Samplers",
+      "label": "TOP",
+      "name": "sampler0top",
+      "description": "⊞  - This is the  TOP  that will be referenced by the above sampler name above it."
+    },
+    {
+      "page": "Samplers",
+      "label": "Extend U",
+      "name": "sampler0extendu",
+      "description": "⊞  -"
+    },
+    {
+      "page": "Samplers",
+      "label": "Extend V",
+      "name": "sampler0extendv",
+      "description": "⊞  -"
+    },
+    {
+      "page": "Samplers",
+      "label": "Extend W",
+      "name": "sampler0extendw",
+      "description": "⊞  -"
+    },
+    {
+      "page": "Samplers",
+      "label": "Filter",
+      "name": "sampler0filter",
+      "description": "⊞  -"
+    },
+    {
+      "page": "Samplers",
+      "label": "Anisotropic  Filter",
+      "name": "sampler0anisotropy",
+      "description": "⊞  -"
+    },
+    {
+      "page": "Images",
+      "label": "Image",
+      "name": "image",
+      "description": "A sequence of parameters to control image outputs available for the GLSL MATs."
+    },
+    {
+      "page": "Images",
+      "label": "Name",
+      "name": "image0name",
+      "description": "The uniform name for the image."
+    },
+    {
+      "page": "Images",
+      "label": "Array Length",
+      "name": "image0arraylength",
+      "description": "If this value is 1 or greater, then the uniform is declared as an array and should be accessed using []. If this is 0 then it is not an array."
+    },
+    {
+      "page": "Images",
+      "label": "Resolution",
+      "name": "image0res",
+      "description": "⊞  - The resolution the image should be."
+    },
+    {
+      "page": "Images",
+      "label": "Format",
+      "name": "image0format",
+      "description": "⊞  - The pixel format the image should be allocated as."
+    },
+    {
+      "page": "Images",
+      "label": "Use Output",
+      "name": "useoutput",
+      "description": "Use the same pilxe format that the Render TOPs main texture is set to be."
+    },
+    {
+      "page": "Images",
+      "label": "sRGB 8",
+      "description": "bit fixed (RGBA)   srgba8fixed  -"
+    },
+    {
+      "page": "Images",
+      "label": "Type",
+      "name": "image0type",
+      "description": "⊞  - Specify what type of texture to create with the image output."
+    },
+    {
+      "page": "Images",
+      "label": "Depth",
+      "name": "image0depth",
+      "description": "Set the depth when output Type is 2D Texture Array or 3D Texture."
+    },
+    {
+      "page": "Images",
+      "label": "Access",
+      "name": "image0access",
+      "description": "⊞  - Controls how the output textures will be accessed. If the textures will be read from (such as using values generated by other shader executions within the same frame), then the access should be changed to Read-Write instead of Write Only."
+    },
+    {
+      "page": "Images",
+      "label": "Read",
+      "description": "Write   readwrite  -"
+    },
+    {
+      "page": "Common",
+      "label": "Output  Resolution",
+      "name": "outputresolution",
+      "description": "⊞  - quickly change the resolution of the  TOP 's data."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's resolution"
+    },
+    {
+      "page": "Common",
+      "label": "Eighth",
+      "name": "eighth",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Quarter",
+      "name": "quarter",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Half",
+      "name": "half",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "2X",
+      "name": "2x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "4X",
+      "name": "4x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "8X",
+      "name": "8x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Fit  Resolution",
+      "name": "fit",
+      "description": "Grow or shrink the input resolution to fit this resolution, while keeping the aspect ratio the same."
+    },
+    {
+      "page": "Common",
+      "label": "Limit  Resolution",
+      "name": "limit",
+      "description": "Limit the input resolution to be not larger than this resolution, while keeping the aspect ratio the same."
+    },
+    {
+      "page": "Common",
+      "label": "Custom  Resolution",
+      "name": "custom",
+      "description": "Directly control the width and height."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution",
+      "name": "resolution",
+      "description": "⊞  - Enabled only when the  Resolution  parameter is set to Custom  Resolution . Some Generators like Constant and Ramp do not use inputs and only use this field to determine their size. The drop down menu on the right provides some commonly used resolutions."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution  Menu",
+      "name": "resmenu",
+      "description": "A drop-down menu with some commonly used resolutions."
+    },
+    {
+      "page": "Common",
+      "label": "Use Global Res Multiplier",
+      "name": "resmult",
+      "description": "Uses the Global  Resolution  Multiplier found in  Edit>Preferences>TOPs . This multiplies all the TOPs resolutions by the set amount. This is handy when working on computers with different hardware specifications. If a project is designed on a desktop workstation with lots of graphics memory, a user on a laptop with only 64MB VRAM can set the Global  Resolution  Multiplier to a value of half or quarter so it runs at an acceptable speed. By checking this checkbox on, this  TOP  is affected by the global multiplier."
+    },
+    {
+      "page": "Common",
+      "label": "Output Aspect",
+      "name": "outputaspect",
+      "description": "⊞  - Sets the image aspect ratio allowing any textures to be viewed in any size. Watch for unexpected results when compositing TOPs with different aspect ratios. (You can define images with non-square pixels using xres, yres, aspectx, aspecty where xres/yres != aspectx/aspecty.)"
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's aspect ratio."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution",
+      "name": "resolution",
+      "description": "Uses the aspect of the image's defined resolution (ie 512x256 would be 2:1), whereby each pixel is square."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Aspect",
+      "name": "custom",
+      "description": "Lets you explicitly define a custom aspect ratio in the Aspect parameter below."
+    },
+    {
+      "page": "Common",
+      "label": "Aspect",
+      "name": "aspect",
+      "description": "⊞  - Use when Output Aspect parameter is set to Custom Aspect."
+    },
+    {
+      "page": "Common",
+      "label": "Aspect Menu",
+      "name": "armenu",
+      "description": "A drop-down menu with some commonly used aspect ratios."
+    },
+    {
+      "page": "Common",
+      "label": "Input Smoothness",
+      "name": "inputfiltertype",
+      "description": "⊞  - This controls pixel filtering on the input image of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Nearest Pixel",
+      "name": "nearest",
+      "description": "Uses nearest pixel or accurate image representation. Images will look jaggy when viewing at any zoom level other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Interpolate Pixels",
+      "name": "linear",
+      "description": "Uses linear filtering between pixels. This is how you get  TOP  images in viewers to look good at various zoom levels, especially useful when using any Fill Viewer setting other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Mipmap Pixels",
+      "name": "mipmap",
+      "description": "Uses   mipmap  filtering when scaling images. This can be used to reduce artifacts and sparkling in moving/scaling images that have lots of detail."
+    },
+    {
+      "page": "Common",
+      "label": "Fill  Viewer",
+      "name": "fillmode",
+      "description": "⊞  - Determine how the  TOP  image is displayed in the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the same Fill Viewer settings as it's input."
+    },
+    {
+      "page": "Common",
+      "label": "Fill",
+      "name": "fill",
+      "description": "Stretches the image to fit the edges of the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Horizontal",
+      "name": "width",
+      "description": "Stretches image to fit viewer horizontally."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Vertical",
+      "name": "height",
+      "description": "Stretches image to fit viewer vertically."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Best",
+      "name": "best",
+      "description": "Stretches or squashes image so no part of image is cropped."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Outside",
+      "name": "outside",
+      "description": "Stretches or squashes image so image fills viewer while constraining it's proportions. This often leads to part of image getting cropped by viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Native  Resolution",
+      "name": "nativeres",
+      "description": "Displays the native resolution of the image in the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Viewer Smoothness",
+      "name": "filtertype",
+      "description": "⊞  - This controls pixel filtering in the viewers."
+    },
+    {
+      "page": "Common",
+      "label": "Nearest Pixel",
+      "name": "nearest",
+      "description": "Uses nearest pixel or accurate image representation. Images will look jaggy when viewing at any zoom level other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Interpolate Pixels",
+      "name": "linear",
+      "description": "Uses linear filtering between pixels. Use this to get  TOP  images in viewers to look good at various zoom levels, especially useful when using any Fill Viewer setting other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Mipmap Pixels",
+      "name": "mipmap",
+      "description": "Uses   mipmap  filtering when scaling images. This can be used to reduce artifacts and sparkling in moving/scaling images that have lots of detail. When the input is 32-bit float format, only nearest filtering will be used (regardless of what is selected)."
+    },
+    {
+      "page": "Common",
+      "label": "Passes",
+      "name": "npasses",
+      "description": "Duplicates the operation of the  TOP  the specified number of times. For every pass after the first it takes the result of the previous pass and replaces the node's first input with the result of the previous pass. One exception to this is the  GLSL TOP  when using compute shaders, where the input will continue to be the connected  TOP 's image."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Mask",
+      "name": "chanmask",
+      "description": "Allows you to choose which channels (R, G, B, or A) the  TOP  will operate on. All channels are selected by default."
+    },
+    {
+      "page": "Common",
+      "label": "Pixel Format",
+      "name": "format",
+      "description": "⊞  - Format used to store data for each channel in the image (ie. R, G, B, and A). Refer to  Pixel Formats  for more information."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's pixel format."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (RGBA)",
+      "name": "rgba8fixed",
+      "description": "Uses 8-bit integer values for each channel."
+    },
+    {
+      "page": "Common",
+      "label": "sRGB 8-bit fixed (RGBA)",
+      "name": "srgba8fixed",
+      "description": "Uses 8-bit integer values for each channel and stores color in sRGB colorspace. Note that this does  not  apply an sRGB curve to the pixel values, it only stores them using an sRGB curve. This means more data is used for the darker values and less for the brighter values. When the values are read downstream they will be converted back to linear. For more information refer to  sRGB ."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (RGBA)",
+      "name": "rgba16float",
+      "description": "Uses 16-bits per color channel, 64-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (RGBA)",
+      "name": "rgba32float",
+      "description": "Uses 32-bits per color channel, 128-bits per pixels."
+    },
+    {
+      "page": "Common",
+      "label": "10-bit RGB, 2-bit Alpha, fixed (RGBA)",
+      "name": "rgb10a2fixed",
+      "description": "Uses 10-bits per color channel and 2-bits for alpha, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (RGBA)",
+      "name": "rgba16fixed",
+      "description": "Uses 16-bits per color channel, 64-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "11-bit float (RGB), Positive Values Only",
+      "name": "rgba11float",
+      "description": "A RGB floating point format that has 11 bits for the Red and Green channels, and 10-bits for the Blue  Channel , 32-bits total per pixel (therefore the same memory usage as 8-bit RGBA). The Alpha channel in this format will always be 1. Values can go above one, but can't be negative. ie. the range is [0, infinite)."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (Mono)",
+      "name": "mono8fixed",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 8-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (Mono)",
+      "name": "mono16fixed",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (Mono)",
+      "name": "mono16float",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (Mono)",
+      "name": "mono32float",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (RG)",
+      "name": "rg8fixed",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 8-bits per channel, 16-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (RG)",
+      "name": "rg16fixed",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 16-bits per channel, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (RG)",
+      "name": "rg16float",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 16-bits per channel, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (RG)",
+      "name": "rg32float",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 32-bits per channel, 64-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (A)",
+      "name": "a8fixed",
+      "description": "An Alpha only format that has 8-bits per channel, 8-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (A)",
+      "name": "a16fixed",
+      "description": "An Alpha only format that has 16-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (A)",
+      "name": "a16float",
+      "description": "An Alpha only format that has 16-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (A)",
+      "name": "a32float",
+      "description": "An Alpha only format that has 32-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (Mono+Alpha)",
+      "name": "monoalpha8fixed",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 8-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (Mono+Alpha)",
+      "name": "monoalpha16fixed",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 16-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (Mono+Alpha)",
+      "name": "monoalpha16float",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 16-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (Mono+Alpha)",
+      "name": "monoalpha32float",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 32-bits per channel, 64-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "Parameter Color Space",
+      "name": "parmcolorspace",
+      "description": "⊞  - Controls how all color parameters on this node are interpreted. The color values as treated as being in the selected color space, and are converted to the Working  Color Space  before they are used as part of the node's operation. Note that this does not change the color space of the node itself, as that is always in the Working Color Space."
+    },
+    {
+      "page": "Common",
+      "label": "sRGB",
+      "name": "srgb",
+      "description": "sRGB  color space, with sRGB transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "sRGB - Linear",
+      "name": "srgblinear",
+      "description": "sRGB  color space, with linear transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "Rec.601 (NTSC)",
+      "name": "rec601ntsc",
+      "description": "Rec.601  with NTSC primaries color space, with Rec.601 transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "Rec.709",
+      "name": "rec709",
+      "description": "Rec.709  color space, with Rec.709 (same as Rec.2020) transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "Rec.2020",
+      "name": "rec2020",
+      "description": "Rec.2020  color space, with Rec.2020 (same as Rec.709) transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "DCI-P3",
+      "name": "dcip3",
+      "description": "DCI-P3  color space, with D65 white point and 2.6 gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "DCI-P3 (D60)",
+      "name": "dcip3d60",
+      "description": "DCI-P3 \"D60 sim\"  color space, with D60 white point, and 2.6 gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "Display-P3 (D65)",
+      "name": "displayp3d65",
+      "description": "Display-P3  color space, with D65 white point, and sRGB gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "ACES2065-1",
+      "name": "aces2065",
+      "description": "1  -  ACES 2065-1  (also known as ACES AP0) color space, with a linear gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "ACEScg",
+      "name": "acescg",
+      "description": "ACEScg  (also known as ACES AP1) color space, with a linear gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "Passthrough",
+      "name": "passthrough",
+      "description": "When selected, the color values will be used as-is in the operation, without any modification or attempt to convert them into the Working Color Space."
+    },
+    {
+      "page": "Common",
+      "label": "Parameter Reference  White",
+      "name": "parmreferencewhite",
+      "description": "⊞  - When converting a parameter color value to the Working Color Space, this controls how it should be treated with respect to  Reference White . If the Working Color Space is the same  Reference  White, then no adjustment is done. If they are different, then the  Reference  White level (brightness) of this color will be adjusted to the range expected by the Working Color Space. For example if the project is set to have a SDR  Reference  White of 120 nits, and the HDR  Reference  White is 80 nits, then a color of (1, 1, 1), which is 120 nits in the SDR color space, will be converted to be (1.5, 1.5, 1.5), which is 120 nits still in the HDR Working Color Space."
+    },
+    {
+      "page": "Common",
+      "label": "Default For Color Space",
+      "name": "default",
+      "description": "Will use either the SDR or the HDR  Reference  White, based on the color space selected."
+    },
+    {
+      "page": "Common",
+      "label": "Use Parent  Panel",
+      "name": "useparent",
+      "description": "Will use the  Reference  White that the parent panel has selected. If the top-level panel also has 'Use  Parent ' selected, then 'UI  Reference  White' will be used."
+    },
+    {
+      "page": "Common",
+      "label": "Standard (SDR)",
+      "name": "sdr",
+      "description": "Will treat the Parameter Color Space as SDR for it's reference white value."
+    },
+    {
+      "page": "Common",
+      "label": "High (HDR)",
+      "name": "hdr",
+      "description": "Will treat the Parameter Color Space as HDR for it's reference white value."
+    },
+    {
+      "page": "Common",
+      "label": "UI",
+      "name": "ui",
+      "description": "Will treat the Parameter Color Space as UI for it's reference white value. This uses the 'UI  Reference  White Nits' value for it's brightness."
+    },
+    {
+      "page": "Common",
+      "label": "resx",
+      "description": "Horizontal resolution of the  TOP  in pixels."
+    },
+    {
+      "page": "Common",
+      "label": "resy",
+      "description": "Vertical resolution of the  TOP  in pixels."
+    },
+    {
+      "page": "Common",
+      "label": "aspectx",
+      "description": "Horizontal aspect of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "aspecty",
+      "description": "Vertical aspect of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "depth",
+      "description": "Depth of 2D or 3D array if this  TOP  contains a 2D or 3D texture array."
+    },
+    {
+      "page": "Common",
+      "label": "gpu_memory_used",
+      "description": "Total amount of texture memory used by this  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    },
+    {
+      "page": "Common",
+      "label": "To \"pulse\" a parameter is to send it a signal from (1) an  exported  CHOP channel or (2) a python command or (3) a mouse click that causes a new action to occur immediately. A pulse via python is via the  .pulse()  function on a pulse",
+      "description": "type parameter, such as Reset parameter in a  Speed CHOP . A pulse from a CHOP is typically a 0 to 1 to 0 signal in an exported channel."
+    },
+    {
+      "page": "Common",
+      "label": "A polygon is a type of  Primitive  that is formed from a set of  Vertices  in 3D that are implicitly connected together to form a multi",
+      "description": "edge shape."
+    },
+    {
+      "page": "Common",
+      "label": "The width and height of an image in pixels. Most TOPs, like the  Movie File In TOP  can set the image resolution. See  Aspect Ratio  for the width/height ratio of an image, taking into account non",
+      "description": "square pixels."
+    },
+    {
+      "page": "Common",
+      "label": "The viewer of a node can be (1) the interior of a node (the  Node Viewer ), (2) a floating window (RMB",
+      "description": ">View... on node), or (3) a  Pane  that graphically shows the results of an operator."
+    },
+    {
+      "page": "Common",
+      "label": "There are 2 kinds of parenting. The \"parent component\" is the component in which a node resides. The metaphor is extended to include grand parents, grand",
+      "description": "grand parents, etc. The root  /  is the ultimate parent to all nodes. See also  3D Parenting  and panel  Parenting ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "03-twozero-evaluation.md",
+      "excerpt": "# Evaluación de mejoras inspiradas en TWOZERO TWOZERO se describe como un toolkit nativo para TouchDesigner con: - Generación por IA - Librería curada de componentes - Sincronización en la nube - Herramientas de producción - Integración en UI y sin “wrappers” externos ## Qué se puede integrar en este MCP (sin depender de TWOZERO) - **Librería curada de patrones (component library)** Crear un catálogo de “recetas” reproducibles (render, instancing, feedback loops, POP sims, GLSL) como: - skills en Markdown (`touchdesigner/skills/*`) - prompts maestros (`docs/06-master-prompts.md` o carpeta `prompts/`) - scripts Python idempotentes (crear/actualizar redes sin duplicar) - **No ensuciar el proyecto (non-invasive)** Convenciones sistemáticas: - encapsular sistemas en `baseCOMP`/`geoCOMP` - nodos “I/O estándar” (`in*`, `out*`, `null*`) - layout determinístico (`nodeX/nodeY`) - nombres consistentes y prefijos por"
+    },
+    {
+      "source": "05-skills-curriculum.md",
+      "excerpt": "# Skills especializados (currícula) Skills agregados/propuestos en `touchdesigner/skills/`: - `td-fundamentals`: fundamentos y convenciones reproducibles. - `td-project-architecture`: arquitectura de proyectos complejos y contratos. - `td-performance`: presupuestos y profiling. - `td-pops-advanced`: POPs avanzados + consulta técnica con `td_pops_query`. - `td-integration`: integración POP↔SOP/TOP/CHOP/DAT y render/instancing. - `td-robust-systems`: idempotencia, validación y reportes. ## Estructura recomendada por skill - Objetivo - Herramientas disponibles - Reglas / checklist - Plantilla de respuesta - Validaciones y pruebas (smoke tests)"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "udo de millones de puntos, con un alto rendimiento.4 Este enfoque nativo de la GPU es una ventaja central para las aplicaciones en tiempo real. La documentación etiqueta consistentemente a los POPs como \"Experimentales\".1 Esta designación indica que la familia está en desarrollo activo, y sus características, parámetros o estabilidad pueden evolucionar en futuras versiones de TouchDesigner. Los POPs son esenciales para generar y manipular datos 3D que luego pueden ser renderizados a través del Render TOP o exportados a sistemas externos como iluminación DMX, matrices de LED y láseres.4 La introducción de los POPs, con su explícita mención de \"aceleración por GPU\" y la designación como \"nueva Familia de Operadores\" 4, señala un cambio fundamental en la aproximación de TouchDesigner a la geometría 3D. Los SOPs tradicionales, aunque potentes, a menudo están limitados por la CPU, lo que restringe el rendimiento para geometrías de muy alta densidad o simulaciones complejas. Los POPs abordan este cu"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "os de datos masivos, a menudo de millones de puntos, con un alto rendimiento.4 Este enfoque nativo de la GPU es una ventaja central para las aplicaciones en tiempo real. La documentación etiqueta consistentemente a los POPs como \"Experimentales\".1 Esta designación indica que la familia está en desarrollo activo, y sus características, parámetros o estabilidad pueden evolucionar en futuras versiones de TouchDesigner. Los POPs son esenciales para generar y manipular datos 3D que luego pueden ser renderizados a través del Render TOP o exportados a sistemas externos como iluminación DMX, matrices de LED y láseres.4 La introducción de los POPs, con su explícita mención de \"aceleración por GPU\" y la designación como \"nueva Familia de Operadores\" 4, señala un cambio fundamental en la aproximación de TouchDesigner a la geometría 3D. Los SOPs tradicionales, aunque potentes, a menudo están limitados por la CPU, lo que restringe el rendimiento para geometrías de muy alta densidad o simulaciones compl"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "udo de millones de puntos, con un alto rendimiento.4 Este enfoque nativo de la GPU es una ventaja central para las aplicaciones en tiempo real. La documentación etiqueta consistentemente a los POPs como \"Experimentales\".1 Esta designación indica que la familia está en desarrollo activo, y sus características, parámetros o estabilidad pueden evolucionar en futuras versiones de TouchDesigner. Los POPs son esenciales para generar y manipular datos 3D que luego pueden ser renderizados a través del Render TOP o exportados a sistemas externos como iluminación DMX, matrices de LED y láseres.4 La introducción de los POPs, con su explícita mención de \"aceleración por GPU\" y la designación como \"nueva Familia de Operadores\" 4, señala un cambio fundamental en la aproximación de TouchDesigner a la geometría 3D. Los SOPs tradicionales, aunque potentes, a menudo están limitados por la CPU, lo que restringe el rendimiento para geometrías de muy alta densidad o simulaciones complejas. Los POPs abordan este cu"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "da primitiva tiene una lista de vértices. Un vértice es un índice que apunta a un punto específico en la lista de puntos. Los vértices también pueden tener atributos. • Una lista de primitivas: Son conjuntos de puntos que definen una forma geométrica. Los tipos de primitivas en POPs incluyen Punto (1 punto), Línea (2 puntos), Tira de Líneas (1 o más puntos), Triángulo (3 puntos) y Quad (4 puntos). Las primitivas también pueden tener atributos, como Color. Los POPs se renderizan utilizando el Render TOP en TouchDesigner. Son considerados un reemplazo y una \"re-concepción\" de la familia de operadores SOPs (Surface Operators), ofreciendo un flujo de trabajo más moderno que combina lo mejor de SOPs, CHOPs y TOPs. Glosario de Operadores POPs Aquí tienes un listado de los operadores POPs, con una explicación sencilla de su función basada en las fuentes disponibles: • Experimental:Accumulate POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este ope"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

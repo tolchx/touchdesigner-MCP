@@ -1,0 +1,42 @@
+{
+  "family": "SOP",
+  "pageTitle": "Grid SOP",
+  "pageSlug": "Grid_SOP",
+  "url": "https://docs.derivative.ca/Grid_SOP",
+  "tdOpTypeGuess": "gridSOP",
+  "summary": "[  edit  ]\nThe Grid  SOP  allows you to create grids and rectangles using polygons, a mesh, Bzier and NURBS surfaces, or multiple lines using open polygons.\ngridSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "añadiendo quads para los lados.17 Requiere un Normal POP para un sombreado facetado adecuado.17 * Facet POP: Realiza operaciones para controlar el intercambio de puntos entre primitivas. Puede crear puntos únicos (sin puntos compartidos por vértice), consolidar puntos (fusionar puntos dentro de una tolerancia) o cusp polygons (hacer que los puntos de borde sean únicos si las caras adyacentes no están alineadas dentro de una tolerancia angular).18 Es útil para controlar el sombreado y la integridad de la malla. * GLSL POP: Permite la modificación de atributos de entrada utilizando shaders GLSL. Opera en una única clase de atributo (Puntos, Vértices o Primitivas) y no cambia el número de elementos de entrada. Los usuarios escriben un compute shader para definir la lógica de modificación de atributos.3 * Parámetros: Compute Shader (referencia DAT), Attribute Class, Number of Threads (Auto, Manual, desde Atributo), Work Group Size, Dispatch Size, Output Attributes, Output Access"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "as de manera programática. • Experimental:GLSL Create POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL POP: Un operador que te permite escribir tu propio código GLSL para manipular puntos y atributos. Ideal para simulaciones o efectos muy personalizados. • Experimental:GLSL Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Grid POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Group POP: Se usa para crear grupos de puntos, vértices o primitivas. Puedes usar estos grupos para afectar solo ciertas partes de tu geometría con otros operadores, como el Transform POP. También puede convertir un grupo en un atributo. • Experimental:Histogram POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este ope"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "(circularmente) el orden de los puntos. * Realiza las mismas operaciones en las primitivas. * **Uso simple:** Organizar puntos o primitivas para efectos específicos, como barridos ordenados, o para optimizar ciertos cálculos en shaders que se benefician de datos ordenados. * **Sphere POP (POP de Esfera)** * **Función principal:** Crea **formas esféricas** en dos tipos principales: `Geodesic` (triángulos con puntos igualmente espaciados que se pueden subdividir) y `Grid` (filas y columnas de puntos como líneas de latitud/longitud). * **Características clave:** * Los puntos pueden conectarse con una variedad de primitivas: **triángulos, cuadrados, líneas, \"line strips\" o solo puntos**. * Permite definir **tres radios** para crear formas elipsoidales. * Puedes crear **esferas parciales** especificando rangos de latitud y longitud (`Detail` page). * Puede generar **normales (`N`) y coordenadas de textura (`Tex`)*"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "P * **¿Qué hace?** Este operador se utiliza específicamente para **seleccionar y obtener una de las \"salidas extra\"** que puedes generar con un **GLSL Advanced POP**. * **Características clave:** * Requiere que le indiques el **GLSL Advanced POP** del que quieres obtener la salida. * Seleccionas la salida específica por su **nombre**. * Es útil para organizar flujos de trabajo complejos donde un GLSL Advanced POP genera múltiples conjuntos de datos. --- #### 32. Grid POP * **¿Qué hace?** Este operador es un generador de geometría que crea **filas y columnas de puntos en un plano**, y opcionalmente puede crear múltiples \"cortes\" para generar una **rejilla 3D**. * **Características clave:** * Define el **tamaño de la rejilla** en X, Y y Z. * Puede ser **rotada y trasladada** después de su creación. * Puedes definir la **conectividad** de los puntos para formar diferentes primitivas: triángulos, quads, líneas, line strips, primitivas"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "op point operators. And we can see looking in here that we have lots of options. (01:11) And like the other touch designer families, we have essentially things that generate information and things that process information. So, in terms of generating stuff, we have lots of things that might be familiar to us. We have things like the point generator, which is a bit similar to stuff that was in the pallet earlier, although it's got its own tricks. (01:35) We've got sphere, we have box, we have a grid. So, a lot of this stuff is going to look kind of familiar to us. Let's see. Let's just do one more thing just so we can see. In terms of how we process these generators, we have a bunch of things that we also might be used to like we have noise and twist, but also some things that we are potentially less used to like one of my favorite things that I think is going to solve a lot of problems for people, which is this little thing called proximity. (02:13) And what proximity allows us to do is"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

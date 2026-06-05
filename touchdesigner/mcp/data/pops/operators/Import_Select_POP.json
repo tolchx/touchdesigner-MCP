@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Import Select POP",
+  "pageSlug": "Import_Select_POP",
+  "url": "https://docs.derivative.ca/Import_Select_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "importSelectPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "o Primitivas) y no cambia el número de elementos de entrada.3 * GLSL Select POP: Se utiliza para seleccionar y generar atributos de múltiples entradas POP, particularmente aquellos modificados por las \"Extra Outputs\" de GLSL Advanced POP.20 * Histogram POP: Toma un atributo de un solo componente de su entrada y crea una distribución de frecuencia. Genera un nuevo POP con un número especificado de puntos (bins) y un atributo \"Count\", indicando cuántos valores de entrada caen en cada bin.21 * Import Select POP: Se utiliza para importar y cargar tipos de geometría definidos en USD COMP y FBX COMP, como mallas, puntos, curvas NURBS o parches. Convierte los tipos de geometría no soportados por POPs a triángulos, quads, tiras de línea y primitivas de punto.41 * Line Metrics POP: Añade atributos de métricas a las tiras de línea, proporcionando información como la dirección a los puntos siguiente/anterior, la distancia desde el inicio de la tira de línea o el número de tira de línea. Estos atributos son ú"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "o Primitivas) y no cambia el número de elementos de entrada.3 * GLSL Select POP: Se utiliza para seleccionar y generar atributos de múltiples entradas POP, particularmente aquellos modificados por las \"Extra Outputs\" de GLSL Advanced POP.20 * Histogram POP: Toma un atributo de un solo componente de su entrada y crea una distribución de frecuencia. Genera un nuevo POP con un número especificado de puntos (bins) y un atributo \"Count\", indicando cuántos valores de entrada caen en cada bin.21 * Import Select POP: Se utiliza para importar y cargar tipos de geometría definidos en USD COMP y FBX COMP, como mallas, puntos, curvas NURBS o parches. Convierte los tipos de geometría no soportados por POPs a triángulos, quads, tiras de línea y primitivas de punto.41 * Line Metrics POP: Añade atributos de métricas a las tiras de línea, proporcionando información como la dirección a los puntos siguiente/anterior, la distancia desde el inicio de la tira de línea o el número de tira de línea. Estos atributos s"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "o Primitivas) y no cambia el número de elementos de entrada.3 * GLSL Select POP: Se utiliza para seleccionar y generar atributos de múltiples entradas POP, particularmente aquellos modificados por las \"Extra Outputs\" de GLSL Advanced POP.20 * Histogram POP: Toma un atributo de un solo componente de su entrada y crea una distribución de frecuencia. Genera un nuevo POP con un número especificado de puntos (bins) y un atributo \"Count\", indicando cuántos valores de entrada caen en cada bin.21 * Import Select POP: Se utiliza para importar y cargar tipos de geometría definidos en USD COMP y FBX COMP, como mallas, puntos, curvas NURBS o parches. Convierte los tipos de geometría no soportados por POPs a triángulos, quads, tiras de línea y primitivas de punto.41 * Line Metrics POP: Añade atributos de métricas a las tiras de línea, proporcionando información como la dirección a los puntos siguiente/anterior, la distancia desde el inicio de la tira de línea o el número de tira de línea. Estos atributos son ú"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "cionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Group POP: Se usa para crear grupos de puntos, vértices o primitivas. Puedes usar estos grupos para afectar solo ciertas partes de tu geometría con otros operadores, como el Transform POP. También puede convertir un grupo en un atributo. • Experimental:Histogram POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Import Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:In POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Limit POP: Este POP proporciona capacidades de manipulación fundamentales sin necesidad de escribir código. Permite crear nuevos atributos fácilmente y utiliza atributos de solo lectura internos. • Experimental:Line Break POP: Se utiliza pa"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "cionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Group POP: Se usa para crear grupos de puntos, vértices o primitivas. Puedes usar estos grupos para afectar solo ciertas partes de tu geometría con otros operadores, como el Transform POP. También puede convertir un grupo en un atributo. • Experimental:Histogram POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Import Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:In POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Limit POP: Este POP proporciona capacidades de manipulación fundamentales sin necesidad de escribir código. Permite crear nuevos atributos fácilmente y utiliza atributos de solo lectura internos. • Experimental:Line Break POP: Se utiliz"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "cionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Group POP: Se usa para crear grupos de puntos, vértices o primitivas. Puedes usar estos grupos para afectar solo ciertas partes de tu geometría con otros operadores, como el Transform POP. También puede convertir un grupo en un atributo. • Experimental:Histogram POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Import Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:In POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Limit POP: Este POP proporciona capacidades de manipulación fundamentales sin necesidad de escribir código. Permite crear nuevos atributos fácilmente y utiliza atributos de solo lectura internos. • Experimental:Line Break POP: Se utiliza pa"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

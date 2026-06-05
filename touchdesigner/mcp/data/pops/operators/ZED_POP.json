@@ -1,0 +1,28 @@
+{
+  "pageTitle": "ZED POP",
+  "pageSlug": "ZED_POP",
+  "url": "https://docs.derivative.ca/ZED_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "zEDPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "ano, esférico, cilíndrico y de perspectiva. * **Características clave:** * Puedes especificar cómo se interpretan los 3 números de la entrada (`From Coordinate System`) y en qué formato quieres la salida (`To Coordinate System`). * Soporta ángulos en **grados, radianes o ciclos**, o en un **formato normalizado de 0 a 1** para mapeo de texturas. * Permite conversiones a espacio de pantalla (`Screen Space`) o coordenadas de dispositivo normalizadas (`Normalized Device Coordinates - NDC`), útiles para cámaras. * **Uso simple:** Para remapear coordenadas de puntos, por ejemplo, convertir una esfera en un plano, o un plano en una esfera, o preparar una geometría para ser proyectada como una textura de 360 grados. * **Proximity POP (POP de Proximidad)** * **Función principal:** Conecta puntos entre sí o entre dos grupos de puntos si están dentro de un **rango de distancia** específico. * **Características clave:** * De"
+    },
+    {
+      "source": "POPs Investigation and Workshop Plan.markdown",
+      "excerpt": "nts. - Primitives are defined by vertices (indices into the point list) and can have their own attributes. ### Attributes - **Types**: Scalars (e.g., `Weight`), vectors (e.g., `P`), matrices, or arrays (e.g., `float4[5]`). - **Data Types**: Float (32-bit), double (64-bit), integer (32-bit), unsigned integer (32-bit). - **Creation**: Generated via POPs like `Attribute POP` or on-the-fly by specifying new names in output scopes. ## 3. POPs vs. SOPs - **Execution**: POPs run on the GPU (parallelized compute shaders); SOPs run on the CPU. - **Workflow**: POPs combine strengths of SOPs, CHOPs, and TOPs for a modern approach. - **Attributes**: POPs offer advanced attribute manipulation (e.g., multi-component, high precision). - **Limitations**: POPs lack some SOP features (e.g., tracing, booleans), though these may be added later. ## 4. Key Features - **GPU Acceleration**: Uses compute shaders for speed and efficiency. - **Memory Optimization**: References unchanged attributes, allocating me"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "hether we see the active particle or reset it to its original position. So when we come to pops we can actually chain together a bunch of attributes. So before I kind of go through this network let's see what's going on at the end in terms of just that data chain. Let's make it big. (04:27) So we can see here again we've got our point positions and then we've got all these positions and attributes that have been set out by me. So for example, we can see here everything's moving but are initialized positions which are stored as attributes are not. They're static in this feed of data and that means that when I need to reset it's going to move back. (04:50) We can see here I have this do reset and reset parameter. And we can see that it's cycling from zero to one. So when this do reset hits one, it's going to reset that particle. And then I need a secondary way of kind of resetting that back. This is maybe a little bit convoluted, but um this is kind of my first pass at doing this in pops."
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

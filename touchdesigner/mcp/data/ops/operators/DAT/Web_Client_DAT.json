@@ -1,0 +1,373 @@
+{
+  "family": "DAT",
+  "pageTitle": "Web Client DAT",
+  "pageSlug": "Web_Client_DAT",
+  "url": "https://docs.derivative.ca/Web_Client_DAT",
+  "tdOpTypeGuess": "webClientDAT",
+  "summary": "[  edit  ]\nThe Web Client  DAT  allows you to send HTTP requests to web servers from TouchDesigner. It supports GET, POST, PUT, DELETE, HEAD, OPTIONS and PATCH http methods.\nThe Web Client  DAT  supports various authentication types such as: basic, oauth1, oauth2.\nThe Web Client  DAT  allows for streaming from web servers.\nThe Web Client  DAT  sends HTTP requests to web servers and then outputs the response in the  DAT . With streaming enabled it can stream data from a web server.\nWhen streaming is enabled, Clamp Output as Rows should be enabled. This turns the output of the  DAT  into a FIFO table instead of raw text. Only the last N lines will be displayed, where N is the value of the Maximum Lines parameter. This will prevent the text in the  DAT  from getting too larger and will keep cook-times down as a result.\nThe Web Client  DAT  supports sending of GET, POST, PUT, DELETE, HEAD, OPTIONS, and PATCH request methods. The Web Client  DAT  also supports 4 authentication methods: Basic, Digest, OAuth1, and OAuth2.\nThe first input is the extra headers to send in the request. It should be a table with 2 columns, structured as name/value pairs. For example:\nContent-Type\napplication/json\nConnection\nClose\nThe second input is the data/parameters to send in the request. This can be a table with two columns, structured as name/value pairs. It can also just be text, in which case it will be sent as is. If the request method doesn't have a request body (eg. GET, OPTIONS) then it will append the input to the URL as query parameters if a table, otherwise it will be sent as the request data.\nname\njoe\nmonth\nMay\nThe Web Client  DAT  is the successor to the  Web DAT .\nSee also:  Web Server DAT ,  SocketIO DAT ,  XML DAT ,  TCP/IP DAT ,  WebSocket DAT ,  Web DAT .\nwebclientDAT_Class\nContents\n1   Summary\n2   Parameters - Web Client Page\n3   Parameters - Authentication Page\n4   Parameters - Output Page\n5   Parameters - Common Page\n6   Operator Inputs\n7   Info CHOP Channels\n7.1   Specific Web Client DAT Info Channels\n7.2   Common DAT Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Web Client",
+      "label": "Active",
+      "name": "active",
+      "description": "Toggles the operator on/off."
+    },
+    {
+      "page": "Web Client",
+      "label": "Request Method",
+      "name": "reqmethod",
+      "description": "⊞  - Selects the  HTTP request method ."
+    },
+    {
+      "page": "Web Client",
+      "label": "GET",
+      "name": "get",
+      "description": "The GET method requests a representation of the specified resource. Requests using GET should only retrieve data."
+    },
+    {
+      "page": "Web Client",
+      "label": "POST",
+      "name": "post",
+      "description": "The POST method is used to submit an entity to the specified resource, often causing a change in state or side effects on the server."
+    },
+    {
+      "page": "Web Client",
+      "label": "PUT",
+      "name": "put",
+      "description": "The PUT method replaces all current representations of the target resource with the request payload."
+    },
+    {
+      "page": "Web Client",
+      "label": "DELETE",
+      "name": "delete",
+      "description": "The DELETE method deletes the specified resource."
+    },
+    {
+      "page": "Web Client",
+      "label": "HEAD",
+      "name": "head",
+      "description": "The HEAD method asks for a response identical to that of a GET request, but without the response body."
+    },
+    {
+      "page": "Web Client",
+      "label": "OPTIONS",
+      "name": "options",
+      "description": "The OPTIONS method is used to describe the communication options for the target resource."
+    },
+    {
+      "page": "Web Client",
+      "label": "PATCH",
+      "name": "patch",
+      "description": "The PATCH method is used to apply partial modifications to a resource."
+    },
+    {
+      "page": "Web Client",
+      "label": "URL",
+      "name": "url",
+      "description": "The URL of the server to send the HTTP request. Generally, if sending an HTTP request to a secure server, then the URL should begin with \"https://\"."
+    },
+    {
+      "page": "Web Client",
+      "label": "Upload File",
+      "name": "uploadfile",
+      "description": "The contents of the upload file will be sent to the server (chunked, if necessary)."
+    },
+    {
+      "page": "Web Client",
+      "label": "Request",
+      "name": "request",
+      "description": "Sends the request"
+    },
+    {
+      "page": "Web Client",
+      "label": "Stop",
+      "name": "stop",
+      "description": "Stops the stream of data from the server."
+    },
+    {
+      "page": "Web Client",
+      "label": "Stream",
+      "name": "stream",
+      "description": "Enables streaming. This is only necessary to enable if the server support streaming."
+    },
+    {
+      "page": "Web Client",
+      "label": "Verify Certificate (SSL)",
+      "name": "verifycert",
+      "description": "Enables TLS (transport layer security) certificate verification."
+    },
+    {
+      "page": "Web Client",
+      "label": "Timeout",
+      "name": "timeout",
+      "description": "Timeout time in milliseconds of the request if no response is received from the web server."
+    },
+    {
+      "page": "Web Client",
+      "label": "Include Header in Output",
+      "name": "includeheader",
+      "description": "Includes the header in the output of the response."
+    },
+    {
+      "page": "Authentication",
+      "label": "Authentication Type",
+      "name": "authtype",
+      "description": "⊞  - The type of authentication."
+    },
+    {
+      "page": "Authentication",
+      "label": "None",
+      "name": "none",
+      "description": "No authentication"
+    },
+    {
+      "page": "Authentication",
+      "label": "Basic",
+      "name": "basic",
+      "description": "Basic authentication is base-64 encoded username and password."
+    },
+    {
+      "page": "Authentication",
+      "label": "Digest",
+      "name": "digest",
+      "description": "Digest authentication is base-64 encoded username and password that's encrypted with a hashing function. Digest is a more secure version of Basic authentication."
+    },
+    {
+      "page": "Authentication",
+      "label": "OAuth1",
+      "name": "ouath1",
+      "description": "Version 1 of OAuth. OAuth1 requires App Key, App Secret, User OAuth Token, and User OAuth Secret. These can be found via the account on the web server that request is being sent to. For example, in the case of the Twitter API the values of these 4 parameters can be found under the account profile."
+    },
+    {
+      "page": "Authentication",
+      "label": "OAuth2",
+      "name": "ouath2",
+      "description": "Version 2 of OAuth. OAuth2 first requires an HTTP request be sent to the web server to acquire the Client ID and token. It can be acquired using a browser."
+    },
+    {
+      "page": "Authentication",
+      "label": "Username",
+      "name": "username",
+      "description": "Username used in Basic/Digest authentication."
+    },
+    {
+      "page": "Authentication",
+      "label": "Password",
+      "name": "pw",
+      "description": "Password used in Basic/Digest authentication."
+    },
+    {
+      "page": "Authentication",
+      "label": "App Key",
+      "name": "appkey",
+      "description": "OAuth1 App Key retrieved from web server."
+    },
+    {
+      "page": "Authentication",
+      "label": "App Secret",
+      "name": "appsecret",
+      "description": "OAuth1 App Secret retrieved from web server."
+    },
+    {
+      "page": "Authentication",
+      "label": "User OAuth Token",
+      "name": "oauthtoken",
+      "description": "OAuth1 user token retrieved from web server."
+    },
+    {
+      "page": "Authentication",
+      "label": "User OAuth Secret",
+      "name": "oauthsecret",
+      "description": "OAuth1 user secret retrieved from web server."
+    },
+    {
+      "page": "Authentication",
+      "label": "Client ID",
+      "name": "clientid",
+      "description": "OAuth2 Client ID retrieved from web server."
+    },
+    {
+      "page": "Authentication",
+      "label": "Token",
+      "name": "token",
+      "description": "OAuth2 token retrieved from web server."
+    },
+    {
+      "page": "Output",
+      "label": "Clear Output",
+      "name": "clear",
+      "description": "Clears the output of the  DAT ."
+    },
+    {
+      "page": "Output",
+      "label": "Clamp Output as Rows",
+      "name": "clamp",
+      "description": "When enabled, the output of the  DAT  is table instead of text. The rows will also be clamped to Maximum lines parameter value. This should be enabled when streaming is enabled too ensure that the output does not get too large."
+    },
+    {
+      "page": "Output",
+      "label": "Maximum Lines",
+      "name": "maxlines",
+      "description": "The maximum number of rows when clamping is enabled."
+    },
+    {
+      "page": "Output",
+      "label": "Callbacks  DAT",
+      "name": "callbacks",
+      "description": "The Callbacks  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "Language",
+      "name": "language",
+      "description": "⊞  - Select how the  DAT  decides which script language to operate on."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Node",
+      "name": "node",
+      "description": "The  DAT  uses it's own script language."
+    },
+    {
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "name": "extension",
+      "description": "⊞  - Select the file extension this  DAT  should expose to external editors."
+    },
+    {
+      "page": "Common",
+      "label": "dat",
+      "name": "dat",
+      "description": "various common file extensions."
+    },
+    {
+      "page": "Common",
+      "label": "From Language",
+      "name": "language",
+      "description": "pick extension from DATs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "custom",
+      "description": "Specify a custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specifiy the custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Word Wrap",
+      "name": "wordwrap",
+      "description": "⊞  - Enable Word Wrap for Node Display."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs setting."
+    },
+    {
+      "page": "Common",
+      "label": "On",
+      "name": "on",
+      "description": "Turn on Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Off",
+      "name": "off",
+      "description": "Turn off Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "num_rows",
+      "description": "Number of rows in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "num_cols",
+      "description": "Number of columns in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "Art",
+      "description": "Net    •   Audio Devices    •   CHOP Execute    •   CHOP to    •   Clip    •   Convert    •   CPlusPlus    •   DAT   •    Execute    •   DAT Export   •   Error    •   EtherDream    •   Evaluate    •   Examine    •   Execute    •   FIFO    •   File In    •   File Out    •   Folder    •   In    •   Indices    •   Info    •   Insert    •   JSON    •   Keyboard In    •   Lookup    •   Media File Info    •   Merge    •   MIDI Event    •   MIDI In    •   Monitors    •   MPCDI    •   MQTT Client    •   Multi Touch In    •   NDI    •   Null    •   OP Execute    •   OP Find    •   OSC In    •   OSC Out    •   Out    •   Panel Execute    •   Parameter    •   Parameter Execute    •   ParGroup Execute    •   Perform    •   POP to    •   Render Pick    •   Reorder    •   Script    •   Select    •   Serial    •   Serial Devices    •   SocketIO    •   SOP to    •   Sort    •   Substitute    •   Switch    •   Table    •   TCP/IP    •   Text    •   Touch In    •   Touch Out    •   Transpose    •   TUIO In    •   UDP In    •   UDP Out    •   UDT In    •   UDT Out    •   Video Devices    •   Web Client    •   Web    •   Web Server    •   WebRTC    •   WebSocket    •   XML"
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

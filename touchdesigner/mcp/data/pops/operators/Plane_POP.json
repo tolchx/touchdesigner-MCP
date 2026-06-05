@@ -1,0 +1,24 @@
+{
+  "pageTitle": "Plane POP",
+  "pageSlug": "Plane_POP",
+  "url": "https://docs.derivative.ca/Plane_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "planePOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "formas elipsoidales. * Puedes crear **esferas parciales** especificando rangos de latitud y longitud (`Detail` page). * Puede generar **normales (`N`) y coordenadas de textura (`Tex`)** de punto o vértice, con diferentes métodos de proyección (Equirectangular, Fish Eye). * La `Dimension` de la esfera se emite como metadatos para otros POPs. * **Uso simple:** Un generador básico para cualquier cosa que necesite una forma esférica, desde gotas de agua hasta planetas, o para usarla como base para efectos complejos de dispersión de puntos. * **Sprinkle POP (POP de Salpicadura)** * **Función principal:** Crea puntos **sobre la superficie o dentro del volumen** de un POP de entrada. * **Características clave:** * El método `Per Primitive` crea puntos en la superficie de triángulos o cuadrados, intentando mantener una distribución constante por primitiva, sin importar su tamaño. * El método `Volume` crea puntos aleato"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "e en un **punto POP**. * Los **encabezados de las columnas** de la tabla DAT deben seguir las convenciones de nombres de atributos de POP. Por ejemplo, `P(0)` para la componente X de la posición, o `Color(3)` para la componente Alfa del color. * Para vectores (como un `float3`), puedes usar `P(?)` para indicar que las columnas `P(0)`, `P(1)` y `P(2)` formarán un vector `P`. * Por ahora, **no puede convertir ni especificar primitivas ni vértices** de primitivas, pero esto se planea para el futuro. * Puedes especificar el **tipo de dato** (`float`, `double`, `int`, `uint`, `dir`, `dbl dir`) y el **número de componentes** (1-4) para los nuevos atributos creados. --- #### 17. DMX Fixture POP * **¿Qué hace?** Este operador se utiliza para **construir \"universos\" DMX** a partir de una entrada POP, y se usa junto con un DMX Out POP para enviar señales DMX a dispositivos de iluminación u otros equipos. * **Características clave:** * Cada **primitiva**"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

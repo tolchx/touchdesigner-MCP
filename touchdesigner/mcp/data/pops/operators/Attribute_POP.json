@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Attribute POP",
+  "pageSlug": "Attribute_POP",
+  "url": "https://docs.derivative.ca/Attribute_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "attributePOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "04-pops-database.md",
+      "excerpt": "# Base de datos estructurada de POPs La base de conocimiento POPs vive en: - `touchdesigner/mcp/data/pops/index.json`: índice (lista + metadatos). - `touchdesigner/mcp/data/pops/operators/<PageSlug>.json`: ficha detallada por operador. ## Esquema (alto nivel) Cada operador incluye: - Identidad: `pageTitle`, `pageSlug`, `url`, `experimental`, `tdOpTypeGuess`. - Técnica: `summary`, `inputs[]`, `parameters[]`, `attributes[]`. - Capacitación: `useCases[]`, `examples[]`, `commonCombinations[]`, `troubleshooting[]`. ## Generación automática (docs oficiales) El generador: - Descarga la lista desde `https://docs.derivative.ca/Category:POPs`. - Para cada operador descarga la página oficial y extrae: - resumen - inputs - parámetros por página - atributos (cuando la tabla está presente) ### Construir / actualizar la base En `touchdesigner/`: ```powershell npm run build node .\\mcp\\dist\\popsBuild.js --out ."
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "te no admiten primitivas de curva directamente, aunque la subdivisión de splines es posible utilizando operadores como Line POP y Line Divide POP.7 Los atributos son cruciales para almacenar datos adicionales por punto, vértice o primitiva, como normales (N), coordenadas de textura (uv) y color (Cd).1 Los POPs permiten la creación, modificación, duplicación, cambio de nombre y eliminación de estos atributos.1 El énfasis en los \"atributos\" y su manipulación a través de varios POPs (por ejemplo, Attribute POP, GLSL POP, Math Mix POP) apunta a una filosofía de diseño centrada en los atributos para los POPs. Muchos POPs (Attribute POP, GLSL POP, Math Mix POP, etc.) están explícitamente diseñados para crear, modificar o combinar atributos.1 La documentación destaca que los atributos se almacenan como Objetos de Búfer de Almacenamiento de Shader (SSBOs) en los GLSL POPs.12 Esta estructuración de datos en SSBOs, una característica central de la programación de GPU moderna (GLSL, Vulkan), permite un proce"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "te no admiten primitivas de curva directamente, aunque la subdivisión de splines es posible utilizando operadores como Line POP y Line Divide POP.7 Los atributos son cruciales para almacenar datos adicionales por punto, vértice o primitiva, como normales (N), coordenadas de textura (uv) y color (Cd).1 Los POPs permiten la creación, modificación, duplicación, cambio de nombre y eliminación de estos atributos.1 El énfasis en los \"atributos\" y su manipulación a través de varios POPs (por ejemplo, Attribute POP, GLSL POP, Math Mix POP) apunta a una filosofía de diseño centrada en los atributos para los POPs. Muchos POPs (Attribute POP, GLSL POP, Math Mix POP, etc.) están explícitamente diseñados para crear, modificar o combinar atributos.1 La documentación destaca que los atributos se almacenan como Objetos de Búfer de Almacenamiento de Shader (SSBOs) en los GLSL POPs.12 Esta estructuración de datos en SSBOs, una característica central de la programación de GPU moderna (GLSL, Vulkan), permite un p"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "te no admiten primitivas de curva directamente, aunque la subdivisión de splines es posible utilizando operadores como Line POP y Line Divide POP.7 Los atributos son cruciales para almacenar datos adicionales por punto, vértice o primitiva, como normales (N), coordenadas de textura (uv) y color (Cd).1 Los POPs permiten la creación, modificación, duplicación, cambio de nombre y eliminación de estos atributos.1 El énfasis en los \"atributos\" y su manipulación a través de varios POPs (por ejemplo, Attribute POP, GLSL POP, Math Mix POP) apunta a una filosofía de diseño centrada en los atributos para los POPs. Muchos POPs (Attribute POP, GLSL POP, Math Mix POP, etc.) están explícitamente diseñados para crear, modificar o combinar atributos.1 La documentación destaca que los atributos se almacenan como Objetos de Búfer de Almacenamiento de Shader (SSBOs) en los GLSL POPs.12 Esta estructuración de datos en SSBOs, una característica central de la programación de GPU moderna (GLSL, Vulkan), permite un proce"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "Attribute Combine POP: Este operador es útil para combinar atributos de múltiples entradas. También puedes usarlo para, por ejemplo, quitar el atributo de Posición (P) de un POP si no lo necesitas. Permite seleccionar qué atributos o grupos específicos deseas procesar de cada entrada. • Experimental:Attribute Convert POP: Se utiliza para transferir atributos entre diferentes \"clases\" (tipos) de datos, como convertir atributos de puntos a atributos de vértices o de primitivas. • Experimental:Attribute POP: Es un operador fundamental para crear nuevos atributos en puntos, vértices o primitivas, y puedes inicializarlos con valores constantes. También es el lugar donde puedes crear \"arrays de atributos\". • Experimental:Blend POP: Es un POP que soporta múltiples entradas, lo que sugiere que puede mezclar o interpolar datos de diferentes fuentes. • Experimental:Box POP: Un operador generador que crea una geometría de caja. • Experimental:Cache Blend POP: Se menciona en relación con el uso de at"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "oderno que combina lo mejor de SOPs, CHOPs y TOPs. Glosario de Operadores POPs Aquí tienes un listado de los operadores POPs, con una explicación sencilla de su función basada en las fuentes disponibles: • Experimental:Accumulate POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Analyze POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Attribute Combine POP: Este operador es útil para combinar atributos de múltiples entradas. También puedes usarlo para, por ejemplo, quitar el atributo de Posición (P) de un POP si no lo necesitas. Permite seleccionar qué atributos o grupos específicos deseas procesar de cada entrada. • Experimental:Attribute Convert POP: Se utiliza para transferir atributos entre diferentes \"clases\" (tipos) de datos, como convertir atributos de puntos a atributos de vértices o de primitivas. • Experimental:Attribute"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

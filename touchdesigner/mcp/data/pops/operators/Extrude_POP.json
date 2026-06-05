@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Extrude POP",
+  "pageSlug": "Extrude_POP",
+  "url": "https://docs.derivative.ca/Extrude_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "extrudePOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "parámetros controlan el período, los armónicos, la dispersión armónica, la amplitud, el exponente y el desplazamiento. El campo de ruido puede ser trasladado, rotado o escalado.16 * Parámetros: Los parámetros clave incluyen Type (Simplex, Perlin), Period, Harmonics, Harmonic Spread, Amplitude, Exponent, Offset. También tiene una \"Página Transform\" para trasladar, rotar y escalar el campo de ruido, y una \"Página Output\" para generar valores de ruido sin procesar, gradiente o curl.16 * Extrude POP: Un operador simple que añade \"grosor\" aparente a triángulos o quads copiándolos a una distancia especificada, opcionalmente estrechándolos, y añadiendo quads para los lados.17 Requiere un Normal POP para un sombreado facetado adecuado.17 * Facet POP: Realiza operaciones para controlar el intercambio de puntos entre primitivas. Puede crear puntos únicos (sin puntos compartidos por vértice), consolidar puntos (fusionar puntos dentro de una tolerancia) o cusp polygons (hacer que los puntos de"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "parámetros controlan el período, los armónicos, la dispersión armónica, la amplitud, el exponente y el desplazamiento. El campo de ruido puede ser trasladado, rotado o escalado.16 * Parámetros: Los parámetros clave incluyen Type (Simplex, Perlin), Period, Harmonics, Harmonic Spread, Amplitude, Exponent, Offset. También tiene una \"Página Transform\" para trasladar, rotar y escalar el campo de ruido, y una \"Página Output\" para generar valores de ruido sin procesar, gradiente o curl.16 * Extrude POP: Un operador simple que añade \"grosor\" aparente a triángulos o quads copiándolos a una distancia especificada, opcionalmente estrechándolos, y añadiendo quads para los lados.17 Requiere un Normal POP para un sombreado facetado adecuado.17 * Facet POP: Realiza operaciones para controlar el intercambio de puntos entre primitivas. Puede crear puntos únicos (sin puntos compartidos por vértice), consolidar puntos (fusionar puntos dentro de una tolerancia) o cusp polygons (hacer que los punto"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "parámetros controlan el período, los armónicos, la dispersión armónica, la amplitud, el exponente y el desplazamiento. El campo de ruido puede ser trasladado, rotado o escalado.16 * Parámetros: Los parámetros clave incluyen Type (Simplex, Perlin), Period, Harmonics, Harmonic Spread, Amplitude, Exponent, Offset. También tiene una \"Página Transform\" para trasladar, rotar y escalar el campo de ruido, y una \"Página Output\" para generar valores de ruido sin procesar, gradiente o curl.16 * Extrude POP: Un operador simple que añade \"grosor\" aparente a triángulos o quads copiándolos a una distancia especificada, opcionalmente estrechándolos, y añadiendo quads para los lados.17 Requiere un Normal POP para un sombreado facetado adecuado.17 * Facet POP: Realiza operaciones para controlar el intercambio de puntos entre primitivas. Puede crear puntos únicos (sin puntos compartidos por vértice), consolidar puntos (fusionar puntos dentro de una tolerancia) o cusp polygons (hacer que los puntos de"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "rden superior de los puntos dentro de un POP. Sugiere una forma más avanzada de estructurar los datos de puntos. • Experimental:DMX Fixture POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:DMX Out POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:Extrude POP: Puede crear grupos automáticamente. Las fuentes indican que los POPs aún no realizan extrusiones completas en cualquier tira de línea. • Experimental:Facet POP: A diferencia de los SOPs donde el Facet SOP crea normales, en POPs, el Normal POP es el encargado de crear normales de superficie y tangentes. • Experimental:Feedback POP: Es esencial para habilitar sistemas de partículas y para la manipulación general de datos que requieren bucles de retroalimentación. Se utiliza para simular el m"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "rden superior de los puntos dentro de un POP. Sugiere una forma más avanzada de estructurar los datos de puntos. • Experimental:DMX Fixture POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:DMX Out POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:Extrude POP: Puede crear grupos automáticamente. Las fuentes indican que los POPs aún no realizan extrusiones completas en cualquier tira de línea. • Experimental:Facet POP: A diferencia de los SOPs donde el Facet SOP crea normales, en POPs, el Normal POP es el encargado de crear normales de superficie y tangentes. • Experimental:Feedback POP: Es esencial para habilitar sistemas de partículas y para la manipulación general de datos que requieren bucles de retroalimentación. Se utiliza para simular"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "rden superior de los puntos dentro de un POP. Sugiere una forma más avanzada de estructurar los datos de puntos. • Experimental:DMX Fixture POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:DMX Out POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:Extrude POP: Puede crear grupos automáticamente. Las fuentes indican que los POPs aún no realizan extrusiones completas en cualquier tira de línea. • Experimental:Facet POP: A diferencia de los SOPs donde el Facet SOP crea normales, en POPs, el Normal POP es el encargado de crear normales de superficie y tangentes. • Experimental:Feedback POP: Es esencial para habilitar sistemas de partículas y para la manipulación general de datos que requieren bucles de retroalimentación. Se utiliza para simular el m"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

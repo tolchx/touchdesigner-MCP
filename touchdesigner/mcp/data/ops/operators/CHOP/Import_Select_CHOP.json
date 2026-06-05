@@ -1,0 +1,394 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Import Select CHOP",
+  "pageSlug": "Import_Select_CHOP",
+  "url": "https://docs.derivative.ca/Import_Select_CHOP",
+  "tdOpTypeGuess": "importSelectCHOP",
+  "summary": "[  edit  ]\nThe Import Select  CHOP  is used to specify  CHOP  channels from an importing file such as  FBX COMP  or  USD COMP . One of the main purpose of these channels is to represent the changes of transformation of different primitives or the state of some dynamic features of importing file. The Import Select  CHOP  can have its own animation controls within the Play page or use the settings from its parent  COMP .\nSee Also:  USD COMP ,  FBX COMP\nimportselectCHOP_Class\nContents\n1   Summary\n2   Parameters - General Page\n3   Parameters - Playback Page\n4   Parameters - Common Page\n5   Info CHOP Channels\n5.1   Specific Import Select CHOP Info Channels\n5.2   Common CHOP Info Channels\n5.3   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "General",
+      "label": "Import  Parent",
+      "name": "parent",
+      "description": "Specify the import parent (eg. USD/FBX  COMP ) to search for the asset. When no  COMP  is specified it will by default search in the first import parent in its path."
+    },
+    {
+      "page": "General",
+      "label": "Take Type",
+      "name": "taketype",
+      "description": "⊞  - Select between playback of an animation or a blend shape."
+    },
+    {
+      "page": "General",
+      "label": "Blend Shape",
+      "name": "blendshape",
+      "description": "Specifices the blend shape name (if any is specified) from the importing file that this  CHOP  will playback."
+    },
+    {
+      "page": "General",
+      "label": "Reload",
+      "name": "reload",
+      "description": "Reloads the asset from the import parent."
+    },
+    {
+      "page": "Playback",
+      "label": "Use Parent Animation",
+      "name": "useparentanim",
+      "description": "A toggle to specify whether to use the parent  COMP  animation controls or have a custom setting for this  SOP ."
+    },
+    {
+      "page": "Playback",
+      "label": "Animation",
+      "name": "animation",
+      "description": "Specifices the animation name (if any is specified) from the importing file that this  CHOP  will playback."
+    },
+    {
+      "page": "Playback",
+      "label": "Shift Animation Start",
+      "name": "shiftanimationstart",
+      "description": "A toggle to specify whether to shift the animation to the start of animation indicated in the importing file."
+    },
+    {
+      "page": "Playback",
+      "label": "Sample Rate  Mode",
+      "name": "sampleratemode",
+      "description": "⊞  - Select between using the 'File  FPS ' embedded in the FBX file or setting a 'Custom' sample rate."
+    },
+    {
+      "page": "Playback",
+      "label": "File  FPS",
+      "name": "filefps",
+      "description": "uses the  FPS  from what is defined in the importing file."
+    },
+    {
+      "page": "Playback",
+      "label": "Custom",
+      "name": "custom",
+      "description": "a desired value specified by  Sample Rate  parameter."
+    },
+    {
+      "page": "Playback",
+      "label": "Sample Rate",
+      "name": "samplerate",
+      "description": "Set the sample rate when the \" Sample Rate  Mode\" parameter above is set to 'Custom'."
+    },
+    {
+      "page": "Playback",
+      "label": "Play Mode",
+      "name": "playmode",
+      "description": "⊞  - A menu to specify the method used to play the animation."
+    },
+    {
+      "page": "Playback",
+      "label": "Locked to  Timeline",
+      "name": "lockedtotimeline",
+      "description": "This mode locks the animation position to the timeline. The parameters Play, Speed, Index, Cue and Cue  Point , are disabled in this mode since the timeline is directly tied to animation position."
+    },
+    {
+      "page": "Playback",
+      "label": "Specify Index",
+      "name": "specifyindex",
+      "description": "This mode allows the user to specify a particular index (position) in the animation using the Index parameter below. Use this mode for random access to any location in the animation."
+    },
+    {
+      "page": "Playback",
+      "label": "Sequential",
+      "name": "sequential",
+      "description": "This mode continually plays regardless of the timeline position (the Index parameter is disabled). Play, Speed, Cue, and Cue Point parameters below are enabled to allow some control. The default is set to this value."
+    },
+    {
+      "page": "Playback",
+      "label": "Index",
+      "name": "index",
+      "description": "This parameter explicitly sets the animation position when Play Mode is set to Specify Index. The units’ menu on the right lets you specify the index in the following units: Index, Frames, Seconds, and Fraction (percentage)."
+    },
+    {
+      "page": "Playback",
+      "label": "Index Unit",
+      "name": "indexunit",
+      "description": "⊞  - Specifies a unit type for Index. Changing this will convert the previous unit to the selected unit."
+    },
+    {
+      "page": "Playback",
+      "label": "Play",
+      "name": "play",
+      "description": "A toggle that makes the animation to play when it sets to ON. This Parameter is only available/enabled if the Sequential mode is selected from the Play Mode."
+    },
+    {
+      "page": "Playback",
+      "label": "Speed",
+      "name": "speed",
+      "description": "This is a speed multiplier which only works when Play Mode is Sequential. A value of 1 is the default playback speed. A value of 2 is double speed, 0.5 is half speed and so on."
+    },
+    {
+      "page": "Playback",
+      "label": "Trim",
+      "name": "trim",
+      "description": "A toggle to enable the Trim Start and Trim End parameters."
+    },
+    {
+      "page": "Playback",
+      "label": "Trim Start",
+      "name": "tstart",
+      "description": "Sets an in point from the beginning of the animation, allowing you to trim the starting index of the animation. The units’ menu on the right let you specify this position by index, frames, seconds, or fraction (percentage)."
+    },
+    {
+      "page": "Playback",
+      "label": "Trim Start Unit",
+      "name": "tstartunit",
+      "description": "⊞  - Specifies a unit type for Trim Start. Changing this will convert the previous unit to the selected unit."
+    },
+    {
+      "page": "Playback",
+      "label": "Trim End",
+      "name": "tend",
+      "description": "Sets an end point from the end of the movie, allowing you to trim the ending index of the animation. The units’ menu on the right let you specify this position by index, frames, seconds, or fraction (percentage)."
+    },
+    {
+      "page": "Playback",
+      "label": "Trim End Unit",
+      "name": "tendunit",
+      "description": "⊞  - Specifies a unit type for Trim End. Changing this will convert the previous unit to the selected unit."
+    },
+    {
+      "page": "Playback",
+      "label": "Cue",
+      "name": "cue",
+      "description": "A toggle to jump to Cue Point when it is set to ON and it stays at that position. Only available when Play Mode is Sequential."
+    },
+    {
+      "page": "Playback",
+      "label": "Cue  Pulse",
+      "name": "cuepulse",
+      "description": "When pressed the animation jumps to the Cue Point and continues from that point."
+    },
+    {
+      "page": "Playback",
+      "label": "Cue  Point",
+      "name": "cuepoint",
+      "description": "Set any index in the animation as a point to jump to."
+    },
+    {
+      "page": "Playback",
+      "label": "Cue Point Unit",
+      "name": "cuepointunit",
+      "description": "⊞  - Specifies a unit type for Cue  Point . Changing this will convert the previous unit to the selected unit."
+    },
+    {
+      "page": "Playback",
+      "label": "Extend Left",
+      "name": "textendleft",
+      "description": "⊞  - Determines how the parent  COMP  handles animation positions that lie before the Trim Start position. For example, if Trim Start is set to 1, and the animation current index is -10, the Extend Left menu determines how the animation position is calculated."
+    },
+    {
+      "page": "Playback",
+      "label": "Extend Right",
+      "name": "textendright",
+      "description": "⊞  - Determines how the parent  COMP  handles animation positions that lie after the Trim End position. For example, if Trim End is set to 20, and the animation current index is 25, the Extend Right menu determines how the animation position is calculated."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "There are 2 kinds of parenting. The \"parent component\" is the component in which a node resides. The metaphor is extended to include grand parents, grand",
+      "description": "grand parents, etc. The root  /  is the ultimate parent to all nodes. See also  3D Parenting  and panel  Parenting ."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "The",
+      "name": "Frames",
+      "description": "per-Second that TouchDesigner's  Timeline  runs at. Set with  project.cookRate ."
+    },
+    {
+      "page": "Common",
+      "label": "To \"pulse\" a parameter is to send it a signal from (1) an  exported  CHOP channel or (2) a python command or (3) a mouse click that causes a new action to occur immediately. A pulse via python is via the  .pulse()  function on a pulse",
+      "description": "type parameter, such as Reset parameter in a  Speed CHOP . A pulse from a CHOP is typically a 0 to 1 to 0 signal in an exported channel."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "o Primitivas) y no cambia el número de elementos de entrada.3 * GLSL Select POP: Se utiliza para seleccionar y generar atributos de múltiples entradas POP, particularmente aquellos modificados por las \"Extra Outputs\" de GLSL Advanced POP.20 * Histogram POP: Toma un atributo de un solo componente de su entrada y crea una distribución de frecuencia. Genera un nuevo POP con un número especificado de puntos (bins) y un atributo \"Count\", indicando cuántos valores de entrada caen en cada bin.21 * Import Select POP: Se utiliza para importar y cargar tipos de geometría definidos en USD COMP y FBX COMP, como mallas, puntos, curvas NURBS o parches. Convierte los tipos de geometría no soportados por POPs a triángulos, quads, tiras de línea y primitivas de punto.41 * Line Metrics POP: Añade atributos de métricas a las tiras de línea, proporcionando información como la dirección a los puntos siguiente/anterior, la distancia desde el inicio de la tira de línea o el número de tira de línea. Estos atributos s"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "cionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Group POP: Se usa para crear grupos de puntos, vértices o primitivas. Puedes usar estos grupos para afectar solo ciertas partes de tu geometría con otros operadores, como el Transform POP. También puede convertir un grupo en un atributo. • Experimental:Histogram POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Import Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:In POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Limit POP: Este POP proporciona capacidades de manipulación fundamentales sin necesidad de escribir código. Permite crear nuevos atributos fácilmente y utiliza atributos de solo lectura internos. • Experimental:Line Break POP: Se utiliz"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "res. * **Valores fuera de rango**: Puedes elegir ignorarlos, \"clamparlos\" (ajustarlos al mínimo o máximo del rango), o añadir dos cubos extra para contar los valores que están fuera del rango. * Puede generar un atributo `BinValue` que almacena los valores de inicio de cada cubo. * Puedes crear histogramas de atributos de **puntos** o de **primitivas**. * Los resultados a menudo se visualizan bien con un POP to CHOP o con el componente `popViewer`. --- #### 35. Import Select POP * **¿Qué hace?** Este operador es fundamental para **cargar geometrías de archivos externos** o de otros componentes de TouchDesigner como USD COMP y FBX COMP. Es una puerta de entrada para traer modelos 3D y otros tipos de geometría a tu entorno POP. * **Características clave:** * Puede cargar varios tipos de geometría soportados por USD COMP o FBX COMP, como **Mallas (`Mesh`), Puntos (`Points`), Curvas o Patches NURBS, Curvas de Base (`Basis Curves`)**. * Cada geometrí"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

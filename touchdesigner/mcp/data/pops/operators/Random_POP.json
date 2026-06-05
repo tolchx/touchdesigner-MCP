@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Random POP",
+  "pageSlug": "Random_POP",
+  "url": "https://docs.derivative.ca/Random_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "randomPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ambién se encontró una redirección a su página de documentación 47, pero sin contenido descriptivo. 6. Switch POP: Al igual que Merge POP, se indica que comparte la arquitectura de manejo de múltiples entradas con otros POPs combinadores.13 No se proporcionaron detalles adicionales. 7. Quantize POP: Se encontró una redirección a su página de documentación.48 Un tutorial de YouTube relacionado con la \"cuantificación\" de píxeles 49 no describe el operador POP en sí, sino un concepto visual. 8. Random POP: Se encontró una redirección a su página de documentación 50, pero sin contenido descriptivo. 9. Point Generator POP: Se encontraron redirecciones a su página de documentación.51 Aunque un tutorial de YouTube menciona el uso de un Point Generator POP para distribuir puntos 43, no se proporciona una descripción detallada de sus parámetros. 10. Points, Vertices and Primitives in POPs: Esta es una página conceptual que describe la estructura de datos subyacente de los POPs (puntos, vértices, pri"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ambién se encontró una redirección a su página de documentación 47, pero sin contenido descriptivo. 6. Switch POP: Al igual que Merge POP, se indica que comparte la arquitectura de manejo de múltiples entradas con otros POPs combinadores.13 No se proporcionaron detalles adicionales. 7. Quantize POP: Se encontró una redirección a su página de documentación.48 Un tutorial de YouTube relacionado con la \"cuantificación\" de píxeles 49 no describe el operador POP en sí, sino un concepto visual. 8. Random POP: Se encontró una redirección a su página de documentación 50, pero sin contenido descriptivo. 9. Point Generator POP: Se encontraron redirecciones a su página de documentación.51 Aunque un tutorial de YouTube menciona el uso de un Point Generator POP para distribuir puntos 43, no se proporciona una descripción detallada de sus parámetros. 10. Points, Vertices and Primitives in POPs: Esta es una página conceptual que describe la estructura de datos subyacente de los POPs (puntos, vértices,"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ambién se encontró una redirección a su página de documentación 47, pero sin contenido descriptivo. 6. Switch POP: Al igual que Merge POP, se indica que comparte la arquitectura de manejo de múltiples entradas con otros POPs combinadores.13 No se proporcionaron detalles adicionales. 7. Quantize POP: Se encontró una redirección a su página de documentación.48 Un tutorial de YouTube relacionado con la \"cuantificación\" de píxeles 49 no describe el operador POP en sí, sino un concepto visual. 8. Random POP: Se encontró una redirección a su página de documentación 50, pero sin contenido descriptivo. 9. Point Generator POP: Se encontraron redirecciones a su página de documentación.51 Aunque un tutorial de YouTube menciona el uso de un Point Generator POP para distribuir puntos 43, no se proporciona una descripción detallada de sus parámetros. 10. Points, Vertices and Primitives in POPs: Esta es una página conceptual que describe la estructura de datos subyacente de los POPs (puntos, vértices, pri"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "nte. • Experimental:Projection POP: Permite crear y modificar atributos de color y textura. Al igual que el Normalize POP, genera atributos normalizados. • Experimental:Proximity POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Quantize POP: Proporciona opciones para cuantizar valores, como redondear hacia abajo (Floor), redondear al entero más cercano (Round) o redondear hacia arriba (Ceiling). • Experimental:Random POP: Permite crear y modificar atributos de color y textura, presumiblemente para aplicar valores aleatorios. • Experimental:Ray POP: Crea atributos de tipo entero sin signo. Genera atributos con el prefijo Ray. • Experimental:Rectangle POP: Un operador generador que crea una geometría rectangular. • Experimental:ReRange POP: Se utiliza para re-escalar o re-mapear valores dentro de un rango específico. Es muy útil, ya que puede aplicar un re-rango diferente para cada componente de un atributo"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "nte. • Experimental:Projection POP: Permite crear y modificar atributos de color y textura. Al igual que el Normalize POP, genera atributos normalizados. • Experimental:Proximity POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Quantize POP: Proporciona opciones para cuantizar valores, como redondear hacia abajo (Floor), redondear al entero más cercano (Round) o redondear hacia arriba (Ceiling). • Experimental:Random POP: Permite crear y modificar atributos de color y textura, presumiblemente para aplicar valores aleatorios. • Experimental:Ray POP: Crea atributos de tipo entero sin signo. Genera atributos con el prefijo Ray. • Experimental:Rectangle POP: Un operador generador que crea una geometría rectangular. • Experimental:ReRange POP: Se utiliza para re-escalar o re-mapear valores dentro de un rango específico. Es muy útil, ya que puede aplicar un re-rango diferente para cada componente de un atri"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "nte. • Experimental:Projection POP: Permite crear y modificar atributos de color y textura. Al igual que el Normalize POP, genera atributos normalizados. • Experimental:Proximity POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Quantize POP: Proporciona opciones para cuantizar valores, como redondear hacia abajo (Floor), redondear al entero más cercano (Round) o redondear hacia arriba (Ceiling). • Experimental:Random POP: Permite crear y modificar atributos de color y textura, presumiblemente para aplicar valores aleatorios. • Experimental:Ray POP: Crea atributos de tipo entero sin signo. Genera atributos con el prefijo Ray. • Experimental:Rectangle POP: Un operador generador que crea una geometría rectangular. • Experimental:ReRange POP: Se utiliza para re-escalar o re-mapear valores dentro de un rango específico. Es muy útil, ya que puede aplicar un re-rango diferente para cada componente de un atributo"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

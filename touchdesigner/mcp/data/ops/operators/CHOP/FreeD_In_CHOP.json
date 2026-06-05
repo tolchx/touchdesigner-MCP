@@ -1,0 +1,231 @@
+{
+  "family": "CHOP",
+  "pageTitle": "FreeD In CHOP",
+  "pageSlug": "FreeD_In_CHOP",
+  "url": "https://docs.derivative.ca/FreeD_In_CHOP",
+  "tdOpTypeGuess": "freeDInCHOP",
+  "summary": "[  edit  ]\nThe FreeD  CHOP  reads incoming camera tracking data sent over a network using the FreeD protocol and outputs  CHOP  channels that can be used to control a virtual 3D camera. FreeD is not exclusive to any particular tracking system, but is frequenty used as an interchange protocol since it is supported by a wide range of hardware and software. However, as an older standard, it is lower precision and does not contain len distortion data like  Stype  or  Ncam , so it is recommended to use the hardware specific protocol when possible. Examples of hardware and software that support FreeD are  Viz Virtual Studio  and  Panasonic PTZ cameras.\nThe channels exported by the FreeD  CHOP  are:\ncamera_id  - a number from 0 - 255 that can be used to store an id number for the camera\ntx, ty, tz  - camera position, can be connected to the  Camera COMP  Translate parameters\nrx, ry, rz  - camera rotation, can be connected to the  Camera COMP  Rotate parameters\nfocus  - a 24-bit positive integer (0-16 million) in arbitrary units that relates to the focus ring on a camera lens. Applications can interpret this value according to the hardware in use.\nzoom  - a 24-bit positive integer (0-16 million) in arbitrary units that relates to the zoom ring on a camera lens. Applications can interpret this value according to the hardware in use.\nuser  - a 16-bit positive integer (0 - 65k) that can be used by the camera system to send custom user-defined data    Note:  The FreeD  CHOP  only processes the 'D1' camera position and orientation message that is part of the FreeD protocol. All other message types will be ignored.\nIf the incoming network stream contains data for more than one camera, the Camera ID parameter can be used to select data from only one camera. If the Camera ID parameter is blank, then whatever data is received most recently will be shown - this could result in the data switching between cameras.\nFor more information or to diagnose connection problems, an  Info CHOP  can be connected to see if any packets have been dropped, skipped, or filtered out.\nfreedCHOP_Class\nContents\n1   Summary\n2   Parameters - FreeD Page\n3   Parameters - Common Page\n4   Info CHOP Channels\n4.1   Specific FreeD CHOP Info Channels\n4.2   Common CHOP Info Channels\n4.3   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "FreeD",
+      "label": "Active",
+      "name": "active",
+      "description": "While On, the  CHOP  receives FreeD information sent to the network port. While Off, no updating occurs."
+    },
+    {
+      "page": "FreeD",
+      "label": "Protocol",
+      "name": "protocol",
+      "description": "⊞  - The network protocol to use. Refer to the  Network Protocols  article for more information."
+    },
+    {
+      "page": "FreeD",
+      "label": "Multi",
+      "description": "Cast Messaging (UDP)   multicastmsging  -"
+    },
+    {
+      "page": "FreeD",
+      "label": "Network Address",
+      "name": "netaddress",
+      "description": "When using Multicast, this is the address that FreeD will listen for packets on."
+    },
+    {
+      "page": "FreeD",
+      "label": "Network Port",
+      "name": "port",
+      "description": "The port which FreeD will accept packets on."
+    },
+    {
+      "page": "FreeD",
+      "label": "Local Address",
+      "name": "localaddress",
+      "description": "⊞  - Specify an IP address to receive on, useful when the system has mulitple NICs (Network Interface Card) and you want to select which one to use."
+    },
+    {
+      "page": "FreeD",
+      "label": "Camera ID",
+      "name": "cameraid",
+      "description": "This parameter can be used to select a specific camera when there are multiple streams of incoming data. To select the camera, the parameter value should match the incoming value in the camera_id channel. If the parameter is blank, no filter will be applied and the channels will display whatever camera data was received last."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner Build:   Latest \\n mw",
+      "description": "blank  2023.11280  2021.10000  before 2021.10000"
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

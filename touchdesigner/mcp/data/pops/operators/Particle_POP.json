@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Particle POP",
+  "pageSlug": "Particle_POP",
+  "url": "https://docs.derivative.ca/Particle_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "particlePOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "04-pops-database.md",
+      "excerpt": "`touchdesigner/`: ```powershell npm run build node .\\mcp\\dist\\popsBuild.js --out .\\mcp\\data\\pops --limit 10 --local-docs ..\\Docs ``` Enriquecimiento opcional con LLM (Gemma 4 vía Ollama): ```powershell $env:LLM_PROVIDER=\"ollama\" $env:OLLAMA_MODEL=\"gemma4:e4b\" node .\\mcp\\dist\\popsBuild.js --out .\\mcp\\data\\pops --enrich --local-docs ..\\Docs ``` ## Consulta desde el MCP Se expone una herramienta MCP adicional: - `td_pops_query`: - `search`: texto libre - `page_slug`: slug exacto (p.ej. `Particle_POP`) - `limit`: máximo de resultados Objetivo: permitir que el asistente consulte documentación técnica antes de generar redes POP complejas."
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "para manejar índices fuera de rango y reescalar valores.35 * Parámetros: Lookup Attribute, Lookup Curve (segunda entrada), Index Type (normalizado 0-1 o número de punto), Extend Left/Right (Hold, Slope, Cycle, Mirror), Value Attributes a buscar, From/To Low/High para reescalar.35 * Out POP: Genera datos de POPs ubicados dentro de un componente hacia fuera de su componente padre. Añade un conector de salida al componente padre y puede mostrar una etiqueta al pasar el cursor por encima.37 * Particle POP: Se utiliza para crear y controlar el movimiento de \"partículas\" en simulaciones de sistemas de partículas. Las partículas son puntos POP con atributos especiales (P, PartVel, PartMass) que son creados por el Particle POP o modificados por bucles de retroalimentación definidos por el usuario. Las partículas pueden ser emitidas a una tasa constante o basándose en un atributo de entrada.6 * Parámetros: Se basa en las características de Feedback POP para la inicialización, inicio/parada, pausa"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "para manejar índices fuera de rango y reescalar valores.35 * Parámetros: Lookup Attribute, Lookup Curve (segunda entrada), Index Type (normalizado 0-1 o número de punto), Extend Left/Right (Hold, Slope, Cycle, Mirror), Value Attributes a buscar, From/To Low/High para reescalar.35 * Out POP: Genera datos de POPs ubicados dentro de un componente hacia fuera de su componente padre. Añade un conector de salida al componente padre y puede mostrar una etiqueta al pasar el cursor por encima.37 * Particle POP: Se utiliza para crear y controlar el movimiento de \"partículas\" en simulaciones de sistemas de partículas. Las partículas son puntos POP con atributos especiales (P, PartVel, PartMass) que son creados por el Particle POP o modificados por bucles de retroalimentación definidos por el usuario. Las partículas pueden ser emitidas a una tasa constante o basándose en un atributo de entrada.6 * Parámetros: Se basa en las características de Feedback POP para la inicialización, inicio/parada, p"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "para manejar índices fuera de rango y reescalar valores.35 * Parámetros: Lookup Attribute, Lookup Curve (segunda entrada), Index Type (normalizado 0-1 o número de punto), Extend Left/Right (Hold, Slope, Cycle, Mirror), Value Attributes a buscar, From/To Low/High para reescalar.35 * Out POP: Genera datos de POPs ubicados dentro de un componente hacia fuera de su componente padre. Añade un conector de salida al componente padre y puede mostrar una etiqueta al pasar el cursor por encima.37 * Particle POP: Se utiliza para crear y controlar el movimiento de \"partículas\" en simulaciones de sistemas de partículas. Las partículas son puntos POP con atributos especiales (P, PartVel, PartMass) que son creados por el Particle POP o modificados por bucles de retroalimentación definidos por el usuario. Las partículas pueden ser emitidas a una tasa constante o basándose en un atributo de entrada.6 * Parámetros: Se basa en las características de Feedback POP para la inicialización, inicio/parada, pausa"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ntal:Normalize POP: Ofrece capacidades de manipulación fundamentales sin necesidad de código. Permite crear y modificar atributos de color y textura. Este operador, al igual que otros, genera atributos normalizados. • Experimental:Null POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Out POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Particle POP: Representa una partícula individual como un punto POP. Este operador añade opcionalmente atributos clave para sistemas de partículas como velocidad, dirección, edad, masa y fuerza. Es central para la simulación de partículas en TouchDesigner y genera atributos como PartForce. • Experimental:Pattern POP: Se utiliza para generar patrones para atributos, ofreciendo configuraciones más complejas. Permite crear y modificar atributos de color y textura. • Experimental:Phaser POP: Las fuentes pro"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ntal:Normalize POP: Ofrece capacidades de manipulación fundamentales sin necesidad de código. Permite crear y modificar atributos de color y textura. Este operador, al igual que otros, genera atributos normalizados. • Experimental:Null POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Out POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Particle POP: Representa una partícula individual como un punto POP. Este operador añade opcionalmente atributos clave para sistemas de partículas como velocidad, dirección, edad, masa y fuerza. Es central para la simulación de partículas en TouchDesigner y genera atributos como PartForce. • Experimental:Pattern POP: Se utiliza para generar patrones para atributos, ofreciendo configuraciones más complejas. Permite crear y modificar atributos de color y textura. • Experimental:Phaser POP: Las fuentes"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

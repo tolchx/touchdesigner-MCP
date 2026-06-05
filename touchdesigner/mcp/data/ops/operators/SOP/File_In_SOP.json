@@ -1,0 +1,41 @@
+{
+  "family": "SOP",
+  "pageTitle": "File In SOP",
+  "pageSlug": "File_In_SOP",
+  "url": "https://docs.derivative.ca/File_In_SOP",
+  "tdOpTypeGuess": "fileInSOP",
+  "summary": "[  edit  ]\nThe File In  SOP  allows you to read a geometry file that may have been previously created in the Model Editor, output geometry from a  SOP , or generated from other software such as  Houdini . The geometry file can be read in from disk or from the web. Use http:// when specifying a URL.\nfileinSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Info CHOP Channels\n3.1   Common SOP Info Channels\n3.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "he Index. Un Cache Index de 0 se refiere a los datos del fotograma actual, -1 a los datos anteriores, y así sucesivamente. Los índices fuera de rango se ajustan.32 * Convert POP: Una utilidad general para reestructurar primitivas. Mantiene los puntos de entrada pero reconfigura su conectividad, permitiendo conversiones entre tiras de línea, apertura/cierre de líneas, conversión de quads a triángulos, eliminación de todas las primitivas o creación de primitivas de punto a partir de puntos.33 * File In POP: Lee un archivo y convierte su geometría en un POP en la memoria de la GPU. Soporta varios formatos de archivo.34 * Lookup Attribute POP: Toma un atributo (el Lookup Attribute) con valores en el rango 0-1 y lo utiliza como índice en los atributos de otro POP (la Lookup Curve). Extrae valores interpolados de la Lookup Curve y los genera. Tiene opciones para manejar índices fuera de rango y reescalar valores.35 * Parámetros: Lookup Attribute, Lookup Curve (segunda entrada), Index Type (n"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "r normales de superficie y tangentes. • Experimental:Feedback POP: Es esencial para habilitar sistemas de partículas y para la manipulación general de datos que requieren bucles de retroalimentación. Se utiliza para simular el movimiento de partículas a lo largo del tiempo, convirtiendo la fuerza en velocidad y la velocidad en posición. • Experimental:Field POP: Genera nuevos atributos, a menudo con nombres predeterminados sugeridos. Este operador genera el atributo Weight. • Experimental:File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner. • Experimental:Force POP: Se utiliza para crear o añadir al atributo PartForce (fuerza de partícula). Es fundamental para definir cómo las fuerzas actúan sobre las partículas. • Experimental:GLSL Advanced POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL Copy POP: Permite ejecutar código de compute shader (GLSL) en cada pun"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "* **Características clave:** * Cada punto anima el atributo `Phaser` de 0 a 1 en un ciclo, pero el valor de cada punto aumenta y llega a 1 en **momentos diferentes**. * Si el atributo de entrada tiene múltiples componentes, `Phase` también será multi-componente. * **Uso simple:** Útil para crear efectos de \"onda\" o \"propagación\" a través de un conjunto de puntos, donde la animación no ocurre en todos los puntos al mismo tiempo, sino que se desfasa. * **Point File In POP (POP de Entrada de Archivo de Puntos)** * **Función principal:** Carga **datos de puntos 3D** en los POPs desde archivos individuales o secuencias de archivos. * **Características clave:** * Soporta varios formatos de archivo como **.obj, .ply, .fits, .exr**, y archivos ASCII de puntos como **.xyz, .pts, .csv, .txt**. * Permite asignar campos del archivo (posición XYZ, normales, coordenadas de textura, color RGBA) a los **atributos** de POP. *"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "* **Múltiples campos**: Puedes usar un `Spec POP` (normalmente un Point POP) donde cada punto del `Spec POP` define un campo separado. Los atributos del `Spec POP` se nombran igual que los parámetros del Field POP y los anulan para cada campo, permitiendo definir muchos campos fácilmente. * Puede **eliminar los puntos con un peso de cero** (`Delete Zeros`). * Puedes aplicar **transformaciones** (traslación, rotación, escala, pivote) a la forma del campo. --- #### 25. File In POP * **¿Qué hace?** Este operador se encarga de **leer un archivo de geometría** y convertirlo en un formato de POP que se almacena directamente en la **memoria de la GPU** (tarjeta gráfica). * **Características clave:** * Soporta varios formatos de archivo. * Puedes especificar un **URL** (empezando con `http://`) para archivos accesibles en la red. * Tiene una opción para **voltear las caras de la primitiva** (`Flip Primitive Faces`). * Parámetros `Refresh`"
+    },
+    {
+      "source": "POPs Investigation and Workshop Plan.markdown",
+      "excerpt": "(15 min) - Points, primitives, attributes, groups. #### Part 2: Hands-On Demos (1.5-2 hours) - **Demo 1: Basic POP Workflow** (30 min) - Create a `Point Generator POP`, add `P` and `Color` attributes, render with a `Render TOP`. - **Demo 2: Attribute Manipulation** (30 min) - Use `Math POP` to modify `P`, create a custom attribute, and swizzle components. - **Demo 3: Particles and Point Clouds** (30 min) - Build a simple particle system with `Particle POP` and a point cloud with `Point File In POP`. - **Demo 4: Integration** (30 min) - Combine POPs with a Geometry COMP and export data to a CHOP for external use. #### Part 3: Q&A and Wrap-Up (15-30 minutes) - Address participant questions. - Share resources (e.g., official docs, intro video). ### Materials - TouchDesigner installed (latest version with POPs support). - Sample project files for demos. - Projector for presentations. ### Tips - Highlight GPU benefits with real-time examples. - Encourage experimentation with custom a"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "So, these are sort of some of the low hanging fruit that I think are really cool. I also wanted to show you a sort of a more sort of just experimental network or a couple of experimental networks where I am just trying some different things out to to see what happens. (29:48) And essentially this is just experimenting and mashing pops together. And so what I've got going on here is I'm loading in a point cloud. And what's really really awesome about the new point cloud pop is that we load our file in, we can determine the fields that it has. So in this case I have position and color and what I can also do is I can go into this rearrange and I can select a attribute that I want to rearrange and as we know when we bring in these point clouds we have color that's often scaled between 0 and 255 versus 0 to one which (30:25) is what touch designer is expecting. So by default, if I kind of remove this and just have it at 0 to one, we can see that my point cloud is not colored in any way. So I'd"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

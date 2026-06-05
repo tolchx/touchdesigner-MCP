@@ -1,0 +1,317 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Pipe Out CHOP",
+  "pageSlug": "Pipe_Out_CHOP",
+  "url": "https://docs.derivative.ca/Pipe_Out_CHOP",
+  "tdOpTypeGuess": "pipeOutCHOP",
+  "summary": "[  edit  ]\nThe  Pipe  Out  CHOP  can be used to transmit data out of TouchDesigner to other processes running on a remote machine using a network connection. If the other process is another TouchDesigner process, a  Pipe In CHOP  in that process can be used to receive the data. Multiple PipeIn CHOPs can connect to a PipeOut  CHOP .\nFor more information on how to connect two TouchDesigner processes running on different machines with a  Pipe  In and  Pipe  Out  CHOP , see the  Pipe In CHOP .\nNOTE:  For TouchDesigner-to-TouchDesigner communication of channel data, see the  Touch In CHOP  and  Touch Out CHOP  which offer optimized and  Time Sliced  data transfer.\nTIP:  The  TCP/IP DAT  or  UDP Out DAT  is the preferred way to send script commands and other data packets over the network.\nNOTE for Windows OS - If experiencing connection issues make sure Windows Firewall is disabled.\nSee also  OSC Out CHOP ,  Shared Mem Out CHOP .\npipeoutCHOP_Class\nContents\n1   Summary\n2   Parameters - PipeOut Page\n3   Parameters - Common Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Specific Pipe Out CHOP Info Channels\n5.2   Common CHOP Info Channels\n5.3   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "PipeOut",
+      "label": "Connection Mode",
+      "name": "mode",
+      "description": "⊞  - Set operation as server or client."
+    },
+    {
+      "page": "PipeOut",
+      "label": "Server Address",
+      "name": "address",
+      "description": "The computer name or IP address of the server computer. This address is a standard WWW address, such as ' foo ' or ' foo.bar.com '. You can use an IP address (e.g.  100.123.45.78 ) or the computer's network name can be entered. If you put \" localhost \", it means the other end of the pipe is on the same computer."
+    },
+    {
+      "page": "PipeOut",
+      "label": "Server Port",
+      "name": "port",
+      "description": "The network port to use."
+    },
+    {
+      "page": "PipeOut",
+      "label": "Active",
+      "name": "active",
+      "description": "When Off, data is not sent."
+    },
+    {
+      "page": "PipeOut",
+      "label": "Send Input",
+      "name": "sendinput",
+      "description": "On/off toggle for sending the data connected to the  Pipe  Out  CHOP 's input."
+    },
+    {
+      "page": "PipeOut",
+      "label": "Send Current Sample Only",
+      "name": "sendsingle",
+      "description": "This parameter is only enabled if the  Pipe  Out  CHOP  is not  time sliced  (See Common Page of parameters). If On, it only sends the current frame's sample. If Off, it sends all data between this frame and the last frame TouchDesigner cooked at. The difference arises when TouchDesigner is not cooking 60 frames per second and is skipping frames. If playback skips by 3 animation frames between screen draws, the On case sends only one frame of data, and the Off case sends 3 frames of data (a \" Time Slice \" in TouchDesigner-speak)."
+    },
+    {
+      "page": "PipeOut",
+      "label": "Single  Sample",
+      "name": "sample",
+      "description": "⊞  - In single sample mode, this parameter determines which sample to send; the sample at frame 1 or the current sample."
+    },
+    {
+      "page": "PipeOut",
+      "label": "Send All Data",
+      "name": "upload",
+      "description": "When the button is pressed, sends all the channel names and their data once in one burst."
+    },
+    {
+      "page": "PipeOut",
+      "label": "Script",
+      "name": "script",
+      "description": "Use these parameters to send a one-time textport command through the pipe."
+    },
+    {
+      "page": "PipeOut",
+      "label": "Send  Script",
+      "name": "sendscript",
+      "description": "Use these parameters to send a one-time textport command through the pipe."
+    },
+    {
+      "page": "PipeOut",
+      "label": "Cook  Every  Frame",
+      "name": "cookalways",
+      "description": "Turn this on to make sure this  CHOP  gets processed every frame. Usually CHOPs do not get processed every frame unless they are directly involved with some aspect of the geometry being displayed."
+    },
+    {
+      "page": "PipeOut",
+      "label": "Send Monitor Pulses",
+      "name": "pulse",
+      "description": "Sends pulses (a single null character) once a frame, to monitor the connection. This keeps the connection active, and keeps the  Pipe  In  CHOP  aware of the connection status so it can properly report its state."
+    },
+    {
+      "page": "PipeOut",
+      "label": "Echo Messages to Console",
+      "name": "echo",
+      "description": "Print all outgoing data to the Console which can be opened from the Dialogs menu. See this option in the  Pipe In CHOP  for more details."
+    },
+    {
+      "page": "PipeOut",
+      "label": "Callbacks  DAT",
+      "name": "callbacks",
+      "description": "Path  to a  DAT  containing callback methods for each event sent. See  pipeoutCHOP_Class  for usage."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "Rename from",
+      "name": "commonrenamefrom",
+      "description": "The channel pattern to rename. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Rename to",
+      "name": "commonrenameto",
+      "description": "The replacement pattern for the names. The default parameters do not rename the channels. See  Pattern Replacement ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Names:  c[1",
+      "description": "10:2] ambient"
+    },
+    {
+      "page": "Common",
+      "label": "Rename To:  b[1",
+      "description": "5] amb    This example fetches channels  c1 c3 c5 c7 c9  and  ambient ."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "The term \"Frame\" is a measurement of time used (1) in the  Timeline , (2) as a time",
+      "description": "unit in CHOPs, and (3) as a time unit in movie files that are read into  TOPs  and written out from TOPs. The frame rate is the frames per second ( FPS )."
+    },
+    {
+      "page": "Common",
+      "label": "A set of commands located in a Text DAT that are triggered to run under certain conditions. There are two scripting languages in TouchDesigner:  Python  and the original  Tscript . Scripts and single",
+      "description": "line commands can also be run in the  Textport ."
+    },
+    {
+      "page": "Common",
+      "label": "To re-compute the output data of the  Operators . An operator cooks when (1) its inputs change, (2) its  Parameters  change, (3) when the timeline moves forward in some cases, or (4)  Scripting  commands are run on the node. When the operator is a  Panel Component , it also cooks when a user interacts with it. When an operator cooks, it usually causes operators connected to its output to re-cook. When TouchDesigner draws the screen, it re-cooks all the",
+      "name": "Dependencies",
+      "description": "the necessary operators in all  Networks , contributing to a frame's total \"cook time\"."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

@@ -1,0 +1,256 @@
+{
+  "family": "SOP",
+  "pageTitle": "Clay SOP",
+  "pageSlug": "Clay_SOP",
+  "url": "https://docs.derivative.ca/Clay_SOP",
+  "tdOpTypeGuess": "claySOP",
+  "summary": "[  edit  ]\nThe Clay  SOP  deforms faces and surfaces by pulling points that lie directly on them. As opposed to the Point  SOP  or other SOPs that manipulate control points (CVs), the Clay  SOP  operates on the primitive contours themselves, providing a direct, intuitive, and unconstrained way of reshaping geometry. Thus, rather than translating CVs to change the aspect of the primitive, the Clay  SOP  takes the inverse approach of manipulating the primitive's skin to reposition the CVs.\nThe point that defines the area to be modified is called a \"target point\" or \"target\" for short. It is expressed as a (u,v) pair in the parametric space of the primitive and ranges between 0 and 1 in both U and V. The image of the target point on the primitive is a 3D point which Clay can displace in several ways. Furthermore, if the primitive is a surface, there is are options to pull only the point or a whole isoparametric curve in either U or V.\nClay does not refine the faces and surfaces unless asked to, so the complexity of the geometry does not increase. The area affected by the change varies with each primitive type and topology. In all cases it is possible to reduce to amount of change by inserting a Refine  SOP  before the Clay  SOP  and inserting detail around the target point. For other ways to increase the locality of the deformation as well as its sharpness, see U and V Sharpness below.\nIf a second input is present, it is possible to snap the target (u,v) point to an (s,t) point on the first primitive of the second input. Without a second input, the primitives can be made to snap to themselves. Moreover, the Clay  SOP  is able to snap the target to arbitrary points in space.\nBoth this  SOP  and the Align  SOP  can be used effectively as snapping tools and building blocks for curve networks. The main difference between the two SOPs is that Clay deforms the inputs partially, while Align translates and/or rotates the whole primitive.\nThe Clay  SOP  accepts a mix of any combination of face and surface types.\nclaySOP_Class\nContents\n1   Summary\n2   Parameters - Clay Page\n3   Parameters - U Page\n4   Parameters - V Page\n5   Operator Inputs\n6   Info CHOP Channels\n6.1   Common SOP Info Channels\n6.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Clay",
+      "label": "Group",
+      "name": "group",
+      "description": "If there are input groups, specifying a group name in this field will cause this  SOP  to act only upon the group specified. Accepts patterns, as described in  Pattern Matching  in the [Scripting Guide]."
+    },
+    {
+      "page": "Clay",
+      "label": "Warp Method",
+      "name": "method",
+      "description": "⊞  - The following describe the four types of transformations the Clay  SOP  can apply to the target (U, V) points or isoparametric curves (U or V). All the transformations are exclusive, and all reduce to a signed translation along a direction. The difference between the various transformations is the way the translation and the direction are specified."
+    },
+    {
+      "page": "Clay",
+      "label": "Matrix",
+      "name": "mat",
+      "description": "The matrix method relocates the target point based on a transformation matrix. For a description of transforms, see the  Transform SOP ."
+    },
+    {
+      "page": "Clay",
+      "label": "Vector",
+      "name": "vec",
+      "description": "The vector method provides a distance and a vector to translate along."
+    },
+    {
+      "page": "Clay",
+      "label": "Point",
+      "name": "point",
+      "description": "The point method provides a 3D point in object space that the target point must snap to."
+    },
+    {
+      "page": "Clay",
+      "label": "Primitive",
+      "name": "prim",
+      "description": "The primitive method allows the target point to be snapped to a point on another primitive. Any primitive type is allowed, including metaballs, all quadrics, and even particle systems. The point on the destination primitive is expressed parametrically as a (U, V) pair."
+    },
+    {
+      "page": "Clay",
+      "label": "Transform Order",
+      "name": "xord",
+      "description": "⊞  - Sets the overall transform order for the transformations. The transform order determines the order in which transformations take place. Depending on the order, you can achieve different results using the exact same values. Choose the appropriate order from the menu."
+    },
+    {
+      "page": "Clay",
+      "label": "Rotate Order",
+      "name": "rord",
+      "description": "⊞  - Sets the order of the rotations within the overall transform order."
+    },
+    {
+      "page": "Clay",
+      "label": "Translate",
+      "name": "t",
+      "description": "⊞  - These three fields move the Source geometry in the three axes."
+    },
+    {
+      "page": "Clay",
+      "label": "Rotate",
+      "name": "r",
+      "description": "⊞  - These three fields rotate the Source geometry in the three axes."
+    },
+    {
+      "page": "Clay",
+      "label": "Scale",
+      "name": "s",
+      "description": "⊞  - These three fields scale the Source geometry in the three axes."
+    },
+    {
+      "page": "Clay",
+      "label": "Pivot",
+      "name": "p",
+      "description": "⊞  - The pivot point for the transformations (not the same as the pivot point in the pivot channels). The pivot point parameters allow you to define the point about which geometry scales and rotates. Altering the pivot point produces different results depending on the transformation performed on the object."
+    },
+    {
+      "page": "Clay",
+      "label": "For example, during a scaling operation, if the pivot point of an object is located at:",
+      "description": "1, -1, 0  and you wanted to scale the object by  0.5  (reduce its size by 50%) the object would scale toward the pivot point and appear to slide down and to the left."
+    },
+    {
+      "page": "Clay",
+      "label": "Distance",
+      "name": "dist",
+      "description": "Specifies the translation distance along the given vector."
+    },
+    {
+      "page": "Clay",
+      "label": "Normal",
+      "name": "normal",
+      "description": "When On, the translation will be performed along the primitive normal at the target (U, V) point. Otherwise an explicit direction is required, see Direction parameter below. If the input contains face primitives, the primitive normal is independent of the target (U) point.  Primitive  normals can be displayed from the Display Options dialog."
+    },
+    {
+      "page": "Clay",
+      "label": "Direction",
+      "name": "dir",
+      "description": "⊞  - The direction of the vector is the Normal parameter above is Off."
+    },
+    {
+      "page": "Clay",
+      "label": "Coordinates",
+      "name": "coord",
+      "description": "⊞  - Specifies the absolute 3D location the (U, V) target must translate to."
+    },
+    {
+      "page": "Clay",
+      "label": "U and V",
+      "name": "uvsnap",
+      "description": "⊞  - The primitive method allows the target point to be snapped to a point on another primitive specified by U and V here. See Warp Method parameter for details."
+    },
+    {
+      "page": "U",
+      "label": "Deform along U",
+      "name": "uwarp",
+      "description": "Determines whether the clay operation affects the U parametric direction. Both faces and surfaces respond to this option. If the primitives are face types and the toggle is off, clay doesn't change the inputs at all. If the inputs are surfaces and U is off, clay will pull the surfaces along the entire V direction (if V is on) or not at all."
+    },
+    {
+      "page": "U",
+      "label": "U",
+      "name": "u",
+      "description": "This value defines a point in the parametric space of a face, representing the location to be affected by the clay operation. This location is referred to as the \"target\". For surfaces, U defines a line of constant value in the parametric space of the primitive and requires a second coordinate - V - to specify a unique location (see the V> Page below). Spline faces and surfaces have explicit parametric spaces known as domains; since domains are not restricted to the unit range [0, 1], the Clay  SOP  maps U to the real domain value of the primitive. For polygons and meshes, U is expressed in terms of the number or vertices and columns respectively and in terms of their relative positions."
+    },
+    {
+      "page": "U",
+      "label": "U Bias",
+      "name": "uusebias",
+      "description": "Indicates whether the clay algorithm should use the bias it thinks works best for the given U parameter, or take the value explicitly stated beside the toggle. Since clay affects the CVs in the neighbourhood of the given parametric location, the bias can influence the amount of pull applied to the CVs on either side of this location. The effect is a slant of the \"wave\" the parametric point rides on - towards one side or the other."
+    },
+    {
+      "page": "U",
+      "label": "U Sharpness",
+      "name": "usharp",
+      "description": "This parameter affects only NURBS curves and surfaces. The pull generated by clay on these primitives can be smooth or sharp depending on the position of the target relative to the underlying domain (the farther away from a knot, the rounded the bulge) and the knot multiplicity near the target (the higher the multiplicity the sharper the pull). If the pull is too round or affects too big an area in U, the U Sharpness parameter can reduce it by inserting one or more knots at the target U value. When the U Sharpness is zero no knots are inserted. When the U Sharpness is 1, all \"degree\" knots are inserted and the shape becomes very sharp. The U Sharpness varies in discrete steps; the number of steps equals the U degree of the spline."
+    },
+    {
+      "page": "V",
+      "label": "Deform along V",
+      "name": "vwarp",
+      "description": "Determines whether the clay operation affects the V parametric direction of the surface. If the inputs are surfaces and V if off, clay will pull the surfaces along the entire U direction (if U is on) or not at all. If both U and V are on, clay will pull the surface at the target (U, V) point specified in the U and V folders below. This option does not affect face types."
+    },
+    {
+      "page": "V",
+      "label": "V",
+      "name": "v",
+      "description": "This value affects only surface types. V defines a line of constant value in the parametric space of the surface and together with U specifies a unique location in that space. Spline surfaces have explicit parametric spaces known as domains; since domains are not restricted to the unit range [0, 1], the Clay  SOP  maps V to the real domain value of the surface. For meshes, V is expressed in terms of the number or rows and their relative positions."
+    },
+    {
+      "page": "V",
+      "label": "V Bias",
+      "name": "vusebias",
+      "description": "Indicates whether the clay algorithm should use the bias it thinks works best for the given V parameter, or take the value explicitly stated beside the toggle. Since clay affects the CVs in the neighbourhood of the given parametric location, the bias can influence the amount of pull applied to the CVs on either side of this location. The effect is a slant of the \"wave\" the parametric point rides on -- towards one side or the other."
+    },
+    {
+      "page": "V",
+      "label": "V Sharpness",
+      "name": "vsharp",
+      "description": "This parameter affects only NURBS surfaces. The pull generated by clay on these primitives can be smooth or sharp depending on the position of the target relative to the underlying domain (the farther away from a knot, the rounded the bulge) and the knot multiplicity near the target (the higher the multiplicity the sharper the pull). If the pull is too round or affects too big an area in V, the V Sharpness parameter can reduce it by inserting one or more knots at the target V value. When the V Sharpness is zero no knots are inserted. When the V Sharpness is 1, all \"degree\" knots are inserted and the surface becomes very sharp. The V Sharpness varies in discrete steps; the number of steps equals the V degree of the spline."
+    },
+    {
+      "page": "V",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "V",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "V",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "V",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "V",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "V",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "V",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "V",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "V",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "V",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "V",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "V",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "V",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "V",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "V",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

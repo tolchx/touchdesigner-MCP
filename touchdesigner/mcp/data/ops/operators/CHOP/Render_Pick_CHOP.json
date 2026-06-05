@@ -1,0 +1,495 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Render Pick CHOP",
+  "pageSlug": "Render_Pick_CHOP",
+  "url": "https://docs.derivative.ca/Render_Pick_CHOP",
+  "tdOpTypeGuess": "renderPickCHOP",
+  "summary": "[  edit  ]\nThe Render Pick  CHOP  samples a rendering (from a  Render TOP  or a  Render Pass TOP ) and returns 3D information from the geometry at that particular pick location. Values sampled can include position, normals, point color, texture coordinates, depth and the object's path.\tAn  Info DAT  should be used to retrieve the object's path.\nThe pick location is specified through uv coordinates of the rendering. These uv coordinates can be selected by clicking on a  Panel Component  or explicitly setting them in the U and V parameters in the Render Pick  CHOP .\nAlong with the geometric data returned, this node has two channels 'picked' and 'trigger' that inform the picked status. 'picked' will be 1 when an object has been found at the search location. 'trigger' will be 1 when both an object has been found, and the 'Picking By' condition has been met. That is, either the ' Panel Value ' is 1, or the 'Select' parmeter is 'On.\nSee also the multi-sample  Render Pick DAT .\nrenderpickCHOP_Class\nContents\n1   Summary\n2   Parameters - Render Pick Page\n3   Parameters - Options Page\n4   Parameters - Common Page\n5   Info CHOP Channels\n5.1   Common CHOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "Render Pick",
+      "label": "Strategy",
+      "name": "strategy",
+      "description": "⊞  - Decides when to update values based on pick interactions."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Hold First Picked",
+      "name": "holdfirst",
+      "description": "Holds the values first returned when geometry picked."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Hold Last Picked",
+      "name": "holdlast",
+      "description": "Holds the values last returned when geometry picked. This differs from the Continuous strategy in that it will hold the last values picked on geometry if the pick starts sampling empty space (no geometry in that part of the scene). Alternatively, using the Continuous strategy the values will be cleared to zero if the pick starts sampling empty space."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Clear Previous Pick on New Pick",
+      "name": "clearprev",
+      "description": "This parameter is only enabled when the Strategy is set to Hold Last Picked. When this is on, starting a new pick on empty space will clear the values. When off, the last values will be held if the pick starts on empty space."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Response Time",
+      "name": "responsetime",
+      "description": "⊞  - Determines when the values are updated."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Next  Cook  (Faster)",
+      "name": "nextcook",
+      "description": "The values are captured on the current frame and updated next frame. Results are from the previous frame, but much faster cook times."
+    },
+    {
+      "page": "Render Pick",
+      "label": "This  Cook  (Slower)",
+      "name": "thiscook",
+      "description": "The values are captured and updated in the current frame."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Pick Radius",
+      "name": "pickradius",
+      "description": "Controls the radius of the search area for the pick. If nothing is found at the pick's center it will keep searching for geometry in the search area defined by the Pick Radius."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Pick Radial Step",
+      "name": "pickradstep",
+      "description": "Used to reduce the searching within the search area. The search area is sampled at locations that correspond to 'spokes' outwards from the center pick point."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Pick Circular Step",
+      "name": "pickcirstep",
+      "description": "Used to reduce the searching within the search area. The search area is sampled at locations that correspond to 'rings' outwards from the center pick point."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Render/RenderPass  TOP",
+      "name": "rendertop",
+      "description": "Specifies which render to sample."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Use Pickable Flags",
+      "name": "usepickableflags",
+      "description": "When turned on only geometry whose  Pickable Flag  is on can be selected by the Render Pick  CHOP . The  Pickable Flag  is found on all  Object  components."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Include Non-Pickable Objects",
+      "name": "includenonpickable",
+      "description": "Includes the non-pickable objects in the picking algorithm such that non-pickable objects may occlude pickable objects.  For example, if there is only one pickable object in the scene with lots of additional non-pickable geometry is present, turning this parameter on will prevent the pickable object from being selected if it is behind a non-pickage object (occluded by the non-pickage object)."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Picking by",
+      "name": "pickingby",
+      "description": "⊞  - Determines how the pick location is set."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Panel",
+      "name": "panel",
+      "description": "Uses the  Panel Component  scoped in the   Panel   parameter. The uv position of the mouse on this component's control panel will be the uv position in the render that is sampled. The pick is active when the panel value specified by the   Panel Value   parameter is 1."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Parameters",
+      "name": "parameters",
+      "description": "Uses the  U ,  V , and  Pick  parameters below for picking."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Panel",
+      "name": "panel",
+      "description": "Specifies which panel component to use when picking by panel."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Panel Value",
+      "name": "panelvalue",
+      "description": "Specifies with panel value to use to trigger the pick when picking by panel."
+    },
+    {
+      "page": "Render Pick",
+      "label": "U",
+      "name": "picku",
+      "description": "Sets the u coordinate when picking by parameters."
+    },
+    {
+      "page": "Render Pick",
+      "label": "V",
+      "name": "pickv",
+      "description": "Sets the v coordinate when picking by parameters."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Select",
+      "name": "select",
+      "description": "When picking by parameters, picking is active when this parameter = 1."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Activate Callbacks",
+      "name": "activatecallbacks",
+      "description": "Enables  Callback   DAT  for each pick event."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Callbacks  DAT",
+      "name": "callbacks",
+      "description": "Path  to a  DAT  containing callbacks for pick event received."
+    },
+    {
+      "page": "Options",
+      "label": "Fetch Position",
+      "name": "position",
+      "description": "⊞  - Returns the position of the point picked on the geometry. Channels  tx, ty, tz ."
+    },
+    {
+      "page": "Options",
+      "label": "No",
+      "name": "no",
+      "description": "Do not return position values."
+    },
+    {
+      "page": "Options",
+      "label": "In  SOP  Space",
+      "name": "sopspace",
+      "description": "Return position of point picked in  SOP  transform space."
+    },
+    {
+      "page": "Options",
+      "label": "In World Space",
+      "name": "worldspace",
+      "description": "Return position of point picked in world transform space."
+    },
+    {
+      "page": "Options",
+      "label": "In Camera Space",
+      "name": "cameraspace",
+      "description": "Return position of point picked in camera transform space."
+    },
+    {
+      "page": "Options",
+      "label": "Relative to  Object",
+      "name": "relativetoobj",
+      "description": "Return position of point picked relative to object specified in   Reference   Object   parameter."
+    },
+    {
+      "page": "Options",
+      "label": "Fetch Normal",
+      "name": "normal",
+      "description": "⊞  - Returns the normals of the point picked on the geometry. Channels  nx, ny, nz ."
+    },
+    {
+      "page": "Options",
+      "label": "No",
+      "name": "no",
+      "description": "Do not return normal values."
+    },
+    {
+      "page": "Options",
+      "label": "In  SOP  Space",
+      "name": "sopspace",
+      "description": "Return normals of point picked in  SOP  transform space."
+    },
+    {
+      "page": "Options",
+      "label": "In World Space",
+      "name": "worldspace",
+      "description": "Return normals of point picked in world transform space."
+    },
+    {
+      "page": "Options",
+      "label": "In Camera Space",
+      "name": "cameraspace",
+      "description": "Return normals of point picked in camera transform space."
+    },
+    {
+      "page": "Options",
+      "label": "Relative to  Object",
+      "name": "relativetoobj",
+      "description": "Return normals of point picked relative to object specified in   Reference   Object   parameter."
+    },
+    {
+      "page": "Options",
+      "label": "Reference   Object",
+      "name": "referenceobj",
+      "description": "Object used when fetching position or normals  Relative to  Object  ."
+    },
+    {
+      "page": "Options",
+      "label": "Fetch Point Color",
+      "name": "color",
+      "description": "Returns the point color of the point picked on the geometry. Channels  cr, cg, cb, ca ."
+    },
+    {
+      "page": "Options",
+      "label": "Fetch Texture UV",
+      "name": "uv",
+      "description": "Returns the texture coordinates of the point picked on the geometry. Channels  mapu, mapv, mapw ."
+    },
+    {
+      "page": "Options",
+      "label": "Fetch Object  Path",
+      "name": "path",
+      "description": "Return the path to the object that is picked. This result requires and  Info DAT  with its  Node  Path   parameter referecning the Render Pick  CHOP ."
+    },
+    {
+      "page": "Options",
+      "label": "Fetch Depth",
+      "name": "depth",
+      "description": "Returns the depth of the point picked on the geometry. This value a non-linear ratio of the point's position between the near and far planes of the  Depth Buffer . Channel is  depth ."
+    },
+    {
+      "page": "Options",
+      "label": "Fetch  Instance  ID",
+      "name": "instanceid",
+      "description": "Returns the  Instance  ID of the object. This will always be 0 if instancing is off. Channel is  instance ."
+    },
+    {
+      "page": "Options",
+      "label": "Custom Attrib 1",
+      "name": "customattrib1",
+      "description": "Specify which custom attributes to return from the object."
+    },
+    {
+      "page": "Options",
+      "label": "Custom Attrib 1 Type",
+      "name": "customattrib1type",
+      "description": "The type of attribute is selected from this menu."
+    },
+    {
+      "page": "Options",
+      "label": "Custom Attrib 2",
+      "name": "customattrib2",
+      "description": "Specify which custom attributes to return from the object."
+    },
+    {
+      "page": "Options",
+      "label": "Custom Attrib 2 Type",
+      "name": "customattrib2type",
+      "description": "The type of attribute is selected from this menu."
+    },
+    {
+      "page": "Options",
+      "label": "Custom Attrib 3",
+      "name": "customattrib3",
+      "description": "Specify which custom attributes to return from the object."
+    },
+    {
+      "page": "Options",
+      "label": "Custom Attrib 3 Type",
+      "name": "customattrib3type",
+      "description": "The type of attribute is selected from this menu."
+    },
+    {
+      "page": "Options",
+      "label": "Custom Attrib 4",
+      "name": "customattrib4",
+      "description": "Specify which custom attributes to return from the object."
+    },
+    {
+      "page": "Options",
+      "label": "Custom Attrib 4 Type",
+      "name": "customattrib4type",
+      "description": "The type of attribute is selected from this menu."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "To re-compute the output data of the  Operators . An operator cooks when (1) its inputs change, (2) its  Parameters  change, (3) when the timeline moves forward in some cases, or (4)  Scripting  commands are run on the node. When the operator is a  Panel Component , it also cooks when a user interacts with it. When an operator cooks, it usually causes operators connected to its output to re-cook. When TouchDesigner draws the screen, it re-cooks all the",
+      "name": "Dependencies",
+      "description": "the necessary operators in all  Networks , contributing to a frame's total \"cook time\"."
+    },
+    {
+      "page": "Common",
+      "label": "The sub",
+      "description": "Family  of  Components  that are used to create custom interactive 2D control  panels  (Container, Widget, Text COMP Slider, Button, etc.)."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "The sub",
+      "description": "Family  of  Component  types that are used to define and render 3D scenes. A  Geometry Component  is an Object that contains the 3D shapes to render. A  Camera COMP  and  Light COMP  are other Object types. Separately, \"Objects\" also refers to Python objects."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

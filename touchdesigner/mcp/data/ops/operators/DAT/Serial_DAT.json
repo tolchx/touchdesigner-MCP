@@ -1,0 +1,338 @@
+{
+  "family": "DAT",
+  "pageTitle": "Serial DAT",
+  "pageSlug": "Serial_DAT",
+  "url": "https://docs.derivative.ca/Serial_DAT",
+  "tdOpTypeGuess": "serialDAT",
+  "summary": "[  edit  ]\nThe Serial  DAT  is used for serial communication through an external port, using the RS-232 protocol. These ports are usually a 9 pin connector, or a USB port on new machines.  (Using a USB port requires a USB-to-serial adapter and driver.)\nAll of a computer's available serial ports can be found in the Device Manager in the Windows operating system under Computer –> Manage -> Devices -> Serial… -> COM ports. Their names begin with 'COM'. Example: COM1, COM2, COM3.\nTo send bytes out this connection, see the send methods in the  serialDAT_Class , or in  Tscript  the  send  Command.\nSee also  Arduino  and  Serial CHOP .\nserialDAT_Class\nContents\n1   Summary\n2   Parameters - Connect Page\n3   Parameters - Received Data Page\n4   Parameters - Common Page\n5   Info CHOP Channels\n5.1   Specific Serial DAT Info Channels\n5.2   Common DAT Info Channels\n5.3   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "Connect",
+      "label": "Active",
+      "name": "active",
+      "description": "This check box enables the serial connection."
+    },
+    {
+      "page": "Connect",
+      "label": "Row/ Callback  Format",
+      "name": "format",
+      "description": "⊞  - Interpret the incoming data as binary or ASCII data. If the format is Per Byte, one row is appended for each binary byte received. If the format is Per Line, one row is appended for each null or newline delimited message received."
+    },
+    {
+      "page": "Connect",
+      "label": "One Per Byte",
+      "name": "perbyte",
+      "description": "(formerly called 'binary')."
+    },
+    {
+      "page": "Connect",
+      "label": "One Per Line",
+      "name": "perline",
+      "description": "(formerly called 'Ascii') null/newln delimited."
+    },
+    {
+      "page": "Connect",
+      "label": "One Per Message",
+      "name": "permessage",
+      "description": "Full incoming msg."
+    },
+    {
+      "page": "Connect",
+      "label": "Port",
+      "name": "port",
+      "description": "Selects the COM port that the serial connection will use.  Default port names 1 through 8 are available in the popup menu, though any name can be manually entered in this field."
+    },
+    {
+      "page": "Connect",
+      "label": "Baud Rate",
+      "name": "baudrate",
+      "description": "⊞  - The maximum number of bits of information, including \"control\" bits, that are transmitted per second. Check your input device's default baud rate and set accordingly."
+    },
+    {
+      "page": "Connect",
+      "label": "Data Bits",
+      "name": "databits",
+      "description": "⊞  - This parameter sets the number of data bits sent in each. Data bits are transmitted \"backwards\". Backwards refers to the order of transmission, which is from least significant bit (LSB) to most significant bit (MSB). To interpret the data bits, you must read from right to left."
+    },
+    {
+      "page": "Connect",
+      "label": "Parity",
+      "name": "parity",
+      "description": "⊞  - This parameter can be set to none, even, or odd. The optional parity bit follows the data bits and is included as a simple means of error checking. Parity bits work by specifying ahead of time whether the parity of the transmission is to be even or odd. If the parity is set to be odd, the transmitter will then set the parity bit in such a way as to make an odd number of 1's among the data bits and the parity bit."
+    },
+    {
+      "page": "Connect",
+      "label": "Stop Bits",
+      "name": "stopbits",
+      "description": "⊞  - The last part of transmission packet consists of 1 or 2 Stop bits. The connection will now wait for the next Start bit."
+    },
+    {
+      "page": "Connect",
+      "label": "DTR",
+      "name": "dtr",
+      "description": "⊞  - The DTR (data-terminal-ready) flow control. (Windows Only)."
+    },
+    {
+      "page": "Connect",
+      "label": "Disable",
+      "name": "disable",
+      "description": "Disables the line when device is opened."
+    },
+    {
+      "page": "Connect",
+      "label": "Enable",
+      "name": "enable",
+      "description": "Enables the line when device is opened."
+    },
+    {
+      "page": "Connect",
+      "label": "Handshake",
+      "name": "handshake",
+      "description": "Enables handshaking with the device."
+    },
+    {
+      "page": "Connect",
+      "label": "RTS",
+      "name": "rts",
+      "description": "⊞  - The RTS (request-to-send) flow control. (Windows Only)."
+    },
+    {
+      "page": "Connect",
+      "label": "Disable",
+      "name": "disable",
+      "description": "Disables the line when device is opened."
+    },
+    {
+      "page": "Connect",
+      "label": "Enable",
+      "name": "enable",
+      "description": "Enables the line when device is opened."
+    },
+    {
+      "page": "Connect",
+      "label": "Handshake",
+      "name": "handshake",
+      "description": "Enables RTS handshaking."
+    },
+    {
+      "page": "Connect",
+      "label": "Toggle",
+      "name": "toggle",
+      "description": "Line high only when bytes available."
+    },
+    {
+      "page": "Received Data",
+      "label": "Callbacks  DAT",
+      "name": "callbacks",
+      "description": "The Callbacks  DAT  will execute once for each message received."
+    },
+    {
+      "page": "Received Data",
+      "label": "Execute from",
+      "name": "executeloc",
+      "description": "⊞  - Determines the location the script is run from."
+    },
+    {
+      "page": "Received Data",
+      "label": "Current  Node",
+      "name": "current",
+      "description": "The script is executed from the current node location."
+    },
+    {
+      "page": "Received Data",
+      "label": "Callbacks  DAT",
+      "name": "callbacks",
+      "description": "The script is executed from the location of the  DAT  specified in the  Callbacks  DAT   parameter."
+    },
+    {
+      "page": "Received Data",
+      "label": "Specified  Operator",
+      "name": "op",
+      "description": "The script is executed from the component specified in the   Component   parameter below."
+    },
+    {
+      "page": "Received Data",
+      "label": "From  Operator",
+      "name": "fromop",
+      "description": "The path that the script will be executed from if the Execute From parameter is set to Specified  Operator ."
+    },
+    {
+      "page": "Received Data",
+      "label": "Clamp Output",
+      "name": "clamp",
+      "description": "The  DAT  is limited to 100 messages by default but with Clamp Output, this can be set to anything including unlimited."
+    },
+    {
+      "page": "Received Data",
+      "label": "Maximum Lines",
+      "name": "maxlines",
+      "description": "Limits the number of messages, older messages are removed from the list first."
+    },
+    {
+      "page": "Received Data",
+      "label": "Clear Output",
+      "name": "clear",
+      "description": "Deletes all lines except the heading. To clear with a script command, here is an example:  opparm -c /serial1 clear"
+    },
+    {
+      "page": "Received Data",
+      "label": "Bytes Column",
+      "name": "bytes",
+      "description": "Outputs the raw bytes of the message in a separate column."
+    },
+    {
+      "page": "Common",
+      "label": "Language",
+      "name": "language",
+      "description": "⊞  - Select how the  DAT  decides which script language to operate on."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Node",
+      "name": "node",
+      "description": "The  DAT  uses it's own script language."
+    },
+    {
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "name": "extension",
+      "description": "⊞  - Select the file extension this  DAT  should expose to external editors."
+    },
+    {
+      "page": "Common",
+      "label": "dat",
+      "name": "dat",
+      "description": "various common file extensions."
+    },
+    {
+      "page": "Common",
+      "label": "From Language",
+      "name": "language",
+      "description": "pick extension from DATs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "custom",
+      "description": "Specify a custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specifiy the custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Word Wrap",
+      "name": "wordwrap",
+      "description": "⊞  - Enable Word Wrap for Node Display."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs setting."
+    },
+    {
+      "page": "Common",
+      "label": "On",
+      "name": "on",
+      "description": "Turn on Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Off",
+      "name": "off",
+      "description": "Turn off Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "num_rows",
+      "description": "Number of rows in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "num_cols",
+      "description": "Number of columns in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "Art",
+      "description": "Net    •   Audio Devices    •   CHOP Execute    •   CHOP to    •   Clip    •   Convert    •   CPlusPlus    •   DAT   •    Execute    •   DAT Export   •   Error    •   EtherDream    •   Evaluate    •   Examine    •   Execute    •   FIFO    •   File In    •   File Out    •   Folder    •   In    •   Indices    •   Info    •   Insert    •   JSON    •   Keyboard In    •   Lookup    •   Media File Info    •   Merge    •   MIDI Event    •   MIDI In    •   Monitors    •   MPCDI    •   MQTT Client    •   Multi Touch In    •   NDI    •   Null    •   OP Execute    •   OP Find    •   OSC In    •   OSC Out    •   Out    •   Panel Execute    •   Parameter    •   Parameter Execute    •   ParGroup Execute    •   Perform    •   POP to    •   Render Pick    •   Reorder    •   Script    •   Select    •   Serial    •   Serial Devices    •   SocketIO    •   SOP to    •   Sort    •   Substitute    •   Switch    •   Table    •   TCP/IP    •   Text    •   Touch In    •   Touch Out    •   Transpose    •   TUIO In    •   UDP In    •   UDP Out    •   UDT In    •   UDT Out    •   Video Devices    •   Web Client    •   Web    •   Web Server    •   WebRTC    •   WebSocket    •   XML"
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner's original built",
+      "description": "in Command scripting language prior to  Python ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "se encarga de **enviar los universos DMX** generados por otros POPs (como el DMX Fixture POP) a dispositivos externos a través de diferentes protocolos como DMX, Art-Net, sACN, KiNET o FTDI. * **Características clave:** * **Fusiona los universos DMX** de todas sus entradas DMX Fixture POP. Si hay conflictos (varios DMX Fixture POPs intentan escribir en el mismo canal), emitirá una advertencia. * **Interfaz (`Interface`)**: Permite seleccionar el tipo de conexión al dispositivo (serial, Art-Net, sACN, KiNET, etc.). * **Velocidad (`Rate`)**: Controla la frecuencia con la que se envían los datos (DMX512 tiene un máximo de 44Hz). * Puedes especificar una **Tabla de Enrutamiento (Routing Table)** desde un DAT para definir direcciones de red personalizadas para cada universo DMX512. * Soporta **Multicast** para sACN, que automáticamente construye la dirección IP para enviar a múltiples dispositivos. * Puedes especificar una **dirección de red** específi"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

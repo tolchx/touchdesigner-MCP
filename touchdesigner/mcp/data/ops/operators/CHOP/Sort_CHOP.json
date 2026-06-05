@@ -1,0 +1,265 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Sort CHOP",
+  "pageSlug": "Sort_CHOP",
+  "url": "https://docs.derivative.ca/Sort_CHOP",
+  "tdOpTypeGuess": "sortCHOP",
+  "summary": "[  edit  ]\nThe Sort  CHOP  re-orders the inputs channels samples by value or by random. Specifying a channel to be sorted will reorder all channels samples according to the new order. This node does not change the order of the channels relative to each other. To sort the channels relative to each other use a  Reorder CHOP .\nAdditionally an index channel can be created which holds the former sample index before sorting.\nsortCHOP_Class\nContents\n1   Summary\n2   Parameters - Sort Page\n3   Parameters - Common Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common CHOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Sort",
+      "label": "Sorting Method",
+      "name": "method",
+      "description": "⊞  - There are three different sorting methods.  CHOP  samples can be reordered by increasing values, decreasing values or in random order."
+    },
+    {
+      "page": "Sort",
+      "label": "Seed",
+      "name": "seed",
+      "description": "Any number, integer or non-integer, which starts the random number generator. Each number gives completely different noise patterns, but with similar characteristics."
+    },
+    {
+      "page": "Sort",
+      "label": "Select Type",
+      "name": "select",
+      "description": "⊞  - Specify if the channels to be sorted will be specified by index or name."
+    },
+    {
+      "page": "Sort",
+      "label": "Channel Indices",
+      "name": "indices",
+      "description": "Specify the index of the channel to be sorted. All not specified channels will reorder their samples according to the specified channels new sample order. If left empty, all channels will be sorted."
+    },
+    {
+      "page": "Sort",
+      "label": "Channel Names",
+      "name": "names",
+      "description": "Specify the name of the channel to be sorted. All not specified channels will reorder their samples according to the specified channels new sample order. If left empty, all channels will be sorted."
+    },
+    {
+      "page": "Sort",
+      "label": "Index  Channel",
+      "name": "indexchannel",
+      "description": "Enable to output an index channel which holds the former samples location before sorting."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "Rename from",
+      "name": "commonrenamefrom",
+      "description": "The channel pattern to rename. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Rename to",
+      "name": "commonrenameto",
+      "description": "The replacement pattern for the names. The default parameters do not rename the channels. See  Pattern Replacement ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Names:  c[1",
+      "description": "10:2] ambient"
+    },
+    {
+      "page": "Common",
+      "label": "Rename To:  b[1",
+      "description": "5] amb    This example fetches channels  c1 c3 c5 c7 c9  and  ambient ."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "d POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de pa"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "porcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Skin Deform POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Skin POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:SOP to POP: Permite la conversión de datos de la familia SOPs (Surface Operators) a datos de POPs. • Experimental:Sort POP: Implementa algoritmos de ordenación muy rápidos que pueden organizar los puntos basándose en el valor de cualquier componente de un atributo. • Experimental:Sphere POP: Un operador generador que crea una geometría esférica. • Experimental:Sprinkle POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Subdivide POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este o"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "tamente) convirtiéndolos a \"line strips\", triangulándolos, o ignorándolos. * Las mallas SOP se pueden convertir en `quads`, \"line strips\" o primitivas de punto. * Las primitivas SOP como esferas, Bézier o NURBS se convierten **solo en puntos** en los POPs. * **Uso simple:** Para llevar geometrías estáticas o animadas (pero no basadas en partículas) creadas con SOPs al entorno de POPs para aplicar simulaciones de partículas u otros efectos basados en puntos. * **Sort POP (POP de Ordenamiento)** * **Función principal:** Ordena la lista de **puntos** y/o la lista de **primitivas** basándose en la posición (`P`) o cualquier componente de atributo. * **Características clave:** * Puede ordenar puntos en relación con un vector, la proximidad a un punto, o el eje Z de un componente de Geometría (`Geometry COMP`). * Permite **aleatorizar el orden** o **desplazar** (circularmente) el orden de los puntos. * Realiza las m"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "is going to look kind of familiar to us. Let's see. Let's just do one more thing just so we can see. In terms of how we process these generators, we have a bunch of things that we also might be used to like we have noise and twist, but also some things that we are potentially less used to like one of my favorite things that I think is going to solve a lot of problems for people, which is this little thing called proximity. (02:13) And what proximity allows us to do is essentially create these sort of plexus effects. And and maybe this would be more interesting if I popped a noise in here. I'm going to turn up that value and I'm going to animate it. So now we have a really simple inbuilt way of making a plexus model. And what's actually happening here is kind of the power of POPS. (02:43) And this is what I'm going to show you and expand upon. So what we can see here, and let's bring that out into a bigger view, is we have all this data and all the attributes from these objects. And so w"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

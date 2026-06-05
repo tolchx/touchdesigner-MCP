@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Histogram POP",
+  "pageSlug": "Histogram_POP",
+  "url": "https://docs.derivative.ca/Histogram_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "histogramPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "opy POP: Realiza copias de la geometría de entrada y aplica código GLSL personalizado a cada copia. Similar a Copy POP, puede usar un parámetro de \"número de copias\" o un POP de plantilla para la colocación. Un compute shader se ejecuta para cada tipo de elemento (puntos, vértices, primitivas) de una copia.19 * GLSL Select POP: Se utiliza para seleccionar y generar atributos de múltiples entradas POP, particularmente aquellos modificados por las \"Extra Outputs\" de GLSL Advanced POP.20 * Histogram POP: Toma un atributo de un solo componente (por ejemplo, P(1)) de su entrada y crea una distribución de frecuencia. Genera un nuevo POP con un número especificado de puntos (bins) y un atributo \"Count\", que indica cuántos valores de entrada caen en cada bin. Puede manejar valores fuera del rango definido.21 * Parámetros: Attribute Class, Input Attribute, Use Input Range, Input Range, Output Bin Value, Quantize (Floor, Round, Ceiling), Outside Range (Clamp, Discard, Extra Out-of-Range Bins),"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "opy POP: Realiza copias de la geometría de entrada y aplica código GLSL personalizado a cada copia. Similar a Copy POP, puede usar un parámetro de \"número de copias\" o un POP de plantilla para la colocación. Un compute shader se ejecuta para cada tipo de elemento (puntos, vértices, primitivas) de una copia.19 * GLSL Select POP: Se utiliza para seleccionar y generar atributos de múltiples entradas POP, particularmente aquellos modificados por las \"Extra Outputs\" de GLSL Advanced POP.20 * Histogram POP: Toma un atributo de un solo componente (por ejemplo, P(1)) de su entrada y crea una distribución de frecuencia. Genera un nuevo POP con un número especificado de puntos (bins) y un atributo \"Count\", que indica cuántos valores de entrada caen en cada bin. Puede manejar valores fuera del rango definido.21 * Parámetros: Attribute Class, Input Attribute, Use Input Range, Input Range, Output Bin Value, Quantize (Floor, Round, Ceiling), Outside Range (Clamp, Discard, Extra Out-of-Range Bi"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "opy POP: Realiza copias de la geometría de entrada y aplica código GLSL personalizado a cada copia. Similar a Copy POP, puede usar un parámetro de \"número de copias\" o un POP de plantilla para la colocación. Un compute shader se ejecuta para cada tipo de elemento (puntos, vértices, primitivas) de una copia.19 * GLSL Select POP: Se utiliza para seleccionar y generar atributos de múltiples entradas POP, particularmente aquellos modificados por las \"Extra Outputs\" de GLSL Advanced POP.20 * Histogram POP: Toma un atributo de un solo componente (por ejemplo, P(1)) de su entrada y crea una distribución de frecuencia. Genera un nuevo POP con un número especificado de puntos (bins) y un atributo \"Count\", que indica cuántos valores de entrada caen en cada bin. Puede manejar valores fuera del rango definido.21 * Parámetros: Attribute Class, Input Attribute, Use Input Range, Input Range, Output Bin Value, Quantize (Floor, Round, Ceiling), Outside Range (Clamp, Discard, Extra Out-of-Range Bins),"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "roporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Grid POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Group POP: Se usa para crear grupos de puntos, vértices o primitivas. Puedes usar estos grupos para afectar solo ciertas partes de tu geometría con otros operadores, como el Transform POP. También puede convertir un grupo en un atributo. • Experimental:Histogram POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Import Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:In POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Limit POP: Este POP proporciona capacidades de manipulación fundamentales sin necesidad de escribir"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "roporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Grid POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Group POP: Se usa para crear grupos de puntos, vértices o primitivas. Puedes usar estos grupos para afectar solo ciertas partes de tu geometría con otros operadores, como el Transform POP. También puede convertir un grupo en un atributo. • Experimental:Histogram POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Import Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:In POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Limit POP: Este POP proporciona capacidades de manipulación fundamentales sin necesidad de escr"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "roporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Grid POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Group POP: Se usa para crear grupos de puntos, vértices o primitivas. Puedes usar estos grupos para afectar solo ciertas partes de tu geometría con otros operadores, como el Transform POP. También puede convertir un grupo en un atributo. • Experimental:Histogram POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Import Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:In POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Limit POP: Este POP proporciona capacidades de manipulación fundamentales sin necesidad de escribir"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

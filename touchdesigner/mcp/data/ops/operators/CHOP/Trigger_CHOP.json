@@ -1,0 +1,425 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Trigger CHOP",
+  "pageSlug": "Trigger_CHOP",
+  "url": "https://docs.derivative.ca/Trigger_CHOP",
+  "tdOpTypeGuess": "triggerCHOP",
+  "summary": "[  edit  ]\nThe Trigger  CHOP  starts an audio-style attack/decay/sustain/release (ADSR) envelope to all trigger pulses in the input channels. A trigger point occurs whenever the first input's channel increases across the trigger threshold value. Most commonly, an ADSR starts when the input goes from 0 to 1.\nNote : To get a channel with the full waveform, turn off the  Time Slice  parameter on the Common page, and don't connect an input.\nThe envelope consists of six major sections: delay, attack, peak, decay, sustain and release.\nFrom the time the threshold is reached and while the channel's value is above the release threshold, the envelope is in its sustain phase during which it will delay, attack, peak-hold, decay and then maintain its sustain value.\nAfter the inputs drops below the release threshold, the envelope start its release phase and will drop to 0.\nThe peak and sustain levels can be set independently, but peak value can never be less than sustain.\nThis  CHOP  works with both time-sliced inputs or with static input channels.\nFor jittery inputs, if you don't want it to trigger until its input has been On for some period, see the  OP Snippets  for the Trigger  CHOP , example \"trigger after a time threshold\", which uses the Count  CHOP .\nNote : See examples in OP  Snippets .\nSee also:  Timer CHOP ,  Count CHOP ,  Speed CHOP ,  Event CHOP\ntriggerCHOP_Class\nContents\n1   Summary\n2   Parameters - Trigger Page\n3   Parameters - Attack Page\n4   Parameters - Sustain Page\n5   Parameters - Chan Page\n6   Parameters - Common Page\n7   Operator Inputs\n8   Info CHOP Channels\n8.1   Common CHOP Info Channels\n8.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Trigger",
+      "label": "Release = Trigger Threshold",
+      "name": "threshold",
+      "description": "If on, the trigger and release thresholds are the same value."
+    },
+    {
+      "page": "Trigger",
+      "label": "Trigger Threshold",
+      "name": "threshup",
+      "description": "The trigger threshold (see above)."
+    },
+    {
+      "page": "Trigger",
+      "label": "Release Threshold",
+      "name": "threshdown",
+      "description": "The release threshold (see above)."
+    },
+    {
+      "page": "Trigger",
+      "label": "Re-Trigger Delay",
+      "name": "retrigger",
+      "description": "⊞  - The amount of time after a trigger point that a new trigger may occur."
+    },
+    {
+      "page": "Trigger",
+      "label": "Min Trigger Length",
+      "name": "mintrigger",
+      "description": "⊞  - The minimum amount of time that the trigger will remain active."
+    },
+    {
+      "page": "Trigger",
+      "label": "Trigger On",
+      "name": "triggeron",
+      "description": "⊞  - Determines whether a trigger occurs on an increasing slope or decreasing slope when passing the trigger threshold. A release will occur on the opposite slope."
+    },
+    {
+      "page": "Trigger",
+      "label": "Multi Trigger",
+      "name": "multitrigger",
+      "description": "⊞  - When triggering mulitple envelopes, add their values together."
+    },
+    {
+      "page": "Trigger",
+      "label": "Clamp at Peak Level",
+      "name": "clamppeak",
+      "description": "Clamp the additive effect of Multi-Triggers Additive at the level set in Peak Level parameter."
+    },
+    {
+      "page": "Trigger",
+      "label": "Complete Envelope",
+      "name": "complete",
+      "description": "If on, a complete envelope is produced for each trigger point. If off, the envelope may be terminated at any time by a release point."
+    },
+    {
+      "page": "Trigger",
+      "label": "Remainder",
+      "name": "remainder",
+      "description": "⊞  - See Remainder Options. What to do with remaining samples at end of the interval:"
+    },
+    {
+      "page": "Trigger",
+      "label": "Discard Remainder",
+      "name": "crop",
+      "description": "Output interval = input interval."
+    },
+    {
+      "page": "Trigger",
+      "label": "Make Output Longer",
+      "name": "extend",
+      "description": "Output longer if envelope unfinished."
+    },
+    {
+      "page": "Trigger",
+      "label": "Mix Remainder with Beginning",
+      "name": "mix",
+      "description": "Add remainder to samples at the start."
+    },
+    {
+      "page": "Trigger",
+      "label": "Trigger",
+      "name": "trigger",
+      "description": "Instantly trigger an envelope (regardless of input)."
+    },
+    {
+      "page": "Trigger",
+      "label": "Release",
+      "name": "release",
+      "description": "Instantly release an envelope (regardless of input)."
+    },
+    {
+      "page": "Trigger",
+      "label": "Reset",
+      "name": "reset",
+      "description": "When On, resets the envelope, and matches the output to the input."
+    },
+    {
+      "page": "Trigger",
+      "label": "Reset  Pulse",
+      "name": "resetpulse",
+      "description": "Instantly resets the envelope."
+    },
+    {
+      "page": "Attack",
+      "label": "Delay Length",
+      "name": "delay",
+      "description": "⊞  - The amount of time to delay the envelope after the trigger point."
+    },
+    {
+      "page": "Attack",
+      "label": "Attack Length",
+      "name": "attack",
+      "description": "⊞  - The amount of rise time from zero to the peak level."
+    },
+    {
+      "page": "Attack",
+      "label": "Attack Shape",
+      "name": "ashape",
+      "description": "⊞  - The shape of the attack ramp."
+    },
+    {
+      "page": "Attack",
+      "label": "Peak Level",
+      "name": "peak",
+      "description": "The peak level it will rise to in the attack phase."
+    },
+    {
+      "page": "Attack",
+      "label": "Peak Length",
+      "name": "peaklen",
+      "description": "⊞  - The length of time of the peak is held before going into the decay phase."
+    },
+    {
+      "page": "Sustain",
+      "label": "Decay Length",
+      "name": "decay",
+      "description": "⊞  - The amount of decay time from the peak level to the sustain level."
+    },
+    {
+      "page": "Sustain",
+      "label": "Decay Shape",
+      "name": "dshape",
+      "description": "⊞  - The shape of the decay ramp."
+    },
+    {
+      "page": "Sustain",
+      "label": "Sustain Level",
+      "name": "sustain",
+      "description": "The sustain level. This level is held until a release point is reached (the input goes below the threshold)."
+    },
+    {
+      "page": "Sustain",
+      "label": "Min Sustain Length",
+      "name": "minsustain",
+      "description": "⊞  - Set a minimum amount of time for sustain. When set to 0, sustain is simply held for as long as the input is held, but when setting a minimum time here the evelope will always include a sustain for the specified time."
+    },
+    {
+      "page": "Sustain",
+      "label": "Release Length",
+      "name": "release",
+      "description": "⊞  - The amount of release time from the sustain level to zero."
+    },
+    {
+      "page": "Sustain",
+      "label": "Release Shape",
+      "name": "rshape",
+      "description": "⊞  - The shape of the release ramp."
+    },
+    {
+      "page": "Chan",
+      "label": "Channel Name",
+      "name": "channame",
+      "description": "Name of channels output."
+    },
+    {
+      "page": "Chan",
+      "label": "Specify Rate",
+      "name": "specifyrate",
+      "description": "Allows you to specify the sample rate in the   Sample Rate   parameter below."
+    },
+    {
+      "page": "Chan",
+      "label": "Enable Remap Length",
+      "name": "enableremaplength",
+      "description": "Enables remapping of the total envelope to a specific length. Note that ‘held sustain’ length is not remapped, only Delay, Attack, Peak, and Release lengths are remapped."
+    },
+    {
+      "page": "Chan",
+      "label": "Remap Length",
+      "name": "remaplength",
+      "description": "⊞  - Sets the total envelope remapped length."
+    },
+    {
+      "page": "Chan",
+      "label": "Sample Rate",
+      "name": "rate",
+      "description": "Sets the sample rate of the output. Only used when  Specify Rate  is turned on."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "Rename from",
+      "name": "commonrenamefrom",
+      "description": "The channel pattern to rename. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Rename to",
+      "name": "commonrenameto",
+      "description": "The replacement pattern for the names. The default parameters do not rename the channels. See  Pattern Replacement ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Names:  c[1",
+      "description": "10:2] ambient"
+    },
+    {
+      "page": "Common",
+      "label": "Rename To:  b[1",
+      "description": "5] amb    This example fetches channels  c1 c3 c5 c7 c9  and  ambient ."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "OP Snippets   is a set of 700+ live examples of TouchDesigner operators. You can access snippets via the Help menu, or by right",
+      "description": "clicking on network operators, or r-clicking on OP Create dialog items."
+    },
+    {
+      "page": "Common",
+      "label": "To \"pulse\" a parameter is to send it a signal from (1) an  exported  CHOP channel or (2) a python command or (3) a mouse click that causes a new action to occur immediately. A pulse via python is via the  .pulse()  function on a pulse",
+      "description": "type parameter, such as Reset parameter in a  Speed CHOP . A pulse from a CHOP is typically a 0 to 1 to 0 signal in an exported channel."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "And so, this is life plus life ink. So, whatever the starting life value is, it's going to add to that by this increment every frame until we hit our maximum life. And then in this life reset, we are going to reset that. So, we have a few sorry, in this life mix, we're going to skip ahead. (11:11) We have our noise here, which is basically what's driving that movement. And our life mix is really what helps us set between the maximum life where we then reset. So basically it's it's our kind of trigger to tell when a particle is allowed to be moving and when it sort of resets at its original position. I have a couple of things here. (11:34) So I've got my maximum life value. This is the number we're stepping towards. And I have this zero value which actually should be called one value because this is basically a static value I'm using to invert. Um if id known a little bit better about how to do this stuff when I made this network, I would have created an attribute earlier down the chain whi"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

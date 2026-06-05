@@ -1,0 +1,41 @@
+{
+  "family": "SOP",
+  "pageTitle": "Line SOP",
+  "pageSlug": "Line_SOP",
+  "url": "https://docs.derivative.ca/Line_SOP",
+  "tdOpTypeGuess": "lineSOP",
+  "summary": "[  edit  ]\nThe Line  SOP  creates straight lines.\nlineSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Info CHOP Channels\n3.1   Common SOP Info Channels\n3.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "tes, a menudo están limitados por la CPU, lo que restringe el rendimiento para geometrías de muy alta densidad o simulaciones complejas. Los POPs abordan este cuello de botella al aprovechar la GPU, permitiendo la manipulación en tiempo real de millones de puntos.6 Esto tiene un impacto directo en la escala y complejidad de las instalaciones interactivas, las simulaciones de partículas y el arte generativo que se pueden lograr en TouchDesigner. Esta orientación hacia operaciones nativas de GPU alinea a TouchDesigner con los modernos pipelines de gráficos en tiempo real, donde el procesamiento de datos se descarga a la GPU para una máxima eficiencia. Esto sugiere una dirección estratégica por parte de Derivative para mejorar el rendimiento en experiencias visuales a gran escala y de alta fidelidad, empujando los límites de lo que es posible en el rendimiento en vivo y los medios interactivos. 1.2 Conceptos Centrales: Puntos, Vértices, Primitivas y Atributos en POPs En su esencia,"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "eva familia de operadores en TouchDesigner diseñada para crear y modificar datos de geometría 3D. Su principal ventaja es que se ejecutan en las tarjetas gráficas (GPU), lo que les permite ser muy rápidos debido al alto paralelismo de la GPU y optimizar el uso de memoria, ya que solo se crean los atributos que cambian. Los datos en POPs siempre comienzan como puntos con atributos. A partir de estos puntos, puedes trabajar con sistemas de partículas, nubes de puntos, polígonos, líneas, curvas spline y cualquier forma de datos geométricos 3D. Cada POP se compone de tres elementos principales: • Una lista de puntos: Son los elementos fundamentales de cualquier forma 3D. Cada punto tiene atributos, siendo el más común la Posición (P) en el espacio 3D. Otros atributos comunes incluyen Color (Color) y Normal (N) (un vector de dirección). También puedes definir tus propios atributos. • Una lista de vértices: Cada primitiva tiene una lista de vértices. Un vértice es un índice que apunta a un"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "a y elimina partículas**, pero puedes controlar su nacimiento (emisión) y muerte. * Permite extender la simulación inyectando fuerzas, límites espaciales o colisiones a través del mecanismo de feedback. * **Uso simple:** Fundamental para crear efectos como humo, fuego, polvo, lluvia, o cualquier sistema que implique muchos elementos pequeños y en movimiento. * **Pattern POP (POP de Patrones)** * **Función principal:** Es un **generador** que crea formas simples de \"line strips\" (tiras de líneas conectadas) usando funciones matemáticas básicas (seno, coseno, ondas cuadradas, etc.) en las coordenadas X, Y y Z. * **Características clave:** * Puede generar el atributo de **posición (`P`)** y, opcionalmente, las **coordenadas de textura (`Tex`)** al mismo tiempo. * También puede **añadir o modificar atributos** existentes en un POP de entrada. * Los parámetros controlan la `Phase` (fase), `Repeats` (repeticiones) y `Re-rangin"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "e hacen que el cubo se vea \"facetado\" o plano), o **normales de punto** (que hacen que las esquinas se vean suaves). * Ofrece esquinas opcionalmente **redondeadas** con control sobre el radio y la cantidad de subdivisiones. * Puede crear **coordenadas de textura** (para aplicar imágenes) de diferentes maneras: por cara, o un \"mapa de cubo\" que se envuelve en todas las caras. * Puedes aplicar **colores de punto** o **vértice**. * Los parámetros **Anchor** te permiten alinear un lado de la caja a X=0, Y=0 o Z=0. * Puedes **trasladar y rotar** la caja después de su creación. --- #### 8. Cache Blend POP * **¿Qué hace?** Este operador se conecta a un Cache POP y te permite **mezclar diferentes conjuntos de datos guardados en caché** por ese Cache POP. * **Características clave:** * Requiere una referencia a un **Cache POP** como fuente de datos. * La mezcla se realiza **por cada punto individualmente**, lo que significa que el resulta"
+    },
+    {
+      "source": "POPs Investigation and Workshop Plan.markdown",
+      "excerpt": "- **Significance**: POPs replace SOPs with GPU acceleration, memory optimization, and integration with modern workflows (e.g., USD, FBX). ## 2. Core Components ### Points - Every POP contains a set of points with attributes. - **Key Attribute**: `P` (Position), a 3D vector (float3) defining a point’s location. - **Other Attributes**: Include `Color` (float4: red, green, blue, alpha), `Normal (N)` (float3), and user-defined attributes. ### Primitives - **Types**: - **Point**: 1 point. - **Line**: 2 points. - **Line Strip**: Multiple points (open or closed). - **Triangle**: 3 points. - **Quad**: 4 points. - Primitives are defined by vertices (indices into the point list) and can have their own attributes. ### Attributes - **Types**: Scalars (e.g., `Weight`), vectors (e.g., `P`), matrices, or arrays (e.g., `float4[5]`). - **Data Types**: Float (32-bit), double (64-bit), integer (32-bit), unsigned integer (32-bit). - **Creation**: Generated via POPs like `Attribute POP` or on-the"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "not. They're static in this feed of data and that means that when I need to reset it's going to move back. (04:50) We can see here I have this do reset and reset parameter. And we can see that it's cycling from zero to one. So when this do reset hits one, it's going to reset that particle. And then I need a secondary way of kind of resetting that back. This is maybe a little bit convoluted, but um this is kind of my first pass at doing this in pops. (05:12) And this is going to get more streamlined as I go. we have this life max parameter which is kind of being fed by this random where I take every value of my points and I'm essentially creating a random value for each and we can use these sliders to offset how random that is. So, if I go all the way down and restart that, we can see that this is basically resetting really, really quickly. (05:39) But I could go up and have a potential reset of like four, which means that the particle potentially could get to a further distance before r"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

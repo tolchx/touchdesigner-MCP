@@ -1,0 +1,340 @@
+{
+  "family": "SOP",
+  "pageTitle": "Basis SOP",
+  "pageSlug": "Basis_SOP",
+  "url": "https://docs.derivative.ca/Basis_SOP",
+  "tdOpTypeGuess": "basisSOP",
+  "summary": "[  edit  ]\nThe Basis  SOP  provides a set of operations applicable to the parametric space of spline curves and surfaces. The parametric space, also known as the \"domain\" of a NURBS or Bzier primitive, is defined by one basis in the U direction and, if the primitive is a surface, another basis in the V direction. The size of the domain is given by the values of the knots that make up the basis.\nThe Basis  SOP  contains both ratio-preserving and non ratio-preserving operations.\nIf the basis reparameterization does not change the distance ratios between knots, the shape of a NURBS primitive is not affected. If the ratios are not preserved, however, a NURBS primitive will change shape in the area influenced by the modified knots; furthermore, if the primitive is a NURBS or Bzier surface, any profiles it may contain will be affected as well.\nFor more information about bases and knots see Breakpoints, Knots, and Spline Basis in the  Primitive  and  Spline  articles.\nbasisSOP_Class\nContents\n1   Summary\n2   Parameters - Basis Page\n3   Parameters - U Page\n4   Parameters - V Page\n5   Operator Inputs\n6   Info CHOP Channels\n6.1   Common SOP Info Channels\n6.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Basis",
+      "label": "Group",
+      "name": "group",
+      "description": "Group  of spline primitives (accepts patterns, as described in: Scripting Guide). Non-spline types are ignored."
+    },
+    {
+      "page": "U",
+      "label": "Edit the U Basis",
+      "name": "ubasis",
+      "description": "Enable editing of the U Basis."
+    },
+    {
+      "page": "U",
+      "label": "Parameterization",
+      "name": "uparmtype",
+      "description": "⊞  - Select the method of parameterization in u from the options below."
+    },
+    {
+      "page": "U",
+      "label": "Unchanged",
+      "name": "nochange",
+      "description": "Does not change the basis."
+    },
+    {
+      "page": "U",
+      "label": "Uniform",
+      "name": "uniform",
+      "description": "Distributes all the knots evenly, maintaining the basis origin and length. Recommended only for regular shapes."
+    },
+    {
+      "page": "U",
+      "label": "Chord Length",
+      "name": "chord",
+      "description": "Computes the knot ratios based on the distances between successive CVs. This is the most common and most effective parameterization method."
+    },
+    {
+      "page": "U",
+      "label": "Centripetal",
+      "name": "centripetal",
+      "description": "Similar to the chord length method. Recommended for shapes containing sharp turns."
+    },
+    {
+      "page": "U",
+      "label": "Manual: Single",
+      "name": "manualone",
+      "description": "Loads the basis with the knots listed in the \"Knot Sequence\" below. If the  SOP  input contains several primitives, only the basis of the first spline primitive will be affected."
+    },
+    {
+      "page": "U",
+      "label": "Manual: Propagated",
+      "name": "manualall",
+      "description": "Same as above + it copies the basis to the basis of all the other spline primitives in the model or in the group. Using this feature on curves that have the point count and degree will generate cleaner surfaces, i.e. surfaces with fewer isoparms."
+    },
+    {
+      "page": "U",
+      "label": "Knotslide",
+      "name": "slide",
+      "description": "Shift clusters of knots within the basis. See  Knotslide  (From  Paramaterization Menu ) for discussion."
+    },
+    {
+      "page": "U",
+      "label": "Knot Sequence",
+      "name": "uknots",
+      "description": "The basis of the first spline primitive in the input loads its knot sequence with the data specified in this field when the  Parameterization  is set to  Manual . The values must be in ascending order, and their total count must match the number of knots in the basis. To ensure an exact count, click on the  Read Basis  button to read the original knot sequence into this field."
+    },
+    {
+      "page": "U",
+      "label": "Read Basis",
+      "name": "uread",
+      "description": "Loads the original knots of the basis into the  Knot Sequence  field when the  Parameterization  type is  Manual ."
+    },
+    {
+      "page": "U",
+      "label": "Range",
+      "name": "urange",
+      "description": "⊞  - Range specifies the domain interval to be shifted. All the knots captured in this range are shifted by the same amount as far as the closest neighbouring knot on either side."
+    },
+    {
+      "page": "U",
+      "label": "Bias",
+      "name": "ubias",
+      "description": "Bias indicates the direction and the amount of translation. A  Bias  of 0.5 does not displace the knots at all. As the  Bias  decreases, the knot cluster migrates closer to its left-neighbouring knot. A  Bias  greater than 0.5 forces a migration to the right."
+    },
+    {
+      "page": "U",
+      "label": "Concatenate",
+      "name": "uconcat",
+      "description": "Indicates whether the bases of the input spline primitives should be concatenated such that the last knot of the first primitive coincides with the first knot of the second primitive, and so on. This operation is performed before the ones below it, thus allowing a whole set of bases to be mapped onto a given interval (usually [0,1]) while enforcing basis continuity."
+    },
+    {
+      "page": "U",
+      "label": "Origin",
+      "name": "udoorigin",
+      "description": "Enables the Origin parameter."
+    },
+    {
+      "page": "U",
+      "label": "Origin",
+      "name": "uorigin",
+      "description": "The new origin of the basis, or the origin of the cummulated bases if  Concatenation  is  On ."
+    },
+    {
+      "page": "U",
+      "label": "Length",
+      "name": "udolength",
+      "description": "Enables the Length parameter."
+    },
+    {
+      "page": "U",
+      "label": "Length",
+      "name": "ulength",
+      "description": "The new length of the basis, or the total length of the cummulated bases if  Concatenation  is  On . The  Length , which represents the distance between the first and last knot, must be greater than zero."
+    },
+    {
+      "page": "U",
+      "label": "Scale",
+      "name": "udoscale",
+      "description": "Enables the Scale parameter."
+    },
+    {
+      "page": "U",
+      "label": "Scale",
+      "name": "uscale",
+      "description": "The multiplier applied to the basis starting at the basis origin. The  Scale  must be greater than zero."
+    },
+    {
+      "page": "U",
+      "label": "Raise to",
+      "name": "uraise",
+      "description": "Enables the Raise to parameter."
+    },
+    {
+      "page": "U",
+      "label": "Raise U to",
+      "name": "orderu",
+      "description": "The only operation here is raising the order (or degree) of the spline basis. Valid orders range from 2 to 11. Orders lower than the current spline order are ignored. The operation preserves the shape of the primitive."
+    },
+    {
+      "page": "U",
+      "label": "Production Tip:  Before applying a spline",
+      "description": "based texture projection with the Texture  SOP , remap the U and/or V bases of the spline surface between 0 and 1 to ensure a complete mapping of the texture. If a single texture map must be shared by several surfaces, the surface bases should be concatenated prior to being remapped."
+    },
+    {
+      "page": "V",
+      "label": "Edit the V Basis",
+      "name": "vbasis",
+      "description": "Enable editing of the V Basis."
+    },
+    {
+      "page": "V",
+      "label": "Parameterization",
+      "name": "vparmtype",
+      "description": "⊞  - Select the method of parameterization in v from the options below."
+    },
+    {
+      "page": "V",
+      "label": "Knot Sequence",
+      "name": "vknots",
+      "description": "The basis of the first spline primitive in the input loads its knot sequence with the data specified in this field when the  Parameterization  is set to  Manual . The values must be in ascending order, and their total count must match the number of knots in the basis. To ensure an exact count, click on the  Read Basis  button to read the original knot sequence into this field."
+    },
+    {
+      "page": "V",
+      "label": "Read Basis",
+      "name": "vread",
+      "description": "Loads the original knots of the basis into the  Knot Sequence  field when the  Parameterization  type is  Manual"
+    },
+    {
+      "page": "V",
+      "label": "Range",
+      "name": "vrange",
+      "description": "⊞  - Range specifies the domain interval to be shifted. All the knots captured in this range are shifted by the same amount as far as the closest neighbouring knot on either side."
+    },
+    {
+      "page": "V",
+      "label": "Bias",
+      "name": "vbias",
+      "description": "Bias indicates the direction and the amount of translation. A  Bias  of 0.5 does not displace the knots at all. As the  Bias  decreases, the knot cluster migrates closer to its left-neighbouring knot. A  Bias  greater than 0.5 forces a migration to the right."
+    },
+    {
+      "page": "V",
+      "label": "Concatenate",
+      "name": "vconcat",
+      "description": "Indicates whether the bases of the input spline primitives should be concatenated such that the last knot of the first primitive coincides with the first knot of the second primitive, and so on. This operation is performed before the ones below it, thus allowing a whole set of bases to be mapped onto a given interval (usually [0,1]) while enforcing basis continuity."
+    },
+    {
+      "page": "V",
+      "label": "Origin",
+      "name": "vdoorigin",
+      "description": "Enables the Origin parameter."
+    },
+    {
+      "page": "V",
+      "label": "Origin",
+      "name": "vorigin",
+      "description": "The new origin of the basis, or the origin of the cummulated bases if  Concatenation  is  On ."
+    },
+    {
+      "page": "V",
+      "label": "Length",
+      "name": "vdolength",
+      "description": "Enables the Length parameter."
+    },
+    {
+      "page": "V",
+      "label": "Length",
+      "name": "vlength",
+      "description": "The new length of the basis, or the total length of the cummulated bases if  Concatenation  is  On . The  Length , which represents the distance between the first and last knot, must be greater than zero."
+    },
+    {
+      "page": "V",
+      "label": "Scale",
+      "name": "vdoscale",
+      "description": "Enables the Scale parameter."
+    },
+    {
+      "page": "V",
+      "label": "Scale",
+      "name": "vscale",
+      "description": "The multiplier applied to the basis starting at the basis origin. The  Scale  must be greater than zero."
+    },
+    {
+      "page": "V",
+      "label": "Raise to",
+      "name": "vraise",
+      "description": "Enables the Raise to parameter."
+    },
+    {
+      "page": "V",
+      "label": "Raise V to",
+      "name": "orderv",
+      "description": "The only operation here is raising the order (or degree) of the spline basis. Valid orders range from 2 to 11. Orders lower than the current spline order are ignored. The operation preserves the shape of the primitive."
+    },
+    {
+      "page": "V",
+      "label": "Production Tip:  Before applying a spline",
+      "description": "based texture projection with the Texture  SOP , remap the U and/or V bases of the spline surface between 0 and 1 to ensure a complete mapping of the texture. If a single texture map must be shared by several surfaces, the surface bases should be concatenated prior to being remapped."
+    },
+    {
+      "page": "V",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "V",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "V",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "V",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "V",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "V",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "V",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "V",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "V",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "V",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "V",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "V",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "V",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "V",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "V",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "iewer`. --- #### 35. Import Select POP * **¿Qué hace?** Este operador es fundamental para **cargar geometrías de archivos externos** o de otros componentes de TouchDesigner como USD COMP y FBX COMP. Es una puerta de entrada para traer modelos 3D y otros tipos de geometría a tu entorno POP. * **Características clave:** * Puede cargar varios tipos de geometría soportados por USD COMP o FBX COMP, como **Mallas (`Mesh`), Puntos (`Points`), Curvas o Patches NURBS, Curvas de Base (`Basis Curves`)**. * Cada geometría importada puede ser una primitiva única o un conjunto de primitivas fusionadas para un mejor rendimiento. * Si los tipos de geometría no son compatibles directamente con POPs, se **convierten automáticamente a triángulos, quads, line strips y primitivas de punto**. * Cuando se fusionan geometrías, se crea un operador `Info DAT` junto a este POP, que muestra las rutas originales de las primitivas dentro del archivo importado. * Tiene sus *"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

@@ -1,0 +1,322 @@
+{
+  "family": "SOP",
+  "pageTitle": "Project SOP",
+  "pageSlug": "Project_SOP",
+  "url": "https://docs.derivative.ca/Project_SOP",
+  "tdOpTypeGuess": "projectSOP",
+  "summary": "[  edit  ]\nThe Project  SOP  creates curves on surface (also known as trim or profile curves) by projecting a 3D face onto a spline surface, much like a light casts a 2D shadow onto a 3D surface. There are two projection methods: along a vector, or by mapping the face directly onto the parametric space of the surface.\nYou will usually need a  Trim SOP ,  Bridge SOP , or  Profile SOP  after a Project  SOP . For example, in the case of a Trim  SOP  we might have:\nUse a Trim  SOP  to cut a hole in the projected surface (as shown above).\nUse a Bridge  SOP  to skin the profile curve to another profile curve.\nUse a Profile  SOP  to extract the curve on surface or remap its position.\nIf you end up with a profile curve that is not visible, it may still exist. Confirm a profile curve's existence by clicking on the  SOP 's info pop-up (using middle-mouse button).\nAdditional Operations for Profile Curves\nTo delete a projected curve, use a  Delete SOP , and enter the profile number (e.g. 1.4 returns the fifth profile on the second primitive (counting starts at 0) ). You can visualise the number of the profiles by enabling the Profile Number icon in the Viewport Display options.\nYou can group the profile curves with a  Group SOP . Do this by typing the profile numbers in the Pattern field. You can use all regular expressions.\nYou can apply parametric affine transformations to the profile by using a  Primitive SOP . You can also use the  Primitive   SOP  to open, close, reverse, and cycle the profile curves.\nNote:  When applying transformations to a profile in the  Primitive   SOP , you can only rotate about the Z axis because the projected curve is a planar curve that lives in the domain of the surface. Therefore it wouldn't make any sense to allow rotations in X or Y for profiles.\nprojectSOP_Class\nContents\n1   Summary\n1.1   Additional Operations for Profile Curves\n2   Parameters -  Page\n3   Parameters - Method Page\n4   Tips\n4.1   NURBS Scalp Patch for Hair\n5   Example\n6   Operator Inputs\n7   Info CHOP Channels\n7.1   Common SOP Info Channels\n7.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Method",
+      "label": "Method",
+      "name": "method",
+      "description": "⊞  - Select between projecting along a vector or parametrically using the parameters below."
+    },
+    {
+      "page": "Method",
+      "label": "Along Vector",
+      "name": "vector",
+      "description": "The face is projected along a 3D vector and its image on the surface is converted into a curve on the surface. One spatial curve may generate several profiles depending on its position relative to the surface, the shape of the surface, and the chosen projection side. If the projected face does not intersect the surface at all, no profile curve will be generated."
+    },
+    {
+      "page": "Method",
+      "label": "Parametrically",
+      "name": "parametric",
+      "description": "The spatial size of the faces is mapped directly onto the domain of the spline surface. The resulting projection is sensitive to the parameterization of the surface and is likely to appear distorted. It is, however, the fastest of the two projection types and tends to behave well on surfaces with regular shapes and chord-length parameterizations."
+    },
+    {
+      "page": "Method",
+      "label": "Axis",
+      "name": "axis",
+      "description": "⊞  - The axis along which the four corners of the feature are projected onto the base. When adding the feature from the outside as a Vector paste."
+    },
+    {
+      "page": "Method",
+      "label": "X",
+      "name": "xaxis",
+      "description": "Cartesian axis X, Y, or Z."
+    },
+    {
+      "page": "Method",
+      "label": "Y",
+      "name": "yaxis",
+      "description": "Cartesian axis X, Y, or Z."
+    },
+    {
+      "page": "Method",
+      "label": "Z",
+      "name": "zaxis",
+      "description": "Cartesian axis X, Y, or Z."
+    },
+    {
+      "page": "Method",
+      "label": "Face Normal",
+      "name": "fnorm",
+      "description": "Projection axis occurs along each face's normal. Thus, each face could potentially have a different projection direction than the others. The option also works well for non-planar faces."
+    },
+    {
+      "page": "Method",
+      "label": "Minimum Distance",
+      "name": "mindist",
+      "description": "Projects the entire 3D face along the vectors of minimum distance to the surface. The projection resolution is given by the  Divisions per Span  value."
+    },
+    {
+      "page": "Method",
+      "label": "User Defined:",
+      "name": "other",
+      "description": "Enables the Vector fields immediately below to specify the X, Y, and Z components of the vector."
+    },
+    {
+      "page": "Method",
+      "label": "Vector",
+      "name": "vector",
+      "description": "⊞  - The X, Y, and Z components of the projection vector if none of the main axes is chosen in the Axis parameter above."
+    },
+    {
+      "page": "Method",
+      "label": "Side",
+      "name": "projside",
+      "description": "⊞  - Select which sides of the geometry to project on, closest or farthest."
+    },
+    {
+      "page": "Method",
+      "label": "Closest",
+      "name": "closest",
+      "description": "Will project the face onto the closest part of the surface in either direction of projection vector. For example, if a curve being projected onto a tube is inside the tube, it will yield two profiles, one on each side of the tube; if the curve is outside the tube, it will project onto the side closest to it."
+    },
+    {
+      "page": "Method",
+      "label": "Farthest",
+      "name": "farthest",
+      "description": "The reverse of Closest. In the example above, Farthest would also yield two images if the curve is inside the tube, but it will choose the farthest side if the curve is outside the tube."
+    },
+    {
+      "page": "Method",
+      "label": "Divisions per Span",
+      "name": "sdivs",
+      "description": "The number of points to be computed on the spatial face between successive spans. A span is the line connecting two consecutive CVs on a polygon, or the arc between two breakpoints on a spline curve. The projection tends to become more accurate as the number of divisions increases."
+    },
+    {
+      "page": "Method",
+      "label": "Ray Tolerance",
+      "name": "rtolerance",
+      "description": "Controls the precision of the ray intersection with the surface. The ray is cast along the projection vector from every point of the 3-D curve."
+    },
+    {
+      "page": "Method",
+      "label": "Fit Tolerance",
+      "name": "ftolerance",
+      "description": "Controls the 2-D fitting precision and is typically less than 0.01."
+    },
+    {
+      "page": "Method",
+      "label": "Max UV Gap (%)",
+      "name": "uvgap",
+      "description": "This specifies what percentage of the size of the surface domain is acceptable for two separate profiles to be joined into a single curve."
+    },
+    {
+      "page": "Method",
+      "label": "Order",
+      "name": "order",
+      "description": "The spline order of the resulting profile curve. The type of curve (Bzier or NURBS) is inherited from the spatial curve. The order, however, is not inherited because the spline order provides useful control over the quality of the fit. If the spatial face is a polygon, the profile will be a NURBS curve."
+    },
+    {
+      "page": "Method",
+      "label": "Preserve Sharp Corners",
+      "name": "csharp",
+      "description": "Controls the precision with which sharp corners in the projection curve are interpolated. It should be on when the projection has areas of high changes in curvature."
+    },
+    {
+      "page": "Method",
+      "label": "Super Accurate Projection",
+      "name": "accurate",
+      "description": "Use a very accurate yet expensive algebraic pruning algorithm to determine the intersection of the vector with the surface."
+    },
+    {
+      "page": "Method",
+      "label": "U from",
+      "name": "ufrom",
+      "description": "⊞  - Specifies which of the spatial coordinates - X, Y, or Z - must be mapped to the U parametric direction of the surface."
+    },
+    {
+      "page": "Method",
+      "label": "V from",
+      "name": "vfrom",
+      "description": "⊞  - Specifies which of the spatial coordinates - X, Y, or Z - must be mapped to the V parametric direction of the surface."
+    },
+    {
+      "page": "Method",
+      "label": "Map Profile to Range:",
+      "name": "userange",
+      "description": "This option is on by default. It causes the profile to be scaled and translated to fit within the surface's domain ranges described below. If this option is off, the profile's coordinates are mapped onto the surface domain without any transformation; consequently, the profile will not be visible if its points are not inside the domain of the target surface."
+    },
+    {
+      "page": "Method",
+      "label": "The extraction and re",
+      "description": "projection tandem can be very useful in achieving the modeling goals currently attainable only with 3D curves. Such tasks include the ability to edit the points of a profile, joining, stitching, or filleting profiles together, carving or refining profiles, etc. By extracting a profile parametrically to XY, Touch creates a 3D face that is identical to the 2D profile but has an additional (constant) Z component."
+    },
+    {
+      "page": "Method",
+      "label": "U Range",
+      "name": "urange",
+      "description": "⊞  - Indicates in percentages what part of the U surface domain is the mapping area. A full range of 0-1 will cause the profiles to be mapped to the entire domain in the U parametric direction. The range is not restricted to the 0-1 interval."
+    },
+    {
+      "page": "Method",
+      "label": "V Range",
+      "name": "vrange",
+      "description": "⊞  - Indicates in percentages what part of the V surface domain is the mapping area. A full range of 0-1 will cause the profiles to be mapped to the entire domain in the V parametric direction. The range is not restricted to the 0-1 interval."
+    },
+    {
+      "page": "Method",
+      "label": "Mapping Type",
+      "name": "maptype",
+      "description": "⊞  - Select how to reposition and scale an existing profile to fit within the specified domain range."
+    },
+    {
+      "page": "Method",
+      "label": "Uniform",
+      "name": "unif",
+      "description": "Mapping converts the spatial coordinates of the projection faces to (U,V) points in the domain of the surface without taking into account the parameterization of the surface."
+    },
+    {
+      "page": "Method",
+      "label": "Chord Length",
+      "name": "chordlen",
+      "description": "Mapping takes into account the surface parameterization and attempts to compute a projection best suited to the spatial and parametric determinants of the model."
+    },
+    {
+      "page": "Method",
+      "label": "Place a  Circle SOP",
+      "description": "Type:  NURBS , Radius:  0.3, 0.3 ; then place a  Tube SOP  - Type:  NURBS ."
+    },
+    {
+      "page": "Method",
+      "label": "Connect them into a Project",
+      "name": "SOP",
+      "description": "Circle to Input1; Tube to Input2."
+    },
+    {
+      "page": "Method",
+      "label": "Append a  Trim SOP  to the Project",
+      "name": "SOP",
+      "description": "it trims the surface according to the projection provided by the Project  SOP . You need to append a Trim  SOP  to a Project  SOP  in order to realise this trimming action."
+    },
+    {
+      "page": "Method",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Method",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Method",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Method",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Method",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Method",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Method",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Method",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Method",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Method",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Method",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Method",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Method",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Method",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Method",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "02-gemma4-ollama.md",
+      "excerpt": "ca que: - El cliente lee `LLM_PROVIDER=ollama` y `OLLAMA_MODEL`. - Se hace una llamada a `/api/chat`. - Se acepta una respuesta JSON. ## Uso con TouchDesigner (CLI) Ejecuta comandos en lenguaje natural y rutea a una herramienta: ```powershell $env:TDAPI_PORT=\"44444\" $env:LLM_PROVIDER=\"ollama\" $env:OLLAMA_MODEL=\"gemma4:e4b\" node .\\mcp\\dist\\chat.js \"Lista los operadores en /\" ``` Para ejecutar Python directo (sin LLM): ```powershell $env:TDAPI_PORT=\"44444\" node .\\mcp\\dist\\chat.js --py \"op('/project1').create('null', 'ok')\" ``` ## Recomendaciones para Gemma (robustez) - Preferir prompts con salida JSON estricta (sin markdown). - Ajustar reintentos con: - `LLM_RETRY_MAX` - `LLM_RETRY_BASE_MS` - `LLM_RETRY_MAX_MS` - Usar `OLLAMA_MODELS` para fallback si un modelo produce JSON inválido."
+    },
+    {
+      "source": "05-skills-curriculum.md",
+      "excerpt": "# Skills especializados (currícula) Skills agregados/propuestos en `touchdesigner/skills/`: - `td-fundamentals`: fundamentos y convenciones reproducibles. - `td-project-architecture`: arquitectura de proyectos complejos y contratos. - `td-performance`: presupuestos y profiling. - `td-pops-advanced`: POPs avanzados + consulta técnica con `td_pops_query`. - `td-integration`: integración POP↔SOP/TOP/CHOP/DAT y render/instancing. - `td-robust-systems`: idempotencia, validación y reportes. ## Estructura recomendada por skill - Objetivo - Herramientas disponibles - Reglas / checklist - Plantilla de respuesta - Validaciones y pruebas (smoke tests)"
+    },
+    {
+      "source": "06-master-prompts.md",
+      "excerpt": "# Prompts maestros (catálogo) Los prompts se almacenan como Markdown con frontmatter YAML en: - `prompts/master/*.md` ## Campos mínimos recomendados - `id`, `title` - `project_type`: particulas | efectos_visuales | generativos | interactivos - `complexity`: basico | intermedio | avanzado | experto - `application`: instalaciones | performances | visualizacion_datos - `touchdesigner_min_version` - `hardware` (GPU/VRAM mínimo cuando aplique) - `performance` (fps objetivo y presupuesto por frame) - `validation[]` (criterios verificables) ## Convenciones de salida Todo prompt maestro debe pedir explícitamente: - Script Python para `td_execute` (idempotente). - Validaci"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "os: Neighbors Type (By Distance, Connected), Max Neighbors Distance, Max Neighbors, Output (Neighbors, Average, Inverse Distance Weighted Average), Neighbor Attrib Name, Num Neighbors Attrib Name, Add Distance Attribute, Neighbor Point Attributes.24 * Phaser POP: Similar a Phaser CHOP, realiza una interpolación de animación escalonada (con desfase temporal) en un atributo POP. Genera un nuevo atributo \"Phaser\" donde cada punto anima de 0 a 1 en un ciclo, pero en diferentes momentos.25 * Projection POP: Transforma un atributo espacial 3D de tipo float3 (como P) entre diferentes sistemas de coordenadas (Cartesiano, Esférico, Cilíndrico, Espacio de Pantalla, Coordenadas de Dispositivo Normalizadas). Permite especificar los sistemas de coordenadas de entrada y salida y las unidades angulares.26 * Proximity POP: Conecta puntos a puntos cercanos dentro de una distancia mínima/máxima especificada, creando \"primitivas de línea\" de 2 puntos. Puede limitar el número de líneas por punto y ge"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador más allá de su listado. • Experimental:Polygonize POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Primitive POP: Puede eliminar las primitivas de un POP, dejando solo los puntos. También permite crear tiras de línea. Si lo deseas, puedes usarlo para crear primitivas en su pestaña correspondiente. • Experimental:Projection POP: Permite crear y modificar atributos de color y textura. Al igual que el Normalize POP, genera atributos normalizados. • Experimental:Proximity POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Quantize POP: Proporciona opciones para cuantizar valores, como redondear hacia abajo (Floor), redondear al entero más cercano (Round) o redondear hacia arriba (Ceiling). • Experimental:Random POP: Permite crear y m"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "ype`): **Triangles, Quads, Lines, Line Strip, Point Primitives**. * Los vértices de las primitivas pueden especificarse **manualmente** o generarse mediante patrones numéricos. * Tiene opciones para **eliminar puntos no utilizados** o convertirlos en primitivas de punto (`Post` page). * **Uso simple:** Cuando necesitas un control muy preciso sobre cómo se conectan tus puntos para formar superficies o líneas, o para reconstruir la topología de una geometría. * **Projection POP (POP de Proyección)** * **Función principal:** Transforma un atributo espacial 3D (como la posición `P`) entre **diferentes sistemas de coordenadas**: cartesiano, esférico, cilíndrico y de perspectiva. * **Características clave:** * Puedes especificar cómo se interpretan los 3 números de la entrada (`From Coordinate System`) y en qué formato quieres la salida (`To Coordinate System`). * Soporta ángulos en **grados, radianes o ciclos**, o en un **format"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

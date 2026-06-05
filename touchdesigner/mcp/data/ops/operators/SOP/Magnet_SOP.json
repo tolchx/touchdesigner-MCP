@@ -1,0 +1,166 @@
+{
+  "family": "SOP",
+  "pageTitle": "Magnet SOP",
+  "pageSlug": "Magnet_SOP",
+  "url": "https://docs.derivative.ca/Magnet_SOP",
+  "tdOpTypeGuess": "magnetSOP",
+  "summary": "[  edit  ]\nThe Magnet  SOP  allows you to affect deformations of the input geometry with another object using a \"magnetic field\" of influence, defined by a metaball field. It allows the creation of animated bumps and dents within objects, and other special effects.\nIt is important to note that the actual deformation comes from the  Translate  parameters of the Magnet  SOP , and not from the metaball. The metaball defines the area of effect for the  Translate  parameters of the Magnet  SOP . The weight of the metaball determines the effectiveness of the  Translate  within the Magnet  SOP .\nThe power of the magnet is greatest at the centre of a metaball field and diminishes to nothing at the edge of the field.\nmagnetSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Parameters - Deform Page\n4   Parameters - Attributes Page\n5   Operator Inputs\n6   Info CHOP Channels\n6.1   Common SOP Info Channels\n6.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Deform",
+      "label": "Transform Order",
+      "name": "xord",
+      "description": "⊞  - Sets the overall transform order for the transformations. The transform order determines the order in which transformations take place. Depending on the order, you can achieve different results using the exact same values. Choose the appropriate order from the menu."
+    },
+    {
+      "page": "Deform",
+      "label": "Rotate Order",
+      "name": "rord",
+      "description": "⊞  - Sets the order of the rotations within the overall transform order."
+    },
+    {
+      "page": "Deform",
+      "label": "Translate",
+      "name": "t",
+      "description": "⊞  - These three fields move the Source geometry in the three axes. The Translates of the metaball only affect the position of the area of influence. The influence itself is provided by an imaginary magnet within the Magnet  SOP  itself, and the attitude of this influence is determined by the Translates of the Magnet  SOP ."
+    },
+    {
+      "page": "Deform",
+      "label": "Rotate",
+      "name": "r",
+      "description": "⊞  - These three fields rotate the Source geometry in the three axes."
+    },
+    {
+      "page": "Deform",
+      "label": "Scale",
+      "name": "s",
+      "description": "⊞  - These three fields scale the input geometry in the three axes."
+    },
+    {
+      "page": "Deform",
+      "label": "Pivot",
+      "name": "p",
+      "description": "⊞  - The pivot point for the transformations. Not the same as the pivot point in the pivot channels."
+    },
+    {
+      "page": "Attributes",
+      "label": "Affect Position",
+      "name": "position",
+      "description": "Allow the magnet to affect the position of the input geometry. This is enabled by default."
+    },
+    {
+      "page": "Attributes",
+      "label": "Affect Point Color",
+      "name": "color",
+      "description": "Allow the magnet to affect the point color of the input geometry."
+    },
+    {
+      "page": "Attributes",
+      "label": "Tip:  To control the contribution of each magnet on the surface's Point Color when the  Affect Point Color  option is enabled, set your point colors to black (0,0,0) before the Magnet  SOP  by using a  Point SOP . The Translate fields in the Magnet  SOP  will then add per",
+      "description": "point rgb color with values of 2,2,2 approaching white."
+    },
+    {
+      "page": "Attributes",
+      "label": "Affect Point Normal",
+      "name": "nml",
+      "description": "Allow the magnet to affect the point normals of the input geometry."
+    },
+    {
+      "page": "Attributes",
+      "label": "Affect Point Velocity",
+      "name": "velocity",
+      "description": "Allow the magnet to affect the velocity of the input geometry."
+    },
+    {
+      "page": "Attributes",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Attributes",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Attributes",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Attributes",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Attributes",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Attributes",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Attributes",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Attributes",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Attributes",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Attributes",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Attributes",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Attributes",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Attributes",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Attributes",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Attributes",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}
