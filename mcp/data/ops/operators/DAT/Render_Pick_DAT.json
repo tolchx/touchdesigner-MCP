@@ -1,0 +1,440 @@
+{
+  "family": "DAT",
+  "pageTitle": "Render Pick DAT",
+  "pageSlug": "Render_Pick_DAT",
+  "url": "https://docs.derivative.ca/Render_Pick_DAT",
+  "tdOpTypeGuess": "renderPickDAT",
+  "summary": "[  edit  ]\nThe Render Pick  DAT  lets you get information about the 3D surface at any pixel of any 3D render, allowing you to implement multi-touch on a 3D rendered scene. It samples a rendering (from a  Render TOP  or a  Render Pass TOP ) and returns 3D information from the geometry at the specified pick locations.\nYou feed it a  DAT  with minimum three columns:  select ,  u  and  v . A  Multi Touch In DAT  is usually connected to the Render Pick  DAT , where the Multi Touch In  DAT  points to a container that is displaying the output of the Render  TOP .\nYou can pick from multiple cameras simultaneously. You can specify a  camera  which allows the pick to occur from the point of a view other than the first camera listed in the  Render TOP . The value in the column can either be a path (relative to the Render Pick  DAT , or absolute) to a Camera  COMP , or it can be an integer index, started at 0. If it's an index it will select the camera to use if there are multiple cameras listed in the  Render TOP , or if there are cameras listed in the 'Custom Pick Camera(s)' parameter. This is useful for various  Multi-Camera Rendering  setups, and cases such as VR where your picking isn't coming from the point of view of your eye cameras, but instead hand controllers.\nThe pick location is a u,v (horizontal, vertical) coordinate placed in the table that you connect to the Render Pick  DAT  input.  Each row of the input table represents one pick point to be sampled, except for the first row which contains column headings  select ,  u  and  v  (plus any other unused columns you want).  The  select ,  u  and  v  columns are what you would get from a  Panel CHOP . The u and v values goes 0 to 1 left to right and bottom to top, no matter what the aspect ratio of the render is.\nWhen Strategy is Always, that u,v location is always sampled and the results are displayed in the corresponding row in the Render Pick  DAT  output.\nThe output table will show the path of the geometry that was picked, its position (in a choice of reference frames), surface normal (excluding bump mapping), distance from camera, texture UV coordinate, color, alpha and instance id. It properly picks surfaces with deforming vertices.\nThere are some examples here:\ngeoPanel  in the palette.\nmultiTouch  in the palette under Techniques.\nSee also the single-sample  Render Pick CHOP .\nrenderpickDAT_Class\nContents\n1   Summary\n2   Parameters - Render Pick Page\n3   Parameters - Options Page\n4   Parameters - Common Page\n5   Operator Inputs\n6   Info CHOP Channels\n6.1   Common DAT Info Channels\n6.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Render Pick",
+      "label": "Strategy",
+      "name": "strategy",
+      "description": "⊞  - Decides when to update values based on pick interactions."
+    },
+    {
+      "page": "Render Pick",
+      "label": "While Select",
+      "name": "select",
+      "description": "Continuously updates values when being selected/picked."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Hold First Picked",
+      "name": "holdfirst",
+      "description": "Holds the values first returned when geometry picked."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Hold Last Picked",
+      "name": "holdlast",
+      "description": "Holds the values last returned when geometry picked. This differs from the Continuous strategy in that it will hold the last values picked on geometry if the pick starts sampling empty space (no geometry in that part of the scene). Alternatively, using the Continuous strategy the values will be cleared to zero if the pick starts sampling empty space."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Always",
+      "name": "always",
+      "description": "Continuously updates values at the location picked."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Clear Previous Pick on New Pick",
+      "name": "clearprev",
+      "description": "This parameter is only enabled when the Strategy is set to Hold Last Picked. When this is on, starting a new pick on empty space will clear the values. When off, the last values will be held if the pick starts on empty space."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Response Time",
+      "name": "responsetime",
+      "description": "⊞  - Determines when the values are updated."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Next  Cook  (Faster)",
+      "name": "nextcook",
+      "description": "The values are captured on the current frame and updated next frame. Results are from the previous frame, but much faster cook times."
+    },
+    {
+      "page": "Render Pick",
+      "label": "This  Cook  (Slower)",
+      "name": "thiscook",
+      "description": "The values are captured and updated in the current frame."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Pick Radius",
+      "name": "pickradius",
+      "description": "Controls the radius of the search area for the pick. If nothing is found at the pick's center it will keep searching for geometry in the search area defined by the Pick Radius."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Pick Radial Step",
+      "name": "pickradstep",
+      "description": "Used to reduce the searching within the search area. The search area is sampled at locations that correspond to 'spokes' outwards from the center pick point."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Pick Circular Step",
+      "name": "pickcirstep",
+      "description": "Used to reduce the searching within the search area. The search area is sampled at locations that correspond to 'rings' outwards from the center pick point."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Render/RenderPass  TOP",
+      "name": "rendertop",
+      "description": "Specifies which scene to pick on, and which camera to pick from. By default the first camera listed in the  Render TOP  will be used for picking. Another camera can be specified with the 'Custom Pick Camera(s)' parameter, and multiple different cameras can be selected using the  camera  input column."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Custom Pick Camera(s)",
+      "name": "custompickcameras",
+      "description": "Picking can be done from the viewport of custom camera(s) by specifying one or more  Camera COMP  here. If this parameter is blank the cameras from the Render  TOP  are used. To pick from the viewpoint of multiple different cameras, a  camera  column must be specified in the input  DAT ."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Allow Multi-Camera  Rendering",
+      "name": "allowmulticamera",
+      "description": "Multi-Camera Rendering  is a faster way to render multiple passes at the same time, and is thus a speed improvement for doing many picks at the same time. This feature may not work correctly for some older  GLSL MATs  made in 088 though, so this parameter allows forcing off this speed improvement if necessary. Generally it should be left on though."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Use Pickable Flags",
+      "name": "usepickableflags",
+      "description": "When turned on only geometry whose  Pickable Flag  is on can be selected by the Render Pick  DAT . The Pickable  Flag  is found on all  Object  components."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Include Non-Pickable Objects",
+      "name": "includenonpickable",
+      "description": "Includes the non-pickable objects in the picking algorithm such that non-pickable objects may occlude pickable objects.  For example, if there is only one pickable object in the scene with lots of additional non-pickable geometry is present, turning this parameter on will prevent the pickable object from being selected if it is behind a non-pickage object (occluded by the non-pickage object)."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Merge Input  DAT",
+      "name": "mergeinputdat",
+      "description": "Appends input table to the Render Pick DATs columns."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Activate Callbacks",
+      "name": "activatecallbacks",
+      "description": "Enables  Callback   DAT  for each pick event."
+    },
+    {
+      "page": "Render Pick",
+      "label": "Callbacks  DAT",
+      "name": "callbacks",
+      "description": "Path  to a  DAT  containing callbacks for pick event received."
+    },
+    {
+      "page": "Options",
+      "label": "Fetch Position",
+      "name": "position",
+      "description": "⊞  - Returns the position of the point picked on the geometry. Columns  tx, ty, tz ."
+    },
+    {
+      "page": "Options",
+      "label": "No",
+      "name": "no",
+      "description": "Do not return position values."
+    },
+    {
+      "page": "Options",
+      "label": "In  SOP  Space",
+      "name": "sopspace",
+      "description": "Return position of point picked in  SOP  transform space."
+    },
+    {
+      "page": "Options",
+      "label": "In World Space",
+      "name": "worldspace",
+      "description": "Return position of point picked in world transform space."
+    },
+    {
+      "page": "Options",
+      "label": "In Camera Space",
+      "name": "cameraspace",
+      "description": "Return position of point picked in camera transform space."
+    },
+    {
+      "page": "Options",
+      "label": "Relative to  Object",
+      "name": "relativetoobj",
+      "description": "Return position of point picked relative to object specified in   Reference   Object   parameter."
+    },
+    {
+      "page": "Options",
+      "label": "Fetch Normal",
+      "name": "normal",
+      "description": "⊞  - Returns the normals of the point picked on the geometry. Columns  nx, ny, nz ."
+    },
+    {
+      "page": "Options",
+      "label": "No",
+      "name": "no",
+      "description": "Do not return normal values."
+    },
+    {
+      "page": "Options",
+      "label": "In  SOP  Space",
+      "name": "sopspace",
+      "description": "Return normals of point picked in  SOP  transform space."
+    },
+    {
+      "page": "Options",
+      "label": "In World Space",
+      "name": "worldspace",
+      "description": "Return normals of point picked in world transform space."
+    },
+    {
+      "page": "Options",
+      "label": "In Camera Space",
+      "name": "cameraspace",
+      "description": "Return normals of point picked in camera transform space."
+    },
+    {
+      "page": "Options",
+      "label": "Relative to  Object",
+      "name": "relativetoobj",
+      "description": "Return normals of point picked relative to object specified in   Reference   Object   parameter."
+    },
+    {
+      "page": "Options",
+      "label": "Reference   Object",
+      "name": "referenceobj",
+      "description": "Object used when fetching position or normals  Relative to  Object  ."
+    },
+    {
+      "page": "Options",
+      "label": "Fetch Point Color",
+      "name": "color",
+      "description": "Returns the point color of the point picked on the geometry. Columns  cr, cg, cb, ca ."
+    },
+    {
+      "page": "Options",
+      "label": "Fetch Texture UV",
+      "name": "uv",
+      "description": "Returns the texture coordinates of the point picked on the geometry. Columns  mapu, mapv, mapw ."
+    },
+    {
+      "page": "Options",
+      "label": "Fetch Depth",
+      "name": "depth",
+      "description": "Returns the depth of the point picked on the geometry. This value a non-linear ratio of the point's position between the near and far planes of the  Depth Buffer . Column is  depth ."
+    },
+    {
+      "page": "Options",
+      "label": "Fetch  Instance  ID",
+      "name": "instanceid",
+      "description": "Returns the  Instance  ID of the object. This will always be 0 if instancing is off. Column is  instance ."
+    },
+    {
+      "page": "Options",
+      "label": "Custom Attrib 1",
+      "name": "customattrib1",
+      "description": "Specify which custom attributes to return from the object."
+    },
+    {
+      "page": "Options",
+      "label": "Custom Attrib 1 Type",
+      "name": "customattrib1type",
+      "description": "The type of attribute is selected from this menu."
+    },
+    {
+      "page": "Options",
+      "label": "Custom Attrib 2",
+      "name": "customattrib2",
+      "description": "Specify which custom attributes to return from the object."
+    },
+    {
+      "page": "Options",
+      "label": "Custom Attrib 2 Type",
+      "name": "customattrib2type",
+      "description": "The type of attribute is selected from this menu."
+    },
+    {
+      "page": "Options",
+      "label": "Custom Attrib 3",
+      "name": "customattrib3",
+      "description": "Specify which custom attributes to return from the object."
+    },
+    {
+      "page": "Options",
+      "label": "Custom Attrib 3 Type",
+      "name": "customattrib3type",
+      "description": "The type of attribute is selected from this menu."
+    },
+    {
+      "page": "Options",
+      "label": "Custom Attrib 4",
+      "name": "customattrib4",
+      "description": "Specify which custom attributes to return from the object."
+    },
+    {
+      "page": "Options",
+      "label": "Custom Attrib 4 Type",
+      "name": "customattrib4type",
+      "description": "The type of attribute is selected from this menu."
+    },
+    {
+      "page": "Common",
+      "label": "Language",
+      "name": "language",
+      "description": "⊞  - Select how the  DAT  decides which script language to operate on."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Node",
+      "name": "node",
+      "description": "The  DAT  uses it's own script language."
+    },
+    {
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "name": "extension",
+      "description": "⊞  - Select the file extension this  DAT  should expose to external editors."
+    },
+    {
+      "page": "Common",
+      "label": "dat",
+      "name": "dat",
+      "description": "various common file extensions."
+    },
+    {
+      "page": "Common",
+      "label": "From Language",
+      "name": "language",
+      "description": "pick extension from DATs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "custom",
+      "description": "Specify a custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specifiy the custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Word Wrap",
+      "name": "wordwrap",
+      "description": "⊞  - Enable Word Wrap for Node Display."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs setting."
+    },
+    {
+      "page": "Common",
+      "label": "On",
+      "name": "on",
+      "description": "Turn on Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Off",
+      "name": "off",
+      "description": "Turn off Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "num_rows",
+      "description": "Number of rows in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "num_cols",
+      "description": "Number of columns in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "Art",
+      "description": "Net    •   Audio Devices    •   CHOP Execute    •   CHOP to    •   Clip    •   Convert    •   CPlusPlus    •   DAT   •    Execute    •   DAT Export   •   Error    •   EtherDream    •   Evaluate    •   Examine    •   Execute    •   FIFO    •   File In    •   File Out    •   Folder    •   In    •   Indices    •   Info    •   Insert    •   JSON    •   Keyboard In    •   Lookup    •   Media File Info    •   Merge    •   MIDI Event    •   MIDI In    •   Monitors    •   MPCDI    •   MQTT Client    •   Multi Touch In    •   NDI    •   Null    •   OP Execute    •   OP Find    •   OSC In    •   OSC Out    •   Out    •   Panel Execute    •   Parameter    •   Parameter Execute    •   ParGroup Execute    •   Perform    •   POP to    •   Render Pick    •   Reorder    •   Script    •   Select    •   Serial    •   Serial Devices    •   SocketIO    •   SOP to    •   Sort    •   Substitute    •   Switch    •   Table    •   TCP/IP    •   Text    •   Touch In    •   Touch Out    •   Transpose    •   TUIO In    •   UDP In    •   UDP Out    •   UDT In    •   UDT Out    •   Video Devices    •   Web Client    •   Web    •   Web Server    •   WebRTC    •   WebSocket    •   XML"
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "To re-compute the output data of the  Operators . An operator cooks when (1) its inputs change, (2) its  Parameters  change, (3) when the timeline moves forward in some cases, or (4)  Scripting  commands are run on the node. When the operator is a  Panel Component , it also cooks when a user interacts with it. When an operator cooks, it usually causes operators connected to its output to re-cook. When TouchDesigner draws the screen, it re-cooks all the",
+      "name": "Dependencies",
+      "description": "the necessary operators in all  Networks , contributing to a frame's total \"cook time\"."
+    },
+    {
+      "page": "Common",
+      "label": "The sub",
+      "description": "Family  of  Component  types that are used to define and render 3D scenes. A  Geometry Component  is an Object that contains the 3D shapes to render. A  Camera COMP  and  Light COMP  are other Object types. Separately, \"Objects\" also refers to Python objects."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

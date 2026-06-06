@@ -1,0 +1,16 @@
+{
+  "family": "SOP",
+  "pageTitle": "Inverse Curve SOP",
+  "pageSlug": "Inverse_Curve_SOP",
+  "url": "https://docs.derivative.ca/Inverse_Curve_SOP",
+  "tdOpTypeGuess": "inverseCurveSOP",
+  "summary": "[  edit  ]\nThe Inverse Curve  SOP  takes data from an  Inverse Curve CHOP  and builds a curve from it.\ninversecurveSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Info CHOP Channels\n3.1   Common SOP Info Channels\n3.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

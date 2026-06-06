@@ -1,0 +1,167 @@
+{
+  "pageTitle": "Sphere POP",
+  "pageSlug": "Sphere_POP",
+  "url": "https://docs.derivative.ca/Sphere_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "spherePOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "Type",
+      "type": "Menu",
+      "options": [
+        "Geodesic",
+        "Grid",
+        "Tetrahedron",
+        "Shared Points at Poles"
+      ],
+      "default": "Geodesic",
+      "description": "Sphere generation algorithm."
+    },
+    {
+      "name": "Orientation",
+      "type": "Menu",
+      "options": [
+        "X Axis",
+        "Y Axis",
+        "Z Axis"
+      ],
+      "default": "Y Axis",
+      "description": "Axis for poles."
+    },
+    {
+      "name": "Radius",
+      "type": "Float[3]",
+      "default": "1,1,1",
+      "description": "Ellipsoid radii per axis."
+    },
+    {
+      "name": "Frequency",
+      "type": "Int",
+      "default": 3,
+      "description": "Geodesic subdivision level."
+    },
+    {
+      "name": "Fuse",
+      "type": "Toggle",
+      "default": true,
+      "description": "Fuse subdivided triangles."
+    },
+    {
+      "name": "Columns",
+      "type": "Int",
+      "default": 12,
+      "description": "Grid mode columns (longitude)."
+    },
+    {
+      "name": "Rows",
+      "type": "Int",
+      "default": 8,
+      "description": "Grid mode rows (latitude)."
+    },
+    {
+      "name": "Normal",
+      "type": "Menu",
+      "options": [
+        "None",
+        "Point",
+        "Vertex"
+      ],
+      "default": "Point",
+      "description": "Normal attribute class."
+    },
+    {
+      "name": "Texture",
+      "type": "Menu",
+      "options": [
+        "None",
+        "Point",
+        "Vertex"
+      ],
+      "default": "None",
+      "description": "Texture coordinate class."
+    },
+    {
+      "name": "Texture Method",
+      "type": "Menu",
+      "options": [
+        "Equirectangular Inside",
+        "Equirectangular Outside",
+        "Equidistant Azimuth (Fish Eye)"
+      ],
+      "default": "Equirectangular Inside",
+      "description": "Texture projection method."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de partículas complejos,"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de partículas complej"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de partículas complejos,"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "escripción detallada de la función específica de este operador. • Experimental:Skin POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:SOP to POP: Permite la conversión de datos de la familia SOPs (Surface Operators) a datos de POPs. • Experimental:Sort POP: Implementa algoritmos de ordenación muy rápidos que pueden organizar los puntos basándose en el valor de cualquier componente de un atributo. • Experimental:Sphere POP: Un operador generador que crea una geometría esférica. • Experimental:Sprinkle POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Subdivide POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Switch POP: Un operador que permite cambiar entre diferentes entradas. Es útil para probar variaciones o controlar el flujo de datos. • Experimenta"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "escripción detallada de la función específica de este operador. • Experimental:Skin POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:SOP to POP: Permite la conversión de datos de la familia SOPs (Surface Operators) a datos de POPs. • Experimental:Sort POP: Implementa algoritmos de ordenación muy rápidos que pueden organizar los puntos basándose en el valor de cualquier componente de un atributo. • Experimental:Sphere POP: Un operador generador que crea una geometría esférica. • Experimental:Sprinkle POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Subdivide POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Switch POP: Un operador que permite cambiar entre diferentes entradas. Es útil para probar variaciones o controlar el flujo de datos. • Experim"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "escripción detallada de la función específica de este operador. • Experimental:Skin POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:SOP to POP: Permite la conversión de datos de la familia SOPs (Surface Operators) a datos de POPs. • Experimental:Sort POP: Implementa algoritmos de ordenación muy rápidos que pueden organizar los puntos basándose en el valor de cualquier componente de un atributo. • Experimental:Sphere POP: Un operador generador que crea una geometría esférica. • Experimental:Sprinkle POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Subdivide POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Switch POP: Un operador que permite cambiar entre diferentes entradas. Es útil para probar variaciones o controlar el flujo de datos. • Experimenta"
+    }
+  ],
+  "useCases": [
+    "Create particle emitter surfaces (volume or shell)",
+    "Generate skydome environments",
+    "Build collision geometry for physics",
+    "Create spherical LED layouts",
+    "Generate environment maps for reflections"
+  ],
+  "examples": [
+    "Sphere POP (Geodesic, Freq=4) → Noise POP → organic blob shape",
+    "Sphere POP (Grid, Texture=Equirectangular) → environment map projection"
+  ],
+  "commonCombinations": [
+    {
+      "operators": [
+        "Sphere_POP",
+        "Noise_POP",
+        "Transform_POP"
+      ],
+      "description": "Animated organic blob"
+    },
+    {
+      "operators": [
+        "Sphere_POP",
+        "Particle_POP",
+        "Force_Radial_POP"
+      ],
+      "description": "Spherical particle emitter"
+    },
+    {
+      "operators": [
+        "Sphere_POP",
+        "GLSL_POP",
+        "Render"
+      ],
+      "description": "Custom shader on spherical geometry"
+    }
+  ],
+  "troubleshooting": [
+    "Sphere looks faceted: Increase Frequency for Geodesic or Rows/Columns for Grid",
+    "Texture seams visible: Try different Texture Method",
+    "Partial sphere angles wrong: Check Detail page U/V angle ranges",
+    "Normals incorrect: Ensure Normal is set to Point for smooth shading"
+  ],
+  "description": "Creates spherical shapes in Geodesic (equally-spaced triangles), Grid (latitude/longitude), Tetrahedron, or Shared Points at Poles modes. Supports ellipsoid radii, partial spheres, fish-eye/equirectangular texture mapping."
+}

@@ -1,0 +1,106 @@
+{
+  "pageTitle": "Accumulate POP",
+  "pageSlug": "Accumulate_POP",
+  "url": "https://docs.derivative.ca/Accumulate_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "accumulatePOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "Input Attribute Scope",
+      "type": "Menu",
+      "options": [
+        "P",
+        "N",
+        "Cd",
+        "Custom"
+      ],
+      "default": "Custom",
+      "description": "Attribute to accumulate."
+    },
+    {
+      "name": "Type",
+      "type": "Menu",
+      "options": [
+        "Inclusive Scan",
+        "Exclusive Scan"
+      ],
+      "default": "Inclusive Scan",
+      "description": "Inclusive includes current point, Exclusive excludes it."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "s con Documentación Inaccesible o Muy Limitada Para los siguientes operadores, el material de investigación proporcionado indicó que la información era inaccesible, limitada a menciones muy breves o redirecciones sin contenido, o que las búsquedas arrojaron resultados irrelevantes de otras familias de operadores (SOPs, CHOPs, TOPs, DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. N"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "s con Documentación Inaccesible o Muy Limitada Para los siguientes operadores, el material de investigación proporcionado indicó que la información era inaccesible, limitada a menciones muy breves o redirecciones sin contenido, o que las búsquedas arrojaron resultados irrelevantes de otras familias de operadores (SOPs, CHOPs, TOPs, DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 2"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "s con Documentación Inaccesible o Muy Limitada Para los siguientes operadores, el material de investigación proporcionado indicó que la información era inaccesible, limitada a menciones muy breves o redirecciones sin contenido, o que las búsquedas arrojaron resultados irrelevantes de otras familias de operadores (SOPs, CHOPs, TOPs, DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. N"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "puntos). Las primitivas también pueden tener atributos, como Color. Los POPs se renderizan utilizando el Render TOP en TouchDesigner. Son considerados un reemplazo y una \"re-concepción\" de la familia de operadores SOPs (Surface Operators), ofreciendo un flujo de trabajo más moderno que combina lo mejor de SOPs, CHOPs y TOPs. Glosario de Operadores POPs Aquí tienes un listado de los operadores POPs, con una explicación sencilla de su función basada en las fuentes disponibles: • Experimental:Accumulate POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Analyze POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Attribute Combine POP: Este operador es útil para combinar atributos de múltiples entradas. También puedes usarlo para, por ejemplo, quitar el atributo de Posición (P) de un POP si no lo necesitas. Permite seleccionar qué atributos o gru"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "puntos). Las primitivas también pueden tener atributos, como Color. Los POPs se renderizan utilizando el Render TOP en TouchDesigner. Son considerados un reemplazo y una \"re-concepción\" de la familia de operadores SOPs (Surface Operators), ofreciendo un flujo de trabajo más moderno que combina lo mejor de SOPs, CHOPs y TOPs. Glosario de Operadores POPs Aquí tienes un listado de los operadores POPs, con una explicación sencilla de su función basada en las fuentes disponibles: • Experimental:Accumulate POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Analyze POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Attribute Combine POP: Este operador es útil para combinar atributos de múltiples entradas. También puedes usarlo para, por ejemplo, quitar el atributo de Posición (P) de un POP si no lo necesitas. Permite seleccionar qué atributos o"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "puntos). Las primitivas también pueden tener atributos, como Color. Los POPs se renderizan utilizando el Render TOP en TouchDesigner. Son considerados un reemplazo y una \"re-concepción\" de la familia de operadores SOPs (Surface Operators), ofreciendo un flujo de trabajo más moderno que combina lo mejor de SOPs, CHOPs y TOPs. Glosario de Operadores POPs Aquí tienes un listado de los operadores POPs, con una explicación sencilla de su función basada en las fuentes disponibles: • Experimental:Accumulate POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Analyze POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Attribute Combine POP: Este operador es útil para combinar atributos de múltiples entradas. También puedes usarlo para, por ejemplo, quitar el atributo de Posición (P) de un POP si no lo necesitas. Permite seleccionar qué atributos o gru"
+    }
+  ],
+  "useCases": [
+    "Running totals",
+    "Cumulative distributions",
+    "Time-based accumulation",
+    "Creating cumulative distance along a line",
+    "Building running totals for data visualization",
+    "Generating progressive color gradients",
+    "Creating index-based position offsets"
+  ],
+  "examples": [
+    {
+      "name": "Running Sum",
+      "description": "Accumulate POP to sum attribute values over points",
+      "difficulty": "intermediate"
+    },
+    {
+      "name": "Cumulative Distance",
+      "description": "Line POP -> Accumulate POP (exclusive, P.x) for progressive spacing",
+      "difficulty": "beginner"
+    },
+    {
+      "name": "Progressive Color",
+      "description": "Grid POP -> Attribute POP (constant=1) -> Accumulate POP (Cd.r) for gradient",
+      "difficulty": "intermediate"
+    }
+  ],
+  "commonCombinations": [
+    "Any generator to Accumulate POP",
+    "Any POP -> Accumulate POP -> ReRange POP (normalize cumulative values)",
+    "Line POP -> Accumulate POP (distance)",
+    "Accumulate POP -> Attribute POP (color by cumulative value)"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Wrong accumulation",
+      "solution": "Check attribute and operation parameters."
+    },
+    {
+      "problem": "Values seem wrong",
+      "solution": "Check Inclusive vs Exclusive mode. Inclusive includes current point, Exclusive starts from 0."
+    },
+    {
+      "problem": "Attribute not accumulating",
+      "solution": "Ensure Input Attribute Scope matches the attribute you want to accumulate."
+    }
+  ],
+  "description": "Creates running sums (integrals) of attribute values. For each point, the output is the sum of all previous points' values. Two modes: Inclusive (includes current point) and Exclusive (excludes current point)."
+}

@@ -1,0 +1,21 @@
+{
+  "family": "SOP",
+  "pageTitle": "Wireframe SOP",
+  "pageSlug": "Wireframe_SOP",
+  "url": "https://docs.derivative.ca/Wireframe_SOP",
+  "tdOpTypeGuess": "wireframeSOP",
+  "summary": "[  edit  ]\nThe Wireframe  SOP  converts edges to tubes and points to spheres, creating the look of a wire frame structure in renderings. This is ideal for modelling tube structures and pipes.\nwireframeSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

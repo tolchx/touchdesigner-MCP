@@ -1,0 +1,191 @@
+{
+  "family": "DAT",
+  "pageTitle": "Info DAT",
+  "pageSlug": "Info_DAT",
+  "url": "https://docs.derivative.ca/Info_DAT",
+  "tdOpTypeGuess": "infoDAT",
+  "summary": "[  edit  ]\nThe Info  DAT  gives you string information about a node. Only some nodes contain additional string information which can be accessed by the Info  DAT .\ninfoDAT_Class\nContents\n1   Summary\n2   Parameters - Info Page\n3   Parameters - Common Page\n4   Info CHOP Channels\n4.1   Common DAT Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "Info",
+      "label": "Operator",
+      "name": "op",
+      "description": "The  path  to the operator that the Info  DAT  is getting information from. You can drag & drop any node onto this path, or type the path directly into the field."
+    },
+    {
+      "page": "Info",
+      "label": "Passive",
+      "name": "passive",
+      "description": "If this option is off, the Info  DAT  will update automatically when the information changes. If on, the data may or may not be out-of-date, and the Info  DAT  may require a forced cook to update its contents. This parameter can by useful to prevent unnecessary cooking."
+    },
+    {
+      "page": "Common",
+      "label": "Language",
+      "name": "language",
+      "description": "⊞  - Select how the  DAT  decides which script language to operate on."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Node",
+      "name": "node",
+      "description": "The  DAT  uses it's own script language."
+    },
+    {
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "name": "extension",
+      "description": "⊞  - Select the file extension this  DAT  should expose to external editors."
+    },
+    {
+      "page": "Common",
+      "label": "dat",
+      "name": "dat",
+      "description": "various common file extensions."
+    },
+    {
+      "page": "Common",
+      "label": "From Language",
+      "name": "language",
+      "description": "pick extension from DATs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "custom",
+      "description": "Specify a custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specifiy the custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Word Wrap",
+      "name": "wordwrap",
+      "description": "⊞  - Enable Word Wrap for Node Display."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs setting."
+    },
+    {
+      "page": "Common",
+      "label": "On",
+      "name": "on",
+      "description": "Turn on Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Off",
+      "name": "off",
+      "description": "Turn off Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "num_rows",
+      "description": "Number of rows in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "num_cols",
+      "description": "Number of columns in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "Art",
+      "description": "Net    •   Audio Devices    •   CHOP Execute    •   CHOP to    •   Clip    •   Convert    •   CPlusPlus    •   DAT   •    Execute    •   DAT Export   •   Error    •   EtherDream    •   Evaluate    •   Examine    •   Execute    •   FIFO    •   File In    •   File Out    •   Folder    •   In    •   Indices    •   Info    •   Insert    •   JSON    •   Keyboard In    •   Lookup    •   Media File Info    •   Merge    •   MIDI Event    •   MIDI In    •   Monitors    •   MPCDI    •   MQTT Client    •   Multi Touch In    •   NDI    •   Null    •   OP Execute    •   OP Find    •   OSC In    •   OSC Out    •   Out    •   Panel Execute    •   Parameter    •   Parameter Execute    •   ParGroup Execute    •   Perform    •   POP to    •   Render Pick    •   Reorder    •   Script    •   Select    •   Serial    •   Serial Devices    •   SocketIO    •   SOP to    •   Sort    •   Substitute    •   Switch    •   Table    •   TCP/IP    •   Text    •   Touch In    •   Touch Out    •   Transpose    •   TUIO In    •   UDP In    •   UDP Out    •   UDT In    •   UDT Out    •   Video Devices    •   Web Client    •   Web    •   Web Server    •   WebRTC    •   WebSocket    •   XML"
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "03-twozero-evaluation.md",
+      "excerpt": ") - scripts Python idempotentes (crear/actualizar redes sin duplicar) - **No ensuciar el proyecto (non-invasive)** Convenciones sistemáticas: - encapsular sistemas en `baseCOMP`/`geoCOMP` - nodos “I/O estándar” (`in*`, `out*`, `null*`) - layout determinístico (`nodeX/nodeY`) - nombres consistentes y prefijos por dominio (`pop_`, `top_`, `chop_`) - **Validación y calidad (production tools)** Protocolos para: - verificar existencia de OPs creados - detectar cooks costosos (Info CHOP / cookTime) - validar atributos esperados en POP sims (PartVel/PartForce/…) - reportar errores con causas probables + fixes sugeridos - **Sync/portabilidad** En este contexto, “cloud sync” se reemplaza por: - base de conocimiento versionada (JSON + Markdown) - scripts reproducibles (sin estado oculto) ## Qué no se integra directamente - UI embebida y herramientas propietarias de TWOZERO. - Sincronización en la nube “integrada” (solo se replica el enfoque de versionado y repr"
+    },
+    {
+      "source": "07-testing-protocols.md",
+      "excerpt": "/dist/promptLint.js`. ## 2) Chequeo de dependencias - TouchDesigner 2025+. - `TDAPI_PORT` configurado y coincidente con el TOX. - Ollama (si aplica): `LLM_PROVIDER=ollama` y `OLLAMA_MODEL` instalado. ## 3) Pruebas funcionales (smoke tests) Ejecutar un bloque `td_execute` de validación que confirme: - operadores creados (paths) - conexiones clave (especialmente feedback loops) - atributos reservados presentes cuando aplica (p.ej. PartVel/PartForce) ## 4) Pruebas de rendimiento - Conectar `Info CHOP` a operadores críticos (POP, TOP, COMP). - Medir `cook_time` y `errors/warnings`. - Aplicar presupuestos explícitos: - número de puntos - límites de partículas - resolución TOP - frecuencia de recook ## 5) Reportes de errores y fixes sugeridos Formato recomendado para reportar fallos: - Síntoma observable - Operador/etapa afectada - Causa probable (con evidencia) - Fix sugerido (acción concreta) - Verificación posterior"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "Análisis Profundo de los Operadores POPs en TouchDesigner Resumen Ejecutivo Este informe presenta un análisis exhaustivo de la familia de Operadores de Puntos (POP) dentro de TouchDesigner, una potente plataforma de desarrollo visual para contenido en tiempo real. Los POPs representan un avance significativo, aprovechando la aceleración de la GPU para una manipulación altamente eficiente de datos 3D, especialmente para sistemas de partículas y geometría compleja. Aunque todavía es una familia de operadores \"Experimental\", como se indica en la documentación 1, los POPs ofrecen un"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "rta la creación automática de nombres de atributos y utiliza atributos de solo lectura. • Experimental:Merge POP: Permite combinar múltiples flujos de datos POPs en uno solo. Puedes especificar qué grupos de datos deseas fusionar de cada entrada. Este operador puede afectar solo puntos, vértices o primitivas que estén en un grupo específico. • Experimental:Neighbor POP: Crea atributos de tipo entero sin signo. Genera atributos que comienzan con Nebr*, lo que sugiere su uso para trabajar con información de vecinos (puntos cercanos). • Experimental:Noise POP: Un operador que genera ruido para atributos, lo que permite crear efectos complejos y variaciones aleatorias. Sus parámetros pueden ser controlados por otros atributos. Permite crear y modificar atributos de color y textura. • Experimental:Normal POP: Se encarga de calcular y crear las normales de superficie y las tangentes de la geometría. • Experimental:Normalize POP: Ofrece capacidades de manipulación fundamentales sin nece"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "tes, explicándolos de manera sencilla para usuarios principiantes. En TouchDesigner, los **POPs (Point Operators)** son una familia de operadores diseñados para manipular **puntos** y sus **atributos**. Son especialmente eficientes para manejar simulaciones de partículas y sistemas con millones de puntos porque operan principalmente en la **GPU (Graphics Processing Unit)**, lo que los hace muy rápidos. Un **punto** es un elemento básico con una posición XYZ en el espacio 3D, y puede tener información adicional como **atributos** (por ejemplo, `N` para las normales o `Color` para el color). Las **primitivas** son las entidades que se renderizan y conectan estos puntos para formar formas como triángulos, cuadrados o líneas. Aquí tienes un desglose de los operadores POPs y sus características principales: --- ### Análisis Detallado de Operadores POPs * **Neighbor POP (POP de Vecinos)** * **Función principal:** Este POP se usa para encontrar los **puntos más cercanos"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "ría soportados por USD COMP o FBX COMP, como **Mallas (`Mesh`), Puntos (`Points`), Curvas o Patches NURBS, Curvas de Base (`Basis Curves`)**. * Cada geometría importada puede ser una primitiva única o un conjunto de primitivas fusionadas para un mejor rendimiento. * Si los tipos de geometría no son compatibles directamente con POPs, se **convierten automáticamente a triángulos, quads, line strips y primitivas de punto**. * Cuando se fusionan geometrías, se crea un operador `Info DAT` junto a este POP, que muestra las rutas originales de las primitivas dentro del archivo importado. * Tiene sus **propios controles de animación** (Initialize, Start, Cue, Play, Index, Speed, Trim, Extend), o puedes usar la configuración de su componente padre. * La geometría importada se carga **directamente a la GPU**, lo que asegura un alto rendimiento. --- #### 36. In POP * **¿Qué hace?** Este operador se utiliza dentro de un **componente personalizado** para obtener"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

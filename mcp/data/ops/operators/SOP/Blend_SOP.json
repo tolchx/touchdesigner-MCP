@@ -1,0 +1,181 @@
+{
+  "family": "SOP",
+  "pageTitle": "Blend SOP",
+  "pageSlug": "Blend_SOP",
+  "url": "https://docs.derivative.ca/Blend_SOP",
+  "tdOpTypeGuess": "blendSOP",
+  "summary": "[  edit  ]\nThe Blend  SOP  provides 3D metamorphosis between shapes with the same topology. It can blend between sixteen input SOPs using the average weight of each input's respective channel. It will also interpolate point colors and/or texture co-ordinates between shapes.\nFor best results, there should be the same number of points / CVs (and faces) in the geometry of each  SOP . The points should have a similar order; if point 17 in one source is on the left side, and point 17 in another Source is on the right side, it will move across the object during the blend, which may create distorted and twisted shapes. To ensure that this doesn't happen, you can make all the pieces to be blended by editing point positions of one common base shape. Each of the pieces to be morphed must be in different SOPs.\nFor example, when editing the shapes in the Model Editor, each particular geometry can be saved and then read in, or input the Model  SOP  directly into the Blend  SOP . You would then have the base model geometry entering the Blend  SOP  in the first Blend, then up to 15 Model SOPs feeding from the  SOP  containing the base model geometry, which in turn would feed into the Blend  SOP . Remember that Model SOPs cannot be unlocked and, therefore, are a safe way to store data without using a File In  SOP .\nThe Blend  SOP  now only cooks non-zero-weighted inputs.\nSee also  Sequence Blend SOP .\nblendSOP_Class\nContents\n1   Summary\n2   Parameters - Blend Page\n3   Parameters - Weights Page\n4   Uses\n5   Example\n6   Operator Inputs\n7   Info CHOP Channels\n7.1   Common SOP Info Channels\n7.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Blend",
+      "label": "Group",
+      "name": "group",
+      "description": "Specifies a point or primitive group in the first input. If, for example, a group is specified containing the first and third points, then the first and third point of every input will be blended whereas the second, fourth, fifth, etc. points will be set to match the first input source. Accepts patterns, as described in:  Pattern Matching ."
+    },
+    {
+      "page": "Blend",
+      "label": "Differencing",
+      "name": "diff",
+      "description": "Generates exaggerated blends between objects where values above 1 or less than 0 will result in over-scaled blends."
+    },
+    {
+      "page": "Blend",
+      "label": "Blend Position",
+      "name": "dopos",
+      "description": "When checked, the point positions of the inputs will be blended based on the weights of the blend channels. If not checked, the input geometry will not change, only allowing Blending of Colors, Normals and Textures if selected."
+    },
+    {
+      "page": "Blend",
+      "label": "Blend Colors",
+      "name": "doclr",
+      "description": "When checked, the point colors of the geometry inputs will be blended based on the weights of the blend channels."
+    },
+    {
+      "page": "Blend",
+      "label": "Blend Normals",
+      "name": "donml",
+      "description": "When checked, the point normals of the geometry inputs will be blended based on the weights of the blend channels."
+    },
+    {
+      "page": "Blend",
+      "label": "Blend Texture",
+      "name": "douvw",
+      "description": "When checked, the point texture co-ordinates of the geometry inputs will be blended based on the weights of the blend channels."
+    },
+    {
+      "page": "Blend",
+      "label": "Blend Up",
+      "name": "doup",
+      "description": "When checked, the Up Vector of the geometry inputs will be blended based on the weights of the blend channels."
+    },
+    {
+      "page": "Weights",
+      "label": "Input",
+      "name": "input",
+      "description": "Sequence of input weights"
+    },
+    {
+      "page": "Weights",
+      "label": "Weight",
+      "name": "input0weight",
+      "description": "The weight or contribution of this input. 0 has no contribution, 1 is full contribution."
+    },
+    {
+      "page": "Weights",
+      "label": "Set the input to the first  SOP  to be blended. For example, if there are five shapes to be blended, the simplest set",
+      "description": "up is the following:"
+    },
+    {
+      "page": "Weights",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Weights",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Weights",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Weights",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Weights",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Weights",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Weights",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Weights",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Weights",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Weights",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Weights",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Weights",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Weights",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Weights",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Weights",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "erivative.ca/Experimental:Accumulate_POP 54. docs.derivative.ca, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:Analyze_POP 55. Analyze TOP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Analyze_TOP 56. docs.derivative.ca, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:Attribute_Convert_POP 57. docs.derivative.ca, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:Blend_POP 58. Blend SOP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Blend_SOP 59. docs.derivative.ca, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:Box_POP 60. Box SOP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Box_SOP 61. docs.derivative.ca, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:CHOP_to_POP 62. CHOP to POP - Derivative, fecha de acceso: julio 1, 2025, https://doc"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "con los SOPs.5 Esto los hace ideales para simulaciones en tiempo real exigentes, sistemas de partículas y arte generativo. Los POPs proporcionan un sistema altamente personalizable y abierto para simulaciones de partículas, permitiendo a los usuarios definir estados iniciales, velocidades, masas y aplicar fuerzas a través de bucles de retroalimentación.6 La arquitectura de los POPs, especialmente para operadores de múltiples entradas como Attribute Combine POP, Math Combine POP, Math Mix POP, Blend POP, Merge POP y Switch POP, está diseñada para una selección, cambio de nombre y resolución de conflictos de atributos eficientes.13 Esto agiliza las tareas complejas de mezcla y manipulación de datos. El énfasis recurrente en la \"aceleración por GPU\" y la capacidad de manejar \"millones de puntos\" 4 sugiere un enfoque claro en el rendimiento. Sin embargo, la etiqueta de \"Experimental\" 1 y las brechas observadas en la documentación implican una compensación. Los POPs ofrecen una vía clara para"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "erivative.ca/Experimental:Accumulate_POP 54. docs.derivative.ca, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:Analyze_POP 55. Analyze TOP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Analyze_TOP 56. docs.derivative.ca, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:Attribute_Convert_POP 57. docs.derivative.ca, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:Blend_POP 58. Blend SOP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Blend_SOP 59. docs.derivative.ca, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:Box_POP 60. Box SOP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Box_SOP 61. docs.derivative.ca, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:CHOP_to_POP 62. CHOP to POP - Derivative, fecha de acceso: julio 1, 2025, https://doc"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "o grupos específicos deseas procesar de cada entrada. • Experimental:Attribute Convert POP: Se utiliza para transferir atributos entre diferentes \"clases\" (tipos) de datos, como convertir atributos de puntos a atributos de vértices o de primitivas. • Experimental:Attribute POP: Es un operador fundamental para crear nuevos atributos en puntos, vértices o primitivas, y puedes inicializarlos con valores constantes. También es el lugar donde puedes crear \"arrays de atributos\". • Experimental:Blend POP: Es un POP que soporta múltiples entradas, lo que sugiere que puede mezclar o interpolar datos de diferentes fuentes. • Experimental:Box POP: Un operador generador que crea una geometría de caja. • Experimental:Cache Blend POP: Se menciona en relación con el uso de atributos como 'Velocity' (Vel), lo que sugiere su rol en la mezcla de datos temporales o en animaciones. • Experimental:Cache POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "metrías para renderizados de alta calidad. * **Switch POP (POP de Intercambio)** * **Función principal:** Permite **elegir una de las múltiples entradas** y la envía a la salida sin cambios. * **Características clave:** * El número de puntos, vértices y primitivas de las entradas puede ser **diferente**. * Usa un parámetro numérico `Index` para seleccionar la entrada (0 para la primera). * Si el `Index` es un número no entero, puede **mezclar (blend) dos entradas adyacentes** si tienen el mismo número de puntos, vértices y primitivas. * **Uso simple:** Ideal para cambiar dinámicamente entre diferentes fuentes de geometría o efectos en tu red de POPs, por ejemplo, alternar entre una nube de puntos y una forma de esfera con la misma simulación. * **SOP to POP (SOP a POP)** * **Función principal:** Convierte geometría del tipo **SOP** (Surface Operators) a geometría del tipo **POP**. * **Características clave:**"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "primitiva) quieres pasar a la salida. * Maneja las **diferencias en la cantidad de puntos/primitivas** (`Length Mismatch`) entre las entradas. Puedes elegir ignorar, advertir o generar un error. Para las entradas más cortas, puedes hacer que los valores se mantengan (`Hold`), se repitan (`Repeat`), se pongan a cero (`Zero`), se pongan a uno (`One`), o no hacer nada (`None`). * Su forma de manejar múltiples entradas es similar a la de otros POPs como Math Combine POP, Math Mix POP, Blend POP, Merge POP y Switch POP. --- #### 4. Attribute Convert POP * **¿Qué hace?** Permite **copiar un atributo de un tipo de geometría a otro**. Por ejemplo, puedes tomar un atributo que está en una primitiva (como el color de una cara de un cubo) y copiarlo a los puntos de esa primitiva. * **Características clave:** * Realiza operaciones de conversión como: * **Point to Vertex** (punto a vértice) * **Vertex to Point** (vértice a punto) * **Poin"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

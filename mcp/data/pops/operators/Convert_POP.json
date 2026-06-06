@@ -1,0 +1,103 @@
+{
+  "pageTitle": "Convert POP",
+  "pageSlug": "Convert_POP",
+  "url": "https://docs.derivative.ca/Convert_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "convertPOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "Convert",
+      "type": "Menu",
+      "options": [
+        "None",
+        "Keep Points, Delete Primitives",
+        "Points to Point Primitives",
+        "Line Strips to Lines",
+        "Triangle, Quads and Lines to Line Strips",
+        "Quads to Triangles",
+        "Close Line Strips",
+        "Open Line Strips",
+        "Reverse Vertex Order of Each Primitive",
+        "Unique and Reorder Points by Prim/Vertex Order"
+      ],
+      "default": "None",
+      "description": "The conversion operation to apply."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ecuenciales. La mezcla se realiza por punto, lo que es útil para efectos basados en el tiempo como el desenfoque de movimiento o el cálculo de la velocidad de los puntos a partir de datos históricos.31 * Cache Select POP: Toma una referencia a un Cache POP y genera uno de sus conjuntos de datos en caché utilizando un parámetro Cache Index. Un Cache Index de 0 se refiere a los datos del fotograma actual, -1 a los datos anteriores, y así sucesivamente. Los índices fuera de rango se ajustan.32 * Convert POP: Una utilidad general para reestructurar primitivas. Mantiene los puntos de entrada pero reconfigura su conectividad, permitiendo conversiones entre tiras de línea, apertura/cierre de líneas, conversión de quads a triángulos, eliminación de todas las primitivas o creación de primitivas de punto a partir de puntos.33 * File In POP: Lee un archivo y convierte su geometría en un POP en la memoria de la GPU. Soporta varios formatos de archivo.34 * Lookup Attribute POP: Toma un atributo (el Lookup"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ecuenciales. La mezcla se realiza por punto, lo que es útil para efectos basados en el tiempo como el desenfoque de movimiento o el cálculo de la velocidad de los puntos a partir de datos históricos.31 * Cache Select POP: Toma una referencia a un Cache POP y genera uno de sus conjuntos de datos en caché utilizando un parámetro Cache Index. Un Cache Index de 0 se refiere a los datos del fotograma actual, -1 a los datos anteriores, y así sucesivamente. Los índices fuera de rango se ajustan.32 * Convert POP: Una utilidad general para reestructurar primitivas. Mantiene los puntos de entrada pero reconfigura su conectividad, permitiendo conversiones entre tiras de línea, apertura/cierre de líneas, conversión de quads a triángulos, eliminación de todas las primitivas o creación de primitivas de punto a partir de puntos.33 * File In POP: Lee un archivo y convierte su geometría en un POP en la memoria de la GPU. Soporta varios formatos de archivo.34 * Lookup Attribute POP: Toma un atributo (el Lo"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ecuenciales. La mezcla se realiza por punto, lo que es útil para efectos basados en el tiempo como el desenfoque de movimiento o el cálculo de la velocidad de los puntos a partir de datos históricos.31 * Cache Select POP: Toma una referencia a un Cache POP y genera uno de sus conjuntos de datos en caché utilizando un parámetro Cache Index. Un Cache Index de 0 se refiere a los datos del fotograma actual, -1 a los datos anteriores, y así sucesivamente. Los índices fuera de rango se ajustan.32 * Convert POP: Una utilidad general para reestructurar primitivas. Mantiene los puntos de entrada pero reconfigura su conectividad, permitiendo conversiones entre tiras de línea, apertura/cierre de líneas, conversión de quads a triángulos, eliminación de todas las primitivas o creación de primitivas de punto a partir de puntos.33 * File In POP: Lee un archivo y convierte su geometría en un POP en la memoria de la GPU. Soporta varios formatos de archivo.34 * Lookup Attribute POP: Toma un atributo (el Lookup"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ión específica de este operador. • Experimental:Analyze POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Attribute Combine POP: Este operador es útil para combinar atributos de múltiples entradas. También puedes usarlo para, por ejemplo, quitar el atributo de Posición (P) de un POP si no lo necesitas. Permite seleccionar qué atributos o grupos específicos deseas procesar de cada entrada. • Experimental:Attribute Convert POP: Se utiliza para transferir atributos entre diferentes \"clases\" (tipos) de datos, como convertir atributos de puntos a atributos de vértices o de primitivas. • Experimental:Attribute POP: Es un operador fundamental para crear nuevos atributos en puntos, vértices o primitivas, y puedes inicializarlos con valores constantes. También es el lugar donde puedes crear \"arrays de atributos\". • Experimental:Blend POP: Es un POP que soporta múltiples entradas, lo que sugiere que puede mezclar o inter"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ión específica de este operador. • Experimental:Analyze POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Attribute Combine POP: Este operador es útil para combinar atributos de múltiples entradas. También puedes usarlo para, por ejemplo, quitar el atributo de Posición (P) de un POP si no lo necesitas. Permite seleccionar qué atributos o grupos específicos deseas procesar de cada entrada. • Experimental:Attribute Convert POP: Se utiliza para transferir atributos entre diferentes \"clases\" (tipos) de datos, como convertir atributos de puntos a atributos de vértices o de primitivas. • Experimental:Attribute POP: Es un operador fundamental para crear nuevos atributos en puntos, vértices o primitivas, y puedes inicializarlos con valores constantes. También es el lugar donde puedes crear \"arrays de atributos\". • Experimental:Blend POP: Es un POP que soporta múltiples entradas, lo que sugiere que puede mezclar o i"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ión específica de este operador. • Experimental:Analyze POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Attribute Combine POP: Este operador es útil para combinar atributos de múltiples entradas. También puedes usarlo para, por ejemplo, quitar el atributo de Posición (P) de un POP si no lo necesitas. Permite seleccionar qué atributos o grupos específicos deseas procesar de cada entrada. • Experimental:Attribute Convert POP: Se utiliza para transferir atributos entre diferentes \"clases\" (tipos) de datos, como convertir atributos de puntos a atributos de vértices o de primitivas. • Experimental:Attribute POP: Es un operador fundamental para crear nuevos atributos en puntos, vértices o primitivas, y puedes inicializarlos con valores constantes. También es el lugar donde puedes crear \"arrays de atributos\". • Experimental:Blend POP: Es un POP que soporta múltiples entradas, lo que sugiere que puede mezclar o inter"
+    }
+  ],
+  "useCases": [
+    "Change point formats",
+    "Convert between representations",
+    "Reorganize data",
+    "Converting quad mesh to triangle mesh for rendering",
+    "Opening/closing line strips for laser projection",
+    "Flattening geometry for export",
+    "Preparing topology for specific operators"
+  ],
+  "examples": [
+    {
+      "name": "Format Change",
+      "description": "Convert POP to change from quad to triangle output",
+      "difficulty": "intermediate"
+    },
+    {
+      "name": "Quad to Triangle",
+      "description": "Grid POP (Quads) -> Convert POP (Quads to Triangles) for GPU rendering",
+      "difficulty": "beginner"
+    },
+    {
+      "name": "Open Line Strip",
+      "description": "Line POP (closed) -> Convert POP (Open Line Strips) for laser output",
+      "difficulty": "beginner"
+    }
+  ],
+  "commonCombinations": [
+    "Generator to Convert POP",
+    "Convert POP to Render",
+    "Any POP -> Convert POP (change topology) -> Render TOP",
+    "Convert POP -> Facet POP -> Normal POP (clean and shade)",
+    "Line strips -> Convert POP (Lines to Line Strips) -> Line Thick POP"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Data loss",
+      "solution": "Check which attributes are preserved during conversion."
+    },
+    {
+      "problem": "Conversion produces no geometry",
+      "solution": "Check input has the expected primitive type for the conversion operation."
+    },
+    {
+      "problem": "Winding order wrong",
+      "solution": "Use Reverse Vertex Order of Each Primitive to fix normal direction."
+    }
+  ],
+  "description": "Reconnects points as different primitive types. Converts between line strips, lines, triangles, quads. Can close/open line strips, reverse vertex order, and flatten geometry."
+}

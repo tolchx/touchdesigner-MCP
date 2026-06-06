@@ -1,0 +1,227 @@
+{
+  "pageTitle": "File Out POP",
+  "pageSlug": "File_Out_POP",
+  "url": "https://docs.derivative.ca/File_Out_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "fileOutPOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "Type",
+      "internalName": "type",
+      "type": "menu",
+      "default": "file",
+      "description": "File (single) / File Sequence (sequential)"
+    },
+    {
+      "name": "Object File Type",
+      "internalName": "objectfiletype",
+      "type": "menu",
+      "default": "obj",
+      "description": "OBJ / EXR / PLY / SPZ / E57"
+    },
+    {
+      "name": "Unique Suffix",
+      "internalName": "uniquesuff",
+      "type": "toggle",
+      "default": false,
+      "description": "Enable unique filename suffix"
+    },
+    {
+      "name": "N",
+      "internalName": "n",
+      "type": "integer",
+      "default": 0,
+      "description": "Starting index for unique suffix"
+    },
+    {
+      "name": "Leading Zeros Digits",
+      "internalName": "leadingzerosdigits",
+      "type": "integer",
+      "default": 4,
+      "description": "Min digits in sequence number"
+    },
+    {
+      "name": "File",
+      "internalName": "file",
+      "type": "string",
+      "default": "",
+      "description": "Path and filename (must include extension)"
+    },
+    {
+      "name": "FPS",
+      "internalName": "fps",
+      "type": "float",
+      "default": 24,
+      "description": "Frame rate for file sequence"
+    },
+    {
+      "name": "Limit Length",
+      "internalName": "limitlength",
+      "type": "toggle",
+      "default": false,
+      "description": "Auto-stop recording at specified length"
+    },
+    {
+      "name": "Length",
+      "internalName": "length",
+      "type": "float",
+      "default": 1,
+      "description": "Length to stop recording"
+    },
+    {
+      "name": "Length Unit",
+      "internalName": "lengthunit",
+      "type": "menu",
+      "default": "seconds",
+      "description": "Time unit for length"
+    },
+    {
+      "name": "Record",
+      "internalName": "record",
+      "type": "toggle",
+      "default": false,
+      "description": "Start/stop recording"
+    },
+    {
+      "name": "Record Pulse",
+      "internalName": "recordpulse",
+      "type": "pulse",
+      "default": null,
+      "description": "Instantly write out a file"
+    },
+    {
+      "name": "Pause",
+      "internalName": "pause",
+      "type": "toggle",
+      "default": false,
+      "description": "Pause recording"
+    },
+    {
+      "name": "Add Frame",
+      "internalName": "addframe",
+      "type": "pulse",
+      "default": null,
+      "description": "Add single frame (requires Pause=On)"
+    },
+    {
+      "name": "Max Active Saves",
+      "internalName": "maxactive",
+      "type": "integer",
+      "default": 4,
+      "description": "Max concurrent save tasks"
+    },
+    {
+      "name": "Include Primitives",
+      "internalName": "includeprim",
+      "type": "toggle",
+      "default": false,
+      "description": "Write primitive data to file"
+    },
+    {
+      "name": "Tex Coord Attribute",
+      "internalName": "texcoordattrib",
+      "type": "string",
+      "default": "Tex",
+      "description": "Texture attribute name for UV export"
+    },
+    {
+      "name": "Output Color Space",
+      "internalName": "outputcolorspace",
+      "type": "menu",
+      "default": "srgb",
+      "description": "sRGB / ACES / Rec.709 / etc."
+    },
+    {
+      "name": "Attribute Name",
+      "internalName": "attr0name",
+      "type": "string",
+      "default": "",
+      "description": "Attribute to write as field"
+    },
+    {
+      "name": "Fields",
+      "internalName": "attr0fields",
+      "type": "string",
+      "default": "",
+      "description": "Field mapping for attribute"
+    },
+    {
+      "name": "Bypass",
+      "internalName": "bypass",
+      "type": "toggle",
+      "default": false,
+      "description": "Pass through first input unchanged"
+    },
+    {
+      "name": "Free Extra GPU Memory",
+      "internalName": "freeextragpumem",
+      "type": "toggle",
+      "default": false,
+      "description": "Free accumulated GPU memory"
+    },
+    {
+      "name": "Delete Input Attributes",
+      "internalName": "delinputattrs",
+      "type": "toggle",
+      "default": false,
+      "description": "Only output specified attributes"
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [
+    "Export point clouds to PLY/EXR",
+    "Save simulation state for later reload",
+    "Record file sequences for external processing",
+    "Export OBJ meshes with normals and UVs",
+    "Write SPZ Gaussian splatting files"
+  ],
+  "examples": [
+    {
+      "name": "PLY Export",
+      "description": "Particle POP → File Out POP (type=PLY, Record=On)",
+      "difficulty": "intermediate"
+    },
+    {
+      "name": "OBJ Sequence",
+      "description": "Simulation → File Out POP (OBJ, File Sequence, 30fps)",
+      "difficulty": "intermediate"
+    },
+    {
+      "name": "SPZ Splat",
+      "description": "Gaussian Splat POP → File Out POP (SPZ format)",
+      "difficulty": "advanced"
+    },
+    {
+      "name": "EXR Point Cloud",
+      "description": "GLSL POP → File Out POP (EXR, arbitrary attributes)",
+      "difficulty": "advanced"
+    }
+  ],
+  "commonCombinations": [
+    "Simulation → File Out POP",
+    "File Out POP → File In POP",
+    "Particle POP → File Out POP",
+    "GLSL POP → File Out POP"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "File not writing",
+      "solution": "Check write permissions and valid path with extension"
+    },
+    {
+      "problem": "Missing attributes",
+      "solution": "Some formats require specific attributes (SPZ needs P, Color, Scale, Rot)"
+    },
+    {
+      "problem": "Sequence not numbering",
+      "solution": "Enable Unique Suffix and check Leading Zeros"
+    },
+    {
+      "problem": "Large files",
+      "solution": "Reduce Max Active Saves or use simpler formats (PLY over OBJ)"
+    }
+  ],
+  "description": "Writes POP contents to file types including OBJ (normals, UV, color), SPZ (Gaussian splatting), E57 (point clouds), PLY (arbitrary attributes), EXR (arbitrary attributes). Supports single file or file sequence recording."
+}

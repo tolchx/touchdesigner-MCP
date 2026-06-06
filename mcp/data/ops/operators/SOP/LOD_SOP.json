@@ -1,0 +1,30 @@
+{
+  "family": "SOP",
+  "pageTitle": "LOD SOP",
+  "pageSlug": "LOD_SOP",
+  "url": "https://docs.derivative.ca/LOD_SOP",
+  "tdOpTypeGuess": "lODSOP",
+  "summary": "[  edit  ]\nThe LOD  SOP  is unusual in so far as it does not actually alter any geometry. Instead it builds a level of detail cache for the input object. The cache to be drawn is based upon the distance to the camera. Thus, a complicated object will be drawn with a lower level of detail when it is farther away.\nThe second input is the  Rest  Geometry  . If provided, this is the geometry wich will be used to do the (expensive) polygon reduction, and only the points of the left input will be used.\nlodSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "rm arrays with GLSL POP - TouchDesigner forum, fecha de acceso: julio 1, 2025, https://forum.derivative.ca/t/uniform-arrays-with-glsl-pop/709012 41. Experimental:Import Select POP | Derivative - TouchDesigner, fecha de acceso: julio 1, 2025, https://derivative.ca/UserGuide/Experimental%3AImport_Select_POP 42. A Look at the Particle POP in TouchDesigner - TouchDesigner Tutorial 211 - YouTube, fecha de acceso: julio 1, 2025, https://www.youtube.com/watch?v=MTtmGBRC8vM 43. TouchDesigner POPs Exploding Particles - TouchDesigner Tutorial 213 - YouTube, fecha de acceso: julio 1, 2025, https://www.youtube.com/watch?v=iTe-2B764vg 44. Experimental:CPlusPlus POP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:CPlusPlus_POP 45. Cache POP - Derivative, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Cache_POP 46. RFE: DMX Fixture POP - Attribute Channel Split across Universe - TouchDesigner forum, fecha de acceso: julio 1, 2025,"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

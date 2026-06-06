@@ -1,0 +1,111 @@
+{
+  "pageTitle": "Alembic Out POP",
+  "pageSlug": "Alembic_Out_POP",
+  "url": "https://docs.derivative.ca/Experimental:Alembic_Out_POP",
+  "experimental": true,
+  "tdOpTypeGuess": "alembicOutPOP",
+  "inputs": ["input0"],
+  "description": "New in TD 2025.3: Writes POP contents to Alembic .abc files. Supports multi-frame animation, built-in and custom attributes, and multiple POPs as separate Alembic objects in one file. Enables pipeline integration with Houdini, Maya, Blender, and other 3D software.",
+  "parameters": [
+    {
+      "name": "File Path",
+      "type": "File",
+      "default": "",
+      "description": "Output file path for the .abc Alembic file. Use $F for frame number substitution."
+    },
+    {
+      "name": "Record",
+      "type": "Toggle",
+      "default": 0,
+      "description": "When enabled, continuously writes frames to the Alembic file each cook."
+    },
+    {
+      "name": "Output Object Name",
+      "type": "String",
+      "default": "pop_output",
+      "description": "Name of the Alembic object created from this POP's data. Multiple POPs can use different names in one file."
+    },
+    {
+      "name": "Attributes",
+      "type": "Menu",
+      "options": ["All", "Point", "Vertex", "Primitive", "Custom"],
+      "default": "All",
+      "description": "Which attribute classes to include in the export. Custom lets you specify exact attributes."
+    },
+    {
+      "name": "Custom Attributes",
+      "type": "String",
+      "default": "P,N,Cd",
+      "description": "Comma-separated list of attribute names to export when Attributes is set to Custom."
+    },
+    {
+      "name": "Include Velocity",
+      "type": "Toggle",
+      "default": 1,
+      "description": "When enabled, exports velocity (v) attribute for motion blur compatibility in other DCCs."
+    },
+    {
+      "name": "Frame Range",
+      "type": "String",
+      "default": "1-100",
+      "description": "Frame range to record when Record is disabled. Format: start-end or start-end:step."
+    }
+  ],
+  "attributes": [],
+  "useCases": [
+    "Exporting POP simulations to Alembic for rendering in other 3D software",
+    "Caching POP animations to disk for playback without re-cooking",
+    "Pipeline integration with Houdini, Maya, and Blender via Alembic",
+    "Recording real-time POP output for post-production",
+    "Sharing POP-generated geometry across multiple applications",
+    "Archiving interactive installation states for later playback"
+  ],
+  "examples": [
+    {
+      "name": "Simulation Cache",
+      "description": "Particle POP chain → Alembic Out POP (Record=on, File=$F.abc) for frame-by-frame cache",
+      "difficulty": "beginner"
+    },
+    {
+      "name": "Houdini Pipeline Export",
+      "description": "GLSL POP displacement → Alembic Out POP (Custom attrs: P,N,Cd,v) for Houdini rendering",
+      "difficulty": "intermediate"
+    },
+    {
+      "name": "Multi-Object Archive",
+      "description": "Multiple POP chains → separate Alembic Out POPs with different Object Names → single .abc file with all objects",
+      "difficulty": "advanced"
+    }
+  ],
+  "commonCombinations": [
+    "Any POP chain → Alembic Out POP (cache/export to disk)",
+    "Alembic In POP → Transform POP → Alembic Out POP (round-trip workflow)",
+    "Particle POP → Alembic Out POP (cache particle sim for DCC rendering)",
+    "Text POP → Alembic Out POP (export 3D text for Maya/Blender)",
+    "GLSL POP → Alembic Out POP (cache GPU-displaced geometry)"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Alembic file is empty or has no geometry",
+      "solution": "Verify the input POP chain has valid geometry with points and primitives. Check that File Path is writable and the directory exists."
+    },
+    {
+      "problem": "Attributes missing in exported file",
+      "solution": "Set Attributes to 'All' or 'Custom' with the specific attribute names. Some attributes may not transfer if they are the wrong class (point vs vertex vs primitive)."
+    },
+    {
+      "problem": "Alembic file can't be read by other software",
+      "solution": "Ensure the Alembic file is written with standard Ogawa format. Some older DCC versions may need the legacy HDF5 format."
+    },
+    {
+      "problem": "Performance issues when recording many frames",
+      "solution": "Reduce the number of attributes exported (use Custom mode with only needed attributes). Consider recording at a lower frame rate and interpolating in the DCC."
+    }
+  ],
+  "localNotes": [
+    {
+      "source": "Docs/115-td-2025-release-notes-knowledge.md",
+      "excerpt": "Alembic Out POP: New POP writes POP contents to Alembic .abc files. Supports multi-frame animation, built-in and custom attributes, and multiple POPs as separate Alembic objects in one file."
+    }
+  ]
+}

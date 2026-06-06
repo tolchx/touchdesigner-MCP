@@ -1,0 +1,57 @@
+{
+  "pageTitle": "DAT to POP",
+  "pageSlug": "DAT_to_POP",
+  "url": "https://docs.derivative.ca/DAT_to_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "dATtoPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "inaccesible, limitada a menciones muy breves o redirecciones sin contenido, o que las búsquedas arrojaron resultados irrelevantes de otras familias de operadores (SOPs, CHOPs, TOPs, DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Re"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "inaccesible, limitada a menciones muy breves o redirecciones sin contenido, o que las búsquedas arrojaron resultados irrelevantes de otras familias de operadores (SOPs, CHOPs, TOPs, DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "inaccesible, limitada a menciones muy breves o redirecciones sin contenido, o que las búsquedas arrojaron resultados irrelevantes de otras familias de operadores (SOPs, CHOPs, TOPs, DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Re"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "res. Puede generar puntos con sus primitivas correspondientes. • Experimental:Convert POP: Se usa para cambiar entre diferentes tipos de primitivas. • Experimental:Copy POP: Permite crear copias de geometría dentro de un POP, las cuales pueden ser manipuladas o animadas antes de la renderización. También puede generar grupos automáticamente. • Experimental:Curve POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:DAT to POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Delete POP: Permite reducir un conjunto de puntos o primitivas a un subconjunto más pequeño. Puede utilizar atributos de solo lectura incorporados para la selección. • Experimental:Dimension POP: Relacionado con una organización de orden superior de los puntos dentro de un POP. Sugiere una forma más avanzada de estructurar los datos de puntos. • Experimental:DMX Fixtu"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "res. Puede generar puntos con sus primitivas correspondientes. • Experimental:Convert POP: Se usa para cambiar entre diferentes tipos de primitivas. • Experimental:Copy POP: Permite crear copias de geometría dentro de un POP, las cuales pueden ser manipuladas o animadas antes de la renderización. También puede generar grupos automáticamente. • Experimental:Curve POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:DAT to POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Delete POP: Permite reducir un conjunto de puntos o primitivas a un subconjunto más pequeño. Puede utilizar atributos de solo lectura incorporados para la selección. • Experimental:Dimension POP: Relacionado con una organización de orden superior de los puntos dentro de un POP. Sugiere una forma más avanzada de estructurar los datos de puntos. • Experimental:DMX F"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "res. Puede generar puntos con sus primitivas correspondientes. • Experimental:Convert POP: Se usa para cambiar entre diferentes tipos de primitivas. • Experimental:Copy POP: Permite crear copias de geometría dentro de un POP, las cuales pueden ser manipuladas o animadas antes de la renderización. También puede generar grupos automáticamente. • Experimental:Curve POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:DAT to POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Delete POP: Permite reducir un conjunto de puntos o primitivas a un subconjunto más pequeño. Puede utilizar atributos de solo lectura incorporados para la selección. • Experimental:Dimension POP: Relacionado con una organización de orden superior de los puntos dentro de un POP. Sugiere una forma más avanzada de estructurar los datos de puntos. • Experimental:DMX Fixtu"
+    }
+  ],
+  "useCases": [
+    "CSV datasets",
+    "GPS viz",
+    "Scientific data"
+  ],
+  "examples": [
+    {
+      "name": "City Globe",
+      "description": "Table DAT to DAT to POP color by elevation",
+      "difficulty": "intermediate"
+    }
+  ],
+  "commonCombinations": [
+    "Table DAT to DAT to POP to Attribute POP"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Wrong mapping",
+      "solution": "Check column order."
+    }
+  ]
+}

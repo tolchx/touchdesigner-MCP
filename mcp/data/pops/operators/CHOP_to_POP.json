@@ -1,0 +1,213 @@
+{
+  "pageTitle": "CHOP to POP",
+  "pageSlug": "CHOP_to_POP",
+  "url": "https://docs.derivative.ca/CHOP_to_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "cHOPtoPOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "chop",
+      "label": "CHOP",
+      "type": "opRef",
+      "default": "",
+      "description": "The CHOP to convert to POP attributes."
+    },
+    {
+      "name": "surftype",
+      "label": "Connectivity",
+      "type": "menu",
+      "default": "none",
+      "options": [
+        "none",
+        "points",
+        "linestrip",
+        "lines"
+      ],
+      "description": "Primitive type for connecting points: None, Point Primitives, Line Strip, or Lines."
+    },
+    {
+      "name": "overridenumpoints",
+      "label": "Override Number of Points",
+      "type": "toggle",
+      "default": false,
+      "description": "Override the number of points produced instead of matching CHOP sample count."
+    },
+    {
+      "name": "numpoints",
+      "label": "Number of Points",
+      "type": "int",
+      "default": 10,
+      "description": "Number of points when override is enabled."
+    },
+    {
+      "name": "interpolate",
+      "label": "Interpolate",
+      "type": "toggle",
+      "default": false,
+      "description": "Interpolate between CHOP samples when point count differs from sample count."
+    },
+    {
+      "name": "specifypos",
+      "label": "Specify Position",
+      "type": "toggle",
+      "default": false,
+      "description": "Map CHOP samples to a position range using Start/End Position."
+    },
+    {
+      "name": "startposx",
+      "label": "Start Position X",
+      "type": "float",
+      "default": 0,
+      "description": "X start of position range for mapped points."
+    },
+    {
+      "name": "startposy",
+      "label": "Start Position Y",
+      "type": "float",
+      "default": 0,
+      "description": "Y start of position range for mapped points."
+    },
+    {
+      "name": "startposz",
+      "label": "Start Position Z",
+      "type": "float",
+      "default": 0,
+      "description": "Z start of position range for mapped points."
+    },
+    {
+      "name": "endposx",
+      "label": "End Position X",
+      "type": "float",
+      "default": 1,
+      "description": "X end of position range for mapped points."
+    },
+    {
+      "name": "endposy",
+      "label": "End Position Y",
+      "type": "float",
+      "default": 1,
+      "description": "Y end of position range for mapped points."
+    },
+    {
+      "name": "endposz",
+      "label": "End Position Z",
+      "type": "float",
+      "default": 1,
+      "description": "Z end of position range for mapped points."
+    },
+    {
+      "name": "closed",
+      "label": "Closed",
+      "type": "toggle",
+      "default": false,
+      "description": "Connect last vertex back to first vertex (for line strip)."
+    },
+    {
+      "name": "chanssel",
+      "label": "Channels Selection",
+      "type": "menu",
+      "default": "spec",
+      "options": [
+        "spec",
+        "precisenamessuffix",
+        "precisenames"
+      ],
+      "description": "How to map channels to attributes: Manual (Specify), Autoconvert with type suffix, or Autoconvert."
+    },
+    {
+      "name": "chanscope",
+      "label": "Channel Scope",
+      "type": "str",
+      "default": "*",
+      "description": "Pattern of CHOP channels to convert to point values."
+    },
+    {
+      "name": "delinputattrs",
+      "label": "Delete Input Attributes",
+      "type": "toggle",
+      "default": false,
+      "description": "Only output which attributes you specify — helps isolate attributes into a separate branch."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "estigación proporcionado indicó que la información era inaccesible, limitada a menciones muy breves o redirecciones sin contenido, o que las búsquedas arrojaron resultados irrelevantes de otras familias de operadores (SOPs, CHOPs, TOPs, DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "estigación proporcionado indicó que la información era inaccesible, limitada a menciones muy breves o redirecciones sin contenido, o que las búsquedas arrojaron resultados irrelevantes de otras familias de operadores (SOPs, CHOPs, TOPs, DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "estigación proporcionado indicó que la información era inaccesible, limitada a menciones muy breves o redirecciones sin contenido, o que las búsquedas arrojaron resultados irrelevantes de otras familias de operadores (SOPs, CHOPs, TOPs, DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "crea una geometría de caja. • Experimental:Cache Blend POP: Se menciona en relación con el uso de atributos como 'Velocity' (Vel), lo que sugiere su rol en la mezcla de datos temporales o en animaciones. • Experimental:Cache POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Cache Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:CHOP to POP: Permite convertir datos de la familia CHOPs (Channel Operators) a datos de POPs. Esto es eficiente porque los POPs ya implementan muchas funciones de CHOPs directamente en la GPU, evitando conversiones de GPU a CPU y viceversa. • Experimental:Circle POP: Un operador generador que crea formas circulares. Puede generar puntos con sus primitivas correspondientes. • Experimental:Convert POP: Se usa para cambiar entre diferentes tipos de primitivas. • Experimental:Copy POP: Permite crear copi"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "crea una geometría de caja. • Experimental:Cache Blend POP: Se menciona en relación con el uso de atributos como 'Velocity' (Vel), lo que sugiere su rol en la mezcla de datos temporales o en animaciones. • Experimental:Cache POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Cache Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:CHOP to POP: Permite convertir datos de la familia CHOPs (Channel Operators) a datos de POPs. Esto es eficiente porque los POPs ya implementan muchas funciones de CHOPs directamente en la GPU, evitando conversiones de GPU a CPU y viceversa. • Experimental:Circle POP: Un operador generador que crea formas circulares. Puede generar puntos con sus primitivas correspondientes. • Experimental:Convert POP: Se usa para cambiar entre diferentes tipos de primitivas. • Experimental:Copy POP: Permite crear"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "crea una geometría de caja. • Experimental:Cache Blend POP: Se menciona en relación con el uso de atributos como 'Velocity' (Vel), lo que sugiere su rol en la mezcla de datos temporales o en animaciones. • Experimental:Cache POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Cache Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:CHOP to POP: Permite convertir datos de la familia CHOPs (Channel Operators) a datos de POPs. Esto es eficiente porque los POPs ya implementan muchas funciones de CHOPs directamente en la GPU, evitando conversiones de GPU a CPU y viceversa. • Experimental:Circle POP: Un operador generador que crea formas circulares. Puede generar puntos con sus primitivas correspondientes. • Experimental:Convert POP: Se usa para cambiar entre diferentes tipos de primitivas. • Experimental:Copy POP: Permite crear copi"
+    }
+  ],
+  "useCases": [
+    "Audio spectrum visualization (FFT bands → point positions and color)",
+    "Motion capture data → animated point cloud for body tracking",
+    "Sensor data spatialization (depth/IMU → 3D point positions)",
+    "CHOP-driven LED arrays (channels → point attributes → DMX Out)",
+    "Procedural animation (noise CHOP → point displacement on GPU)"
+  ],
+  "examples": [
+    {
+      "name": "Audio Spectrum Bars",
+      "description": "Audio CHOP → Analyze CHOP → CHOP to POP (Specify Position, Y-axis) → Point Sprite MAT",
+      "difficulty": "intermediate"
+    },
+    {
+      "name": "Motion Capture Points",
+      "description": "CHOP channels (X/Y/Z per joint) → CHOP to POP (P attribute) → Noise POP → Render",
+      "difficulty": "advanced"
+    },
+    {
+      "name": "LED Array",
+      "description": "CHOP channels → CHOP to POP (None connectivity) → Attribute POP (Cd color) → DMX Out POP",
+      "difficulty": "intermediate"
+    }
+  ],
+  "commonCombinations": [
+    "Audio CHOP → CHOP to POP → Attribute POP (color by amplitude)",
+    "CHOP to POP → Noise POP (displacement from channel data)",
+    "CHOP to POP → GLSL POP (custom vertex shaders driven by CHOP)",
+    "CHOP to POP → Render TOP (point sprite rendering of channel data)"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "No points created",
+      "solution": "Verify CHOP has data. Check Channel Scope pattern matches your channel names."
+    },
+    {
+      "problem": "Points in wrong positions",
+      "solution": "Enable Specify Position and set Start/End Position XYZ to map sample values to spatial range."
+    },
+    {
+      "problem": "Attributes missing",
+      "solution": "Check Channels Selection mode — Autoconvert requires Precise naming convention (e.g., Tex_0, Tex_1, Tex_2)."
+    },
+    {
+      "problem": "Wrong data type on attributes",
+      "solution": "Use type suffix in channel name: f (float), i (int), u (unsigned), F (double)."
+    },
+    {
+      "problem": "Interpolation artifacts",
+      "solution": "Disable Interpolate if you want nearest-sample behavior instead of smooth interpolation."
+    }
+  ],
+  "description": "Converts CHOP channels to POP point attributes. Each CHOP sample becomes one POP point. Supports automatic channel-to-attribute mapping via naming conventions (compatible with POP to CHOP Precise format). Enables audio visualization, motion capture, and sensor data to flow into the POP pipeline."
+}

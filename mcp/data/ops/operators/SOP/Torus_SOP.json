@@ -1,0 +1,307 @@
+{
+  "family": "SOP",
+  "pageTitle": "Torus SOP",
+  "pageSlug": "Torus_SOP",
+  "url": "https://docs.derivative.ca/Torus_SOP",
+  "tdOpTypeGuess": "torusSOP",
+  "summary": "[  edit  ]\nThe Torus  SOP  generates complete or specific sections of torus shapes (like a doughnut).\ntorusSOP_Class\nContents\n1   Summary\n2   Parameters - Torus Page\n3   Parameters - Detail Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common SOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Torus",
+      "label": "Primitive  Type",
+      "name": "type",
+      "description": "⊞  - Select from the following types. For information on the different types, see the  Geometry  category articles."
+    },
+    {
+      "page": "Torus",
+      "label": "Connectivity",
+      "name": "surftype",
+      "description": "⊞  - This option is used to select the type of surface, when using a  Mesh  primitive type."
+    },
+    {
+      "page": "Torus",
+      "label": "Rows",
+      "name": "rows",
+      "description": "Creates horizontal lines."
+    },
+    {
+      "page": "Torus",
+      "label": "Columns",
+      "name": "cols",
+      "description": "Creates vertical lines."
+    },
+    {
+      "page": "Torus",
+      "label": "Rows and Columns",
+      "name": "rowcol",
+      "description": "Both Rows and Columns. Looks like Quads in wire frame display, but all polygons are open (if the primitive type is polygon)."
+    },
+    {
+      "page": "Torus",
+      "label": "Triangles",
+      "name": "triangles",
+      "description": "Build the grid with Triangles."
+    },
+    {
+      "page": "Torus",
+      "label": "Quadrilaterals",
+      "name": "quads",
+      "description": "Generates sides composed of quadrilaterals (default)."
+    },
+    {
+      "page": "Torus",
+      "label": "Alternating Triangles",
+      "name": "alttriangles",
+      "description": "Generates triangles that are opposed; similar to the  Triangles  option."
+    },
+    {
+      "page": "Torus",
+      "label": "Orientation",
+      "name": "orient",
+      "description": "⊞  - The axis along which the torus is constructed."
+    },
+    {
+      "page": "Torus",
+      "label": "Modify Bounds",
+      "name": "modifybounds",
+      "description": "Enabled only when an input is connected to the Torus  SOP  to set bounds for the torus. Turn Modify Bounds = On to enable the transform parameters below to further modify the position and radius of the bounds."
+    },
+    {
+      "page": "Torus",
+      "label": "Radius",
+      "name": "rad",
+      "description": "⊞  - The first value (radx) defines the radius of the torus, the second value (rady) determines the radius of the inner ring."
+    },
+    {
+      "page": "Torus",
+      "label": "Center",
+      "name": "t",
+      "description": "⊞  - Offset of torus center from object origin."
+    },
+    {
+      "page": "Torus",
+      "label": "Reverse Anchors",
+      "name": "reverseanchors",
+      "description": "Invert the direction of anchors."
+    },
+    {
+      "page": "Torus",
+      "label": "Anchor U",
+      "name": "anchoru",
+      "description": "Set the point in X about which the geometry is positioned, scaled and rotated."
+    },
+    {
+      "page": "Torus",
+      "label": "Anchor V",
+      "name": "anchorv",
+      "description": "Set the point in Y about which the geometry is positioned, scaled and rotated."
+    },
+    {
+      "page": "Torus",
+      "label": "Anchor W",
+      "name": "anchorw",
+      "description": "Set the point in Z about which the geometry is positioned, scaled and rotated."
+    },
+    {
+      "page": "Torus",
+      "label": "Rows",
+      "name": "rows",
+      "description": "The rows define the number of divisions along the torus."
+    },
+    {
+      "page": "Torus",
+      "label": "Columns",
+      "name": "cols",
+      "description": "The columns determine the number of divisions along the torus' cross-section."
+    },
+    {
+      "page": "Detail",
+      "label": "Angle Offset",
+      "name": "angleoffset",
+      "description": "Rotates the torus along the minor radius.  For example, if using 4 rows set this value to 45 to create flat top + bottom surfaces."
+    },
+    {
+      "page": "Detail",
+      "label": "Imperfect",
+      "name": "imperfect",
+      "description": "This option applies only to Bezier and NURBS types. If selected, the tube is an approximated nonrational curve, otherwise it is a perfect rational curve."
+    },
+    {
+      "page": "Detail",
+      "label": "U Order",
+      "name": "orderu",
+      "description": "If a spline curve is selected, it is built at this order for U and V."
+    },
+    {
+      "page": "Detail",
+      "label": "V Order",
+      "name": "orderv",
+      "description": "If a spline curve is selected, it is built at this order for U and V."
+    },
+    {
+      "page": "Detail",
+      "label": "U Angle",
+      "name": "angleu",
+      "description": "⊞  - The start and end sweep angles of the torus, if  U Wrap  is not enabled."
+    },
+    {
+      "page": "Detail",
+      "label": "V Angle",
+      "name": "anglev",
+      "description": "⊞  - These are the start and end angles of the cross-section circle that is swept to make the torus, if  V Wrap  is not enabled."
+    },
+    {
+      "page": "Detail",
+      "label": "U Wrap",
+      "name": "closeu",
+      "description": "If  U Wrap  is checked, it creates a 360 cross-section."
+    },
+    {
+      "page": "Detail",
+      "label": "V Wrap",
+      "name": "closev",
+      "description": "Checking  V Wrap  creates a torus along V by closing the primitive."
+    },
+    {
+      "page": "Detail",
+      "label": "U End Caps",
+      "name": "capu",
+      "description": "If  U End Caps  is checked, it puts faceted end-caps on the ends of the torus if it is less than 360."
+    },
+    {
+      "page": "Detail",
+      "label": "V End Caps",
+      "name": "capv",
+      "description": "If  V End Caps  is checked, it applies a face between the top and bottom of the torus - if the torus is open."
+    },
+    {
+      "page": "Detail",
+      "label": "Texture Coordinates",
+      "name": "texture",
+      "description": "⊞  - This adds uv coordinates to the geometry created by the Torus  SOP ."
+    },
+    {
+      "page": "Detail",
+      "label": "Off",
+      "name": "off",
+      "description": "No uv coordinates added."
+    },
+    {
+      "page": "Detail",
+      "label": "Row & Columns",
+      "name": "rowcol",
+      "description": "uv coordinates added based on Rows and Columns in the geometry."
+    },
+    {
+      "page": "Detail",
+      "label": "Compute Normals",
+      "name": "normals",
+      "description": "Checking this option On will compute surface normals."
+    },
+    {
+      "page": "Detail",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Detail",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Detail",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Detail",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Detail",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Detail",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Detail",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Detail",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Detail",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Detail",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Detail",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Detail",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Detail",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Detail",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Detail",
+      "label": "A polygon is a type of  Primitive  that is formed from a set of  Vertices  in 3D that are implicitly connected together to form a multi",
+      "description": "edge shape."
+    },
+    {
+      "page": "Detail",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de partículas complejos, simulaciones a gran escala y efectos visuales generativos que super"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "bar variaciones o controlar el flujo de datos. • Experimental:Texture Map POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:TOP to POP: Permite convertir datos de la familia TOPs (Texture Operators) a datos de POPs, específicamente para recuperar nubes de puntos. • Experimental:Topology POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Torus POP: Un operador generador que crea una geometría de toroide (forma de dona). • Experimental:Trail POP: Crea un historial de movimiento de un punto a lo largo del tiempo, generando una tira de línea para cada punto. Esto te permite visualizar la trayectoria de una partícula o punto a lo largo del tiempo. • Experimental:Transform POP: Un operador esencial para mover, rotar y escalar puntos o geometrías. Puede usar atributos de \"peso\" (Weight) para aplicar transformaciones parciales a los pun"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "* **Uso simple:** Para importar geometrías o nubes de puntos creadas en otros softwares o generadas a partir de datos externos. * **Point Generator POP (POP Generador de Puntos)** * **Función principal:** Crea un número específico de puntos, de forma aleatoria o con un patrón, sobre la **superficie** o dentro del **volumen** de una forma matemática básica (esfera, cubo, toro, etc.). * **Características clave:** * Permite elegir la **forma base** (Sphere, Box, Torus, Tube, Rectangle, Circle, Line). * Puedes generar puntos en la **superficie** o dentro del **volumen** de la forma. * Ofrece un control de `Random` (aleatoriedad) y `Seed` (semilla para el patrón aleatorio). * Capaz de añadir **normales (`N`) y tangentes (`T`)** a los puntos, vértices o primitivas, con opciones de aleatorización. * **Uso simple:** Una manera fácil de crear nubes de puntos o distribuir elementos en formas geométricas básicas para simulacio"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

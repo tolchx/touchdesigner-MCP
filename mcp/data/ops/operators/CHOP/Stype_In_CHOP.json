@@ -1,0 +1,226 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Stype In CHOP",
+  "pageSlug": "Stype_In_CHOP",
+  "url": "https://docs.derivative.ca/Stype_In_CHOP",
+  "tdOpTypeGuess": "stypeInCHOP",
+  "summary": "[  edit  ]\nNOTE\nLicense:  Only available in  TouchDesigner Pro .\nThe Stype  CHOP  reads camera tracking information sent from a  Stype  ( RedSpy ) device using the Stype HF protocol. The  CHOP  outputs channels that can be used to control a virtual camera and implement lens distortion via the  Stype TOP .\nThe channels exported by the Stype  CHOP  are:\nconnected  - 1 or 0, indicating whether the  CHOP  has received valid Stype messages within the last 500ms\nrecording  - 1 or 0, indicating the recording status on the Stype Kit (see Stype protocol for more information)\nfocus_distance  - 1 or 0, indicating how the focus field is used (see Stype protocol for more information)\nhours, minutes, seconds, frames  - timecode, may be zero if time information is not present\ntx, ty, tz  - camera position, can be connected to the  Camera COMP  Translate parameters\nrx, ry, rz  - camera rotation, can be connected to the  Camera COMP  Rotate parameters\nfov  - camera field of view, can be connected to the  Camera COMP  FOV Angle parameter\npadded_fov  - field of view expanded by the padding parameter, can be used in  Camera COMP  FOV Angle parameter\naspect  - aspect ratio of the camera\nfocus  - camera focus from 0 (closest) to 1 (infinite), can be used to simulate depth of field\nzoom  - camera zoom from 0 (wide) to 1 (tele)\ncenterx, centery  - offset of the camera sensor in mm, used by the  Stype TOP  for calculating lens correction\nk1, k2  - radial lens distortion parameters, used by the  Stype TOP  for calculating lens correction\npawidth, paheight  - size of the sensor in mm, used by the  Stype TOP  for calculating lens correction   For more information or to diagnose connection problems, an  Info CHOP  can be connected to see if any packets have been dropped or skipped.\nNOTE:  This  CHOP  works with  Stype  hardware.\nFor more information refer to the  Stype  article.\nSee also  Stype TOP .\nstypeCHOP_Class\nContents\n1   Summary\n2   Parameters - Stype Page\n3   Parameters - Common Page\n4   Info CHOP Channels\n4.1   Specific Stype CHOP Info Channels\n4.2   Common CHOP Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "Stype",
+      "label": "Protocol",
+      "name": "protocol",
+      "description": "⊞  - The network protocol to use. Refer to the  Network Protocols  article for more information."
+    },
+    {
+      "page": "Stype",
+      "label": "Multi",
+      "description": "Cast Messaging (UDP)   multicastmsging  -"
+    },
+    {
+      "page": "Stype",
+      "label": "Network Address",
+      "name": "netaddress",
+      "description": "When using Multicast, this is the address that Stype will listen for packets on."
+    },
+    {
+      "page": "Stype",
+      "label": "Network Port",
+      "name": "port",
+      "description": "The port which the Stype  CHOP  will accept packets on. The default for the protocol is 6301, but this should be set to match the current hardware output settings."
+    },
+    {
+      "page": "Stype",
+      "label": "Local Address",
+      "name": "localaddress",
+      "description": "When the sending machine is equipped with multiple network adapters, this parameter can be used to choose which adapter to send the data from by specifying its IP address here."
+    },
+    {
+      "page": "Stype",
+      "label": "Active",
+      "name": "active",
+      "description": "While on, the  CHOP  receives information sent to the network port. While Off, no updating occurs. Data sent to the port is lost."
+    },
+    {
+      "page": "Stype",
+      "label": "Padding",
+      "name": "padding",
+      "description": "A value from 0 to 1 indicating the percentage to increase the field of view in case the given lens distortion requires samples outside of the normal render area. It is used to calculate the padded field of view and can be used to calculate the resolution of the render node."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

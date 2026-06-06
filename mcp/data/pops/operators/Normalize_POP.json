@@ -1,0 +1,168 @@
+{
+  "pageTitle": "Normalize POP",
+  "pageSlug": "Normalize_POP",
+  "url": "https://docs.derivative.ca/Normalize_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "normalizePOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "Attribute Class",
+      "type": "Menu",
+      "options": [
+        "Point",
+        "Vertex",
+        "Primitive"
+      ],
+      "default": "Point",
+      "description": "Attribute class to operate on."
+    },
+    {
+      "name": "Input Attribute Scope",
+      "type": "Str",
+      "default": "P",
+      "description": "Attributes to normalize."
+    },
+    {
+      "name": "Parameter Size",
+      "type": "Menu",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "default": "1",
+      "description": "Number of independent parameter sets."
+    },
+    {
+      "name": "Aspect Correct",
+      "type": "Toggle",
+      "default": false,
+      "description": "Preserve input attribute aspect ratio."
+    },
+    {
+      "name": "Replace Errors",
+      "type": "Toggle",
+      "default": false,
+      "description": "Replace inf/nan values."
+    },
+    {
+      "name": "Error Value",
+      "type": "Float",
+      "default": 0,
+      "description": "Replacement value for errors."
+    },
+    {
+      "name": "Bias",
+      "type": "Float",
+      "default": 0,
+      "description": "Move normalized values toward 0 or 1."
+    },
+    {
+      "name": "Lookup Curve",
+      "type": "Menu",
+      "options": [
+        "Off",
+        "Linear",
+        "Ease In",
+        "Ease Out",
+        "Ease In-Out"
+      ],
+      "default": "Off",
+      "description": "Apply lookup curve to normalized values."
+    },
+    {
+      "name": "Exponent",
+      "type": "Float",
+      "default": 1,
+      "description": "Power function on normalized values."
+    },
+    {
+      "name": "Map to Low",
+      "type": "Float",
+      "default": 0,
+      "description": "Lower bound of output range."
+    },
+    {
+      "name": "Map to High",
+      "type": "Float",
+      "default": 1,
+      "description": "Upper bound of output range."
+    },
+    {
+      "name": "Output Attribute Scope",
+      "type": "Str",
+      "default": "P",
+      "description": "Output attribute name."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "P 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el m"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "P 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "P 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el m"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "os que comienzan con Nebr*, lo que sugiere su uso para trabajar con información de vecinos (puntos cercanos). • Experimental:Noise POP: Un operador que genera ruido para atributos, lo que permite crear efectos complejos y variaciones aleatorias. Sus parámetros pueden ser controlados por otros atributos. Permite crear y modificar atributos de color y textura. • Experimental:Normal POP: Se encarga de calcular y crear las normales de superficie y las tangentes de la geometría. • Experimental:Normalize POP: Ofrece capacidades de manipulación fundamentales sin necesidad de código. Permite crear y modificar atributos de color y textura. Este operador, al igual que otros, genera atributos normalizados. • Experimental:Null POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Out POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Particle POP: Repr"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "os que comienzan con Nebr*, lo que sugiere su uso para trabajar con información de vecinos (puntos cercanos). • Experimental:Noise POP: Un operador que genera ruido para atributos, lo que permite crear efectos complejos y variaciones aleatorias. Sus parámetros pueden ser controlados por otros atributos. Permite crear y modificar atributos de color y textura. • Experimental:Normal POP: Se encarga de calcular y crear las normales de superficie y las tangentes de la geometría. • Experimental:Normalize POP: Ofrece capacidades de manipulación fundamentales sin necesidad de código. Permite crear y modificar atributos de color y textura. Este operador, al igual que otros, genera atributos normalizados. • Experimental:Null POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Out POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Particle POP:"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "os que comienzan con Nebr*, lo que sugiere su uso para trabajar con información de vecinos (puntos cercanos). • Experimental:Noise POP: Un operador que genera ruido para atributos, lo que permite crear efectos complejos y variaciones aleatorias. Sus parámetros pueden ser controlados por otros atributos. Permite crear y modificar atributos de color y textura. • Experimental:Normal POP: Se encarga de calcular y crear las normales de superficie y las tangentes de la geometría. • Experimental:Normalize POP: Ofrece capacidades de manipulación fundamentales sin necesidad de código. Permite crear y modificar atributos de color y textura. Este operador, al igual que otros, genera atributos normalizados. • Experimental:Null POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Out POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Particle POP: Repr"
+    }
+  ],
+  "useCases": [
+    "Normalize position to 0-1 for texture mapping",
+    "Convert to polar/cylindrical coordinates",
+    "Apply ease-in/ease-out curves to attributes",
+    "Re-range values from one scale to another",
+    "Prepare data for GPU texture sampling"
+  ],
+  "examples": [
+    "Normalize POP (P → Tex) → map positions to texture coordinates",
+    "Normalize POP (Bias=0.5, Lookup=Ease In-Out) → smooth value remapping"
+  ],
+  "commonCombinations": [
+    {
+      "operators": [
+        "Normalize_POP",
+        "Lookup_Texture_POP"
+      ],
+      "description": "Map normalized positions to texture lookup"
+    },
+    {
+      "operators": [
+        "Noise_POP",
+        "Normalize_POP",
+        "Attribute_POP"
+      ],
+      "description": "Normalize noise to controlled range"
+    },
+    {
+      "operators": [
+        "Normalize_POP",
+        "Math_POP"
+      ],
+      "description": "Further math operations on normalized values"
+    }
+  ],
+  "troubleshooting": [
+    "Inf/nan errors: Enable Replace Errors and set Error Value",
+    "Aspect ratio wrong: Enable Aspect Correct",
+    "Component swapping: Use P(1) P(0) P(2) syntax to reorder components"
+  ],
+  "description": "Normalizes any attribute to 0-1 range. Supports polar/cylindrical coordinate conversion (radius, latitude, longitude). Post-normalization pipeline: Bias → Lookup Curve → Exponent → Re-range. Handles inf/nan with Replace Errors. Per-component control via Parameter Size."
+}

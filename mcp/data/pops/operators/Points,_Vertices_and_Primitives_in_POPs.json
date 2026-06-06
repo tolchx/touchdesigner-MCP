@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Points, Vertices and Primitives in POPs",
+  "pageSlug": "Points,_Vertices_and_Primitives_in_POPs",
+  "url": "https://docs.derivative.ca/Points,_Vertices_and_Primitives_in_POPs",
+  "experimental": false,
+  "tdOpTypeGuess": "points,VerticesandPrimitivesinPOPsPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "n.48 Un tutorial de YouTube relacionado con la \"cuantificación\" de píxeles 49 no describe el operador POP en sí, sino un concepto visual. 8. Random POP: Se encontró una redirección a su página de documentación 50, pero sin contenido descriptivo. 9. Point Generator POP: Se encontraron redirecciones a su página de documentación.51 Aunque un tutorial de YouTube menciona el uso de un Point Generator POP para distribuir puntos 43, no se proporciona una descripción detallada de sus parámetros. 10. Points, Vertices and Primitives in POPs: Esta es una página conceptual que describe la estructura de datos subyacente de los POPs (puntos, vértices, primitivas, atributos), pero no es un operador en sí mismo.7 4.2 Operadores con Documentación Inaccesible o Muy Limitada Para los siguientes operadores, el material de investigación proporcionado indicó que la información era inaccesible, limitada a menciones muy breves o redirecciones sin contenido, o que las búsquedas arrojaron resultados irrelevantes de otras familias de ope"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "n.48 Un tutorial de YouTube relacionado con la \"cuantificación\" de píxeles 49 no describe el operador POP en sí, sino un concepto visual. 8. Random POP: Se encontró una redirección a su página de documentación 50, pero sin contenido descriptivo. 9. Point Generator POP: Se encontraron redirecciones a su página de documentación.51 Aunque un tutorial de YouTube menciona el uso de un Point Generator POP para distribuir puntos 43, no se proporciona una descripción detallada de sus parámetros. 10. Points, Vertices and Primitives in POPs: Esta es una página conceptual que describe la estructura de datos subyacente de los POPs (puntos, vértices, primitivas, atributos), pero no es un operador en sí mismo.7 4.2 Operadores con Documentación Inaccesible o Muy Limitada Para los siguientes operadores, el material de investigación proporcionado indicó que la información era inaccesible, limitada a menciones muy breves o redirecciones sin contenido, o que las búsquedas arrojaron resultados irrelevantes de otras familias de ope"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "n.48 Un tutorial de YouTube relacionado con la \"cuantificación\" de píxeles 49 no describe el operador POP en sí, sino un concepto visual. 8. Random POP: Se encontró una redirección a su página de documentación 50, pero sin contenido descriptivo. 9. Point Generator POP: Se encontraron redirecciones a su página de documentación.51 Aunque un tutorial de YouTube menciona el uso de un Point Generator POP para distribuir puntos 43, no se proporciona una descripción detallada de sus parámetros. 10. Points, Vertices and Primitives in POPs: Esta es una página conceptual que describe la estructura de datos subyacente de los POPs (puntos, vértices, primitivas, atributos), pero no es un operador en sí mismo.7 4.2 Operadores con Documentación Inaccesible o Muy Limitada Para los siguientes operadores, el material de investigación proporcionado indicó que la información era inaccesible, limitada a menciones muy breves o redirecciones sin contenido, o que las búsquedas arrojaron resultados irrelevantes de otras familias de ope"
+    }
+  ],
+  "useCases": [
+    "Understanding POP data structure (Points, Vertices, Primitives)",
+    "Learning attribute classes and their relationships",
+    "Reference for POPs vs SOPs data model differences",
+    "Understanding dimension metadata in POPs"
+  ],
+  "examples": [
+    "Points: Each has P, N, Cd, uv, id attributes by default",
+    "Primitives: Connect vertices into polygons, lines, or point primitives"
+  ],
+  "commonCombinations": [],
+  "troubleshooting": [
+    "This is a reference page, not an operator",
+    "Use Topology POP to manipulate point/primitive relationships"
+  ],
+  "description": "Conceptual reference page explaining the fundamental data structure of POPs: Points (positions + attributes), Vertices (indices connecting points to primitives), and Primitives (polygons, lines, points). Not an operator — educational reference for understanding POP data architecture."
+}

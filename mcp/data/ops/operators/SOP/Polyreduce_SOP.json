@@ -1,0 +1,214 @@
+{
+  "family": "SOP",
+  "pageTitle": "Polyreduce SOP",
+  "pageSlug": "Polyreduce_SOP",
+  "url": "https://docs.derivative.ca/Polyreduce_SOP",
+  "tdOpTypeGuess": "polyreduceSOP",
+  "summary": "[  edit  ]\nThe Polyreduce  SOP  reduces a high detail polygonal model into one consisting of fewer polygons. The second input's polygons represent feature edges. They are matched to the input mesh by point numbers.\nThe methods to reduce polygonal models are:\nA percentage of their former size\nA specfic number of polys (within a few)\nAccording to distance from a camera\nNote that as it requires (and outputs) a triangular mesh, the polygon count may increase as a result of this operation.\nA second input for feature edges is provided.\npolyreduceSOP_Class\nContents\n1   Summary\n2   Parameters - Reduce Page\n3   Parameters - Clean Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common SOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Reduce",
+      "label": "Polygons",
+      "name": "reduce",
+      "description": "The polygons which will be candidates for simplification. Other polygons which share points with these might also be affected."
+    },
+    {
+      "page": "Reduce",
+      "label": "Features",
+      "name": "creases",
+      "description": "Which polygons are feature edges."
+    },
+    {
+      "page": "Reduce",
+      "label": "Method",
+      "name": "method",
+      "description": "⊞  - Select how to reduce the number of polygons from the following methods."
+    },
+    {
+      "page": "Reduce",
+      "label": "Percentage",
+      "name": "percentage",
+      "description": "Choose reduction level with a percentage."
+    },
+    {
+      "page": "Reduce",
+      "label": "Number",
+      "name": "number",
+      "description": "Choose reduction level by number of polygons."
+    },
+    {
+      "page": "Reduce",
+      "label": "Distance",
+      "name": "distance",
+      "description": "Reduce polygons based on distance to an object."
+    },
+    {
+      "page": "Reduce",
+      "label": "Keep %",
+      "name": "percentage",
+      "description": "Specify the percentage of polygons to keep when Method set to 'Percentage'."
+    },
+    {
+      "page": "Reduce",
+      "label": "Keep #",
+      "name": "numpolys",
+      "description": "Specify the number of polygons to keep when Method set to 'Number'."
+    },
+    {
+      "page": "Reduce",
+      "label": "Object",
+      "name": "obj",
+      "description": "The object to use as a reference."
+    },
+    {
+      "page": "Reduce",
+      "label": "Dist. Threshhold",
+      "name": "distance",
+      "description": "The world distance at which the polygons should be left at full detail."
+    },
+    {
+      "page": "Reduce",
+      "label": "Minimum %",
+      "name": "minpercent",
+      "description": "A lower bound to the level of reduction."
+    },
+    {
+      "page": "Clean",
+      "label": "Stiffen Border",
+      "name": "borderweight",
+      "description": "Without any constraints, the edges of planar surfaces can erode. This controls a bias which penalizes such erosion."
+    },
+    {
+      "page": "Clean",
+      "label": "Stiffen Features",
+      "name": "creaseweight",
+      "description": "The amount of penalty to add to the feature edges being eroded."
+    },
+    {
+      "page": "Clean",
+      "label": "Equalize Edges",
+      "name": "lengthweight",
+      "description": "This bias penalizes the removal of long edges. It tends to reduce high aspect ratio triangles at the expense of more uniform reduction."
+    },
+    {
+      "page": "Clean",
+      "label": "Prevent Mesh Inversion",
+      "name": "meshinvert",
+      "description": "When enabled, each reduction is tested to see if it would flip a triangle normal. While encurring a slight cost, the results are almost always worth it."
+    },
+    {
+      "page": "Clean",
+      "label": "Pre-Triangulate",
+      "name": "triangulate",
+      "description": "As only triangular polygons will be reduced, this option will automatically triangulate the input polygons."
+    },
+    {
+      "page": "Clean",
+      "label": "Prevent Cracking",
+      "name": "keepedges",
+      "description": "This prohibits the removal of any edge that occurs at the boundary of the polygons. This ensures no cracks develop with unreduced areas."
+    },
+    {
+      "page": "Clean",
+      "label": "Use Original Points",
+      "name": "originalpoints",
+      "description": "When it collapses edges, it will use one of the two original points instead of finding the optimal interior point."
+    },
+    {
+      "page": "Clean",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Clean",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Clean",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Clean",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Clean",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Clean",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Clean",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Clean",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Clean",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Clean",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Clean",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Clean",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Clean",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Clean",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Clean",
+      "label": "The sub",
+      "description": "Family  of  Component  types that are used to define and render 3D scenes. A  Geometry Component  is an Object that contains the 3D shapes to render. A  Camera COMP  and  Light COMP  are other Object types. Separately, \"Objects\" also refers to Python objects."
+    },
+    {
+      "page": "Clean",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

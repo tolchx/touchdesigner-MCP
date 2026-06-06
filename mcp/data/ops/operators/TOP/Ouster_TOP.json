@@ -1,0 +1,782 @@
+{
+  "family": "TOP",
+  "pageTitle": "Ouster TOP",
+  "pageSlug": "Ouster_TOP",
+  "url": "https://docs.derivative.ca/Ouster_TOP",
+  "tdOpTypeGuess": "ousterTOP",
+  "summary": "[  edit  ]\nNOTE\nLicense:  Only available in  TouchDesigner Educational ,  TouchDesigner Commercial  and  TouchDesigner Pro .\nOuster  makes LIDAR devices for scanning 3D environments. The  Ouster TOP  sends and receives data with an Ouster Imaging Lidar, converting to point cloud data on the  GPU . For more information see the user guides at  Ouster.io\nRequirements:\nThe  TOP  only supports Windows and macOS ARM builds of TouchDesigner.\nThe  TOP  supports Ouster devices using version 2.x or 3.x firmware.\nAccess to your local network to connect with the sensor device. Check your firewall settings if you have trouble accessing the device.\nHigh resolution scanning modes require up to 130Mbps of bandwidth. Gigabit Ethernet hardware is required for full operation. Insufficient bandwidth will cause broken images and missing frames.\nFeatures include:\nAdditional sensor data like IMU (Inertial Measurement Unit - the gyroscope and accelerometer) via Info  CHOP .\nFlexible output mappings to RGBA  GPU  Image Channels.\nTime Sync Mode for supporting multiple devices in the same area (Internal OSC, Sync  Pulse  In, PTP 1588).\nAuto startup features.\nConnection Instructions:\nTo connect to the sensor, you will need either the IP addressed assigned by the local DHCP server or the name of the device. The name is based on the serial number that is usually printed on the top of the sensor in the format \"os-############\". This name can be entered directly into the Device Address parameter (see parameter help below). You can also connect to the device through a web browser using the IP or name in the format   http://os-###########/  . The web interface allows you to check the status of the device and gives additional error information.\nNote:  If the \"os-############\" syntax isn't able to connect, you can also try \"os-############.local\".\nOnce the device is configured, it will continue to send output to the target IP address so it is not required to enter the device address again unless you need to change the configuration.\nRange data collected from the device is presented as 32bit floating point values in the RGBA channels of the output image. The output is arranged as a panoramic image. IMU data from the device can be accessed by connecting an  Info CHOP . If more than 4 output channels are needed, you can use a  Ouster Select TOP  to create additional output images.\nOuster Outputs:\nRange, Signal, Reflectivity, Near IR, and Flags are raw data channels coming from the sensor, while XYZ position values are calculated by using the range data and the look up table of beam azimuth and altitude angles. Range is measured in millimeters, while XYZ positions are in meters. If you need more than 4 channels of data, use a  Ouster Select TOP  to create a second output image from the same sensor data. In addition to the sensor data, you can also assign a constant value of one or zero to a channel by selecting the corresponding entry from the menu.\nNote:  All 3D coordinates are transformed into TouchDesigner space where Y is up and X and Z represent the ground plane. This is different from the original coordinate space defined in the Ouster documentation.\nSee also:  Ouster Select TOP\nousterTOP_Class\nContents\n1   Summary\n2   Parameters - Connection Page\n3   Parameters - Timing Page\n4   Parameters - Common Page\n5   Info CHOP Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "Connection",
+      "label": "Active",
+      "name": "active",
+      "description": "Enables connections with the device."
+    },
+    {
+      "page": "Connection",
+      "label": "Re-Init",
+      "name": "reinitialize",
+      "description": "Manually reinitialize the device."
+    },
+    {
+      "page": "Connection",
+      "label": "Device Address",
+      "name": "deviceaddress",
+      "description": "The IP address or the name of the Ouster device. The address is only required during configuration. The device will request an address from the local DHCP server when it is connected to the network. The name of the device is printed on the top of the sensor in the format \"os-#####\", where ##### is the serial number e.g. \"os-991900123456\". If you want to use the name of the device, you may have to input \"os-#####.local\" in this parameter to connect to your sensor. You can determine the IP address using the ping command and the device name e.g. ping -4 os-991900123456. For more information see the Ouster User Guide at  Ouster.io ."
+    },
+    {
+      "page": "Connection",
+      "label": "Lidar Port",
+      "name": "lidarport",
+      "description": "The UDP port number to receive lidar data."
+    },
+    {
+      "page": "Connection",
+      "label": "IMU Port",
+      "name": "imuport",
+      "description": "The UDP port number to receive data from the inertial measurement unit (IMU) on the device. The IMU data can be accessed by connecting the Ouster  TOP  to an  Info CHOP ."
+    },
+    {
+      "page": "Connection",
+      "label": "Target Address",
+      "name": "targetaddress",
+      "description": "The IP address where the sensor should send the lidar and IMU data to. If the parameter is blank, the address of the current machine will be used. This field should only be necessary if the sending machine has more than one IP address or if you wish to send the lidar data to a different machine than the one you are configuring it on."
+    },
+    {
+      "page": "Connection",
+      "label": "Scan Mode",
+      "name": "scanmode",
+      "description": "⊞  - Select a scanning mode to set the sensor's horizontal resolution and number of revolutions per second. The vertical resolution is determined by the hardware e.g. an OS1-64 sensor has vertical resolution of 64 pixels (samples)."
+    },
+    {
+      "page": "Connection",
+      "label": "Operating Mode",
+      "name": "opmode",
+      "description": "⊞  - Select operating mode for the sensor."
+    },
+    {
+      "page": "Connection",
+      "label": "Normal",
+      "name": "normal",
+      "description": "Normal operating mode."
+    },
+    {
+      "page": "Connection",
+      "label": "Standby",
+      "name": "standby",
+      "description": "Low power (5W) mode where the sensor won't spin and lasers won't fire."
+    },
+    {
+      "page": "Connection",
+      "label": "Azimuth  Window",
+      "name": "azimuthwindow",
+      "description": "⊞  - Set the sensor's visible region of interest in millidegrees where only data within the window bounds is sent."
+    },
+    {
+      "page": "Connection",
+      "label": "azimuthwindow1",
+      "description": "The minimum window millidegree."
+    },
+    {
+      "page": "Connection",
+      "label": "azimuthwindow2",
+      "description": "The maximum window millidegree."
+    },
+    {
+      "page": "Connection",
+      "label": "Signal Multiplier",
+      "name": "signalmultiplier",
+      "description": "⊞  - Set a multiplier for the signal strength of the sensor. The maximum azimuth window depends on the signal multiplier strength. For each signal multiplier value, the max window sizes are as follows:"
+    },
+    {
+      "page": "Connection",
+      "label": "0.25",
+      "description": "360 degrees."
+    },
+    {
+      "page": "Connection",
+      "label": "0.5",
+      "description": "360 degrees."
+    },
+    {
+      "page": "Connection",
+      "label": "Data Format",
+      "name": "dataformat",
+      "description": "⊞  - Sets the packet format of the lidar data."
+    },
+    {
+      "page": "Connection",
+      "label": "Red",
+      "name": "redchannel",
+      "description": "⊞  - Select what sensor data will be placed into the red channel of the output image."
+    },
+    {
+      "page": "Connection",
+      "label": "Green",
+      "name": "greenchannel",
+      "description": "⊞  - Select what sensor data will be placed into the green channel of the output image."
+    },
+    {
+      "page": "Connection",
+      "label": "Blue",
+      "name": "bluechannel",
+      "description": "⊞  - Select what sensor data will be placed into the blue channel of the output image."
+    },
+    {
+      "page": "Connection",
+      "label": "Alpha",
+      "name": "alphachannel",
+      "description": "⊞  - Select what sensor data will be placed into the alpha channel of the output image."
+    },
+    {
+      "page": "Timing",
+      "label": "Time Sync Mode",
+      "name": "timemode",
+      "description": "⊞  - Select how the sensor generates timestamp information."
+    },
+    {
+      "page": "Timing",
+      "label": "Internal OSC",
+      "name": "internalosc",
+      "description": "Timestamps are generated from an internal oscillator. This is the default setting."
+    },
+    {
+      "page": "Timing",
+      "label": "Sync  Pulse  In",
+      "name": "syncpulsein",
+      "description": "Timing is synced to pulses on the SYNC_PULSE_IN input."
+    },
+    {
+      "page": "Timing",
+      "label": "PTP 1588",
+      "name": "ptp1588",
+      "description": "Timing is synced to an external PTP master."
+    },
+    {
+      "page": "Timing",
+      "label": "Sync  Pulse  In Polarity",
+      "name": "pulseinpolarity",
+      "description": "⊞  - The polarity of the SYNC_PULSE_IN signal to use."
+    },
+    {
+      "page": "Timing",
+      "label": "Multipurpose IO Mode",
+      "name": "iomode",
+      "description": "⊞  - Determines how the sensor uses the SYNC_PULSE_OUT signal."
+    },
+    {
+      "page": "Timing",
+      "label": "Off",
+      "name": "off",
+      "description": "The signal is not used. This is the default setting."
+    },
+    {
+      "page": "Timing",
+      "label": "Input NMEA",
+      "name": "inputnmea",
+      "description": "The sensor will expect standard NMEA $GPRMC UART messages on the multipurpose IO port. See  here  for more information on GPS NMEA data."
+    },
+    {
+      "page": "Timing",
+      "label": "Output Internal OSC",
+      "name": "outputinternalosc",
+      "description": "Signal output is taken from the internal oscillator."
+    },
+    {
+      "page": "Timing",
+      "label": "Output Encoder Angle",
+      "name": "outputangle",
+      "description": "Signal output is based on the angle of the encoder."
+    },
+    {
+      "page": "Timing",
+      "label": "Sync  Pulse  Out Polarity",
+      "name": "pulseoutpolarity",
+      "description": "⊞  - Polarity of the output signal pulse."
+    },
+    {
+      "page": "Timing",
+      "label": "Sync  Pulse  Out Frequency",
+      "name": "pulseoutfrequency",
+      "description": "Frequency of the output pulse in Hz (must be greater than 0)."
+    },
+    {
+      "page": "Timing",
+      "label": "Sync  Pulse  Out Angle",
+      "name": "pulseoutangle",
+      "description": "The encoder angle at which to output a signal pulse. Measured in degrees less than 360."
+    },
+    {
+      "page": "Timing",
+      "label": "Sync  Pulse  Out Width",
+      "name": "pulseoutwidth",
+      "description": "Width of the output signal pulse in mm."
+    },
+    {
+      "page": "Timing",
+      "label": "NMEA In Polarity",
+      "name": "nmeainpolarity",
+      "description": "⊞  - Sets the polarity of the NMEA URT input $GPRMC messages. Set to 'Active High' if UART is active high, idle low, and the start bit is after a falling edge."
+    },
+    {
+      "page": "Timing",
+      "label": "NMEA Ignore Valid Char",
+      "name": "nmeaignorevalidchar",
+      "description": "Turn off, if the NMEA UART input $GPRMC messages should be ignored if valid character is not set, and turn on if messages should be used for time syncing regardless of the valid character."
+    },
+    {
+      "page": "Timing",
+      "label": "NMEA Baud Rate",
+      "name": "nmeabaudrate",
+      "description": "⊞  - The baud rate for the incoming NMEA URT input $GPRMC messages."
+    },
+    {
+      "page": "Timing",
+      "label": "NMEA Leap Seconds",
+      "name": "nmealeapseconds",
+      "description": "An integer number of leap seconds that will be added to the UDP timestamp when calculating seconds since 00:00:00 Thursday, 1 Jan 1970. Set to 0 for Unix Epoch Time."
+    },
+    {
+      "page": "Timing",
+      "label": "Phase Lock",
+      "name": "phaselock",
+      "description": "When enabled, the sensor synchronizes its rotation using the phase lock offset."
+    },
+    {
+      "page": "Timing",
+      "label": "Phase Lock Offset",
+      "name": "phaselockoffset",
+      "description": "The angle to synchronize the sensor's rotation at an input pulse."
+    },
+    {
+      "page": "Common",
+      "label": "Output  Resolution",
+      "name": "outputresolution",
+      "description": "⊞  - quickly change the resolution of the  TOP 's data."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's resolution"
+    },
+    {
+      "page": "Common",
+      "label": "Eighth",
+      "name": "eighth",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Quarter",
+      "name": "quarter",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Half",
+      "name": "half",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "2X",
+      "name": "2x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "4X",
+      "name": "4x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "8X",
+      "name": "8x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Fit  Resolution",
+      "name": "fit",
+      "description": "Grow or shrink the input resolution to fit this resolution, while keeping the aspect ratio the same."
+    },
+    {
+      "page": "Common",
+      "label": "Limit  Resolution",
+      "name": "limit",
+      "description": "Limit the input resolution to be not larger than this resolution, while keeping the aspect ratio the same."
+    },
+    {
+      "page": "Common",
+      "label": "Custom  Resolution",
+      "name": "custom",
+      "description": "Directly control the width and height."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution",
+      "name": "resolution",
+      "description": "⊞  - Enabled only when the  Resolution  parameter is set to Custom  Resolution . Some Generators like Constant and Ramp do not use inputs and only use this field to determine their size. The drop down menu on the right provides some commonly used resolutions."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution  Menu",
+      "name": "resmenu",
+      "description": "A drop-down menu with some commonly used resolutions."
+    },
+    {
+      "page": "Common",
+      "label": "Use Global Res Multiplier",
+      "name": "resmult",
+      "description": "Uses the Global  Resolution  Multiplier found in  Edit>Preferences>TOPs . This multiplies all the TOPs resolutions by the set amount. This is handy when working on computers with different hardware specifications. If a project is designed on a desktop workstation with lots of graphics memory, a user on a laptop with only 64MB VRAM can set the Global  Resolution  Multiplier to a value of half or quarter so it runs at an acceptable speed. By checking this checkbox on, this  TOP  is affected by the global multiplier."
+    },
+    {
+      "page": "Common",
+      "label": "Output Aspect",
+      "name": "outputaspect",
+      "description": "⊞  - Sets the image aspect ratio allowing any textures to be viewed in any size. Watch for unexpected results when compositing TOPs with different aspect ratios. (You can define images with non-square pixels using xres, yres, aspectx, aspecty where xres/yres != aspectx/aspecty.)"
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's aspect ratio."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution",
+      "name": "resolution",
+      "description": "Uses the aspect of the image's defined resolution (ie 512x256 would be 2:1), whereby each pixel is square."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Aspect",
+      "name": "custom",
+      "description": "Lets you explicitly define a custom aspect ratio in the Aspect parameter below."
+    },
+    {
+      "page": "Common",
+      "label": "Aspect",
+      "name": "aspect",
+      "description": "⊞  - Use when Output Aspect parameter is set to Custom Aspect."
+    },
+    {
+      "page": "Common",
+      "label": "Aspect Menu",
+      "name": "armenu",
+      "description": "A drop-down menu with some commonly used aspect ratios."
+    },
+    {
+      "page": "Common",
+      "label": "Input Smoothness",
+      "name": "inputfiltertype",
+      "description": "⊞  - This controls pixel filtering on the input image of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Nearest Pixel",
+      "name": "nearest",
+      "description": "Uses nearest pixel or accurate image representation. Images will look jaggy when viewing at any zoom level other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Interpolate Pixels",
+      "name": "linear",
+      "description": "Uses linear filtering between pixels. This is how you get  TOP  images in viewers to look good at various zoom levels, especially useful when using any Fill Viewer setting other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Mipmap Pixels",
+      "name": "mipmap",
+      "description": "Uses   mipmap  filtering when scaling images. This can be used to reduce artifacts and sparkling in moving/scaling images that have lots of detail."
+    },
+    {
+      "page": "Common",
+      "label": "Fill  Viewer",
+      "name": "fillmode",
+      "description": "⊞  - Determine how the  TOP  image is displayed in the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the same Fill Viewer settings as it's input."
+    },
+    {
+      "page": "Common",
+      "label": "Fill",
+      "name": "fill",
+      "description": "Stretches the image to fit the edges of the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Horizontal",
+      "name": "width",
+      "description": "Stretches image to fit viewer horizontally."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Vertical",
+      "name": "height",
+      "description": "Stretches image to fit viewer vertically."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Best",
+      "name": "best",
+      "description": "Stretches or squashes image so no part of image is cropped."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Outside",
+      "name": "outside",
+      "description": "Stretches or squashes image so image fills viewer while constraining it's proportions. This often leads to part of image getting cropped by viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Native  Resolution",
+      "name": "nativeres",
+      "description": "Displays the native resolution of the image in the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Viewer Smoothness",
+      "name": "filtertype",
+      "description": "⊞  - This controls pixel filtering in the viewers."
+    },
+    {
+      "page": "Common",
+      "label": "Nearest Pixel",
+      "name": "nearest",
+      "description": "Uses nearest pixel or accurate image representation. Images will look jaggy when viewing at any zoom level other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Interpolate Pixels",
+      "name": "linear",
+      "description": "Uses linear filtering between pixels. Use this to get  TOP  images in viewers to look good at various zoom levels, especially useful when using any Fill Viewer setting other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Mipmap Pixels",
+      "name": "mipmap",
+      "description": "Uses   mipmap  filtering when scaling images. This can be used to reduce artifacts and sparkling in moving/scaling images that have lots of detail. When the input is 32-bit float format, only nearest filtering will be used (regardless of what is selected)."
+    },
+    {
+      "page": "Common",
+      "label": "Passes",
+      "name": "npasses",
+      "description": "Duplicates the operation of the  TOP  the specified number of times. For every pass after the first it takes the result of the previous pass and replaces the node's first input with the result of the previous pass. One exception to this is the  GLSL TOP  when using compute shaders, where the input will continue to be the connected  TOP 's image."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Mask",
+      "name": "chanmask",
+      "description": "Allows you to choose which channels (R, G, B, or A) the  TOP  will operate on. All channels are selected by default."
+    },
+    {
+      "page": "Common",
+      "label": "Pixel Format",
+      "name": "format",
+      "description": "⊞  - Format used to store data for each channel in the image (ie. R, G, B, and A). Refer to  Pixel Formats  for more information."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's pixel format."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (RGBA)",
+      "name": "rgba8fixed",
+      "description": "Uses 8-bit integer values for each channel."
+    },
+    {
+      "page": "Common",
+      "label": "sRGB 8-bit fixed (RGBA)",
+      "name": "srgba8fixed",
+      "description": "Uses 8-bit integer values for each channel and stores color in sRGB colorspace. Note that this does  not  apply an sRGB curve to the pixel values, it only stores them using an sRGB curve. This means more data is used for the darker values and less for the brighter values. When the values are read downstream they will be converted back to linear. For more information refer to  sRGB ."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (RGBA)",
+      "name": "rgba16float",
+      "description": "Uses 16-bits per color channel, 64-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (RGBA)",
+      "name": "rgba32float",
+      "description": "Uses 32-bits per color channel, 128-bits per pixels."
+    },
+    {
+      "page": "Common",
+      "label": "10-bit RGB, 2-bit Alpha, fixed (RGBA)",
+      "name": "rgb10a2fixed",
+      "description": "Uses 10-bits per color channel and 2-bits for alpha, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (RGBA)",
+      "name": "rgba16fixed",
+      "description": "Uses 16-bits per color channel, 64-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "11-bit float (RGB), Positive Values Only",
+      "name": "rgba11float",
+      "description": "A RGB floating point format that has 11 bits for the Red and Green channels, and 10-bits for the Blue  Channel , 32-bits total per pixel (therefore the same memory usage as 8-bit RGBA). The Alpha channel in this format will always be 1. Values can go above one, but can't be negative. ie. the range is [0, infinite)."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (Mono)",
+      "name": "mono8fixed",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 8-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (Mono)",
+      "name": "mono16fixed",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (Mono)",
+      "name": "mono16float",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (Mono)",
+      "name": "mono32float",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (RG)",
+      "name": "rg8fixed",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 8-bits per channel, 16-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (RG)",
+      "name": "rg16fixed",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 16-bits per channel, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (RG)",
+      "name": "rg16float",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 16-bits per channel, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (RG)",
+      "name": "rg32float",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 32-bits per channel, 64-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (A)",
+      "name": "a8fixed",
+      "description": "An Alpha only format that has 8-bits per channel, 8-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (A)",
+      "name": "a16fixed",
+      "description": "An Alpha only format that has 16-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (A)",
+      "name": "a16float",
+      "description": "An Alpha only format that has 16-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (A)",
+      "name": "a32float",
+      "description": "An Alpha only format that has 32-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (Mono+Alpha)",
+      "name": "monoalpha8fixed",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 8-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (Mono+Alpha)",
+      "name": "monoalpha16fixed",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 16-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (Mono+Alpha)",
+      "name": "monoalpha16float",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 16-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (Mono+Alpha)",
+      "name": "monoalpha32float",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 32-bits per channel, 64-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "imu_read_time",
+      "description": "The time the measurement was take in nanoseconds since the device was booted."
+    },
+    {
+      "page": "Common",
+      "label": "accel_read_time",
+      "description": "The time the accelerometer measurement was take in nanoseconds relative to the current timestamp mode (see Ouster User Guide)."
+    },
+    {
+      "page": "Common",
+      "label": "gyro_read_time",
+      "description": "The time the gyroscope measurement was take in nanoseconds relative to the current timestamp mode (see Ouster User Guide)"
+    },
+    {
+      "page": "Common",
+      "label": "accel_tx",
+      "description": "Acceleration in the x-axis (g)"
+    },
+    {
+      "page": "Common",
+      "label": "accel_ty",
+      "description": "Acceleration in the y-axis (g)"
+    },
+    {
+      "page": "Common",
+      "label": "accel_tz",
+      "description": "Acceleration in the z-axis (g)"
+    },
+    {
+      "page": "Common",
+      "label": "vel_rx",
+      "description": "Angular velocity around the x-axis (deg per sec)"
+    },
+    {
+      "page": "Common",
+      "label": "vel_ry",
+      "description": "Angular velocity around the y-axis (deg per sec)"
+    },
+    {
+      "page": "Common",
+      "label": "vel_rz",
+      "description": "Angular velocity around the z-axis (deg per sec)"
+    },
+    {
+      "page": "Common",
+      "label": "resx",
+      "description": "Horizontal resolution of the  TOP  in pixels."
+    },
+    {
+      "page": "Common",
+      "label": "resy",
+      "description": "Vertical resolution of the  TOP  in pixels."
+    },
+    {
+      "page": "Common",
+      "label": "aspectx",
+      "description": "Horizontal aspect of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "aspecty",
+      "description": "Vertical aspect of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "depth",
+      "description": "Depth of 2D or 3D array if this  TOP  contains a 2D or 3D texture array."
+    },
+    {
+      "page": "Common",
+      "label": "gpu_memory_used",
+      "description": "Total amount of texture memory used by this  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    },
+    {
+      "page": "Common",
+      "label": "To \"pulse\" a parameter is to send it a signal from (1) an  exported  CHOP channel or (2) a python command or (3) a mouse click that causes a new action to occur immediately. A pulse via python is via the  .pulse()  function on a pulse",
+      "description": "type parameter, such as Reset parameter in a  Speed CHOP . A pulse from a CHOP is typically a 0 to 1 to 0 signal in an exported channel."
+    },
+    {
+      "page": "Common",
+      "label": "A Window in TouchDesigner is a window in Microsoft Windows or macOS that contains either (1) the TouchDesigner editing interface that exists in  Designer Mode , or (2) a user",
+      "description": "created  Panel  inside a  Window Component . The user-created windows can span  Multiple Monitors  borderless, or be floating windows with borders, or popups."
+    },
+    {
+      "page": "Common",
+      "label": "The width and height of an image in pixels. Most TOPs, like the  Movie File In TOP  can set the image resolution. See  Aspect Ratio  for the width/height ratio of an image, taking into account non",
+      "description": "square pixels."
+    },
+    {
+      "page": "Common",
+      "label": "The viewer of a node can be (1) the interior of a node (the  Node Viewer ), (2) a floating window (RMB",
+      "description": ">View... on node), or (3) a  Pane  that graphically shows the results of an operator."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

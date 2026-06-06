@@ -1,0 +1,269 @@
+{
+  "family": "DAT",
+  "pageTitle": "Error DAT",
+  "pageSlug": "Error_DAT",
+  "url": "https://docs.derivative.ca/Error_DAT",
+  "tdOpTypeGuess": "errorDAT",
+  "summary": "[  edit  ]\nThe Error  DAT  lists the most recent TouchDesigner errors in its FIFO (first in/first out) table.\nYou can filter our messages using pattern matching on some of the columns like Severity, Type and path of the node containing the error. One column contains the absolute frame (  absTime .frame ) in which the error occurred.\nerrorDAT_Class\nContents\n1   Summary\n2   Parameters - Error Page\n3   Parameters - Log Page\n4   Parameters - Common Page\n5   Info CHOP Channels\n5.1   Common DAT Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "Error",
+      "label": "Active",
+      "name": "active",
+      "description": "Inhibits and allows message to be added to log."
+    },
+    {
+      "page": "Error",
+      "label": "Severity",
+      "name": "severity",
+      "description": "Filter pattern for the output. Can be a combination or one of:  message ,  warning  or  abort"
+    },
+    {
+      "page": "Error",
+      "label": "Type",
+      "name": "type",
+      "description": "Filter pattern for the output where the source operator family is specified. Can be a combination or one of the operator families."
+    },
+    {
+      "page": "Error",
+      "label": "Source",
+      "name": "source",
+      "description": "Filter pattern for the output where the logging of errors can be limited to specific locations in the project."
+    },
+    {
+      "page": "Error",
+      "label": "Message",
+      "name": "message",
+      "description": "Filter pattern for the output applied to the error message."
+    },
+    {
+      "page": "Error",
+      "label": "Log Current Errors",
+      "name": "logcurrent",
+      "description": "Traverse through all nodes and captures all current errors."
+    },
+    {
+      "page": "Log",
+      "label": "Callbacks  DAT",
+      "name": "callbacks",
+      "description": "The  DAT 's script will execute once for each message coming in. See  errorDAT_Class  for usage."
+    },
+    {
+      "page": "Log",
+      "label": "Execute from",
+      "name": "executeloc",
+      "description": "⊞  - Determines the location the script is run from."
+    },
+    {
+      "page": "Log",
+      "label": "Current  Node",
+      "name": "current",
+      "description": "The script is executed from the current node location."
+    },
+    {
+      "page": "Log",
+      "label": "Callbacks  DAT",
+      "name": "callbacks",
+      "description": "The script is executed from the location of the  DAT  specified in the  Callbacks  DAT   parameter."
+    },
+    {
+      "page": "Log",
+      "label": "Specified  Operator",
+      "name": "op",
+      "description": "The script is executed from the operator specified in the  From  Operator   parameter below."
+    },
+    {
+      "page": "Log",
+      "label": "From  Operator",
+      "name": "fromop",
+      "description": "The path that the script will be executed from if the  Execute From  parameter is set to  Specified  Operator  ."
+    },
+    {
+      "page": "Log",
+      "label": "Clamp Output",
+      "name": "clamp",
+      "description": "The  DAT  is limited to 100 messages by default but with Clamp Output, this can be set to anything including unlimited."
+    },
+    {
+      "page": "Log",
+      "label": "Maximum Lines",
+      "name": "maxlines",
+      "description": "Limits the number of messages, older messages are removed from the list first."
+    },
+    {
+      "page": "Log",
+      "label": "Clear Output",
+      "name": "clear",
+      "description": "Deletes all lines except the heading."
+    },
+    {
+      "page": "Common",
+      "label": "Language",
+      "name": "language",
+      "description": "⊞  - Select how the  DAT  decides which script language to operate on."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Node",
+      "name": "node",
+      "description": "The  DAT  uses it's own script language."
+    },
+    {
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "name": "extension",
+      "description": "⊞  - Select the file extension this  DAT  should expose to external editors."
+    },
+    {
+      "page": "Common",
+      "label": "dat",
+      "name": "dat",
+      "description": "various common file extensions."
+    },
+    {
+      "page": "Common",
+      "label": "From Language",
+      "name": "language",
+      "description": "pick extension from DATs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "custom",
+      "description": "Specify a custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specifiy the custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Word Wrap",
+      "name": "wordwrap",
+      "description": "⊞  - Enable Word Wrap for Node Display."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs setting."
+    },
+    {
+      "page": "Common",
+      "label": "On",
+      "name": "on",
+      "description": "Turn on Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Off",
+      "name": "off",
+      "description": "Turn off Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "num_rows",
+      "description": "Number of rows in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "num_cols",
+      "description": "Number of columns in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "Art",
+      "description": "Net    •   Audio Devices    •   CHOP Execute    •   CHOP to    •   Clip    •   Convert    •   CPlusPlus    •   DAT   •    Execute    •   DAT Export   •   Error    •   EtherDream    •   Evaluate    •   Examine    •   Execute    •   FIFO    •   File In    •   File Out    •   Folder    •   In    •   Indices    •   Info    •   Insert    •   JSON    •   Keyboard In    •   Lookup    •   Media File Info    •   Merge    •   MIDI Event    •   MIDI In    •   Monitors    •   MPCDI    •   MQTT Client    •   Multi Touch In    •   NDI    •   Null    •   OP Execute    •   OP Find    •   OSC In    •   OSC Out    •   Out    •   Panel Execute    •   Parameter    •   Parameter Execute    •   ParGroup Execute    •   Perform    •   POP to    •   Render Pick    •   Reorder    •   Script    •   Select    •   Serial    •   Serial Devices    •   SocketIO    •   SOP to    •   Sort    •   Substitute    •   Switch    •   Table    •   TCP/IP    •   Text    •   Touch In    •   Touch Out    •   Transpose    •   TUIO In    •   UDP In    •   UDP Out    •   UDT In    •   UDT Out    •   Video Devices    •   Web Client    •   Web    •   Web Server    •   WebRTC    •   WebSocket    •   XML"
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "03-twozero-evaluation.md",
+      "excerpt": "(non-invasive)** Convenciones sistemáticas: - encapsular sistemas en `baseCOMP`/`geoCOMP` - nodos “I/O estándar” (`in*`, `out*`, `null*`) - layout determinístico (`nodeX/nodeY`) - nombres consistentes y prefijos por dominio (`pop_`, `top_`, `chop_`) - **Validación y calidad (production tools)** Protocolos para: - verificar existencia de OPs creados - detectar cooks costosos (Info CHOP / cookTime) - validar atributos esperados en POP sims (PartVel/PartForce/…) - reportar errores con causas probables + fixes sugeridos - **Sync/portabilidad** En este contexto, “cloud sync” se reemplaza por: - base de conocimiento versionada (JSON + Markdown) - scripts reproducibles (sin estado oculto) ## Qué no se integra directamente - UI embebida y herramientas propietarias de TWOZERO. - Sincronización en la nube “integrada” (solo se replica el enfoque de versionado y reproducibilidad)."
+    },
+    {
+      "source": "07-testing-protocols.md",
+      "excerpt": "+. - `TDAPI_PORT` configurado y coincidente con el TOX. - Ollama (si aplica): `LLM_PROVIDER=ollama` y `OLLAMA_MODEL` instalado. ## 3) Pruebas funcionales (smoke tests) Ejecutar un bloque `td_execute` de validación que confirme: - operadores creados (paths) - conexiones clave (especialmente feedback loops) - atributos reservados presentes cuando aplica (p.ej. PartVel/PartForce) ## 4) Pruebas de rendimiento - Conectar `Info CHOP` a operadores críticos (POP, TOP, COMP). - Medir `cook_time` y `errors/warnings`. - Aplicar presupuestos explícitos: - número de puntos - límites de partículas - resolución TOP - frecuencia de recook ## 5) Reportes de errores y fixes sugeridos Formato recomendado para reportar fallos: - Síntoma observable - Operador/etapa afectada - Causa probable (con evidencia) - Fix sugerido (acción concreta) - Verificación posterior"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ndica que la interfaz de programación de aplicaciones (API), los parámetros o incluso la funcionalidad central de estos operadores pueden estar sujetos a cambios en futuras versiones de TouchDesigner. Esto significa que los proyectos que dependen en gran medida de los POPs experimentales podrían requerir actualizaciones o refactorizaciones a medida que la plataforma evolucione. En segundo lugar, aunque potentes, las características experimentales podrían no estar tan optimizadas o probadas para errores como las características estables. Esto podría resultar en comportamientos inesperados, problemas de rendimiento o fallos en entornos de producción complejos. Los desarrolladores deben ser conscientes de este riesgo al implementar aplicaciones que hagan un uso intensivo de los POPs. Finalmente, la documentación para características experimentales a veces puede ser menos exhaustiva o quedarse atrás con respecto al desarrollo, como se observa en la cantidad de POPs con información limitada o in"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "as a su aceleración por GPU (Unidad de Procesamiento Gráfico). Es fundamental entender que los POPs son una familia de operadores \"Experimentales\". Esta designación tiene implicaciones importantes: • La interfaz de programación (API), los parámetros y la funcionalidad central pueden cambiar en futuras versiones de TouchDesigner, lo que podría requerir actualizaciones en tus proyectos. • Aunque son potentes, las características experimentales podrían no estar tan optimizadas o probadas para errores como las características estables, lo que podría llevar a comportamientos inesperados o fallos. • La documentación puede ser menos exhaustiva o quedarse atrás, y el soporte de la comunidad podría ser incipiente. Por lo tanto, la etiqueta \"Experimental\" es una advertencia crucial. A pesar de su estado experimental, los POPs ofrecen un camino claro hacia un mayor rendimiento en sistemas de partículas y grandes conjuntos de datos, lo cual es vital para gráficos avanzados en tiempo real. --"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "hos de estos operadores comparten características comunes: * Pueden ser **\"Bypass\"**. Un operador en \"Bypass\" no hace nada, simplemente pasa los datos de su entrada a su salida sin cambios. * Pueden **eliminar atributos de entrada**. * Tienen parámetros relacionados con el **espacio de color**. * Ofrecen canales de información (Info CHOP Channels) para monitorear el rendimiento, como el número total de \"cooks\" (veces que el operador ha sido recalculado), el tiempo del último \"cook\", errores y advertencias. A continuación, te explico cada POP individualmente: --- #### 1. Accumulate POP * **¿Qué hace?** Este operador toma un atributo de tu entrada (por ejemplo, el atributo \"Pasos\") y crea un nuevo atributo. El valor de este nuevo atributo en cada punto es la **suma de los valores del atributo de entrada de todos los puntos anteriores**. Es como calcular un \"total acumulado\" o una \"integral en ejecución\". * **Características clave:** * Puede trabajar con atrib"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "etry. But then what I'm doing is I have this sort of blend math mix, which we can see here is allowing me to decide how much of that twist is being fed forward to allow it to sort of move in different ways around the image. (31:50) So, I'm kind of manipulating. And again, this didn't particularly have a um I didn't really have an end goal in mind when I made this. I sort of just was putting things together and seeing what would happen. For example, if I changed it to color, first off, I get an error. But let's see if I did the second position there. (32:15) or even just the first position, it moves back to being a sort of just system that's manipulating via that um via that attractor. So let's do the NP and now this is just going to be that. So this combination is um kind of interesting. So then what we have is obviously I'm just kind of merging stuff together. The blend is not super important, but I'm using it to blend between two different sort of very basic states. (32:51) And this is"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

@@ -1,0 +1,21 @@
+{
+  "family": "SOP",
+  "pageTitle": "Attribute Create SOP",
+  "pageSlug": "Attribute_Create_SOP",
+  "url": "https://docs.derivative.ca/Attribute_Create_SOP",
+  "tdOpTypeGuess": "attributeCreateSOP",
+  "summary": "[  edit  ]\nThe Attribute Create  SOP  allows you to add normals or tangents to geometry.\nYou can create custom attributes in other ways:   CHOP to SOP ,  Script SOP .\nSee also  Normal Mapping .\nattributecreateSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

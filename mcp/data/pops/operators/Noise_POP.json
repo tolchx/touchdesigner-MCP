@@ -1,0 +1,160 @@
+{
+  "pageTitle": "Noise POP",
+  "pageSlug": "Noise_POP",
+  "url": "https://docs.derivative.ca/Noise_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "noisePOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "Type",
+      "type": "Menu",
+      "options": [
+        "Perlin 2D",
+        "Perlin 3D",
+        "Perlin 4D",
+        "Simplex 2D",
+        "Simplex 3D",
+        "Simplex 4D"
+      ],
+      "default": "Simplex 3D",
+      "description": "Noise algorithm. Simplex has least grid-like appearance."
+    },
+    {
+      "name": "Noise Size",
+      "type": "Menu",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "default": "1",
+      "description": "Number of noise components (scalar or vector)."
+    },
+    {
+      "name": "Period",
+      "type": "Float",
+      "default": 1,
+      "description": "Distance between noise peaks."
+    },
+    {
+      "name": "Harmonics",
+      "type": "Int",
+      "default": 0,
+      "description": "Higher frequency layers (fBm octaves)."
+    },
+    {
+      "name": "Harmonic Spread",
+      "type": "Float",
+      "default": 2,
+      "description": "Frequency ratio between harmonics."
+    },
+    {
+      "name": "Harmonic Gain",
+      "type": "Float",
+      "default": 0.5,
+      "description": "Amplitude of each harmonic layer."
+    },
+    {
+      "name": "Amplitude",
+      "type": "Float",
+      "default": 0.1,
+      "description": "Scale on output noise values."
+    },
+    {
+      "name": "Exponent",
+      "type": "Float",
+      "default": 1,
+      "description": "Power function applied to noise."
+    },
+    {
+      "name": "Offset",
+      "type": "Float",
+      "default": 0,
+      "description": "Added to noise values (shifts center)."
+    },
+    {
+      "name": "Attribute Class",
+      "type": "Menu",
+      "options": [
+        "Point",
+        "Vertex",
+        "Primitive"
+      ],
+      "default": "Point",
+      "description": "Attribute class to apply noise to."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "tribute, Template Rotate, Template Rotate Attribute, Template Scale, Scale Attribute, Template Pivot, Template Pivot Attribute, Template Rotate to Vector, Template Rotate to Order, Rotate to Vector : Forward Direction, Rotate to Vector Attribute, Up Vector Type, Up Attribute, Up Constant, TemplateId Attribute, TemplateId Attrib Name). La \"Página Template Attributes\" permite operaciones (Copiar, Multiplicar, Sumar, Restar) en atributos de plantilla para afectar a los atributos de destino.2 * Noise POP: Aplica un campo de ruido a los puntos, afectando típicamente el atributo P (posición) por defecto. Los usuarios pueden elegir entre ruido Simplex y Perlin en 2-4 dimensiones. Los parámetros controlan el período, los armónicos, la dispersión armónica, la amplitud, el exponente y el desplazamiento. El campo de ruido puede ser trasladado, rotado o escalado.16 * Parámetros: Los parámetros clave incluyen Type (Simplex, Perlin), Period, Harmonics, Harmonic Spread, Amplitude, Exponent, Offset."
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "tribute, Template Rotate, Template Rotate Attribute, Template Scale, Scale Attribute, Template Pivot, Template Pivot Attribute, Template Rotate to Vector, Template Rotate to Order, Rotate to Vector : Forward Direction, Rotate to Vector Attribute, Up Vector Type, Up Attribute, Up Constant, TemplateId Attribute, TemplateId Attrib Name). La \"Página Template Attributes\" permite operaciones (Copiar, Multiplicar, Sumar, Restar) en atributos de plantilla para afectar a los atributos de destino.2 * Noise POP: Aplica un campo de ruido a los puntos, afectando típicamente el atributo P (posición) por defecto. Los usuarios pueden elegir entre ruido Simplex y Perlin en 2-4 dimensiones. Los parámetros controlan el período, los armónicos, la dispersión armónica, la amplitud, el exponente y el desplazamiento. El campo de ruido puede ser trasladado, rotado o escalado.16 * Parámetros: Los parámetros clave incluyen Type (Simplex, Perlin), Period, Harmonics, Harmonic Spread, Amplitude, Exponent, Off"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "tribute, Template Rotate, Template Rotate Attribute, Template Scale, Scale Attribute, Template Pivot, Template Pivot Attribute, Template Rotate to Vector, Template Rotate to Order, Rotate to Vector : Forward Direction, Rotate to Vector Attribute, Up Vector Type, Up Attribute, Up Constant, TemplateId Attribute, TemplateId Attrib Name). La \"Página Template Attributes\" permite operaciones (Copiar, Multiplicar, Sumar, Restar) en atributos de plantilla para afectar a los atributos de destino.2 * Noise POP: Aplica un campo de ruido a los puntos, afectando típicamente el atributo P (posición) por defecto. Los usuarios pueden elegir entre ruido Simplex y Perlin en 2-4 dimensiones. Los parámetros controlan el período, los armónicos, la dispersión armónica, la amplitud, el exponente y el desplazamiento. El campo de ruido puede ser trasladado, rotado o escalado.16 * Parámetros: Los parámetros clave incluyen Type (Simplex, Perlin), Period, Harmonics, Harmonic Spread, Amplitude, Exponent, Offset."
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "a atributos de solo lectura. • Experimental:Merge POP: Permite combinar múltiples flujos de datos POPs en uno solo. Puedes especificar qué grupos de datos deseas fusionar de cada entrada. Este operador puede afectar solo puntos, vértices o primitivas que estén en un grupo específico. • Experimental:Neighbor POP: Crea atributos de tipo entero sin signo. Genera atributos que comienzan con Nebr*, lo que sugiere su uso para trabajar con información de vecinos (puntos cercanos). • Experimental:Noise POP: Un operador que genera ruido para atributos, lo que permite crear efectos complejos y variaciones aleatorias. Sus parámetros pueden ser controlados por otros atributos. Permite crear y modificar atributos de color y textura. • Experimental:Normal POP: Se encarga de calcular y crear las normales de superficie y las tangentes de la geometría. • Experimental:Normalize POP: Ofrece capacidades de manipulación fundamentales sin necesidad de código. Permite crear y modificar atributos de color y"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "a atributos de solo lectura. • Experimental:Merge POP: Permite combinar múltiples flujos de datos POPs en uno solo. Puedes especificar qué grupos de datos deseas fusionar de cada entrada. Este operador puede afectar solo puntos, vértices o primitivas que estén en un grupo específico. • Experimental:Neighbor POP: Crea atributos de tipo entero sin signo. Genera atributos que comienzan con Nebr*, lo que sugiere su uso para trabajar con información de vecinos (puntos cercanos). • Experimental:Noise POP: Un operador que genera ruido para atributos, lo que permite crear efectos complejos y variaciones aleatorias. Sus parámetros pueden ser controlados por otros atributos. Permite crear y modificar atributos de color y textura. • Experimental:Normal POP: Se encarga de calcular y crear las normales de superficie y las tangentes de la geometría. • Experimental:Normalize POP: Ofrece capacidades de manipulación fundamentales sin necesidad de código. Permite crear y modificar atributos de colo"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "a atributos de solo lectura. • Experimental:Merge POP: Permite combinar múltiples flujos de datos POPs en uno solo. Puedes especificar qué grupos de datos deseas fusionar de cada entrada. Este operador puede afectar solo puntos, vértices o primitivas que estén en un grupo específico. • Experimental:Neighbor POP: Crea atributos de tipo entero sin signo. Genera atributos que comienzan con Nebr*, lo que sugiere su uso para trabajar con información de vecinos (puntos cercanos). • Experimental:Noise POP: Un operador que genera ruido para atributos, lo que permite crear efectos complejos y variaciones aleatorias. Sus parámetros pueden ser controlados por otros atributos. Permite crear y modificar atributos de color y textura. • Experimental:Normal POP: Se encarga de calcular y crear las normales de superficie y las tangentes de la geometría. • Experimental:Normalize POP: Ofrece capacidades de manipulación fundamentales sin necesidad de código. Permite crear y modificar atributos de color y"
+    }
+  ],
+  "useCases": [
+    "Displace grid points for terrain generation",
+    "Create organic motion and deformation",
+    "Generate curl noise for fluid-like particle flows",
+    "Animate textures via 4D noise time dimension",
+    "Create procedural patterns for LED installations"
+  ],
+  "examples": [
+    "Grid POP → Noise POP (Simplex 3D, Amplitude=0.3) → displaced terrain",
+    "Grid POP → Noise POP (Curl 3D output) → fluid flow visualization"
+  ],
+  "commonCombinations": [
+    {
+      "operators": [
+        "Grid_POP",
+        "Noise_POP",
+        "Render"
+      ],
+      "description": "Animated terrain or organic surface"
+    },
+    {
+      "operators": [
+        "Particle_POP",
+        "Noise_POP",
+        "Trail_POP"
+      ],
+      "description": "Turbulent particle trails"
+    },
+    {
+      "operators": [
+        "Noise_POP",
+        "Math_POP",
+        "Attribute_POP"
+      ],
+      "description": "Remap noise values to control ranges"
+    }
+  ],
+  "troubleshooting": [
+    "Noise looks static: Animate Translate parameter with absTime.seconds",
+    "Noise too blocky: Increase Harmonics for more detail",
+    "Noise too smooth: Reduce Period for tighter patterns",
+    "Want fluid motion: Output Curl 3D attribute for divergence-free flow"
+  ],
+  "description": "Applies noise fields (Perlin/Simplex 2D-4D) to point positions and attributes. Outputs raw noise, gradient (rate-of-change), and curl (twist) attributes. Supports per-point parameter mapping for spatially varying noise."
+}

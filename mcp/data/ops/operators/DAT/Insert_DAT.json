@@ -1,0 +1,224 @@
+{
+  "family": "DAT",
+  "pageTitle": "Insert DAT",
+  "pageSlug": "Insert_DAT",
+  "url": "https://docs.derivative.ca/Insert_DAT",
+  "tdOpTypeGuess": "insertDAT",
+  "summary": "[  edit  ]\nThe Insert  DAT  allows you to insert a row or column into an existing table.\nYou can add strings that will be put in the new cells, space separated. If you want a cell to include spaces, in the Contents parameter put the cell contents in quotes:   cell1 'cell 2' cell3 . Or a list in the parameter expression:  ['cell1', 'cell 2']\nIf the input  DAT  is not a table, it will be converted to a table.\ninsertDAT_Class\nContents\n1   Summary\n2   Parameters - Insert Page\n3   Parameters - Common Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common DAT Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Insert",
+      "label": "Insert",
+      "name": "insert",
+      "description": "⊞  - Specify what to insert."
+    },
+    {
+      "page": "Insert",
+      "label": "Row",
+      "name": "row",
+      "description": "Insert a row."
+    },
+    {
+      "page": "Insert",
+      "label": "Column",
+      "name": "col",
+      "description": "Insert a column."
+    },
+    {
+      "page": "Insert",
+      "label": "At",
+      "name": "at",
+      "description": "⊞  - Specify where to insert."
+    },
+    {
+      "page": "Insert",
+      "label": "Before First",
+      "name": "start",
+      "description": "Insert at the beginning."
+    },
+    {
+      "page": "Insert",
+      "label": "After Last",
+      "name": "end",
+      "description": "Append to the end."
+    },
+    {
+      "page": "Insert",
+      "label": "Index",
+      "name": "index",
+      "description": "Insert at the specified index."
+    },
+    {
+      "page": "Insert",
+      "label": "Index",
+      "name": "index",
+      "description": "Index to insert the row or column. Use \"After Last\" from the \"At\" parameter to append at the end of the table."
+    },
+    {
+      "page": "Insert",
+      "label": "Contents",
+      "name": "contents",
+      "description": "Entries for each cell separated by spaces. Put entries that have spaces in quotes, for example  Name Species \"Home Planet\"  will put  Name  in the first cell,  Species  in the second, and  Home Planet  in the third. Extra entries will be ignored."
+    },
+    {
+      "page": "Insert",
+      "label": "Cell  Expression",
+      "name": "replace0expr",
+      "description": "⊞  -"
+    },
+    {
+      "page": "Common",
+      "label": "Language",
+      "name": "language",
+      "description": "⊞  - Select how the  DAT  decides which script language to operate on."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Node",
+      "name": "node",
+      "description": "The  DAT  uses it's own script language."
+    },
+    {
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "name": "extension",
+      "description": "⊞  - Select the file extension this  DAT  should expose to external editors."
+    },
+    {
+      "page": "Common",
+      "label": "dat",
+      "name": "dat",
+      "description": "various common file extensions."
+    },
+    {
+      "page": "Common",
+      "label": "From Language",
+      "name": "languageext",
+      "description": "pick extension from DATs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specify a custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specifiy the custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Word Wrap",
+      "name": "wordwrap",
+      "description": "⊞  - Enable Word Wrap for Node Display."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs setting."
+    },
+    {
+      "page": "Common",
+      "label": "On",
+      "name": "on",
+      "description": "Turn on Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Off",
+      "name": "off",
+      "description": "Turn off Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "num_rows",
+      "description": "Number of rows in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "num_cols",
+      "description": "Number of columns in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "Art",
+      "description": "Net    •   Audio Devices    •   CHOP Execute    •   CHOP to    •   Clip    •   Convert    •   CPlusPlus    •   DAT   •    Execute    •   DAT Export   •   Error    •   EtherDream    •   Evaluate    •   Examine    •   Execute    •   FIFO    •   File In    •   File Out    •   Folder    •   In    •   Indices    •   Info    •   Insert    •   JSON    •   Keyboard In    •   Lookup    •   Media File Info    •   Merge    •   MIDI Event    •   MIDI In    •   Monitors    •   MPCDI    •   MQTT Client    •   Multi Touch In    •   NDI    •   Null    •   OP Execute    •   OP Find    •   OSC In    •   OSC Out    •   Out    •   Panel Execute    •   Parameter    •   Parameter Execute    •   ParGroup Execute    •   Perform    •   POP to    •   Render Pick    •   Reorder    •   Script    •   Select    •   Serial    •   Serial Devices    •   SocketIO    •   SOP to    •   Sort    •   Substitute    •   Switch    •   Table    •   TCP/IP    •   Text    •   Touch In    •   Touch Out    •   Transpose    •   TUIO In    •   UDP In    •   UDP Out    •   UDT In    •   UDT Out    •   Video Devices    •   Web Client    •   Web    •   Web Server    •   WebRTC    •   WebSocket    •   XML"
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "(POP Nulo)** * **Función principal:** Este es un operador muy simple que **no hace nada**; simplemente pasa la información de su entrada a su salida sin cambios. * **Características clave:** * **No consume CPU o memoria GPU** para los atributos que no modifica, ya que solo \"apunta\" o hace referencia a la ubicación de los datos originales. * Actúa como un **marcador de posición** y es una buena práctica colocarlo al final de una cadena de POPs. Esto te permite insertar nuevos operadores en el medio sin tener que reajustar las conexiones de los operadores posteriores. * **Uso simple:** Es como una \"conexión limpia\" en tu red de operadores. Muy útil para organizar tu proyecto o para depurar, aislando partes de tu cadena de operaciones. * **Out POP (POP de Salida)** * **Función principal:** Permite **enviar datos POPs fuera** del componente donde se encuentra. * **Características clave:** * Cada Out POP dentro de un compone"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

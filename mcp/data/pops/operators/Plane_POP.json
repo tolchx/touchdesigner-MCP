@@ -1,0 +1,241 @@
+{
+  "pageTitle": "Plane POP",
+  "pageSlug": "Plane_POP",
+  "url": "https://docs.derivative.ca/Plane_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "planePOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "surftype",
+      "label": "Connectivity",
+      "type": "menu",
+      "default": "triangles",
+      "options": [
+        "none",
+        "points",
+        "rows",
+        "cols",
+        "rowcol",
+        "triangles",
+        "alttriangles",
+        "quads"
+      ],
+      "description": "Primitive type: None, Points, Rows, Columns, Rows+Columns, Triangles, Alt Triangles, Quads."
+    },
+    {
+      "name": "linetype",
+      "label": "Line Type",
+      "type": "menu",
+      "default": "linestrip",
+      "options": [
+        "linestrip",
+        "lines"
+      ],
+      "description": "Line primitive type: Line Strip or separate Lines."
+    },
+    {
+      "name": "orient",
+      "label": "Orientation",
+      "type": "menu",
+      "default": "xy",
+      "options": [
+        "xy",
+        "yz",
+        "zx"
+      ],
+      "description": "Plane orientation: XY, YZ, or ZX."
+    },
+    {
+      "name": "modifybounds",
+      "label": "Modify Bounds",
+      "type": "toggle",
+      "default": false,
+      "description": "When input connected, scale to match input bounding box."
+    },
+    {
+      "name": "sizeu",
+      "label": "Size U",
+      "type": "float",
+      "default": 1,
+      "description": "Width along U axis."
+    },
+    {
+      "name": "sizev",
+      "label": "Size V",
+      "type": "float",
+      "default": 1,
+      "description": "Height along V axis."
+    },
+    {
+      "name": "cols",
+      "label": "Columns",
+      "type": "int",
+      "default": 10,
+      "description": "Number of columns (divisions in X by default)."
+    },
+    {
+      "name": "rows",
+      "label": "Rows",
+      "type": "int",
+      "default": 10,
+      "description": "Number of rows (divisions in Y by default)."
+    },
+    {
+      "name": "anchoru",
+      "label": "Anchor U",
+      "type": "menu",
+      "default": "center",
+      "options": [
+        "left",
+        "center",
+        "right"
+      ],
+      "description": "Horizontal anchor position."
+    },
+    {
+      "name": "anchorv",
+      "label": "Anchor V",
+      "type": "menu",
+      "default": "center",
+      "options": [
+        "bottom",
+        "center",
+        "top"
+      ],
+      "description": "Vertical anchor position."
+    },
+    {
+      "name": "tx",
+      "label": "Translate X",
+      "type": "float",
+      "default": 0,
+      "description": "X translation."
+    },
+    {
+      "name": "ty",
+      "label": "Translate Y",
+      "type": "float",
+      "default": 0,
+      "description": "Y translation."
+    },
+    {
+      "name": "tz",
+      "label": "Translate Z",
+      "type": "float",
+      "default": 0,
+      "description": "Z translation."
+    },
+    {
+      "name": "rx",
+      "label": "Rotate X",
+      "type": "float",
+      "default": 0,
+      "description": "X rotation in degrees."
+    },
+    {
+      "name": "ry",
+      "label": "Rotate Y",
+      "type": "float",
+      "default": 0,
+      "description": "Y rotation in degrees."
+    },
+    {
+      "name": "rz",
+      "label": "Rotate Z",
+      "type": "float",
+      "default": 0,
+      "description": "Z rotation in degrees."
+    },
+    {
+      "name": "scale",
+      "label": "Uniform Scale",
+      "type": "float",
+      "default": 1,
+      "description": "Uniform scale factor."
+    },
+    {
+      "name": "normal",
+      "label": "Normal",
+      "type": "menu",
+      "default": "none",
+      "options": [
+        "none",
+        "point",
+        "vertex"
+      ],
+      "description": "Create normal attribute: None, Point, or Vertex."
+    },
+    {
+      "name": "texture",
+      "label": "Texture Coordinates",
+      "type": "menu",
+      "default": "vertex",
+      "options": [
+        "none",
+        "point",
+        "vertex"
+      ],
+      "description": "Create texture coordinate attribute."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "formas elipsoidales. * Puedes crear **esferas parciales** especificando rangos de latitud y longitud (`Detail` page). * Puede generar **normales (`N`) y coordenadas de textura (`Tex`)** de punto o vértice, con diferentes métodos de proyección (Equirectangular, Fish Eye). * La `Dimension` de la esfera se emite como metadatos para otros POPs. * **Uso simple:** Un generador básico para cualquier cosa que necesite una forma esférica, desde gotas de agua hasta planetas, o para usarla como base para efectos complejos de dispersión de puntos. * **Sprinkle POP (POP de Salpicadura)** * **Función principal:** Crea puntos **sobre la superficie o dentro del volumen** de un POP de entrada. * **Características clave:** * El método `Per Primitive` crea puntos en la superficie de triángulos o cuadrados, intentando mantener una distribución constante por primitiva, sin importar su tamaño. * El método `Volume` crea puntos aleato"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "e en un **punto POP**. * Los **encabezados de las columnas** de la tabla DAT deben seguir las convenciones de nombres de atributos de POP. Por ejemplo, `P(0)` para la componente X de la posición, o `Color(3)` para la componente Alfa del color. * Para vectores (como un `float3`), puedes usar `P(?)` para indicar que las columnas `P(0)`, `P(1)` y `P(2)` formarán un vector `P`. * Por ahora, **no puede convertir ni especificar primitivas ni vértices** de primitivas, pero esto se planea para el futuro. * Puedes especificar el **tipo de dato** (`float`, `double`, `int`, `uint`, `dir`, `dbl dir`) y el **número de componentes** (1-4) para los nuevos atributos creados. --- #### 17. DMX Fixture POP * **¿Qué hace?** Este operador se utiliza para **construir \"universos\" DMX** a partir de una entrada POP, y se usa junto con un DMX Out POP para enviar señales DMX a dispositivos de iluminación u otros equipos. * **Características clave:** * Cada **primitiva**"
+    }
+  ],
+  "useCases": [
+    "LED panel layout with controlled row/column structure",
+    "Particle emitter surface with specific topology",
+    "Line-based generative art with Rows/Columns connectivity",
+    "Dimension metadata for downstream POPs (_Dim[] attribute)"
+  ],
+  "examples": [
+    {
+      "name": "LED Matrix",
+      "description": "Plane POP (Columns=32, Rows=16, Connectivity=Point Primitives) for LED layout",
+      "difficulty": "beginner"
+    },
+    {
+      "name": "Line Art Grid",
+      "description": "Plane POP (Connectivity=Rows and Columns, Line Type=Lines) → Noise POP",
+      "difficulty": "intermediate"
+    },
+    {
+      "name": "Particle Surface",
+      "description": "Plane POP (Triangles, 100×100) → Particle POP (emit from surface)",
+      "difficulty": "intermediate"
+    }
+  ],
+  "commonCombinations": [
+    "Plane POP → Noise POP (GPU displacement on grid)",
+    "Plane POP → Particle POP (emitter surface)",
+    "Plane POP → GLSL POP (GPU displacement shaders)",
+    "Plane POP → Line_Resample POP (resample line connectivity)"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Grid appears invisible",
+      "solution": "Check orientation — camera may be looking edge-on. Try different Orientation."
+    },
+    {
+      "problem": "Points not where expected",
+      "solution": "Plane POP centers at origin. Use Translate or Anchor to reposition."
+    },
+    {
+      "problem": "Want rows only, not quads",
+      "solution": "Set Connectivity to Rows (not Rows and Columns)."
+    },
+    {
+      "problem": "Want mesh without lines",
+      "solution": "Set Connectivity to Triangles or Quads. Line Type only affects line connectivity modes."
+    }
+  ],
+  "description": "Creates rows and columns of points in a planar grid shape with various connectivity options (triangles, quads, lines, line strips). Outputs dimension metadata (_Dim[]) for downstream POPs. Supports anchor, transform, normal, and texture coordinate generation."
+}

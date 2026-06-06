@@ -1,0 +1,26 @@
+{
+  "family": "SOP",
+  "pageTitle": "Joint SOP",
+  "pageSlug": "Joint_SOP",
+  "url": "https://docs.derivative.ca/Joint_SOP",
+  "tdOpTypeGuess": "jointSOP",
+  "summary": "[  edit  ]\nThe Joint  SOP  will aid in the creation of circle-based skeletons by creating a series of circles between each pair of input circles. This  SOP  requires at least a pair of circles in order to work correctly.\njointSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "ops. And obviously, if I kind of flip that value, well, that's kind of crazy, but if I, you know, if I move these values around, I'm able to get some very different outputs. And that is a lot of fun. So, I'm going to be publishing a sort of a free starter pack of some pop stuff on my Patreon. So, please sign up for that. (37:54) Like and subscribe to my YouTube channel because there's going to be more in the future on pops. And I'm sorry the video kept kind of crashing and if this was a bit disjointed, but I am sort of super excited by these. I'm going to be learning a lot more about them over the coming weeks. (38:10) I'm glad I've been able to spend a couple weeks playing around with these already, and I'm excited to see what everyone else in the community does, too. Thanks for watching."
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

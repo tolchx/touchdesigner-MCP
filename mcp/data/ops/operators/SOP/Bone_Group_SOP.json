@@ -1,0 +1,26 @@
+{
+  "family": "SOP",
+  "pageTitle": "Bone Group SOP",
+  "pageSlug": "Bone_Group_SOP",
+  "url": "https://docs.derivative.ca/Bone_Group_SOP",
+  "tdOpTypeGuess": "boneGroupSOP",
+  "summary": "[  edit  ]\nThe Bone  Group   SOP  groups primitives by common bones (shared bones). This node often isn't needed in modern workflows with well made models.\nThis node will split the vertices into subsections, each of which are affected by a different subset of the bones of the skeleton. These are called Bone Groups. This  SOP  will split up geometry with capture attributes into different bone groups. The detail attributes pCaptData and pCaptPath will be split up into detail attributes with postfixes starting at 0. So for example if the geometry gets split into two bone groups, there will be detail attributes pCaptData0, pCaptPath0, pCaptData1, and pCaptPath1. The original pCaptData and pCaptPath will be deleted. The point/vertex attribute pCapt will become a vertex attribute named pCapt0, pCapt1 etc.. There will also be primitives groups named boneGroup0, boneGroup1 that contain all of the primitives in each bone group. All capture weights are re-normalized.\nYou should isolate out each of the primitive bone groups using the  Delete SOP . Next drop down a  MAT  (like the  Phong MAT ) that supports deforms. You will need to give the  MAT  a few pieces of information:\nThe path to the  SOP  that contains the deform information you want this  MAT  to use. This is generally the Delete  SOP , or some node after it.\nThe name of the pCaptData and pCaptPath attribute. So for example if you are rendering bone group 0 with this  MAT , you'd specify pCaptData0 and pCaptPath0.\nThe path to the root of the skeleton.\nbonegroupSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "* **Características clave:** * Utiliza atributos de detalle `pCaptPath` (rutas a los componentes que actúan como huesos) y `pCaptData` (matrices de \"bind/rest pose\"). * Usa el atributo de punto/vértice `pCapt[]` que contiene pares de índice de transformación y peso. * Puede realizar deformaciones en la **CPU** (usando `Deform SOP`) o en la **GPU** para mayor velocidad. * Para la deformación en GPU, la geometría puede necesitar ser dividida en \"Bone Groups\" si hay muchos huesos. * **Uso simple:** Para animar personajes o modelos 3D que tienen un esqueleto, permitiendo que la malla se deforme de manera realista a medida que los huesos se mueven. * **Skin POP (POP de Superficie)** * **Función principal:** Conecta arreglos de datos en 2D (o más) para formar una **malla de triángulos o cuadrados**. * **Características clave:** * Por ejemplo, puede tomar varias \"line strips\" y unirlas para formar una superficie."
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

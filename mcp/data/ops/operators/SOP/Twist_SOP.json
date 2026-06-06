@@ -1,0 +1,38 @@
+{
+  "family": "SOP",
+  "pageTitle": "Twist SOP",
+  "pageSlug": "Twist_SOP",
+  "url": "https://docs.derivative.ca/Twist_SOP",
+  "tdOpTypeGuess": "twistSOP",
+  "summary": "[  edit  ]\nThe Twist  SOP  performs non-linear deformations such as bend, linear taper, shear, squash and stretch, taper and twist. Each deformation will distort the object in one or more axes.\ntwistSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de partículas complejos, simulaciones a gran escala y efectos visuales generativos que superan las capacidades de las metodologías tradicionales basadas en CPU. El anál"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "r, rotar y escalar puntos o geometrías. Puede usar atributos de \"peso\" (Weight) para aplicar transformaciones parciales a los puntos. Sus parámetros pueden ser controlados por otros atributos. Puede afectar puntos, vértices o primitivas dentro de un grupo específico. • Experimental:Trig POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Tube POP: Un operador generador que crea una geometría de tubo. • Experimental:Twist POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Aquí tienes un guion con voz en off para un video tutorial sobre los operadores POPs en TouchDesigner, enfatizando sus características, la capacidad de usar la GPU y el control efectivo de puntos: -------------------------------------------------------------------------------- (0) Intro - Título en pantalla: \"Aprendiendo sobre POPs en TouchDesigner: El Poder de la GPU para el Con"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "ar al Sphere y Torus POPs, los puntos pueden conectarse con **variedad de primitivas**. * El `End Caps` (tapa de extremos) puede añadir triángulos o cuadrados para cerrar el volumen del tubo. * Emite `Dimension` como metadatos. Puede generar normales (`N`) y coordenadas de textura (`Tex`). * **Uso simple:** Para crear cilindros, tuberías, o cualquier forma tubular básica. Su capacidad de crear tubos cónicos lo hace flexible para simular troncos, conos, etc. * **Twist POP (POP de Torsión)** * **Función principal:** Realiza **deformaciones no lineales** en los puntos de tu geometría, como `Twist` (torsión), `Bend` (curvado), `Shear` (cizallamiento), `Taper` (estrechamiento), `Linear Taper` y `Squash & Stretch` (aplastar y estirar). * **Características clave:** * Define uno o dos `axes` (ejes) y un `Pivot` (punto de pivote) para controlar la dirección y el centro de la deformación. * La cantidad de deformación se controla co"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "f, we have lots of things that might be familiar to us. We have things like the point generator, which is a bit similar to stuff that was in the pallet earlier, although it's got its own tricks. (01:35) We've got sphere, we have box, we have a grid. So, a lot of this stuff is going to look kind of familiar to us. Let's see. Let's just do one more thing just so we can see. In terms of how we process these generators, we have a bunch of things that we also might be used to like we have noise and twist, but also some things that we are potentially less used to like one of my favorite things that I think is going to solve a lot of problems for people, which is this little thing called proximity. (02:13) And what proximity allows us to do is essentially create these sort of plexus effects. And and maybe this would be more interesting if I popped a noise in here. I'm going to turn up that value and I'm going to animate it. So now we have a really simple inbuilt way of making a plexus model. And"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

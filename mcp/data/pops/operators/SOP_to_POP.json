@@ -1,0 +1,184 @@
+{
+  "pageTitle": "SOP to POP",
+  "pageSlug": "SOP_to_POP",
+  "url": "https://docs.derivative.ca/SOP_to_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "sOPtoPOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "sop",
+      "label": "SOP",
+      "type": "opRef",
+      "default": "",
+      "description": "Reference to a SOP that will have its geometry converted to POP geometry."
+    },
+    {
+      "name": "polygons",
+      "label": "5+ Points Polygons",
+      "type": "menu",
+      "default": "triangulated",
+      "options": [
+        "ignore",
+        "triangulated",
+        "closedlinestrip"
+      ],
+      "description": "How to handle polygons with 5 or more points: Ignore, Triangulate, or create Closed Line Strip."
+    },
+    {
+      "name": "mesh",
+      "label": "Meshes",
+      "type": "menu",
+      "default": "quads",
+      "options": [
+        "ignore",
+        "quads",
+        "rows",
+        "cols",
+        "rowscols",
+        "points"
+      ],
+      "description": "How to convert mesh primitives: Quads, Rows/Cols to Line Strips, or Point Primitives."
+    },
+    {
+      "name": "inputcolorspace",
+      "label": "Input Color Space",
+      "type": "menu",
+      "default": "automatic",
+      "options": [
+        "automatic",
+        "srgb",
+        "srgblinear",
+        "rec601ntsc",
+        "rec709",
+        "rec2020",
+        "rec2020st2084pq",
+        "rec2020hlg",
+        "dcip3",
+        "dcip3d60",
+        "displayp3d65",
+        "displayp3d65linear",
+        "aces2065-1",
+        "acescg",
+        "acesproxy",
+        "passthrough"
+      ],
+      "description": "Override or set the color space for incoming geometry colors."
+    },
+    {
+      "name": "inputreferencewhite",
+      "label": "Input Reference White",
+      "type": "menu",
+      "default": "default",
+      "options": [
+        "default",
+        "sdr",
+        "hdr",
+        "ui"
+      ],
+      "description": "Color space reference white for incoming data: SDR, HDR, or UI brightness."
+    },
+    {
+      "name": "bypass",
+      "label": "Bypass",
+      "type": "toggle",
+      "default": false,
+      "description": "Pass through the first input to the output unchanged."
+    },
+    {
+      "name": "freeextragpumem",
+      "label": "Free Extra GPU Memory",
+      "type": "toggle",
+      "default": false,
+      "description": "Free memory that has accumulated when output memory has grown and shrunk."
+    },
+    {
+      "name": "delinputattrs",
+      "label": "Delete Input Attributes",
+      "type": "toggle",
+      "default": false,
+      "description": "Only output which attributes you specify — helps isolate attributes into a separate branch."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sist"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sist"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "en una descripción detallada de la función específica de este operador. • Experimental:Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Skin Deform POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Skin POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:SOP to POP: Permite la conversión de datos de la familia SOPs (Surface Operators) a datos de POPs. • Experimental:Sort POP: Implementa algoritmos de ordenación muy rápidos que pueden organizar los puntos basándose en el valor de cualquier componente de un atributo. • Experimental:Sphere POP: Un operador generador que crea una geometría esférica. • Experimental:Sprinkle POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Sub"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "en una descripción detallada de la función específica de este operador. • Experimental:Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Skin Deform POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Skin POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:SOP to POP: Permite la conversión de datos de la familia SOPs (Surface Operators) a datos de POPs. • Experimental:Sort POP: Implementa algoritmos de ordenación muy rápidos que pueden organizar los puntos basándose en el valor de cualquier componente de un atributo. • Experimental:Sphere POP: Un operador generador que crea una geometría esférica. • Experimental:Sprinkle POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "en una descripción detallada de la función específica de este operador. • Experimental:Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Skin Deform POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Skin POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:SOP to POP: Permite la conversión de datos de la familia SOPs (Surface Operators) a datos de POPs. • Experimental:Sort POP: Implementa algoritmos de ordenación muy rápidos que pueden organizar los puntos basándose en el valor de cualquier componente de un atributo. • Experimental:Sphere POP: Un operador generador que crea una geometría esférica. • Experimental:Sprinkle POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Sub"
+    }
+  ],
+  "useCases": [
+    "Import FBX/OBJ/Alembic meshes for GPU-accelerated noise displacement and particle emission",
+    "Convert SOP point clouds to POP pipeline for real-time rendering and simulation",
+    "Transfer SOP UV, color, and normal attributes to POP shaders via attribute renaming",
+    "Convert mesh topology to point primitives for volumetric particle emission sources",
+    "SOP boolean/subdivision results → POP noise deformation for live visuals"
+  ],
+  "examples": [
+    {
+      "name": "Mesh Disintegration",
+      "description": "FBX File In → SOP to POP → Noise POP (large amplitude) → Render TOP",
+      "difficulty": "intermediate"
+    },
+    {
+      "name": "Mesh Point Cloud Emitter",
+      "description": "SOP Sphere → SOP to POP → Delete POP (Random 50%) → Particle POP (birth from points)",
+      "difficulty": "beginner"
+    },
+    {
+      "name": "UV-Driven Texture Sampling",
+      "description": "SOP with UV → SOP to POP → Lookup Texture POP (sample video texture)",
+      "difficulty": "advanced"
+    }
+  ],
+  "commonCombinations": [
+    "SOP to POP → Noise POP (GPU displacement on imported meshes)",
+    "SOP to POP → Delete POP (random point culling for density control)",
+    "SOP to POP → Particle POP (mesh-surface particle emission)",
+    "SOP to POP → GLSL POP (custom vertex/pixel shaders on SOP geometry)",
+    "SOP to POP → Attribute Convert POP (type conversion for downstream ops)"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Slow performance",
+      "solution": "CPU→GPU PCIe transfer cost is inherent. Minimize data by reducing SOP point count or using fewer attributes."
+    },
+    {
+      "problem": "Missing attributes in POP",
+      "solution": "Check SOP has the attributes. Delete Input Attributes toggle strips everything not explicitly kept."
+    },
+    {
+      "problem": "Wrong color space",
+      "solution": "Set Input Color Space explicitly instead of Automatic — especially for ACES or HDR workflows."
+    },
+    {
+      "problem": "Polygons disappearing",
+      "solution": "5+ point polygons default to Triangulated. Change menu to Closed Line Strip or Ignore as needed."
+    },
+    {
+      "problem": "Mesh topology looks wrong",
+      "solution": "Check Meshes menu — Rows to Line Strips preserves different topology than Convert to Quads."
+    }
+  ],
+  "description": "Converts SOP 3D geometry to POP geometry across the CPU→GPU boundary. Transfers point/vertex/primitive attributes with automatic renaming (uv→Tex, Cd→Color, width→LineWidth, pscale→PointScale). Handles triangles, quads, meshes, and NURBS with configurable conversion menus for 5+ point polygons and mesh topology."
+}

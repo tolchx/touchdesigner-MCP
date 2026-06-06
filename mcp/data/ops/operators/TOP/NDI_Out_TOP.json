@@ -1,0 +1,715 @@
+{
+  "family": "TOP",
+  "pageTitle": "NDI Out TOP",
+  "pageSlug": "NDI_Out_TOP",
+  "url": "https://docs.derivative.ca/NDI_Out_TOP",
+  "tdOpTypeGuess": "nDIOutTOP",
+  "summary": "[  edit  ]\nThe NDI Out  TOP  will send image and audio data over IP to other  Newtek NDI® (Network Data Interface)  enabled applications. The  NDI®  protocol is created by  Newtek .\nSee also  NDI ,  NDI In TOP  and  NDI DAT .\nNOTE for Windows OS - If experiencing connection issues make sure Windows Firewall is disabled.\nndioutTOP_Class\nContents\n1   Summary\n2   Parameters - NDI Out Page\n3   Parameters - Common Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Specific NDI Out TOP Info Channels\n5.2   Common TOP Info Channels\n5.3   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "NDI Out",
+      "label": "Active",
+      "name": "active",
+      "description": "Makes itself available as a source and sends out image data when active."
+    },
+    {
+      "page": "NDI Out",
+      "label": "Source Name",
+      "name": "name",
+      "description": "Specify the name for this source."
+    },
+    {
+      "page": "NDI Out",
+      "label": "Failover Source Name",
+      "name": "failovername",
+      "description": "If this source fails while receivers are connected to it, they will instead try to connect to the specified Failover Source. This format of this should be  MACHINENAME (SourceName) . This format is the same as you would see the source listed in the NDI In  TOP ."
+    },
+    {
+      "page": "NDI Out",
+      "label": "FPS",
+      "name": "fps",
+      "description": "Specify the frame rate to send at. Note that NDI uses the  FPS  partially as a guide to control how to compress the frames. The higher the  FPS , the more compressed the frames will be. So for example sending at 1  FPS  will result in higher image quality that sending at 30  FPS ."
+    },
+    {
+      "page": "NDI Out",
+      "label": "Low-Performance Behavior",
+      "name": "lowperformancebehavior",
+      "description": "⊞  - When the NDI sending thread isn't able to keep up due to insufficient system resources (usually available CPU time), this controls the resulting behavior of the node."
+    },
+    {
+      "page": "NDI Out",
+      "label": "Stall Main Thread",
+      "name": "stallmainthread",
+      "description": "The main thread will stall, giving up it's resources so the NDI sender can keep-up with the frames that are being sent. This will likely result in the main thread dropping frames."
+    },
+    {
+      "page": "NDI Out",
+      "label": "Skip Frames",
+      "name": "skipframes",
+      "description": "The main thread will not stall, and instead will not give the sender new frames until it has processed the ones it currently has. This can result in the NDI sender being starved of CPU time and running at a far lower  FPS  than the main thread."
+    },
+    {
+      "page": "NDI Out",
+      "label": "Output Pixel Format",
+      "name": "outputpixelformat",
+      "description": "⊞  - Controls the pixel format the output is encoded into."
+    },
+    {
+      "page": "NDI Out",
+      "label": "8-bit",
+      "name": "fixed8",
+      "description": "8-bits fixed per color channel."
+    },
+    {
+      "page": "NDI Out",
+      "label": "16-bit",
+      "name": "fixed16",
+      "description": "16-bit fixed per color channel."
+    },
+    {
+      "page": "NDI Out",
+      "label": "Include Alpha",
+      "name": "includealpha",
+      "description": "Also sends the alpha channel when this is turned on. If this is off the alpha will be 1.0."
+    },
+    {
+      "page": "NDI Out",
+      "label": "Group  Names Table",
+      "name": "grouptable",
+      "description": "Can be  DAT  table with a column with the header 'groups'. Each cell listed under that heading is added as one of the NDI groups this output annouces itself as part of."
+    },
+    {
+      "page": "NDI Out",
+      "label": "Audio  CHOP",
+      "name": "audiochop",
+      "description": "Specify the  CHOP  (containing audio data) to send out on the NDI stream."
+    },
+    {
+      "page": "NDI Out",
+      "label": "Metadata  DAT",
+      "name": "metadata",
+      "description": "Specify the  DAT  (containing the metadata in table format  or  valid XML format) to send out on the NDI stream. The metadata can be read in by the  NDI In TOP  using an Info  DAT ."
+    },
+    {
+      "page": "NDI Out",
+      "label": "Output Color Space",
+      "name": "outputcolorspace",
+      "description": "⊞  - Controls what color space the data will be converted to before output. If the output (file/SDI/ST2110 etc) supports metadata, will also attempt to include the color space in that. Some output forms only support a limited number of color spaces in their metadata. If the color space is unknown to the output form, then no metadata will be included."
+    },
+    {
+      "page": "NDI Out",
+      "label": "sRGB",
+      "name": "srgb",
+      "description": "sRGB  color space, with sRGB transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "NDI Out",
+      "label": "sRGB - Linear",
+      "name": "srgblinear",
+      "description": "sRGB  color space, with linear transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "NDI Out",
+      "label": "Rec.601 (NTSC)",
+      "name": "rec601ntsc",
+      "description": "Rec.601  with NTSC primaries color space, with Rec.601 transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "NDI Out",
+      "label": "Rec.709",
+      "name": "rec709",
+      "description": "Rec.709  color space, with Rec.709 (same as Rec.2020) transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "NDI Out",
+      "label": "Rec.2020",
+      "name": "rec2020",
+      "description": "Rec.2020  color space, with Rec.2020 (same as Rec.709) transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "NDI Out",
+      "label": "Rec.2020 ST2084PQ",
+      "name": "rec2020st2084pq",
+      "description": "Rec.2020  color space, with  Perceptual Quantizer  transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "NDI Out",
+      "label": "Rec.2020 HLG",
+      "name": "rec2020hlg",
+      "description": "Rec.2020  color space, with  Hybrid Log Gamma  transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "NDI Out",
+      "label": "DCI-P3",
+      "name": "dcip3",
+      "description": "DCI-P3  color space, with D65 white point and 2.6 gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "NDI Out",
+      "label": "DCI-P3 (D60)",
+      "name": "dcip3d60",
+      "description": "DCI-P3 \"D60 sim\"  color space, with D60 white point, and 2.6 gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "NDI Out",
+      "label": "Display-P3 (D65)",
+      "name": "displayp3d65",
+      "description": "Display-P3  color space, with D65 white point, and sRGB gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "NDI Out",
+      "label": "Display-P3 (D65) - Linear",
+      "name": "displayp3d65linear",
+      "description": "Display-P3  color space, with D65 white point, and linear transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "NDI Out",
+      "label": "ACES2065-1",
+      "name": "aces2065",
+      "description": "1  -  ACES 2065-1  (also known as ACES AP0) color space, with a linear gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "NDI Out",
+      "label": "ACEScg",
+      "name": "acescg",
+      "description": "ACEScg  (also known as ACES AP1) color space, with a linear gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "NDI Out",
+      "label": "ACESproxy",
+      "name": "acesproxy",
+      "description": "ACESproxy  color space, which has a log transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "NDI Out",
+      "label": "Passthrough",
+      "name": "passthrough",
+      "description": "When selected, the color values will be used as-is in the operation, without any modification or attempt to convert them into the Working Color Space."
+    },
+    {
+      "page": "NDI Out",
+      "label": "Output  Reference  White",
+      "name": "outputreferencewhite",
+      "description": "⊞  - When converting the color values to the Working Color Space for output, this controls how they should be treated with respect to  Reference White . If the Working Color Space is the same  Reference  White, then no adjustment is done. If they are different, then the  Reference  White level (brightness) of the colors will be adjusted to the range expected by the Output Color Space. For example if the project is set to have a SDR  Reference  White of 120 nits, and the HDR  Reference  White is 80 nits, and the project Working Color Space is HDR while the Output Color Space is SDR: then a color of (1, 1, 1), which is 80 nits in the HDR color space, will be converted to be (0.66, 0.66, 0.66), which is 80 nits still in the SDR Output Color Space."
+    },
+    {
+      "page": "NDI Out",
+      "label": "Default For Color Space",
+      "name": "default",
+      "description": "Will use either the SDR or the HDR  Reference  White, based on the color space detected/selected."
+    },
+    {
+      "page": "NDI Out",
+      "label": "Standard (SDR)",
+      "name": "sdr",
+      "description": "Will treat the Output Color Space as SDR for it's reference white value."
+    },
+    {
+      "page": "NDI Out",
+      "label": "High (HDR)",
+      "name": "hdr",
+      "description": "Will treat the Output Color Space as HDR for it's reference white value."
+    },
+    {
+      "page": "Common",
+      "label": "Output  Resolution",
+      "name": "outputresolution",
+      "description": "⊞  - quickly change the resolution of the  TOP 's data."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's resolution."
+    },
+    {
+      "page": "Common",
+      "label": "Eighth",
+      "name": "eighth",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Quarter",
+      "name": "quarter",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Half",
+      "name": "half",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "2X",
+      "name": "2x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "4X",
+      "name": "4x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "8X",
+      "name": "8x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Fit  Resolution",
+      "name": "fit",
+      "description": "Fits the width and height to the resolution given below, while maintaining the aspect ratio."
+    },
+    {
+      "page": "Common",
+      "label": "Limit  Resolution",
+      "name": "limit",
+      "description": "The width and height are limited to the resolution given below. If one of the dimensions exceeds the given resolution, the width and height will be reduced to fit inside the given limits while maintaining the aspect ratio."
+    },
+    {
+      "page": "Common",
+      "label": "Custom  Resolution",
+      "name": "custom",
+      "description": "Enables the  Resolution  parameter below, giving direct control over width and height."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution",
+      "name": "resolution",
+      "description": "⊞  - Enabled only when the  Resolution  parameter is set to Custom  Resolution . Some Generators like Constant and Ramp do not use inputs and only use this field to determine their size. The drop down menu on the right provides some commonly used resolutions."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution  Menu",
+      "name": "resmenu",
+      "description": "A drop-down menu with some commonly used resolutions."
+    },
+    {
+      "page": "Common",
+      "label": "Use Global Res Multiplier",
+      "name": "resmult",
+      "description": "Uses the Global  Resolution  Multiplier found in  Edit>Preferences>TOPs . This multiplies all the TOPs resolutions by the set amount. This is handy when working on computers with different hardware specifications. If a project is designed on a desktop workstation with lots of graphics memory, a user on a laptop with only 64MB VRAM can set the Global  Resolution  Multiplier to a value of half or quarter so it runs at an acceptable speed. By checking this checkbox on, this  TOP  is affected by the global multiplier."
+    },
+    {
+      "page": "Common",
+      "label": "Output Aspect",
+      "name": "outputaspect",
+      "description": "⊞  - Sets the image aspect ratio allowing any textures to be viewed in any size. Watch for unexpected results when compositing TOPs with different aspect ratios. (You can define images with non-square pixels using xres, yres, aspectx, aspecty where xres/yres != aspectx/aspecty.)"
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's aspect ratio."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution",
+      "name": "resolution",
+      "description": "Uses the aspect of the image's defined resolution (ie 512x256 would be 2:1), whereby each pixel is square."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Aspect",
+      "name": "custom",
+      "description": "Lets you explicitly define a custom aspect ratio in the Aspect parameter below."
+    },
+    {
+      "page": "Common",
+      "label": "Aspect",
+      "name": "aspect",
+      "description": "⊞  - Use when Output Aspect parameter is set to Custom Aspect."
+    },
+    {
+      "page": "Common",
+      "label": "Aspect Menu",
+      "name": "armenu",
+      "description": "A drop-down menu with some commonly used aspect ratios."
+    },
+    {
+      "page": "Common",
+      "label": "Input Smoothness",
+      "name": "inputfiltertype",
+      "description": "⊞  - This controls pixel filtering on the input image of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Nearest Pixel",
+      "name": "nearest",
+      "description": "Uses nearest pixel or accurate image representation. Images will look jaggy when viewing at any zoom level other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Interpolate Pixels",
+      "name": "linear",
+      "description": "Uses linear filtering between pixels. This is how you get  TOP  images in viewers to look good at various zoom levels, especially useful when using any Fill Viewer setting other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Mipmap Pixels",
+      "name": "mipmap",
+      "description": "Uses   mipmap  filtering when scaling images. This can be used to reduce artifacts and sparkling in moving/scaling images that have lots of detail."
+    },
+    {
+      "page": "Common",
+      "label": "Fill  Viewer",
+      "name": "fillmode",
+      "description": "⊞  - Determine how the  TOP  image is displayed in the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the same Fill Viewer settings as it's input."
+    },
+    {
+      "page": "Common",
+      "label": "Fill",
+      "name": "fill",
+      "description": "Stretches the image to fit the edges of the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Horizontal",
+      "name": "width",
+      "description": "Stretches image to fit viewer horizontally."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Vertical",
+      "name": "height",
+      "description": "Stretches image to fit viewer vertically."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Best",
+      "name": "best",
+      "description": "Stretches or squashes image so no part of image is cropped."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Outside",
+      "name": "outside",
+      "description": "Stretches or squashes image so image fills viewer while constraining it's proportions. This often leads to part of image getting cropped by viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Native  Resolution",
+      "name": "nativeres",
+      "description": "Displays the native resolution of the image in the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Viewer Smoothness",
+      "name": "filtertype",
+      "description": "⊞  - This controls pixel filtering in the viewers."
+    },
+    {
+      "page": "Common",
+      "label": "Nearest Pixel",
+      "name": "nearest",
+      "description": "Uses nearest pixel or accurate image representation. Images will look jaggy when viewing at any zoom level other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Interpolate Pixels",
+      "name": "linear",
+      "description": "Uses linear filtering between pixels. Use this to get  TOP  images in viewers to look good at various zoom levels, especially useful when using any Fill Viewer setting other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Mipmap Pixels",
+      "name": "mipmap",
+      "description": "Uses   mipmap  filtering when scaling images. This can be used to reduce artifacts and sparkling in moving/scaling images that have lots of detail."
+    },
+    {
+      "page": "Common",
+      "label": "Passes",
+      "name": "npasses",
+      "description": "Duplicates the operation of the  TOP  the specified number of times. Making this larger than 1 is essentially the same as taking the output from each pass, and passing it into the first input of the node and repeating the process. Other inputs and parameters remain the same for each pass."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Mask",
+      "name": "chanmask",
+      "description": "Allows you to choose which channels (R, G, B, or A) the  TOP  will operate on. All channels are selected by default."
+    },
+    {
+      "page": "Common",
+      "label": "Pixel Format",
+      "name": "format",
+      "description": "⊞  - Format used to store data for each channel in the image (ie. R, G, B, and A). Refer to  Pixel Formats  for more information."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's pixel format."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (RGBA)",
+      "name": "rgba8fixed",
+      "description": "Uses 8-bit integer values for each channel."
+    },
+    {
+      "page": "Common",
+      "label": "sRGB 8-bit fixed (RGBA)",
+      "name": "srgba8fixed",
+      "description": "Uses 8-bit integer values for each channel and stores color in sRGB colorspace."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (RGBA)",
+      "name": "rgba16float",
+      "description": "Uses 16-bits per color channel, 64-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (RGBA)",
+      "name": "rgba32float",
+      "description": "Uses 32-bits per color channel, 128-bits per pixels."
+    },
+    {
+      "page": "Common",
+      "label": "10-bit RGB, 2-bit Alpha, fixed (RGBA)",
+      "name": "rgb10a2fixed",
+      "description": "Uses 10-bits per color channel and 2-bits for alpha, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (RGBA)",
+      "name": "rgba16fixed",
+      "description": "Uses 16-bits per color channel, 64-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "11-bit float (RGB), Positive Values Only",
+      "name": "rgba11float",
+      "description": "A RGB floating point format that has 11 bits for the Red and Green channels, and 10-bits for the Blue  Channel , 32-bits total per pixel (therefore the same memory usage as 8-bit RGBA). The Alpha channel in this format will always be 1. Values can go above one, but can't be negative. ie. the range is [0, infinite)."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (Mono)",
+      "name": "mono8fixed",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 8-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (Mono)",
+      "name": "mono16fixed",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (Mono)",
+      "name": "mono16float",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (Mono)",
+      "name": "mono32float",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (RG)",
+      "name": "rg8fixed",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 8-bits per channel, 16-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (RG)",
+      "name": "rg16fixed",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 16-bits per channel, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (RG)",
+      "name": "rg16float",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 16-bits per channel, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (RG)",
+      "name": "rg32float",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 32-bits per channel, 64-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (A)",
+      "name": "a8fixed",
+      "description": "An Alpha only format that has 8-bits per channel, 8-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (A)",
+      "name": "a16fixed",
+      "description": "An Alpha only format that has 16-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (A)",
+      "name": "a16float",
+      "description": "An Alpha only format that has 16-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (A)",
+      "name": "a32float",
+      "description": "An Alpha only format that has 32-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (Mono+Alpha)",
+      "name": "monoalpha8fixed",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 8-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (Mono+Alpha)",
+      "name": "monoalpha16fixed",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 16-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (Mono+Alpha)",
+      "name": "monoalpha16float",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 16-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (Mono+Alpha)",
+      "name": "monoalpha32float",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 32-bits per channel, 64-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "num_connected",
+      "description": "The number of receivers connected to this source."
+    },
+    {
+      "page": "Common",
+      "label": "last_send_time",
+      "description": "Amount of time the sending thread took to send the last frame, in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "skipped_frames",
+      "description": "The total number of frames produced by TouchDesigner that didnt get sent out."
+    },
+    {
+      "page": "Common",
+      "label": "resx",
+      "description": "Horizontal resolution of the  TOP  in pixels."
+    },
+    {
+      "page": "Common",
+      "label": "resy",
+      "description": "Vertical resolution of the  TOP  in pixels."
+    },
+    {
+      "page": "Common",
+      "label": "aspectx",
+      "description": "Horizontal aspect of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "aspecty",
+      "description": "Vertical aspect of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "depth",
+      "description": "Depth of 2D or 3D array if this  TOP  contains a 2D or 3D texture array."
+    },
+    {
+      "page": "Common",
+      "label": "gpu_memory_used",
+      "description": "Total amount of texture memory used by this  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "The",
+      "name": "Frames",
+      "description": "per-Second that TouchDesigner's  Timeline  runs at. Set with  project.cookRate ."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "The width and height of an image in pixels. Most TOPs, like the  Movie File In TOP  can set the image resolution. See  Aspect Ratio  for the width/height ratio of an image, taking into account non",
+      "description": "square pixels."
+    },
+    {
+      "page": "Common",
+      "label": "The viewer of a node can be (1) the interior of a node (the  Node Viewer ), (2) a floating window (RMB",
+      "description": ">View... on node), or (3) a  Pane  that graphically shows the results of an operator."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://claude.desktop.com/schemas/mcp-bundle.json",
+  "version": "1.0",
+  "name": "TouchDesigner MCP",
+  "description": "Controla TouchDesigner desde IA. Crea operadores, conecta nodos, ejecuta Python, y construye redes completas.",
+  "command": "node",
+  "args": ["mcp/dist/index.js"],
+  "env": {
+    "TDAPI_HOST": "localhost",
+    "TDAPI_PORT": "44444"
+  },
+  "platforms": {
+    "win32": {
+      "command": "node",
+      "args": ["mcp/dist/index.js"]
+    },
+    "darwin": {
+      "command": "node",
+      "args": ["mcp/dist/index.js"]
+    },
+    "linux": {
+      "command": "node",
+      "args": ["mcp/dist/index.js"]
+    }
+  }
+}

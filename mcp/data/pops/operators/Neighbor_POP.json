@@ -1,0 +1,172 @@
+{
+  "pageTitle": "Neighbor POP",
+  "pageSlug": "Neighbor_POP",
+  "url": "https://docs.derivative.ca/Neighbor_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "neighborPOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "Neighbors Type",
+      "type": "Menu",
+      "options": [
+        "By Distance",
+        "Connected"
+      ],
+      "default": "By Distance",
+      "description": "By Distance (spatial) or Connected (edge connectivity)."
+    },
+    {
+      "name": "Max Neighbors Distance",
+      "type": "Float",
+      "default": 1,
+      "description": "Distance threshold for neighbor detection."
+    },
+    {
+      "name": "Distribution",
+      "type": "Menu",
+      "options": [
+        "Default",
+        "Unique",
+        "Closest"
+      ],
+      "default": "Default",
+      "description": "Default, Unique (no duplicates), or Closest neighbor sets."
+    },
+    {
+      "name": "Num Hash Buckets",
+      "type": "Int",
+      "default": 1024,
+      "description": "Spatial hash buckets (heuristic: ~point count)."
+    },
+    {
+      "name": "Output",
+      "type": "Menu",
+      "options": [
+        "Neighbors",
+        "Average",
+        "Inverse Distance Weighted Average"
+      ],
+      "default": "Neighbors",
+      "description": "Output individual neighbors, average, or weighted average."
+    },
+    {
+      "name": "Max Neighbors",
+      "type": "Int",
+      "default": 10,
+      "description": "Max number of neighbors (array size)."
+    },
+    {
+      "name": "Neighbors",
+      "type": "Toggle",
+      "default": true,
+      "description": "Output Nebr array attribute with neighbor indices."
+    },
+    {
+      "name": "Neighbor Attr Name",
+      "type": "Str",
+      "default": "Nebr",
+      "description": "Name for neighbor indices attribute."
+    },
+    {
+      "name": "Num Neighbors",
+      "type": "Toggle",
+      "default": true,
+      "description": "Output NumNebrs attribute."
+    },
+    {
+      "name": "Distance Attribute",
+      "type": "Toggle",
+      "default": false,
+      "description": "Output distance values for each neighbor."
+    },
+    {
+      "name": "Include Query Point",
+      "type": "Toggle",
+      "default": false,
+      "description": "Include point itself in average calculation."
+    },
+    {
+      "name": "Cast Integers to Floats",
+      "type": "Toggle",
+      "default": false,
+      "description": "Cast integer attributes to float for averaging."
+    },
+    {
+      "name": "Neighbor Point Attributes",
+      "type": "Str",
+      "default": "*",
+      "description": "Which attributes to copy from neighbors."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "control sobre atributos temporales). Maneja la combinación de floats con floats, floats con vectores y vectores con vectores.23 * Math Mix POP: Una versión más simple de Math Combine POP, que realiza una serie de operaciones matemáticas en un solo nodo. Cada bloque en su página \"Combine\" puede combinar uno, dos o tres atributos utilizando más de 70 operaciones (por ejemplo, A+B, sin(A), clamp(A,B,C)). Nombra automáticamente los atributos de múltiples entradas (por ejemplo, in1_Tex).11 * Neighbor POP: Encuentra los puntos más cercanos (neighbors) para cada punto de entrada basándose en la proximidad (distancia) o la conectividad. Genera los índices de estos neighbors en un atributo de arreglo (Nebr) y el recuento de neighbors (NumNebrs). También puede generar la distancia promedio o el promedio ponderado inverso de la distancia de los atributos de los neighbors.24 * Parámetros: Neighbors Type (By Distance, Connected), Max Neighbors Distance, Max Neighbors, Output (Neighbors, Average,"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "control sobre atributos temporales). Maneja la combinación de floats con floats, floats con vectores y vectores con vectores.23 * Math Mix POP: Una versión más simple de Math Combine POP, que realiza una serie de operaciones matemáticas en un solo nodo. Cada bloque en su página \"Combine\" puede combinar uno, dos o tres atributos utilizando más de 70 operaciones (por ejemplo, A+B, sin(A), clamp(A,B,C)). Nombra automáticamente los atributos de múltiples entradas (por ejemplo, in1_Tex).11 * Neighbor POP: Encuentra los puntos más cercanos (neighbors) para cada punto de entrada basándose en la proximidad (distancia) o la conectividad. Genera los índices de estos neighbors en un atributo de arreglo (Nebr) y el recuento de neighbors (NumNebrs). También puede generar la distancia promedio o el promedio ponderado inverso de la distancia de los atributos de los neighbors.24 * Parámetros: Neighbors Type (By Distance, Connected), Max Neighbors Distance, Max Neighbors, Output (Neighbors, Aver"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "control sobre atributos temporales). Maneja la combinación de floats con floats, floats con vectores y vectores con vectores.23 * Math Mix POP: Una versión más simple de Math Combine POP, que realiza una serie de operaciones matemáticas en un solo nodo. Cada bloque en su página \"Combine\" puede combinar uno, dos o tres atributos utilizando más de 70 operaciones (por ejemplo, A+B, sin(A), clamp(A,B,C)). Nombra automáticamente los atributos de múltiples entradas (por ejemplo, in1_Tex).11 * Neighbor POP: Encuentra los puntos más cercanos (neighbors) para cada punto de entrada basándose en la proximidad (distancia) o la conectividad. Genera los índices de estos neighbors en un atributo de arreglo (Nebr) y el recuento de neighbors (NumNebrs). También puede generar la distancia promedio o el promedio ponderado inverso de la distancia de los atributos de los neighbors.24 * Parámetros: Neighbors Type (By Distance, Connected), Max Neighbors Distance, Max Neighbors, Output (Neighbors, Average,"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ite crear nuevos atributos para almacenar los resultados. También puedes usarlo para crear y modificar atributos de color y textura. Soporta la creación automática de nombres de atributos y utiliza atributos de solo lectura. • Experimental:Merge POP: Permite combinar múltiples flujos de datos POPs en uno solo. Puedes especificar qué grupos de datos deseas fusionar de cada entrada. Este operador puede afectar solo puntos, vértices o primitivas que estén en un grupo específico. • Experimental:Neighbor POP: Crea atributos de tipo entero sin signo. Genera atributos que comienzan con Nebr*, lo que sugiere su uso para trabajar con información de vecinos (puntos cercanos). • Experimental:Noise POP: Un operador que genera ruido para atributos, lo que permite crear efectos complejos y variaciones aleatorias. Sus parámetros pueden ser controlados por otros atributos. Permite crear y modificar atributos de color y textura. • Experimental:Normal POP: Se encarga de calcular y crear las normales de supe"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ite crear nuevos atributos para almacenar los resultados. También puedes usarlo para crear y modificar atributos de color y textura. Soporta la creación automática de nombres de atributos y utiliza atributos de solo lectura. • Experimental:Merge POP: Permite combinar múltiples flujos de datos POPs en uno solo. Puedes especificar qué grupos de datos deseas fusionar de cada entrada. Este operador puede afectar solo puntos, vértices o primitivas que estén en un grupo específico. • Experimental:Neighbor POP: Crea atributos de tipo entero sin signo. Genera atributos que comienzan con Nebr*, lo que sugiere su uso para trabajar con información de vecinos (puntos cercanos). • Experimental:Noise POP: Un operador que genera ruido para atributos, lo que permite crear efectos complejos y variaciones aleatorias. Sus parámetros pueden ser controlados por otros atributos. Permite crear y modificar atributos de color y textura. • Experimental:Normal POP: Se encarga de calcular y crear las normales de"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ite crear nuevos atributos para almacenar los resultados. También puedes usarlo para crear y modificar atributos de color y textura. Soporta la creación automática de nombres de atributos y utiliza atributos de solo lectura. • Experimental:Merge POP: Permite combinar múltiples flujos de datos POPs en uno solo. Puedes especificar qué grupos de datos deseas fusionar de cada entrada. Este operador puede afectar solo puntos, vértices o primitivas que estén en un grupo específico. • Experimental:Neighbor POP: Crea atributos de tipo entero sin signo. Genera atributos que comienzan con Nebr*, lo que sugiere su uso para trabajar con información de vecinos (puntos cercanos). • Experimental:Noise POP: Un operador que genera ruido para atributos, lo que permite crear efectos complejos y variaciones aleatorias. Sus parámetros pueden ser controlados por otros atributos. Permite crear y modificar atributos de color y textura. • Experimental:Normal POP: Se encarga de calcular y crear las normales de supe"
+    }
+  ],
+  "useCases": [
+    "Build flocking/boid systems with cohesion, separation, alignment",
+    "Create proximity-based color blending between points",
+    "Find nearest neighbors for spatial queries",
+    "Compute average neighbor attributes for smooth effects",
+    "Build mesh connectivity for cloth/soft body simulation"
+  ],
+  "examples": [
+    "Particle POP → Neighbor POP (Output=Average) → average velocity for flocking",
+    "Grid POP → Neighbor POP (Max Neighbors=4, Connected) → local mesh topology"
+  ],
+  "commonCombinations": [
+    {
+      "operators": [
+        "Particle_POP",
+        "Neighbor_POP",
+        "Attribute_POP"
+      ],
+      "description": "Flocking: neighbor-aware forces and behaviors"
+    },
+    {
+      "operators": [
+        "Neighbor_POP",
+        "Math_POP",
+        "Attribute_POP"
+      ],
+      "description": "Attribute diffusion through neighbor averages"
+    },
+    {
+      "operators": [
+        "Neighbor_POP",
+        "Proximity_POP"
+      ],
+      "description": "Complementary spatial queries (array vs line-based)"
+    }
+  ],
+  "troubleshooting": [
+    "Too few neighbors: Increase Max Neighbors Distance",
+    "Performance slow: Increase Num Hash Buckets to ~point count",
+    "Sentinel value 4294967295 means no neighbor found at that index",
+    "Connected mode: only works with primitives (lines, quads) — requires topology"
+  ],
+  "description": "Finds neighboring points/primitives for each element. New in 2025.3: Works with all primitive types in Connected mode."
+}

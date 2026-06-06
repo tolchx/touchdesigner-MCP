@@ -1,0 +1,21 @@
+{
+  "family": "SOP",
+  "pageTitle": "Polyspline SOP",
+  "pageSlug": "Polyspline_SOP",
+  "url": "https://docs.derivative.ca/Polyspline_SOP",
+  "tdOpTypeGuess": "polysplineSOP",
+  "summary": "[  edit  ]\nThe Polyspline  SOP  fits a spline curve to a polygon or hull and outputs a polygonal approximation of that spline. You can choose either to create divisions between the original points, or to ignore the position of the original points and divide the shape into segments of equal lengths.\nPolyspline can optionally resample the output curve, providing control over the length and number of its segments.\nTip:  When using this  SOP , it is useful to enable Points display in the Viewport options dialog. This way you can see exactly what effect the  SOP  is having.\npolysplineSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

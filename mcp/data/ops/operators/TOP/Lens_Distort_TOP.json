@@ -1,0 +1,833 @@
+{
+  "family": "TOP",
+  "pageTitle": "Lens Distort TOP",
+  "pageSlug": "Lens_Distort_TOP",
+  "url": "https://docs.derivative.ca/Lens_Distort_TOP",
+  "tdOpTypeGuess": "lensDistortTOP",
+  "summary": "[  edit  ]\nThe Lens Distort  TOP  applies or removes lens distortion from an image using the  Brown-Conrady model . This can be used to rectify images taken from a physical camera, to apply distortion to a rendering for use in augmented reality (AR), or as a visual effect.\nThe distortion algorithm used by the Lens Distort  TOP  can be broken down into three components: radial distortion, tangential distortion and the camera matrix.\nRadial distortion shifts pixels in the output relative to their distance from the center of the image (defined by the Optical Center parameter). Radial distortion is controlled by the k1, k2 and k3 constants, with k1 having the greatest effect and k3 the least. Positive k values create a barrel or fisheye effect as if the image was wrapped around the surface of a sphere. Negative k values will bend the image inward to create a pincushion or pillow effect. The equations for radial distortion are:\nx_distorted = x * (1 + k1 * r^2 + k2 * r^4 + k3 * r^6)\ny_distorted = y * (1 + k1 * r^2 + k2 * r^4 + k3 * r^6)\nwhere,\nr = distance from center\nTangential distortion shifts pixels as if they were on a surface being tilted away from the camera and is controlled by the p1 and p2 parameters. p1 tilts the image up and down depending on the sign, and p2 tilts the image left and right. The equations for tangential distortion are:\nx_distorted = x + (2 * p1 * x * y + p2 * (r^2 + 2 * x^2))\ny_distorted = y + (p1 * (r^2 + 2 * y^2) + 2 * p2 * x * y)\nwhere,\nr = distance from center\nThe camera matrix is defined by the Optical Center and Focal Length parameters and is used to transform the image positions before the distortion is applied. The Optical Center values control where the center of the distortion effect is, while the Focal Length parameters act as a scale on the other effects. The camera matrix is usually represented as a 3x3 matrix:\nfx   0    cx\n0    fy   cy\n0    0    1\nDistortion values for a camera lens can be determined using  OpenCV calibration routines  or through functions for a particular camera (see  kinectazureTOP class ).\nBarrel or Fisheye Radial Distortion, k > 0\nPillow or Pincushion Radial Distortion, k < 0\nTangential Distortion,   p1 < 0\nTangential Distortion,   p2 < 0\nThe  Layout  page has parameters to control how the distorted (or undistorted) image is arranged inside the output image frame. These features can be helpful to preserve parts of the input image that might otherwise be projected offscreen, to preserve input image resolution, or to establish a consistent output frame when lens distortion parameters are changing.\nFor example, setting the Post Transform parameter to Optimal and keeping Optimal Alpha at 1, the distorted image will be scaled and shifted so that the entire input image is kept within the output frame. Switching the  Layout  parameter to Native  Resolution , will then scale the output resolution so that no detail from the input image is lost. Attaching an  Info CHOP  will provide Region of Interest (ROI) bounds that can be used to crop out the original distorted image from the output image.\nNote:  This  TOP  supports 3D Textures and 2D Texture Arrays.\nlensdistortTOP_Class\nContents\n1   Summary\n2   Parameters - LensDistort Page\n3   Parameters - Layout Page",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "LensDistort",
+      "label": "Invert Distortion",
+      "name": "invert",
+      "description": "Reverse the lens distortion. This will *mostly* undo the distortion applied by another Lens Distort  TOP  with the same parameters and Inverse disabled.     The lens distortion algorithm does not have a precise inverse solution, so an approximate method is used which may not match the original image precisely. The quality of the approximation varies depending on the magnitude of the distortion. Additionally, the approximation aglorithm does not use the k3 constant and any content that was lost outside the bounds of the image cannot be recreated."
+    },
+    {
+      "page": "LensDistort",
+      "label": "K1",
+      "name": "k1",
+      "description": "The first radial distortion constant. The k constants move pixels towards or away from the center of the image. Values greater than 0 produce a barrel or fisheye effect, while values less than zero produce a pillow or pincushion effect. k1 has a larger effect than k3."
+    },
+    {
+      "page": "LensDistort",
+      "label": "K2",
+      "name": "k2",
+      "description": "The second radial distortion constant. See K1."
+    },
+    {
+      "page": "LensDistort",
+      "label": "P1",
+      "name": "p1",
+      "description": "The first tangential distortion constant. Tilts the image up and down."
+    },
+    {
+      "page": "LensDistort",
+      "label": "P2",
+      "name": "p2",
+      "description": "The second tangential distortion constant. Tilts the image left or right."
+    },
+    {
+      "page": "LensDistort",
+      "label": "K3",
+      "name": "k3",
+      "description": "The third radial distortion constant (not used in the inverse distortion). See K1."
+    },
+    {
+      "page": "LensDistort",
+      "label": "Optical Center",
+      "name": "center",
+      "description": "⊞  - The position in the image that should be the center of the distortion. Depending on the unit mode selected, the position can be entered as an absolute position measured from the bottom-left corner, or as a relative position measured from the center of the image. The unit mode also controls whether the position is measured in pixels or normalized coordinates."
+    },
+    {
+      "page": "LensDistort",
+      "label": "Optical Center Units",
+      "name": "centerunit",
+      "description": "⊞  -"
+    },
+    {
+      "page": "LensDistort",
+      "label": "R",
+      "name": "relative",
+      "description": "The optical center is measured in normalized coordinates from -0.5 to -0.5 relative to the center of the image."
+    },
+    {
+      "page": "LensDistort",
+      "label": "A",
+      "name": "absolute",
+      "description": "The optical center is measured in normalized coordinates (0 to 1) from the bottom-left corner of the image."
+    },
+    {
+      "page": "LensDistort",
+      "label": "RP",
+      "name": "pixelrel",
+      "description": "The optical center is measured in pixel coordinates relative to the center of the image."
+    },
+    {
+      "page": "LensDistort",
+      "label": "AP",
+      "name": "pixelabs",
+      "description": "The optical center is measured in absolute pixel coordinates from the bottom-left corner of the image."
+    },
+    {
+      "page": "LensDistort",
+      "label": "Focal Lengths",
+      "name": "focallength",
+      "description": "⊞  - The focal length components of the camera matrix descibed either as normalized resolution-independent values or as pixels. The focal length acts as a scalar on the other distortion parameters. The normalized unit mode can be used for systems that use millimeters or other physical units. Often abbreviated as Fx and Fy. See  OpenCV  for details."
+    },
+    {
+      "page": "LensDistort",
+      "label": "Focal Length Units",
+      "name": "focallengthunit",
+      "description": "⊞  -"
+    },
+    {
+      "page": "LensDistort",
+      "label": "F",
+      "name": "fraction",
+      "description": "The focal length is described in fractional or normalized coordinates."
+    },
+    {
+      "page": "LensDistort",
+      "label": "P",
+      "name": "pixels",
+      "description": "The focal length is described in pixels."
+    },
+    {
+      "page": "Layout",
+      "label": "Layout",
+      "name": "layout",
+      "description": "⊞  - Determines how the transformed image is arranged inside the final output image space. This value can be useful to preserve the native pixel resolution of the input image, or ensuring a final output resolution and aspect ratio."
+    },
+    {
+      "page": "Layout",
+      "label": "Scale to Fit",
+      "name": "scale",
+      "description": "The transformed image is scaled to fill the full resolution and aspect ratio of the output image. This mode is useful if you want a specific output resolution or aspect ratio."
+    },
+    {
+      "page": "Layout",
+      "label": "Native  Resolution",
+      "name": "native",
+      "description": "The transformed image is arranged in the output in a way that preserves its original resolution and aspect ratio. This may mean the image is cropped if the output resolution is smaller than the input resolution."
+    },
+    {
+      "page": "Layout",
+      "label": "Extend Mode",
+      "name": "extendmode",
+      "description": "⊞  - Determines what values are used when the output image exceeds the bounds of the input image."
+    },
+    {
+      "page": "Layout",
+      "label": "Hold",
+      "name": "hold",
+      "description": "Colors from the outside edge of the input image are extended to fill any gaps in the output image."
+    },
+    {
+      "page": "Layout",
+      "label": "Zero",
+      "name": "zero",
+      "description": "Empty gaps in the output image are filled with zeroes in all channels."
+    },
+    {
+      "page": "Layout",
+      "label": "Repeat",
+      "name": "repeat",
+      "description": "The input image is tiled to fill gaps in the output image."
+    },
+    {
+      "page": "Layout",
+      "label": "Mirror",
+      "name": "mirror",
+      "description": "The input image is mirrored and tiled to fill games in the output image."
+    },
+    {
+      "page": "Layout",
+      "label": "Optimal Alpha",
+      "name": "alpha",
+      "description": "Determines how much of the image is preserved when calculating the optimal post transform. When zero, the optimal transform will include only the region of interest. When one, the transform will include all of the pixels from the input image. This value is equivalent to the 'alpha' value used in OpenCVs getOptimalNewCameraMatrix function."
+    },
+    {
+      "page": "Layout",
+      "label": "Post Transform",
+      "name": "transformmode",
+      "description": "⊞  - Choose whether to preform an addition transformation to the image after the lens distortion is applied. This is useful for positioning and scaling the distorted image within the final image frame and can be used to preserve parts of the input image that would be shifted out of frame by the distortion."
+    },
+    {
+      "page": "Layout",
+      "label": "None",
+      "name": "none",
+      "description": "No additional transformation is applied."
+    },
+    {
+      "page": "Layout",
+      "label": "Optimal",
+      "name": "optimal",
+      "description": "The image is transformed according to the optimal new camera matrix as given by OpenCVs getOptimalNewCamera matrix. Depending on the value of the Optimal Alpha parameter, this mode can be used to ensure that none of the input image is lost outside of the image frame."
+    },
+    {
+      "page": "Layout",
+      "label": "Custom",
+      "name": "custom",
+      "description": "Enables the custom center and scaling parameters. Use this option to modify the output image relative to the camera matrix on the Lens Distort page."
+    },
+    {
+      "page": "Layout",
+      "label": "New Camera Matrix",
+      "name": "newmatrix",
+      "description": "Enter a new camera matrix for positioning the output image within the frame. Entering the camera matrix values from the Lens Distort page will result in no further transformation. Entering the optimal new camera matrix values will produce the same results as using the Optimal transform mode."
+    },
+    {
+      "page": "Layout",
+      "label": "New Center",
+      "name": "newcenter",
+      "description": "⊞  - A new optical center position that allows for shifting the transformed image within the output image frame. Using the same value as the Optical Center parameter will result in no post distortion offset. Using the Optimal Center value will produce the same results as the Optimal transform mode."
+    },
+    {
+      "page": "Layout",
+      "label": "New Center Unit",
+      "name": "newcenterunit",
+      "description": "⊞  - Determines how the new center values are interpreted."
+    },
+    {
+      "page": "Layout",
+      "label": "R",
+      "name": "relative",
+      "description": "The center is measured in normalized coordinates from -0.5 to -0.5 relative to the center of the image."
+    },
+    {
+      "page": "Layout",
+      "label": "A",
+      "name": "absolute",
+      "description": "The center is measured in normalized coordinates (0 to 1) from the bottom-left corner of the image."
+    },
+    {
+      "page": "Layout",
+      "label": "RP",
+      "name": "pixelrel",
+      "description": "The center is measured in pixel coordinates relative to the center of the image."
+    },
+    {
+      "page": "Layout",
+      "label": "AP",
+      "name": "pixelabs",
+      "description": "The center is measured in absolute pixel coordinates from the bottom-left corner of the image."
+    },
+    {
+      "page": "Layout",
+      "label": "New Focal Lengths",
+      "name": "newfocallength",
+      "description": "⊞  - A new focal length that allows for scaling the transformed image relative to output image frame. Using the same value as the Focal Lengths parameter will result in no post distortion scaling. Using the Optimal Focal Length value will produce the same results as the Optimal transform mode."
+    },
+    {
+      "page": "Layout",
+      "label": "New Focal Length Units",
+      "name": "newfocallengthunit",
+      "description": "⊞  -"
+    },
+    {
+      "page": "Layout",
+      "label": "F",
+      "name": "fraction",
+      "description": "The focal length is described in fractional or normalized coordinates."
+    },
+    {
+      "page": "Layout",
+      "label": "P",
+      "name": "pixels",
+      "description": "The focal length is described in pixels."
+    },
+    {
+      "page": "Layout",
+      "label": "Center Offset",
+      "name": "centeroffset",
+      "description": "⊞  - Shifts the distorted image within the output image frame."
+    },
+    {
+      "page": "Layout",
+      "label": "Center Offset Unit",
+      "name": "centeroffsetunit",
+      "description": "⊞  -"
+    },
+    {
+      "page": "Layout",
+      "label": "F",
+      "name": "fraction",
+      "description": "The offset amount is measured as a fraction of the output image from -0.5 to 0.5."
+    },
+    {
+      "page": "Layout",
+      "label": "P",
+      "name": "pixels",
+      "description": "The offset amount is measured in pixels of the input image."
+    },
+    {
+      "page": "Layout",
+      "label": "Scale",
+      "name": "scale",
+      "description": "⊞  - Performs an additional post-distortion scale on the image. The scale is relative to the original camera matrix, so values greater than 1 will stretch the image, while values less than 1 will shrink it."
+    },
+    {
+      "page": "Layout",
+      "label": "Cropping",
+      "name": "cropmode",
+      "description": "⊞  - Crop the transformed image so that only part of the image will appear in the final output. Unless a custom resolution is given, the cropped region will be used to determine the final output resolution."
+    },
+    {
+      "page": "Layout",
+      "label": "None",
+      "name": "none",
+      "description": "No cropping is done."
+    },
+    {
+      "page": "Layout",
+      "label": "Region of Interest",
+      "name": "roi",
+      "description": "The region of interest (ROI), as defined by the OpenCV function getNewCameraMatrix, is used to crop the final output. The ROI is automatically updated by any post transform functions, so this mode will still work when using a custom transform; however, cropping the ROI from a transformed image will generally produce the same result as using no transform or crop."
+    },
+    {
+      "page": "Layout",
+      "label": "Custom",
+      "name": "custom",
+      "description": "Enter custom cropping region in pixels or as a fraction of the frame. Entering the ROI values from an attached Info  CHOP  will produce the same results as using the Region of Interest cropping mode."
+    },
+    {
+      "page": "Layout",
+      "label": "Custom Region",
+      "name": "cropregion",
+      "description": "⊞  - Defines a custom cropping region in the order of Left, Bottom, Right, Top. The values can either be as a fraction of the image (0-1) or as pixels of the input image size. Entering the ROI values from an attached Info  CHOP  will produce the same results as using the Region of Interest cropping mode."
+    },
+    {
+      "page": "Layout",
+      "label": "Custom Region",
+      "name": "cropregionx",
+      "description": "The left side of the cropping region."
+    },
+    {
+      "page": "Layout",
+      "label": "Custom Region",
+      "name": "cropregiony",
+      "description": "The bottom side of the cropping region."
+    },
+    {
+      "page": "Layout",
+      "label": "Custom Region",
+      "name": "cropregionz",
+      "description": "The right side of the cropping region."
+    },
+    {
+      "page": "Layout",
+      "label": "Custom Region",
+      "name": "cropregionw",
+      "description": "The top side of the cropping region."
+    },
+    {
+      "page": "Layout",
+      "label": "Crop Unit",
+      "name": "cropunit",
+      "description": "⊞  - The units used to interpret the values of the custom cropping region. Can be as fractions (0-1) of the image or as pixels of the input image size."
+    },
+    {
+      "page": "Layout",
+      "label": "Scale Unit",
+      "name": "scaleunit",
+      "description": "⊞  - Determines how the scale values are used."
+    },
+    {
+      "page": "Layout",
+      "label": "F",
+      "name": "fraction",
+      "description": "The scale is described in fractional or normalized coordinates."
+    },
+    {
+      "page": "Layout",
+      "label": "P",
+      "name": "pixels",
+      "description": "The scale is described in pixels."
+    },
+    {
+      "page": "Common",
+      "label": "Output  Resolution",
+      "name": "outputresolution",
+      "description": "⊞  - quickly change the resolution of the  TOP 's data."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's resolution."
+    },
+    {
+      "page": "Common",
+      "label": "Eighth",
+      "name": "eighth",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Quarter",
+      "name": "quarter",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Half",
+      "name": "half",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "2X",
+      "name": "2x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "4X",
+      "name": "4x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "8X",
+      "name": "8x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Fit  Resolution",
+      "name": "fit",
+      "description": "Fits the width and height to the resolution given below, while maintaining the aspect ratio."
+    },
+    {
+      "page": "Common",
+      "label": "Limit  Resolution",
+      "name": "limit",
+      "description": "The width and height are limited to the resolution given below. If one of the dimensions exceeds the given resolution, the width and height will be reduced to fit inside the given limits while maintaining the aspect ratio."
+    },
+    {
+      "page": "Common",
+      "label": "Custom  Resolution",
+      "name": "custom",
+      "description": "Enables the  Resolution  parameter below, giving direct control over width and height."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution",
+      "name": "resolution",
+      "description": "⊞  - Enabled only when the  Resolution  parameter is set to Custom  Resolution . Some Generators like Constant and Ramp do not use inputs and only use this field to determine their size. The drop down menu on the right provides some commonly used resolutions."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution  Menu",
+      "name": "resmenu",
+      "description": "A drop-down menu with some commonly used resolutions."
+    },
+    {
+      "page": "Common",
+      "label": "Use Global Res Multiplier",
+      "name": "resmult",
+      "description": "Uses the Global  Resolution  Multiplier found in  Edit>Preferences>TOPs . This multiplies all the TOPs resolutions by the set amount. This is handy when working on computers with different hardware specifications. If a project is designed on a desktop workstation with lots of graphics memory, a user on a laptop with only 64MB VRAM can set the Global  Resolution  Multiplier to a value of half or quarter so it runs at an acceptable speed. By checking this checkbox on, this  TOP  is affected by the global multiplier."
+    },
+    {
+      "page": "Common",
+      "label": "Output Aspect",
+      "name": "outputaspect",
+      "description": "⊞  - Sets the image aspect ratio allowing any textures to be viewed in any size. Watch for unexpected results when compositing TOPs with different aspect ratios. (You can define images with non-square pixels using xres, yres, aspectx, aspecty where xres/yres != aspectx/aspecty.)"
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's aspect ratio."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution",
+      "name": "resolution",
+      "description": "Uses the aspect of the image's defined resolution (ie 512x256 would be 2:1), whereby each pixel is square."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Aspect",
+      "name": "custom",
+      "description": "Lets you explicitly define a custom aspect ratio in the Aspect parameter below."
+    },
+    {
+      "page": "Common",
+      "label": "Aspect",
+      "name": "aspect",
+      "description": "⊞  - Use when Output Aspect parameter is set to Custom Aspect."
+    },
+    {
+      "page": "Common",
+      "label": "Aspect Menu",
+      "name": "armenu",
+      "description": "A drop-down menu with some commonly used aspect ratios."
+    },
+    {
+      "page": "Common",
+      "label": "Input Smoothness",
+      "name": "inputfiltertype",
+      "description": "⊞  - This controls pixel filtering on the input image of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Nearest Pixel",
+      "name": "nearest",
+      "description": "Uses nearest pixel or accurate image representation. Images will look jaggy when viewing at any zoom level other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Interpolate Pixels",
+      "name": "linear",
+      "description": "Uses linear filtering between pixels. This is how you get  TOP  images in viewers to look good at various zoom levels, especially useful when using any Fill Viewer setting other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Mipmap Pixels",
+      "name": "mipmap",
+      "description": "Uses   mipmap  filtering when scaling images. This can be used to reduce artifacts and sparkling in moving/scaling images that have lots of detail."
+    },
+    {
+      "page": "Common",
+      "label": "Fill  Viewer",
+      "name": "fillmode",
+      "description": "⊞  - Determine how the  TOP  image is displayed in the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the same Fill Viewer settings as it's input."
+    },
+    {
+      "page": "Common",
+      "label": "Fill",
+      "name": "fill",
+      "description": "Stretches the image to fit the edges of the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Horizontal",
+      "name": "width",
+      "description": "Stretches image to fit viewer horizontally."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Vertical",
+      "name": "height",
+      "description": "Stretches image to fit viewer vertically."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Best",
+      "name": "best",
+      "description": "Stretches or squashes image so no part of image is cropped."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Outside",
+      "name": "outside",
+      "description": "Stretches or squashes image so image fills viewer while constraining it's proportions. This often leads to part of image getting cropped by viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Native  Resolution",
+      "name": "nativeres",
+      "description": "Displays the native resolution of the image in the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Viewer Smoothness",
+      "name": "filtertype",
+      "description": "⊞  - This controls pixel filtering in the viewers."
+    },
+    {
+      "page": "Common",
+      "label": "Nearest Pixel",
+      "name": "nearest",
+      "description": "Uses nearest pixel or accurate image representation. Images will look jaggy when viewing at any zoom level other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Interpolate Pixels",
+      "name": "linear",
+      "description": "Uses linear filtering between pixels. Use this to get  TOP  images in viewers to look good at various zoom levels, especially useful when using any Fill Viewer setting other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Mipmap Pixels",
+      "name": "mipmap",
+      "description": "Uses   mipmap  filtering when scaling images. This can be used to reduce artifacts and sparkling in moving/scaling images that have lots of detail."
+    },
+    {
+      "page": "Common",
+      "label": "Passes",
+      "name": "npasses",
+      "description": "Duplicates the operation of the  TOP  the specified number of times. Making this larger than 1 is essentially the same as taking the output from each pass, and passing it into the first input of the node and repeating the process. Other inputs and parameters remain the same for each pass."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Mask",
+      "name": "chanmask",
+      "description": "Allows you to choose which channels (R, G, B, or A) the  TOP  will operate on. All channels are selected by default."
+    },
+    {
+      "page": "Common",
+      "label": "Pixel Format",
+      "name": "format",
+      "description": "⊞  - Format used to store data for each channel in the image (ie. R, G, B, and A). Refer to  Pixel Formats  for more information."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's pixel format."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (RGBA)",
+      "name": "rgba8fixed",
+      "description": "Uses 8-bit integer values for each channel."
+    },
+    {
+      "page": "Common",
+      "label": "sRGB 8-bit fixed (RGBA)",
+      "name": "srgba8fixed",
+      "description": "Uses 8-bit integer values for each channel and stores color in sRGB colorspace."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (RGBA)",
+      "name": "rgba16float",
+      "description": "Uses 16-bits per color channel, 64-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (RGBA)",
+      "name": "rgba32float",
+      "description": "Uses 32-bits per color channel, 128-bits per pixels."
+    },
+    {
+      "page": "Common",
+      "label": "10-bit RGB, 2-bit Alpha, fixed (RGBA)",
+      "name": "rgb10a2fixed",
+      "description": "Uses 10-bits per color channel and 2-bits for alpha, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (RGBA)",
+      "name": "rgba16fixed",
+      "description": "Uses 16-bits per color channel, 64-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "11-bit float (RGB), Positive Values Only",
+      "name": "rgba11float",
+      "description": "A RGB floating point format that has 11 bits for the Red and Green channels, and 10-bits for the Blue  Channel , 32-bits total per pixel (therefore the same memory usage as 8-bit RGBA). The Alpha channel in this format will always be 1. Values can go above one, but can't be negative. ie. the range is [0, infinite)."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (Mono)",
+      "name": "mono8fixed",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 8-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (Mono)",
+      "name": "mono16fixed",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (Mono)",
+      "name": "mono16float",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (Mono)",
+      "name": "mono32float",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (RG)",
+      "name": "rg8fixed",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 8-bits per channel, 16-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (RG)",
+      "name": "rg16fixed",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 16-bits per channel, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (RG)",
+      "name": "rg16float",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 16-bits per channel, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (RG)",
+      "name": "rg32float",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 32-bits per channel, 64-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (A)",
+      "name": "a8fixed",
+      "description": "An Alpha only format that has 8-bits per channel, 8-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (A)",
+      "name": "a16fixed",
+      "description": "An Alpha only format that has 16-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (A)",
+      "name": "a16float",
+      "description": "An Alpha only format that has 16-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (A)",
+      "name": "a32float",
+      "description": "An Alpha only format that has 32-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (Mono+Alpha)",
+      "name": "monoalpha8fixed",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 8-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (Mono+Alpha)",
+      "name": "monoalpha16fixed",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 16-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (Mono+Alpha)",
+      "name": "monoalpha16float",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 16-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (Mono+Alpha)",
+      "name": "monoalpha32float",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 32-bits per channel, 64-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "resx",
+      "description": "Horizontal resolution of the  TOP  in pixels."
+    },
+    {
+      "page": "Common",
+      "label": "resy",
+      "description": "Vertical resolution of the  TOP  in pixels."
+    },
+    {
+      "page": "Common",
+      "label": "aspectx",
+      "description": "Horizontal aspect of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "aspecty",
+      "description": "Vertical aspect of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "depth",
+      "description": "Depth of 2D or 3D array if this  TOP  contains a 2D or 3D texture array."
+    },
+    {
+      "page": "Common",
+      "label": "gpu_memory_used",
+      "description": "Total amount of texture memory used by this  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "The width and height of an image in pixels. Most TOPs, like the  Movie File In TOP  can set the image resolution. See  Aspect Ratio  for the width/height ratio of an image, taking into account non",
+      "description": "square pixels."
+    },
+    {
+      "page": "Common",
+      "label": "The viewer of a node can be (1) the interior of a node (the  Node Viewer ), (2) a floating window (RMB",
+      "description": ">View... on node), or (3) a  Pane  that graphically shows the results of an operator."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

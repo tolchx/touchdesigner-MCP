@@ -1,0 +1,57 @@
+{
+  "pageTitle": "Math Combine POP",
+  "pageSlug": "Math_Combine_POP",
+  "url": "https://docs.derivative.ca/Math_Combine_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "mathCombinePOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "trabajo modernos\" en comparación con los SOPs.5 Esto los hace ideales para simulaciones en tiempo real exigentes, sistemas de partículas y arte generativo. Los POPs proporcionan un sistema altamente personalizable y abierto para simulaciones de partículas, permitiendo a los usuarios definir estados iniciales, velocidades, masas y aplicar fuerzas a través de bucles de retroalimentación.6 La arquitectura de los POPs, especialmente para operadores de múltiples entradas como Attribute Combine POP, Math Combine POP, Math Mix POP, Blend POP, Merge POP y Switch POP, está diseñada para una selección, cambio de nombre y resolución de conflictos de atributos eficientes.13 Esto agiliza las tareas complejas de mezcla y manipulación de datos. El énfasis recurrente en la \"aceleración por GPU\" y la capacidad de manejar \"millones de puntos\" 4 sugiere un enfoque claro en el rendimiento. Sin embargo, la etiqueta de \"Experimental\" 1 y las brechas observadas en la documentación implican una compensación. Los POPs ofrec"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "trabajo modernos\" en comparación con los SOPs.5 Esto los hace ideales para simulaciones en tiempo real exigentes, sistemas de partículas y arte generativo. Los POPs proporcionan un sistema altamente personalizable y abierto para simulaciones de partículas, permitiendo a los usuarios definir estados iniciales, velocidades, masas y aplicar fuerzas a través de bucles de retroalimentación.6 La arquitectura de los POPs, especialmente para operadores de múltiples entradas como Attribute Combine POP, Math Combine POP, Math Mix POP, Blend POP, Merge POP y Switch POP, está diseñada para una selección, cambio de nombre y resolución de conflictos de atributos eficientes.13 Esto agiliza las tareas complejas de mezcla y manipulación de datos. El énfasis recurrente en la \"aceleración por GPU\" y la capacidad de manejar \"millones de puntos\" 4 sugiere un enfoque claro en el rendimiento. Sin embargo, la etiqueta de \"Experimental\" 1 y las brechas observadas en la documentación implican una compensación. Los POPs o"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "trabajo modernos\" en comparación con los SOPs.5 Esto los hace ideales para simulaciones en tiempo real exigentes, sistemas de partículas y arte generativo. Los POPs proporcionan un sistema altamente personalizable y abierto para simulaciones de partículas, permitiendo a los usuarios definir estados iniciales, velocidades, masas y aplicar fuerzas a través de bucles de retroalimentación.6 La arquitectura de los POPs, especialmente para operadores de múltiples entradas como Attribute Combine POP, Math Combine POP, Math Mix POP, Blend POP, Merge POP y Switch POP, está diseñada para una selección, cambio de nombre y resolución de conflictos de atributos eficientes.13 Esto agiliza las tareas complejas de mezcla y manipulación de datos. El énfasis recurrente en la \"aceleración por GPU\" y la capacidad de manejar \"millones de puntos\" 4 sugiere un enfoque claro en el rendimiento. Sin embargo, la etiqueta de \"Experimental\" 1 y las brechas observadas en la documentación implican una compensación. Los POPs ofrec"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "neas. • Experimental:Lookup Attribute POP: Utiliza uno, dos o tres componentes de un atributo como índices para realizar búsquedas. También puede utilizar atributos de solo lectura. • Experimental:Lookup Channel POP: Similar al Lookup Attribute POP, usa componentes de atributos como índices para realizar búsquedas en canales. • Experimental:Lookup Texture POP: Similar a los anteriores, pero utiliza componentes de atributos como índices para realizar búsquedas en texturas. • Experimental:Math Combine POP: Similar al Attribute Combine, permite combinar datos de múltiples entradas y especificar qué atributos se deben combinar. También soporta la creación automática de nombres de atributos. • Experimental:Math Mix POP: Permite mezclar datos de múltiples entradas. Al igual que el Math POP, ofrece capacidades de manipulación sin codificación y la creación fácil de nuevos atributos. Soporta la creación automática de nombres de atributos y utiliza atributos de solo lectura. • Experimental:Math POP"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "neas. • Experimental:Lookup Attribute POP: Utiliza uno, dos o tres componentes de un atributo como índices para realizar búsquedas. También puede utilizar atributos de solo lectura. • Experimental:Lookup Channel POP: Similar al Lookup Attribute POP, usa componentes de atributos como índices para realizar búsquedas en canales. • Experimental:Lookup Texture POP: Similar a los anteriores, pero utiliza componentes de atributos como índices para realizar búsquedas en texturas. • Experimental:Math Combine POP: Similar al Attribute Combine, permite combinar datos de múltiples entradas y especificar qué atributos se deben combinar. También soporta la creación automática de nombres de atributos. • Experimental:Math Mix POP: Permite mezclar datos de múltiples entradas. Al igual que el Math POP, ofrece capacidades de manipulación sin codificación y la creación fácil de nuevos atributos. Soporta la creación automática de nombres de atributos y utiliza atributos de solo lectura. • Experimental:Math"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "neas. • Experimental:Lookup Attribute POP: Utiliza uno, dos o tres componentes de un atributo como índices para realizar búsquedas. También puede utilizar atributos de solo lectura. • Experimental:Lookup Channel POP: Similar al Lookup Attribute POP, usa componentes de atributos como índices para realizar búsquedas en canales. • Experimental:Lookup Texture POP: Similar a los anteriores, pero utiliza componentes de atributos como índices para realizar búsquedas en texturas. • Experimental:Math Combine POP: Similar al Attribute Combine, permite combinar datos de múltiples entradas y especificar qué atributos se deben combinar. También soporta la creación automática de nombres de atributos. • Experimental:Math Mix POP: Permite mezclar datos de múltiples entradas. Al igual que el Math POP, ofrece capacidades de manipulación sin codificación y la creación fácil de nuevos atributos. Soporta la creación automática de nombres de atributos y utiliza atributos de solo lectura. • Experimental:Math POP"
+    }
+  ],
+  "useCases": [
+    "Combine two math operations",
+    "Chain calculations",
+    "Complex expressions"
+  ],
+  "examples": [
+    {
+      "name": "Combined Math",
+      "description": "Math Combine POP for multi-step calculations",
+      "difficulty": "intermediate"
+    }
+  ],
+  "commonCombinations": [
+    "Math POP to Math Combine POP"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Wrong result",
+      "solution": "Check operation order and parameters."
+    }
+  ]
+}

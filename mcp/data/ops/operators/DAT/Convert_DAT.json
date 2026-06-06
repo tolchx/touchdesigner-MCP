@@ -1,0 +1,212 @@
+{
+  "family": "DAT",
+  "pageTitle": "Convert DAT",
+  "pageSlug": "Convert_DAT",
+  "url": "https://docs.derivative.ca/Convert_DAT",
+  "tdOpTypeGuess": "convertDAT",
+  "summary": "[  edit  ]\nThe Convert  DAT  changes the text format from simple text to table form and vice-versa.\nconvertDAT_Class\nContents\n1   Summary\n2   Parameters - Convert Page\n3   Parameters - Common Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common DAT Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Convert",
+      "label": "How",
+      "name": "how",
+      "description": "⊞  - Convert text format."
+    },
+    {
+      "page": "Convert",
+      "label": "To Text",
+      "name": "text",
+      "description": "Converts table format into regular text."
+    },
+    {
+      "page": "Convert",
+      "label": "To Table",
+      "name": "table",
+      "description": "Converts regular text into table format."
+    },
+    {
+      "page": "Convert",
+      "label": "Remove Blank Lines",
+      "name": "removeblank",
+      "description": "When enabled, do not convert blank lines into empty rows."
+    },
+    {
+      "page": "Convert",
+      "label": "Split Cells at",
+      "name": "delimiters",
+      "description": "A list of individual characters to use to split the string into cells. The delimiters are used independently. That is, if  $%  is used in this parameter, the cells will be split at  $  OR  % , not only at  $% . A  Substitute DAT  can be used to collapse a more complex delimiter into a single character to be use for the conversion."
+    },
+    {
+      "page": "Convert",
+      "label": "Concatenate with",
+      "name": "spacers",
+      "description": "Insert this string between each cell when converting from a table to text."
+    },
+    {
+      "page": "Common",
+      "label": "Language",
+      "name": "language",
+      "description": "⊞  - Select how the  DAT  decides which script language to operate on."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Node",
+      "name": "node",
+      "description": "The  DAT  uses it's own script language."
+    },
+    {
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "name": "extension",
+      "description": "⊞  - Select the file extension this  DAT  should expose to external editors."
+    },
+    {
+      "page": "Common",
+      "label": "dat",
+      "name": "dat",
+      "description": "various common file extensions."
+    },
+    {
+      "page": "Common",
+      "label": "From Language",
+      "name": "languageext",
+      "description": "pick extension from DATs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specify a custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specifiy the custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Word Wrap",
+      "name": "wordwrap",
+      "description": "⊞  - Enable Word Wrap for Node Display."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs setting."
+    },
+    {
+      "page": "Common",
+      "label": "On",
+      "name": "on",
+      "description": "Turn on Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Off",
+      "name": "off",
+      "description": "Turn off Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "num_rows",
+      "description": "Number of rows in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "num_cols",
+      "description": "Number of columns in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "Art",
+      "description": "Net    •   Audio Devices    •   CHOP Execute    •   CHOP to    •   Clip    •   Convert    •   CPlusPlus    •   DAT   •    Execute    •   DAT Export   •   Error    •   EtherDream    •   Evaluate    •   Examine    •   Execute    •   FIFO    •   File In    •   File Out    •   Folder    •   In    •   Indices    •   Info    •   Insert    •   JSON    •   Keyboard In    •   Lookup    •   Media File Info    •   Merge    •   MIDI Event    •   MIDI In    •   Monitors    •   MPCDI    •   MQTT Client    •   Multi Touch In    •   NDI    •   Null    •   OP Execute    •   OP Find    •   OSC In    •   OSC Out    •   Out    •   Panel Execute    •   Parameter    •   Parameter Execute    •   ParGroup Execute    •   Perform    •   POP to    •   Render Pick    •   Reorder    •   Script    •   Select    •   Serial    •   Serial Devices    •   SocketIO    •   SOP to    •   Sort    •   Substitute    •   Switch    •   Table    •   TCP/IP    •   Text    •   Touch In    •   Touch Out    •   Transpose    •   TUIO In    •   UDP In    •   UDP Out    •   UDT In    •   UDT Out    •   Video Devices    •   Web Client    •   Web    •   Web Server    •   WebRTC    •   WebSocket    •   XML"
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ecuenciales. La mezcla se realiza por punto, lo que es útil para efectos basados en el tiempo como el desenfoque de movimiento o el cálculo de la velocidad de los puntos a partir de datos históricos.31 * Cache Select POP: Toma una referencia a un Cache POP y genera uno de sus conjuntos de datos en caché utilizando un parámetro Cache Index. Un Cache Index de 0 se refiere a los datos del fotograma actual, -1 a los datos anteriores, y así sucesivamente. Los índices fuera de rango se ajustan.32 * Convert POP: Una utilidad general para reestructurar primitivas. Mantiene los puntos de entrada pero reconfigura su conectividad, permitiendo conversiones entre tiras de línea, apertura/cierre de líneas, conversión de quads a triángulos, eliminación de todas las primitivas o creación de primitivas de punto a partir de puntos.33 * File In POP: Lee un archivo y convierte su geometría en un POP en la memoria de la GPU. Soporta varios formatos de archivo.34 * Lookup Attribute POP: Toma un atributo (el Lo"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ión específica de este operador. • Experimental:Analyze POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Attribute Combine POP: Este operador es útil para combinar atributos de múltiples entradas. También puedes usarlo para, por ejemplo, quitar el atributo de Posición (P) de un POP si no lo necesitas. Permite seleccionar qué atributos o grupos específicos deseas procesar de cada entrada. • Experimental:Attribute Convert POP: Se utiliza para transferir atributos entre diferentes \"clases\" (tipos) de datos, como convertir atributos de puntos a atributos de vértices o de primitivas. • Experimental:Attribute POP: Es un operador fundamental para crear nuevos atributos en puntos, vértices o primitivas, y puedes inicializarlos con valores constantes. También es el lugar donde puedes crear \"arrays de atributos\". • Experimental:Blend POP: Es un POP que soporta múltiples entradas, lo que sugiere que puede mezclar o i"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "* Permite decidir si quieres **recalcular, ignorar o eliminar** las normales y tangentes si ya existen. * **Uso simple:** Esencial para que tus modelos 3D se vean correctamente iluminados, ya que las normales le dicen a la luz cómo interactuar con la superficie. * **Normalize POP (POP de Normalización)** * **Función principal:** Re-escala los valores de posición XYZ (o cualquier otro atributo) a un **rango de 0 a 1**. * **Características clave:** * Puede convertir coordenadas cartesianas (XYZ) en **coordenadas polares o cilíndricas** (latitud, longitud, radio), también normalizadas a un rango de 0 a 1. * Ofrece opciones para **Bias** (sesgar los números hacia 0 o 1), aplicar una **función de curva de búsqueda** (`Lookup function`), un `Exponent` (potenciar valores) y **Re-range** (re-escalar a otro rango). * Permite asignar los valores normalizados a cualquier componente de un atributo float2, float3 o float4. * **Uso simpl"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "erencias en la cantidad de puntos/primitivas** (`Length Mismatch`) entre las entradas. Puedes elegir ignorar, advertir o generar un error. Para las entradas más cortas, puedes hacer que los valores se mantengan (`Hold`), se repitan (`Repeat`), se pongan a cero (`Zero`), se pongan a uno (`One`), o no hacer nada (`None`). * Su forma de manejar múltiples entradas es similar a la de otros POPs como Math Combine POP, Math Mix POP, Blend POP, Merge POP y Switch POP. --- #### 4. Attribute Convert POP * **¿Qué hace?** Permite **copiar un atributo de un tipo de geometría a otro**. Por ejemplo, puedes tomar un atributo que está en una primitiva (como el color de una cara de un cubo) y copiarlo a los puntos de esa primitiva. * **Características clave:** * Realiza operaciones de conversión como: * **Point to Vertex** (punto a vértice) * **Vertex to Point** (vértice a punto) * **Point to Primitive** (punto a primitiva) * **Primitive to"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

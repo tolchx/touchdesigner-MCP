@@ -1,0 +1,21 @@
+{
+  "family": "SOP",
+  "pageTitle": "Metaball SOP",
+  "pageSlug": "Metaball_SOP",
+  "url": "https://docs.derivative.ca/Metaball_SOP",
+  "tdOpTypeGuess": "metaballSOP",
+  "summary": "[  edit  ]\nThe Metaball  SOP  creates metaballs and meta-superquadric surfaces. Metaballs can be thought of as spherical force fields whose surface is an implicit function defined at any point where the density of the force field equals a certain threshold. Because the density of the force field can be increased by the proximity of other metaball force fields, metaballs have the unique property that they change their shape to adapt and fuse with surrounding metaballs. This makes them very effective for modeling organic surfaces. For example, below we have a metaball. The surface of the metaball exists whenever the density of the metaball's field reaches a certain threshold:\nWhen two or more metaball force fields are combined, as in the illustration below, the resulting density of the force fields is added, and the surface extends to include that area where the force fields intersect and create density values with a value of one. For more information on metaballs, see  Metaballs .\nLevel of Detail for Metaball Display\nYou can change the level of detail of the metaball and NURBS display by adjusting the Level of Detail parameter in the Display Option  Dialog  > Viewport page >  Level of Detail  option. To open the Display Options  Dialog , press \"p\" in a  SOP  viewport.\nBetter Metaball Shading Tip\nAccurate metaball normals will be computed if the normal attribute exists when conversion to polygons is done. Thus, to get improved shading on polygonized metaballs, it's a good idea to add the normal attribute (i.e. use a  Facet SOP ) before converting the metaballs.\nmetaballSOP_Class\nContents\n1   Summary\n1.1   Level of Detail for Metaball Display\n1.2   Better Metaball Shading Tip\n2   Parameters -  Page\n2.1   What is an Exponent?\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

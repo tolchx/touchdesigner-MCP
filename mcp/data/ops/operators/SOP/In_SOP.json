@@ -1,0 +1,46 @@
+{
+  "family": "SOP",
+  "pageTitle": "In SOP",
+  "pageSlug": "In_SOP",
+  "url": "https://docs.derivative.ca/In_SOP",
+  "tdOpTypeGuess": "inSOP",
+  "summary": "[  edit  ]\nThe In  SOP  creates a  SOP  input in a  Component .  Component  inputs are positioned alphanumerically on the left side of the node.\ninSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "00-overview.md",
+      "excerpt": "# Sistema integral de documentación y capacitación — TouchDesigner MCP (Gemma 4 + POPs) Este repositorio se amplía con un sistema de: - Documentación técnica del MCP (arquitectura, herramientas, flujo). - Adaptación operativa para Gemma 4 vía Ollama (configuración y verificación). - Base de conocimiento estructurada de POPs (derivada de docs oficiales + material local). - Skills especializados para arquitectura avanzada de proyectos en TouchDesigner. - Catálogo de prompts maestros con validaciones y crite"
+    },
+    {
+      "source": "01-mcp-architecture.md",
+      "excerpt": "# MCP TouchDesigner — arquitectura (Node + TouchDesigner) ## Componentes - **Servidor MCP (stdio)**: `touchdesigner/mcp/src/index.ts` Expone herramientas para ejecutar Python y consultar estado del editor y operadores. - **Cliente TD (HTTP)**: `touchdesigner/api/src/index.ts` Llama al servidor HTTP levantado dentro de TouchDesigner por el TOX. - **Servidor TD (Python/TOX)**: `touchdesigner/toe/src/TouchDesignerAPI.py` Expone endpoints: - `POST /execute` - `GET /editor/pane` - `GET /editor/selection` - `GET /operators?path=...` ## Tools MCP (existentes + extendidos) - `td_execute`: ejecuta Python"
+    },
+    {
+      "source": "02-gemma4-ollama.md",
+      "excerpt": "# Gemma 4 vía Ollama — configuración y validación El paquete `touchdesigner/mcp` incluye un proveedor LLM para Ollama (HTTP `POST /api/chat`) configurable por variables de entorno: - `LLM_PROVIDER=ollama` - `OLLAMA_BASE_URL=http://127.0.0.1:11434` (por defecto) - `OLLAMA_MODEL=gemma4:e4b` (ejemplo; usa el nombre exacto instalado en tu Ollama) - Alternativa: `OLLAMA_MODELS=model1,model2,...` para fallback ## Prueba rápida (sin TouchDesigner) En `touchdesigner/`: ```powershell npm install npm test ``` La prueba `ollamaProvider.test.js` verifica que: - El cliente lee `LLM_P"
+    },
+    {
+      "source": "03-twozero-evaluation.md",
+      "excerpt": "# Evaluación de mejoras inspiradas en TWOZERO TWOZERO se describe como un toolkit nativo para TouchDesigner con: - Generación por IA - Librería curada de componentes - Sincronización en la nube - Herramientas de producción - Integración en UI y sin “wrappers” externos ## Qué se puede integrar en este MCP (sin depender de TWOZERO) - **Librería curada de patrones (component library)** Crear un catálogo de “recetas” reproducibles (render, instancing, feedback loops, POP sims, GLSL) como: - skills en Markdown (`tou"
+    },
+    {
+      "source": "04-pops-database.md",
+      "excerpt": "# Base de datos estructurada de POPs La base de conocimiento POPs vive en: - `touchdesigner/mcp/data/pops/index.json`: índice (lista + metadatos). - `touchdesigner/mcp/data/pops/operators/<PageSlug>.json`: ficha detallada por operador. ## Esquema (alto nivel) Cada operador incluye: - Identidad: `pageTitle`, `pageSlug`, `url`, `experimental`, `tdOpTypeGuess`. - Técnica: `summary`, `inputs[]`, `parameters[]`, `attributes[]`. - Capacitación: `useCases[]`, `examples[]`, `commonCombinations[]`, `troubleshooting[]`. ## Generación automática (docs oficiales) El generador: - Descarga la lista desde `htt"
+    },
+    {
+      "source": "05-skills-curriculum.md",
+      "excerpt": "# Skills especializados (currícula) Skills agregados/propuestos en `touchdesigner/skills/`: - `td-fundamentals`: fundamentos y convenciones reproducibles. - `td-project-architecture`: arquitectura de proyectos complejos y contratos. - `td-performance`: presupuestos y profiling. - `td-pops-advanced`: POPs avanzados + consulta técnica con `td_pops_query`. - `td-integration`: integración POP↔SOP/TOP/CHOP/DAT y render/instancing. - `td-robust-systems`: idempotencia, validación y reportes. ## Estructura recomendada por skill - Objetivo - Herramientas disponibles - Reglas / checklist - Plantilla de respuesta - Validaciones y pruebas (smoke tests)"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

@@ -1,0 +1,177 @@
+{
+  "family": "SOP",
+  "pageTitle": "Surfsect SOP",
+  "pageSlug": "Surfsect_SOP",
+  "url": "https://docs.derivative.ca/Surfsect_SOP",
+  "tdOpTypeGuess": "surfsectSOP",
+  "summary": "[  edit  ]\nThe Surfsect  SOP  performs boolean operations with NURBS and Bezier surfaces, or only generates profiles where the surfaces intersect. The individual surfaces do not need to be solids (i.e. wrap in U and V), nor do they need to form a solid as a group (for example, you can cut a grid with a sphere).\nThe surfaces in the first input are denoted by \"A\" in the parameter list. The surfaces in the second input are denoted by \"B\". The entire A set is intersected with the B set, which allows for true csg operations with spline surfaces. Thus, if A forms a solid and B forms a solid, any boolean operation between A and B will produce a solid. If either set has an open topology, the result will also be open.\nWhat is deemed to be the inside and outside of a trim region depends on the direction of the surface normals. If necessary, use the  Primitive SOP  to reverse the surface normals by reversing the surface's U or V direction.\nsurfsectSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Parameters - Boolean Page\n4   Parameters - Generate Profiles Page\n5   Operator Inputs\n6   Info CHOP Channels\n6.1   Common SOP Info Channels\n6.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Boolean",
+      "label": "Operation",
+      "name": "boolop",
+      "description": "⊞  - Select from the following operations:  Union ,  Intersect ,  A-B ,  B-A , or  User-defined ."
+    },
+    {
+      "page": "Boolean",
+      "label": "If the  Operation  is set to",
+      "name": "User",
+      "description": "defined , the following options become available:"
+    },
+    {
+      "page": "Boolean",
+      "label": "Keep Inside A",
+      "name": "insidea",
+      "description": "Preserve the inside sections of the A surfaces."
+    },
+    {
+      "page": "Boolean",
+      "label": "Keep Inside B",
+      "name": "insideb",
+      "description": "Preserve the inside sections of the B surfaces."
+    },
+    {
+      "page": "Boolean",
+      "label": "Keep Outside A",
+      "name": "outsidea",
+      "description": "Preserve the outside sections of the A surfaces."
+    },
+    {
+      "page": "Boolean",
+      "label": "Keep Outside B",
+      "name": "outsideb",
+      "description": "Preserve the outside sections of the B surfaces."
+    },
+    {
+      "page": "Generate Profiles",
+      "label": "Target",
+      "name": "target",
+      "description": "⊞  - Which surface to output profiles for: A, B, or both."
+    },
+    {
+      "page": "Generate Profiles",
+      "label": "A Profiles  Group",
+      "name": "creategroupa",
+      "description": "Place the A profiles in a user-defined group."
+    },
+    {
+      "page": "Generate Profiles",
+      "label": "profilesa",
+      "description": "The name assigned to profile group A."
+    },
+    {
+      "page": "Generate Profiles",
+      "label": "B Profiles  Group",
+      "name": "creategroupb",
+      "description": "Place the B profiles in a user-defined group."
+    },
+    {
+      "page": "Generate Profiles",
+      "label": "profilesb",
+      "description": "The name assigned to profile group B."
+    },
+    {
+      "page": "Generate Profiles",
+      "label": "Avoid Already Trimmed-Out Parts",
+      "name": "mindholes",
+      "description": "Intersect only the visible surface parts and truncate the intersection profile at the trimmed-in surface boundaries."
+    },
+    {
+      "page": "Generate Profiles",
+      "label": "Join Profiles Created by Multiple Surfaces",
+      "name": "join",
+      "description": "If a surface has several adjacent profiles caused by its intersection with two or more surfaces, the profiles will be joined into a single curve-on-surface."
+    },
+    {
+      "page": "Generate Profiles",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Generate Profiles",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Generate Profiles",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Generate Profiles",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Generate Profiles",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Generate Profiles",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Generate Profiles",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Generate Profiles",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Generate Profiles",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Generate Profiles",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Generate Profiles",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Generate Profiles",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Generate Profiles",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Generate Profiles",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Generate Profiles",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

@@ -1,0 +1,379 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Event CHOP",
+  "pageSlug": "Event_CHOP",
+  "url": "https://docs.derivative.ca/Event_CHOP",
+  "tdOpTypeGuess": "eventCHOP",
+  "summary": "[  edit  ]\nThe  Event   CHOP  manages the birth and life of overlapping events triggered by devices like a MIDI keyboard. It can be seen as a simple particle system designed for MIDI keyboards.\nThe  Event   CHOP  generates one sample for each off-to-on event in the input channels, which would often come from a  MIDI In CHOP ,  MIDI In Map CHOP ,  Keyboard In CHOP , or python events sent to the  Event   CHOP . The sample exists for the duration of the event's attack+decay+sustain+release time.\nNOTE : See the examples in Help-> OP Snippets\nThe  Event   CHOP  can used to follow a polyphonic music keyboard with MIDI velocity, and can generate generating one object, polygon or geometry instance for each event. It assures the object, polygon or instance exists until the event ends after an attack-decay-sustain-release phase. The  Event   CHOP  is often fed through other OPs to the  Instance  parameters of a Geometry component.\nThe  Event   CHOP  outputs up to 8 channels, with one sample generated per off-to-on event that is active. The sample is active until the attack-decay-sustain-release is over, at which moment the sample disappears (like particle death).\nWatch the channel graph of the  Event   CHOP  to understand what it is doing. It can be sent to a  Limit SOP  or a  Channel SOP  to place geometry for each event. You can send event information to the  SOP  via the  Event   CHOP  channels that get transformed into geometry channels like  tx ,  ty ,  scale , texture v (giving movie time offsets), alpha, r, g and b colors.\nOn a MIDI keyboard, you can trigger many events simultaneously, and, like particles, you may want to launch objects that remain in existence the next time you press the same key.\nThe  Event   CHOP  is designed to handle this. It creates one sample every time you press any key, and that sample lives for any length of time. This  CHOP  is lightweight - the minimum number of channels and samples are created, even with 88-key MIDI keyboards and lots of pounding on the keyboard.\nThere are channels that represent age, note number and MIDI velocity when you pressed the key, as well as a flag telling if the key has since been released.\nEach event has a unique ID, held in the  id  channel that can be used to generate random XY displacements of each note, for example.\nA movie index is set by the  state  channel which rises from 0 to 1 and loops between 1 to 2 continuously until the note goes into its release state at which time it goes from 2 to 3. So for a bird cycle, you use the 0 to 1 state for the jump phase, 1 to 2 for the flappin in flight phase, and 2 to 3 for the landing phase.\nThe  Event   CHOP 's 1st input is for event triggers.\nThe 2nd input resets the triggers.\nThe 3rd input is optional and allows for sampling values for each event.\nSee also:  Timer CHOP ,  Count CHOP ,  Speed CHOP ,  Trigger CHOP\neventCHOP_Class\nContents\n1   Summary\n2   Parameters - Channels Page\n3   Parameters - ADSR Page\n4   Parameters - Common Page\n5   Operator Inputs\n6   Info CHOP Channels\n6.1   Common CHOP Info Channels\n6.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    },
+    {
+      "index": 2,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Channels",
+      "label": "ID",
+      "name": "id",
+      "description": "The sequence # of the event, starting from 0 and incrementing by 1 for each event."
+    },
+    {
+      "page": "Channels",
+      "label": "Index",
+      "name": "index",
+      "description": "The channel index of the incoming  CHOP  that caused the event."
+    },
+    {
+      "page": "Channels",
+      "label": "Active",
+      "name": "active",
+      "description": "While the input is greater than 0 this channel goes to 1, ie when the input channel goes \"On\"."
+    },
+    {
+      "page": "Channels",
+      "label": "Input",
+      "name": "input",
+      "description": "The value of the input channel when the input went on (at the birth of the event). It is often the note velocity value. If you pass the Midi In  CHOP  into the  Event   CHOP , and set the Midi In option to output the velocity, velocity will end up in this channel and preserved until the event ends."
+    },
+    {
+      "page": "Channels",
+      "label": "Time",
+      "name": "time",
+      "description": "Time in seconds from the start of the event."
+    },
+    {
+      "page": "Channels",
+      "label": "ADSR",
+      "name": "adsr",
+      "description": "The value according to the Attack, Decay, Sustain, Release. It uses the parameters on the ADSR page, regulating the speed and values, with extended parameters: Attack Time, Attack Level, Decay Time, Sustain Time, Sustain Min, Sustain Max, Release Time, Release Level."
+    },
+    {
+      "page": "Channels",
+      "label": "State",
+      "name": "state",
+      "description": "This is good for playing back movies. You divide your movie into 4 parts that correspond to the (0=attack, 1=decay, 2=sustain, 3=release) phases. The state channel outputs fractional values, so you can watch it climb through all the transitions, including multiple sustain-sections. e.g., 0...1...2...2...2...2...3...4. If your movie is 8 seconds long, take the state channel and multiply by 2, passing it as the time-index of the movie."
+    },
+    {
+      "page": "Channels",
+      "label": "Reset Condition",
+      "name": "resetcondition",
+      "description": "⊞  - Determines the reset behavior of using the 2nd Input Reset Trigger. This parameter is only active if there is an input connected to the  CHOP 's 2nd input."
+    },
+    {
+      "page": "Channels",
+      "label": "Reset",
+      "name": "reset",
+      "description": "When set to 'On' it resets the  CHOP  clearing all events."
+    },
+    {
+      "page": "Channels",
+      "label": "Reset  Pulse",
+      "name": "resetpulse",
+      "description": "Immediately resets the  CHOP  and clears all events in the frame it was clicked."
+    },
+    {
+      "page": "Channels",
+      "label": "Callbacks  DAT",
+      "name": "callbacks",
+      "description": "The path to a  DAT  containing onCreate() and onDestroy() callbacks for each event."
+    },
+    {
+      "page": "ADSR",
+      "label": "Attack Time",
+      "name": "attacktime",
+      "description": "Affects  adsr  and  state  channel. Time to rise to max attack level."
+    },
+    {
+      "page": "ADSR",
+      "label": "Attack Time Unit",
+      "name": "attacktunit",
+      "description": "Select the units to use for this parameter, Samples, Frames, or Seconds."
+    },
+    {
+      "page": "ADSR",
+      "label": "Attack Level",
+      "name": "attacklevel",
+      "description": "Affects  adsr  channel. Peak attack level."
+    },
+    {
+      "page": "ADSR",
+      "label": "Decay Time",
+      "name": "decaytime",
+      "description": "Affects  adsr  channel and  state  channel. Time after peak to sustain level."
+    },
+    {
+      "page": "ADSR",
+      "label": "Decay Time Unit",
+      "name": "decaytunit",
+      "description": "Select the units to use for this parameter, Samples, Frames, or Seconds."
+    },
+    {
+      "page": "ADSR",
+      "label": "Sustain Time",
+      "name": "sustaintime",
+      "description": "Affects  adsr  channel."
+    },
+    {
+      "page": "ADSR",
+      "label": "Sustain Time Unit",
+      "name": "sustaintunit",
+      "description": "Select the units to use for this parameter, Samples, Frames, or Seconds."
+    },
+    {
+      "page": "ADSR",
+      "label": "Sustain Min",
+      "name": "sustainmin",
+      "description": "Affects  adsr  channel. Level at start of sustain time."
+    },
+    {
+      "page": "ADSR",
+      "label": "Sustain Max",
+      "name": "sustainmax",
+      "description": "Affects  adsr  channel. Level at end of sustain time."
+    },
+    {
+      "page": "ADSR",
+      "label": "Release Time",
+      "name": "releasetime",
+      "description": "Affects  adsr  and  state  channels."
+    },
+    {
+      "page": "ADSR",
+      "label": "Release Time Unit",
+      "name": "releasetunit",
+      "description": "Select the units to use for this parameter, Samples, Frames, or Seconds."
+    },
+    {
+      "page": "ADSR",
+      "label": "Release Level",
+      "name": "releaselevel",
+      "description": "Affects  adsr  channel. Level at end of life cycle."
+    },
+    {
+      "page": "ADSR",
+      "label": "Speed",
+      "name": "speed",
+      "description": "Affects the speed of the event, letting you stretch out or shorten the life of an event."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "Rename from",
+      "name": "commonrenamefrom",
+      "description": "The channel pattern to rename. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Rename to",
+      "name": "commonrenameto",
+      "description": "The replacement pattern for the names. The default parameters do not rename the channels. See  Pattern Replacement ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Names:  c[1",
+      "description": "10:2] ambient"
+    },
+    {
+      "page": "Common",
+      "label": "Rename To:  b[1",
+      "description": "5] amb    This example fetches channels  c1 c3 c5 c7 c9  and  ambient ."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "Events are single",
+      "description": "moment occurrences that are generated from a variety of conditions - from input actions that a user causes, from external devices and software, and from internal TouchDesigner states. A wide set of operator types respond to events and give the user a place to write python code that reacts to events."
+    },
+    {
+      "page": "Common",
+      "label": "To \"pulse\" a parameter is to send it a signal from (1) an  exported  CHOP channel or (2) a python command or (3) a mouse click that causes a new action to occur immediately. A pulse via python is via the  .pulse()  function on a pulse",
+      "description": "type parameter, such as Reset parameter in a  Speed CHOP . A pulse from a CHOP is typically a 0 to 1 to 0 signal in an exported channel."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "arlier down the chain which would have fed in and I wouldn't have had to make this this uniform. (12:00) But that's kind of something that you know as you learn this framework you get better at. But basically in this combination, in this combine tab, I've got a bunch of logic here that's basically like when the life value exceeds life max, I do a bunch of steps to reset that particle. And so basically what that means is I'm checking to see if I'm staying or not staying. (12:25) And and then I eventually do a reset, which moves that particle back to its original position. I had to do a little bit more at the end just to make sure I'm resetting also the the reset. So before I added this section and I can just take this out so you can see what happens once everything resets the particles essentially been deemed as dead and reset but that value is not re-triggering. (12:52) So this is just a little extra bit and you can see there's a uniform and there's a little bit of logic here which just"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

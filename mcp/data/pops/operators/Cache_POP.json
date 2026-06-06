@@ -1,0 +1,183 @@
+{
+  "pageTitle": "Cache POP",
+  "pageSlug": "Cache_POP",
+  "url": "https://docs.derivative.ca/Cache_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "cachePOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "Always Cook",
+      "type": "Toggle",
+      "default": 0,
+      "description": "New in 2025.3: Forces cache to re-cook every frame regardless of input changes."
+    },
+    {
+      "name": "Active",
+      "internalName": "active",
+      "type": "toggle",
+      "default": true,
+      "description": "When enabled, captures input POP frames"
+    },
+    {
+      "name": "Active Pulse",
+      "internalName": "activepulse",
+      "type": "pulse",
+      "default": null,
+      "description": "Active for one frame, adds snapshot, discards oldest"
+    },
+    {
+      "name": "Cache Size",
+      "internalName": "cachesize",
+      "type": "integer",
+      "default": 10,
+      "description": "Max snapshots to hold (oldest replaced when full)"
+    },
+    {
+      "name": "Step Size",
+      "internalName": "step",
+      "type": "float",
+      "default": 1,
+      "description": "Time steps between snapshots"
+    },
+    {
+      "name": "Step Size Unit",
+      "internalName": "stepunit",
+      "type": "menu",
+      "default": "frames",
+      "description": "Seconds or frames"
+    },
+    {
+      "name": "Output Index",
+      "internalName": "outputindex",
+      "type": "float",
+      "default": 0,
+      "description": "Index of POP to output (0=current, negative=past)"
+    },
+    {
+      "name": "Output Index Unit",
+      "internalName": "outputindexunit",
+      "type": "menu",
+      "default": "frames",
+      "description": "Seconds, frames, or raw index"
+    },
+    {
+      "name": "Interpolate Frames",
+      "internalName": "interp",
+      "type": "toggle",
+      "default": false,
+      "description": "Interpolate between cached frames (if same point count)"
+    },
+    {
+      "name": "Reset",
+      "internalName": "reset",
+      "type": "toggle",
+      "default": false,
+      "description": "Resets cache and holds one snapshot"
+    },
+    {
+      "name": "Reset Pulse",
+      "internalName": "resetpulse",
+      "type": "pulse",
+      "default": null,
+      "description": "Reset cache to 0 snapshots"
+    },
+    {
+      "name": "Bypass",
+      "internalName": "bypass",
+      "type": "toggle",
+      "default": false,
+      "description": "Pass through first input unchanged"
+    },
+    {
+      "name": "Free Extra GPU Memory",
+      "internalName": "freeextragpumem",
+      "type": "toggle",
+      "default": false,
+      "description": "Free accumulated GPU memory"
+    },
+    {
+      "name": "Delete Input Attributes",
+      "internalName": "delinputattrs",
+      "type": "toggle",
+      "default": false,
+      "description": "Only output specified attributes"
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "OP, Math Mix POP, Blend POP, Merge POP y Switch POP.13 * Parámetros: Se centra en la \"Página Inputs\" con bloques secuenciales para cada entrada, permitiendo In POP(s) (coincidencia de patrón), In Attributes (coincidencia de patrón), Rename Attribute y opciones de Duplicate Attributes. También incluye la selección de Attribute Class y el manejo de Length Mismatch (None, Warning, Error, con opciones para entradas más cortas: hold, 0, 1, nothing).13 * Cache Blend POP: Toma una referencia a un Cache POP y genera una mezcla de sus conjuntos de datos en caché basándose en un Cache Index y Cache Weight para bloques secuenciales. La mezcla se realiza por punto, lo que es útil para efectos basados en el tiempo como el desenfoque de movimiento o el cálculo de la velocidad de los puntos a partir de datos históricos.31 * Cache Select POP: Toma una referencia a un Cache POP y genera uno de sus conjuntos de datos en caché utilizando un parámetro Cache Index. Un Cache Index de 0 se refiere a los datos d"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "rquitectura se comparte con Math Combine POP, Math Mix POP, Blend POP, Merge POP y Switch POP.13 * Parámetros: Se centra en la \"Página Inputs\" con bloques secuenciales para cada entrada, permitiendo In POP(s) (coincidencia de patrón), In Attributes (coincidencia de patrón), Rename Attribute y opciones de Duplicate Attributes. También incluye la selección de Attribute Class y el manejo de Length Mismatch (None, Warning, Error, con opciones para entradas más cortas: hold, 0, 1, nothing).13 * Cache Blend POP: Toma una referencia a un Cache POP y genera una mezcla de sus conjuntos de datos en caché basándose en un Cache Index y Cache Weight para bloques secuenciales. La mezcla se realiza por punto, lo que es útil para efectos basados en el tiempo como el desenfoque de movimiento o el cálculo de la velocidad de los puntos a partir de datos históricos.31 * Cache Select POP: Toma una referencia a un Cache POP y genera uno de sus conjuntos de datos en caché utilizando un parámetro Cache Index"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "OP, Math Mix POP, Blend POP, Merge POP y Switch POP.13 * Parámetros: Se centra en la \"Página Inputs\" con bloques secuenciales para cada entrada, permitiendo In POP(s) (coincidencia de patrón), In Attributes (coincidencia de patrón), Rename Attribute y opciones de Duplicate Attributes. También incluye la selección de Attribute Class y el manejo de Length Mismatch (None, Warning, Error, con opciones para entradas más cortas: hold, 0, 1, nothing).13 * Cache Blend POP: Toma una referencia a un Cache POP y genera una mezcla de sus conjuntos de datos en caché basándose en un Cache Index y Cache Weight para bloques secuenciales. La mezcla se realiza por punto, lo que es útil para efectos basados en el tiempo como el desenfoque de movimiento o el cálculo de la velocidad de los puntos a partir de datos históricos.31 * Cache Select POP: Toma una referencia a un Cache POP y genera uno de sus conjuntos de datos en caché utilizando un parámetro Cache Index. Un Cache Index de 0 se refiere a los datos d"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "lores constantes. También es el lugar donde puedes crear \"arrays de atributos\". • Experimental:Blend POP: Es un POP que soporta múltiples entradas, lo que sugiere que puede mezclar o interpolar datos de diferentes fuentes. • Experimental:Box POP: Un operador generador que crea una geometría de caja. • Experimental:Cache Blend POP: Se menciona en relación con el uso de atributos como 'Velocity' (Vel), lo que sugiere su rol en la mezcla de datos temporales o en animaciones. • Experimental:Cache POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Cache Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:CHOP to POP: Permite convertir datos de la familia CHOPs (Channel Operators) a datos de POPs. Esto es eficiente porque los POPs ya implementan muchas funciones de CHOPs directamente en la GPU, evitando conversiones de GPU a CPU y vi"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "vértices o de primitivas. • Experimental:Attribute POP: Es un operador fundamental para crear nuevos atributos en puntos, vértices o primitivas, y puedes inicializarlos con valores constantes. También es el lugar donde puedes crear \"arrays de atributos\". • Experimental:Blend POP: Es un POP que soporta múltiples entradas, lo que sugiere que puede mezclar o interpolar datos de diferentes fuentes. • Experimental:Box POP: Un operador generador que crea una geometría de caja. • Experimental:Cache Blend POP: Se menciona en relación con el uso de atributos como 'Velocity' (Vel), lo que sugiere su rol en la mezcla de datos temporales o en animaciones. • Experimental:Cache POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Cache Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:CHOP to POP: Permite convertir datos de la familia"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "lores constantes. También es el lugar donde puedes crear \"arrays de atributos\". • Experimental:Blend POP: Es un POP que soporta múltiples entradas, lo que sugiere que puede mezclar o interpolar datos de diferentes fuentes. • Experimental:Box POP: Un operador generador que crea una geometría de caja. • Experimental:Cache Blend POP: Se menciona en relación con el uso de atributos como 'Velocity' (Vel), lo que sugiere su rol en la mezcla de datos temporales o en animaciones. • Experimental:Cache POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Cache Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:CHOP to POP: Permite convertir datos de la familia CHOPs (Channel Operators) a datos de POPs. Esto es eficiente porque los POPs ya implementan muchas funciones de CHOPs directamente en la GPU, evitando conversiones de GPU a CPU y vi"
+    }
+  ],
+  "useCases": [
+    "Time-delay effects on particle systems",
+    "Motion blur from cached frames",
+    "Recording and playback of simulations",
+    "Multi-frame blending with Cache Blend/Select",
+    "Step-size optimization for long caches"
+  ],
+  "examples": [
+    {
+      "name": "Motion Blur",
+      "description": "Particle POP → Cache POP (Size=10) → Cache Blend POP (2 frames, weight=0.5)",
+      "difficulty": "intermediate"
+    },
+    {
+      "name": "Echo Effect",
+      "description": "Particle POP → Cache POP (Size=5) → multiple Cache Select POPs (indices 0,-1,-2,-3,-4)",
+      "difficulty": "intermediate"
+    },
+    {
+      "name": "Time-Shift Playback",
+      "description": "Cache POP → Cache Select POP (negative index) for rewind",
+      "difficulty": "intermediate"
+    }
+  ],
+  "commonCombinations": [
+    "Particle POP → Cache POP",
+    "Cache POP → Cache Select POP",
+    "Cache POP → Cache Blend POP",
+    "Cache POP → Trail POP"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Cache not updating",
+      "solution": "Check Active toggle is enabled and Cache Size > 0"
+    },
+    {
+      "problem": "Stale data",
+      "solution": "Use Reset Pulse to clear cache and restart capture"
+    },
+    {
+      "problem": "Memory issues",
+      "solution": "Reduce Cache Size or increase Step Size to hold fewer frames"
+    },
+    {
+      "problem": "Frame drops",
+      "solution": "Cache POP doesn't fill gaps like Trail POP does"
+    }
+  ],
+  "description": "Receives POP data every frame and holds the most recent frames (up to Cache Size) in GPU memory. Outputs any held frame based on Output Index (time-delay). Cache Select and Cache Blend POPs can access combinations of held inputs for multi-frame blends."
+}

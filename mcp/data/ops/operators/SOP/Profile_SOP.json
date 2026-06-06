@@ -1,0 +1,204 @@
+{
+  "family": "SOP",
+  "pageTitle": "Profile SOP",
+  "pageSlug": "Profile_SOP",
+  "url": "https://docs.derivative.ca/Profile_SOP",
+  "tdOpTypeGuess": "profileSOP",
+  "summary": "[  edit  ]\nThe Profile  SOP  enables the extraction and manipulation of profiles.\nYou will usually need a  Trim SOP ,  Bridge SOP , or Profile  SOP  after a  Project SOP . Use a Trim  SOP  to cut a hole in the projected surface. Use a Bridge  SOP  to skin the profile curve to another profile curve.\nprofileSOP_Class\nContents\n1   Summary\n2   Parameters - Profile Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Profile",
+      "label": "Group",
+      "name": "group",
+      "description": "This field allows you to specify the particular group of curves on the surface. Other primitives are ignored. You can specify profile curves within the group by providing a profile pattern (e.g. *.3 specifies the fourth profile in all spline surfaces)."
+    },
+    {
+      "page": "Profile",
+      "label": "Method",
+      "name": "method",
+      "description": "⊞  - This menu allows you to extract a stand-alone 3D curve as the world or parametric image of the profile. The non-parametric option will yield a curve whose shape and position in space are identical or very similar to those of the chosen profile. The parametric option will produce a planar, XY face whose vertices and type will be identical to those of the profile in 2D; also, if the profile is a spline it will have the same basis as the extracted curve."
+    },
+    {
+      "page": "Profile",
+      "label": "Extract",
+      "name": "extract",
+      "description": "Use the extraction parameters below to extract a 3D curve from the profile."
+    },
+    {
+      "page": "Profile",
+      "label": "Remap",
+      "name": "remap",
+      "description": "Use parametric parameters below to produce a planar face from the profile."
+    },
+    {
+      "page": "Profile",
+      "label": "Parametrically to X Y",
+      "name": "parametric",
+      "description": "If Fitted (this option not checked), the profile will be a spatial NURBS curve whose position and shape in space will be identical to the curve on surface. It may very well be non-planar. If Extracted Parametrically (this option checked), the result will extract the profile's parametric image as a 3D face, which will be a planar face in XY whose type (polygon, Bzier, NURBS) will the same as the profile's, and whose vertices match the profile CVs. This, however, does not guarantee spatial coincidence between profile and extracted curve, and is more of an analytical tool."
+    },
+    {
+      "page": "Profile",
+      "label": "Tip:  A profile extracted parametrically can be reapplied to the surface identically with the Project  SOP  by choosing the  Parametric  option with no Mapping to Range. Use this method to extract the profile, pull its points or edit it as you would any 3D face, then re",
+      "description": "project it on the surface at the same location."
+    },
+    {
+      "page": "Profile",
+      "label": "Smooth Curve",
+      "name": "smooth",
+      "description": "If enabled, it will fit a spline through the extracted points. This parameter is disabled when extracting the profile parametrically. Disable this parameter in order to bypass the fitting process which might be both expensive (in processing speed) and unnecessary when extracting profiles produced by boolean operations (see  Surfsect SOP )."
+    },
+    {
+      "page": "Profile",
+      "label": "Divisions per Span",
+      "name": "sdivs",
+      "description": "The number of points per span to be computed on the profile. A span is the line connecting two consecutive CVs on a polygon, or the arc between two breakpoints on a spline curve. The profile tends to become more accurate as the number of divisions is higher."
+    },
+    {
+      "page": "Profile",
+      "label": "Tolerance",
+      "name": "tolerance",
+      "description": "This parameter specifies the precision of the fitting process for the extracted 3D data, and is typically less than 0.01."
+    },
+    {
+      "page": "Profile",
+      "label": "Order",
+      "name": "order",
+      "description": "The spline order of the resulting 3D curve. The type of curve (Bzier or NURBS) is inherited from the spatial curve. The order, however, is not inherited because the spline order provides useful control over the quality of the fit. If the profile is a polygon, the spatial curve will be a NURBS curve."
+    },
+    {
+      "page": "Profile",
+      "label": "Preserve Sharp Corners",
+      "name": "csharp",
+      "description": "Controls the precision with which sharp corners in the profile curve are interpolated. It should be on when the profile has areas of high changes in curvature."
+    },
+    {
+      "page": "Profile",
+      "label": "Keep Surface",
+      "name": "keepsurf",
+      "description": "Specifies whether the parent surface should be removed after the extraction or not."
+    },
+    {
+      "page": "Profile",
+      "label": "Delete Original Profile",
+      "name": "delprof",
+      "description": "When Keep Surface parameter is On, select whether to leave or delete the original profile."
+    },
+    {
+      "page": "Profile",
+      "label": "Mapping Type",
+      "name": "maptype",
+      "description": "⊞  - Select how to reposition and scale an existing profile to fit within the specified domain range. It is a good means of bringing an invisible profile into view by setting the mapping range between 0 and 1 in the U and V parametric directions. A profile mapped outside the unit domain becomes invisible but is not removed from the surface. Other ways to change a profile are available through the  Primitive SOP ."
+    },
+    {
+      "page": "Profile",
+      "label": "Uniform",
+      "name": "unif",
+      "description": "Uniform converts the spatial coordinates of the profile to (U,V) points in the domain of the surface without taking into account the parameterization of the surface."
+    },
+    {
+      "page": "Profile",
+      "label": "Chord Length",
+      "name": "chordlen",
+      "description": "Chord Length takes into account the surface parameterization and attempts to compute a profile best suited to the spatial and parametric determinants of the model."
+    },
+    {
+      "page": "Profile",
+      "label": "U Range",
+      "name": "urange",
+      "description": "⊞  - Indicates in percentages what part of the U surface domain is the mapping area. A full range of 0-1 will cause the profiles to be mapped to the entire domain in the U parametric direction. The range is not restricted to the 0-1 interval."
+    },
+    {
+      "page": "Profile",
+      "label": "V Range",
+      "name": "vrange",
+      "description": "⊞  - Indicates in percentages what part of the V surface domain is the mapping area. A full range of 0-1 will cause the profiles to be mapped to the entire domain in the V parametric direction. The range is not restricted to the 0-1 interval."
+    },
+    {
+      "page": "Profile",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Profile",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Profile",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Profile",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Profile",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Profile",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Profile",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Profile",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Profile",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Profile",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Profile",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Profile",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Profile",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Profile",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Profile",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

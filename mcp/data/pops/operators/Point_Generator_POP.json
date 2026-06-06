@@ -1,0 +1,358 @@
+{
+  "pageTitle": "Point Generator POP",
+  "pageSlug": "Point_Generator_POP",
+  "url": "https://docs.derivative.ca/Point_Generator_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "pointGeneratorPOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "shape",
+      "label": "Shape",
+      "type": "menu",
+      "default": "sphere",
+      "options": [
+        "sphere",
+        "box",
+        "torus",
+        "tube",
+        "rectangle",
+        "circle",
+        "line"
+      ],
+      "description": "Mathematical shape for point distribution."
+    },
+    {
+      "name": "createpointprim",
+      "label": "Create Point Primitives",
+      "type": "toggle",
+      "default": false,
+      "description": "Enable creating point primitives."
+    },
+    {
+      "name": "numpoints",
+      "label": "Number of Points",
+      "type": "int",
+      "default": 1000,
+      "description": "Total points to generate."
+    },
+    {
+      "name": "distribution",
+      "label": "Distribution",
+      "type": "menu",
+      "default": "volume",
+      "options": [
+        "volume",
+        "surface"
+      ],
+      "description": "Volume (fill) or Surface (shell) distribution."
+    },
+    {
+      "name": "random",
+      "label": "Random",
+      "type": "toggle",
+      "default": true,
+      "description": "Enable random distribution. Off = patterned."
+    },
+    {
+      "name": "seed",
+      "label": "Seed",
+      "type": "int",
+      "default": 12345,
+      "description": "Random seed value."
+    },
+    {
+      "name": "orient",
+      "label": "Orientation",
+      "type": "menu",
+      "default": "default",
+      "options": [
+        "default",
+        "xy",
+        "yz",
+        "zx"
+      ],
+      "description": "Orientation: Default, XY Plane, YZ Plane, ZX Plane."
+    },
+    {
+      "name": "size1",
+      "label": "Size 1",
+      "type": "float",
+      "default": 1,
+      "description": "First dimension size."
+    },
+    {
+      "name": "size2",
+      "label": "Size 2",
+      "type": "float",
+      "default": 1,
+      "description": "Second dimension size."
+    },
+    {
+      "name": "size3",
+      "label": "Size 3",
+      "type": "float",
+      "default": 1,
+      "description": "Third dimension size."
+    },
+    {
+      "name": "radius1",
+      "label": "Radius 1",
+      "type": "float",
+      "default": 1,
+      "description": "First radius (for torus/circle)."
+    },
+    {
+      "name": "radius2",
+      "label": "Radius 2",
+      "type": "float",
+      "default": 1,
+      "description": "Second radius (for torus)."
+    },
+    {
+      "name": "height",
+      "label": "Height",
+      "type": "float",
+      "default": 1,
+      "description": "Height for tube shapes."
+    },
+    {
+      "name": "pointax",
+      "label": "Point A X",
+      "type": "float",
+      "default": -0.5,
+      "description": "Line start X position."
+    },
+    {
+      "name": "pointay",
+      "label": "Point A Y",
+      "type": "float",
+      "default": 0,
+      "description": "Line start Y position."
+    },
+    {
+      "name": "pointaz",
+      "label": "Point A Z",
+      "type": "float",
+      "default": 0,
+      "description": "Line start Z position."
+    },
+    {
+      "name": "pointbx",
+      "label": "Point B X",
+      "type": "float",
+      "default": 0.5,
+      "description": "Line end X position."
+    },
+    {
+      "name": "pointby",
+      "label": "Point B Y",
+      "type": "float",
+      "default": 0,
+      "description": "Line end Y position."
+    },
+    {
+      "name": "pointbz",
+      "label": "Point B Z",
+      "type": "float",
+      "default": 0,
+      "description": "Line end Z position."
+    },
+    {
+      "name": "normal",
+      "label": "Normal",
+      "type": "menu",
+      "default": "none",
+      "options": [
+        "none",
+        "point",
+        "vertex",
+        "primitive"
+      ],
+      "description": "Create normal attribute."
+    },
+    {
+      "name": "normaldirection",
+      "label": "Normal Direction",
+      "type": "menu",
+      "default": "default",
+      "options": [
+        "default",
+        "random"
+      ],
+      "description": "Normal direction: Default or Random."
+    },
+    {
+      "name": "dotangent",
+      "label": "Tangent",
+      "type": "menu",
+      "default": "off",
+      "options": [
+        "off",
+        "default",
+        "randomtonormal",
+        "random"
+      ],
+      "description": "Tangent mode: Off, Default, Random to Normal, Random."
+    },
+    {
+      "name": "tx",
+      "label": "Translate X",
+      "type": "float",
+      "default": 0,
+      "description": "X translation."
+    },
+    {
+      "name": "ty",
+      "label": "Translate Y",
+      "type": "float",
+      "default": 0,
+      "description": "Y translation."
+    },
+    {
+      "name": "tz",
+      "label": "Translate Z",
+      "type": "float",
+      "default": 0,
+      "description": "Z translation."
+    },
+    {
+      "name": "rx",
+      "label": "Rotate X",
+      "type": "float",
+      "default": 0,
+      "description": "X rotation in degrees."
+    },
+    {
+      "name": "ry",
+      "label": "Rotate Y",
+      "type": "float",
+      "default": 0,
+      "description": "Y rotation in degrees."
+    },
+    {
+      "name": "rz",
+      "label": "Rotate Z",
+      "type": "float",
+      "default": 0,
+      "description": "Z rotation in degrees."
+    },
+    {
+      "name": "sx",
+      "label": "Scale X",
+      "type": "float",
+      "default": 1,
+      "description": "X scale."
+    },
+    {
+      "name": "sy",
+      "label": "Scale Y",
+      "type": "float",
+      "default": 1,
+      "description": "Y scale."
+    },
+    {
+      "name": "sz",
+      "label": "Scale Z",
+      "type": "float",
+      "default": 1,
+      "description": "Z scale."
+    },
+    {
+      "name": "px",
+      "label": "Pivot X",
+      "type": "float",
+      "default": 0,
+      "description": "X pivot for rotation/scale."
+    },
+    {
+      "name": "py",
+      "label": "Pivot Y",
+      "type": "float",
+      "default": 0,
+      "description": "Y pivot for rotation/scale."
+    },
+    {
+      "name": "pz",
+      "label": "Pivot Z",
+      "type": "float",
+      "default": 0,
+      "description": "Z pivot for rotation/scale."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "h POP: Al igual que Merge POP, se indica que comparte la arquitectura de manejo de múltiples entradas con otros POPs combinadores.13 No se proporcionaron detalles adicionales. 7. Quantize POP: Se encontró una redirección a su página de documentación.48 Un tutorial de YouTube relacionado con la \"cuantificación\" de píxeles 49 no describe el operador POP en sí, sino un concepto visual. 8. Random POP: Se encontró una redirección a su página de documentación 50, pero sin contenido descriptivo. 9. Point Generator POP: Se encontraron redirecciones a su página de documentación.51 Aunque un tutorial de YouTube menciona el uso de un Point Generator POP para distribuir puntos 43, no se proporciona una descripción detallada de sus parámetros. 10. Points, Vertices and Primitives in POPs: Esta es una página conceptual que describe la estructura de datos subyacente de los POPs (puntos, vértices, primitivas, atributos), pero no es un operador en sí mismo.7 4.2 Operadores con Documentación Inaccesible o Muy Limi"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "h POP: Al igual que Merge POP, se indica que comparte la arquitectura de manejo de múltiples entradas con otros POPs combinadores.13 No se proporcionaron detalles adicionales. 7. Quantize POP: Se encontró una redirección a su página de documentación.48 Un tutorial de YouTube relacionado con la \"cuantificación\" de píxeles 49 no describe el operador POP en sí, sino un concepto visual. 8. Random POP: Se encontró una redirección a su página de documentación 50, pero sin contenido descriptivo. 9. Point Generator POP: Se encontraron redirecciones a su página de documentación.51 Aunque un tutorial de YouTube menciona el uso de un Point Generator POP para distribuir puntos 43, no se proporciona una descripción detallada de sus parámetros. 10. Points, Vertices and Primitives in POPs: Esta es una página conceptual que describe la estructura de datos subyacente de los POPs (puntos, vértices, primitivas, atributos), pero no es un operador en sí mismo.7 4.2 Operadores con Documentación Inaccesible o Muy"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "h POP: Al igual que Merge POP, se indica que comparte la arquitectura de manejo de múltiples entradas con otros POPs combinadores.13 No se proporcionaron detalles adicionales. 7. Quantize POP: Se encontró una redirección a su página de documentación.48 Un tutorial de YouTube relacionado con la \"cuantificación\" de píxeles 49 no describe el operador POP en sí, sino un concepto visual. 8. Random POP: Se encontró una redirección a su página de documentación 50, pero sin contenido descriptivo. 9. Point Generator POP: Se encontraron redirecciones a su página de documentación.51 Aunque un tutorial de YouTube menciona el uso de un Point Generator POP para distribuir puntos 43, no se proporciona una descripción detallada de sus parámetros. 10. Points, Vertices and Primitives in POPs: Esta es una página conceptual que describe la estructura de datos subyacente de los POPs (puntos, vértices, primitivas, atributos), pero no es un operador en sí mismo.7 4.2 Operadores con Documentación Inaccesible o Muy Limi"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "e. • Experimental:Pattern POP: Se utiliza para generar patrones para atributos, ofreciendo configuraciones más complejas. Permite crear y modificar atributos de color y textura. • Experimental:Phaser POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Point File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner, específicamente diseñado para este tipo de datos. • Experimental:Point Generator POP: Un operador generador que crea nubes de puntos directamente. Puede generar puntos con sus primitivas correspondientes. • Experimental:Point POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador más allá de su listado. • Experimental:Polygonize POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Primitive POP: Puede eliminar las primitivas de un POP, dejando"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "e. • Experimental:Pattern POP: Se utiliza para generar patrones para atributos, ofreciendo configuraciones más complejas. Permite crear y modificar atributos de color y textura. • Experimental:Phaser POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Point File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner, específicamente diseñado para este tipo de datos. • Experimental:Point Generator POP: Un operador generador que crea nubes de puntos directamente. Puede generar puntos con sus primitivas correspondientes. • Experimental:Point POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador más allá de su listado. • Experimental:Polygonize POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Primitive POP: Puede eliminar las primitivas de un POP, deja"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "e. • Experimental:Pattern POP: Se utiliza para generar patrones para atributos, ofreciendo configuraciones más complejas. Permite crear y modificar atributos de color y textura. • Experimental:Phaser POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Point File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner, específicamente diseñado para este tipo de datos. • Experimental:Point Generator POP: Un operador generador que crea nubes de puntos directamente. Puede generar puntos con sus primitivas correspondientes. • Experimental:Point POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador más allá de su listado. • Experimental:Polygonize POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Primitive POP: Puede eliminar las primitivas de un POP, dejando"
+    }
+  ],
+  "useCases": [
+    "Procedural point cloud generation (sphere, box, torus distributions)",
+    "Fibonacci sphere for uniform point distribution",
+    "Data-driven point placement with custom expressions",
+    "Particle emission source creation on mathematical surfaces"
+  ],
+  "examples": [
+    {
+      "name": "Fibonacci Sphere",
+      "description": "Point Generator (Sphere, Random=Off) with math expressions for golden angle distribution",
+      "difficulty": "advanced"
+    },
+    {
+      "name": "Point Cloud",
+      "description": "Point Generator (Box, Volume, 10000 points) → Noise POP → Render",
+      "difficulty": "beginner"
+    },
+    {
+      "name": "Line Emitter",
+      "description": "Point Generator (Line, 500 points, Surface) → Particle POP",
+      "difficulty": "beginner"
+    }
+  ],
+  "commonCombinations": [
+    "Point Generator → Noise POP (displace generated points)",
+    "Point Generator → Particle POP (emission source)",
+    "Point Generator → Copy POP (scatter objects at points)",
+    "Point Generator → GLSL POP (custom vertex shaders)"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Expressions fail",
+      "solution": "Use $PT and $NPT variables for position expressions."
+    },
+    {
+      "problem": "Points not uniform on surface",
+      "solution": "Currently no uniform-per-area option. Increase point count for better coverage."
+    },
+    {
+      "problem": "Want specific shape",
+      "solution": "Set Shape menu: Sphere, Box, Torus, Tube, Rectangle, Circle, Line."
+    },
+    {
+      "problem": "Want pattern instead of random",
+      "solution": "Disable Random toggle for predictable, patterned distribution."
+    }
+  ],
+  "description": "Creates a specified number of points randomly or in a pattern on the surface or within the volume of a mathematical shape (Sphere, Box, Torus, Tube, Rectangle, Circle, Line). Supports normal and tangent attributes with randomization."
+}

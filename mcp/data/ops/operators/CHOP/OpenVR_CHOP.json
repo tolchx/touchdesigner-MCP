@@ -1,0 +1,311 @@
+{
+  "family": "CHOP",
+  "pageTitle": "OpenVR CHOP",
+  "pageSlug": "OpenVR_CHOP",
+  "url": "https://docs.derivative.ca/OpenVR_CHOP",
+  "tdOpTypeGuess": "openVRCHOP",
+  "summary": "[  edit  ]\nNOTE\nOS:  This operator is only supported under the  Microsoft Windows  operating system.\nThe OpenVR  CHOP  receives positional data, frame rendering info, and action data from the  OpenVR  SDK. Each  CHOP  can output in one of 5 modes: Sensors, Projection Matrices, Trackers, Frame Timings, Actions and Skeletons.\nActions\nActions are described in more details in  OpenVR Actions .\nGetting Sensor Data at Higher Rates\nBy default when running a VR system the file will be throttled to the speed of the VR devices refresh rate by the OpenVR SDK. This helps ensure the low latency output required for a good VR experience. If only controllers/Vive trackers are being used for tracking in a non-VR situation, the file can run and sample those devices at a higher sample rate as long as no  OpenVR TOP  in the project. If an  OpenVR TOP  is present anywhere in the project, then playback will be throttled to the VR devices refresh rate.\nSee also  OpenVR ,  OpenVR TOP ,  OpenVR SOP ,  Audio Render CHOP\nopenvrCHOP_Class\nContents\n1   Summary\n1.1   Actions\n1.2   Getting Sensor Data at Higher Rates\n2   Parameters - Setup Page\n3   Parameters - Common Page\n4   Info CHOP Channels\n4.1   Common CHOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "Setup",
+      "label": "Active",
+      "name": "active",
+      "description": "Control if this node is querying data from the OpenVR driver."
+    },
+    {
+      "page": "Setup",
+      "label": "Output",
+      "name": "output",
+      "description": "⊞  - Controls what kind of category of data will be output from this node."
+    },
+    {
+      "page": "Setup",
+      "label": "Sensor",
+      "name": "sensor",
+      "description": "Output data such as sensor orientation and general information such as render resolution."
+    },
+    {
+      "page": "Setup",
+      "label": "Projection Matrices",
+      "name": "projmatrices",
+      "description": "Output the projection matrices for each eye."
+    },
+    {
+      "page": "Setup",
+      "label": "Trackers",
+      "name": "trackers",
+      "description": "Output tracker states/transforms. This can both include Vive Trackers as well as just the transforms of controllers."
+    },
+    {
+      "page": "Setup",
+      "label": "Frame Timings",
+      "name": "frametimings",
+      "description": "General information regarding frame rendering."
+    },
+    {
+      "page": "Setup",
+      "label": "Actions",
+      "name": "actions",
+      "description": "The action channels as defined by the  OpenVR Actions  in used by the system."
+    },
+    {
+      "page": "Setup",
+      "label": "Skeletons",
+      "name": "skeletons",
+      "description": "Hand skeletal information, as descibed  here . Note that 'Finger Tip Bones' is not supported anymore in OpenVR."
+    },
+    {
+      "page": "Setup",
+      "label": "Max Trackers",
+      "name": "maxtrackers",
+      "description": "The maximum number of trackers whose data should be output from this node."
+    },
+    {
+      "page": "Setup",
+      "label": "First Tracker",
+      "name": "firsttracker",
+      "description": "The first tracker number to be output. For example if this is set to 2 and Max Trackers is 2, then data for trackers 2 and 3 will be output."
+    },
+    {
+      "page": "Setup",
+      "label": "Orientation",
+      "name": "orientation",
+      "description": "When doing 'Sensor' output, controls if the orientation channels will be output. By default the units for orientation are 1 unit = 1 meter."
+    },
+    {
+      "page": "Setup",
+      "label": "General Info",
+      "name": "generalinfo",
+      "description": "When doing 'Sensor' output, controls of general information channels will be output, such as render resolution and play area size."
+    },
+    {
+      "page": "Setup",
+      "label": "Near",
+      "name": "near",
+      "description": "When outputting 'Projection Matrices', controls the near plane the projection matrix will be built with."
+    },
+    {
+      "page": "Setup",
+      "label": "Far",
+      "name": "far",
+      "description": "When outputting 'Projection Matrices', controls the far plane the projection matrix will be built with."
+    },
+    {
+      "page": "Setup",
+      "label": "Unit Scale",
+      "name": "unitscale",
+      "description": "OpenVR by default works in a scale where 1 unit = 1 meter. This parameter allows the scale to be changed incase a scene is imported with a different scale."
+    },
+    {
+      "page": "Setup",
+      "label": "Custom Actions",
+      "name": "customactions",
+      "description": "Turn on to allow specifying a custom  OpenVR Actions  manifest file."
+    },
+    {
+      "page": "Setup",
+      "label": "Action Manifest",
+      "name": "actionmanifest",
+      "description": "A path to a  OpenVR Actions  manifest file. By default this is using the same manifest OpenVR uses when Custom Actions is disabled."
+    },
+    {
+      "page": "Setup",
+      "label": "Use Legacy Names",
+      "name": "uselegacynames",
+      "description": "Use legacy channel naming convention coming from the Action Manifest. This should stay off unless loading existing old files."
+    },
+    {
+      "page": "Setup",
+      "label": "Skeleton Range",
+      "name": "skeletonrange",
+      "description": "⊞  - Controls the range of motion of the skeleton values."
+    },
+    {
+      "page": "Setup",
+      "label": "With Controller",
+      "name": "withcontroller",
+      "description": "Output skeleton taking into account the shape of the controller. The skeleton will look like it's holding the controller."
+    },
+    {
+      "page": "Setup",
+      "label": "Without Controller",
+      "name": "withoutcontroller",
+      "description": "Output the skeleton as if the controller dose not exist. This allows the skeleton to create a fully closed fist."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

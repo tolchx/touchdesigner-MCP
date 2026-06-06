@@ -1,0 +1,245 @@
+{
+  "family": "SOP",
+  "pageTitle": "Curveclay SOP",
+  "pageSlug": "Curveclay_SOP",
+  "url": "https://docs.derivative.ca/Curveclay_SOP",
+  "tdOpTypeGuess": "curveclaySOP",
+  "summary": "[  edit  ]\nThe Curveclay  SOP  is similar to the Clay  SOP  in that you deform a spline surface not by modifying the CVs but by directly manipulating the surface. However, instead of using a point on the surface, you use one or more faces to deform that surface. Also, CurveClay does not yet support polygonal meshes.\nThe combination of inputs will determine the modes of transformation. For any combination of inputs, the following parameters modify the following behaviors of the  SOP .\ncurveclaySOP_Class\nContents\n1   Summary\n2   Parameters - Curve Clay Page\n3   Parameters - Projection Page\n4   Parameters - Displacement Page\n5   Notes\n6   Operator Inputs\n7   Info CHOP Channels\n7.1   Common SOP Info Channels\n7.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    },
+    {
+      "index": 2,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Curve Clay",
+      "label": "Face  Group",
+      "name": "facegroup",
+      "description": "Subset of faces (NURBS, Bézier, Polygons) to project, or subset of proles to deform, depending on how many inputs are connected."
+    },
+    {
+      "page": "Curve Clay",
+      "label": "Examples include: 0.5 1.2",
+      "description": "3.9 5.*"
+    },
+    {
+      "page": "Curve Clay",
+      "label": "Then, the example above becomes: 0.5 1.2",
+      "description": "3.9 5"
+    },
+    {
+      "page": "Curve Clay",
+      "label": "Surface  Group",
+      "name": "surfgroup",
+      "description": "Subset of spline surfaces to be deformed when all three  SOP  inputs are connected."
+    },
+    {
+      "page": "Curve Clay",
+      "label": "Divisions on Face",
+      "name": "divs",
+      "description": "The number of points to evaluate on the proles or the faces. This  SOP  works by using a straight line approximation of the given curve to deform the surface. Thus, more segments are slower, but the result looks better. Fewer divisions need to be specified when deforming proles and when the rest and deforming faces have an equal number of breakpoints."
+    },
+    {
+      "page": "Curve Clay",
+      "label": "Sharpness",
+      "name": "sharp",
+      "description": "Species the area around the face to deform. The larger the sharpness is, the smaller the deformation area around them (thus having a sharper pull on the surface)."
+    },
+    {
+      "page": "Curve Clay",
+      "label": "Refinement",
+      "name": "refine",
+      "description": "Usually, CurveClay automatically renes the surface. However, you may specify some degree of renement control. In general, the more rened the surface is, the smoother the result. Better renement results in a denser surface. You should experiment with values between -1 and 1. When the value is negative, the  SOP  will rst rene the surface to the same detail level as when renement is 0, and then it unrenes it. The lower the value, the more unrened it becomes."
+    },
+    {
+      "page": "Projection",
+      "label": "Projection Axis",
+      "name": "projop",
+      "description": "⊞  - Choice of several projection axes:"
+    },
+    {
+      "page": "Projection",
+      "label": "X",
+      "name": "xaxis",
+      "description": "Cartesian Axis - X, Y, or Z."
+    },
+    {
+      "page": "Projection",
+      "label": "Y",
+      "name": "yaxis",
+      "description": "Cartesian Axis - X, Y, or Z."
+    },
+    {
+      "page": "Projection",
+      "label": "Z",
+      "name": "zaxis",
+      "description": "Cartesian Axis - X, Y, or Z."
+    },
+    {
+      "page": "Projection",
+      "label": "Minimum Distance",
+      "name": "mindist",
+      "description": "Project curve points to their closest places on surface."
+    },
+    {
+      "page": "Projection",
+      "label": "User Defined:",
+      "name": "other",
+      "description": "Enter Vector into the field below."
+    },
+    {
+      "page": "Projection",
+      "label": "projdir",
+      "description": "⊞  - Specify the direction vector of the projection."
+    },
+    {
+      "page": "Displacement",
+      "label": "Displacement Axis",
+      "name": "deformop",
+      "description": "⊞  - Choice of several projection axes:"
+    },
+    {
+      "page": "Displacement",
+      "label": "Surface Normal",
+      "name": "snormal",
+      "description": "The proles will be deformed along the surface normal."
+    },
+    {
+      "page": "Displacement",
+      "label": "X",
+      "name": "xaxis",
+      "description": "Cartesian axis - X, Y, or Z."
+    },
+    {
+      "page": "Displacement",
+      "label": "Y",
+      "name": "yaxis",
+      "description": "Cartesian axis - X, Y, or Z."
+    },
+    {
+      "page": "Displacement",
+      "label": "Z",
+      "name": "zaxis",
+      "description": "Cartesian axis - X, Y, or Z."
+    },
+    {
+      "page": "Displacement",
+      "label": "User Defined:",
+      "name": "other",
+      "description": "Enter the vector into the eld below."
+    },
+    {
+      "page": "Displacement",
+      "label": "deformdir",
+      "description": "⊞  - Specify the direction vector of the displacement."
+    },
+    {
+      "page": "Displacement",
+      "label": "Distance",
+      "name": "deformlen",
+      "description": "Distance deformed along the vector."
+    },
+    {
+      "page": "Displacement",
+      "label": "Deform Inside of Loop",
+      "name": "deforminside",
+      "description": "Check if the inside of closed loops should be deformed."
+    },
+    {
+      "page": "Displacement",
+      "label": "Consider Profiles Individually",
+      "name": "individual",
+      "description": "Check if multiple curves form a closed loop."
+    },
+    {
+      "page": "Displacement",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Displacement",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Displacement",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Displacement",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Displacement",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Displacement",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Displacement",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Displacement",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Displacement",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Displacement",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Displacement",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Displacement",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Displacement",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Displacement",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Displacement",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

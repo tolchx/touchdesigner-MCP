@@ -1,0 +1,21 @@
+{
+  "family": "SOP",
+  "pageTitle": "Tristrip SOP",
+  "pageSlug": "Tristrip_SOP",
+  "url": "https://docs.derivative.ca/Tristrip_SOP",
+  "tdOpTypeGuess": "tristripSOP",
+  "summary": "[  edit  ]\nThe Tristrip  SOP  convert geometry into triangle strips. Triangle strips are faster to render than regular triangles or quads.\ntristripSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

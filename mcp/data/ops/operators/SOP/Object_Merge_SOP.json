@@ -1,0 +1,115 @@
+{
+  "family": "SOP",
+  "pageTitle": "Object Merge SOP",
+  "pageSlug": "Object_Merge_SOP",
+  "url": "https://docs.derivative.ca/Object_Merge_SOP",
+  "tdOpTypeGuess": "objectMergeSOP",
+  "summary": "[  edit  ]\nThe Object Merge  SOP  allows you to merge the geometry of several SOPs spanning different components. The  SOP  data will be baked so that all merged SOPs are relative to each other as if they were located using the transforms of the COMPs they originally came from.\nobjectmergeSOP_Class\nContents\n1   Summary\n2   Parameters - Object Merge Page\n3   Info CHOP Channels\n3.1   Common SOP Info Channels\n3.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "Object Merge",
+      "label": "Transform  Object",
+      "name": "xform",
+      "description": "Specify a geometry component to which all the merged geometry should be transformed relative to."
+    },
+    {
+      "page": "Object Merge",
+      "label": "Merge",
+      "name": "merge",
+      "description": "Sequence of SOPs to merge"
+    },
+    {
+      "page": "Object Merge",
+      "label": "SOP",
+      "name": "merge0sop",
+      "description": "Each source allows you to specify a pattern of  SOP  paths. The geometry of each  SOP  is merged into this  SOP . Each  SOP  can reside in a different component. A pattern can be a complete path to a single  SOP  or it may consist of wildcards, etc."
+    },
+    {
+      "page": "Object Merge",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Object Merge",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Object Merge",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Object Merge",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Object Merge",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Object Merge",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Object Merge",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Object Merge",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Object Merge",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Object Merge",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Object Merge",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Object Merge",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Object Merge",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Object Merge",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Object Merge",
+      "label": "The sub",
+      "description": "Family  of  Component  types that are used to define and render 3D scenes. A  Geometry Component  is an Object that contains the 3D shapes to render. A  Camera COMP  and  Light COMP  are other Object types. Separately, \"Objects\" also refers to Python objects."
+    },
+    {
+      "page": "Object Merge",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

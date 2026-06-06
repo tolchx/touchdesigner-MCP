@@ -1,0 +1,114 @@
+{
+  "pageTitle": "Trace POP",
+  "pageSlug": "Trace_POP",
+  "url": "https://docs.derivative.ca/Trace_POP",
+  "experimental": true,
+  "tdOpTypeGuess": "tracePOP",
+  "inputs": ["input0"],
+  "description": "New in TD 2025.3: Traces 2D inputs (images, textures, TOPs) into line strip geometry. Derived from Polygonize POP but specialized for 2D tracing. Replaces the 2D functionality that was removed from Polygonize POP. Optimized for outputting line strips for laser, LED, and vector workflows.",
+  "parameters": [
+    {
+      "name": "Trace Mode",
+      "type": "Menu",
+      "options": ["Auto", "Threshold", "Alpha"],
+      "default": "Auto",
+      "description": "Auto mode detects edges automatically. Threshold uses a brightness threshold. Alpha uses alpha channel transparency."
+    },
+    {
+      "name": "Threshold",
+      "type": "Float[0-1]",
+      "default": 0.5,
+      "description": "Brightness threshold for edge detection when Trace Mode is Threshold or Auto."
+    },
+    {
+      "name": "Smoothing",
+      "type": "Int[0-20]",
+      "default": 2,
+      "description": "Number of smoothing iterations applied to the traced line strips. Higher values produce smoother curves."
+    },
+    {
+      "name": "Simplify",
+      "type": "Float[0-1]",
+      "default": 0.5,
+      "description": "Line simplification tolerance. Higher values reduce point count by collapsing collinear segments."
+    },
+    {
+      "name": "Scale",
+      "type": "Float[0.001-100]",
+      "default": 1.0,
+      "description": "Output scale factor for the traced geometry."
+    },
+    {
+      "name": "Output",
+      "type": "Menu",
+      "options": ["Line Strips", "Points"],
+      "default": "Line Strips",
+      "description": "Line Strips outputs connected line primitives. Points outputs individual unconnected points."
+    },
+    {
+      "name": "Reverse Direction",
+      "type": "Toggle",
+      "default": 0,
+      "description": "Reverses the winding direction of all traced line strips."
+    }
+  ],
+  "attributes": [],
+  "useCases": [
+    "Tracing image contours to line strips for laser projection",
+    "Edge detection producing vector geometry for LED walls",
+    "2D input tracing for generative art workflows",
+    "Image-to-line-art conversion in real-time",
+    "Converting raster logos to navigable line geometry",
+    "Input for Triangulate POP to create filled meshes from traces"
+  ],
+  "examples": [
+    {
+      "name": "Image to Laser Lines",
+      "description": "Movie File In TOP → Trace POP (Threshold mode) → Line Thick POP → Render for laser output",
+      "difficulty": "beginner"
+    },
+    {
+      "name": "Contour Mesh Generation",
+      "description": "TOP to POP → Trace POP (Auto) → Triangulate POP → Render TOP for filled contour mesh",
+      "difficulty": "intermediate"
+    },
+    {
+      "name": "Audio-Reactive Tracing",
+      "description": "Feedback TOP with Noise → Trace POP → CHOP-driven Threshold for audio-reactive edge animation",
+      "difficulty": "advanced"
+    }
+  ],
+  "commonCombinations": [
+    "TOP to POP → Trace POP (convert image to line geometry)",
+    "Trace POP → Triangulate POP (create filled mesh from trace)",
+    "Trace POP → Line Thick POP (thicken lines for rendering)",
+    "Trace POP → Line Resample POP (uniform point spacing)",
+    "Trace POP → Noise POP (displace traced lines organically)",
+    "Trace POP → GLSL POP (custom line manipulation)",
+    "Trace POP → Render TOP (line strip rendering)"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Trace produces no output",
+      "solution": "Ensure input is a 2D image/TOP with sufficient contrast. Adjust Threshold parameter — too high or too low will produce empty results."
+    },
+    {
+      "problem": "Traced lines are too noisy",
+      "solution": "Increase Smoothing iterations (try 4-6) and increase Simplify tolerance to reduce point noise."
+    },
+    {
+      "problem": "Traced geometry doesn't match image size",
+      "solution": "Use Scale parameter or a Transform POP to match the output to your desired viewport dimensions."
+    },
+    {
+      "problem": "Trace POP crashes with large images",
+      "solution": "Downscale the input image first with a Level TOP or Resolution TOP before tracing. Very high resolution images with complex contours can be slow."
+    }
+  ],
+  "localNotes": [
+    {
+      "source": "Docs/115-td-2025-release-notes-knowledge.md",
+      "excerpt": "Trace POP: Derived from Polygonize POP but specialized for tracing 2D inputs. Optimized for outputting line strips. Use Trace POP for 2D tracing instead of Polygonize POP (which now only accepts 3D input)."
+    }
+  ]
+}

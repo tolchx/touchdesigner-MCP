@@ -1,0 +1,134 @@
+{
+  "pageTitle": "Curve POP",
+  "pageSlug": "Curve_POP",
+  "url": "https://docs.derivative.ca/Curve_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "curvePOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "method",
+      "label": "Method",
+      "type": "menu",
+      "default": "NURBS",
+      "options": [
+        "NURBS",
+        "Bezier"
+      ],
+      "description": "Curve evaluation method. NURBS for smooth splines, Bezier for predictable interpolation."
+    },
+    {
+      "name": "order",
+      "label": "Order",
+      "type": "int",
+      "default": 3,
+      "description": "Spline order (2=linear, 3=quadratic, 4=cubic). Higher = smoother but more oscillation risk."
+    },
+    {
+      "name": "closed",
+      "label": "Closed",
+      "type": "toggle",
+      "default": false,
+      "description": "Connect last control point back to first."
+    },
+    {
+      "name": "divisions",
+      "label": "Divisions",
+      "type": "int",
+      "default": 48,
+      "description": "Number of evaluated points along the curve."
+    },
+    {
+      "name": "controlpoints",
+      "label": "Control Points",
+      "type": "int",
+      "default": 6,
+      "description": "Number of control points defining the curve."
+    },
+    {
+      "name": "weight",
+      "label": "Weight",
+      "type": "float",
+      "default": 1,
+      "description": "Global weight multiplier for NURBS control points."
+    },
+    {
+      "name": "tension",
+      "label": "Tension",
+      "type": "float",
+      "default": 0,
+      "description": "Tension modifier — negative pulls curve toward control points, positive pushes away."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "a información era inaccesible, limitada a menciones muy breves o redirecciones sin contenido, o que las búsquedas arrojaron resultados irrelevantes de otras familias de operadores (SOPs, CHOPs, TOPs, DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. R"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "conectividad, permitiendo conversiones entre tiras de línea, apertura/cierre de líneas, conversión de quads a triángulos, eliminación de todas las primitivas o creación de primitivas de punto a partir de puntos.33 * File In POP: Lee un archivo y convierte su geometría en un POP en la memoria de la GPU. Soporta varios formatos de archivo.34 * Lookup Attribute POP: Toma un atributo (el Lookup Attribute) con valores en el rango 0-1 y lo utiliza como índice en los atributos de otro POP (la Lookup Curve). Extrae valores interpolados de la Lookup Curve y los genera. Tiene opciones para manejar índices fuera de rango y reescalar valores.35 * Parámetros: Lookup Attribute, Lookup Curve (segunda entrada), Index Type (normalizado 0-1 o número de punto), Extend Left/Right (Hold, Slope, Cycle, Mirror), Value Attributes a buscar, From/To Low/High para reescalar.35 * Out POP: Genera datos de POPs ubicados dentro de un componente hacia fuera de su componente padre. Añade un conector de salida al com"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "a información era inaccesible, limitada a menciones muy breves o redirecciones sin contenido, o que las búsquedas arrojaron resultados irrelevantes de otras familias de operadores (SOPs, CHOPs, TOPs, DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. R"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "e en la GPU, evitando conversiones de GPU a CPU y viceversa. • Experimental:Circle POP: Un operador generador que crea formas circulares. Puede generar puntos con sus primitivas correspondientes. • Experimental:Convert POP: Se usa para cambiar entre diferentes tipos de primitivas. • Experimental:Copy POP: Permite crear copias de geometría dentro de un POP, las cuales pueden ser manipuladas o animadas antes de la renderización. También puede generar grupos automáticamente. • Experimental:Curve POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:DAT to POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Delete POP: Permite reducir un conjunto de puntos o primitivas a un subconjunto más pequeño. Puede utilizar atributos de solo lectura incorporados para la selección. • Experimental:Dimension POP: Relacionado con una organización de orde"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "e en la GPU, evitando conversiones de GPU a CPU y viceversa. • Experimental:Circle POP: Un operador generador que crea formas circulares. Puede generar puntos con sus primitivas correspondientes. • Experimental:Convert POP: Se usa para cambiar entre diferentes tipos de primitivas. • Experimental:Copy POP: Permite crear copias de geometría dentro de un POP, las cuales pueden ser manipuladas o animadas antes de la renderización. También puede generar grupos automáticamente. • Experimental:Curve POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:DAT to POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Delete POP: Permite reducir un conjunto de puntos o primitivas a un subconjunto más pequeño. Puede utilizar atributos de solo lectura incorporados para la selección. • Experimental:Dimension POP: Relacionado con una organización de"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "e en la GPU, evitando conversiones de GPU a CPU y viceversa. • Experimental:Circle POP: Un operador generador que crea formas circulares. Puede generar puntos con sus primitivas correspondientes. • Experimental:Convert POP: Se usa para cambiar entre diferentes tipos de primitivas. • Experimental:Copy POP: Permite crear copias de geometría dentro de un POP, las cuales pueden ser manipuladas o animadas antes de la renderización. También puede generar grupos automáticamente. • Experimental:Curve POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:DAT to POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Delete POP: Permite reducir un conjunto de puntos o primitivas a un subconjunto más pequeño. Puede utilizar atributos de solo lectura incorporados para la selección. • Experimental:Dimension POP: Relacionado con una organización de orde"
+    }
+  ],
+  "useCases": [
+    "Motion path animation for particles or cameras",
+    "Parametric curve generation for generative art",
+    "DNA/helix structures with Trail POP",
+    "Spline input for Line_Resample POP subdivision"
+  ],
+  "examples": [
+    {
+      "name": "DNA Helix",
+      "description": "Curve POP (NURBS, 6 CPs) → Trail POP → Render with Line MAT",
+      "difficulty": "advanced"
+    },
+    {
+      "name": "Motion Path Emitter",
+      "description": "Curve POP → Sprinkle POP (emit particles along curve)",
+      "difficulty": "intermediate"
+    },
+    {
+      "name": "Animated Spline",
+      "description": "Curve POP → Transform POP (animate CP positions via CHOP)",
+      "difficulty": "intermediate"
+    }
+  ],
+  "commonCombinations": [
+    "Curve POP → Trail POP (motion trails)",
+    "Curve POP → Sprinkle POP (emit along curve)",
+    "Curve POP → Line_Resample POP (uniform resampling)",
+    "Curve POP → Transform POP (animate curve shape)"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Curve oscillates wildly",
+      "solution": "Reduce Order parameter (try 3 or 4)."
+    },
+    {
+      "problem": "Curve not smooth enough",
+      "solution": "Increase Divisions parameter."
+    },
+    {
+      "problem": "Control points not responding",
+      "solution": "Check Weight and Tension values — try Weight=1, Tension=0."
+    }
+  ],
+  "description": "GPU-accelerated NURBS/Bezier curve generator. Evaluates curves from control points on the GPU with configurable order, tension, and weight. Supports open or closed curves for motion paths and parametric shapes."
+}

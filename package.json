@@ -1,0 +1,30 @@
+{
+  "name": "claude-touchdesigner",
+  "version": "0.1.6",
+  "private": true,
+  "description": "TouchDesigner integration for Claude Code",
+  "type": "module",
+  "workspaces": [
+    "api",
+    "mcp",
+    "webapp"
+  ],
+  "scripts": {
+    "build": "npm -w api run build && esbuild mcp/src/index.ts mcp/src/chat.ts mcp/src/lib.ts mcp/src/bench.ts mcp/src/popsBuild.ts mcp/src/opsBuild.ts mcp/src/promptLint.ts --bundle --platform=node --format=esm --outdir=mcp/dist --external:dotenv --external:dotenv/config",
+    "build:watch": "esbuild mcp/src/index.ts mcp/src/chat.ts mcp/src/lib.ts mcp/src/bench.ts mcp/src/popsBuild.ts mcp/src/opsBuild.ts mcp/src/promptLint.ts --bundle --platform=node --format=esm --outdir=mcp/dist --external:dotenv --external:dotenv/config --watch",
+    "test": "node mcp/test_smoke.mjs",
+    "ci": "node mcp/test_ci.mjs",
+    "compat": "node mcp/test_compat.mjs",
+    "typecheck": "tsc -p api/tsconfig.json && tsc -p mcp/tsconfig.json",
+    "clean": "rimraf api/dist mcp/dist node_modules"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "esbuild": "^0.24.0",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.8.3"
+  }
+}

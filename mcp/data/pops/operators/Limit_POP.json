@@ -1,0 +1,166 @@
+{
+  "pageTitle": "Limit POP",
+  "pageSlug": "Limit_POP",
+  "url": "https://docs.derivative.ca/Limit_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "limitPOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "Attribute Class",
+      "type": "Menu",
+      "options": [
+        "Point",
+        "Vertex",
+        "Primitive"
+      ],
+      "default": "Point",
+      "description": "Attribute class to operate on."
+    },
+    {
+      "name": "Group",
+      "type": "Str",
+      "default": "",
+      "description": "Restrict to group."
+    },
+    {
+      "name": "Input Attribute Scope",
+      "type": "Str",
+      "default": "P",
+      "description": "Attributes to limit."
+    },
+    {
+      "name": "Parameter Size",
+      "type": "Menu",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "default": "1",
+      "description": "Number of independent parameter sets (per-component control)."
+    },
+    {
+      "name": "Limit Type Minimum",
+      "type": "Menu",
+      "options": [
+        "Off",
+        "Clamp",
+        "Loop",
+        "Zig Zag"
+      ],
+      "default": "Off",
+      "description": "Wrapping method for minimum bound."
+    },
+    {
+      "name": "Limit Type Maximum",
+      "type": "Menu",
+      "options": [
+        "Off",
+        "Clamp",
+        "Loop",
+        "Zig Zag"
+      ],
+      "default": "Off",
+      "description": "Wrapping method for maximum bound."
+    },
+    {
+      "name": "Minimum Value",
+      "type": "Float",
+      "default": 0,
+      "description": "Minimum bound value."
+    },
+    {
+      "name": "Maximum Value",
+      "type": "Float",
+      "default": 1,
+      "description": "Maximum bound value."
+    },
+    {
+      "name": "Positive Only",
+      "type": "Toggle",
+      "default": false,
+      "description": "Enable absolute value output."
+    },
+    {
+      "name": "Cast to",
+      "type": "Menu",
+      "options": [
+        "Automatic",
+        "Float",
+        "Int"
+      ],
+      "default": "Automatic",
+      "description": "Output type cast."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "04-pops-database.md",
+      "excerpt": "ión: `useCases[]`, `examples[]`, `commonCombinations[]`, `troubleshooting[]`. ## Generación automática (docs oficiales) El generador: - Descarga la lista desde `https://docs.derivative.ca/Category:POPs`. - Para cada operador descarga la página oficial y extrae: - resumen - inputs - parámetros por página - atributos (cuando la tabla está presente) ### Construir / actualizar la base En `touchdesigner/`: ```powershell npm run build node .\\mcp\\dist\\popsBuild.js --out .\\mcp\\data\\pops --limit 10 --local-docs ..\\Docs ``` Enriquecimiento opcional con LLM (Gemma 4 vía Ollama): ```powershell $env:LLM_PROVIDER=\"ollama\" $env:OLLAMA_MODEL=\"gemma4:e4b\" node .\\mcp\\dist\\popsBuild.js --out .\\mcp\\data\\pops --enrich --local-docs ..\\Docs ``` ## Consulta desde el MCP Se expone una herramienta MCP adicional: - `td_pops_query`: - `search`: texto libre - `page_slug`: slug exacto (p.ej. `Particle_POP`) - `limit`: máximo de resultados Objetivo: permitir que el asistente consulte documentaci"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 4"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "as para errores como las características estables. Esto podría resultar en comportamientos inesperados, problemas de rendimiento o fallos en entornos de producción complejos. Los desarrolladores deben ser conscientes de este riesgo al implementar aplicaciones que hagan un uso intensivo de los POPs. Finalmente, la documentación para características experimentales a veces puede ser menos exhaustiva o quedarse atrás con respecto al desarrollo, como se observa en la cantidad de POPs con información limitada o inaccesible. El soporte de la comunidad también podría ser incipiente en comparación con las familias de operadores ya establecidas. Por lo tanto, la etiqueta \"Experimental\" sirve como una advertencia crucial para los desarrolladores, destacando la posible inestabilidad y los futuros cambios que requieren una cuidadosa consideración para su uso en producción y el mantenimiento continuo. Este informe detalla la función, los parámetros y los casos de uso para 32 operadores POPs distintos do"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 4"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "o el Transform POP. También puede convertir un grupo en un atributo. • Experimental:Histogram POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Import Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:In POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Limit POP: Este POP proporciona capacidades de manipulación fundamentales sin necesidad de escribir código. Permite crear nuevos atributos fácilmente y utiliza atributos de solo lectura internos. • Experimental:Line Break POP: Se utiliza para dividir una lista de puntos en múltiples primitivas de \"tira de líneas\", basándose en valores específicos de atributos como LineBreak o LineStripIndex. • Experimental:Line Divide POP: Se utiliza para subdividir cualquier tira de línea. • Experimental:Line Metr"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "o el Transform POP. También puede convertir un grupo en un atributo. • Experimental:Histogram POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Import Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:In POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Limit POP: Este POP proporciona capacidades de manipulación fundamentales sin necesidad de escribir código. Permite crear nuevos atributos fácilmente y utiliza atributos de solo lectura internos. • Experimental:Line Break POP: Se utiliza para dividir una lista de puntos en múltiples primitivas de \"tira de líneas\", basándose en valores específicos de atributos como LineBreak o LineStripIndex. • Experimental:Line Divide POP: Se utiliza para subdividir cualquier tira de línea. • Experimental:Line"
+    }
+  ],
+  "useCases": [
+    "Clamp particle positions within bounding box",
+    "Loop attribute values for repeating patterns",
+    "Zig-zag values for ping-pong animation",
+    "Make values positive with absolute value",
+    "Restrict movement bounds for interactive installations"
+  ],
+  "examples": [
+    "Limit POP (Clamp, Min=0, Max=1 on Cd) → clamp color to 0-1 range",
+    "Limit POP (Loop on P.y, Min=0, Max=10) → wrap vertical position"
+  ],
+  "commonCombinations": [
+    {
+      "operators": [
+        "Particle_POP",
+        "Limit_POP"
+      ],
+      "description": "Clamp particles within bounds"
+    },
+    {
+      "operators": [
+        "Noise_POP",
+        "Limit_POP",
+        "Attribute_POP"
+      ],
+      "description": "Constrain noise displacement"
+    },
+    {
+      "operators": [
+        "Limit_POP",
+        "Quantize_POP"
+      ],
+      "description": "Limit then quantize for stepped clamping"
+    }
+  ],
+  "troubleshooting": [
+    "Values not clamping: Check Limit Type is set to Clamp (not Off)",
+    "Per-component control: Set Parameter Size to match attribute components",
+    "Loop not working: Ensure Min < Max"
+  ],
+  "description": "Clamps, loops, or zig-zags attribute values within a range. Supports per-component control via Parameter Size. Can make values positive only and cast to integer. Built-in quantization (Floor/Round/Ceiling). Works on point, vertex, or primitive attributes."
+}

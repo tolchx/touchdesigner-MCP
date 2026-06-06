@@ -1,0 +1,157 @@
+{
+  "pageTitle": "Texture Map POP",
+  "pageSlug": "Texture_Map_POP",
+  "url": "https://docs.derivative.ca/Texture_Map_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "textureMapPOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "Texture Method",
+      "type": "Menu",
+      "options": [
+        "XYZ Normalized",
+        "XYZ Position",
+        "Cylindrical",
+        "Face",
+        "Equirectangular Inside",
+        "Equirectangular Outside",
+        "Equidistant Azimuth",
+        "Perspective From Camera",
+        "Triplanar Coordinates"
+      ],
+      "default": "XYZ Normalized",
+      "description": "Projection method. Equirectangular for VR, Equidistant Azimuth for dome, Perspective for projection mapping."
+    },
+    {
+      "name": "Projection Axis",
+      "type": "Menu",
+      "options": [
+        "X Axis",
+        "Y Axis",
+        "Z Axis"
+      ],
+      "default": "Z Axis",
+      "description": "Axis used for projection."
+    },
+    {
+      "name": "FOV Angle",
+      "type": "Float[1-360]",
+      "default": 90,
+      "description": "Camera field of view for Perspective projection."
+    },
+    {
+      "name": "Camera",
+      "type": "COMP",
+      "default": "",
+      "description": "Camera component for Perspective projection."
+    },
+    {
+      "name": "Apply to",
+      "type": "Menu",
+      "options": [
+        "Natural location",
+        "Point texture",
+        "Vertex texture (fix seams)"
+      ],
+      "default": "Natural location",
+      "description": "Where to apply texture coordinates."
+    },
+    {
+      "name": "Scale",
+      "type": "Float3",
+      "default": [
+        1,
+        1,
+        1
+      ],
+      "description": "UV transform scaling."
+    },
+    {
+      "name": "Offset",
+      "type": "Float3",
+      "default": [
+        0,
+        0,
+        0
+      ],
+      "description": "UV offset."
+    },
+    {
+      "name": "Rotate",
+      "type": "Float",
+      "default": 0,
+      "description": "UV rotation in degrees."
+    },
+    {
+      "name": "Fix Face Seams",
+      "type": "Toggle",
+      "default": 0,
+      "description": "Correct texture continuity at face seams."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "7 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de partículas complejos, simulaciones a gran escala y efectos vis"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "7 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de partículas complejos, simulaciones a gran escala y efectos"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "7 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de partículas complejos, simulaciones a gran escala y efectos vis"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "Un operador generador que crea una geometría esférica. • Experimental:Sprinkle POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Subdivide POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Switch POP: Un operador que permite cambiar entre diferentes entradas. Es útil para probar variaciones o controlar el flujo de datos. • Experimental:Texture Map POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:TOP to POP: Permite convertir datos de la familia TOPs (Texture Operators) a datos de POPs, específicamente para recuperar nubes de puntos. • Experimental:Topology POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Torus POP: Un operador generador que crea una geometría de toroide (forma de do"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "Un operador generador que crea una geometría esférica. • Experimental:Sprinkle POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Subdivide POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Switch POP: Un operador que permite cambiar entre diferentes entradas. Es útil para probar variaciones o controlar el flujo de datos. • Experimental:Texture Map POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:TOP to POP: Permite convertir datos de la familia TOPs (Texture Operators) a datos de POPs, específicamente para recuperar nubes de puntos. • Experimental:Topology POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Torus POP: Un operador generador que crea una geometría de toroide (forma d"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "Un operador generador que crea una geometría esférica. • Experimental:Sprinkle POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Subdivide POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Switch POP: Un operador que permite cambiar entre diferentes entradas. Es útil para probar variaciones o controlar el flujo de datos. • Experimental:Texture Map POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:TOP to POP: Permite convertir datos de la familia TOPs (Texture Operators) a datos de POPs, específicamente para recuperar nubes de puntos. • Experimental:Topology POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Torus POP: Un operador generador que crea una geometría de toroide (forma de do"
+    }
+  ],
+  "useCases": [
+    "Projection mapping with Perspective From Camera",
+    "VR content with Equirectangular Inside/Outside",
+    "Dome/fish-eye content with Equidistant Azimuth",
+    "Triplanar mapping for seamless box projection"
+  ],
+  "examples": [
+    {
+      "name": "Projection Mapping",
+      "description": "Grid POP to Texture Map POP (Perspective, Camera=projCam) to Render TOP",
+      "difficulty": "intermediate"
+    },
+    {
+      "name": "Dome Content",
+      "description": "Sphere POP to Texture Map POP (Equidistant Azimuth) to Render TOP for planetarium",
+      "difficulty": "intermediate"
+    }
+  ],
+  "commonCombinations": [
+    "Generator POP to Texture Map POP to Render TOP with MAT",
+    "Texture Map POP to PBR MAT (material with Tex input)"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Texture appears stretched",
+      "solution": "Check Projection Axis and Scale parameters. Try different Texture Method."
+    },
+    {
+      "problem": "Seams visible on mesh",
+      "solution": "Enable Fix Face Seams or switch Apply to Vertex texture (fix seams)."
+    },
+    {
+      "problem": "Tex attribute not created",
+      "solution": "Ensure Output Attribute Scope is set to Tex. The Texture Method alone does not create the attribute — output scope must be explicitly set."
+    }
+  ],
+  "description": "Creates Tex attribute for applying texture maps to surfaces. Supports multiple projection methods: XYZ, Cylindrical, Face, Equirectangular (VR), Equidistant Azimuth (dome), Perspective (projection mapping), and Triplanar."
+}

@@ -1,0 +1,975 @@
+[
+  {
+    "name": "td_pops_query",
+    "description": "Search the local POPs knowledge base or fetch a specific operator doc by page slug (e.g. Particle_POP).",
+    "requires_td": false,
+    "module": "knowledge",
+    "input_schema": {
+      "search": {
+        "type": "string",
+        "required": false
+      },
+      "page_slug": {
+        "type": "string",
+        "required": false
+      },
+      "limit": {
+        "type": "integer",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_ops_query",
+    "description": "Search the local operator knowledge base (TOP/CHOP/SOP/DAT) or fetch a specific operator doc by family+page slug (e.g. TOP + Noise_TOP).",
+    "requires_td": false,
+    "module": "knowledge",
+    "input_schema": {
+      "search": {
+        "type": "string",
+        "required": false
+      },
+      "family": {
+        "type": "string",
+        "required": false
+      },
+      "page_slug": {
+        "type": "string",
+        "required": false
+      },
+      "limit": {
+        "type": "integer",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_templates_query",
+    "description": "Search reusable patterns and project-specific markdown templates inside Toe_Expand documentation.",
+    "requires_td": false,
+    "module": "knowledge",
+    "input_schema": {
+      "search": {
+        "type": "string",
+        "required": true
+      },
+      "project": {
+        "type": "string",
+        "required": false
+      },
+      "limit": {
+        "type": "integer",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_alias_resolve",
+    "description": "Resolve prompt vocabulary like feedback loop, life, size, cd or direction into canonical TouchDesigner parameters, attributes and family hints.",
+    "requires_td": false,
+    "module": "knowledge",
+    "input_schema": {
+      "text": {
+        "type": "string",
+        "required": true
+      }
+    }
+  },
+  {
+    "name": "td_get_param_help",
+    "description": "Look up the available parameters for a TouchDesigner operator type (e.g. 'noiseTOP') from the local knowledge base.",
+    "requires_td": false,
+    "module": "knowledge",
+    "input_schema": {
+      "type": {
+        "type": "string",
+        "required": true
+      }
+    }
+  },
+  {
+    "name": "td_search_official_docs",
+    "description": "Search TouchDesigner's built-in offline help for operator documentation, parameter info, and usage summaries.",
+    "requires_td": true,
+    "module": "knowledge",
+    "input_schema": {
+      "query": {
+        "type": "string",
+        "required": true
+      },
+      "limit": {
+        "type": "number",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_export_network",
+    "description": "Generate Python code, a simplified git-diff, or a JSON snapshot that captures the structure of a TouchDesigner network. Introspects the children of a container operator and produces output in the requested format.",
+    "requires_td": true,
+    "module": "knowledge",
+    "input_schema": {
+      "path": {
+        "type": "string",
+        "required": true
+      },
+      "format": {
+        "type": "string",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_list_tutorials",
+    "description": "List available TouchDesigner tutorials. Filter by category (audio, glow, feedback, particles, shader) and/or difficulty (beginner, intermediate, advanced).",
+    "requires_td": false,
+    "module": "knowledge",
+    "input_schema": {
+      "category": {
+        "type": "string",
+        "required": false
+      },
+      "difficulty": {
+        "type": "string",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_get_tutorial",
+    "description": "Get the full markdown content of a tutorial by its name (filename without .md extension). Use td_list_tutorials to find available tutorials.",
+    "requires_td": false,
+    "module": "knowledge",
+    "input_schema": {
+      "name": {
+        "type": "string",
+        "required": true
+      }
+    }
+  },
+  {
+    "name": "td_list_workflows",
+    "description": "List available reusable TouchDesigner workflow patterns. Filter by category (color, blur, keying, feedback, audio, transform, analyze) and/or difficulty (beginner, intermediate, advanced).",
+    "requires_td": false,
+    "module": "knowledge",
+    "input_schema": {
+      "category": {
+        "type": "string",
+        "required": false
+      },
+      "difficulty": {
+        "type": "string",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_get_workflow",
+    "description": "Get the full markdown content of a workflow by its name (filename without .md extension). Use td_list_workflows to find available workflows.",
+    "requires_td": false,
+    "module": "knowledge",
+    "input_schema": {
+      "name": {
+        "type": "string",
+        "required": true
+      }
+    }
+  },
+  {
+    "name": "td_get_td_classes",
+    "description": "List all TouchDesigner operator classes from the local knowledge base, organized by family (TOP, CHOP, SOP, DAT, POP, COMP). Each class includes its page title, slug, URL, and optional tdOpTypeGuess.",
+    "requires_td": false,
+    "module": "knowledge",
+    "input_schema": {
+      "family": {
+        "type": "string",
+        "required": false
+      },
+      "search": {
+        "type": "string",
+        "required": false
+      },
+      "limit": {
+        "type": "integer",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_get_module_help",
+    "description": "Look up detailed documentation for a specific TouchDesigner operator by its page slug or tdOpTypeGuess. Searches both the main operator index (TOP/CHOP/SOP/DAT) and POPs index (POP). Returns parameter details, inputs, attributes, and usage examples.",
+    "requires_td": false,
+    "module": "knowledge",
+    "input_schema": {
+      "name": {
+        "type": "string",
+        "required": true
+      }
+    }
+  },
+  {
+    "name": "td_knowledge_query",
+    "description": "Search across the comprehensive POP knowledge base (Docs/110-118) for relevant documentation on TouchDesigner POPs. Covers fundamentals, GLSL, forces, physics, rendering, workflows, new features, operator parameters, troubleshooting, and more. Returns the most relevant document sections matching the query.",
+    "requires_td": false,
+    "module": "knowledge",
+    "input_schema": {
+      "query": {
+        "type": "string",
+        "required": true
+      },
+      "doc": {
+        "type": "number",
+        "required": false
+      },
+      "limit": {
+        "type": "number",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_create_operator",
+    "description": "Create a new operator in TouchDesigner. Specify the opType (e.g. noiseTOP, constantTOP, nullCHOP) and optional name, parent path, and position.",
+    "requires_td": true,
+    "module": "crud",
+    "input_schema": {
+      "type": {
+        "type": "string",
+        "required": true
+      },
+      "name": {
+        "type": "string",
+        "required": false
+      },
+      "path": {
+        "type": "string",
+        "required": false
+      },
+      "position_x": {
+        "type": "number",
+        "required": false
+      },
+      "position_y": {
+        "type": "number",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_delete_operator",
+    "description": "Delete a TouchDesigner operator by its full path.",
+    "requires_td": true,
+    "module": "crud",
+    "input_schema": {
+      "path": {
+        "type": "string",
+        "required": true
+      }
+    }
+  },
+  {
+    "name": "td_connect_nodes",
+    "description": "Connect two TouchDesigner operators by wiring an output to an input.",
+    "requires_td": true,
+    "module": "crud",
+    "input_schema": {
+      "source_path": {
+        "type": "string",
+        "required": true
+      },
+      "target_path": {
+        "type": "string",
+        "required": true
+      },
+      "source_output": {
+        "type": "string",
+        "required": false
+      },
+      "target_input": {
+        "type": "number",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_disconnect",
+    "description": "Disconnect an input of a TouchDesigner operator from its source.",
+    "requires_td": true,
+    "module": "crud",
+    "input_schema": {
+      "path": {
+        "type": "string",
+        "required": true
+      },
+      "input_index": {
+        "type": "number",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_copy_node",
+    "description": "Duplicate a TouchDesigner operator. If destination is omitted, copies to the same parent.",
+    "requires_td": true,
+    "module": "crud",
+    "input_schema": {
+      "path": {
+        "type": "string",
+        "required": true
+      },
+      "destination": {
+        "type": "string",
+        "required": false
+      },
+      "name": {
+        "type": "string",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_pars_get",
+    "description": "Read current parameters from a TouchDesigner operator, including values, expressions, styles and menus.",
+    "requires_td": true,
+    "module": "parameters",
+    "input_schema": {
+      "path": {
+        "type": "string",
+        "required": true
+      },
+      "names": {
+        "type": "array",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_pars_set",
+    "description": "Set TouchDesigner parameters transactionally. Supports plain values and expressions, with rollback on failure.",
+    "requires_td": true,
+    "module": "parameters",
+    "input_schema": {
+      "path": {
+        "type": "string",
+        "required": true
+      },
+      "transactional": {
+        "type": "boolean",
+        "required": false
+      },
+      "updates": {
+        "type": "array",
+        "required": true
+      }
+    }
+  },
+  {
+    "name": "td_set_operator_pars",
+    "description": "Set parameters on a TouchDesigner operator with a cleaner interface. Supports transactional rollback on failure.",
+    "requires_td": true,
+    "module": "parameters",
+    "input_schema": {
+      "path": {
+        "type": "string",
+        "required": true
+      },
+      "updates": {
+        "type": "array",
+        "required": true
+      },
+      "transactional": {
+        "type": "boolean",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_pulse_param",
+    "description": "Pulse a parameter on a TouchDesigner operator (e.g. Cook, Reset, Save).",
+    "requires_td": true,
+    "module": "parameters",
+    "input_schema": {
+      "path": {
+        "type": "string",
+        "required": true
+      },
+      "name": {
+        "type": "string",
+        "required": true
+      }
+    }
+  },
+  {
+    "name": "td_custom_parameters",
+    "description": "Create or update custom parameter pages on a TouchDesigner operator declaratively.",
+    "requires_td": true,
+    "module": "parameters",
+    "input_schema": {
+      "path": {
+        "type": "string",
+        "required": true
+      },
+      "page": {
+        "type": "string",
+        "required": true
+      },
+      "params": {
+        "type": "array",
+        "required": true
+      }
+    }
+  },
+  {
+    "name": "td_pane",
+    "description": "Get the current network editor pane state including the network path, position (x, y), and zoom level.",
+    "requires_td": true,
+    "module": "inspection",
+    "input_schema": {}
+  },
+  {
+    "name": "td_selection",
+    "description": "Get the currently selected operators in the network editor. Returns operator info including path, name, type, and family.",
+    "requires_td": true,
+    "module": "inspection",
+    "input_schema": {}
+  },
+  {
+    "name": "td_operators",
+    "description": "List all child operators at the specified path. Returns operator info including name, type, and opType.",
+    "requires_td": true,
+    "module": "inspection",
+    "input_schema": {
+      "path": {
+        "type": "string",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_find",
+    "description": "Find operators by query, name, family or operator type within a network path.",
+    "requires_td": true,
+    "module": "inspection",
+    "input_schema": {
+      "path": {
+        "type": "string",
+        "required": false
+      },
+      "query": {
+        "type": "string",
+        "required": false
+      },
+      "name": {
+        "type": "string",
+        "required": false
+      },
+      "family": {
+        "type": "string",
+        "required": false
+      },
+      "opType": {
+        "type": "string",
+        "required": false
+      },
+      "recursive": {
+        "type": "boolean",
+        "required": false
+      },
+      "limit": {
+        "type": "integer",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_connections",
+    "description": "Inspect real input/output connections for an operator or a whole network subtree.",
+    "requires_td": true,
+    "module": "inspection",
+    "input_schema": {
+      "path": {
+        "type": "string",
+        "required": true
+      },
+      "recurse": {
+        "type": "boolean",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_get_errors",
+    "description": "Get errors and warnings from a TouchDesigner operator or entire network. Force-cooks each operator and reports issues.",
+    "requires_td": true,
+    "module": "inspection",
+    "input_schema": {
+      "path": {
+        "type": "string",
+        "required": true
+      },
+      "recurse": {
+        "type": "boolean",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_healthcheck",
+    "description": "Force-cook and validate a TouchDesigner operator/network, reporting errors, warnings and per-operator issues.",
+    "requires_td": true,
+    "module": "inspection",
+    "input_schema": {
+      "path": {
+        "type": "string",
+        "required": true
+      },
+      "recurse": {
+        "type": "boolean",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_get_node_detail",
+    "description": "Get detailed information about a TouchDesigner operator: parameters, inputs, flags, and optionally recursive children.",
+    "requires_td": true,
+    "module": "inspection",
+    "input_schema": {
+      "path": {
+        "type": "string",
+        "required": true
+      },
+      "recurse": {
+        "type": "boolean",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_get_hints",
+    "description": "Get hints and wiring guidance for a specific TouchDesigner operator type.",
+    "requires_td": true,
+    "module": "inspection",
+    "input_schema": {
+      "node_type": {
+        "type": "string",
+        "required": true
+      }
+    }
+  },
+  {
+    "name": "td_get_info",
+    "description": "Get TouchDesigner environment info: build version, date, commercial status, platform.",
+    "requires_td": true,
+    "module": "inspection",
+    "input_schema": {}
+  },
+  {
+    "name": "td_get_focus",
+    "description": "Get the current user focus in TouchDesigner: which network is open, selected operators, current operator.",
+    "requires_td": true,
+    "module": "inspection",
+    "input_schema": {}
+  },
+  {
+    "name": "td_get_perf",
+    "description": "Get performance data from TouchDesigner: FPS, cook budget, GPU memory, and slowest operators sorted by cook time.",
+    "requires_td": true,
+    "module": "inspection",
+    "input_schema": {
+      "path": {
+        "type": "string",
+        "required": false
+      },
+      "top": {
+        "type": "number",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_pop_inspect",
+    "description": "Read particle data from a POP operator: point/prim/vert counts, attributes with types, and sampled attribute values.",
+    "requires_td": true,
+    "module": "inspection",
+    "input_schema": {
+      "path": {
+        "type": "string",
+        "required": true
+      }
+    }
+  },
+  {
+    "name": "td_get_build_compatibility",
+    "description": "Check if a specific operator type exists in current TD build.",
+    "requires_td": true,
+    "module": "inspection",
+    "input_schema": {
+      "op_type": {
+        "type": "string",
+        "required": true
+      }
+    }
+  },
+  {
+    "name": "td_get_release_delta",
+    "description": "Get information about what changed between TouchDesigner builds.",
+    "requires_td": true,
+    "module": "inspection",
+    "input_schema": {
+      "build_from": {
+        "type": "string",
+        "required": true
+      },
+      "build_to": {
+        "type": "string",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_execute",
+    "description": "Execute Python code in TouchDesigner. The code runs in TD's Python environment with access to all TD modules (op, ui, etc.). Use 'me' to reference the context operator specified by from_op.",
+    "requires_td": true,
+    "module": "execution",
+    "input_schema": {
+      "code": {
+        "type": "string",
+        "required": true
+      },
+      "from_op": {
+        "type": "string",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_network_plan",
+    "description": "Create a dry-run network plan from a prompt using operator databases and semantic aliases, or apply the generated skeleton inside TouchDesigner.",
+    "requires_td": true,
+    "module": "execution",
+    "input_schema": {
+      "prompt": {
+        "type": "string",
+        "required": true
+      },
+      "target_path": {
+        "type": "string",
+        "required": false
+      },
+      "container_name": {
+        "type": "string",
+        "required": false
+      },
+      "apply": {
+        "type": "boolean",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_screenshot",
+    "description": "Take a screenshot of an operator's output. Returns a base64-encoded PNG image.",
+    "requires_td": true,
+    "module": "ui",
+    "input_schema": {
+      "path": {
+        "type": "string",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_get_screenshots",
+    "description": "Get screenshots of multiple operators in one batch. Returns base64-encoded PNG images for each operator.",
+    "requires_td": true,
+    "module": "ui",
+    "input_schema": {
+      "paths": {
+        "type": "array",
+        "required": true
+      },
+      "max_size": {
+        "type": "number",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_navigate_to",
+    "description": "Navigate the TouchDesigner Network Editor viewport to show a specific operator. Opens the parent network and centers the view.",
+    "requires_td": true,
+    "module": "ui",
+    "input_schema": {
+      "path": {
+        "type": "string",
+        "required": true
+      }
+    }
+  },
+  {
+    "name": "td_read_textport",
+    "description": "Read the last N lines from the TouchDesigner textport (console output). Use to see errors, warnings and print output.",
+    "requires_td": true,
+    "module": "ui",
+    "input_schema": {
+      "lines": {
+        "type": "number",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_clear_textport",
+    "description": "Clear the textport log buffer. Use before starting a debug session to keep output focused.",
+    "requires_td": true,
+    "module": "ui",
+    "input_schema": {}
+  },
+  {
+    "name": "td_search",
+    "description": "Search for text across all code (DAT scripts), parameter expressions, and string parameter values in the TD project.",
+    "requires_td": true,
+    "module": "ui",
+    "input_schema": {
+      "query": {
+        "type": "string",
+        "required": true
+      },
+      "root": {
+        "type": "string",
+        "required": false
+      },
+      "scope": {
+        "type": "string",
+        "required": false
+      },
+      "case_sensitive": {
+        "type": "boolean",
+        "required": false
+      },
+      "max_results": {
+        "type": "number",
+        "required": false
+      },
+      "count_only": {
+        "type": "boolean",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_reinit_extension",
+    "description": "Reinitialize an extension on a COMP. Call after finishing code edits to apply changes.",
+    "requires_td": true,
+    "module": "ui",
+    "input_schema": {
+      "path": {
+        "type": "string",
+        "required": true
+      }
+    }
+  },
+  {
+    "name": "td_read_dat",
+    "description": "Read the text content of a DAT operator in TouchDesigner. Returns content with line numbers.",
+    "requires_td": true,
+    "module": "data",
+    "input_schema": {
+      "path": {
+        "type": "string",
+        "required": true
+      },
+      "start_line": {
+        "type": "number",
+        "required": false
+      },
+      "end_line": {
+        "type": "number",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_write_dat",
+    "description": "Write or patch text content of a DAT operator. Can do full replacement or StrReplace-style patching.",
+    "requires_td": true,
+    "module": "data",
+    "input_schema": {
+      "path": {
+        "type": "string",
+        "required": true
+      },
+      "text": {
+        "type": "string",
+        "required": false
+      },
+      "old_text": {
+        "type": "string",
+        "required": false
+      },
+      "new_text": {
+        "type": "string",
+        "required": false
+      },
+      "replace_all": {
+        "type": "boolean",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_read_chop",
+    "description": "Read CHOP channel sample data. Returns channel values as arrays.",
+    "requires_td": true,
+    "module": "data",
+    "input_schema": {
+      "path": {
+        "type": "string",
+        "required": true
+      },
+      "channels": {
+        "type": "array",
+        "required": false
+      },
+      "start": {
+        "type": "number",
+        "required": false
+      },
+      "end": {
+        "type": "number",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_project_lifecycle",
+    "description": "Control TouchDesigner project lifecycle: save, load, undo, redo, start/end undo block, or clear undo history.",
+    "requires_td": true,
+    "module": "lifecycle",
+    "input_schema": {
+      "action": {
+        "type": "string",
+        "required": true
+      },
+      "path": {
+        "type": "string",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_snapshot_scene",
+    "description": "Save a snapshot of an operator's state (all par values, modes, expressions) to a JSON structure. Useful before destructive changes.",
+    "requires_td": true,
+    "module": "lifecycle",
+    "input_schema": {
+      "path": {
+        "type": "string",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_memory_save",
+    "description": "Save a persistent memory entry with key, content, and optional tags. Memories survive across sessions.",
+    "requires_td": true,
+    "module": "lifecycle",
+    "input_schema": {
+      "key": {
+        "type": "string",
+        "required": true
+      },
+      "content": {
+        "type": "string",
+        "required": true
+      },
+      "tags": {
+        "type": "array",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_memory_recall",
+    "description": "Search saved memories by query text. Returns scored results from persistent memory store.",
+    "requires_td": true,
+    "module": "lifecycle",
+    "input_schema": {
+      "query": {
+        "type": "string",
+        "required": true
+      },
+      "limit": {
+        "type": "number",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "tool_batch",
+    "description": "Execute multiple tool calls in a single batch. Runs tools sequentially and returns all results together. Max 8 tools per batch.",
+    "requires_td": false,
+    "module": "batch",
+    "input_schema": {
+      "tools": {
+        "type": "array",
+        "required": true
+      }
+    }
+  },
+  {
+    "name": "td_history_list",
+    "description": "List the last N recorded changes (history entries) stored in memory. Each entry shows the operator path, action, and timestamp. Does NOT call into TouchDesigner.",
+    "requires_td": false,
+    "module": "history",
+    "input_schema": {
+      "limit": {
+        "type": "integer",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "td_history_undo",
+    "description": "Revert the most recent recorded change by restoring the operator's parameters from its pre-change snapshot. Only affects in-memory history; uses snapshot_scene + setParameters.",
+    "requires_td": false,
+    "module": "history",
+    "input_schema": {}
+  },
+  {
+    "name": "td_history_clear",
+    "description": "Clear all in-memory history entries. This does NOT affect TouchDesigner — only discards the local undo log.",
+    "requires_td": false,
+    "module": "history",
+    "input_schema": {}
+  },
+  {
+    "name": "td_watch",
+    "description": "Start or stop real-time performance monitoring in TouchDesigner. When started, polls getPerf() every `interval` seconds, accumulates samples in a circular buffer, and alerts when any operator exceeds `threshold` ms cook time. Call without arguments to get the current snapshot of the running watch.",
+    "requires_td": true,
+    "module": "watchdog",
+    "input_schema": {
+      "path": {
+        "type": "string",
+        "required": false
+      },
+      "interval": {
+        "type": "number",
+        "required": false
+      },
+      "threshold": {
+        "type": "number",
+        "required": false
+      },
+      "max_samples": {
+        "type": "integer",
+        "required": false
+      },
+      "action": {
+        "type": "string",
+        "required": false
+      }
+    }
+  }
+]

@@ -1,0 +1,465 @@
+{
+  "family": "SOP",
+  "pageTitle": "Limit SOP",
+  "pageSlug": "Limit_SOP",
+  "url": "https://docs.derivative.ca/Limit_SOP",
+  "tdOpTypeGuess": "limitSOP",
+  "summary": "[  edit  ]\nThe Limit  SOP  creates geometry from samples fed to it by  CHOPs . It creates geometry at every point in the sample. Different types of geometry can be created using the Output Type parameter on the  Channels Page .\nlimitSOP_Class\nContents\n1   Summary\n2   Parameters - Channels Page\n3   Parameters - Custom Page\n4   Parameters - Output Page\n5   Info CHOP Channels\n5.1   Common SOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "Channels",
+      "label": "CHOP",
+      "name": "chop",
+      "description": "Specifies which  CHOP  Network /  CHOP  contains the sample data to fetch."
+    },
+    {
+      "page": "Channels",
+      "label": "Rotate Order",
+      "name": "rord",
+      "description": "⊞  - Specifies the order in which the Rotate Channel X / Y / Z channels are applied."
+    },
+    {
+      "page": "Channels",
+      "label": "X  Channel",
+      "name": "chanx",
+      "description": "Channels used to specify the point's positions, tx."
+    },
+    {
+      "page": "Channels",
+      "label": "Y  Channel",
+      "name": "chany",
+      "description": "Channels used to specify the point's positions, ty."
+    },
+    {
+      "page": "Channels",
+      "label": "Z  Channel",
+      "name": "chanz",
+      "description": "Channels used to specify the point's positions, tz."
+    },
+    {
+      "page": "Channels",
+      "label": "Rotate Channel X",
+      "name": "chanrx",
+      "description": "Channels used to specify the rotational data of the geomtery created at each point. Only used when Output Type is \" Polygon  at Each  Point \" or \" Primitive  Circle at Each  Point \"."
+    },
+    {
+      "page": "Channels",
+      "label": "Rotate Channel Y",
+      "name": "chanry",
+      "description": "Channels used to specify the rotational data of the geomtery created at each point. Only used when Output Type is \" Polygon  at Each  Point \" or \" Primitive  Circle at Each  Point \"."
+    },
+    {
+      "page": "Channels",
+      "label": "Rotate Channel Z",
+      "name": "chanrz",
+      "description": "Channels used to specify the rotational data of the geomtery created at each point. Only used when Output Type is \" Polygon  at Each  Point \" or \" Primitive  Circle at Each  Point \"."
+    },
+    {
+      "page": "Channels",
+      "label": "Radius  Channel",
+      "name": "chanrad",
+      "description": "Uniformly controls the radius of the geometry created at each point. The Radius channels are multiplied with the Radius parameter on the  Output Page ."
+    },
+    {
+      "page": "Channels",
+      "label": "Radius Channel X",
+      "name": "chanradx",
+      "description": "Channels that control the radius on the respective axis. The Radius channels are multiplied with the Radius parameter on the  Output Page ."
+    },
+    {
+      "page": "Channels",
+      "label": "Radius Channel Y",
+      "name": "chanrady",
+      "description": "Channels that control the radius on the respective axis. The Radius channels are multiplied with the Radius parameter on the  Output Page ."
+    },
+    {
+      "page": "Channels",
+      "label": "Radius Channel Z",
+      "name": "chanradz",
+      "description": "Channels that control the radius on the respective axis. The Radius channels are multiplied with the Radius parameter on the  Output Page ."
+    },
+    {
+      "page": "Channels",
+      "label": "Alpha  Channel",
+      "name": "chanalpha",
+      "description": "Controls the point alpha, giving you alpha control of any geometry created at those points."
+    },
+    {
+      "page": "Channels",
+      "label": "Red  Channel",
+      "name": "chanr",
+      "description": "These channels control the point color, or the color of any geometry created at those points."
+    },
+    {
+      "page": "Channels",
+      "label": "Green  Channel",
+      "name": "chang",
+      "description": "These channels control the point color, or the color of any geometry created at those points."
+    },
+    {
+      "page": "Channels",
+      "label": "Blue  Channel",
+      "name": "chanb",
+      "description": "These channels control the point color, or the color of any geometry created at those points."
+    },
+    {
+      "page": "Channels",
+      "label": "Texture W",
+      "name": "texturew",
+      "description": "Controls the w texture-offset for the point(s) This is most often used as a frame-offset or time-offset, expressed in # of frames from the current frame or frame 1 of an image sequence."
+    },
+    {
+      "page": "Custom",
+      "label": "Custom Attribute",
+      "name": "customattr",
+      "description": "Sequence of custom attributes to be added to the geometry created."
+    },
+    {
+      "page": "Custom",
+      "label": "Name",
+      "name": "customattr0name",
+      "description": "Specify the name of the custom attribute, for example pscale, age, or any custom name."
+    },
+    {
+      "page": "Custom",
+      "label": "Channel Zero",
+      "name": "customattr0chan0",
+      "description": "Select which channel to assign to the [0] index of the attribute. ie. pscale[0]"
+    },
+    {
+      "page": "Custom",
+      "label": "Channel One",
+      "name": "customattr0chan1",
+      "description": "Select which channel to assign to the [1] index of the attribute. ie. pscale[1]"
+    },
+    {
+      "page": "Custom",
+      "label": "Channel Two",
+      "name": "customattr0chan2",
+      "description": "Select which channel to assign to the [2] index of the attribute. ie. pscale[2]"
+    },
+    {
+      "page": "Custom",
+      "label": "Channel Three",
+      "name": "customattr0chan3",
+      "description": "Select which channel to assign to the [3] index of the attribute. ie. pscale[3]"
+    },
+    {
+      "page": "Output",
+      "label": "Output Type",
+      "name": "output",
+      "description": "⊞  - The type of geometry the Limit  SOP  produces from its sample data."
+    },
+    {
+      "page": "Output",
+      "label": "Polygonal Line",
+      "name": "line",
+      "description": "Creates a point for each sample and connects them with a polygonal line."
+    },
+    {
+      "page": "Output",
+      "label": "Polygon  at Each  Point",
+      "name": "polys",
+      "description": "Places a polygon at each sample point. Number of points in polygon defined by Divisions."
+    },
+    {
+      "page": "Output",
+      "label": "Primitive  Circle at Each  Point",
+      "name": "circles",
+      "description": "Places a primitive circle at each sample point."
+    },
+    {
+      "page": "Output",
+      "label": "Sphere at Each  Point",
+      "name": "spheres",
+      "description": "Places a primitive sphere at each smaple point."
+    },
+    {
+      "page": "Output",
+      "label": "Poly Sphere at Each  Point",
+      "name": "polyspheres",
+      "description": "Places a polygonal sphere at each sample point. Sphere's frequency defined by Divisions."
+    },
+    {
+      "page": "Output",
+      "label": "Tubes",
+      "name": "tubes",
+      "description": "Creates a tube down the path. Tubes cross-section defined by Divisions."
+    },
+    {
+      "page": "Output",
+      "label": "Strips",
+      "name": "strips",
+      "description": "Creates a strip down the path. Number of points in strip defined by Divisions."
+    },
+    {
+      "page": "Output",
+      "label": "Divisions",
+      "name": "divisions",
+      "description": "Only works on the following Output Types."
+    },
+    {
+      "page": "Output",
+      "label": "Polygon  at Each Point",
+      "description": "Number of points per polygon."
+    },
+    {
+      "page": "Output",
+      "label": "Poly Sphere at Each Point",
+      "description": "Frequency of each Polygonal Sphere."
+    },
+    {
+      "page": "Output",
+      "label": "Tubes",
+      "description": "Number of points in cross-section of the tube."
+    },
+    {
+      "page": "Output",
+      "label": "Strips",
+      "description": "Number of points in cross-section of the strip."
+    },
+    {
+      "page": "Output",
+      "label": "Radius",
+      "name": "rad",
+      "description": "Radius of geometry created. Disabled for \"Polygonal Line\"."
+    },
+    {
+      "page": "Output",
+      "label": "Smooth Flip",
+      "name": "flipsmooth",
+      "description": "Dynamically controls the twist of each instance of geometry on a series of points to avoid frame-by-frame flipping, which can sometimes occur when geometry is oriented along a path."
+    },
+    {
+      "page": "Output",
+      "label": "Limit",
+      "name": "dolimit",
+      "description": "⊞  - Creates a bounding box for the position of the output geometry. Drop down menu determines behavior when outside bounded region."
+    },
+    {
+      "page": "Output",
+      "label": "Off",
+      "name": "off",
+      "description": "Bounding region off."
+    },
+    {
+      "page": "Output",
+      "label": "Clamp",
+      "name": "clamp",
+      "description": "Clamps position to specified value."
+    },
+    {
+      "page": "Output",
+      "label": "Loop",
+      "name": "loop",
+      "description": "Loops position between bounded region."
+    },
+    {
+      "page": "Output",
+      "label": "Zigzag",
+      "name": "zigzag",
+      "description": "Zigzags position back and forth between bounded region."
+    },
+    {
+      "page": "Output",
+      "label": "X Limit",
+      "name": "xlimit",
+      "description": "⊞  - Parameters to set edges of bounding region when Limit is active."
+    },
+    {
+      "page": "Output",
+      "label": "Y Limit",
+      "name": "ylimit",
+      "description": "⊞  - Parameters to set edges of bounding region when Limit is active."
+    },
+    {
+      "page": "Output",
+      "label": "Z Limit",
+      "name": "zlimit",
+      "description": "⊞  - Parameters to set edges of bounding region when Limit is active."
+    },
+    {
+      "page": "Output",
+      "label": "Apply Texture",
+      "name": "texture",
+      "description": "Applys u, v, and w texture coordinates to the created geometry."
+    },
+    {
+      "page": "Output",
+      "label": "Scale",
+      "name": "texscale",
+      "description": "⊞  - Scales the texture coordinates a specific amount."
+    },
+    {
+      "page": "Output",
+      "label": "Offset",
+      "name": "texoffset",
+      "description": "⊞  - Offsets the texture coordinates a specific amount."
+    },
+    {
+      "page": "Output",
+      "label": "Orient to  Path",
+      "name": "orient",
+      "description": "If this option is selected, the object will be oriented along the path. To see what the path looks like, change the Output Type to \"Polygonal Line\". When the Output Type is \" Polygon / Primitive  Circle at Each  Point \", the positive Z axis of each object will be pointing down the path. When the Output Type is \"Tubes/Strips\" then the cross-section of the geometry created will be pointing down the path."
+    },
+    {
+      "page": "Output",
+      "label": "Lookat  Object",
+      "name": "lookat",
+      "description": "Orient to  Path  must be checked for Lookat Object to have any effect. This allows you to orient your geometry by naming the object you would like it to Look At, or point to. Once you have designated this object to look at, it will continue to face that object, even if you move it. The Look At parameter points the each piece of geometry at the other object's origin individually."
+    },
+    {
+      "page": "Output",
+      "label": "Rotate Polys",
+      "name": "dorotate",
+      "description": "⊞  - Rotate the geometry at each point using the Rotate parameter (below). Only works for Output Type is \" Polygon / Primitive  Circle at Each  Point \"."
+    },
+    {
+      "page": "Output",
+      "label": "Off",
+      "name": "off",
+      "description": "Do not rotate polys. Rotate parameter is greyed out."
+    },
+    {
+      "page": "Output",
+      "label": "On",
+      "name": "on",
+      "description": "Add value of Rotate to polys equally."
+    },
+    {
+      "page": "Output",
+      "label": "Cumulative",
+      "name": "cum",
+      "description": "Add value of Rotate to polys cumulatively (ie. increasing with each poly)."
+    },
+    {
+      "page": "Output",
+      "label": "Rotate",
+      "name": "rotate",
+      "description": "⊞  - Rotation channels rx, ry, and rz for Rotate Polys parameter."
+    },
+    {
+      "page": "Output",
+      "label": "Compute Normals",
+      "name": "normals",
+      "description": "Computes normals for the geometry created."
+    },
+    {
+      "page": "Output",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Output",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Output",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Output",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Output",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Output",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Output",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Output",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Output",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Output",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Output",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Output",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Output",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Output",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Output",
+      "label": "A polygon is a type of  Primitive  that is formed from a set of  Vertices  in 3D that are implicitly connected together to form a multi",
+      "description": "edge shape."
+    },
+    {
+      "page": "Output",
+      "label": "The sub",
+      "description": "Family  of  Component  types that are used to define and render 3D scenes. A  Geometry Component  is an Object that contains the 3D shapes to render. A  Camera COMP  and  Light COMP  are other Object types. Separately, \"Objects\" also refers to Python objects."
+    },
+    {
+      "page": "Output",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "04-pops-database.md",
+      "excerpt": "ión: `useCases[]`, `examples[]`, `commonCombinations[]`, `troubleshooting[]`. ## Generación automática (docs oficiales) El generador: - Descarga la lista desde `https://docs.derivative.ca/Category:POPs`. - Para cada operador descarga la página oficial y extrae: - resumen - inputs - parámetros por página - atributos (cuando la tabla está presente) ### Construir / actualizar la base En `touchdesigner/`: ```powershell npm run build node .\\mcp\\dist\\popsBuild.js --out .\\mcp\\data\\pops --limit 10 --local-docs ..\\Docs ``` Enriquecimiento opcional con LLM (Gemma 4 vía Ollama): ```powershell $env:LLM_PROVIDER=\"ollama\" $env:OLLAMA_MODEL=\"gemma4:e4b\" node .\\mcp\\dist\\popsBuild.js --out .\\mcp\\data\\pops --enrich --local-docs ..\\Docs ``` ## Consulta desde el MCP Se expone una herramienta MCP adicional: - `td_pops_query`: - `search`: texto libre - `page_slug`: slug exacto (p.ej. `Particle_POP`) - `limit`: máximo de resultados Objetivo: permitir que el asistente consulte documentaci"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "as para errores como las características estables. Esto podría resultar en comportamientos inesperados, problemas de rendimiento o fallos en entornos de producción complejos. Los desarrolladores deben ser conscientes de este riesgo al implementar aplicaciones que hagan un uso intensivo de los POPs. Finalmente, la documentación para características experimentales a veces puede ser menos exhaustiva o quedarse atrás con respecto al desarrollo, como se observa en la cantidad de POPs con información limitada o inaccesible. El soporte de la comunidad también podría ser incipiente en comparación con las familias de operadores ya establecidas. Por lo tanto, la etiqueta \"Experimental\" sirve como una advertencia crucial para los desarrolladores, destacando la posible inestabilidad y los futuros cambios que requieren una cuidadosa consideración para su uso en producción y el mantenimiento continuo. Este informe detalla la función, los parámetros y los casos de uso para 32 operadores POPs distintos do"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "o el Transform POP. También puede convertir un grupo en un atributo. • Experimental:Histogram POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Import Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:In POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Limit POP: Este POP proporciona capacidades de manipulación fundamentales sin necesidad de escribir código. Permite crear nuevos atributos fácilmente y utiliza atributos de solo lectura internos. • Experimental:Line Break POP: Se utiliza para dividir una lista de puntos en múltiples primitivas de \"tira de líneas\", basándose en valores específicos de atributos como LineBreak o LineStripIndex. • Experimental:Line Divide POP: Se utiliza para subdividir cualquier tira de línea. • Experimental:Line"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "denadas de puntos, por ejemplo, convertir una esfera en un plano, o un plano en una esfera, o preparar una geometría para ser proyectada como una textura de 360 grados. * **Proximity POP (POP de Proximidad)** * **Función principal:** Conecta puntos entre sí o entre dos grupos de puntos si están dentro de un **rango de distancia** específico. * **Características clave:** * Define una `Maximum Distance` y una `Minimum Distance` para las conexiones. * Puede limitar el `Max Lines per Point` para evitar demasiadas conexiones. * Cuando tiene dos entradas, puede generar **líneas de conexión** o simplemente primitivas de punto para los puntos en rango. * Puede incluir atributos como `LineDir` (dirección de la línea) y `LineLength` (longitud de la línea) en las primitivas de conexión. * Cada conexión es una **\"primitiva de línea\" de 2 puntos**, no una tira de línea. * **Uso simple:** Crear redes de conexión dinámicas en"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "e **coordenadas de textura**, **normales** (dirección de la superficie) o **tangentes** (dirección a lo largo de la curva) a los puntos o vértices. Las normales pueden apuntar radialmente (desde el centro) o tangencialmente (a lo largo del círculo). * La **orientación** del círculo puede ser en los planos XY, YZ o ZX, y se puede rotar y trasladar posteriormente. * Si conectas otro POP a su entrada, el Circle POP puede **escalar o trasladar el círculo para que encaje en el cuadro delimitador** (bounding box) de esa entrada. --- #### 13. Convert POP * **¿Qué hace?** Este operador es una utilidad general para la geometría. **Mantiene los puntos de la entrada, pero los \"reconecta\" de diferentes maneras como primitivas**. Es decir, cambia la forma en que los puntos forman las superficies o líneas. * **Características clave:** * Puede convertir: * Puntos a **primitivas de punto** (`Points to Point Primitives`). * Triángulos, quads y líneas a"
+    },
+    {
+      "source": "POPs Investigation and Workshop Plan.markdown",
+      "excerpt": "es**: Float (32-bit), double (64-bit), integer (32-bit), unsigned integer (32-bit). - **Creation**: Generated via POPs like `Attribute POP` or on-the-fly by specifying new names in output scopes. ## 3. POPs vs. SOPs - **Execution**: POPs run on the GPU (parallelized compute shaders); SOPs run on the CPU. - **Workflow**: POPs combine strengths of SOPs, CHOPs, and TOPs for a modern approach. - **Attributes**: POPs offer advanced attribute manipulation (e.g., multi-component, high precision). - **Limitations**: POPs lack some SOP features (e.g., tracing, booleans), though these may be added later. ## 4. Key Features - **GPU Acceleration**: Uses compute shaders for speed and efficiency. - **Memory Optimization**: References unchanged attributes, allocating memory only for modified data. - **Math Operations**: POPs like `Math`, `Transform`, and `Normalize` enable coding-free manipulations. - **Multi-Input Support**: POPs like `Merge` and `Switch` handle multiple inputs with flexible configurat"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

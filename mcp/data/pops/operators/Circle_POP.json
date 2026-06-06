@@ -1,0 +1,146 @@
+{
+  "pageTitle": "Circle POP",
+  "pageSlug": "Circle_POP",
+  "url": "https://docs.derivative.ca/Circle_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "circlePOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "type",
+      "label": "Type",
+      "type": "menu",
+      "default": "Closed",
+      "options": [
+        "Open",
+        "Closed"
+      ],
+      "description": "Open creates an arc, Closed creates a full circle."
+    },
+    {
+      "name": "orientation",
+      "label": "Orientation",
+      "type": "menu",
+      "default": "XY",
+      "options": [
+        "XY",
+        "YZ",
+        "ZX"
+      ],
+      "description": "Plane on which the circle is generated."
+    },
+    {
+      "name": "divisions",
+      "label": "Divisions",
+      "type": "int",
+      "default": 48,
+      "description": "Number of points around the circle. Higher = smoother."
+    },
+    {
+      "name": "innerradius",
+      "label": "Inner Radius",
+      "type": "float",
+      "default": 0,
+      "description": "Inner radius of the ring. Set > 0 for hollow rings."
+    },
+    {
+      "name": "outerradius",
+      "label": "Outer Radius",
+      "type": "float",
+      "default": 1,
+      "description": "Outer radius of the circle."
+    },
+    {
+      "name": "centerx",
+      "label": "Center X",
+      "type": "float",
+      "default": 0,
+      "description": "X position of circle center."
+    },
+    {
+      "name": "centery",
+      "label": "Center Y",
+      "type": "float",
+      "default": 0,
+      "description": "Y position of circle center."
+    },
+    {
+      "name": "centerz",
+      "label": "Center Z",
+      "type": "float",
+      "default": 0,
+      "description": "Z position of circle center."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "onado indicó que la información era inaccesible, limitada a menciones muy breves o redirecciones sin contenido, o que las búsquedas arrojaron resultados irrelevantes de otras familias de operadores (SOPs, CHOPs, TOPs, DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rec"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "onado indicó que la información era inaccesible, limitada a menciones muy breves o redirecciones sin contenido, o que las búsquedas arrojaron resultados irrelevantes de otras familias de operadores (SOPs, CHOPs, TOPs, DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33."
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "onado indicó que la información era inaccesible, limitada a menciones muy breves o redirecciones sin contenido, o que las búsquedas arrojaron resultados irrelevantes de otras familias de operadores (SOPs, CHOPs, TOPs, DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rec"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "as no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Cache Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:CHOP to POP: Permite convertir datos de la familia CHOPs (Channel Operators) a datos de POPs. Esto es eficiente porque los POPs ya implementan muchas funciones de CHOPs directamente en la GPU, evitando conversiones de GPU a CPU y viceversa. • Experimental:Circle POP: Un operador generador que crea formas circulares. Puede generar puntos con sus primitivas correspondientes. • Experimental:Convert POP: Se usa para cambiar entre diferentes tipos de primitivas. • Experimental:Copy POP: Permite crear copias de geometría dentro de un POP, las cuales pueden ser manipuladas o animadas antes de la renderización. También puede generar grupos automáticamente. • Experimental:Curve POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "as no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Cache Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:CHOP to POP: Permite convertir datos de la familia CHOPs (Channel Operators) a datos de POPs. Esto es eficiente porque los POPs ya implementan muchas funciones de CHOPs directamente en la GPU, evitando conversiones de GPU a CPU y viceversa. • Experimental:Circle POP: Un operador generador que crea formas circulares. Puede generar puntos con sus primitivas correspondientes. • Experimental:Convert POP: Se usa para cambiar entre diferentes tipos de primitivas. • Experimental:Copy POP: Permite crear copias de geometría dentro de un POP, las cuales pueden ser manipuladas o animadas antes de la renderización. También puede generar grupos automáticamente. • Experimental:Curve POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la fun"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "as no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Cache Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:CHOP to POP: Permite convertir datos de la familia CHOPs (Channel Operators) a datos de POPs. Esto es eficiente porque los POPs ya implementan muchas funciones de CHOPs directamente en la GPU, evitando conversiones de GPU a CPU y viceversa. • Experimental:Circle POP: Un operador generador que crea formas circulares. Puede generar puntos con sus primitivas correspondientes. • Experimental:Convert POP: Se usa para cambiar entre diferentes tipos de primitivas. • Experimental:Copy POP: Permite crear copias de geometría dentro de un POP, las cuales pueden ser manipuladas o animadas antes de la renderización. También puede generar grupos automáticamente. • Experimental:Curve POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función"
+    }
+  ],
+  "useCases": [
+    "Audio-reactive ring visualizers for live performance",
+    "Circular LED array layouts for physical installations",
+    "Orbital particle emission sources",
+    "Radial UI elements and HUD rings"
+  ],
+  "examples": [
+    {
+      "name": "Audio Ring Visualizer",
+      "description": "Circle POP (Type=Closed, Divisions=128, Inner=0.8, Outer=1.0) → Noise POP → Render TOP",
+      "difficulty": "intermediate"
+    },
+    {
+      "name": "Hollow Ring Emitter",
+      "description": "Circle POP (Inner=0.8, Outer=1.0) → Particle POP for ring-shaped emission",
+      "difficulty": "beginner"
+    },
+    {
+      "name": "Rotating Ring Array",
+      "description": "Circle POP → Copy POP (place geometry at each point) → Transform POP (animate rotation)",
+      "difficulty": "intermediate"
+    }
+  ],
+  "commonCombinations": [
+    "Circle POP → Particle POP (circular emitter)",
+    "Circle POP → Noise POP (deform ring shape)",
+    "Circle POP → Line_Resample POP (uniform point spacing)",
+    "Circle POP → Copy POP (scatter objects on ring)"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Want hollow ring",
+      "solution": "Set Inner Radius > 0 (e.g., 0.8)."
+    },
+    {
+      "problem": "Points are unevenly spaced",
+      "solution": "Increase Divisions parameter for more uniform distribution."
+    },
+    {
+      "problem": "Circle appears in wrong plane",
+      "solution": "Change Orientation to XY, YZ, or ZX as needed."
+    }
+  ],
+  "description": "GPU-accelerated circle geometry generator. Creates open arcs or closed circles as point primitives or line strips. Supports inner/outer radius for ring shapes, configurable divisions, and XY/YZ/ZX orientation planes."
+}

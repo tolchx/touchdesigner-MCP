@@ -1,0 +1,42 @@
+{
+  "family": "SOP",
+  "pageTitle": "Switch SOP",
+  "pageSlug": "Switch_SOP",
+  "url": "https://docs.derivative.ca/Switch_SOP",
+  "tdOpTypeGuess": "switchSOP",
+  "summary": "[  edit  ]\nThe Switch  SOP  switches between up to 9999 possible inputs. The output of this  SOP  is specified by the  Select Input  field. This is useful for switching the output between several inputs depending on the evaluation of an expression placed in the  Select Input  field.\nswitchSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Example\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common SOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "s hace ideales para simulaciones en tiempo real exigentes, sistemas de partículas y arte generativo. Los POPs proporcionan un sistema altamente personalizable y abierto para simulaciones de partículas, permitiendo a los usuarios definir estados iniciales, velocidades, masas y aplicar fuerzas a través de bucles de retroalimentación.6 La arquitectura de los POPs, especialmente para operadores de múltiples entradas como Attribute Combine POP, Math Combine POP, Math Mix POP, Blend POP, Merge POP y Switch POP, está diseñada para una selección, cambio de nombre y resolución de conflictos de atributos eficientes.13 Esto agiliza las tareas complejas de mezcla y manipulación de datos. El énfasis recurrente en la \"aceleración por GPU\" y la capacidad de manejar \"millones de puntos\" 4 sugiere un enfoque claro en el rendimiento. Sin embargo, la etiqueta de \"Experimental\" 1 y las brechas observadas en la documentación implican una compensación. Los POPs ofrecen una vía clara para un mayor rendimiento en"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "s de ordenación muy rápidos que pueden organizar los puntos basándose en el valor de cualquier componente de un atributo. • Experimental:Sphere POP: Un operador generador que crea una geometría esférica. • Experimental:Sprinkle POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Subdivide POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Switch POP: Un operador que permite cambiar entre diferentes entradas. Es útil para probar variaciones o controlar el flujo de datos. • Experimental:Texture Map POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:TOP to POP: Permite convertir datos de la familia TOPs (Texture Operators) a datos de POPs, específicamente para recuperar nubes de puntos. • Experimental:Topology POP: Las fuentes proporcionadas no ofrecen una d"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "nes recursivas en múltiples pasadas para mayor detalle. * El parámetro `Crease Weight` (peso de pliegue) te permite restaurar la forma original, lo que es útil si solo quieres subdividir las caras sin suavizar demasiado. * Los puntos preexistentes y los nuevos se mezclan con sus vecinos para producir una superficie más suave. * **Uso simple:** Para añadir detalle a una malla existente, suavizar bordes o preparar geometrías para renderizados de alta calidad. * **Switch POP (POP de Intercambio)** * **Función principal:** Permite **elegir una de las múltiples entradas** y la envía a la salida sin cambios. * **Características clave:** * El número de puntos, vértices y primitivas de las entradas puede ser **diferente**. * Usa un parámetro numérico `Index` para seleccionar la entrada (0 para la primera). * Si el `Index` es un número no entero, puede **mezclar (blend) dos entradas adyacentes** si tienen el mismo número"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "r a la salida. * Maneja las **diferencias en la cantidad de puntos/primitivas** (`Length Mismatch`) entre las entradas. Puedes elegir ignorar, advertir o generar un error. Para las entradas más cortas, puedes hacer que los valores se mantengan (`Hold`), se repitan (`Repeat`), se pongan a cero (`Zero`), se pongan a uno (`One`), o no hacer nada (`None`). * Su forma de manejar múltiples entradas es similar a la de otros POPs como Math Combine POP, Math Mix POP, Blend POP, Merge POP y Switch POP. --- #### 4. Attribute Convert POP * **¿Qué hace?** Permite **copiar un atributo de un tipo de geometría a otro**. Por ejemplo, puedes tomar un atributo que está en una primitiva (como el color de una cara de un cubo) y copiarlo a los puntos de esa primitiva. * **Características clave:** * Realiza operaciones de conversión como: * **Point to Vertex** (punto a vértice) * **Vertex to Point** (vértice a punto) * **Point to Primitive** (punto"
+    },
+    {
+      "source": "POPs Investigation and Workshop Plan.markdown",
+      "excerpt": "tion (e.g., multi-component, high precision). - **Limitations**: POPs lack some SOP features (e.g., tracing, booleans), though these may be added later. ## 4. Key Features - **GPU Acceleration**: Uses compute shaders for speed and efficiency. - **Memory Optimization**: References unchanged attributes, allocating memory only for modified data. - **Math Operations**: POPs like `Math`, `Transform`, and `Normalize` enable coding-free manipulations. - **Multi-Input Support**: POPs like `Merge` and `Switch` handle multiple inputs with flexible configurations. - **Swizzling**: Manipulate attribute components (e.g., `P.xy` for X and Y). ## 5. Practical Applications - **Rendering**: POPs drive 3D geometry with attributes like `Color` and `Normal`. - **Particles**: Points with attributes (e.g., `Vel`, `PartForce`) for simulations. - **Point Clouds**: Efficiently manage large datasets without TOPs’ 4-channel limitations. - **External Output**: Send data to lasers, DMX, or LEDs. ## 6. Workshop Plan #"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

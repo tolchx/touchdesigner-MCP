@@ -1,0 +1,58 @@
+{
+  "pageTitle": "Point POP",
+  "pageSlug": "Point_POP",
+  "url": "https://docs.derivative.ca/Point_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "pointPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "01-mcp-architecture.md",
+      "excerpt": "# MCP TouchDesigner — arquitectura (Node + TouchDesigner) ## Componentes - **Servidor MCP (stdio)**: `touchdesigner/mcp/src/index.ts` Expone herramientas para ejecutar Python y consultar estado del editor y operadores. - **Cliente TD (HTTP)**: `touchdesigner/api/src/index.ts` Llama al servidor HTTP levantado dentro de TouchDesigner por el TOX. - **Servidor TD (Python/TOX)**: `touchdesigner/toe/src/TouchDesignerAPI.py` Expone endpoints: - `POST /execute` - `GET /editor/pane` - `GET /editor/selection` - `GET /operators?path=...` ## Tools MCP (existentes + extendidos) - `td_execute`: ejecuta Python en TD. - `td_pane`: estado del Network Editor. - `td_selection`: selección actual. - `td_operators`: lista hijos en un path. - `td_pops_query`: consulta la base local de POPs (sin tocar TD). ## Flujo de extremo a extremo 1. Host MCP arranca `node touchdesigner/mcp/dist/index.js`. 2. El MCP recibe requests de tools. 3. Pa"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "mbién soporta la creación de atributos de matriz.1 * Parámetros: Se organiza lógicamente en varias páginas de parámetros, cada una dedicada a una función específica.1 * Página Create: Attribute Class (attrclass) (Punto, Vértice, Primitiva), Group (group), Notification if Attribute Exists (notificationifexists) (Ignorar, Advertencia, Error), Override if Attribute Exists (overrideifexists), Pre-Multiply RGB by Alpha (premultcolor), New Attribute (attr), Name (attr0name) (N, Color, Tex, PointScale, LineWidth, Custom), Custom Name (attr0customname), Type (attr0type) (float, double, int, uint, dir, dbl dir), Number of Components (attr0numcomps) (1-4), Array (attr0isarray), Array Size (attr0arraysize), Value (attr0value) (R, G, B, A).1 * Página Matrix: Matrix Attribute (mat), Matrix Name (mat0name), Rows (mat0numrows), Columns (mat0numcols), Array (mat0isarray), Array Size (mat0arraysize), Qualifier (mat0qualifier) (None, Transform Matrix).1 * Página Rename: Rename Attrib"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "os de color y textura. • Experimental:Phaser POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Point File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner, específicamente diseñado para este tipo de datos. • Experimental:Point Generator POP: Un operador generador que crea nubes de puntos directamente. Puede generar puntos con sus primitivas correspondientes. • Experimental:Point POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador más allá de su listado. • Experimental:Polygonize POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Primitive POP: Puede eliminar las primitivas de un POP, dejando solo los puntos. También permite crear tiras de línea. Si lo deseas, puedes usarlo para crear primitivas en su pestaña correspondiente. • Experim"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "Primero, entendamos qué son los POPs en general: ¿Qué son los POPs (Point Operators)? Los POPs son una nueva familia de operadores en TouchDesigner diseñada para crear y modificar datos de geometría 3D. Su principal ventaja es que se ejecutan en las tarjetas gráficas (GPU), lo que les permite ser muy rápidos debido al alto paralelismo de la GPU y optimizar el uso de memoria, ya que solo se crean los atributos que cambian. Los datos en POPs siempre comienzan como puntos con atributos. A partir de estos puntos, puedes trabajar con sistemas de partículas, nubes de pun"
+    }
+  ],
+  "useCases": [
+    "Generate particles",
+    "Set birth rate",
+    "Define velocity life color mass"
+  ],
+  "examples": [
+    {
+      "name": "Basic Emitter",
+      "description": "Circle SOP to Point POP 1000pts life3s to Particle POP",
+      "difficulty": "beginner"
+    }
+  ],
+  "commonCombinations": [
+    "SOP to Point POP to Particle POP",
+    "Point POP to Trail POP"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "All identical",
+      "solution": "Add Life Variance and Velocity Variance."
+    }
+  ]
+}

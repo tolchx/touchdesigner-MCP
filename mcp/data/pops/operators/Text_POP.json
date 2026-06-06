@@ -1,0 +1,131 @@
+{
+  "pageTitle": "Text POP",
+  "pageSlug": "Text_POP",
+  "url": "https://docs.derivative.ca/Experimental:Text_POP",
+  "experimental": true,
+  "tdOpTypeGuess": "textPOP",
+  "inputs": [],
+  "description": "New in TD 2025.3: Generates text as 3D line strips and triangles. Combines functionality of Text SOP, Text COMP, and Geo Text COMP into the high-speed POP environment. Outputs 3D geometry that can be further processed with the full POP pipeline.",
+  "parameters": [
+    {
+      "name": "Text",
+      "type": "String",
+      "default": "Hello",
+      "description": "The text string to generate as 3D geometry."
+    },
+    {
+      "name": "Font",
+      "type": "File",
+      "default": "",
+      "description": "Path to a .ttf or .otf font file. If empty, uses the default system font."
+    },
+    {
+      "name": "Font Size",
+      "type": "Float[0.001-100]",
+      "default": 1.0,
+      "description": "Scale factor for the generated text geometry."
+    },
+    {
+      "name": "Output Mode",
+      "type": "Menu",
+      "options": ["Line Strips", "Triangles"],
+      "default": "Line Strips",
+      "description": "Line Strips mode outputs text as wireframe line strips. Triangles mode outputs filled triangle geometry."
+    },
+    {
+      "name": "Extrude Depth",
+      "type": "Float[0-100]",
+      "default": 0,
+      "description": "When > 0, extrudes the text geometry along its local Z axis to create 3D depth."
+    },
+    {
+      "name": "Resolution",
+      "type": "Menu",
+      "options": ["Low", "Medium", "High", "Ultra"],
+      "default": "Medium",
+      "description": "Controls curve subdivision quality. Higher = more points but smoother curves."
+    },
+    {
+      "name": "Spacing",
+      "type": "Float[-10-10]",
+      "default": 0,
+      "description": "Additional spacing between characters. Positive values increase spacing."
+    },
+    {
+      "name": "Alignment",
+      "type": "Menu",
+      "options": ["Left", "Center", "Right"],
+      "default": "Left",
+      "description": "Horizontal text alignment relative to the origin."
+    }
+  ],
+  "attributes": [],
+  "useCases": [
+    "3D text visualization within POP pipeline",
+    "Text-based particle effects and typography",
+    "Animated text geometry with Transform POP",
+    "Text as emission source for particle systems",
+    "Laser projection text via Line Thick POP",
+    "Text tracing for LED wall content",
+    "Typography in point clouds and installations"
+  ],
+  "examples": [
+    {
+      "name": "3D Text with Extrusion",
+      "description": "Text POP ('HELLO') with Output Mode=Triangles, Extrude Depth=0.5 → Transform POP → Render TOP",
+      "difficulty": "beginner"
+    },
+    {
+      "name": "Animated Typography",
+      "description": "Text POP driven by CHOP channels for Font Size and Spacing → Noise POP for displacement → Render",
+      "difficulty": "intermediate"
+    },
+    {
+      "name": "Text Particle Emitter",
+      "description": "Text POP (Line Strips) → Sprinkle POP to scatter points on text → Particle POP for motion",
+      "difficulty": "intermediate"
+    },
+    {
+      "name": "Laser Text",
+      "description": "Text POP (Line Strips) → Line Thick POP → Render for laser projection pipeline",
+      "difficulty": "advanced"
+    }
+  ],
+  "commonCombinations": [
+    "Text POP → Extrude POP (add depth to line strip text)",
+    "Text POP → Transform POP → Render TOP (basic 3D text)",
+    "Text POP → Sprinkle POP → Particle POP (text as emitter)",
+    "Text POP → Noise POP (organic text displacement)",
+    "Text POP → Trail POP (text motion trails)",
+    "Text POP → GLSL POP (custom text shaders)",
+    "Text POP → Line Thick POP → Render TOP (laser projection)"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Text appears as garbled geometry",
+      "solution": "Check Font parameter — ensure the .ttf/.otf file path is correct and the font supports the characters being rendered."
+    },
+    {
+      "problem": "Text is too small or too large",
+      "solution": "Adjust Font Size parameter. Default is 1.0 — use Transform POP for additional scaling after generation."
+    },
+    {
+      "problem": "Line Strips output looks jagged",
+      "solution": "Increase Resolution parameter to get smoother curve subdivision on text outlines."
+    },
+    {
+      "problem": "Extrude Depth produces artifacts",
+      "solution": "Ensure Output Mode is set to Triangles when using Extrude Depth > 0. Line Strips mode does not support extrusion."
+    },
+    {
+      "problem": "Font file not loading on macOS",
+      "solution": "Use full absolute path to the font file. macOS system fonts may require copying the .ttf to your project directory."
+    }
+  ],
+  "localNotes": [
+    {
+      "source": "Docs/115-td-2025-release-notes-knowledge.md",
+      "excerpt": "Text POP: New POP that brings text as 3D line strips and triangles. Has almost all features of Text POP, Text COMP and Geo Text COMP but outputs 3D geometry."
+    }
+  ]
+}

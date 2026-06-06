@@ -1,0 +1,380 @@
+{
+  "family": "DAT",
+  "pageTitle": "Folder DAT",
+  "pageSlug": "Folder_DAT",
+  "url": "https://docs.derivative.ca/Folder_DAT",
+  "tdOpTypeGuess": "folderDAT",
+  "summary": "[  edit  ]\nThe  Folder   DAT  lists the files and subfolders found in a file system folder and monitors any changes.\nFor each item found, a row is created in the table with optional columns for the following information:\nName\nBase Name\nExtension\nType\nSize\nDepth\nFolder\nPath\nRelative  Path\nDate Created\nDate Modified\nDate Accessed\nfolderDAT_Class\nContents\n1   Summary\n2   Parameters - Folder Page\n3   Parameters - Columns Page\n4   Parameters - Common Page\n5   Info CHOP Channels\n5.1   Common DAT Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "Folder",
+      "label": "Active",
+      "name": "active",
+      "description": "When off, the  DAT  outputs a single-row table with only the headings, useful when dormant or when sending the  DAT  to a  Replicator COMP ."
+    },
+    {
+      "page": "Folder",
+      "label": "Root   Folder",
+      "name": "rootfolder",
+      "description": "The folder in the filesystem whose contents will be displayed in the  DAT  list."
+    },
+    {
+      "page": "Folder",
+      "label": "Refresh",
+      "name": "refresh",
+      "description": "When on, it monitors the specified folder(s) of the filesystem."
+    },
+    {
+      "page": "Folder",
+      "label": "Refresh  Pulse",
+      "name": "refreshpulse",
+      "description": "The pulse button reads the folder contents once."
+    },
+    {
+      "page": "Folder",
+      "label": "Asynchronous Update",
+      "name": "async",
+      "description": "When on, the update happens asynchronously from the main thread so it doesn't make TouchDesigner drop frames or pause. As a result, the  Folder   DAT  way not update its data within the next frame after the change on disk."
+    },
+    {
+      "page": "Folder",
+      "label": "Name Format",
+      "name": "nameformat",
+      "description": "⊞  - Select whether to include the filename extension or not."
+    },
+    {
+      "page": "Folder",
+      "label": "Date Format",
+      "name": "dateformat",
+      "description": "⊞  - The format used to display the item's dates in the table."
+    },
+    {
+      "page": "Folder",
+      "label": "Standard",
+      "name": "std",
+      "description": "A standard date format."
+    },
+    {
+      "page": "Folder",
+      "label": "Epoch",
+      "name": "epoch",
+      "description": "A reference date format."
+    },
+    {
+      "page": "Folder",
+      "label": "Type",
+      "name": "type",
+      "description": "⊞  - The types of contents to display."
+    },
+    {
+      "page": "Folder",
+      "label": "Files",
+      "name": "files",
+      "description": "Include files."
+    },
+    {
+      "page": "Folder",
+      "label": "Folders",
+      "name": "folders",
+      "description": "Include folders."
+    },
+    {
+      "page": "Folder",
+      "label": "Files and Folders",
+      "name": "filesandfolders",
+      "description": "Include both files and folders."
+    },
+    {
+      "page": "Folder",
+      "label": "Folders",
+      "name": "folders",
+      "description": "Use  Pattern Matching  to specify which folders are included.  Matches the folder path.  Delimiters used are spaces and commas.  To match spaces, enclose the entire search term in double quotes."
+    },
+    {
+      "page": "Folder",
+      "label": "Names",
+      "name": "names",
+      "description": "Use  Pattern Matching  to specify which names are included.  Delimiters used are spaces and commas.  To match spaces, enclose the entire search term in double quotes."
+    },
+    {
+      "page": "Folder",
+      "label": "All  Extensions",
+      "name": "allextensions",
+      "description": "Includes all file extensions."
+    },
+    {
+      "page": "Folder",
+      "label": "Image  Extensions",
+      "name": "imageextensions",
+      "description": "Includes image contents that are supported by TouchDesigner. See supported  File Types ."
+    },
+    {
+      "page": "Folder",
+      "label": "Movie  Extensions",
+      "name": "movieextensions",
+      "description": "Includes movie contents that are supported by TouchDesigner. See supported  File Types ."
+    },
+    {
+      "page": "Folder",
+      "label": "Audio  Extensions",
+      "name": "audioextensions",
+      "description": "Includes audio contents that are supported by TouchDesigner. See supported  File Types ."
+    },
+    {
+      "page": "Folder",
+      "label": "Extensions",
+      "name": "extensions",
+      "description": "Use  Pattern Matching  to specify which extensions are included.  Extensions  listed here should not include the period. E.g *txt, not *.txt."
+    },
+    {
+      "page": "Folder",
+      "label": "Include Subfolders",
+      "name": "subfolders",
+      "description": "Includes the subfolders from the root folder specified."
+    },
+    {
+      "page": "Folder",
+      "label": "Minumum Depth",
+      "name": "mindepth",
+      "description": "Set a minmum depth for the subfolders the  Folder   DAT  should recursively search through."
+    },
+    {
+      "page": "Folder",
+      "label": "Limit Depth",
+      "name": "limitdepth",
+      "description": "Turns on the Maximum Depth parameter to limit searching through subfolders. Turning this toggle off will search through all subtrees."
+    },
+    {
+      "page": "Folder",
+      "label": "Maximum Depth",
+      "name": "maxdepth",
+      "description": "Set the maximum depth for the subfolders the  Folder   DAT  should recursively search through."
+    },
+    {
+      "page": "Columns",
+      "label": "Name",
+      "name": "namecol",
+      "description": "The name of the folder or file. In the case of a file this includes the extension. ie.  myfile.txt"
+    },
+    {
+      "page": "Columns",
+      "label": "Base Name",
+      "name": "basenamecol",
+      "description": "The name of the folder or file. In the case of a file this form does not includes the extension. ie.  myfile"
+    },
+    {
+      "page": "Columns",
+      "label": "Extension",
+      "name": "extensioncol",
+      "description": "The file extension of the file, blank for folders. ie.  txt"
+    },
+    {
+      "page": "Columns",
+      "label": "Type",
+      "name": "typecol",
+      "description": "The type of file as reported by the operating system."
+    },
+    {
+      "page": "Columns",
+      "label": "Size",
+      "name": "sizecol",
+      "description": "The size of the file in Bytes. Folders do not report any size."
+    },
+    {
+      "page": "Columns",
+      "label": "Depth",
+      "name": "depthcol",
+      "description": "How many folders deep the item is found from the  Root   Folder . Items on the  Root   Folder  level have a depth of 0."
+    },
+    {
+      "page": "Columns",
+      "label": "Folder",
+      "name": "foldercol",
+      "description": "The path of the folder, or in the case of a file, the path of the folder the file is found in."
+    },
+    {
+      "page": "Columns",
+      "label": "Path",
+      "name": "pathcol",
+      "description": "The full path to the folder or file."
+    },
+    {
+      "page": "Columns",
+      "label": "Relative  Path",
+      "name": "relpathcol",
+      "description": "The relative path to the folder or file from the  Root   Folder ."
+    },
+    {
+      "page": "Columns",
+      "label": "Date Created",
+      "name": "datecreatedcol",
+      "description": "The date of creation."
+    },
+    {
+      "page": "Columns",
+      "label": "Date Modified",
+      "name": "datemodifiedcol",
+      "description": "The date of most recent modification."
+    },
+    {
+      "page": "Columns",
+      "label": "Date Accessed",
+      "name": "dateaccessedcol",
+      "description": "The date of most recent access or opening."
+    },
+    {
+      "page": "Common",
+      "label": "Language",
+      "name": "language",
+      "description": "⊞  - Select how the  DAT  decides which script language to operate on."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Node",
+      "name": "node",
+      "description": "The  DAT  uses it's own script language."
+    },
+    {
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "name": "extension",
+      "description": "⊞  - Select the file extension this  DAT  should expose to external editors."
+    },
+    {
+      "page": "Common",
+      "label": "dat",
+      "name": "dat",
+      "description": "various common file extensions."
+    },
+    {
+      "page": "Common",
+      "label": "From Language",
+      "name": "language",
+      "description": "pick extension from DATs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "custom",
+      "description": "Specify a custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specifiy the custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Word Wrap",
+      "name": "wordwrap",
+      "description": "⊞  - Enable Word Wrap for Node Display."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs setting."
+    },
+    {
+      "page": "Common",
+      "label": "On",
+      "name": "on",
+      "description": "Turn on Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Off",
+      "name": "off",
+      "description": "Turn off Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "num_rows",
+      "description": "Number of rows in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "num_cols",
+      "description": "Number of columns in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "Art",
+      "description": "Net    •   Audio Devices    •   CHOP Execute    •   CHOP to    •   Clip    •   Convert    •   CPlusPlus    •   DAT   •    Execute    •   DAT Export   •   Error    •   EtherDream    •   Evaluate    •   Examine    •   Execute    •   FIFO    •   File In    •   File Out    •   Folder    •   In    •   Indices    •   Info    •   Insert    •   JSON    •   Keyboard In    •   Lookup    •   Media File Info    •   Merge    •   MIDI Event    •   MIDI In    •   Monitors    •   MPCDI    •   MQTT Client    •   Multi Touch In    •   NDI    •   Null    •   OP Execute    •   OP Find    •   OSC In    •   OSC Out    •   Out    •   Panel Execute    •   Parameter    •   Parameter Execute    •   ParGroup Execute    •   Perform    •   POP to    •   Render Pick    •   Reorder    •   Script    •   Select    •   Serial    •   Serial Devices    •   SocketIO    •   SOP to    •   Sort    •   Substitute    •   Switch    •   Table    •   TCP/IP    •   Text    •   Touch In    •   Touch Out    •   Transpose    •   TUIO In    •   UDP In    •   UDP Out    •   UDT In    •   UDT Out    •   Video Devices    •   Web Client    •   Web    •   Web Server    •   WebRTC    •   WebSocket    •   XML"
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    },
+    {
+      "page": "Common",
+      "label": "To \"pulse\" a parameter is to send it a signal from (1) an  exported  CHOP channel or (2) a python command or (3) a mouse click that causes a new action to occur immediately. A pulse via python is via the  .pulse()  function on a pulse",
+      "description": "type parameter, such as Reset parameter in a  Speed CHOP . A pulse from a CHOP is typically a 0 to 1 to 0 signal in an exported channel."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

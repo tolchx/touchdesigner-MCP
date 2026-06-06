@@ -1,0 +1,291 @@
+{
+  "pageTitle": "Rectangle POP",
+  "pageSlug": "Rectangle_POP",
+  "url": "https://docs.derivative.ca/Rectangle_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "rectanglePOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "surftype",
+      "label": "Connectivity",
+      "type": "menu",
+      "default": "triangles",
+      "options": [
+        "none",
+        "point",
+        "lines",
+        "linestrips",
+        "triangles",
+        "quads"
+      ],
+      "description": "Primitive type for connecting the 4 corner points."
+    },
+    {
+      "name": "modifybounds",
+      "label": "Modify Bounds",
+      "type": "toggle",
+      "default": false,
+      "description": "When input connected, scale/translate rectangle to match input bounding box."
+    },
+    {
+      "name": "orient",
+      "label": "Orientation",
+      "type": "menu",
+      "default": "xy",
+      "options": [
+        "xy",
+        "yz",
+        "zx",
+        "cam"
+      ],
+      "description": "Rectangle plane: XY, YZ, ZX, or Fill Camera View."
+    },
+    {
+      "name": "camera",
+      "label": "Camera",
+      "type": "opRef",
+      "default": "",
+      "description": "Camera COMP for Fill Camera View mode."
+    },
+    {
+      "name": "distfromcam",
+      "label": "Dist from Camera",
+      "type": "float",
+      "default": 10,
+      "description": "Distance from camera when using Fill Camera View."
+    },
+    {
+      "name": "cameraaspectx",
+      "label": "Camera Aspect X",
+      "type": "float",
+      "default": 16,
+      "description": "Horizontal aspect ratio for Fill Camera View."
+    },
+    {
+      "name": "cameraaspecty",
+      "label": "Camera Aspect Y",
+      "type": "float",
+      "default": 9,
+      "description": "Vertical aspect ratio for Fill Camera View."
+    },
+    {
+      "name": "sizex",
+      "label": "Size X",
+      "type": "float",
+      "default": 1,
+      "description": "Width of the rectangle."
+    },
+    {
+      "name": "sizey",
+      "label": "Size Y",
+      "type": "float",
+      "default": 1,
+      "description": "Height of the rectangle."
+    },
+    {
+      "name": "roundcorners",
+      "label": "Round Corners",
+      "type": "toggle",
+      "default": false,
+      "description": "Enable rounded corners on the rectangle."
+    },
+    {
+      "name": "cornerradius",
+      "label": "Corner Radius",
+      "type": "float",
+      "default": 0.1,
+      "description": "Radius of the rounded corners."
+    },
+    {
+      "name": "cornersides",
+      "label": "Corner Sides",
+      "type": "int",
+      "default": 4,
+      "description": "Number of sides on each rounded corner."
+    },
+    {
+      "name": "anchoru",
+      "label": "Anchor U",
+      "type": "menu",
+      "default": "center",
+      "options": [
+        "left",
+        "center",
+        "right"
+      ],
+      "description": "Horizontal anchor: Left, Center, or Right at origin."
+    },
+    {
+      "name": "anchorv",
+      "label": "Anchor V",
+      "type": "menu",
+      "default": "center",
+      "options": [
+        "bottom",
+        "center",
+        "top"
+      ],
+      "description": "Vertical anchor: Bottom, Center, or Top at origin."
+    },
+    {
+      "name": "tx",
+      "label": "Translate X",
+      "type": "float",
+      "default": 0,
+      "description": "X translation."
+    },
+    {
+      "name": "ty",
+      "label": "Translate Y",
+      "type": "float",
+      "default": 0,
+      "description": "Y translation."
+    },
+    {
+      "name": "tz",
+      "label": "Translate Z",
+      "type": "float",
+      "default": 0,
+      "description": "Z translation."
+    },
+    {
+      "name": "rx",
+      "label": "Rotate X",
+      "type": "float",
+      "default": 0,
+      "description": "X rotation in degrees."
+    },
+    {
+      "name": "ry",
+      "label": "Rotate Y",
+      "type": "float",
+      "default": 0,
+      "description": "Y rotation in degrees."
+    },
+    {
+      "name": "rz",
+      "label": "Rotate Z",
+      "type": "float",
+      "default": 0,
+      "description": "Z rotation in degrees."
+    },
+    {
+      "name": "scale",
+      "label": "Uniform Scale",
+      "type": "float",
+      "default": 1,
+      "description": "Uniform scale factor."
+    },
+    {
+      "name": "normal",
+      "label": "Normal",
+      "type": "menu",
+      "default": "none",
+      "options": [
+        "none",
+        "point"
+      ],
+      "description": "Create normal attribute: None or Point."
+    },
+    {
+      "name": "texture",
+      "label": "Texture Coordinates",
+      "type": "menu",
+      "default": "none",
+      "options": [
+        "none",
+        "point",
+        "vertex"
+      ],
+      "description": "Create texture coordinate attribute."
+    },
+    {
+      "name": "texturefit",
+      "label": "Texture Fit",
+      "type": "menu",
+      "default": "fill",
+      "options": [
+        "fill",
+        "best",
+        "outside"
+      ],
+      "description": "How texture coordinates are scaled: Fill, Fit Best, or Fit Outside."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta fam"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ión detallada de la función específica de este operador. • Experimental:Quantize POP: Proporciona opciones para cuantizar valores, como redondear hacia abajo (Floor), redondear al entero más cercano (Round) o redondear hacia arriba (Ceiling). • Experimental:Random POP: Permite crear y modificar atributos de color y textura, presumiblemente para aplicar valores aleatorios. • Experimental:Ray POP: Crea atributos de tipo entero sin signo. Genera atributos con el prefijo Ray. • Experimental:Rectangle POP: Un operador generador que crea una geometría rectangular. • Experimental:ReRange POP: Se utiliza para re-escalar o re-mapear valores dentro de un rango específico. Es muy útil, ya que puede aplicar un re-rango diferente para cada componente de un atributo (ej., X, Y y Z de la posición) sin necesidad de múltiples operadores. • Experimental:Revolve POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Select POP: Las"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ión detallada de la función específica de este operador. • Experimental:Quantize POP: Proporciona opciones para cuantizar valores, como redondear hacia abajo (Floor), redondear al entero más cercano (Round) o redondear hacia arriba (Ceiling). • Experimental:Random POP: Permite crear y modificar atributos de color y textura, presumiblemente para aplicar valores aleatorios. • Experimental:Ray POP: Crea atributos de tipo entero sin signo. Genera atributos con el prefijo Ray. • Experimental:Rectangle POP: Un operador generador que crea una geometría rectangular. • Experimental:ReRange POP: Se utiliza para re-escalar o re-mapear valores dentro de un rango específico. Es muy útil, ya que puede aplicar un re-rango diferente para cada componente de un atributo (ej., X, Y y Z de la posición) sin necesidad de múltiples operadores. • Experimental:Revolve POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Select POP:"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ión detallada de la función específica de este operador. • Experimental:Quantize POP: Proporciona opciones para cuantizar valores, como redondear hacia abajo (Floor), redondear al entero más cercano (Round) o redondear hacia arriba (Ceiling). • Experimental:Random POP: Permite crear y modificar atributos de color y textura, presumiblemente para aplicar valores aleatorios. • Experimental:Ray POP: Crea atributos de tipo entero sin signo. Genera atributos con el prefijo Ray. • Experimental:Rectangle POP: Un operador generador que crea una geometría rectangular. • Experimental:ReRange POP: Se utiliza para re-escalar o re-mapear valores dentro de un rango específico. Es muy útil, ya que puede aplicar un re-rango diferente para cada componente de un atributo (ej., X, Y y Z de la posición) sin necesidad de múltiples operadores. • Experimental:Revolve POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Select POP: Las"
+    }
+  ],
+  "useCases": [
+    "Camera-aligned background plates using Fill Camera View mode",
+    "LED mapping surfaces with rounded corners for organic layouts",
+    "UI elements and HUD overlays with custom anchoring",
+    "Projection surfaces for media servers and immersive installations"
+  ],
+  "examples": [
+    {
+      "name": "LED Panel",
+      "description": "Rectangle POP (192×108, Connectivity=Quads) → Lookup Texture POP → DMX Out POP",
+      "difficulty": "advanced"
+    },
+    {
+      "name": "Background Plate",
+      "description": "Rectangle POP (Fill Camera View, Camera=cam1) → Render TOP behind scene geometry",
+      "difficulty": "beginner"
+    },
+    {
+      "name": "Rounded UI Element",
+      "description": "Rectangle POP (Round Corners=On, Radius=0.15, Corner Sides=8) → GLSL POP",
+      "difficulty": "intermediate"
+    }
+  ],
+  "commonCombinations": [
+    "Rectangle POP → Lookup Texture POP (texture sampling for LED)",
+    "Rectangle POP → Noise POP (GPU displacement on quad)",
+    "Rectangle POP → GLSL POP (custom vertex/pixel shaders)",
+    "Rectangle POP → Attribute POP (color mapping by position)"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Rectangle fills wrong area",
+      "solution": "Match Size X/Y to your viewport aspect ratio. For 16:9 use 16 and 9."
+    },
+    {
+      "problem": "Rounded corners not visible",
+      "solution": "Enable Round Corners toggle and increase Corner Radius above 0."
+    },
+    {
+      "problem": "Wrong orientation",
+      "solution": "Check Anchor U/V — Left/Right maps to X, Bottom/Top maps to Y."
+    },
+    {
+      "problem": "Fill Camera View not working",
+      "solution": "Ensure Camera OP reference is valid and Camera Aspect matches your render resolution."
+    }
+  ],
+  "description": "Creates a 4-point rectangle with optional rounded corners. Outputs as line strip, triangles, quad, lines, point primitives, or no primitives. Supports Fill Camera View mode for camera-aligned backgrounds and input bounding box modification."
+}

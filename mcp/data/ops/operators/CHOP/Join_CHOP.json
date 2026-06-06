@@ -1,0 +1,331 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Join CHOP",
+  "pageSlug": "Join_CHOP",
+  "url": "https://docs.derivative.ca/Join_CHOP",
+  "tdOpTypeGuess": "joinCHOP",
+  "summary": "[  edit  ]\nThe Join  CHOP  takes all its inputs and appends one  CHOP  after another. It is expected they all have the same channels.\nThe end section of the first  CHOP  is overlapped with the start section of the second  CHOP , and so on for the rest of the input CHOPs. The second input is shifted to line up with the end of the first.\nBlending allows you to splice channels together by slowly phasing out one  CHOP  while phasing into the next, or by inserting interpolation curves between the channels of the adjacent CHOPs.\nQuaternion Blend blends rotation triplets (rx ry rz) together using the shortest rotation arc. Rotation triplets are identified by \"quaternion\" attributes, which are set in the  Attribute CHOP .\nTranslation Blending blends translation channels together by slowly changing from the final velocity of the previous channel to the initial velocity of the next. The next channel may be shifted up or down. If this is undesirable, use cubic blending instead (in the Shape menu). Translation Blending is done on channel triplets that represent translations or positions (*tx *ty *tz).\njoinCHOP_Class\nContents\n1   Summary\n2   Parameters - Blend Page\n3   Parameters - Scope Page\n4   Parameters - Rotate Page\n5   Parameters - Common Page\n6   Operator Inputs\n7   Info CHOP Channels\n7.1   Common CHOP Info Channels\n7.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Blend",
+      "label": "Method",
+      "name": "blendmethod",
+      "description": "⊞  - The blend method to produce a seamless sequence:"
+    },
+    {
+      "page": "Blend",
+      "label": "Preserve Length",
+      "name": "pre",
+      "description": "The total length of the CHOPs is constant."
+    },
+    {
+      "page": "Blend",
+      "label": "Overlap Sequences",
+      "name": "ovl",
+      "description": "Overlaps the current  CHOP  with the prior  CHOP . Better for audio."
+    },
+    {
+      "page": "Blend",
+      "label": "Insert Blend Region",
+      "name": "ins",
+      "description": "Inserts a region between the CHOPs where the blending is done."
+    },
+    {
+      "page": "Blend",
+      "label": "Shape",
+      "name": "blendfunc",
+      "description": "⊞  - The blend interpolation shape to use. See Shape in the  Cycle CHOP ."
+    },
+    {
+      "page": "Blend",
+      "label": "First Input Specifies Blend Regions",
+      "name": "blendbyinput",
+      "description": "When this is checked on, the first input can be a multi-channel input which specifies blend regions for the remaining inputs into the Join  CHOP . Channel 1 of input0 is used to blend between input1 & input2, channel 2 between input2 & input3, and so on. If not enough channels are specified, the last channel is repeated."
+    },
+    {
+      "page": "Blend",
+      "label": "Region",
+      "name": "blendregion",
+      "description": "The size of the blend region."
+    },
+    {
+      "page": "Blend",
+      "label": "Bias",
+      "name": "blendbias",
+      "description": "Which segment to favour when blending: the previous (-1), the next (+1) or neither (0)."
+    },
+    {
+      "page": "Blend",
+      "label": "Match by",
+      "name": "match",
+      "description": "⊞  - Match channels between inputs by index or by name."
+    },
+    {
+      "page": "Scope",
+      "label": "Step",
+      "name": "step",
+      "description": "If set to 1, the next segment will be shifted up or down so that it begins where the last segment ended."
+    },
+    {
+      "page": "Scope",
+      "label": "Step  Scope",
+      "name": "stepscope",
+      "description": "The names of channels that use Step."
+    },
+    {
+      "page": "Scope",
+      "label": "Blend  Scope",
+      "name": "blendscope",
+      "description": "The names of the channels that should be blended. Other channels will not be blended."
+    },
+    {
+      "page": "Scope",
+      "label": "Translate X Blend",
+      "name": "transscopex",
+      "description": "The names of channels that will be translation-blended. Each string field contains a list of its component channels, such as *tx, *ty and *tz."
+    },
+    {
+      "page": "Scope",
+      "label": "Translate Y Blend",
+      "name": "transscopey",
+      "description": "The names of channels that will be translation-blended. Each string field contains a list of its component channels, such as *tx, *ty and *tz."
+    },
+    {
+      "page": "Scope",
+      "label": "Translate Z Blend",
+      "name": "transscopez",
+      "description": "The names of channels that will be translation-blended. Each string field contains a list of its component channels, such as *tx, *ty and *tz."
+    },
+    {
+      "page": "Rotate",
+      "label": "Quaternion Blend",
+      "name": "quatrot",
+      "description": "Use quaternion blending on rotation channels."
+    },
+    {
+      "page": "Rotate",
+      "label": "Shortest  Path  Rotation Blending",
+      "name": "shortrot",
+      "description": "If enabled, compensates."
+    },
+    {
+      "page": "Rotate",
+      "label": "Rotation  Scope",
+      "name": "rotscope",
+      "description": "Enabled when Shortest  Path  Rotation Blending is turned on."
+    },
+    {
+      "page": "Rotate",
+      "label": "Cycle Length",
+      "name": "cyclelen",
+      "description": "Enabled when Shortest  Path  Rotation Blending is turned on."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "Rename from",
+      "name": "commonrenamefrom",
+      "description": "The channel pattern to rename. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Rename to",
+      "name": "commonrenameto",
+      "description": "The replacement pattern for the names. The default parameters do not rename the channels. See  Pattern Replacement ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Names:  c[1",
+      "description": "10:2] ambient"
+    },
+    {
+      "page": "Common",
+      "label": "Rename To:  b[1",
+      "description": "5] amb    This example fetches channels  c1 c3 c5 c7 c9  and  ambient ."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "ops. And obviously, if I kind of flip that value, well, that's kind of crazy, but if I, you know, if I move these values around, I'm able to get some very different outputs. And that is a lot of fun. So, I'm going to be publishing a sort of a free starter pack of some pop stuff on my Patreon. So, please sign up for that. (37:54) Like and subscribe to my YouTube channel because there's going to be more in the future on pops. And I'm sorry the video kept kind of crashing and if this was a bit disjointed, but I am sort of super excited by these. I'm going to be learning a lot more about them over the coming weeks. (38:10) I'm glad I've been able to spend a couple weeks playing around with these already, and I'm excited to see what everyone else in the community does, too. Thanks for watching."
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

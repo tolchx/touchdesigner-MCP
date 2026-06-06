@@ -1,0 +1,722 @@
+{
+  "generatedAt": "2026-06-06T21:52:39.696Z",
+  "source": {
+    "categoryUrl": "https://docs.derivative.ca/Category:POP"
+  },
+  "operators": [
+    {
+      "pageTitle": "Accumulate POP",
+      "pageSlug": "Accumulate_POP",
+      "url": "https://docs.derivative.ca/Accumulate_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "accumulatePOP"
+    },
+    {
+      "pageTitle": "Alembic In POP",
+      "pageSlug": "Alembic_In_POP",
+      "url": "https://docs.derivative.ca/Alembic_In_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "alembicInPOP"
+    },
+    {
+      "pageTitle": "Alembic Out POP",
+      "pageSlug": "Alembic_Out_POP",
+      "url": "https://docs.derivative.ca/Experimental:Alembic_Out_POP",
+      "experimental": true,
+      "tdOpTypeGuess": "alembicOutPOP"
+    },
+    {
+      "pageTitle": "Analyze POP",
+      "pageSlug": "Analyze_POP",
+      "url": "https://docs.derivative.ca/Analyze_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "analyzePOP"
+    },
+    {
+      "pageTitle": "Attribute Combine POP",
+      "pageSlug": "Attribute_Combine_POP",
+      "url": "https://docs.derivative.ca/Attribute_Combine_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "attributeCombinePOP"
+    },
+    {
+      "pageTitle": "Attribute Convert POP",
+      "pageSlug": "Attribute_Convert_POP",
+      "url": "https://docs.derivative.ca/Attribute_Convert_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "attributeConvertPOP"
+    },
+    {
+      "pageTitle": "Attribute POP",
+      "pageSlug": "Attribute_POP",
+      "url": "https://docs.derivative.ca/Attribute_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "attributePOP"
+    },
+    {
+      "pageTitle": "Blend POP",
+      "pageSlug": "Blend_POP",
+      "url": "https://docs.derivative.ca/Blend_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "blendPOP"
+    },
+    {
+      "pageTitle": "Box POP",
+      "pageSlug": "Box_POP",
+      "url": "https://docs.derivative.ca/Box_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "boxPOP"
+    },
+    {
+      "pageTitle": "Cache Blend POP",
+      "pageSlug": "Cache_Blend_POP",
+      "url": "https://docs.derivative.ca/Cache_Blend_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "cacheBlendPOP"
+    },
+    {
+      "pageTitle": "Cache POP",
+      "pageSlug": "Cache_POP",
+      "url": "https://docs.derivative.ca/Cache_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "cachePOP"
+    },
+    {
+      "pageTitle": "Cache Select POP",
+      "pageSlug": "Cache_Select_POP",
+      "url": "https://docs.derivative.ca/Cache_Select_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "cacheSelectPOP"
+    },
+    {
+      "pageTitle": "CHOP to POP",
+      "pageSlug": "CHOP_to_POP",
+      "url": "https://docs.derivative.ca/CHOP_to_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "cHOPtoPOP"
+    },
+    {
+      "pageTitle": "Circle POP",
+      "pageSlug": "Circle_POP",
+      "url": "https://docs.derivative.ca/Circle_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "circlePOP"
+    },
+    {
+      "pageTitle": "Connectivity POP",
+      "pageSlug": "Connectivity_POP",
+      "url": "https://docs.derivative.ca/Connectivity_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "connectivityPOP"
+    },
+    {
+      "pageTitle": "Convert POP",
+      "pageSlug": "Convert_POP",
+      "url": "https://docs.derivative.ca/Convert_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "convertPOP"
+    },
+    {
+      "pageTitle": "Copy POP",
+      "pageSlug": "Copy_POP",
+      "url": "https://docs.derivative.ca/Copy_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "copyPOP"
+    },
+    {
+      "pageTitle": "CPlusPlus POP",
+      "pageSlug": "CPlusPlus_POP",
+      "url": "https://docs.derivative.ca/CPlusPlus_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "cPlusPlusPOP"
+    },
+    {
+      "pageTitle": "Curve POP",
+      "pageSlug": "Curve_POP",
+      "url": "https://docs.derivative.ca/Curve_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "curvePOP"
+    },
+    {
+      "pageTitle": "DAT to POP",
+      "pageSlug": "DAT_to_POP",
+      "url": "https://docs.derivative.ca/DAT_to_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "dATtoPOP"
+    },
+    {
+      "pageTitle": "Delete POP",
+      "pageSlug": "Delete_POP",
+      "url": "https://docs.derivative.ca/Delete_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "deletePOP"
+    },
+    {
+      "pageTitle": "Dimension POP",
+      "pageSlug": "Dimension_POP",
+      "url": "https://docs.derivative.ca/Dimension_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "dimensionPOP"
+    },
+    {
+      "pageTitle": "DMX Fixture POP",
+      "pageSlug": "DMX_Fixture_POP",
+      "url": "https://docs.derivative.ca/DMX_Fixture_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "dMXFixturePOP"
+    },
+    {
+      "pageTitle": "DMX Out POP",
+      "pageSlug": "DMX_Out_POP",
+      "url": "https://docs.derivative.ca/DMX_Out_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "dMXOutPOP"
+    },
+    {
+      "pageTitle": "Extrude POP",
+      "pageSlug": "Extrude_POP",
+      "url": "https://docs.derivative.ca/Extrude_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "extrudePOP"
+    },
+    {
+      "pageTitle": "Facet POP",
+      "pageSlug": "Facet_POP",
+      "url": "https://docs.derivative.ca/Facet_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "facetPOP"
+    },
+    {
+      "pageTitle": "Feedback POP",
+      "pageSlug": "Feedback_POP",
+      "url": "https://docs.derivative.ca/Feedback_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "feedbackPOP"
+    },
+    {
+      "pageTitle": "Field POP",
+      "pageSlug": "Field_POP",
+      "url": "https://docs.derivative.ca/Field_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "fieldPOP"
+    },
+    {
+      "pageTitle": "File In POP",
+      "pageSlug": "File_In_POP",
+      "url": "https://docs.derivative.ca/File_In_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "fileInPOP"
+    },
+    {
+      "pageTitle": "File Out POP",
+      "pageSlug": "File_Out_POP",
+      "url": "https://docs.derivative.ca/File_Out_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "fileOutPOP"
+    },
+    {
+      "pageTitle": "Force Radial POP",
+      "pageSlug": "Force_Radial_POP",
+      "url": "https://docs.derivative.ca/Force_Radial_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "forceRadialPOP"
+    },
+    {
+      "pageTitle": "GLSL Advanced POP",
+      "pageSlug": "GLSL_Advanced_POP",
+      "url": "https://docs.derivative.ca/GLSL_Advanced_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "gLSLAdvancedPOP"
+    },
+    {
+      "pageTitle": "GLSL Copy POP",
+      "pageSlug": "GLSL_Copy_POP",
+      "url": "https://docs.derivative.ca/GLSL_Copy_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "gLSLCopyPOP"
+    },
+    {
+      "pageTitle": "GLSL Create POP",
+      "pageSlug": "GLSL_Create_POP",
+      "url": "https://docs.derivative.ca/GLSL_Create_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "gLSLCreatePOP"
+    },
+    {
+      "pageTitle": "GLSL POP",
+      "pageSlug": "GLSL_POP",
+      "url": "https://docs.derivative.ca/GLSL_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "gLSLPOP"
+    },
+    {
+      "pageTitle": "GLSL Select POP",
+      "pageSlug": "GLSL_Select_POP",
+      "url": "https://docs.derivative.ca/GLSL_Select_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "gLSLSelectPOP"
+    },
+    {
+      "pageTitle": "Grid POP",
+      "pageSlug": "Grid_POP",
+      "url": "https://docs.derivative.ca/Grid_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "gridPOP"
+    },
+    {
+      "pageTitle": "Group POP",
+      "pageSlug": "Group_POP",
+      "url": "https://docs.derivative.ca/Group_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "groupPOP"
+    },
+    {
+      "pageTitle": "Histogram POP",
+      "pageSlug": "Histogram_POP",
+      "url": "https://docs.derivative.ca/Histogram_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "histogramPOP"
+    },
+    {
+      "pageTitle": "Import Select POP",
+      "pageSlug": "Import_Select_POP",
+      "url": "https://docs.derivative.ca/Import_Select_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "importSelectPOP"
+    },
+    {
+      "pageTitle": "In POP",
+      "pageSlug": "In_POP",
+      "url": "https://docs.derivative.ca/In_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "inPOP"
+    },
+    {
+      "pageTitle": "Limit POP",
+      "pageSlug": "Limit_POP",
+      "url": "https://docs.derivative.ca/Limit_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "limitPOP"
+    },
+    {
+      "pageTitle": "Line Break POP",
+      "pageSlug": "Line_Break_POP",
+      "url": "https://docs.derivative.ca/Line_Break_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "lineBreakPOP"
+    },
+    {
+      "pageTitle": "Line Divide POP",
+      "pageSlug": "Line_Divide_POP",
+      "url": "https://docs.derivative.ca/Line_Divide_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "lineDividePOP"
+    },
+    {
+      "pageTitle": "Line Metrics POP",
+      "pageSlug": "Line_Metrics_POP",
+      "url": "https://docs.derivative.ca/Line_Metrics_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "lineMetricsPOP"
+    },
+    {
+      "pageTitle": "Line POP",
+      "pageSlug": "Line_POP",
+      "url": "https://docs.derivative.ca/Line_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "linePOP"
+    },
+    {
+      "pageTitle": "Line Resample POP",
+      "pageSlug": "Line_Resample_POP",
+      "url": "https://docs.derivative.ca/Line_Resample_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "lineResamplePOP"
+    },
+    {
+      "pageTitle": "Line Smooth POP",
+      "pageSlug": "Line_Smooth_POP",
+      "url": "https://docs.derivative.ca/Line_Smooth_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "lineSmoothPOP"
+    },
+    {
+      "pageTitle": "Lookup Attribute POP",
+      "pageSlug": "Lookup_Attribute_POP",
+      "url": "https://docs.derivative.ca/Lookup_Attribute_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "lookupAttributePOP"
+    },
+    {
+      "pageTitle": "Lookup Channel POP",
+      "pageSlug": "Lookup_Channel_POP",
+      "url": "https://docs.derivative.ca/Lookup_Channel_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "lookupChannelPOP"
+    },
+    {
+      "pageTitle": "Lookup Texture POP",
+      "pageSlug": "Lookup_Texture_POP",
+      "url": "https://docs.derivative.ca/Lookup_Texture_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "lookupTexturePOP"
+    },
+    {
+      "pageTitle": "Math Combine POP",
+      "pageSlug": "Math_Combine_POP",
+      "url": "https://docs.derivative.ca/Math_Combine_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "mathCombinePOP"
+    },
+    {
+      "pageTitle": "Math Mix POP",
+      "pageSlug": "Math_Mix_POP",
+      "url": "https://docs.derivative.ca/Math_Mix_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "mathMixPOP"
+    },
+    {
+      "pageTitle": "Math POP",
+      "pageSlug": "Math_POP",
+      "url": "https://docs.derivative.ca/Math_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "mathPOP"
+    },
+    {
+      "pageTitle": "Merge POP",
+      "pageSlug": "Merge_POP",
+      "url": "https://docs.derivative.ca/Merge_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "mergePOP"
+    },
+    {
+      "pageTitle": "Neighbor POP",
+      "pageSlug": "Neighbor_POP",
+      "url": "https://docs.derivative.ca/Neighbor_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "neighborPOP"
+    },
+    {
+      "pageTitle": "Noise POP",
+      "pageSlug": "Noise_POP",
+      "url": "https://docs.derivative.ca/Noise_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "noisePOP"
+    },
+    {
+      "pageTitle": "Normalize POP",
+      "pageSlug": "Normalize_POP",
+      "url": "https://docs.derivative.ca/Normalize_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "normalizePOP"
+    },
+    {
+      "pageTitle": "Normal POP",
+      "pageSlug": "Normal_POP",
+      "url": "https://docs.derivative.ca/Normal_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "normalPOP"
+    },
+    {
+      "pageTitle": "Null POP",
+      "pageSlug": "Null_POP",
+      "url": "https://docs.derivative.ca/Null_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "nullPOP"
+    },
+    {
+      "pageTitle": "OAK Select POP",
+      "pageSlug": "OAK_Select_POP",
+      "url": "https://docs.derivative.ca/OAK_Select_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "oAKSelectPOP"
+    },
+    {
+      "pageTitle": "Out POP",
+      "pageSlug": "Out_POP",
+      "url": "https://docs.derivative.ca/Out_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "outPOP"
+    },
+    {
+      "pageTitle": "Particle POP",
+      "pageSlug": "Particle_POP",
+      "url": "https://docs.derivative.ca/Particle_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "particlePOP"
+    },
+    {
+      "pageTitle": "Pattern POP",
+      "pageSlug": "Pattern_POP",
+      "url": "https://docs.derivative.ca/Pattern_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "patternPOP"
+    },
+    {
+      "pageTitle": "Phaser POP",
+      "pageSlug": "Phaser_POP",
+      "url": "https://docs.derivative.ca/Phaser_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "phaserPOP"
+    },
+    {
+      "pageTitle": "Plane POP",
+      "pageSlug": "Plane_POP",
+      "url": "https://docs.derivative.ca/Plane_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "planePOP"
+    },
+    {
+      "pageTitle": "Points, Vertices and Primitives in POPs",
+      "pageSlug": "Points,_Vertices_and_Primitives_in_POPs",
+      "url": "https://docs.derivative.ca/Points,_Vertices_and_Primitives_in_POPs",
+      "experimental": false,
+      "tdOpTypeGuess": "points,VerticesandPrimitivesinPOPsPOP"
+    },
+    {
+      "pageTitle": "Point File In POP",
+      "pageSlug": "Point_File_In_POP",
+      "url": "https://docs.derivative.ca/Point_File_In_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "pointFileInPOP"
+    },
+    {
+      "pageTitle": "Point Generator POP",
+      "pageSlug": "Point_Generator_POP",
+      "url": "https://docs.derivative.ca/Point_Generator_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "pointGeneratorPOP"
+    },
+    {
+      "pageTitle": "Point POP",
+      "pageSlug": "Point_POP",
+      "url": "https://docs.derivative.ca/Point_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "pointPOP"
+    },
+    {
+      "pageTitle": "Polygonize POP",
+      "pageSlug": "Polygonize_POP",
+      "url": "https://docs.derivative.ca/Polygonize_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "polygonizePOP"
+    },
+    {
+      "pageTitle": "Primitive POP",
+      "pageSlug": "Primitive_POP",
+      "url": "https://docs.derivative.ca/Primitive_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "primitivePOP"
+    },
+    {
+      "pageTitle": "Projection POP",
+      "pageSlug": "Projection_POP",
+      "url": "https://docs.derivative.ca/Projection_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "projectionPOP"
+    },
+    {
+      "pageTitle": "Proximity POP",
+      "pageSlug": "Proximity_POP",
+      "url": "https://docs.derivative.ca/Proximity_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "proximityPOP"
+    },
+    {
+      "pageTitle": "Quantize POP",
+      "pageSlug": "Quantize_POP",
+      "url": "https://docs.derivative.ca/Quantize_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "quantizePOP"
+    },
+    {
+      "pageTitle": "Random POP",
+      "pageSlug": "Random_POP",
+      "url": "https://docs.derivative.ca/Random_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "randomPOP"
+    },
+    {
+      "pageTitle": "Ray POP",
+      "pageSlug": "Ray_POP",
+      "url": "https://docs.derivative.ca/Ray_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "rayPOP"
+    },
+    {
+      "pageTitle": "Rectangle POP",
+      "pageSlug": "Rectangle_POP",
+      "url": "https://docs.derivative.ca/Rectangle_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "rectanglePOP"
+    },
+    {
+      "pageTitle": "ReRange POP",
+      "pageSlug": "ReRange_POP",
+      "url": "https://docs.derivative.ca/ReRange_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "reRangePOP"
+    },
+    {
+      "pageTitle": "Revolve POP",
+      "pageSlug": "Revolve_POP",
+      "url": "https://docs.derivative.ca/Revolve_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "revolvePOP"
+    },
+    {
+      "pageTitle": "Select POP",
+      "pageSlug": "Select_POP",
+      "url": "https://docs.derivative.ca/Select_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "selectPOP"
+    },
+    {
+      "pageTitle": "Skin Deform POP",
+      "pageSlug": "Skin_Deform_POP",
+      "url": "https://docs.derivative.ca/Skin_Deform_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "skinDeformPOP"
+    },
+    {
+      "pageTitle": "Skin POP",
+      "pageSlug": "Skin_POP",
+      "url": "https://docs.derivative.ca/Skin_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "skinPOP"
+    },
+    {
+      "pageTitle": "SOP to POP",
+      "pageSlug": "SOP_to_POP",
+      "url": "https://docs.derivative.ca/SOP_to_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "sOPtoPOP"
+    },
+    {
+      "pageTitle": "Sort POP",
+      "pageSlug": "Sort_POP",
+      "url": "https://docs.derivative.ca/Sort_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "sortPOP"
+    },
+    {
+      "pageTitle": "Sphere POP",
+      "pageSlug": "Sphere_POP",
+      "url": "https://docs.derivative.ca/Sphere_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "spherePOP"
+    },
+    {
+      "pageTitle": "Sprinkle POP",
+      "pageSlug": "Sprinkle_POP",
+      "url": "https://docs.derivative.ca/Sprinkle_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "sprinklePOP"
+    },
+    {
+      "pageTitle": "Subdivide POP",
+      "pageSlug": "Subdivide_POP",
+      "url": "https://docs.derivative.ca/Subdivide_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "subdividePOP"
+    },
+    {
+      "pageTitle": "Switch POP",
+      "pageSlug": "Switch_POP",
+      "url": "https://docs.derivative.ca/Switch_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "switchPOP"
+    },
+    {
+      "pageTitle": "Texture Map POP",
+      "pageSlug": "Texture_Map_POP",
+      "url": "https://docs.derivative.ca/Texture_Map_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "textureMapPOP"
+    },
+    {
+      "pageTitle": "Text POP",
+      "pageSlug": "Text_POP",
+      "url": "https://docs.derivative.ca/Experimental:Text_POP",
+      "experimental": true,
+      "tdOpTypeGuess": "textPOP"
+    },
+    {
+      "pageTitle": "Topology POP",
+      "pageSlug": "Topology_POP",
+      "url": "https://docs.derivative.ca/Topology_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "topologyPOP"
+    },
+    {
+      "pageTitle": "TOP to POP",
+      "pageSlug": "TOP_to_POP",
+      "url": "https://docs.derivative.ca/TOP_to_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "tOPtoPOP"
+    },
+    {
+      "pageTitle": "Torus POP",
+      "pageSlug": "Torus_POP",
+      "url": "https://docs.derivative.ca/Torus_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "torusPOP"
+    },
+    {
+      "pageTitle": "Trace POP",
+      "pageSlug": "Trace_POP",
+      "url": "https://docs.derivative.ca/Trace_POP",
+      "experimental": true,
+      "tdOpTypeGuess": "tracePOP"
+    },
+    {
+      "pageTitle": "Trail POP",
+      "pageSlug": "Trail_POP",
+      "url": "https://docs.derivative.ca/Trail_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "trailPOP"
+    },
+    {
+      "pageTitle": "Transform POP",
+      "pageSlug": "Transform_POP",
+      "url": "https://docs.derivative.ca/Transform_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "transformPOP"
+    },
+    {
+      "pageTitle": "Triangulate POP",
+      "pageSlug": "Triangulate_POP",
+      "url": "https://docs.derivative.ca/Triangulate_POP",
+      "experimental": true,
+      "tdOpTypeGuess": "triangulatePOP"
+    },
+    {
+      "pageTitle": "Trig POP",
+      "pageSlug": "Trig_POP",
+      "url": "https://docs.derivative.ca/Trig_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "trigPOP"
+    },
+    {
+      "pageTitle": "Tube POP",
+      "pageSlug": "Tube_POP",
+      "url": "https://docs.derivative.ca/Tube_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "tubePOP"
+    },
+    {
+      "pageTitle": "Twist POP",
+      "pageSlug": "Twist_POP",
+      "url": "https://docs.derivative.ca/Twist_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "twistPOP"
+    },
+    {
+      "pageTitle": "ZED POP",
+      "pageSlug": "ZED_POP",
+      "url": "https://docs.derivative.ca/ZED_POP",
+      "experimental": false,
+      "tdOpTypeGuess": "zEDPOP"
+    }
+  ]
+}

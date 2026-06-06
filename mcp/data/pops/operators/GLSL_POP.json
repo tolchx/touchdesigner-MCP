@@ -1,0 +1,224 @@
+{
+  "pageTitle": "GLSL POP",
+  "pageSlug": "GLSL_POP",
+  "url": "https://docs.derivative.ca/GLSL_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "gLSLPOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "computedat",
+      "label": "Compute Shader",
+      "type": "datRef",
+      "default": "",
+      "description": "Text DAT with GLSL 4.30+ compute shader code."
+    },
+    {
+      "name": "attrclass",
+      "label": "Attribute Class",
+      "type": "menu",
+      "default": "point",
+      "options": [
+        "point",
+        "vertex",
+        "primitive"
+      ],
+      "description": "Which attribute class to operate on."
+    },
+    {
+      "name": "numthreadsmode",
+      "label": "Number of Threads",
+      "type": "menu",
+      "default": "auto",
+      "options": [
+        "auto",
+        "otherinputelements",
+        "numelems",
+        "numelemsattrib",
+        "manual"
+      ],
+      "description": "How to determine thread count."
+    },
+    {
+      "name": "numelems",
+      "label": "Number of Elements",
+      "type": "int",
+      "default": 1,
+      "description": "Manual thread count when mode is Manual."
+    },
+    {
+      "name": "workgroupsizex",
+      "label": "Work Group Size X",
+      "type": "int",
+      "default": 1,
+      "description": "Workgroup X size."
+    },
+    {
+      "name": "workgroupsizey",
+      "label": "Work Group Size Y",
+      "type": "int",
+      "default": 1,
+      "description": "Workgroup Y size."
+    },
+    {
+      "name": "workgroupsizez",
+      "label": "Work Group Size Z",
+      "type": "int",
+      "default": 1,
+      "description": "Workgroup Z size."
+    },
+    {
+      "name": "dispatchsizex",
+      "label": "Dispatch Size X",
+      "type": "int",
+      "default": 1,
+      "description": "Number of thread groups in X."
+    },
+    {
+      "name": "dispatchsizey",
+      "label": "Dispatch Size Y",
+      "type": "int",
+      "default": 1,
+      "description": "Number of thread groups in Y."
+    },
+    {
+      "name": "dispatchsizez",
+      "label": "Dispatch Size Z",
+      "type": "int",
+      "default": 1,
+      "description": "Number of thread groups in Z."
+    },
+    {
+      "name": "outputattrs",
+      "label": "Output Attributes",
+      "type": "str",
+      "default": "*",
+      "description": "Attributes to allocate for shader writing (* = all)."
+    },
+    {
+      "name": "outputaccess",
+      "label": "Output Access",
+      "type": "menu",
+      "default": "writeonly",
+      "options": [
+        "writeonly",
+        "readwrite"
+      ],
+      "description": "Write Only or Read-Write access to attribute buffers."
+    },
+    {
+      "name": "initoutputattrs",
+      "label": "Initialize Output Attributes",
+      "type": "toggle",
+      "default": false,
+      "description": "Copy input defaults before shader runs."
+    },
+    {
+      "name": "prevpassoutput",
+      "label": "Copy Previous Pass Output to Input",
+      "type": "toggle",
+      "default": false,
+      "description": "Enable multi-pass feedback."
+    },
+    {
+      "name": "npasses",
+      "label": "Passes",
+      "type": "int",
+      "default": 1,
+      "description": "Number of shader passes."
+    },
+    {
+      "name": "simplexnoise",
+      "label": "TDSimplexNoise()",
+      "type": "menu",
+      "default": "performance",
+      "options": [
+        "performance",
+        "quality"
+      ],
+      "description": "Simplex noise implementation for shader."
+    },
+    {
+      "name": "premultcolor",
+      "label": "Pre-Multiply RGB by Alpha",
+      "type": "toggle",
+      "default": false,
+      "description": "Enable RGB pre-multiplication with Alpha."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "03-twozero-evaluation.md",
+      "excerpt": "# Evaluación de mejoras inspiradas en TWOZERO TWOZERO se describe como un toolkit nativo para TouchDesigner con: - Generación por IA - Librería curada de componentes - Sincronización en la nube - Herramientas de producción - Integración en UI y sin “wrappers” externos ## Qué se puede integrar en este MCP (sin depender de TWOZERO) - **Librería curada de patrones (component library)** Crear un catálogo de “recetas” reproducibles (render, instancing, feedback loops, POP sims, GLSL) como: - skills en Markdown (`touchdesigner/skills/*`) - prompts maestros (`docs/06-master-prompts.md` o carpeta `prompts/`) - scripts Python idempotentes (crear/actualizar redes sin duplicar) - **No ensuciar el proyecto (non-invasive)** Convenciones sistemáticas: - encapsular sistemas en `baseCOMP`/`geoCOMP` - nodos “I/O estándar” (`in*`, `out*`, `null*`) - layout determinístico (`nodeX/nodeY`) - nombres consistentes y prefijos por dominio (`pop_`, `top_`, `chop_`) - **Vali"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "rimitivas de curva directamente, aunque la subdivisión de splines es posible utilizando operadores como Line POP y Line Divide POP.7 Los atributos son cruciales para almacenar datos adicionales por punto, vértice o primitiva, como normales (N), coordenadas de textura (uv) y color (Cd).1 Los POPs permiten la creación, modificación, duplicación, cambio de nombre y eliminación de estos atributos.1 El énfasis en los \"atributos\" y su manipulación a través de varios POPs (por ejemplo, Attribute POP, GLSL POP, Math Mix POP) apunta a una filosofía de diseño centrada en los atributos para los POPs. Muchos POPs (Attribute POP, GLSL POP, Math Mix POP, etc.) están explícitamente diseñados para crear, modificar o combinar atributos.1 La documentación destaca que los atributos se almacenan como Objetos de Búfer de Almacenamiento de Shader (SSBOs) en los GLSL POPs.12 Esta estructuración de datos en SSBOs, una característica central de la programación de GPU moderna (GLSL, Vulkan), permite un procesamiento a"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "rimitivas de curva directamente, aunque la subdivisión de splines es posible utilizando operadores como Line POP y Line Divide POP.7 Los atributos son cruciales para almacenar datos adicionales por punto, vértice o primitiva, como normales (N), coordenadas de textura (uv) y color (Cd).1 Los POPs permiten la creación, modificación, duplicación, cambio de nombre y eliminación de estos atributos.1 El énfasis en los \"atributos\" y su manipulación a través de varios POPs (por ejemplo, Attribute POP, GLSL POP, Math Mix POP) apunta a una filosofía de diseño centrada en los atributos para los POPs. Muchos POPs (Attribute POP, GLSL POP, Math Mix POP, etc.) están explícitamente diseñados para crear, modificar o combinar atributos.1 La documentación destaca que los atributos se almacenan como Objetos de Búfer de Almacenamiento de Shader (SSBOs) en los GLSL POPs.12 Esta estructuración de datos en SSBOs, una característica central de la programación de GPU moderna (GLSL, Vulkan), permite un procesamien"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "rimitivas de curva directamente, aunque la subdivisión de splines es posible utilizando operadores como Line POP y Line Divide POP.7 Los atributos son cruciales para almacenar datos adicionales por punto, vértice o primitiva, como normales (N), coordenadas de textura (uv) y color (Cd).1 Los POPs permiten la creación, modificación, duplicación, cambio de nombre y eliminación de estos atributos.1 El énfasis en los \"atributos\" y su manipulación a través de varios POPs (por ejemplo, Attribute POP, GLSL POP, Math Mix POP) apunta a una filosofía de diseño centrada en los atributos para los POPs. Muchos POPs (Attribute POP, GLSL POP, Math Mix POP, etc.) están explícitamente diseñados para crear, modificar o combinar atributos.1 La documentación destaca que los atributos se almacenan como Objetos de Búfer de Almacenamiento de Shader (SSBOs) en los GLSL POPs.12 Esta estructuración de datos en SSBOs, una característica central de la programación de GPU moderna (GLSL, Vulkan), permite un procesamiento a"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ed POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL Copy POP: Permite ejecutar código de compute shader (GLSL) en cada punto para deformar geometrías basándose en los atributos del punto. Es muy potente para generar formas complejas de manera programática. • Experimental:GLSL Create POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL POP: Un operador que te permite escribir tu propio código GLSL para manipular puntos y atributos. Ideal para simulaciones o efectos muy personalizados. • Experimental:GLSL Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Grid POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Group POP: Se usa para crear grupos de puntos, vértices o p"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "la fuerza en velocidad y la velocidad en posición. • Experimental:Field POP: Genera nuevos atributos, a menudo con nombres predeterminados sugeridos. Este operador genera el atributo Weight. • Experimental:File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner. • Experimental:Force POP: Se utiliza para crear o añadir al atributo PartForce (fuerza de partícula). Es fundamental para definir cómo las fuerzas actúan sobre las partículas. • Experimental:GLSL Advanced POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL Copy POP: Permite ejecutar código de compute shader (GLSL) en cada punto para deformar geometrías basándose en los atributos del punto. Es muy potente para generar formas complejas de manera programática. • Experimental:GLSL Create POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experi"
+    }
+  ],
+  "useCases": [
+    "Custom force computations (magnetic fields, fluid dynamics, spring systems)",
+    "GPU-accelerated attribute modifications at scale",
+    "Complex deformations not possible with built-in operators",
+    "Hardware raytracing integration via Collision POP acceleration structures"
+  ],
+  "examples": [
+    {
+      "name": "Custom Force Field",
+      "description": "Compute shader for magnetic field simulation on particle system",
+      "difficulty": "expert"
+    },
+    {
+      "name": "Vertex Displacement",
+      "description": "GLSL POP with custom noise displacement on point positions",
+      "difficulty": "advanced"
+    },
+    {
+      "name": "Raytracing",
+      "description": "GLSL POP with Collision POP acceleration structure for ray queries",
+      "difficulty": "expert"
+    }
+  ],
+  "commonCombinations": [
+    "Generator → GLSL POP → Render TOP (custom GPU pipeline)",
+    "GLSL POP → Feedback POP (GPU feedback loops)",
+    "GLSL POP → Info DAT (debug generated GLSL code)",
+    "GLSL POP → Noise POP (combined GPU effects)"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Compile errors",
+      "solution": "Check GLSL 4.30+ syntax. Verify attribute names match exactly (case-sensitive)."
+    },
+    {
+      "problem": "No output",
+      "solution": "Ensure Output Attributes includes the target attribute. Use * for all."
+    },
+    {
+      "problem": "Slow performance",
+      "solution": "Increase Work Group Size and Dispatch Size to utilize more GPU cores."
+    },
+    {
+      "problem": "Black output",
+      "solution": "Verify output variables are assigned in shader. Check Info CHOP for errors."
+    }
+  ],
+  "description": "Modifies input attributes with GLSL compute shaders. Works on a single attribute class (Points, Verts, or Primitives) at a time. Attributes stored as SSBOs for GPU processing. Supports multi-pass, create attributes, uniform vectors/colors/samplers, simplex noise, and hardware raytracing via Collision POP."
+}

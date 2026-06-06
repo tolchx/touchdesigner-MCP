@@ -1,0 +1,142 @@
+{
+  "pageTitle": "Attribute Combine POP",
+  "pageSlug": "Attribute_Combine_POP",
+  "url": "https://docs.derivative.ca/Attribute_Combine_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "attributeCombinePOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "Attribute Class",
+      "type": "Menu",
+      "options": [
+        "Point",
+        "Vertex",
+        "Primitive"
+      ],
+      "default": "Point",
+      "description": "Which attribute type to pass from the remaining inputs (first input always passes all)."
+    },
+    {
+      "name": "Length Mismatch",
+      "type": "Menu",
+      "options": [
+        "Ignore",
+        "Warning",
+        "Error"
+      ],
+      "default": "Ignore",
+      "description": "Notification action when input POPs have different point counts."
+    },
+    {
+      "name": "Length Mismatch Action",
+      "type": "Menu",
+      "options": [
+        "Hold",
+        "0",
+        "1",
+        "None"
+      ],
+      "default": "Hold",
+      "description": "What to do with attribute values when sampling outside input range: hold last values, set to 0, set to 1, or do nothing."
+    },
+    {
+      "name": "Duplicate Attributes",
+      "type": "Menu",
+      "options": [
+        "Auto-Rename",
+        "Keep First",
+        "Keep Last",
+        "Only Replace Attribs of First Input"
+      ],
+      "default": "Auto-Rename",
+      "description": "How to handle attribute name conflicts between inputs."
+    },
+    {
+      "name": "In POP(s)",
+      "type": "Str",
+      "default": "",
+      "description": "Specify one or more POPs using pattern matching for this input block."
+    },
+    {
+      "name": "In Attributes",
+      "type": "Str",
+      "default": "*",
+      "description": "Selected attributes for this input block. Use pattern matching."
+    },
+    {
+      "name": "Rename to",
+      "type": "Str",
+      "default": "",
+      "description": "Rename the input attributes to a new name."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "o paralelo y flujos de trabajo modernos\" en comparación con los SOPs.5 Esto los hace ideales para simulaciones en tiempo real exigentes, sistemas de partículas y arte generativo. Los POPs proporcionan un sistema altamente personalizable y abierto para simulaciones de partículas, permitiendo a los usuarios definir estados iniciales, velocidades, masas y aplicar fuerzas a través de bucles de retroalimentación.6 La arquitectura de los POPs, especialmente para operadores de múltiples entradas como Attribute Combine POP, Math Combine POP, Math Mix POP, Blend POP, Merge POP y Switch POP, está diseñada para una selección, cambio de nombre y resolución de conflictos de atributos eficientes.13 Esto agiliza las tareas complejas de mezcla y manipulación de datos. El énfasis recurrente en la \"aceleración por GPU\" y la capacidad de manejar \"millones de puntos\" 4 sugiere un enfoque claro en el rendimiento. Sin embargo, la etiqueta de \"Experimental\" 1 y las brechas observadas en la documentación implican una compensaci"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "o paralelo y flujos de trabajo modernos\" en comparación con los SOPs.5 Esto los hace ideales para simulaciones en tiempo real exigentes, sistemas de partículas y arte generativo. Los POPs proporcionan un sistema altamente personalizable y abierto para simulaciones de partículas, permitiendo a los usuarios definir estados iniciales, velocidades, masas y aplicar fuerzas a través de bucles de retroalimentación.6 La arquitectura de los POPs, especialmente para operadores de múltiples entradas como Attribute Combine POP, Math Combine POP, Math Mix POP, Blend POP, Merge POP y Switch POP, está diseñada para una selección, cambio de nombre y resolución de conflictos de atributos eficientes.13 Esto agiliza las tareas complejas de mezcla y manipulación de datos. El énfasis recurrente en la \"aceleración por GPU\" y la capacidad de manejar \"millones de puntos\" 4 sugiere un enfoque claro en el rendimiento. Sin embargo, la etiqueta de \"Experimental\" 1 y las brechas observadas en la documentación implican una compen"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "o paralelo y flujos de trabajo modernos\" en comparación con los SOPs.5 Esto los hace ideales para simulaciones en tiempo real exigentes, sistemas de partículas y arte generativo. Los POPs proporcionan un sistema altamente personalizable y abierto para simulaciones de partículas, permitiendo a los usuarios definir estados iniciales, velocidades, masas y aplicar fuerzas a través de bucles de retroalimentación.6 La arquitectura de los POPs, especialmente para operadores de múltiples entradas como Attribute Combine POP, Math Combine POP, Math Mix POP, Blend POP, Merge POP y Switch POP, está diseñada para una selección, cambio de nombre y resolución de conflictos de atributos eficientes.13 Esto agiliza las tareas complejas de mezcla y manipulación de datos. El énfasis recurrente en la \"aceleración por GPU\" y la capacidad de manejar \"millones de puntos\" 4 sugiere un enfoque claro en el rendimiento. Sin embargo, la etiqueta de \"Experimental\" 1 y las brechas observadas en la documentación implican una compensaci"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "oderno que combina lo mejor de SOPs, CHOPs y TOPs. Glosario de Operadores POPs Aquí tienes un listado de los operadores POPs, con una explicación sencilla de su función basada en las fuentes disponibles: • Experimental:Accumulate POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Analyze POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Attribute Combine POP: Este operador es útil para combinar atributos de múltiples entradas. También puedes usarlo para, por ejemplo, quitar el atributo de Posición (P) de un POP si no lo necesitas. Permite seleccionar qué atributos o grupos específicos deseas procesar de cada entrada. • Experimental:Attribute Convert POP: Se utiliza para transferir atributos entre diferentes \"clases\" (tipos) de datos, como convertir atributos de puntos a atributos de vértices o de primitivas. • Experimental:Attribute POP: Es un"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "oderno que combina lo mejor de SOPs, CHOPs y TOPs. Glosario de Operadores POPs Aquí tienes un listado de los operadores POPs, con una explicación sencilla de su función basada en las fuentes disponibles: • Experimental:Accumulate POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Analyze POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Attribute Combine POP: Este operador es útil para combinar atributos de múltiples entradas. También puedes usarlo para, por ejemplo, quitar el atributo de Posición (P) de un POP si no lo necesitas. Permite seleccionar qué atributos o grupos específicos deseas procesar de cada entrada. • Experimental:Attribute Convert POP: Se utiliza para transferir atributos entre diferentes \"clases\" (tipos) de datos, como convertir atributos de puntos a atributos de vértices o de primitivas. • Experimental:Attribute POP: Es"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "oderno que combina lo mejor de SOPs, CHOPs y TOPs. Glosario de Operadores POPs Aquí tienes un listado de los operadores POPs, con una explicación sencilla de su función basada en las fuentes disponibles: • Experimental:Accumulate POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Analyze POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Attribute Combine POP: Este operador es útil para combinar atributos de múltiples entradas. También puedes usarlo para, por ejemplo, quitar el atributo de Posición (P) de un POP si no lo necesitas. Permite seleccionar qué atributos o grupos específicos deseas procesar de cada entrada. • Experimental:Attribute Convert POP: Se utiliza para transferir atributos entre diferentes \"clases\" (tipos) de datos, como convertir atributos de puntos a atributos de vértices o de primitivas. • Experimental:Attribute POP: Es un"
+    }
+  ],
+  "useCases": [
+    "Merge attributes from multiple particle systems into one output",
+    "Combine position data from two sources with different point counts",
+    "Selectively pass specific attributes from multiple inputs",
+    "Rename attributes during merge to avoid conflicts",
+    "Build complex attribute pipelines by combining partial results"
+  ],
+  "examples": [
+    "Two Grid POPs → Attribute Combine POP (In Attributes=P,Cd) → merged point cloud",
+    "Attribute Combine POP (In Attributes=*, Rename to=u_*) → rename all attributes with prefix"
+  ],
+  "commonCombinations": [
+    {
+      "operators": [
+        "Attribute_Combine_POP",
+        "Math_Combine_POP"
+      ],
+      "description": "Merge attributes then perform math operations"
+    },
+    {
+      "operators": [
+        "Attribute_Combine_POP",
+        "Cache_POP"
+      ],
+      "description": "Combine current frame with cached previous frame attributes"
+    },
+    {
+      "operators": [
+        "Attribute_Combine_POP",
+        "Switch_POP"
+      ],
+      "description": "Merge then switch between attribute sets"
+    }
+  ],
+  "troubleshooting": [
+    "Length mismatch: shorter inputs may have repeated last values — use Length Mismatch Action to control",
+    "Duplicate attributes: Auto-Rename appends incrementing numbers to conflicting names",
+    "First input always passes ALL its attributes to output — subsequent inputs use Attribute Class filter",
+    "Use In POP(s) pattern matching (e.g., grid*) to select multiple operators at once"
+  ],
+  "description": "Takes multiple POP inputs and merges their attributes by name or pattern matching. For each input, select which attributes to include and optionally rename them. Handles duplicate attributes with auto-rename, keep first/last, or replace. Supports Point, Vertex, or Primitive attribute classes. Also handles length mismatches between inputs."
+}

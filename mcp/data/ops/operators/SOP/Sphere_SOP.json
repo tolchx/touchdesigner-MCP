@@ -1,0 +1,42 @@
+{
+  "family": "SOP",
+  "pageTitle": "Sphere SOP",
+  "pageSlug": "Sphere_SOP",
+  "url": "https://docs.derivative.ca/Sphere_SOP",
+  "tdOpTypeGuess": "sphereSOP",
+  "summary": "[  edit  ]\nThe Sphere  SOP  generates spherical objects of different geometry types. It is capable of creating non-uniform scalable spheres of all geometry types.\nIf an input is provided, the sphere's radius is automatically determined as a function of the input's bounding geometry.\nsphereSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de partículas complej"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "escripción detallada de la función específica de este operador. • Experimental:Skin POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:SOP to POP: Permite la conversión de datos de la familia SOPs (Surface Operators) a datos de POPs. • Experimental:Sort POP: Implementa algoritmos de ordenación muy rápidos que pueden organizar los puntos basándose en el valor de cualquier componente de un atributo. • Experimental:Sphere POP: Un operador generador que crea una geometría esférica. • Experimental:Sprinkle POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Subdivide POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Switch POP: Un operador que permite cambiar entre diferentes entradas. Es útil para probar variaciones o controlar el flujo de datos. • Experim"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "ulti-frame. * **Uso simple:** Para importar geometrías o nubes de puntos creadas en otros softwares o generadas a partir de datos externos. * **Point Generator POP (POP Generador de Puntos)** * **Función principal:** Crea un número específico de puntos, de forma aleatoria o con un patrón, sobre la **superficie** o dentro del **volumen** de una forma matemática básica (esfera, cubo, toro, etc.). * **Características clave:** * Permite elegir la **forma base** (Sphere, Box, Torus, Tube, Rectangle, Circle, Line). * Puedes generar puntos en la **superficie** o dentro del **volumen** de la forma. * Ofrece un control de `Random` (aleatoriedad) y `Seed` (semilla para el patrón aleatorio). * Capaz de añadir **normales (`N`) y tangentes (`T`)** a los puntos, vértices o primitivas, con opciones de aleatorización. * **Uso simple:** Una manera fácil de crear nubes de puntos o distribuir elementos en formas geométricas básicas pa"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "P(0) > 0` Y `P(1) < 0`). * **\"Thin\" (`Thin Page`)**: Agrupa basado en rangos, pasos o aleatoriamente. * **Por patrón (`Pattern Page`)**: Agrupa basado en la coincidencia de patrones. * **Por grupo (`Group Page`)**: Permite combinar grupos de puntos o primitivas ya existentes. * **Por límites (`Bounding Page`)**: Agrupa basado en rangos delimitadores de cualquier atributo, usando cuadros delimitadores (`Bounding Box`) o esferas delimitadoras (`Bounding Sphere`). * En la página `Edit`, puedes **renombrar grupos** o **convertir un grupo de puntos a un grupo de primitivas** y viceversa. --- #### 34. Histogram POP * **¿Qué hace?** Este operador toma un atributo de tu entrada y crea una \"distribución de frecuencia\" o histograma. Básicamente, **divide un rango de valores en \"cubos\" (bins) y cuenta cuántos valores de tu atributo caen en cada cubo**. * **Características clave:** * Toma un **solo componente** de un atributo (ej., `P"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "ow have this new menu bar for pop point operators. And we can see looking in here that we have lots of options. (01:11) And like the other touch designer families, we have essentially things that generate information and things that process information. So, in terms of generating stuff, we have lots of things that might be familiar to us. We have things like the point generator, which is a bit similar to stuff that was in the pallet earlier, although it's got its own tricks. (01:35) We've got sphere, we have box, we have a grid. So, a lot of this stuff is going to look kind of familiar to us. Let's see. Let's just do one more thing just so we can see. In terms of how we process these generators, we have a bunch of things that we also might be used to like we have noise and twist, but also some things that we are potentially less used to like one of my favorite things that I think is going to solve a lot of problems for people, which is this little thing called proximity. (02:13) And what"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

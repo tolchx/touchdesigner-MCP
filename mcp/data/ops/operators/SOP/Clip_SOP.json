@@ -1,0 +1,21 @@
+{
+  "family": "SOP",
+  "pageTitle": "Clip SOP",
+  "pageSlug": "Clip_SOP",
+  "url": "https://docs.derivative.ca/Clip_SOP",
+  "tdOpTypeGuess": "clipSOP",
+  "summary": "[  edit  ]\nThe Clip  SOP  cuts and creases source geometry with a plane.\nclipSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

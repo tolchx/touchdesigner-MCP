@@ -1,0 +1,50 @@
+{
+  "family": "SOP",
+  "pageTitle": "Ray SOP",
+  "pageSlug": "Ray_SOP",
+  "url": "https://docs.derivative.ca/Ray_SOP",
+  "tdOpTypeGuess": "raySOP",
+  "summary": "[  edit  ]\nThe Ray  SOP  is used to project one surface onto another. Rays are projected from each point of the input geometry in the direction of its normal. This can be used to drape clothes over surfaces, shrink-wrap one object with another, and other similar effects.\nraySOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Example\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common SOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": ".1 * Página Create: Attribute Class (attrclass) (Punto, Vértice, Primitiva), Group (group), Notification if Attribute Exists (notificationifexists) (Ignorar, Advertencia, Error), Override if Attribute Exists (overrideifexists), Pre-Multiply RGB by Alpha (premultcolor), New Attribute (attr), Name (attr0name) (N, Color, Tex, PointScale, LineWidth, Custom), Custom Name (attr0customname), Type (attr0type) (float, double, int, uint, dir, dbl dir), Number of Components (attr0numcomps) (1-4), Array (attr0isarray), Array Size (attr0arraysize), Value (attr0value) (R, G, B, A).1 * Página Matrix: Matrix Attribute (mat), Matrix Name (mat0name), Rows (mat0numrows), Columns (mat0numcols), Array (mat0isarray), Array Size (mat0arraysize), Qualifier (mat0qualifier) (None, Transform Matrix).1 * Página Rename: Rename Attribute (ren), From Attribute (ren0from), To Attribute (ren0to).1 * Página Duplicate: Duplicate Attribute (dup), Duplicate Attribute (dup0name), New Attribute Name"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "as. Permite seleccionar qué atributos o grupos específicos deseas procesar de cada entrada. • Experimental:Attribute Convert POP: Se utiliza para transferir atributos entre diferentes \"clases\" (tipos) de datos, como convertir atributos de puntos a atributos de vértices o de primitivas. • Experimental:Attribute POP: Es un operador fundamental para crear nuevos atributos en puntos, vértices o primitivas, y puedes inicializarlos con valores constantes. También es el lugar donde puedes crear \"arrays de atributos\". • Experimental:Blend POP: Es un POP que soporta múltiples entradas, lo que sugiere que puede mezclar o interpolar datos de diferentes fuentes. • Experimental:Box POP: Un operador generador que crea una geometría de caja. • Experimental:Cache Blend POP: Se menciona en relación con el uso de atributos como 'Velocity' (Vel), lo que sugiere su rol en la mezcla de datos temporales o en animaciones. • Experimental:Cache POP: Las fuentes proporcionadas no ofrecen una descripció"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "o de Esfera, Exponencial, Log-Normal, Cauchy-Lorentz, o una rampa personalizada). * Los valores pueden generarse dentro de un `Value A` y `Value B` especificados, y opcionalmente limitarse con `Clamp Min/Max`. * Permite generar **puntos extra** por cada punto de entrada para aumentar la densidad. * **Uso simple:** Para introducir variabilidad, caos o comportamiento impredecible en simulaciones de partículas, crear patrones irregulares o dispersar elementos. * **Ray POP (POP de Rayos)** * **Función principal:** Lanza un **rayo desde cada punto** de la entrada en una dirección definida por un atributo de rayo, y reporta qué objetos (`triangles` y `quads`) golpea el rayo en una segunda entrada. * **Características clave:** * Puede contar el **número de primitivas golpeadas** y la **distancia** a la primitiva más cercana. * Puede dar información sobre la primitiva golpeada: su índice, la posición baricéntrica (la ubicación"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "* **Características clave:** * **Crear nuevos atributos**: Cuando creas uno, puedes especificar: * Su **nombre** (puedes usar nombres predefinidos como `P` para posición, `N` para normales, `Color` para color, `Tex` para coordenadas de textura, o crear el tuyo propio). * Su **tipo de dato** (`float`, `double`, `int`, `uint`). * El **número de componentes** (1, 2, 3 o 4). Por ejemplo, un `float` con 3 componentes es un `float3`. * Si es un **array** (lista de valores) y su tamaño. * Un **valor por defecto** para cada componente. * También puede crear **atributos de matriz** (como `mat4x4`). * **Renombrar atributos**: Simplemente cambias el nombre de un atributo existente. * **Duplicar atributos**: Crea una copia de un atributo con un nuevo nombre. * **Eliminar atributos**: Puedes borrar atributos de puntos, vértices o primitivas. --- #### 6. Blend POP * **¿Qué hace?** Este operador te p"
+    },
+    {
+      "source": "POPs Investigation and Workshop Plan.markdown",
+      "excerpt": "re for an informative workshop. POPs create and modify 3D data, replacing the older SOPs (Surface Operators) with enhanced performance and flexibility. ## 1. What are POPs? - **Definition**: POPs (Point Operators) are a family of operators in TouchDesigner that run on the GPU, leveraging high parallelism to create and manipulate 3D data efficiently. - **Purpose**: They generate and modify points, primitives, and attributes for rendering (via Render TOP) or output to external devices like LED arrays or lasers. - **Significance**: POPs replace SOPs with GPU acceleration, memory optimization, and integration with modern workflows (e.g., USD, FBX). ## 2. Core Components ### Points - Every POP contains a set of points with attributes. - **Key Attribute**: `P` (Position), a 3D vector (float3) defining a point’s location. - **Other Attributes**: Include `Color` (float4: red, green, blue, alpha), `Normal (N)` (float3), and user-defined attributes. ### Primitives - **Types**: - **Point**: 1 p"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "something with. Like right now we have just like you know like length data which isn't super exciting but I could go in and this is maybe a showcase of how we might actually pack some kind of attribute together. Like let's say I did a math operation on this and then I said attribute combine and I'll actually start off with that going in there. (19:27) And I'll plug this in. So before I tweak this math, let's set up that attribute. And so we can see when I add in the second link, this in pops grays out, which means we have a second operator that sees. And so I can select P or L. And I'm going to select L. And I'm going to rename it to rotate. So now when I go to this section here, I've got my rotate one, two, and three. (20:01) And let's just say actually, let's just do that in my math. Let's try scaling that up to like 100. Aha. And also this is important, right? Like we see that not much is happening as I move this around. And this is because I'm looking at the P element. So let's act"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

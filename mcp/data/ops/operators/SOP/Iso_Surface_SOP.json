@@ -1,0 +1,16 @@
+{
+  "family": "SOP",
+  "pageTitle": "Iso Surface SOP",
+  "pageSlug": "Iso_Surface_SOP",
+  "url": "https://docs.derivative.ca/Iso_Surface_SOP",
+  "tdOpTypeGuess": "isoSurfaceSOP",
+  "summary": "[  edit  ]\nThe Iso Surface  SOP  uses implicit functions to create 3D visualizations of isometric surfaces found in Grade 12 Functions and Relations textbooks.\nAn implicit function is defined so that it = 0. For example with:\nx2   +   y2   =   r2\nthe implicit function is:\nf  (  x  ,   y  )   =   x2   +   y2   -   r2   =   0\nisosurfaceSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Example\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

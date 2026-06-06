@@ -1,0 +1,381 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Speed CHOP",
+  "pageSlug": "Speed_CHOP",
+  "url": "https://docs.derivative.ca/Speed_CHOP",
+  "tdOpTypeGuess": "speedCHOP",
+  "summary": "[  edit  ]\nThe Speed  CHOP  converts speed (units per second) to distance (units) over a time range. More generally, you give it a rate (the  CHOP  input) and it outputs a cumulative value. For example, the Speed  CHOP  converts rotation rate (rotations per second) into the number of rotation turns. ( Math-heads recognize this as an 'integral', which calculates the area under a curve. The curve is the incoming channel values over a time range, the output is the area.)\nIf you send a Constant  CHOP  channel that has value 1 into the Speed  CHOP , then the Speed  CHOP  output will increase by 1 every second. If you feed it -2, it will decrease by 2 every second, and if you feed it 0, the output will not change. Use a Trail  CHOP  to see its results. You can reset the Speed  CHOP  to 0 by pressing the Reset parameter, or by sending in a channel (whose value is greater than 0) into the second input.\nThe first input contains the channels to be 'integrated'. By default, the Speed  CHOP  is time-sliced, so it keeps adding/subtracting to the output each frame it cooks. If you turn off its  Time Slice  parameter and send it a  CHOP  with a fixed frame range (like a default Noise  CHOP ), you can see the cumulative value starting from 0.\nThe output is calculated by adding the input's channel values for every sample, divided by the  samples per second  of the Speed  CHOP  (typically 60), starting with the sample at the Start index. Negative input values reduce the output, positive values increase it. The cumulative values are put in the output channels.\nWhen the  CHOP  is reset, its output can be set to any value via the  Reset Value  parameter.\nWhen the second input is used to reset the output, where the second input is greater than 0, the area is reset and held to the reset value. For example, a  Wave CHOP  (which is negative half the time) when passed into the second input causes the output to be reset for half a cycle.\nSee also:  Lookup CHOP ,  Timer CHOP ,  Count CHOP ,  Event CHOP\nspeedCHOP_Class\nContents\n1   Summary\n2   Parameters - Speed Page\n3   Parameters - Common Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common CHOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Speed",
+      "label": "Order",
+      "name": "order",
+      "description": "⊞  - Determines the order of the integral to use. If the input is a velocity, a First Order integral will return the position. If the input is an acceleration, a Second Order integral will return the position, and a First Order integral will return the velocity."
+    },
+    {
+      "page": "Speed",
+      "label": "Speed",
+      "name": "speed",
+      "description": "Allows generating values when no inputs are connected. This parameter is disabled as soon as an input is connected to the Speed  CHOP ."
+    },
+    {
+      "page": "Speed",
+      "label": "First Constant",
+      "name": "constant1",
+      "description": "Constant to add to the entire result after integrating once."
+    },
+    {
+      "page": "Speed",
+      "label": "Second Constant",
+      "name": "constant2",
+      "description": "Constant to add to the entire result after integrating twice."
+    },
+    {
+      "page": "Speed",
+      "label": "Third Constant",
+      "name": "constant3",
+      "description": "Constant to add to the entire result after integrating three times."
+    },
+    {
+      "page": "Speed",
+      "label": "Limit Type",
+      "name": "limittype",
+      "description": "⊞  - Select limit options such as loop, clamp, or zigzag from the menu. The value will remain in the range from Min to less than Max."
+    },
+    {
+      "page": "Speed",
+      "label": "Off",
+      "name": "off",
+      "description": "Do not limit the values."
+    },
+    {
+      "page": "Speed",
+      "label": "Clamp",
+      "name": "clamp",
+      "description": "Simply cut the channel value off if it is out of the Maximum/Minimum range, and replace it with the Maximum or Minimum limit value."
+    },
+    {
+      "page": "Speed",
+      "label": "Loop",
+      "name": "loop",
+      "description": "Continue the channel at the other end of the interval."
+    },
+    {
+      "page": "Speed",
+      "label": "Zigzag",
+      "name": "zigzag",
+      "description": "Mirror the values back inside the interval."
+    },
+    {
+      "page": "Speed",
+      "label": "Minimum",
+      "name": "min",
+      "description": "The minimum value the output channel can have."
+    },
+    {
+      "page": "Speed",
+      "label": "Maximum",
+      "name": "max",
+      "description": "The maximum value the output channel can have."
+    },
+    {
+      "page": "Speed",
+      "label": "Speed per  Sample",
+      "name": "speedsamples",
+      "description": "Applies the speed to each sample of the channel instead of across the whole channel. Useful for working with multi-sample channels."
+    },
+    {
+      "page": "Speed",
+      "label": "Reset Condition",
+      "name": "resetcondition",
+      "description": "⊞  - This menu determines how the Reset input triggers a reset of the channel(s)."
+    },
+    {
+      "page": "Speed",
+      "label": "Off to On",
+      "name": "offtoon",
+      "description": "Channels are reset when the Reset input goes off to on."
+    },
+    {
+      "page": "Speed",
+      "label": "While On",
+      "name": "on",
+      "description": "Channels are reset when the Reset input goes on. The channel will hold the reset value until the input turns off."
+    },
+    {
+      "page": "Speed",
+      "label": "On to Off",
+      "name": "ontooff",
+      "description": "Channels are reset when the Reset input goes on to off."
+    },
+    {
+      "page": "Speed",
+      "label": "While Off",
+      "name": "off",
+      "description": "Channels are reset when the Reset input goes off. The channel will hold the reset value until the input turns on."
+    },
+    {
+      "page": "Speed",
+      "label": "Reset Value",
+      "name": "resetvalue",
+      "description": "The channel(s) is set to this value when reset."
+    },
+    {
+      "page": "Speed",
+      "label": "Reset",
+      "name": "reset",
+      "description": "⊞  - While On, this toggle resets the channel(s) to the  Reset Value ."
+    },
+    {
+      "page": "Speed",
+      "label": "Reset on Start",
+      "name": "resetonstart",
+      "description": "While On, the Speed  CHOP  will reset each time the  .toe  file is restarted. If the Speed  CHOP 's value gets too large it can start stepping as when it reaches the limit of  CHOP 's number resolution. This is useful for projects that run for a long time, restarting the file will reset this value."
+    },
+    {
+      "page": "Speed",
+      "label": "Reset  Pulse",
+      "name": "resetpulse",
+      "description": "Click to instantly resets the channel(s) to the  Reset Value ."
+    },
+    {
+      "page": "Speed",
+      "label": "Reset\tOn Start",
+      "name": "resetonstart",
+      "description": "While On, the Speed  CHOP  will reset each time the  .toe  file is restarted. If the Speed  CHOP 's value gets too large it can start stepping as when it reaches the limit of  CHOP 's number resolution. This is useful for projects that run for a long time, restarting the file will reset this value."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "Rename from",
+      "name": "commonrenamefrom",
+      "description": "The channel pattern to rename. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Rename to",
+      "name": "commonrenameto",
+      "description": "The replacement pattern for the names. The default parameters do not rename the channels. See  Pattern Replacement ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Names:  c[1",
+      "description": "10:2] ambient"
+    },
+    {
+      "page": "Common",
+      "label": "Rename To:  b[1",
+      "description": "5] amb    This example fetches channels  c1 c3 c5 c7 c9  and  ambient ."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "To \"pulse\" a parameter is to send it a signal from (1) an  exported  CHOP channel or (2) a python command or (3) a mouse click that causes a new action to occur immediately. A pulse via python is via the  .pulse()  function on a pulse",
+      "description": "type parameter, such as Reset parameter in a  Speed CHOP . A pulse from a CHOP is typically a 0 to 1 to 0 signal in an exported channel."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Full data.txt",
+      "excerpt": "permiten trabajar con múltiples entradas POP, ofreciendo formas flexibles de combinarlas o alternar entre ellas. ◦ Sort POP: Implementado con modernos y rápidos algoritmos de ordenamiento, permite ordenar los puntos basándose en cualquier componente de un atributo. • Sistemas de Partículas: ◦ Particle POP: Este es el núcleo para crear y manipular sistemas de partículas. Permite la simulación de movimiento de puntos como partículas y opcionalmente añade atributos como velocity, direction, speed, age, mass y force. ◦ Feedback POP: Es crucial para crear bucles de simulación, permitiendo la manipulación general de datos para efectos dinámicos complejos, como el movimiento de partículas. ◦ Force POP: Utilizado para definir y aplicar fuerzas que afectan a los puntos o partículas. ◦ Trail POP: Permite visualizar la \"historia de tiempo\" de un punto, creando una line strip para cada punto, útil para trazar el movimiento de partículas. • Líneas y Curvas: ◦ Line POP / Primitive POP: O"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "nica o un conjunto de primitivas fusionadas para un mejor rendimiento. * Si los tipos de geometría no son compatibles directamente con POPs, se **convierten automáticamente a triángulos, quads, line strips y primitivas de punto**. * Cuando se fusionan geometrías, se crea un operador `Info DAT` junto a este POP, que muestra las rutas originales de las primitivas dentro del archivo importado. * Tiene sus **propios controles de animación** (Initialize, Start, Cue, Play, Index, Speed, Trim, Extend), o puedes usar la configuración de su componente padre. * La geometría importada se carga **directamente a la GPU**, lo que asegura un alto rendimiento. --- #### 36. In POP * **¿Qué hace?** Este operador se utiliza dentro de un **componente personalizado** para obtener datos de un POP que está conectado a una de las entradas de ese componente padre. Piensa en él como un \"conector de entrada\" para tu módulo personalizado. * **Características clave:** * Po"
+    },
+    {
+      "source": "POPs Investigation and Workshop Plan.markdown",
+      "excerpt": "names in output scopes. ## 3. POPs vs. SOPs - **Execution**: POPs run on the GPU (parallelized compute shaders); SOPs run on the CPU. - **Workflow**: POPs combine strengths of SOPs, CHOPs, and TOPs for a modern approach. - **Attributes**: POPs offer advanced attribute manipulation (e.g., multi-component, high precision). - **Limitations**: POPs lack some SOP features (e.g., tracing, booleans), though these may be added later. ## 4. Key Features - **GPU Acceleration**: Uses compute shaders for speed and efficiency. - **Memory Optimization**: References unchanged attributes, allocating memory only for modified data. - **Math Operations**: POPs like `Math`, `Transform`, and `Normalize` enable coding-free manipulations. - **Multi-Input Support**: POPs like `Merge` and `Switch` handle multiple inputs with flexible configurations. - **Swizzling**: Manipulate attribute components (e.g., `P.xy` for X and Y). ## 5. Practical Applications - **Rendering**: POPs drive 3D geometry with attributes lik"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "etween these two states. (09:21) So, I'm multiplying and setting that up. We start off a feedback loop which is extremely similar to what we're used to where we basically have this process chain that processes and then feeds back and does that multiple times per frame creating these offsets using this chain that involves this noise displacement. (09:46) And I have a couple things here. And what we can see I'm doing is I'm setting uniforms here. So for example, this life increment allows me to speed up or slow down how fast my object gets to its end result. So basically its life value. So this is basically like how fast are we stepping through the perceived life of that particle. So we can slow that down or speed it up. (10:17) And so uniforms are basically things like a constant where you would set this like you would in a GLSL uniform and you just put that and it's going to stay static. In this case I just have a float but you have all these options here for things that are going to be"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

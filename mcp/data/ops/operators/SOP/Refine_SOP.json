@@ -1,0 +1,174 @@
+{
+  "family": "SOP",
+  "pageTitle": "Refine SOP",
+  "pageSlug": "Refine_SOP",
+  "url": "https://docs.derivative.ca/Refine_SOP",
+  "tdOpTypeGuess": "refineSOP",
+  "summary": "[  edit  ]\nThe Refine  SOP  allows you to increase the number of CVs in any NURBS, Bzier, or polygonal surface or face without changing its shape. It is also used to decrease the number of CVs within a given tolerance (i.e. a simple but fast method of data reduction).\nThe Difference Between Refinement and Unrefinement\nRefinement and unrefinement work both on faces (polygons, Bzier curves and NURBS curves) and surfaces (primitive meshes, Bzier surfaces and NURBS surfaces). To unrefine a face or a surface you need to specify a parametric interval (not just a single value as in refinement). This allows you to unrefine primitives within arbitrary intervals, either locally or globally. For example, to unrefine the whole primitive choose 0 and 1 as the two parametric boundaries; [0,0.5] will unrefine only the first parametric half of the primitive.\nThe interval boundaries are given by the First/Second U/V fields. Since refinement does not need an interval, the Second U/V fields are disabled by default.\nThe Tolerance control is only available for unrefinement, and not for refinement. Refinement does not need tolerances because it generates a curve or a surface that is mathematically identical to the original. Unrefinement, however, may tend to smooth out (or \"melt\") the original in a given area. In short, unrefinement is lossy; refinement isn't.\nrefineSOP_Class\nContents\n1   Summary\n1.1   The Difference Between Refinement and Unrefinement\n2   Parameters -  Page\n3   Parameters - Refine Page\n4   Parameters - Unrefine Page\n5   Parameters - Subdivide Page\n6   Operator Inputs\n7   Info CHOP Channels\n7.1   Common SOP Info Channels\n7.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Refine",
+      "label": "NURB Count U",
+      "name": "refineu",
+      "description": "Number of knots to insert at each location in the U / V basis when refining NURBS."
+    },
+    {
+      "page": "Refine",
+      "label": "NURB Count V",
+      "name": "refinev",
+      "description": "Number of knots to insert at each location in the U / V basis when refining NURBS."
+    },
+    {
+      "page": "Refine",
+      "label": "Spacing",
+      "name": "space",
+      "description": "⊞  - Specify how to measure along splines / curves."
+    },
+    {
+      "page": "Refine",
+      "label": "Uniform Domain Lengths",
+      "name": "domain",
+      "description": "Refine at equal basis intervals if refining a spline."
+    },
+    {
+      "page": "Refine",
+      "label": "Uniform Arc Lengths",
+      "name": "arc",
+      "description": "Each refinement is done at the centre of the maximum knot span (splines) or edge length (polygons)."
+    },
+    {
+      "page": "Unrefine",
+      "label": "NURB Count U",
+      "name": "unrefineu",
+      "description": "Number of knots to remove at each location in the U / V basis if refining NURBS."
+    },
+    {
+      "page": "Unrefine",
+      "label": "NURB Count V",
+      "name": "unrefinev",
+      "description": "Number of knots to remove at each location in the U / V basis if refining NURBS."
+    },
+    {
+      "page": "Unrefine",
+      "label": "Tolerance U",
+      "name": "tolu",
+      "description": "Only remove knots that do change the curve, polygon, or surface by more than this distance."
+    },
+    {
+      "page": "Unrefine",
+      "label": "Tolerance V",
+      "name": "tolv",
+      "description": "Only remove knots that do change the curve, polygon, or surface by more than this distance."
+    },
+    {
+      "page": "Subdivide",
+      "label": "Subdivide refines a primitive such that the subdivision causes a sharp discontinuity if ever displaced. In essence subdivide is equivalent to refine for polygons and Bziers, since any refinement causes a potential discontinuity. In the case of a NURBS it is equivalent to a maximum refinement (i.e. count = primitive basis order",
+      "description": "1)."
+    },
+    {
+      "page": "Subdivide",
+      "label": "Spacing",
+      "name": "subdivspace",
+      "description": "⊞  - Subdivide refines a primitive such that the subdivision causes a sharp discontinuity if ever displaced. In essence subdivide is equivalent to refine for polygons and Bziers, since any refinement causes a potential discontinuity. In the case of a NURBS it is equivalent to a maximum refinement (i.e. count = primitive basis order - 1)."
+    },
+    {
+      "page": "Subdivide",
+      "label": "Uniform Domain Lengths",
+      "name": "domain",
+      "description": "Refine at equal basis intervals if refining a spline."
+    },
+    {
+      "page": "Subdivide",
+      "label": "Uniform Arc Lengths",
+      "name": "arc",
+      "description": "Each refinement is done at the centre of the maximum knot span (splines) or edge length (polygons)."
+    },
+    {
+      "page": "Subdivide",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Subdivide",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Subdivide",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Subdivide",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Subdivide",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Subdivide",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Subdivide",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Subdivide",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Subdivide",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Subdivide",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Subdivide",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Subdivide",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Subdivide",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Subdivide",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Subdivide",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

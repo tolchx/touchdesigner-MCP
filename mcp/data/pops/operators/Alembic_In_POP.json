@@ -1,0 +1,124 @@
+{
+  "pageTitle": "Alembic In POP",
+  "pageSlug": "Alembic_In_POP",
+  "url": "https://docs.derivative.ca/Alembic_In_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "alembicInPOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "Alembic File",
+      "type": "File",
+      "default": "",
+      "description": "Path to the Alembic .abc file."
+    },
+    {
+      "name": "Object Path",
+      "type": "Menu",
+      "options": [
+        "All Objects",
+        "Custom"
+      ],
+      "default": "All Objects",
+      "description": "Select which geometry object to load. All Objects (*) loads everything."
+    },
+    {
+      "name": "Load Type",
+      "type": "Menu",
+      "options": [
+        "Immediate (Slow)",
+        "Next Frame (Fast)"
+      ],
+      "default": "Next Frame (Fast)",
+      "description": "Immediate loads on current frame. Next Frame loads asynchronously for much faster cook times."
+    },
+    {
+      "name": "Transform",
+      "type": "Menu",
+      "options": [
+        "None",
+        "Static Local",
+        "Static World",
+        "Dynamic"
+      ],
+      "default": "Dynamic",
+      "description": "None: no transform. Static Local/World: apply static transforms. Dynamic: apply animated transforms."
+    },
+    {
+      "name": "Interpolation",
+      "type": "Menu",
+      "options": [
+        "None",
+        "Linear"
+      ],
+      "default": "Linear",
+      "description": "Linear interpolates between keyframes. New in 2025.3: Now interpolates ALL point positions."
+    },
+    {
+      "name": "Play Mode",
+      "type": "Menu",
+      "options": [
+        "Locked to Timeline",
+        "Specify Index",
+        "Sequential"
+      ],
+      "default": "Locked to Timeline",
+      "description": "Controls animation playback mode."
+    },
+    {
+      "name": "Speed",
+      "type": "Float[-100-100]",
+      "default": 1,
+      "description": "Playback speed multiplier."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [
+    "Importing Alembic caches from Houdini/Maya/Blender",
+    "Multi-frame animation playback in POP pipeline",
+    "Pipeline integration with DCC applications",
+    "Loading point clouds and particle caches"
+  ],
+  "examples": [
+    {
+      "name": "Houdini Cache Import",
+      "description": "Alembic In POP → Transform POP → Render TOP for imported geometry",
+      "difficulty": "beginner"
+    },
+    {
+      "name": "Animation Playback",
+      "description": "Alembic In POP (Play Mode=Sequential, Speed=0.5) for half-speed playback",
+      "difficulty": "beginner"
+    },
+    {
+      "name": "Multi-Object Scene",
+      "description": "Alembic In POP (Object Path=All Objects) → Switch POP for object selection",
+      "difficulty": "intermediate"
+    }
+  ],
+  "commonCombinations": [
+    "Alembic In POP → Transform POP → Render TOP",
+    "Alembic In POP → GLSL POP (GPU displacement)",
+    "Alembic In POP → Cache POP (bake for performance)"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "No geometry visible",
+      "solution": "Check Object Path parameter — ensure correct geometry is selected from the dropdown."
+    },
+    {
+      "problem": "Animation not playing",
+      "solution": "Ensure Play Mode is not Locked to Timeline. Press Start button or set to Sequential/Specify Index."
+    },
+    {
+      "problem": "Slow loading",
+      "solution": "Use Load Type = Next Frame (Fast) for async loading. Reduce geometry complexity if needed."
+    },
+    {
+      "problem": "Duplicate attributes",
+      "solution": "If same attribute name exists on vertex and point, Alembic In auto-converts to vertex attribute."
+    }
+  ],
+  "description": "Loads and plays back Alembic (.abc) file geometry and multi-frame sequences. Supports polymesh (triangles/quads), curves, points, and Alembic transformations. New in 2025.3: Delayed load type, extended playback controls, linear interpolation for all point positions."
+}

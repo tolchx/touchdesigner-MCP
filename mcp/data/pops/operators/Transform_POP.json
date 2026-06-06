@@ -1,0 +1,181 @@
+{
+  "pageTitle": "Transform POP",
+  "pageSlug": "Transform_POP",
+  "url": "https://docs.derivative.ca/Transform_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "transformPOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "Mode",
+      "type": "Menu",
+      "options": [
+        "Transform Geometry",
+        "Transform Attribute",
+        "Transform Attribute Scope as Position",
+        "Transform Attribute Scope as Vector"
+      ],
+      "default": "Transform Geometry",
+      "description": "What to transform."
+    },
+    {
+      "name": "Transform Order",
+      "type": "Menu",
+      "options": [
+        "SRT",
+        "STR",
+        "RST",
+        "RTS",
+        "TSR",
+        "TRS"
+      ],
+      "default": "SRT",
+      "description": "Order of scale, rotate, translate operations."
+    },
+    {
+      "name": "Rotate Order",
+      "type": "Menu",
+      "options": [
+        "XYZ",
+        "XZY",
+        "YXZ",
+        "YZX",
+        "ZXY",
+        "ZYX"
+      ],
+      "default": "XYZ",
+      "description": "Order of rotation axes."
+    },
+    {
+      "name": "Translate",
+      "type": "Float[3]",
+      "default": "0,0,0",
+      "description": "Translation in XYZ."
+    },
+    {
+      "name": "Rotate",
+      "type": "Float[3]",
+      "default": "0,0,0",
+      "description": "Rotation in degrees per axis."
+    },
+    {
+      "name": "Scale",
+      "type": "Float[3]",
+      "default": "1,1,1",
+      "description": "Scale per axis."
+    },
+    {
+      "name": "Uniform Scale",
+      "type": "Float",
+      "default": 1,
+      "description": "Uniform scale factor applied to all axes."
+    },
+    {
+      "name": "Pivot",
+      "type": "Float[3]",
+      "default": "0,0,0",
+      "description": "Center of rotation and scale."
+    },
+    {
+      "name": "Invert",
+      "type": "Toggle",
+      "default": false,
+      "description": "Apply inverse of the transform."
+    },
+    {
+      "name": "Look At",
+      "type": "OP",
+      "default": "",
+      "description": "Object to orient Z-axis toward."
+    },
+    {
+      "name": "Up Vector",
+      "type": "Float[3]",
+      "default": "0,1,0",
+      "description": "Up direction for look-at."
+    },
+    {
+      "name": "Xform Matrix",
+      "type": "OP",
+      "default": "",
+      "description": "4x4 transform matrix from CHOP/DAT."
+    },
+    {
+      "name": "Weight Attribute",
+      "type": "Str",
+      "default": "",
+      "description": "Per-point weight (0-1) for partial transforms."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de partículas complejos, simulaciones a gran escala y efectos visuales generativos que superan las capacidades de las metodologías"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "LSL, Vulkan), permite un procesamiento altamente paralelo y eficiente en la GPU. Cada hilo (por ejemplo, por punto) puede acceder y modificar sus atributos directamente en la memoria, lo que es ideal para sistemas de partículas y grandes nubes de puntos. Esta elección de diseño no es simplemente un detalle de implementación; dicta cómo los desarrolladores deben pensar sobre el flujo y la manipulación de datos dentro del entorno POPs. Fomenta un enfoque de diseño orientado a los datos, donde las transformaciones y los comportamientos se aplican directamente a los atributos en lugar de depender de la generación de geometría procedural compleja, lo que se traduce en ganancias significativas de rendimiento y escalabilidad para las aplicaciones en tiempo real. 1.3 Ventajas de usar POPs en gráficos 3D en tiempo real La principal ventaja de los POPs es su aceleración por GPU, lo que permite manejar \"millones de puntos\" 6 y ofrece \"mayor rendimiento, procesamiento paralelo y flujos de trabajo"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de partículas complejos, simulaciones a gran escala y efectos visuales generativos que superan las capacidades de las metodologías"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "nes o efectos muy personalizados. • Experimental:GLSL Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Grid POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Group POP: Se usa para crear grupos de puntos, vértices o primitivas. Puedes usar estos grupos para afectar solo ciertas partes de tu geometría con otros operadores, como el Transform POP. También puede convertir un grupo en un atributo. • Experimental:Histogram POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Import Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:In POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Limit POP: Este PO"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "nes o efectos muy personalizados. • Experimental:GLSL Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Grid POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Group POP: Se usa para crear grupos de puntos, vértices o primitivas. Puedes usar estos grupos para afectar solo ciertas partes de tu geometría con otros operadores, como el Transform POP. También puede convertir un grupo en un atributo. • Experimental:Histogram POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Import Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:In POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Limit POP: Est"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "nes o efectos muy personalizados. • Experimental:GLSL Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Grid POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Group POP: Se usa para crear grupos de puntos, vértices o primitivas. Puedes usar estos grupos para afectar solo ciertas partes de tu geometría con otros operadores, como el Transform POP. También puede convertir un grupo en un atributo. • Experimental:Histogram POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Import Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:In POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Limit POP: Este PO"
+    }
+  ],
+  "useCases": [
+    "Animate point positions with expressions ($PT, sin/cos)",
+    "Create spiral formations using per-point rotation",
+    "Orient particles toward targets with Look At",
+    "Apply external matrix transforms from CHOP data",
+    "Scale geometry relative to pivot points"
+  ],
+  "examples": [
+    "Grid POP → Transform POP (Translate Y: $PT*0.1, Rotate Y: $PT*15) → helical spiral",
+    "Particle POP → Transform POP (Look At: null1) → particles face target"
+  ],
+  "commonCombinations": [
+    {
+      "operators": [
+        "Grid_POP",
+        "Transform_POP",
+        "Noise_POP"
+      ],
+      "description": "Animated procedural geometry"
+    },
+    {
+      "operators": [
+        "Particle_POP",
+        "Transform_POP",
+        "Trail_POP"
+      ],
+      "description": "Oriented particle trails"
+    },
+    {
+      "operators": [
+        "Transform_POP",
+        "Attribute_POP",
+        "Render"
+      ],
+      "description": "Controlled per-point transformations"
+    }
+  ],
+  "troubleshooting": [
+    "Gimbal lock during animation: Change Rotate Order to avoid aligned axes",
+    "Rotation wrong: Check Pivot point and Transform Order",
+    "Look At jittering: Ensure Up Vector is not parallel to view direction",
+    "Weight not working: Verify attribute name matches Weight Attribute parameter"
+  ],
+  "description": "Applies translate, rotate, and scale to P and N attributes. Supports per-point transforms via Map page, look-at orientation, 4x4 matrix input, and align operations for bounding box alignment."
+}

@@ -1,0 +1,57 @@
+{
+  "pageTitle": "Line Divide POP",
+  "pageSlug": "Line_Divide_POP",
+  "url": "https://docs.derivative.ca/Line_Divide_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "lineDividePOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "tice es un índice en la lista de puntos.7 Los tipos de primitivas POP incluyen triángulos, quads, tiras de línea, líneas y primitivas de punto.7 Las primitivas de punto, por ejemplo, son primitivas de un solo vértice renderizadas como puntos, ideales para nubes de puntos o sistemas de partículas.7 Una distinción clave con respecto a los SOPs es que los POPs actualmente no admiten primitivas de curva directamente, aunque la subdivisión de splines es posible utilizando operadores como Line POP y Line Divide POP.7 Los atributos son cruciales para almacenar datos adicionales por punto, vértice o primitiva, como normales (N), coordenadas de textura (uv) y color (Cd).1 Los POPs permiten la creación, modificación, duplicación, cambio de nombre y eliminación de estos atributos.1 El énfasis en los \"atributos\" y su manipulación a través de varios POPs (por ejemplo, Attribute POP, GLSL POP, Math Mix POP) apunta a una filosofía de diseño centrada en los atributos para los POPs. Muchos POPs (Attribute POP, GLSL"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "tice es un índice en la lista de puntos.7 Los tipos de primitivas POP incluyen triángulos, quads, tiras de línea, líneas y primitivas de punto.7 Las primitivas de punto, por ejemplo, son primitivas de un solo vértice renderizadas como puntos, ideales para nubes de puntos o sistemas de partículas.7 Una distinción clave con respecto a los SOPs es que los POPs actualmente no admiten primitivas de curva directamente, aunque la subdivisión de splines es posible utilizando operadores como Line POP y Line Divide POP.7 Los atributos son cruciales para almacenar datos adicionales por punto, vértice o primitiva, como normales (N), coordenadas de textura (uv) y color (Cd).1 Los POPs permiten la creación, modificación, duplicación, cambio de nombre y eliminación de estos atributos.1 El énfasis en los \"atributos\" y su manipulación a través de varios POPs (por ejemplo, Attribute POP, GLSL POP, Math Mix POP) apunta a una filosofía de diseño centrada en los atributos para los POPs. Muchos POPs (Attribute POP,"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "tice es un índice en la lista de puntos.7 Los tipos de primitivas POP incluyen triángulos, quads, tiras de línea, líneas y primitivas de punto.7 Las primitivas de punto, por ejemplo, son primitivas de un solo vértice renderizadas como puntos, ideales para nubes de puntos o sistemas de partículas.7 Una distinción clave con respecto a los SOPs es que los POPs actualmente no admiten primitivas de curva directamente, aunque la subdivisión de splines es posible utilizando operadores como Line POP y Line Divide POP.7 Los atributos son cruciales para almacenar datos adicionales por punto, vértice o primitiva, como normales (N), coordenadas de textura (uv) y color (Cd).1 Los POPs permiten la creación, modificación, duplicación, cambio de nombre y eliminación de estos atributos.1 El énfasis en los \"atributos\" y su manipulación a través de varios POPs (por ejemplo, Attribute POP, GLSL POP, Math Mix POP) apunta a una filosofía de diseño centrada en los atributos para los POPs. Muchos POPs (Attribute POP, GLSL"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "una descripción detallada de la función específica de este operador. • Experimental:Limit POP: Este POP proporciona capacidades de manipulación fundamentales sin necesidad de escribir código. Permite crear nuevos atributos fácilmente y utiliza atributos de solo lectura internos. • Experimental:Line Break POP: Se utiliza para dividir una lista de puntos en múltiples primitivas de \"tira de líneas\", basándose en valores específicos de atributos como LineBreak o LineStripIndex. • Experimental:Line Divide POP: Se utiliza para subdividir cualquier tira de línea. • Experimental:Line Metrics POP: Genera nuevos atributos, a menudo de tipo entero sin signo, con nombres predeterminados. Por ejemplo, puede generar el atributo Dir (dirección). • Experimental:Line POP: Un operador que permite la creación de tiras de línea. Puede dividir curvas o generar puntos de control con atributos que definen la forma de la curva, como Weight o Tension. También permite crear y modificar atributos de color y textura."
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "una descripción detallada de la función específica de este operador. • Experimental:Limit POP: Este POP proporciona capacidades de manipulación fundamentales sin necesidad de escribir código. Permite crear nuevos atributos fácilmente y utiliza atributos de solo lectura internos. • Experimental:Line Break POP: Se utiliza para dividir una lista de puntos en múltiples primitivas de \"tira de líneas\", basándose en valores específicos de atributos como LineBreak o LineStripIndex. • Experimental:Line Divide POP: Se utiliza para subdividir cualquier tira de línea. • Experimental:Line Metrics POP: Genera nuevos atributos, a menudo de tipo entero sin signo, con nombres predeterminados. Por ejemplo, puede generar el atributo Dir (dirección). • Experimental:Line POP: Un operador que permite la creación de tiras de línea. Puede dividir curvas o generar puntos de control con atributos que definen la forma de la curva, como Weight o Tension. También permite crear y modificar atributos de color y textu"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "una descripción detallada de la función específica de este operador. • Experimental:Limit POP: Este POP proporciona capacidades de manipulación fundamentales sin necesidad de escribir código. Permite crear nuevos atributos fácilmente y utiliza atributos de solo lectura internos. • Experimental:Line Break POP: Se utiliza para dividir una lista de puntos en múltiples primitivas de \"tira de líneas\", basándose en valores específicos de atributos como LineBreak o LineStripIndex. • Experimental:Line Divide POP: Se utiliza para subdividir cualquier tira de línea. • Experimental:Line Metrics POP: Genera nuevos atributos, a menudo de tipo entero sin signo, con nombres predeterminados. Por ejemplo, puede generar el atributo Dir (dirección). • Experimental:Line POP: Un operador que permite la creación de tiras de línea. Puede dividir curvas o generar puntos de control con atributos que definen la forma de la curva, como Weight o Tension. También permite crear y modificar atributos de color y textura."
+    }
+  ],
+  "useCases": [
+    "Subdivide lines",
+    "Add points along curves",
+    "Increase line resolution"
+  ],
+  "examples": [
+    {
+      "name": "Subdivide Line",
+      "description": "Line POP to Line Divide POP for more points",
+      "difficulty": "beginner"
+    }
+  ],
+  "commonCombinations": [
+    "Line POP to Line Divide POP"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Wrong number of divisions",
+      "solution": "Adjust division count parameter."
+    }
+  ]
+}

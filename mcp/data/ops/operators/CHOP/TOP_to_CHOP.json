@@ -1,0 +1,653 @@
+{
+  "family": "CHOP",
+  "pageTitle": "TOP to CHOP",
+  "pageSlug": "TOP_to_CHOP",
+  "url": "https://docs.derivative.ca/TOP_to_CHOP",
+  "tdOpTypeGuess": "tOPtoCHOP",
+  "summary": "[  edit  ]\nThe  TOP  to  CHOP  converts pixels in a  TOP  image to  CHOP  channels. Each pixel color element (RGBA) is placed in a separate channel. Depending on the parameter options, the node will either create a single set of channels for the whole image or it can create a separate set of channels for each scanline (row).\nA single pixel, rows of pixels, columns of pixels or rectangular regions can be extracted from the image. It is therefore important to be aware of how many pixels your source image is composed of.\nThe Exclude NaN and Active Mask parameters can be used to skip certain pixels so they are not included in the chop channels.\nThere is an optional input which supplies UV coordinates to sample the image. The input  CHOP  must contain 2 channels, for U and V. The first channel is always assumed to be U. The channels produced (red, green, blue and alpha) will be exactly as long as the input channel's length, with a value for each UV coordinate.\nIf you are grabbing pixels from a  Depth TOP , you will only get a single channel (the depth). This will be placed in the R channel.\ntoptoCHOP_Class\nContents\n1   Summary\n2   Parameters - Image Page\n3   Parameters - Crop Page\n4   Parameters - Extend Page\n5   Parameters - Channel Page\n6   Parameters - Common Page\n7   Operator Inputs",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Image",
+      "label": "TOP",
+      "name": "top",
+      "description": "Specify the  TOP  operator whose image will be sampled."
+    },
+    {
+      "page": "Image",
+      "label": "Download Type",
+      "name": "downloadtype",
+      "description": "⊞  - Gives the option for a delayed data download from the  GPU , which is much faster and does not stall the render."
+    },
+    {
+      "page": "Image",
+      "label": "Red",
+      "name": "r",
+      "description": "The prefix for channels created from the red pixels of the source image. If multiple red channels are created, they will have a numeric suffix that matches the vertical scanline number of the image e.g.  r0  -  r4 ."
+    },
+    {
+      "page": "Image",
+      "label": "Green",
+      "name": "g",
+      "description": "The prefix for channels created from the green pixels of the source image. If multiple green channels are created, they will have a numeric suffix that matches the scanline number of the image e.g.  g0  -  g4 ."
+    },
+    {
+      "page": "Image",
+      "label": "Blue",
+      "name": "b",
+      "description": "The prefix for channels created from the blue pixels of the source image. If multiple blue channels are created, they will have a numeric suffix that matches the scanline number of the image e.g.  b0  -  b4 ."
+    },
+    {
+      "page": "Image",
+      "label": "Alpha",
+      "name": "a",
+      "description": "The prefix for channels created from the alpha pixels of the source image. If multiple alpha channels are created, they will have a numeric suffix that matches the scanline number of the image e.g.  a0  -  a4 ."
+    },
+    {
+      "page": "Image",
+      "label": "Output Color Space",
+      "name": "outputcolorspace",
+      "description": "⊞  - Controls what color space the data will be converted to before output. If the output (file/SDI/ST2110 etc) supports metadata, will also attempt to include the color space in that. Some output forms only support a limited number of color spaces in their metadata. If the color space is unknown to the output form, then no metadata will be included."
+    },
+    {
+      "page": "Image",
+      "label": "sRGB",
+      "name": "srgb",
+      "description": "sRGB  color space, with sRGB transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Image",
+      "label": "sRGB - Linear",
+      "name": "srgblinear",
+      "description": "sRGB  color space, with linear transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Image",
+      "label": "Rec.601 (NTSC)",
+      "name": "rec601ntsc",
+      "description": "Rec.601  with NTSC primaries color space, with Rec.601 transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Image",
+      "label": "Rec.709",
+      "name": "rec709",
+      "description": "Rec.709  color space, with Rec.709 (same as Rec.2020) transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Image",
+      "label": "Rec.2020",
+      "name": "rec2020",
+      "description": "Rec.2020  color space, with Rec.2020 (same as Rec.709) transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Image",
+      "label": "Rec.2020 ST2084PQ",
+      "name": "rec2020st2084pq",
+      "description": "Rec.2020  color space, with  Perceptual Quantizer  transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Image",
+      "label": "Rec.2020 HLG",
+      "name": "rec2020hlg",
+      "description": "Rec.2020  color space, with  Hybrid Log Gamma  transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Image",
+      "label": "DCI-P3",
+      "name": "dcip3",
+      "description": "DCI-P3  color space, with D65 white point and 2.6 gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Image",
+      "label": "DCI-P3 (D60)",
+      "name": "dcip3d60",
+      "description": "DCI-P3 \"D60 sim\"  color space, with D60 white point, and 2.6 gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Image",
+      "label": "Display-P3 (D65)",
+      "name": "displayp3d65",
+      "description": "Display-P3  color space, with D65 white point, and sRGB gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Image",
+      "label": "Display-P3 (D65) - Linear",
+      "name": "displayp3d65linear",
+      "description": "Display-P3  color space, with D65 white point, and linear transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Image",
+      "label": "ACES2065-1",
+      "name": "aces2065",
+      "description": "1  -  ACES 2065-1  (also known as ACES AP0) color space, with a linear gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Image",
+      "label": "ACEScg",
+      "name": "acescg",
+      "description": "ACEScg  (also known as ACES AP1) color space, with a linear gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Image",
+      "label": "ACESproxy",
+      "name": "acesproxy",
+      "description": "ACESproxy  color space, which has a log transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Image",
+      "label": "Passthrough",
+      "name": "passthrough",
+      "description": "When selected, the color values will be used as-is in the operation, without any modification or attempt to convert them into the Working Color Space."
+    },
+    {
+      "page": "Image",
+      "label": "Output  Reference  White",
+      "name": "outputreferencewhite",
+      "description": "⊞  - When converting the color values to the Working Color Space for output, this controls how they should be treated with respect to  Reference White . If the Working Color Space is the same  Reference  White, then no adjustment is done. If they are different, then the  Reference  White level (brightness) of the colors will be adjusted to the range expected by the Output Color Space. For example if the project is set to have a SDR  Reference  White of 120 nits, and the HDR  Reference  White is 80 nits, and the project Working Color Space is HDR while the Output Color Space is SDR: then a color of (1, 1, 1), which is 80 nits in the HDR color space, will be converted to be (0.66, 0.66, 0.66), which is 80 nits still in the SDR Output Color Space."
+    },
+    {
+      "page": "Image",
+      "label": "Default For Color Space",
+      "name": "default",
+      "description": "Will use either the SDR or the HDR  Reference  White, based on the color space detected/selected."
+    },
+    {
+      "page": "Image",
+      "label": "Standard (SDR)",
+      "name": "sdr",
+      "description": "Will treat the Output Color Space as SDR for it's reference white value."
+    },
+    {
+      "page": "Image",
+      "label": "High (HDR)",
+      "name": "hdr",
+      "description": "Will treat the Output Color Space as HDR for it's reference white value."
+    },
+    {
+      "page": "Image",
+      "label": "Output as Single Channel Set",
+      "name": "singleset",
+      "description": "Controls whether a channel is created for each scanline, or whether all scanlines are appended into a single channel set. A channel set refers to one  CHOP  channel per color channel of the source image e.g. 4 channels for an RGBA image."
+    },
+    {
+      "page": "Image",
+      "label": "Exclude NaNs",
+      "name": "excludenans",
+      "description": "When enabled, pixels that have a NaN value in any of their channels will be skipped and not added to the  CHOP  channel."
+    },
+    {
+      "page": "Image",
+      "label": "Active  Channel",
+      "name": "activechannel",
+      "description": "⊞  - When enabled, only pixels that have a non-zero value in the selected active channel will be added to the  CHOP  channel."
+    },
+    {
+      "page": "Image",
+      "label": "RGBA Units",
+      "name": "rgbaunit",
+      "description": "⊞  - Scales the output to lie in the range 0-1, 0-255 or 0-65535."
+    },
+    {
+      "page": "Crop",
+      "label": "Crop",
+      "name": "crop",
+      "description": "⊞  - Specifies what to extract from the image."
+    },
+    {
+      "page": "Crop",
+      "label": "Pixel (U,V)",
+      "name": "pixel",
+      "description": "Extract a single pixel at the given U and V value."
+    },
+    {
+      "page": "Crop",
+      "label": "Row (U)",
+      "name": "row",
+      "description": "Extract a single row at the given U value, cropped by the V Start and V End on the left and right."
+    },
+    {
+      "page": "Crop",
+      "label": "Column (V)",
+      "name": "col",
+      "description": "Extract a single column at the given V value, cropped by the U Start and U End on the bottom and top."
+    },
+    {
+      "page": "Crop",
+      "label": "Rows and Columns",
+      "name": "block",
+      "description": "Extract multiple rows and multiple columns, bound by the U/V Start/End parameters."
+    },
+    {
+      "page": "Crop",
+      "label": "Full Image",
+      "name": "full",
+      "description": "Extract the full image."
+    },
+    {
+      "page": "Crop",
+      "label": "UV Units",
+      "name": "uvunits",
+      "description": "⊞  - Specifies the units for the following 4 parameters. The parameters can use the local variables  $NR  and  $NC  for the number of rows and columns."
+    },
+    {
+      "page": "Crop",
+      "label": "U Start",
+      "name": "ustart",
+      "description": "Starting point for sampling in U. Values outside the range of the image are determined by the image's extend conditions, in the extend page."
+    },
+    {
+      "page": "Crop",
+      "label": "U End",
+      "name": "uend",
+      "description": "Ending point for sampling in U."
+    },
+    {
+      "page": "Crop",
+      "label": "V Start",
+      "name": "vstart",
+      "description": "Starting point for sampling in V."
+    },
+    {
+      "page": "Crop",
+      "label": "V End",
+      "name": "vend",
+      "description": "Ending point for sampling in V."
+    },
+    {
+      "page": "Crop",
+      "label": "Interpolate",
+      "name": "interp",
+      "description": "⊞  - Determines the interpolation method when UV sampling with an input  CHOP ."
+    },
+    {
+      "page": "Extend",
+      "label": "Image Left",
+      "name": "imageleft",
+      "description": "⊞  - The image extend conditions when sampling the image with U less than 0."
+    },
+    {
+      "page": "Extend",
+      "label": "Image Right",
+      "name": "imageright",
+      "description": "⊞  - The image extend conditions for U greater than 1."
+    },
+    {
+      "page": "Extend",
+      "label": "Image Bottom",
+      "name": "imagebottom",
+      "description": "⊞  - The image extend conditions for V less than 0."
+    },
+    {
+      "page": "Extend",
+      "label": "Image Top",
+      "name": "imagetop",
+      "description": "⊞  - The image extend conditions for V greater than 1."
+    },
+    {
+      "page": "Extend",
+      "label": "Hold",
+      "name": "hold",
+      "description": "Use the first or last pixel value."
+    },
+    {
+      "page": "Extend",
+      "label": "Cycle",
+      "name": "cycle",
+      "description": "Loop back to the other side of the image."
+    },
+    {
+      "page": "Extend",
+      "label": "Mirror",
+      "name": "mirror",
+      "description": "Zig-zag back into the image."
+    },
+    {
+      "page": "Extend",
+      "label": "Default Color",
+      "name": "default",
+      "description": "Use a default color specified below."
+    },
+    {
+      "page": "Extend",
+      "label": "Default Color",
+      "name": "defcolor",
+      "description": "⊞  - The color to use when outside the bounds of the image, and the Default Color extend condition is set."
+    },
+    {
+      "page": "Channel",
+      "label": "Start",
+      "name": "start",
+      "description": "The start position of the channel, expressed in units set by the units menu to the right (samples, frames or seconds). The channel length is determined by the number of pixels in each scanline that is converted into a channel."
+    },
+    {
+      "page": "Channel",
+      "label": "Start Unit",
+      "name": "startunit",
+      "description": "⊞  - Select the units to use for this parameter, Samples, Frames, or Seconds."
+    },
+    {
+      "page": "Channel",
+      "label": "Sample Rate",
+      "name": "rate",
+      "description": "The sample rate of the channels, in samples per second."
+    },
+    {
+      "page": "Channel",
+      "label": "Extend Left",
+      "name": "left",
+      "description": "⊞  - The left extend conditions (before/after range)."
+    },
+    {
+      "page": "Channel",
+      "label": "Hold",
+      "name": "hold",
+      "description": "Hold the current value of the channel."
+    },
+    {
+      "page": "Channel",
+      "label": "Slope",
+      "name": "slope",
+      "description": "Continue the slope before the start of the channel."
+    },
+    {
+      "page": "Channel",
+      "label": "Cycle",
+      "name": "cycle",
+      "description": "Cycle the channel repeatedly."
+    },
+    {
+      "page": "Channel",
+      "label": "Mirror",
+      "name": "mirror",
+      "description": "Cycle the channel repeatedly, mirroring every other cycle."
+    },
+    {
+      "page": "Channel",
+      "label": "Default Value",
+      "name": "default",
+      "description": "Use the constant value specified in the Default Value parameter"
+    },
+    {
+      "page": "Channel",
+      "label": "Extend Right",
+      "name": "right",
+      "description": "⊞  - The right extend conditions (before/after range)."
+    },
+    {
+      "page": "Channel",
+      "label": "Hold",
+      "name": "hold",
+      "description": "Hold the current value of the channel."
+    },
+    {
+      "page": "Channel",
+      "label": "Slope",
+      "name": "slope",
+      "description": "Continue the slope after the end of the channel."
+    },
+    {
+      "page": "Channel",
+      "label": "Cycle",
+      "name": "cycle",
+      "description": "Cycle the channel repeatedly."
+    },
+    {
+      "page": "Channel",
+      "label": "Mirror",
+      "name": "mirror",
+      "description": "Cycle the channel repeatedly, mirroring every other cycle."
+    },
+    {
+      "page": "Channel",
+      "label": "Default Value",
+      "name": "default",
+      "description": "Use the constant value specified in the Default Value parameter"
+    },
+    {
+      "page": "Channel",
+      "label": "Default Value",
+      "name": "defval",
+      "description": "The value used for the Default Value extend condition."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "Parameter Color Space",
+      "name": "parmcolorspace",
+      "description": "⊞  - Controls how all color parameters on this node are interpreted. The color values as treated as being in the selected color space, and are converted to the Working  Color Space  before they are used as part of the node's operation. Note that this does not change the color space of the node itself, as that is always in the Working Color Space."
+    },
+    {
+      "page": "Common",
+      "label": "sRGB",
+      "name": "srgb",
+      "description": "sRGB  color space, with sRGB transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "sRGB - Linear",
+      "name": "srgblinear",
+      "description": "sRGB  color space, with linear transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "Rec.601 (NTSC)",
+      "name": "rec601ntsc",
+      "description": "Rec.601  with NTSC primaries color space, with Rec.601 transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "Rec.709",
+      "name": "rec709",
+      "description": "Rec.709  color space, with Rec.709 (same as Rec.2020) transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "Rec.2020",
+      "name": "rec2020",
+      "description": "Rec.2020  color space, with Rec.2020 (same as Rec.709) transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "DCI-P3",
+      "name": "dcip3",
+      "description": "DCI-P3  color space, with D65 white point and 2.6 gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "DCI-P3 (D60)",
+      "name": "dcip3d60",
+      "description": "DCI-P3 \"D60 sim\"  color space, with D60 white point, and 2.6 gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "Display-P3 (D65)",
+      "name": "displayp3d65",
+      "description": "Display-P3  color space, with D65 white point, and sRGB gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "ACES2065-1",
+      "name": "aces2065",
+      "description": "1  -  ACES 2065-1  (also known as ACES AP0) color space, with a linear gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "ACEScg",
+      "name": "acescg",
+      "description": "ACEScg  (also known as ACES AP1) color space, with a linear gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Common",
+      "label": "Passthrough",
+      "name": "passthrough",
+      "description": "When selected, the color values will be used as-is in the operation, without any modification or attempt to convert them into the Working Color Space."
+    },
+    {
+      "page": "Common",
+      "label": "Parameter Reference  White",
+      "name": "parmreferencewhite",
+      "description": "⊞  - When converting a parameter color value to the Working Color Space, this controls how it should be treated with respect to  Reference White . If the Working Color Space is the same  Reference  White, then no adjustment is done. If they are different, then the  Reference  White level (brightness) of this color will be adjusted to the range expected by the Working Color Space. For example if the project is set to have a SDR  Reference  White of 120 nits, and the HDR  Reference  White is 80 nits, then a color of (1, 1, 1), which is 120 nits in the SDR color space, will be converted to be (1.5, 1.5, 1.5), which is 120 nits still in the HDR Working Color Space."
+    },
+    {
+      "page": "Common",
+      "label": "Default For Color Space",
+      "name": "default",
+      "description": "Will use either the SDR or the HDR  Reference  White, based on the color space selected."
+    },
+    {
+      "page": "Common",
+      "label": "Use Parent  Panel",
+      "name": "useparent",
+      "description": "Will use the  Reference  White that the parent panel has selected. If the top-level panel also has 'Use  Parent ' selected, then 'UI  Reference  White' will be used."
+    },
+    {
+      "page": "Common",
+      "label": "Standard (SDR)",
+      "name": "sdr",
+      "description": "Will treat the Parameter Color Space as SDR for it's reference white value."
+    },
+    {
+      "page": "Common",
+      "label": "High (HDR)",
+      "name": "hdr",
+      "description": "Will treat the Parameter Color Space as HDR for it's reference white value."
+    },
+    {
+      "page": "Common",
+      "label": "UI",
+      "name": "ui",
+      "description": "Will treat the Parameter Color Space as UI for it's reference white value. This uses the 'UI  Reference  White Nits' value for it's brightness."
+    },
+    {
+      "page": "Common",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    },
+    {
+      "page": "Common",
+      "label": "There are 2 kinds of parenting. The \"parent component\" is the component in which a node resides. The metaphor is extended to include grand parents, grand",
+      "description": "grand parents, etc. The root  /  is the ultimate parent to all nodes. See also  3D Parenting  and panel  Parenting ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "7. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de partículas complejos, simulaciones a gran escala y efectos visuales genera"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "etallada de la función específica de este operador. • Experimental:Subdivide POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Switch POP: Un operador que permite cambiar entre diferentes entradas. Es útil para probar variaciones o controlar el flujo de datos. • Experimental:Texture Map POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:TOP to POP: Permite convertir datos de la familia TOPs (Texture Operators) a datos de POPs, específicamente para recuperar nubes de puntos. • Experimental:Topology POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Torus POP: Un operador generador que crea una geometría de toroide (forma de dona). • Experimental:Trail POP: Crea un historial de movimiento de un punto a lo largo del tiempo, generando una tira de línea para"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "quirectangular (esférica polar, útil para VR), Equidistant Azimuth (ojo de pez para domos), o Perspectiva desde Cámara. * `Triplanar Coordinates` genera 3 conjuntos de coordenadas de textura para combinar 3 proyecciones ortográficas. * Cualquier atributo puede ser usado por un Material, no solo `Tex`. * **Uso simple:** Para controlar cómo una imagen o textura se envuelve alrededor de tu geometría POP, esencial para añadir apariencia visual a tus objetos 3D. * **TOP to POP (TOP a POP)** * **Función principal:** Convierte una imagen **TOP** (Texture Operators) en geometría **POP**. * **Características clave:** * Por defecto, el canal rojo de la imagen TOP se usa para la posición `P` (RGB) y el canal alfa indica si el píxel está \"activo\" (tiene un valor de atributo válido). * En el modo `Custom`, puedes especificar qué atributos y componentes (por ejemplo, `P(0) Color(2) N(1) P(2)`) se mapean a los canales RGBA de la TOP."
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

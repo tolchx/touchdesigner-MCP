@@ -1,0 +1,25 @@
+{
+  "family": "SOP",
+  "pageTitle": "Fillet SOP",
+  "pageSlug": "Fillet_SOP",
+  "url": "https://docs.derivative.ca/Fillet_SOP",
+  "tdOpTypeGuess": "filletSOP",
+  "summary": "[  edit  ]\nThe Fillet  SOP  is used to create smooth bridging geometry between two curves / polygons or two surfaces / meshes.\nFilleting creates a new primitive between each input pair and never affects the original shapes. This is in contrast to the  Join  and  Stitch SOPs . The  Join SOP  converts and possibly changes the connected ends of primitives, and stitching changes the original shapes but does not change the number of resulting primitives.\nPlease refer to the  Align SOP  for a discussion of \"left\" and \"right\" primitives as well as the option of an auxiliary input.\nNote: Trim curves are not taken into account by a fillet. To do this, use the Join  SOP .\nfilletSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

@@ -1,0 +1,127 @@
+{
+  "pageTitle": "Line Resample POP",
+  "pageSlug": "Line_Resample_POP",
+  "url": "https://docs.derivative.ca/Line_Resample_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "lineResamplePOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "Resample Method",
+      "type": "Menu",
+      "options": [
+        "None",
+        "Divisions per Line Strip",
+        "Distance between Points",
+        "By Curvature",
+        "Points as Keyframes"
+      ],
+      "default": "None",
+      "description": "Line strip resample method."
+    },
+    {
+      "name": "Divisions",
+      "type": "Int",
+      "default": 10,
+      "description": "Number of divisions (when Divisions per Line Strip)."
+    },
+    {
+      "name": "Min Distance",
+      "type": "Float",
+      "default": 0.01,
+      "description": "Minimum distance between points (when By Curvature)."
+    },
+    {
+      "name": "Max Distance",
+      "type": "Float",
+      "default": 0.1,
+      "description": "Maximum distance between points (when By Curvature)."
+    },
+    {
+      "name": "Min Max Bias",
+      "type": "Float",
+      "default": 0.5,
+      "description": "Bias of point creation near min or max distance."
+    },
+    {
+      "name": "Control Points Attribute",
+      "type": "Toggle",
+      "default": false,
+      "description": "Use attribute with 0/1 values to mark control points."
+    },
+    {
+      "name": "Control Points Attribute Name",
+      "type": "Str",
+      "default": "ControlPoint",
+      "description": "Name of the control point attribute."
+    },
+    {
+      "name": "Independent Variable Attribute",
+      "type": "Str",
+      "default": "",
+      "description": "Attribute for Points as Keyframes method."
+    },
+    {
+      "name": "Independent Variable Step",
+      "type": "Float",
+      "default": 0.1,
+      "description": "Step size for independent variable."
+    },
+    {
+      "name": "Maximum Number of Vertices",
+      "type": "Int",
+      "default": 10000,
+      "description": "Vertex allocation (more = more GPU memory)."
+    },
+    {
+      "name": "Remove Unused Points",
+      "type": "Toggle",
+      "default": false,
+      "description": "Remove points not referenced by primitives."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [
+    "Resample curves for uniform point distribution",
+    "Adaptive subdivision based on curvature (By Curvature)",
+    "Use keyframe attributes for time-based resampling",
+    "Control point preservation for exact curve matching",
+    "Optimize line density for rendering"
+  ],
+  "examples": [
+    "Curve POP → Line Resample (Divisions=20) → uniform point distribution",
+    "Line Resample (By Curvature, Min=0.01, Max=0.1) → adaptive detail"
+  ],
+  "commonCombinations": [
+    {
+      "operators": [
+        "Curve_POP",
+        "Line_Resample_POP",
+        "Transform_POP"
+      ],
+      "description": "Resample then transform for uniform effects"
+    },
+    {
+      "operators": [
+        "Line_Resample_POP",
+        "Extrude_POP",
+        "Normal_POP"
+      ],
+      "description": "Resample for uniform extrusion"
+    },
+    {
+      "operators": [
+        "Line_Resample_POP",
+        "Noise_POP"
+      ],
+      "description": "Uniform noise application on resampled lines"
+    }
+  ],
+  "troubleshooting": [
+    "Points not uniform: Check Resample Method parameter",
+    "Too many vertices: Reduce Maximum Number of Vertices",
+    "Control points not working: Ensure attribute has 0/1 values"
+  ],
+  "description": "Resamples line strips using 4 methods: Divisions per Line Strip, Distance between Points, By Curvature (adaptive), and Points as Keyframes (independent variable). Supports ControlPoints attribute to force resampled curve through exact control points. Does not change line shape (unlike Line Smooth POP)."
+}

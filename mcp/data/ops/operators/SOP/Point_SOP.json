@@ -1,0 +1,388 @@
+{
+  "family": "SOP",
+  "pageTitle": "Point SOP",
+  "pageSlug": "Point_SOP",
+  "url": "https://docs.derivative.ca/Point_SOP",
+  "tdOpTypeGuess": "pointSOP",
+  "summary": "[  edit  ]\nThe Point  SOP  allows you to get right into the geometry and manipulate the position, color, texture coordinates, and normals of the points in the Source, and other attributes. The Point  SOP  also lets you create custom point attributes. It is the complement to the  Primitive SOP . Using a second input allows for combining of two SOPs using their respective expressions (see:  PointSOP Class ). If the second input has less points than the first input, the points in the second input will be cycled.\nFor example, you can create point coloring, or flip the normals of incoming geometry. Using expressions in Position X, Y and Z, you can move any given input point to a new place as defined by the expression with any standard attributes.\nThe Width (width) attribute affects the line width in the  Line MAT .  The Scale attribute (pscale) affects particle size, and in the  Line MAT  it affects the dot size at each point.\nTip : For greater flexibility, use the  Script SOP .\npointSOP_Class\nContents\n1   Summary\n2   Parameters - Point Page\n2.1   Flipping Normals\n3   Parameters - Custom Page\n4   Parameters - Particle Page\n5   Parameters - Force Page\n6   Operator Inputs\n7   Info CHOP Channels\n7.1   Common SOP Info Channels\n7.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "Source 1  -"
+    },
+    {
+      "index": 1,
+      "description": "Source 2  -"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Point",
+      "label": "Group",
+      "name": "group",
+      "description": "If there are input groups, specifying a group name in this field will cause this   SOP   to act only upon the group specified. Accepts patterns, as described in  Pattern Matching ."
+    },
+    {
+      "page": "Point",
+      "label": "Position",
+      "name": "t",
+      "description": "⊞  - Expressions to translate the XYZ coordinates of a given point can be entered here. The attributes to modify here are:   me  .  inputPoint  .  x  ,   me  .  inputPoint  .  y   and   me  .  inputPoint  .  z  ."
+    },
+    {
+      "page": "Point",
+      "label": "Weight",
+      "name": "doweight",
+      "description": "⊞  - Select between keeping the weight or adding a new weight."
+    },
+    {
+      "page": "Point",
+      "label": "Weight",
+      "name": "weight",
+      "description": "If you select 'New Weight' from the menu above, enter expressions here to control the values of the point weights here. The attribute to modify is:   me  .  inputPoint  .  w  . Values for the weight of the point can range from 0.0001 to infinity."
+    },
+    {
+      "page": "Point",
+      "label": "Color",
+      "name": "doclr",
+      "description": "⊞  - Select between keeping the color, adding new color, or using no color."
+    },
+    {
+      "page": "Point",
+      "label": "Color",
+      "name": "diff",
+      "description": "⊞  - If you select 'Add Color' from the menu above, Cd color attributes will be added/modified in the  SOP . Enter expressions below to control the values of the point colors. The attributes to modify are:   me  .  inputColor  [  0  ]   for red,   me  .  inputColor  [  1  ]   for green,   me  .  inputColor  [  2  ]   for blue, and   me  .  inputColor  [  3  ]   for alpha."
+    },
+    {
+      "page": "Point",
+      "label": "Alpha",
+      "name": "alpha",
+      "description": "Control the alpha attribute in the same manner as the rgb colors above. Alpha is Cd[3] and comes from input via   me  .  inputColor  [  3  ]"
+    },
+    {
+      "page": "Point",
+      "label": "Normal",
+      "name": "donml",
+      "description": "⊞  - Select between keeping the normals, adding new normals, or using no normals."
+    },
+    {
+      "page": "Point",
+      "label": "Normals",
+      "name": "n",
+      "description": "⊞  - If you select 'Add Normal' from the menu above, N normal attributes will be added/modified in the  SOP . Enter expressions to change a given point normal here. Point normals are directional vectors used by other SOPs, such as Turbulence, Facet and Copy. See  Attributes  article for detailed information. The attributes to modify are:   me  .  inputNormal  [  0  ]  ,   me  .  inputNormal  [  1  ]   and   me  .  inputNormal  [  2  ]  ."
+    },
+    {
+      "page": "Point",
+      "label": "and inverts them (the preceding",
+      "description": ")."
+    },
+    {
+      "page": "Point",
+      "label": "Texture",
+      "name": "douvw",
+      "description": "⊞  - Select between keeping the texture coordinates, adding new texture coordinates, or using no texture coordinates."
+    },
+    {
+      "page": "Point",
+      "label": "Texture",
+      "name": "map",
+      "description": "⊞  - If you select 'Add Texture' from the menu above, uv texture coordinate attributes will be added/modified in the  SOP . Enter expressions here to control the values of the texture coordinates here. The attributes to modify are:   me  .  inputTexture  [  0  ]  ,   me  .  inputTexture  [  1  ]   and   me  .  inputTexture  [  2  ]  ."
+    },
+    {
+      "page": "Point",
+      "label": "Width(Line  MAT )",
+      "name": "dowidth",
+      "description": "⊞  - Select between keeping the width attribute or adding a new width. This Width (width) attribute is used exclusively with  Line MAT  to control line width when the material is rendered."
+    },
+    {
+      "page": "Point",
+      "label": "Width(Line  MAT )",
+      "name": "width",
+      "description": "If you select 'New Width' from the menu above, width attribute will be added/modified in the  SOP . Enter expressions here to control the values of the point widths here. The attribute to modify is:   me  .  inputPoint  .  width  [  0  ]  ."
+    },
+    {
+      "page": "Point",
+      "label": "Scale",
+      "name": "dopscale",
+      "description": "⊞  - Select between keeping the scale attribute, adding new scale, or using no scale. This scale (pscale) attribute is used with the  Particle SOP  and acts as a multiplier for the size of particles. The value of this attribute is multiplied by the size specified in the  Particle SOP 's render attributes to scale each particle. This attribute is used by the  Point Sprite MAT  when rendering point sprites."
+    },
+    {
+      "page": "Point",
+      "label": "Scale",
+      "name": "pscale",
+      "description": "If you select 'Add Scale' from the menu above, pscale attribute will be added/modified in the  SOP . Enter expressions here to control the values of the point particle scales here. The attribute to modify is:   me  .  inputPoint  .  pscale  [  0  ]  ."
+    },
+    {
+      "page": "Custom",
+      "label": "Custom Attribute",
+      "name": "attr",
+      "description": "Sequence of custom attributes to add"
+    },
+    {
+      "page": "Custom",
+      "label": "Name",
+      "name": "attr0name",
+      "description": "Creates a custom attribute with this name."
+    },
+    {
+      "page": "Custom",
+      "label": "Type",
+      "name": "attr0type",
+      "description": "⊞  - The type of attribute created can be selected from this menu."
+    },
+    {
+      "page": "Custom",
+      "label": "Value",
+      "name": "attr0value",
+      "description": "⊞  - Set the values of the Custom Attrib using these parameters."
+    },
+    {
+      "page": "Particle",
+      "label": "Point Mass/Drag",
+      "name": "domass",
+      "description": "⊞  - Retains, adds, or removes mass and drag attributes for points."
+    },
+    {
+      "page": "Particle",
+      "label": "Mass",
+      "name": "mass",
+      "description": "If you select 'Add Mass/Drag' from the menu above, mass attribute will be added/modified in the  SOP . If you select 'No Mass/Drag' from the menu above, the mass attribute will be removed from the  SOP ."
+    },
+    {
+      "page": "Particle",
+      "label": "Drag",
+      "name": "drag",
+      "description": "If you select 'Add Mass/Drag' from the menu above, drag attribute will be added/modified in the  SOP . If you select 'No Mass/Drag' from the menu above, the drag attribute will be removed from the  SOP ."
+    },
+    {
+      "page": "Particle",
+      "label": "Tension",
+      "name": "dotension",
+      "description": "Tension affects the elasticity of the edges the point is connected to."
+    },
+    {
+      "page": "Particle",
+      "label": "Tension",
+      "name": "tension",
+      "description": "If you select 'Add Tension' from the menu above, tension attribute will be added/modified in the  SOP . Enter expressions here to control the values of the tension here. The attribute to modify is:   me  .  inputPoint  .  tension  [  0  ]  . If you select 'No Tension' from the menu above, the tension attribute will be removed from the  SOP ."
+    },
+    {
+      "page": "Particle",
+      "label": "Spring K",
+      "name": "dospringk",
+      "description": "⊞  - Retains, adds, or removes spring constant attributes for points. The Spring Constant is a well known physical property affecting each point."
+    },
+    {
+      "page": "Particle",
+      "label": "Spring K",
+      "name": "springk",
+      "description": "If you select 'Add Spring K' from the menu above, springk attribute will be added/modified in the  SOP . Enter expressions here to control the values of the springk here. The attribute to modify is:   me  .  inputPoint  .  springk  [  0  ]  . If you select 'No Spring K' from the menu above, the springk attribute will be removed from the  SOP ."
+    },
+    {
+      "page": "Particle",
+      "label": "Velocity",
+      "name": "dovel",
+      "description": "⊞  - Retains, adds, or removes the velocity of points. Defines the magnitude of the particle's velocity in the X, Y and Z directions."
+    },
+    {
+      "page": "Particle",
+      "label": "Velocity",
+      "name": "v",
+      "description": "⊞  - If you select 'Add Velocity' from the menu above, v velocity attributes will be added/modified in the  SOP . Enter expressions to change a given point velocity here. The attributes to modify here are:   me  .  inputPoint  .  v  [  0  ]  ,   me  .  inputPoint  .  v  [  1  ]   and   me  .  inputPoint  .  v  [  2  ]  . If you select 'No Velocity' from the menu above, the v velocity attribute will be removed from the  SOP ."
+    },
+    {
+      "page": "Particle",
+      "label": "Up Vector",
+      "name": "doup",
+      "description": "⊞  - Creates/Removes the \"up\" attribute for points. This attribute defines an up vector which is used to fully define the space around a point (for particle instancing or copying geometry). The up vector can be used in conjunction with the copy template's normals to control the orientation of the copies in the  Copy SOP ."
+    },
+    {
+      "page": "Particle",
+      "label": "Up Vector",
+      "name": "up",
+      "description": "⊞  - If you select 'Add Up Vector' from the menu above, up attributes will be added/modified in the  SOP . Enter expressions to change a given point up vector here. The attributes to modify here are:   me  .  inputPoint  .  up  [  0  ]  ,   me  .  inputPoint  .  up  [  1  ]   and   me  .  inputPoint  .  up  [  2  ]  . If you select 'No Up Vector' from the menu above, the up attribute will be removed from the  SOP ."
+    },
+    {
+      "page": "Force",
+      "label": "Radius",
+      "name": "doradius",
+      "description": "⊞  - Retains, adds, or removes radiusf attributes for points, used to modify the distance roll-off effect. The roll-off is:  r /(r+d^2)  Where  r  is radius, and  d  is distance from attractor point. If no radius is set, no attenuation is performed."
+    },
+    {
+      "page": "Force",
+      "label": "Radius",
+      "name": "radiusf",
+      "description": "If you select 'Add Radius' from the menu above, radiusf attribute will be added/modified in the  SOP . Enter expressions here to control the values of the distance roll-off here. If you select 'No Radius' from the menu above, the radiusf attribute will be removed from the  SOP ."
+    },
+    {
+      "page": "Force",
+      "label": "F Scale",
+      "name": "doscale",
+      "description": "⊞  - Retains, adds, or removes scalef attributes for points, a multiplier for total force associated with this attractor point."
+    },
+    {
+      "page": "Force",
+      "label": "Radial / Normal / Edge / Directional Force",
+      "description": "These four parameters introduce a type of force when created and each has a corresponding multiplier associated with it."
+    },
+    {
+      "page": "Force",
+      "label": "F Scale",
+      "name": "scalef",
+      "description": "If you select 'Add F Scale' from the menu above, scalef attribute will be added/modified in the  SOP . Enter expressions here to control the values of the force multiplier here. If you select 'No F scale' from the menu above, the scalef attribute will be removed from the  SOP ."
+    },
+    {
+      "page": "Force",
+      "label": "Radial F",
+      "name": "doradialf",
+      "description": "⊞  - Retains, adds, or removes radialf attributes for points, the force directed towards the attractor point. Positive multipliers are towards while negative are away."
+    },
+    {
+      "page": "Force",
+      "label": "Radial F",
+      "name": "radialf",
+      "description": "If you select 'Add Radial F' from the menu above, radialf attribute will be added/modified in the  SOP . Enter expressions here to control the values of the directed force here. If you select 'No Radial F' from the menu above, the radialf attribute will be removed from the  SOP ."
+    },
+    {
+      "page": "Force",
+      "label": "Normal F",
+      "name": "donormalf",
+      "description": "⊞  - Retains, adds, or removes normalf attributes for points, the force directed along the point normal direction."
+    },
+    {
+      "page": "Force",
+      "label": "Normal F",
+      "name": "normalf",
+      "description": "If you select 'Add Normal F' from the menu above, normalf attribute will be added/modified in the  SOP . Enter expressions here to control the values of the force in the normal direction here. If you select 'No Normal F' from the menu above, the normalf attribute will be removed from the  SOP ."
+    },
+    {
+      "page": "Force",
+      "label": "Edge F",
+      "name": "doedgef",
+      "description": "⊞  - Retains, adds, or removes edgef attributes for points, which only works on primitive face types. The force is directed in the direction of the edge leading from that point. If multiple vertices reference the same point, then the direction is the edge direction of the last primitive referencing the point."
+    },
+    {
+      "page": "Force",
+      "label": "Edge F",
+      "name": "edgef",
+      "description": "If you select 'Add Edge F' from the menu above, edgef attribute will be added/modified in the  SOP . Enter expressions here to control the values of the force in the normal direction here. If you select 'No Edge F' from the menu above, the edgef attribute will be removed from the  SOP ."
+    },
+    {
+      "page": "Force",
+      "label": "Dir. F",
+      "name": "dodirf",
+      "description": "⊞  - Retains, adds, or removes dirf attributes for points, an arbitrary directional force still affected by the distance roll-off function."
+    },
+    {
+      "page": "Force",
+      "label": "Dir. F",
+      "name": "dirf",
+      "description": "⊞  - If you select 'Add Dir. F' from the menu above, dirf attribute will be added/modified in the  SOP . Enter expressions here to control the values of the force in the arbitrary direction here. If you select 'No Dir. F' from the menu above, the dirf attribute will be removed from the  SOP ."
+    },
+    {
+      "page": "Force",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Force",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Force",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Force",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Force",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Force",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Force",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Force",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Force",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Force",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Force",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Force",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Force",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Force",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Force",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "01-mcp-architecture.md",
+      "excerpt": "# MCP TouchDesigner — arquitectura (Node + TouchDesigner) ## Componentes - **Servidor MCP (stdio)**: `touchdesigner/mcp/src/index.ts` Expone herramientas para ejecutar Python y consultar estado del editor y operadores. - **Cliente TD (HTTP)**: `touchdesigner/api/src/index.ts` Llama al servidor HTTP levantado dentro de TouchDesigner por el TOX. - **Servidor TD (Python/TOX)**: `touchdesigner/toe/src/TouchDesignerAPI.py` Expone endpoints: - `POST /execute` - `GET /editor/pane` - `GET /editor/selection` - `GET /operators?path=...` ## Tools MCP (existentes + extendidos) - `td_execute`: ejecuta Python en TD. - `td_pane`: estado del Network Editor. - `td_selection`: selección actual. - `td_operators`: lista hijos en un path. - `td_pops_query`: consulta la base local de POPs (sin tocar TD). ## Flujo de extremo a extremo 1. Host MCP arranca `node touchdesigner/mcp/dist/index.js`. 2. El MCP recibe requests de tools. 3. Pa"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "mbién soporta la creación de atributos de matriz.1 * Parámetros: Se organiza lógicamente en varias páginas de parámetros, cada una dedicada a una función específica.1 * Página Create: Attribute Class (attrclass) (Punto, Vértice, Primitiva), Group (group), Notification if Attribute Exists (notificationifexists) (Ignorar, Advertencia, Error), Override if Attribute Exists (overrideifexists), Pre-Multiply RGB by Alpha (premultcolor), New Attribute (attr), Name (attr0name) (N, Color, Tex, PointScale, LineWidth, Custom), Custom Name (attr0customname), Type (attr0type) (float, double, int, uint, dir, dbl dir), Number of Components (attr0numcomps) (1-4), Array (attr0isarray), Array Size (attr0arraysize), Value (attr0value) (R, G, B, A).1 * Página Matrix: Matrix Attribute (mat), Matrix Name (mat0name), Rows (mat0numrows), Columns (mat0numcols), Array (mat0isarray), Array Size (mat0arraysize), Qualifier (mat0qualifier) (None, Transform Matrix).1 * Página Rename: Rename Attrib"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "Primero, entendamos qué son los POPs en general: ¿Qué son los POPs (Point Operators)? Los POPs son una nueva familia de operadores en TouchDesigner diseñada para crear y modificar datos de geometría 3D. Su principal ventaja es que se ejecutan en las tarjetas gráficas (GPU), lo que les permite ser muy rápidos debido al alto paralelismo de la GPU y optimizar el uso de memoria, ya que solo se crean los atributos que cambian. Los datos en POPs siempre comienzan como puntos con atributos. A partir de estos puntos, puedes trabajar con sistemas de partículas, nubes de pun"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "¡Claro que sí! Con gusto te proporcionaré un análisis detallado de cada operador POP que se describe en las fuentes, explicándolos de manera sencilla para usuarios principiantes. En TouchDesigner, los **POPs (Point Operators)** son una familia de operadores diseñados para manipular **puntos** y sus **atributos**. Son especialmente eficientes para manejar simulaciones de partículas y sistemas con millones de puntos porque operan principalmente en la **GPU (Graphics Processing Unit)**, lo que los hace muy rápidos. Un **punto** es un elemento básico con una posición XYZ en el espacio 3D, y puede tener información adicional como **atributos** (por ejemplo, `N` para las normales o `Color` para el color). La"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "¡Claro! Como experto, te proporcionaré un análisis detallado de cada uno de los operadores POP (Point Operators) presentes en tus fuentes, explicados de una manera sencilla para usuarios principiantes en TouchDesigner. Los operadores POP trabajan con atributos de puntos, vértices y primitivas en la geometría. Aquí tienes un desglose de cada uno: --- ### Análisis Detallado de Operadores POP para Principiantes En TouchDesigner, los operadores POP son una familia de operadores que manipulan directamente la información de los **puntos** de una geometría (como su posición, color, normale"
+    },
+    {
+      "source": "POPs Investigation and Workshop Plan.markdown",
+      "excerpt": "# Detailed Investigation into POPs in TouchDesigner This investigation explores Point Operators (POPs), a new GPU-accelerated operator family in TouchDesigner, to prepare for an informative workshop. POPs create and modify 3D data, replacing the older SOPs (Surface Operators) with enhanced performance and flexibility. ## 1. What are POPs? - **Definition**: POPs (Point Operators) are a family of operators in TouchDesigner that run on the GPU, leveraging high parallelism to create and manipulate 3D data efficiently. - **Purpose**: They generate and modify points, primitives, and"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

@@ -1,0 +1,243 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Out CHOP",
+  "pageSlug": "Out_CHOP",
+  "url": "https://docs.derivative.ca/Out_CHOP",
+  "tdOpTypeGuess": "outCHOP",
+  "summary": "[  edit  ]\nThe Out  CHOP  sends  CHOP  data from inside a components to other components or CHOPs.\nIt sends channels to one of the outputs of the component. For each Out  CHOP , there is one output connector on the Out  CHOP 's parent component.\noutCHOP_Class\nContents\n1   Summary\n2   Parameters - Out Page\n3   Parameters - Common Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common CHOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Out",
+      "label": "Label",
+      "name": "label",
+      "description": "Creates a pop-up label when the cursor rolls over this  Component  output."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "Rename from",
+      "name": "commonrenamefrom",
+      "description": "The channel pattern to rename. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Rename to",
+      "name": "commonrenameto",
+      "description": "The replacement pattern for the names. The default parameters do not rename the channels. See  Pattern Replacement ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Names:  c[1",
+      "description": "10:2] ambient"
+    },
+    {
+      "page": "Common",
+      "label": "Rename To:  b[1",
+      "description": "5] amb    This example fetches channels  c1 c3 c5 c7 c9  and  ambient ."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "03-twozero-evaluation.md",
+      "excerpt": "curada de patrones (component library)** Crear un catálogo de “recetas” reproducibles (render, instancing, feedback loops, POP sims, GLSL) como: - skills en Markdown (`touchdesigner/skills/*`) - prompts maestros (`docs/06-master-prompts.md` o carpeta `prompts/`) - scripts Python idempotentes (crear/actualizar redes sin duplicar) - **No ensuciar el proyecto (non-invasive)** Convenciones sistemáticas: - encapsular sistemas en `baseCOMP`/`geoCOMP` - nodos “I/O estándar” (`in*`, `out*`, `null*`) - layout determinístico (`nodeX/nodeY`) - nombres consistentes y prefijos por dominio (`pop_`, `top_`, `chop_`) - **Validación y calidad (production tools)** Protocolos para: - verificar existencia de OPs creados - detectar cooks costosos (Info CHOP / cookTime) - validar atributos esperados en POP sims (PartVel/PartForce/…) - reportar errores con causas probables + fixes sugeridos - **Sync/portabilidad** En este contexto, “cloud sync” se reemplaza por: - base"
+    },
+    {
+      "source": "04-pops-database.md",
+      "excerpt": "ibutes[]`. - Capacitación: `useCases[]`, `examples[]`, `commonCombinations[]`, `troubleshooting[]`. ## Generación automática (docs oficiales) El generador: - Descarga la lista desde `https://docs.derivative.ca/Category:POPs`. - Para cada operador descarga la página oficial y extrae: - resumen - inputs - parámetros por página - atributos (cuando la tabla está presente) ### Construir / actualizar la base En `touchdesigner/`: ```powershell npm run build node .\\mcp\\dist\\popsBuild.js --out .\\mcp\\data\\pops --limit 10 --local-docs ..\\Docs ``` Enriquecimiento opcional con LLM (Gemma 4 vía Ollama): ```powershell $env:LLM_PROVIDER=\"ollama\" $env:OLLAMA_MODEL=\"gemma4:e4b\" node .\\mcp\\dist\\popsBuild.js --out .\\mcp\\data\\pops --enrich --local-docs ..\\Docs ``` ## Consulta desde el MCP Se expone una herramienta MCP adicional: - `td_pops_query`: - `search`: texto libre - `page_slug`: slug exacto (p.ej. `Particle_POP`) - `limit`: máximo de resultados Objetivo: permitir que el asiste"
+    },
+    {
+      "source": "07-testing-protocols.md",
+      "excerpt": "# Sistema de validación y testing Objetivo: asegurar que redes generadas por prompts complejos sean estables, reproducibles y eficientes. ## 1) Validación de sintaxis y formato - **LLM output (router/CLI)**: debe ser JSON único (sin markdown). - **Scripts Python**: deben ser idempotentes y usar `from_op`/paths explícitos. - **Prompts maestros**: validar frontmatter y secciones mínimas con `node touchdesigner/mcp/dist/promptLint.js`. ## 2) Chequeo de dependencias - TouchDesigner 2025+. - `TDAPI_PORT` configurado y coincidente con el TOX. - Ollama (si aplica): `LLM_PROVIDER=ollama` y `OLLAMA_MODEL` instalado. ## 3) Pruebas funcionales (smoke tests) Ejecutar un bloque `td_execut"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": ".org, fecha de acceso: julio 1, 2025, https://alltd.org/circle-top-in-touchdesigner/ 66. TouchDesigner tutorial - pattern with circle SOP - YouTube, fecha de acceso: julio 1, 2025, https://m.youtube.com/watch?v=2z7fln_0igk 67. docs.derivative.ca, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:Attribute_Combine_POP 68. DAT to CHOP?? : r/TouchDesigner - Reddit, fecha de acceso: julio 1, 2025, https://www.reddit.com/r/TouchDesigner/comments/1gl04hv/dat_to_chop/ 69. DMX Out CHOP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/DMX_Out_CHOP 70. Field POP | Derivative - TouchDesigner, fecha de acceso: julio 1, 2025, https://derivative.ca/UserGuide/Field_POP 71. Python Wiki Documentation (parameter types, etc) - TouchDesigner forum, fecha de acceso: julio 1, 2025, https://forum.derivative.ca/t/python-wiki-documentation-parameter-types-etc/5207 72. Force POP - Derivative, fecha de acceso: julio 1, 2025, https://docs.derivative.ca"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "e Operadores POP Los POPs pueden clasificarse ampliamente según su función principal dentro de una red de TouchDesigner, reflejando las divisiones funcionales observadas en otras familias de operadores. 2.1 POPs Generadores Estos operadores son responsables de crear nueva geometría o datos 3D desde cero. * Pattern POP: Un generador versátil que crea formas simples de tiras de línea utilizando funciones matemáticas elementales (seno, coseno, ondas triangulares, cuadradas, ease in/out, aleatorias) en X, Y y Z. También puede añadir nuevos atributos o modificar los existentes basándose en estas funciones.14 Permite controlar el número de puntos, el comportamiento cíclico, la conectividad (tira de línea, líneas, primitivas de punto) y varios parámetros para dar forma a las curvas (por ejemplo, número de ciclos, fase, exponente, mapeo de rango).14 * Sprinkle POP: Crea puntos ya sea en la superficie o dentro del volumen de un POP de entrada. Ofrece métodos como \"Per Primitive\" p"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": ".org, fecha de acceso: julio 1, 2025, https://alltd.org/circle-top-in-touchdesigner/ 66. TouchDesigner tutorial - pattern with circle SOP - YouTube, fecha de acceso: julio 1, 2025, https://m.youtube.com/watch?v=2z7fln_0igk 67. docs.derivative.ca, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:Attribute_Combine_POP 68. DAT to CHOP?? : r/TouchDesigner - Reddit, fecha de acceso: julio 1, 2025, https://www.reddit.com/r/TouchDesigner/comments/1gl04hv/dat_to_chop/ 69. DMX Out CHOP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/DMX_Out_CHOP 70. Field POP | Derivative - TouchDesigner, fecha de acceso: julio 1, 2025, https://derivative.ca/UserGuide/Field_POP 71. Python Wiki Documentation (parameter types, etc) - TouchDesigner forum, fecha de acceso: julio 1, 2025, https://forum.derivative.ca/t/python-wiki-documentation-parameter-types-etc/5207 72. Force POP - Derivative, fecha de acceso: julio 1, 2025, https://docs.derivative.ca"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

@@ -1,0 +1,275 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Angle CHOP",
+  "pageSlug": "Angle_CHOP",
+  "url": "https://docs.derivative.ca/Angle_CHOP",
+  "tdOpTypeGuess": "angleCHOP",
+  "summary": "[  edit  ]\nThe Angle  CHOP  is a general purpose converter between degrees, radians, quaternions and vectors. Different formats assume a specific ordering of input channels.\nangleCHOP_Class\nContents\n1   Summary\n2   Parameters - Angle Page\n3   Parameters - Common Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common CHOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Angle",
+      "label": "Input Units",
+      "name": "inunit",
+      "description": "⊞  - Units of incoming channels:"
+    },
+    {
+      "page": "Angle",
+      "label": "Radians",
+      "name": "radians",
+      "description": "(a radian is 57.29 degrees, with 3.14 (Pi) radians in a half-circle)."
+    },
+    {
+      "page": "Angle",
+      "label": "Quaternions",
+      "name": "quaternions",
+      "description": "Input is 4 channels consisting of x, y, z, and w values."
+    },
+    {
+      "page": "Angle",
+      "label": "Two Vectors",
+      "name": "twovectors",
+      "description": "Input is 6 channels comprising of x, y, z of one vector, followed by x, y, z of 2nd orthogonal vector."
+    },
+    {
+      "page": "Angle",
+      "label": "Input Order",
+      "name": "inorder",
+      "description": "⊞  - The order that rotation angles are assumed to be applied in (Euler angles as they are called). Applicable when converting to and from Quaternions or Vectors."
+    },
+    {
+      "page": "Angle",
+      "label": "Output Units",
+      "name": "outunit",
+      "description": "⊞  - Units of outgoing channels:"
+    },
+    {
+      "page": "Angle",
+      "label": "Output Order",
+      "name": "outorder",
+      "description": "⊞  - The order that rotation angles are assumed to be applied in (Euler angles as they are called). Applicable when converting to and from Quaternions or Vectors."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "Rename from",
+      "name": "commonrenamefrom",
+      "description": "The channel pattern to rename. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Rename to",
+      "name": "commonrenameto",
+      "description": "The replacement pattern for the names. The default parameters do not rename the channels. See  Pattern Replacement ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Names:  c[1",
+      "description": "10:2] ambient"
+    },
+    {
+      "page": "Common",
+      "label": "Rename To:  b[1",
+      "description": "5] amb    This example fetches channels  c1 c3 c5 c7 c9  and  ambient ."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta fam"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "detallada de la función específica de este operador. • Experimental:Quantize POP: Proporciona opciones para cuantizar valores, como redondear hacia abajo (Floor), redondear al entero más cercano (Round) o redondear hacia arriba (Ceiling). • Experimental:Random POP: Permite crear y modificar atributos de color y textura, presumiblemente para aplicar valores aleatorios. • Experimental:Ray POP: Crea atributos de tipo entero sin signo. Genera atributos con el prefijo Ray. • Experimental:Rectangle POP: Un operador generador que crea una geometría rectangular. • Experimental:ReRange POP: Se utiliza para re-escalar o re-mapear valores dentro de un rango específico. Es muy útil, ya que puede aplicar un re-rango diferente para cada componente de un atributo (ej., X, Y y Z de la posición) sin necesidad de múltiples operadores. • Experimental:Revolve POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Select POP:"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "ple:** Para importar geometrías o nubes de puntos creadas en otros softwares o generadas a partir de datos externos. * **Point Generator POP (POP Generador de Puntos)** * **Función principal:** Crea un número específico de puntos, de forma aleatoria o con un patrón, sobre la **superficie** o dentro del **volumen** de una forma matemática básica (esfera, cubo, toro, etc.). * **Características clave:** * Permite elegir la **forma base** (Sphere, Box, Torus, Tube, Rectangle, Circle, Line). * Puedes generar puntos en la **superficie** o dentro del **volumen** de la forma. * Ofrece un control de `Random` (aleatoriedad) y `Seed` (semilla para el patrón aleatorio). * Capaz de añadir **normales (`N`) y tangentes (`T`)** a los puntos, vértices o primitivas, con opciones de aleatorización. * **Uso simple:** Una manera fácil de crear nubes de puntos o distribuir elementos en formas geométricas básicas para simulaciones o visualizaci"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "mo se construyen los puntos de la caja: * **8 puntos**: Uno en cada esquina, donde cada cara comparte puntos con otras dos. * **24 puntos** (usando el parámetro `Unique Points`): Cada una de las 6 caras utiliza 4 puntos únicos, lo que significa que los puntos no se comparten entre caras. * Define la **conectividad** de los puntos: * **None**: Solo puntos, sin primitivas. * **Quadrilaterals (quads)**: Cuadriláteros de 4 puntos. * **Triangles**: Triángulos de 3 puntos. * **Point Prims**: Una primitiva de punto por cada punto. * Puedes elegir tener **normales de vértice** o **normales de primitiva** (que hacen que el cubo se vea \"facetado\" o plano), o **normales de punto** (que hacen que las esquinas se vean suaves). * Ofrece esquinas opcionalmente **redondeadas** con control sobre el radio y la cantidad de subdivisiones. * Puede crear **coordenadas de textura** (para aplicar imágenes) de diferentes m"
+    },
+    {
+      "source": "POPs Investigation and Workshop Plan.markdown",
+      "excerpt": ", and integration with modern workflows (e.g., USD, FBX). ## 2. Core Components ### Points - Every POP contains a set of points with attributes. - **Key Attribute**: `P` (Position), a 3D vector (float3) defining a point’s location. - **Other Attributes**: Include `Color` (float4: red, green, blue, alpha), `Normal (N)` (float3), and user-defined attributes. ### Primitives - **Types**: - **Point**: 1 point. - **Line**: 2 points. - **Line Strip**: Multiple points (open or closed). - **Triangle**: 3 points. - **Quad**: 4 points. - Primitives are defined by vertices (indices into the point list) and can have their own attributes. ### Attributes - **Types**: Scalars (e.g., `Weight`), vectors (e.g., `P`), matrices, or arrays (e.g., `float4[5]`). - **Data Types**: Float (32-bit), double (64-bit), integer (32-bit), unsigned integer (32-bit). - **Creation**: Generated via POPs like `Attribute POP` or on-the-fly by specifying new names in output scopes. ## 3. POPs vs. SOPs - **Execution*"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

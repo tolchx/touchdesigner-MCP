@@ -1,0 +1,1290 @@
+{
+  "family": "TOP",
+  "pageTitle": "Movie File Out TOP",
+  "pageSlug": "Movie_File_Out_TOP",
+  "url": "https://docs.derivative.ca/Movie_File_Out_TOP",
+  "tdOpTypeGuess": "movieFileOutTOP",
+  "summary": "[  edit  ]\nThe Movie File Out  TOP  saves a  TOP  stream out to a movie file ( .mov / .mp4 ) using a variety of codecs, including the H.264/H.265,  Hap Q ,  NotchLC ,  Apple ProRes  and Animation video codecs. It can also save single frame images, image sequences, or stop-frame movies.\nFor codecs that support Alpha, use the 'Movie Pixel Format' parameter to select a format that includes alpha.\nThe  Export Movie Dialog  is a user interface built around the Movie File Out  TOP .\nTo record movies with audio using the Movie File Out  TOP , a  Time Sliced   CHOP  with mono or stereo channels of audio is required. If TouchDesigner is running at a lower frame rate than the target video frame rate and a  CHOP  is specified for audio, the Movie File Out  TOP  will automatically repeat video frames to ensure the video and audio stay in sync.\nRecording a movie without frame drops can be done in non-realtime by turning off the Realtime flag at the top of the user interface.\nThe length of the video is not predetermined and depends on the amount of time the Record parameter is on.\nYou can record a sequence of  .tif  or  .exr  files by setting the Type parameter to Image Sequence. When Image File Type is set to OpenEXR, the EXR page has options to record any number of color channels from multiple TOPs into an EXR image file, and can create it with metadata that would get read by a  Point File In TOP .\nThe audio codecs that can be written out to file are ALAC (Apple Lossless), MP3, AAC, Vorbis, Opus, Uncompressed 16/32/64-bit (PCM).\nH264/H265/AV1 NOTE:  Encoding movies in H.264/H.265/AV1 codec is only available with a  Commercial  or  Pro  license. NVIDIA graphic hardware is also required on Windows. On macoOS H264 is supported.\nRecording still images and stop-frame animation can be done by changing the 'Type' parameter. Then the 'Add  Frame ' pulse button can be pulsed manually or via a script to cause the frames to be written.\nSee also  Movie File In TOP ,  Recording Movies with Audio ,  Video Stream Out TOP .\nmoviefileoutTOP_Class\nContents\n1   Summary\n2   Parameters - Movie Out Page\n3   Parameters - EXR Page\n4   Parameters - Settings Page\n5   Parameters - Common Page\n6   Operator Inputs\n7   Info CHOP Channels\n7.1   Specific Movie File Out TOP Info Channels\n7.2   Common TOP Info Channels\n7.3   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Movie Out",
+      "label": "Type",
+      "name": "type",
+      "description": "⊞  - Output either a movie, image, image sequence, or stop-frame movie."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Movie",
+      "name": "movie",
+      "description": "Records a movie file."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Image",
+      "name": "image",
+      "description": "Records a single image."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Image Sequence",
+      "name": "imagesequence",
+      "description": "Records a sequence of images."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Stop",
+      "description": "Frame Movie   stopframemovie  -"
+    },
+    {
+      "page": "Movie Out",
+      "label": "Video Codec",
+      "name": "videocodec",
+      "description": "⊞  - Select the video compression codec used to encode the movie."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Animation",
+      "name": "rle",
+      "description": "Run-length encoded video, lossless codec and low decode times, but very large file size. Alpha channel can be included when Pixel Format is RGBA."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Photo/Motion JPEG",
+      "name": "mjpa",
+      "description": "JPEG encoded video, lossy codec and low decode times with medium file sizes.  Good for playback both forwards and backwards or for random access."
+    },
+    {
+      "page": "Movie Out",
+      "label": "MPEG 4 (Part 2)",
+      "name": "mpeg4",
+      "description": "High quality but can produce large files size and/or have high decode times."
+    },
+    {
+      "page": "Movie Out",
+      "label": "H.264 (NVIDIA  GPU )",
+      "name": "h264nvgpu",
+      "description": "H.264  GPU  encoding, only available when using Nvidia graphics cards.  Great compression and quality and small file sizes. However can suffer from high decode times and not the best for random access, scrubbing, or reverse playback. See the H264 parameter page for additional H264 encoding options."
+    },
+    {
+      "page": "Movie Out",
+      "label": "GoPro-Cineform",
+      "name": "cineform",
+      "description": "A lossy compression similar to Apple ProRes. Alpha channel can be included."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Hap",
+      "name": "hap",
+      "description": "See  Hap , a fast codec that uses the  GPU . Has many different sub-types that can be chosen from."
+    },
+    {
+      "page": "Movie Out",
+      "label": "H.265/HEVC (NVIDIA  GPU )",
+      "name": "h265nvgpu",
+      "description": "H.265  GPU  encoding, only available when using Nvidia graphics cards. Better compression (and sometimes quality) than H.264 but more resource intensive to encode/decode."
+    },
+    {
+      "page": "Movie Out",
+      "label": "GIF",
+      "name": "gif",
+      "description": "An animated  .gif  file. Because there is no way to specific the color palette currently, a default palette will be used."
+    },
+    {
+      "page": "Movie Out",
+      "label": "NotchLC",
+      "name": "notchlc",
+      "description": "NotchLC  is a high quality,  GPU  accelerated video format. It offers higher quality results than HapQ, at the cost of higher  GPU  usage as well as larger file sizes."
+    },
+    {
+      "page": "Movie Out",
+      "label": "VP8",
+      "name": "vp8",
+      "description": "The open standard  VP8  format. Somewhat comparable to H264."
+    },
+    {
+      "page": "Movie Out",
+      "label": "VP9",
+      "name": "vp9",
+      "description": "The open standard  VP9  format. Somehwat comaparable to HEVC/H265."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Apple ProRes",
+      "name": "prores",
+      "description": "Apple ProRes  video format."
+    },
+    {
+      "page": "Movie Out",
+      "label": "VVC/H.266 (Slow)",
+      "name": "vvc",
+      "description": "Use H.266 to encode. This is currently CPU-based and quite slow."
+    },
+    {
+      "page": "Movie Out",
+      "label": "AV1 (NVIDIA  GPU )",
+      "name": "av1",
+      "description": "An open source lossy compression format. See  https://en.wikipedia.org/wiki/AV1 ."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Video Codec Type",
+      "name": "videocodectype",
+      "description": "Some video codecs such as  Apple ProRes ,  Hap  and  Hap Q  have a various different types such as ProRes 442 HQ, ProRe 4444 HQ etc."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Image File Type",
+      "name": "imagefiletype",
+      "description": "⊞  - Choose what file type to use when  Type  is set to Image."
+    },
+    {
+      "page": "Movie Out",
+      "label": "TIFF",
+      "name": "tiff",
+      "description": "A lossless, compressed, image format that includes alpha."
+    },
+    {
+      "page": "Movie Out",
+      "label": "JPEG",
+      "name": "jpeg",
+      "description": "A lossy image format, very well compressed. No support for alpha."
+    },
+    {
+      "page": "Movie Out",
+      "label": "BMP",
+      "name": "bmp",
+      "description": "A lossless, uncompressed, image format that includes alpha."
+    },
+    {
+      "page": "Movie Out",
+      "label": "OpenEXR",
+      "name": "exr",
+      "description": "A lossless, compressed, image format that can save files in 16-bit float and 32-bit float formats. Can also include alpha. More information  here ."
+    },
+    {
+      "page": "Movie Out",
+      "label": "PNG",
+      "name": "png",
+      "description": "A lossless, compressed, image format that can include alpha. Supports bit 8-bit and 16-bit fixed data."
+    },
+    {
+      "page": "Movie Out",
+      "label": "DDS",
+      "name": "dds",
+      "description": "A lossless, uncompressed, image format that can include alpha. Can include mipmap information. Natively support most pixel formats supported by TOPs."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Unique Suffix",
+      "name": "uniquesuff",
+      "description": "When enabled, me.fileSuffix will be a unique suffix when used in the file parameter."
+    },
+    {
+      "page": "Movie Out",
+      "label": "N",
+      "name": "n",
+      "description": "N is the index used in me.fileSuffix. When unique suffix is enabled, N specifies the starting index to increment from when calculating a unique suffix/name."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Leading Zeros Digits",
+      "name": "leadingzerosdigits",
+      "description": "Specify the minimum number of suffix digits that the filename will have. If the sequence number is less than this number, leading zeros will be appended to total the number of suffix digits to be this value. Enabled only for Image Sequences."
+    },
+    {
+      "page": "Movie Out",
+      "label": "File",
+      "name": "file",
+      "description": "Sets the path and filename of the movie file that is saved out. The filename must include the file extension such as .mov/.mp4 etc. For movies, generally the .mov file extension will work with the most codecs."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Movie Pixel Format",
+      "name": "moviepixelformat",
+      "description": "⊞  - Options for the pixel format based on the  Video Codec  selected. Use this parameter to change the color quality of the output (how many bits are used, YUV sampling etc.), as well as selecting formats that include alpha for codecs that support alpha."
+    },
+    {
+      "page": "Movie Out",
+      "label": "YUV 4:2:0",
+      "name": "yuv420",
+      "description": "(Photo/Motion JPEG, MPEG 4 (Part 2), )"
+    },
+    {
+      "page": "Movie Out",
+      "label": "YUV 4:2:0 (8-Bit)",
+      "name": "yuv420",
+      "description": "(H.264 (NVIDIA  GPU ), H.265/HEVC (NVIDIA  GPU ))"
+    },
+    {
+      "page": "Movie Out",
+      "label": "YUV 4:2:0 (10-Bit)",
+      "name": "yuv420p10bit",
+      "description": "(H.265/HEVC (NVIDIA  GPU ))"
+    },
+    {
+      "page": "Movie Out",
+      "label": "YUV 4:2:2",
+      "name": "yuv422",
+      "description": "(Photo/Motion JPEG, )"
+    },
+    {
+      "page": "Movie Out",
+      "label": "YUV 4:4:4 (8-Bit)",
+      "name": "yuv444",
+      "description": "(H.264 (NVIDIA  GPU ), H.265/HEVC (NVIDIA  GPU ))"
+    },
+    {
+      "page": "Movie Out",
+      "label": "YUV 4:4:4 (10-Bit)",
+      "name": "yuv444p10bit",
+      "description": "(H.265/HEVC (NVIDIA  GPU ))"
+    },
+    {
+      "page": "Movie Out",
+      "label": "RGB",
+      "name": "rgb",
+      "description": "(Animation, Hap, Hap Q)"
+    },
+    {
+      "page": "Movie Out",
+      "label": "RGBA",
+      "name": "rgba",
+      "description": "(Animation, GoPro-Cineform, Hap, Hap Q)"
+    },
+    {
+      "page": "Movie Out",
+      "label": "RGBA BC7",
+      "name": "rgba",
+      "description": "(Hap Q) - Slow, Read Help Before Using!"
+    },
+    {
+      "page": "Movie Out",
+      "label": "RGB  Palette",
+      "name": "3",
+      "description": "(GIF)"
+    },
+    {
+      "page": "Movie Out",
+      "label": "Movie  Container",
+      "name": "moviecontainer",
+      "description": "⊞  - Controls the movie container (file extension/format) that the file will be written into. Certain codecs require certain containers, and some containers don't support all codecs."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Automatic",
+      "name": "automatic",
+      "description": "Automatically choose the container based on the preferred one for the video codec selected."
+    },
+    {
+      "page": "Movie Out",
+      "label": "mov",
+      "name": "mov",
+      "description": "Quicktime .mov container."
+    },
+    {
+      "page": "Movie Out",
+      "label": "mp4",
+      "name": "mp4",
+      "description": "MP4 (formally MPEG-4 Part 14)"
+    },
+    {
+      "page": "Movie Out",
+      "label": "mkv",
+      "name": "mkv",
+      "description": "An open source container that supports almost every video/audio combination.  Matroska"
+    },
+    {
+      "page": "Movie Out",
+      "label": "webm",
+      "name": "webm",
+      "description": "Used to hold VP8/VP9 video codec files."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Video Pixel Format",
+      "name": "videopixelformat",
+      "description": "⊞  - Options for the pixel format based on the  Video Codec  selected. Use this parameter to change the color quality of the output (how many bits are used, YUV sampling etc.), as well as selecting formats that include alpha for codecs that support alpha."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Output Color Space",
+      "name": "outputcolorspace",
+      "description": "⊞  - Controls what color space the data will be converted to before output. If the output (file/SDI/ST2110 etc) supports metadata, will also attempt to include the color space in that. Some output forms only support a limited number of color spaces in their metadata. If the color space is unknown to the output form, then no metadata will be included."
+    },
+    {
+      "page": "Movie Out",
+      "label": "sRGB",
+      "name": "srgb",
+      "description": "sRGB  color space, with sRGB transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Movie Out",
+      "label": "sRGB - Linear",
+      "name": "srgblinear",
+      "description": "sRGB  color space, with linear transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Rec.601 (NTSC)",
+      "name": "rec601ntsc",
+      "description": "Rec.601  with NTSC primaries color space, with Rec.601 transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Rec.709",
+      "name": "rec709",
+      "description": "Rec.709  color space, with Rec.709 (same as Rec.2020) transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Rec.2020",
+      "name": "rec2020",
+      "description": "Rec.2020  color space, with Rec.2020 (same as Rec.709) transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Rec.2020 ST2084PQ",
+      "name": "rec2020st2084pq",
+      "description": "Rec.2020  color space, with  Perceptual Quantizer  transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Rec.2020 HLG",
+      "name": "rec2020hlg",
+      "description": "Rec.2020  color space, with  Hybrid Log Gamma  transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Movie Out",
+      "label": "DCI-P3",
+      "name": "dcip3",
+      "description": "DCI-P3  color space, with D65 white point and 2.6 gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Movie Out",
+      "label": "DCI-P3 (D60)",
+      "name": "dcip3d60",
+      "description": "DCI-P3 \"D60 sim\"  color space, with D60 white point, and 2.6 gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Display-P3 (D65)",
+      "name": "displayp3d65",
+      "description": "Display-P3  color space, with D65 white point, and sRGB gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Display-P3 (D65) - Linear",
+      "name": "displayp3d65linear",
+      "description": "Display-P3  color space, with D65 white point, and linear transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Movie Out",
+      "label": "ACES2065-1",
+      "name": "aces2065",
+      "description": "1  -  ACES 2065-1  (also known as ACES AP0) color space, with a linear gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Movie Out",
+      "label": "ACEScg",
+      "name": "acescg",
+      "description": "ACEScg  (also known as ACES AP1) color space, with a linear gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Movie Out",
+      "label": "ACESproxy",
+      "name": "acesproxy",
+      "description": "ACESproxy  color space, which has a log transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Passthrough",
+      "name": "passthrough",
+      "description": "When selected, the color values will be used as-is in the operation, without any modification or attempt to convert them into the Working Color Space."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Output  Reference  White",
+      "name": "outputreferencewhite",
+      "description": "⊞  - When converting the color values to the Working Color Space for output, this controls how they should be treated with respect to  Reference White . If the Working Color Space is the same  Reference  White, then no adjustment is done. If they are different, then the  Reference  White level (brightness) of the colors will be adjusted to the range expected by the Output Color Space. For example if the project is set to have a SDR  Reference  White of 120 nits, and the HDR  Reference  White is 80 nits, and the project Working Color Space is HDR while the Output Color Space is SDR: then a color of (1, 1, 1), which is 80 nits in the HDR color space, will be converted to be (0.66, 0.66, 0.66), which is 80 nits still in the SDR Output Color Space."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Default For Color Space",
+      "name": "default",
+      "description": "Will use either the SDR or the HDR  Reference  White, based on the color space detected/selected."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Standard (SDR)",
+      "name": "sdr",
+      "description": "Will treat the Output Color Space as SDR for it's reference white value."
+    },
+    {
+      "page": "Movie Out",
+      "label": "High (HDR)",
+      "name": "hdr",
+      "description": "Will treat the Output Color Space as HDR for it's reference white value."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Audio  CHOP",
+      "name": "audiochop",
+      "description": "Specify a  CHOP  to use as the audio track for the movie. Drag & Drop a  CHOP  here or manually enter the  CHOP 's path.  The  CHOP  needs to be  time-sliced  ."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Audio Bit Rate",
+      "name": "audiobitrate",
+      "description": "⊞  - The bitrate to write the audio out at. Depending on the codec this may be per-channel, or overall for all channels combined."
+    },
+    {
+      "page": "Movie Out",
+      "label": "ALAC (Apple Lossless)",
+      "name": "alac",
+      "description": "A lossless audio codec that still offers some compression for the data."
+    },
+    {
+      "page": "Movie Out",
+      "label": "MP3",
+      "name": "mp3",
+      "description": "Compressed lossy codec. Can only do 2 channels of audio. MP3 compression will not have gapless playback."
+    },
+    {
+      "page": "Movie Out",
+      "label": "AAC",
+      "name": "aac",
+      "description": "AAC  is a lossy audio compression codec. Can only do 2 channels of audio. MP3 compression will not have gapless playback. Note: A particlular behavior on Windows OS AAC encoder; for 1 and 2 channels the selection of bit rate is for both channels combined. i.e. it’s 192kb/s for one channel, or 2x96kb/s for two. However, when using more than 2 channels the bitrate is per channel ie. for 6 channel then it’s 6x192kb/s."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Vorbis",
+      "name": "vorbis",
+      "description": "Vorbis  is a lossy audio compression codec. Vorbis compression will have gapless playback."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Opus",
+      "name": "opus",
+      "description": "Opus  is a lossy audio compression codec."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Uncompressed 16-bit (PCM)",
+      "name": "pcm16",
+      "description": "Uncompressed audio ( Pulse  Code Modulation)"
+    },
+    {
+      "page": "Movie Out",
+      "label": "Uncompressed 24-bit (PCM)",
+      "name": "pcm24",
+      "description": "Uncompressed audio ( Pulse  Code Modulation)"
+    },
+    {
+      "page": "Movie Out",
+      "label": "Uncompressed 32-bit (PCM)",
+      "name": "pcm32",
+      "description": "Uncompressed audio ( Pulse  Code Modulation)"
+    },
+    {
+      "page": "Movie Out",
+      "label": "Quality",
+      "name": "quality",
+      "description": "Select the quality of the movie compression. NOTE: Some codecs can not output lossless compression."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Movie  FPS",
+      "name": "fps",
+      "description": "The frame rate of the movie file created."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Limit Length",
+      "name": "limitlength",
+      "description": "This can be used to automatically stop recording the file once it reaches a specified length."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Length",
+      "name": "length",
+      "description": "The length to stop recording the file at."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Length Unit",
+      "name": "lengthunit",
+      "description": "⊞  - The unit the length is specified in."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Record",
+      "name": "record",
+      "description": "When this parameter is set to 1, the movie will be recording."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Pause",
+      "name": "pause",
+      "description": "Pauses the recording."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Add  Frame",
+      "name": "addframe",
+      "description": "Adds a single frame to the output for each click of the button.  Pause must be  On  to enable the Add Frame parameter."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Max Threads",
+      "name": "maxthread",
+      "description": "When outputting sequences of images, this controls the maximum number of threads can be used to output images (one thread per image). If this is set to 1 then the main thread will be used to write the image."
+    },
+    {
+      "page": "Movie Out",
+      "label": "Header Source  DAT",
+      "name": "headerdat",
+      "description": "The path to a  Table DAT  that stores header metadata that should be written to the output image or movie file. Header data is written as key-value pairs with the first column storing the keys and the second column storing the associated values. See  File Metadata  for more information on supported metadata.  Note:  Currently only supported for EXR files.  Warning:  Files may fail to save if the header data conflicts with system headers."
+    },
+    {
+      "page": "EXR",
+      "label": "Save as Point Cloud",
+      "name": "pointcloud",
+      "description": "When enabled, an additional header will be added to the file that indicates the contents are point data rather than images. This header is used to automatically load the file into a  Point File In TOP  rather than a  Movie File In TOP  when dragging and dropping."
+    },
+    {
+      "page": "EXR",
+      "label": "Additional Input  TOP",
+      "name": "input",
+      "description": "Sequence of TOPs containing image data to add to the file"
+    },
+    {
+      "page": "EXR",
+      "label": "Red",
+      "name": "input0r",
+      "description": "Name assigned to the specified  TOP 's Red channel."
+    },
+    {
+      "page": "EXR",
+      "label": "Green",
+      "name": "input0g",
+      "description": "Name assigned to the specified  TOP 's Green channel."
+    },
+    {
+      "page": "EXR",
+      "label": "Blue",
+      "name": "input0b",
+      "description": "Name assigned to the specified  TOP 's Blue channel."
+    },
+    {
+      "page": "EXR",
+      "label": "Alpha",
+      "name": "input0a",
+      "description": "Name assigned to the specified  TOP 's Alpha channel."
+    },
+    {
+      "page": "EXR",
+      "label": "TOP",
+      "name": "input1top",
+      "description": "The path to the  TOP  used to specify addition channels to the EXR file. The first 4 channels specified above come from the input connected to the Movie File Out  TOP , this TOPs RGBA data can be assigned unique names in the EXR file using the Red, Green, Blue, Alpha parameters below."
+    },
+    {
+      "page": "Settings",
+      "label": "Stall for File Open",
+      "name": "stallforopen",
+      "description": "When this is on playback will stall until the file is opened and ready to receive frames, to make sure the frame that was inputted when Record was turned on gets recorded. When this is off recording may start on a later frame, after the file has been opened. Turning this off can avoid a stall in playback, if missing recording some frames at the start is acceptable."
+    },
+    {
+      "page": "Settings",
+      "label": "Profile",
+      "name": "profile",
+      "description": "⊞  - Select the H.264 profile to use."
+    },
+    {
+      "page": "Settings",
+      "label": "Auto",
+      "description": "Select   autoselect  -"
+    },
+    {
+      "page": "Settings",
+      "label": "Preset",
+      "name": "preset",
+      "description": "⊞  - The H264 preset to use."
+    },
+    {
+      "page": "Settings",
+      "label": "None",
+      "name": "none",
+      "description": "Select from the available presets."
+    },
+    {
+      "page": "Settings",
+      "label": "Bit Rate Mode",
+      "name": "bitratemode",
+      "description": "⊞  - Select between Constant or Variable bit rate, and regular or high quality bit rate modes."
+    },
+    {
+      "page": "Settings",
+      "label": "Average Bitrate (Kb/s)",
+      "name": "avgbitrate",
+      "description": "Set the average bitrate target for the encoding."
+    },
+    {
+      "page": "Settings",
+      "label": "Peak Bitrate (Kb/s)",
+      "name": "peakbitrate",
+      "description": "Set the peak bitrate allowed for the encoding."
+    },
+    {
+      "page": "Settings",
+      "label": "Keyframe  Interval",
+      "name": "keyframeinterval",
+      "description": "Set the number of frames between key-frames (I-frames) while encoding."
+    },
+    {
+      "page": "Settings",
+      "label": "Max B-Frames",
+      "name": "maxbframes",
+      "description": "Controls the maximum number of B-frames (bi-directional frames) that will be created between pairs of key-frames."
+    },
+    {
+      "page": "Settings",
+      "label": "Motion Prediction",
+      "name": "motionpredict",
+      "description": "⊞  - Controls the quality of the Motion Prediction used when encoding H264/H265."
+    },
+    {
+      "page": "Settings",
+      "label": "Frame Slicing",
+      "name": "frameslicing",
+      "description": "Controls if H264/H265 frames are sliced into multiple pieces, allowing them to be decoded using multiple CPUs more easily."
+    },
+    {
+      "page": "Settings",
+      "label": "Num Slices",
+      "name": "numslices",
+      "description": "The number of slices each frame is split into."
+    },
+    {
+      "page": "Settings",
+      "label": "Entropy Mode",
+      "name": "entropymode",
+      "description": "⊞  - Controls which entropy mode is used for H265 encoding."
+    },
+    {
+      "page": "Settings",
+      "label": "Auto",
+      "description": "Select   autoselect  -"
+    },
+    {
+      "page": "Settings",
+      "label": "Stereo Mode",
+      "name": "stereomode",
+      "description": "⊞  - Adds metadata to the file to denote that it contains a stereo pair of images in either Left-Right or Top-Bottom formatting. The  TOP  connected as the input needs to already be in this format, usually by using a  Layout TOP ."
+    },
+    {
+      "page": "Settings",
+      "label": "Off",
+      "name": "off",
+      "description": "No metadata is included."
+    },
+    {
+      "page": "Settings",
+      "label": "Left-Right",
+      "name": "leftright",
+      "description": "The metadata denotes that the content should be treated as the left half is the left eye, and the right half is the right eye."
+    },
+    {
+      "page": "Settings",
+      "label": "Top-Bottom",
+      "name": "topbottom",
+      "description": "The metadata denotes that the content should be treated as the top half is the left eye, and the bottom half is the right eye."
+    },
+    {
+      "page": "Settings",
+      "label": "Spherical Mode",
+      "name": "sphericalmode",
+      "description": "⊞  - Adds metadata to the file to denote that it contains a spherical 360 degree rendered output. This is usually created by using the  Projection TOP ."
+    },
+    {
+      "page": "Settings",
+      "label": "Off",
+      "name": "off",
+      "description": "No metadata is included."
+    },
+    {
+      "page": "Settings",
+      "label": "Equirectangular",
+      "name": "equirectangular",
+      "description": "The metadata denotes that the content is in Equirectuangular projection format."
+    },
+    {
+      "page": "Settings",
+      "label": "Secondary Compression",
+      "name": "secondarycompression",
+      "description": "Hap  uses a secondary CPU compression stage usually. Encoding video without this compression will result in faster playback, but potentially larger file sizes (which would require faster drives to play back)."
+    },
+    {
+      "page": "Settings",
+      "label": "Encode Test Mode",
+      "name": "encodetestmode",
+      "description": "This mode disables file writting, and only does the encoding. This is useful to test the  GPU /CPU performance of encoding while taking the SSD speed out of the equation."
+    },
+    {
+      "page": "Settings",
+      "label": "Include Mip Maps",
+      "name": "mipmaps",
+      "description": "When saving out .dds file, mipmaps can be included if this is enabled. This is primarily used for the  PreFilter Map TOP , which will encode special information into the mipmap levels of the texture which needs to be maintained."
+    },
+    {
+      "page": "Common",
+      "label": "Output  Resolution",
+      "name": "outputresolution",
+      "description": "⊞  - quickly change the resolution of the  TOP 's data."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's resolution."
+    },
+    {
+      "page": "Common",
+      "label": "Eighth",
+      "name": "eighth",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Quarter",
+      "name": "quarter",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Half",
+      "name": "half",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "2X",
+      "name": "2x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "4X",
+      "name": "4x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "8X",
+      "name": "8x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Fit  Resolution",
+      "name": "fit",
+      "description": "Fits the width and height to the resolution given below, while maintaining the aspect ratio."
+    },
+    {
+      "page": "Common",
+      "label": "Limit  Resolution",
+      "name": "limit",
+      "description": "The width and height are limited to the resolution given below. If one of the dimensions exceeds the given resolution, the width and height will be reduced to fit inside the given limits while maintaining the aspect ratio."
+    },
+    {
+      "page": "Common",
+      "label": "Custom  Resolution",
+      "name": "custom",
+      "description": "Enables the  Resolution  parameter below, giving direct control over width and height."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution",
+      "name": "resolution",
+      "description": "⊞  - Enabled only when the  Resolution  parameter is set to Custom  Resolution . Some Generators like Constant and Ramp do not use inputs and only use this field to determine their size. The drop down menu on the right provides some commonly used resolutions."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution  Menu",
+      "name": "resmenu",
+      "description": "A drop-down menu with some commonly used resolutions."
+    },
+    {
+      "page": "Common",
+      "label": "Use Global Res Multiplier",
+      "name": "resmult",
+      "description": "Uses the Global  Resolution  Multiplier found in  Edit>Preferences>TOPs . This multiplies all the TOPs resolutions by the set amount. This is handy when working on computers with different hardware specifications. If a project is designed on a desktop workstation with lots of graphics memory, a user on a laptop with only 64MB VRAM can set the Global  Resolution  Multiplier to a value of half or quarter so it runs at an acceptable speed. By checking this checkbox on, this  TOP  is affected by the global multiplier."
+    },
+    {
+      "page": "Common",
+      "label": "Output Aspect",
+      "name": "outputaspect",
+      "description": "⊞  - Sets the image aspect ratio allowing any textures to be viewed in any size. Watch for unexpected results when compositing TOPs with different aspect ratios. (You can define images with non-square pixels using xres, yres, aspectx, aspecty where xres/yres != aspectx/aspecty.)"
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's aspect ratio."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution",
+      "name": "resolution",
+      "description": "Uses the aspect of the image's defined resolution (ie 512x256 would be 2:1), whereby each pixel is square."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Aspect",
+      "name": "custom",
+      "description": "Lets you explicitly define a custom aspect ratio in the Aspect parameter below."
+    },
+    {
+      "page": "Common",
+      "label": "Aspect",
+      "name": "aspect",
+      "description": "⊞  - Use when Output Aspect parameter is set to Custom Aspect."
+    },
+    {
+      "page": "Common",
+      "label": "Aspect Menu",
+      "name": "armenu",
+      "description": "A drop-down menu with some commonly used aspect ratios."
+    },
+    {
+      "page": "Common",
+      "label": "Input Smoothness",
+      "name": "inputfiltertype",
+      "description": "⊞  - This controls pixel filtering on the input image of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Nearest Pixel",
+      "name": "nearest",
+      "description": "Uses nearest pixel or accurate image representation. Images will look jaggy when viewing at any zoom level other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Interpolate Pixels",
+      "name": "linear",
+      "description": "Uses linear filtering between pixels. This is how you get  TOP  images in viewers to look good at various zoom levels, especially useful when using any Fill Viewer setting other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Mipmap Pixels",
+      "name": "mipmap",
+      "description": "Uses   mipmap  filtering when scaling images. This can be used to reduce artifacts and sparkling in moving/scaling images that have lots of detail."
+    },
+    {
+      "page": "Common",
+      "label": "Fill  Viewer",
+      "name": "fillmode",
+      "description": "⊞  - Determine how the  TOP  image is displayed in the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the same Fill Viewer settings as it's input."
+    },
+    {
+      "page": "Common",
+      "label": "Fill",
+      "name": "fill",
+      "description": "Stretches the image to fit the edges of the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Horizontal",
+      "name": "width",
+      "description": "Stretches image to fit viewer horizontally."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Vertical",
+      "name": "height",
+      "description": "Stretches image to fit viewer vertically."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Best",
+      "name": "best",
+      "description": "Stretches or squashes image so no part of image is cropped."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Outside",
+      "name": "outside",
+      "description": "Stretches or squashes image so image fills viewer while constraining it's proportions. This often leads to part of image getting cropped by viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Native  Resolution",
+      "name": "nativeres",
+      "description": "Displays the native resolution of the image in the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Viewer Smoothness",
+      "name": "filtertype",
+      "description": "⊞  - This controls pixel filtering in the viewers."
+    },
+    {
+      "page": "Common",
+      "label": "Nearest Pixel",
+      "name": "nearest",
+      "description": "Uses nearest pixel or accurate image representation. Images will look jaggy when viewing at any zoom level other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Interpolate Pixels",
+      "name": "linear",
+      "description": "Uses linear filtering between pixels. Use this to get  TOP  images in viewers to look good at various zoom levels, especially useful when using any Fill Viewer setting other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Mipmap Pixels",
+      "name": "mipmap",
+      "description": "Uses   mipmap  filtering when scaling images. This can be used to reduce artifacts and sparkling in moving/scaling images that have lots of detail."
+    },
+    {
+      "page": "Common",
+      "label": "Passes",
+      "name": "npasses",
+      "description": "Duplicates the operation of the  TOP  the specified number of times. Making this larger than 1 is essentially the same as taking the output from each pass, and passing it into the first input of the node and repeating the process. Other inputs and parameters remain the same for each pass."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Mask",
+      "name": "chanmask",
+      "description": "Allows you to choose which channels (R, G, B, or A) the  TOP  will operate on. All channels are selected by default."
+    },
+    {
+      "page": "Common",
+      "label": "Pixel Format",
+      "name": "format",
+      "description": "⊞  - Format used to store data for each channel in the image (ie. R, G, B, and A). Refer to  Pixel Formats  for more information."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's pixel format."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (RGBA)",
+      "name": "rgba8fixed",
+      "description": "Uses 8-bit integer values for each channel."
+    },
+    {
+      "page": "Common",
+      "label": "sRGB 8-bit fixed (RGBA)",
+      "name": "srgba8fixed",
+      "description": "Uses 8-bit integer values for each channel and stores color in sRGB colorspace."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (RGBA)",
+      "name": "rgba16float",
+      "description": "Uses 16-bits per color channel, 64-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (RGBA)",
+      "name": "rgba32float",
+      "description": "Uses 32-bits per color channel, 128-bits per pixels."
+    },
+    {
+      "page": "Common",
+      "label": "10-bit RGB, 2-bit Alpha, fixed (RGBA)",
+      "name": "rgb10a2fixed",
+      "description": "Uses 10-bits per color channel and 2-bits for alpha, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (RGBA)",
+      "name": "rgba16fixed",
+      "description": "Uses 16-bits per color channel, 64-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "11-bit float (RGB), Positive Values Only",
+      "name": "rgba11float",
+      "description": "A RGB floating point format that has 11 bits for the Red and Green channels, and 10-bits for the Blue  Channel , 32-bits total per pixel (therefore the same memory usage as 8-bit RGBA). The Alpha channel in this format will always be 1. Values can go above one, but can't be negative. ie. the range is [0, infinite)."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (Mono)",
+      "name": "mono8fixed",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 8-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (Mono)",
+      "name": "mono16fixed",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (Mono)",
+      "name": "mono16float",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (Mono)",
+      "name": "mono32float",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (RG)",
+      "name": "rg8fixed",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 8-bits per channel, 16-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (RG)",
+      "name": "rg16fixed",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 16-bits per channel, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (RG)",
+      "name": "rg16float",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 16-bits per channel, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (RG)",
+      "name": "rg32float",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 32-bits per channel, 64-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (A)",
+      "name": "a8fixed",
+      "description": "An Alpha only format that has 8-bits per channel, 8-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (A)",
+      "name": "a16fixed",
+      "description": "An Alpha only format that has 16-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (A)",
+      "name": "a16float",
+      "description": "An Alpha only format that has 16-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (A)",
+      "name": "a32float",
+      "description": "An Alpha only format that has 32-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (Mono+Alpha)",
+      "name": "monoalpha8fixed",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 8-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (Mono+Alpha)",
+      "name": "monoalpha16fixed",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 16-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (Mono+Alpha)",
+      "name": "monoalpha16float",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 16-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (Mono+Alpha)",
+      "name": "monoalpha32float",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 32-bits per channel, 64-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "last_frames_written",
+      "description": "The number of frames written to the file on the last cook. This many be multiple repeats of the same image if TouchDesigner dropped frames, to ensure time stays in sync."
+    },
+    {
+      "page": "Common",
+      "label": "total_frames_written",
+      "description": "The total number of frames written to the file so far."
+    },
+    {
+      "page": "Common",
+      "label": "last_audio_samples_written",
+      "description": "The number of audio samples written to the file on the last cook."
+    },
+    {
+      "page": "Common",
+      "label": "total_audio_samples_written",
+      "description": "The total number of audio samplers written to the file."
+    },
+    {
+      "page": "Common",
+      "label": "last_audio_frames_written",
+      "description": "The number of audio frames written to the file on the last cook. This is the samples value, converted to frame units."
+    },
+    {
+      "page": "Common",
+      "label": "total_audio_frames_written",
+      "description": "The total number of audio frames written to the file. This is the samples value, converted to frame units."
+    },
+    {
+      "page": "Common",
+      "label": "total_frames_dropped",
+      "description": "The number frames that TouchDesigner failed to provide unique images for in the output file. This occurs when TouchDesigner drops frames when the file needed new images."
+    },
+    {
+      "page": "Common",
+      "label": "active_records",
+      "description": "When recording sequences of images, they may be written using multiple CPUs at the same time. This tells how many images are currently being recorded."
+    },
+    {
+      "page": "Common",
+      "label": "cur_seq_index",
+      "description": "When recording sequences of images, this is the current sequence image index."
+    },
+    {
+      "page": "Common",
+      "label": "resx",
+      "description": "Horizontal resolution of the  TOP  in pixels."
+    },
+    {
+      "page": "Common",
+      "label": "resy",
+      "description": "Vertical resolution of the  TOP  in pixels."
+    },
+    {
+      "page": "Common",
+      "label": "aspectx",
+      "description": "Horizontal aspect of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "aspecty",
+      "description": "Vertical aspect of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "depth",
+      "description": "Depth of 2D or 3D array if this  TOP  contains a 2D or 3D texture array."
+    },
+    {
+      "page": "Common",
+      "label": "gpu_memory_used",
+      "description": "Total amount of texture memory used by this  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "The term \"Frame\" is a measurement of time used (1) in the  Timeline , (2) as a time",
+      "description": "unit in CHOPs, and (3) as a time unit in movie files that are read into  TOPs  and written out from TOPs. The frame rate is the frames per second ( FPS )."
+    },
+    {
+      "page": "Common",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    },
+    {
+      "page": "Common",
+      "label": "A built",
+      "description": "in panel in TouchDesigner that contains a library of components and media that can be dragged-dropped into a TouchDesigner network."
+    },
+    {
+      "page": "Common",
+      "label": "To \"pulse\" a parameter is to send it a signal from (1) an  exported  CHOP channel or (2) a python command or (3) a mouse click that causes a new action to occur immediately. A pulse via python is via the  .pulse()  function on a pulse",
+      "description": "type parameter, such as Reset parameter in a  Speed CHOP . A pulse from a CHOP is typically a 0 to 1 to 0 signal in an exported channel."
+    },
+    {
+      "page": "Common",
+      "label": "The",
+      "name": "Frames",
+      "description": "per-Second that TouchDesigner's  Timeline  runs at. Set with  project.cookRate ."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "The width and height of an image in pixels. Most TOPs, like the  Movie File In TOP  can set the image resolution. See  Aspect Ratio  for the width/height ratio of an image, taking into account non",
+      "description": "square pixels."
+    },
+    {
+      "page": "Common",
+      "label": "The viewer of a node can be (1) the interior of a node (the  Node Viewer ), (2) a floating window (RMB",
+      "description": ">View... on node), or (3) a  Pane  that graphically shows the results of an operator."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

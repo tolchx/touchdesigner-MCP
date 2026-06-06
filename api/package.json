@@ -1,0 +1,11 @@
+{
+  "name": "td-api",
+  "version": "0.1.6",
+  "description": "TouchDesigner HTTP API client",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  }
+}

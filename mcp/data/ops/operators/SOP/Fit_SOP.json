@@ -1,0 +1,259 @@
+{
+  "family": "SOP",
+  "pageTitle": "Fit SOP",
+  "pageSlug": "Fit_SOP",
+  "url": "https://docs.derivative.ca/Fit_SOP",
+  "tdOpTypeGuess": "fitSOP",
+  "summary": "[  edit  ]\nThe Fit  SOP  fits a Spline curve to a sequence of points or a Spline surface to an m X n mesh of points.\nAny type of face or surface represents a valid input. The Fit  SOP  looks only at the control vertices (CVs) of the primitives, treating the CVs as data points to run the fit through. For example, if a cubic NURBS surface and a mesh have the same number of rows and columns and identical points, they will yield an identical fit because the Spline bases of the input NURBS surface are ignored.\nThe Fit  SOP  generates two types of outputs: primitives that roughly follow the path of the data points without necessarily going through the data points; and primitives that touch all the data points. The first type, known as \"approximation\", is used primarily to extract a lean, smooth shape from a heavy data set, lending itself well to data reduction. The second type, known as \"interpolation\", often serves as a smoothing tool for paths that must go through specified target positions.\nfitSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Parameters - Fit Page\n4   Parameters - Approximation Page\n5   Parameters - Interpolation Page\n6   Operator Inputs\n7   Info CHOP Channels\n7.1   Common SOP Info Channels\n7.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Fit",
+      "label": "Method",
+      "name": "method",
+      "description": "⊞  - Specifies one of two fitting styles: approximation or interpolation. Each style has a number of parameters that are accessible from the respective folder. For more information see the Approximation and Interpolation pages below."
+    },
+    {
+      "page": "Fit",
+      "label": "Primitive  Type",
+      "name": "type",
+      "description": "⊞  - The output of the Fit  SOP  is a NURBS or Bzier primitive. All input faces are fitted to Spline curves, and all input surfaces are fitted to spline surfaces. The resulting shapes are identical whether created as NURBS or as Bzier primitives."
+    },
+    {
+      "page": "Fit",
+      "label": "Connectivity",
+      "name": "surftype",
+      "description": "⊞  - This option is used to select the type of surface, when using a Mesh  Primitive  Type."
+    },
+    {
+      "page": "Fit",
+      "label": "Rows",
+      "name": "rows",
+      "description": "Creates horizontal lines."
+    },
+    {
+      "page": "Fit",
+      "label": "Columns",
+      "name": "cols",
+      "description": "Creates vertical lines."
+    },
+    {
+      "page": "Fit",
+      "label": "Rows and Columns",
+      "name": "rowcol",
+      "description": "Both Rows and Columns. Looks like Quads in wire frame display, but all polygons are open (if the primitive type is polygon)."
+    },
+    {
+      "page": "Fit",
+      "label": "Triangles",
+      "name": "triangles",
+      "description": "Build the grid with Triangles."
+    },
+    {
+      "page": "Fit",
+      "label": "Quadrilaterals",
+      "name": "quads",
+      "description": "Generates sides composed of quadrilaterals (default)."
+    },
+    {
+      "page": "Fit",
+      "label": "Alternating Triangles",
+      "name": "alttriangles",
+      "description": "Generates triangles that are opposed; similar to the Triangles option."
+    },
+    {
+      "page": "Fit",
+      "label": "U Order",
+      "name": "orderu",
+      "description": "If the input is a face, this is the order of the Spline curve to be generated. If the input is a surface, this is the order of the fitted spline surface in the U parametric direction."
+    },
+    {
+      "page": "Fit",
+      "label": "V Order",
+      "name": "orderv",
+      "description": "If the input is a surface, this is the order of the fitted Spline surface in the V parametric direction. The V order is irrelevant if the input is a face."
+    },
+    {
+      "page": "Approximation",
+      "label": "Approximation fitting is used primarily to generate a lean, smooth shape from a dense data set. The result is a primitive that approximates the positions and attributes of the data points but does not necessarily touch these points. The only points the fitted curve or surface goes through are the end",
+      "description": "points of the data set. If the fitted primitive is required to go through all the points, fitting by interpolation is the answer."
+    },
+    {
+      "page": "Approximation",
+      "label": "Tolerance",
+      "name": "tol",
+      "description": "This is the primary precision factor in approximation fitting. The smaller the tolerance, the closer the fit and the higher the number of generated vertices. If a small tolerance causes unwanted twists or contortions in the fitted primitive, it may help to vary the Spline order and/or enable the Multiple Knots flag."
+    },
+    {
+      "page": "Approximation",
+      "label": "Smoothness",
+      "name": "smooth",
+      "description": "For a set tolerance, the smoothness factor allows for more or less roundness in the generated shape. If this parameter is zero, it does not mean that the fit will be sharp. It simply indicates that no additional smoothing is required past the level of smoothness already achieved with the given tolerance."
+    },
+    {
+      "page": "Approximation",
+      "label": "U Multiple Knots",
+      "name": "multipleu",
+      "description": "Sometimes the data set has sharp bends that must be preserved in the fitted shape. In this case, inserting multiple knots in the areas of sharp curvature will usually produce the right effect. Sometimes, however, the simulated sharpness induces unwanted twists immediately before or after the corner. Lowering the Spline order and/or reducing the tolerance may help diminish this side-effect."
+    },
+    {
+      "page": "Approximation",
+      "label": "V Multiple Knots",
+      "name": "multiplev",
+      "description": "Sometimes the data set has sharp bends that must be preserved in the fitted shape. In this case, inserting multiple knots in the areas of sharp curvature will usually produce the right effect. Sometimes, however, the simulated sharpness induces unwanted twists immediately before or after the corner. Lowering the Spline order and/or reducing the tolerance may help diminish this side-effect."
+    },
+    {
+      "page": "Interpolation",
+      "label": "Scope",
+      "name": "scope",
+      "description": "⊞  -  Scope  establishes the interpolation method."
+    },
+    {
+      "page": "Interpolation",
+      "label": "Global",
+      "name": "global",
+      "description": "Global interpolation take the whole data set into account at once and generates exactly as many CVs as data points is it given."
+    },
+    {
+      "page": "Interpolation",
+      "label": "Local (Curves Only)",
+      "name": "local",
+      "description": "Local interpolation takes a more geometric approach, building the curve or surface one span at a time, using only local data at each step. The local method generates more CVs than the number of data points it is given, but it usually yields a tighter fit than the global method. The local approach is also less computationally expensive than the global one, and handles cusps and local perturbations better. Local interpolation is available only for curves."
+    },
+    {
+      "page": "Interpolation",
+      "label": "Breakpoints",
+      "name": "breakpnt",
+      "description": "Breakpoint interpolation is a variant of global interpolation that satisfies the requirement that the locations of data points coincide with the breakpoints of the generated curve. The breakpoints of a Spline curve are the image of the Spline basis on the curve. Breakpoint interpolation is available only for curves."
+    },
+    {
+      "page": "Interpolation",
+      "label": "U Data  Parameter",
+      "name": "dataparmu",
+      "description": "⊞  - Specifies the parameterization of the data in the U direction (the only direction if the input is a curve). The data parameterization can be uniform, chord length, or centripetal."
+    },
+    {
+      "page": "Interpolation",
+      "label": "V Data  Parameter",
+      "name": "dataparmv",
+      "description": "⊞  - V data parameterization is identical to U data parameterization, but it affects the V direction when the input is a surface. It is not used when the input is a face."
+    },
+    {
+      "page": "Interpolation",
+      "label": "U Wrap",
+      "name": "closeu",
+      "description": "⊞  - This menu determines whether the fitted curve should be closed, or whether the fitted surface should be wrapped in the U parametric direction. The options are to open (Off), close (On), or inherit the closure type from the input primitive."
+    },
+    {
+      "page": "Interpolation",
+      "label": "V Wrap",
+      "name": "closev",
+      "description": "⊞  - This menu determines whether the fitted surface should be wrapped in the V parametric direction. The options are to open (Off), close (On), or inherit the closure type from the input primitive. V Wrap is ignored when the input is a face."
+    },
+    {
+      "page": "Interpolation",
+      "label": "Fit Corners",
+      "name": "corners",
+      "description": "Specifies whether corners in the data should be preserved when doing local curve interpolation."
+    },
+    {
+      "page": "Interpolation",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Interpolation",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Interpolation",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Interpolation",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Interpolation",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Interpolation",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Interpolation",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Interpolation",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Interpolation",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Interpolation",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Interpolation",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Interpolation",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Interpolation",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Interpolation",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Interpolation",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "nte. * **Uso simple:** Útil para crear efectos de \"onda\" o \"propagación\" a través de un conjunto de puntos, donde la animación no ocurre en todos los puntos al mismo tiempo, sino que se desfasa. * **Point File In POP (POP de Entrada de Archivo de Puntos)** * **Función principal:** Carga **datos de puntos 3D** en los POPs desde archivos individuales o secuencias de archivos. * **Características clave:** * Soporta varios formatos de archivo como **.obj, .ply, .fits, .exr**, y archivos ASCII de puntos como **.xyz, .pts, .csv, .txt**. * Permite asignar campos del archivo (posición XYZ, normales, coordenadas de textura, color RGBA) a los **atributos** de POP. * Ofrece opciones para **filtrar puntos** (`Thin page`) y **re-escalar valores** de atributos (`ReRange page`). * El formato OpenEXR es el más recomendado por ser binario y soportar secuencias multi-frame. * **Uso simple:** Para importar geometrías o nubes de pun"
+    },
+    {
+      "source": "POPs Investigation and Workshop Plan.markdown",
+      "excerpt": "imulations. - **Point Clouds**: Efficiently manage large datasets without TOPs’ 4-channel limitations. - **External Output**: Send data to lasers, DMX, or LEDs. ## 6. Workshop Plan ### Objective Equip participants with a solid understanding of POPs, their advantages, and practical use in TouchDesigner projects. ### Duration 2-3 hours, split into theory and hands-on segments. ### Structure #### Part 1: Introduction (30-45 minutes) - **What are POPs?** (10 min) - Definition, purpose, GPU benefits. - **POPs vs. SOPs** (15 min) - Key differences, when to use each. - **Core Concepts** (15 min) - Points, primitives, attributes, groups. #### Part 2: Hands-On Demos (1.5-2 hours) - **Demo 1: Basic POP Workflow** (30 min) - Create a `Point Generator POP`, add `P` and `Color` attributes, render with a `Render TOP`. - **Demo 2: Attribute Manipulation** (30 min) - Use `Math POP` to modify `P`, create a custom attribute, and swizzle components. - **Demo 3: Particles and Point Clouds** (30"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "he color of this channel here and I'm sorting by that. So I could put anything in here really. I could put in a video of my face. And if I maybe put something really white up to the camera, we'll get something a little bit different. (28:08) But basically, we can put in all sorts of fun stuff here. If I put in a constant, we might see a bit better how this is working. So the constant is going to remain the same throughout the image, right? So it would have to be maybe something that is a noise fit that. But then let's have just something that's maybe like 1 by 10. (28:40) And let's turn the period up to something really high. So, more or less it's going to be the same. Turn it up a little bit. And this can kind of just very easily give you some sort of fun VHS type effects. And I find this really um exciting actually. Oops. Time. And multiply it by way more. And let's just make sure there's a bit of an offset there. (29:16) So, this is like a super cool effect that I don't think um man"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

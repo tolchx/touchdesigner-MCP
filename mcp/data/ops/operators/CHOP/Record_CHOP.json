@@ -1,0 +1,361 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Record CHOP",
+  "pageSlug": "Record_CHOP",
+  "url": "https://docs.derivative.ca/Record_CHOP",
+  "tdOpTypeGuess": "recordCHOP",
+  "summary": "[  edit  ]\nThe Record  CHOP  takes the channels coming in the first (Position) input, converts and records them internally, and outputs the stored channels as the  CHOP  output. The optional second (Active) input is used to enable and disable the recording.\nDuring recording, the Record  CHOP  uses only the values of the first input at the current frame. The Type determines how the input values are converted.\nTip : The  Trail CHOP  also records the last window of samples, and more powerfully, the gestureCapture component in the  Palette  gives more control over multi-captures and smoothing channel data.\nIf Record is set to Auto Range, and the Active input goes on, and TouchDesigner is playing, then any existing storage array is cleared, and the channels are recorded in a new storage array until Active goes off. This behaves like a sampler.\nThe  Mouse In CHOP  and  Keyboard In CHOP  are often attached to the Position and Active inputs respectively of the Record  CHOP  to perform the recording of channels from mouse movements, enabled by pressing a keyboard key (see the  Keyboard In CHOP ).\nRecord Segment is useful for recording trails, snakes, and other models that use a time-history of motion.\nSee the  Time Slice CHOP  for input smoothing.\nrecordCHOP_Class\nContents\n1   Summary\n2   Parameters - Control Page\n3   Parameters - Common Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common CHOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    },
+    {
+      "index": 2,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Control",
+      "label": "Record",
+      "name": "record",
+      "description": "⊞  - When and how much to record:"
+    },
+    {
+      "page": "Control",
+      "label": "Off",
+      "name": "off",
+      "description": "Leaves the output unmodified."
+    },
+    {
+      "page": "Control",
+      "label": "On",
+      "name": "on",
+      "description": "Always records when playing forward. When the active input is in the off state the input is maintained at its current values."
+    },
+    {
+      "page": "Control",
+      "label": "Add",
+      "name": "add",
+      "description": "Adds (offsets) to an existing set of channels previously recorded in the Record  CHOP . The channels are left unmodified while the Active input is in the off state."
+    },
+    {
+      "page": "Control",
+      "label": "Auto Range",
+      "name": "auto",
+      "description": "Creates an interval based on Active on/off."
+    },
+    {
+      "page": "Control",
+      "label": "Record Input",
+      "name": "sample",
+      "description": "⊞  - Determines whether record should sample the time slice or the current frame. You would generally want to use Current  Time Slice , for audio, as all frames will be evaluated."
+    },
+    {
+      "page": "Control",
+      "label": "Interpolation",
+      "name": "interp",
+      "description": "⊞  - Determines how to compute missed input samples using interpolation. Using Hold Previous Value does just that; Linear and Cubic interpolation will create a mathematical blend of values in a linear (straight line between values in time), or cubic (smooth round-off curve between beginning and ending values)."
+    },
+    {
+      "page": "Control",
+      "label": "Record Output",
+      "name": "output",
+      "description": "⊞  - Determines the frame range that gets output from the  CHOP ."
+    },
+    {
+      "page": "Control",
+      "label": "Full Range",
+      "name": "full",
+      "description": "The frame range grows from the moment and frame you start recording. Samples get recorded over when TouchDesigner goes over a frame a second time. Press Reset Channels to start again."
+    },
+    {
+      "page": "Control",
+      "label": "Current  Frame",
+      "name": "curframe",
+      "description": "Outputs the current frame only."
+    },
+    {
+      "page": "Control",
+      "label": "Current Frame at Frame 1",
+      "name": "frame1",
+      "description": "Outputs the current frame but shifts it to frame 1. If the channels are not changing value, it reduces the amount of cooking that takes place."
+    },
+    {
+      "page": "Control",
+      "label": "Current  Time Slice",
+      "name": "slice",
+      "description": "Outputs the current  Time Slice  of samples only."
+    },
+    {
+      "page": "Control",
+      "label": "Segment",
+      "name": "segment",
+      "description": "Outputs a sliding window of samples defined by the Record Segment start/end length."
+    },
+    {
+      "page": "Control",
+      "label": "Record Segment",
+      "name": "segment",
+      "description": "⊞  - The data gets recorded in a fixed-range interval and the most recent data gets recorded at the end of the interval and the remaining samples get shifted toward the start of the interval. This is useful for making snakes."
+    },
+    {
+      "page": "Control",
+      "label": "Record Segment Unit",
+      "name": "segmentunit",
+      "description": "Select the units to use for this parameter, Samples, Frames, or Seconds."
+    },
+    {
+      "page": "Control",
+      "label": "Reset Channels",
+      "name": "reset",
+      "description": "The current output is cleared and all subsequent channels will commence single sample lengths."
+    },
+    {
+      "page": "Control",
+      "label": "Reset Condition",
+      "name": "resetcondition",
+      "description": "⊞  - Enabled when a  CHOP  is connected to the Record  CHOP 's 3rd input (ie. Input 2). Determines what condition is required to trigger a reset using this input."
+    },
+    {
+      "page": "Control",
+      "label": "Off to On",
+      "name": "offtoon",
+      "description": "Resets the recording when the input channel goes from Off to On ie. 0 to 1."
+    },
+    {
+      "page": "Control",
+      "label": "While On",
+      "name": "on",
+      "description": "Resets the recording when the input channel is On ie. 1."
+    },
+    {
+      "page": "Control",
+      "label": "On to Off",
+      "name": "ontooff",
+      "description": "Resets the recording when the input channel goes from On to Off ie. 1 to 0."
+    },
+    {
+      "page": "Control",
+      "label": "While Off",
+      "name": "off",
+      "description": "Resets the recording when the input channel is Off ie. 0."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "Rename from",
+      "name": "commonrenamefrom",
+      "description": "The channel pattern to rename. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Rename to",
+      "name": "commonrenameto",
+      "description": "The replacement pattern for the names. The default parameters do not rename the channels. See  Pattern Replacement ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Names:  c[1",
+      "description": "10:2] ambient"
+    },
+    {
+      "page": "Common",
+      "label": "Rename To:  b[1",
+      "description": "5] amb    This example fetches channels  c1 c3 c5 c7 c9  and  ambient ."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "A built",
+      "description": "in panel in TouchDesigner that contains a library of components and media that can be dragged-dropped into a TouchDesigner network."
+    },
+    {
+      "page": "Common",
+      "label": "The term \"Frame\" is a measurement of time used (1) in the  Timeline , (2) as a time",
+      "description": "unit in CHOPs, and (3) as a time unit in movie files that are read into  TOPs  and written out from TOPs. The frame rate is the frames per second ( FPS )."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "if we get to one, it shows us everything. But as we move that down close to close to 0.9, we can see a much sparer version of this. So, let me kind of go ahead and just instance something. Let's see if I just put pop that in to a geo. (17:24) And these will directly input into a geo. Uh, actually what I want to do is I want to go in I'll delete that. And I'm going to make a box. And I'm going to take that uniform scale, move it way down. We can see it's a really big box. Okay, my video stopped recording there. But basically, I have started taking down that uniform scale. Just put it like 0.05. (17:54) So, it's pretty small. And then we can instance just like we normally would. And this is basically, you know, it's the same process for this geo. So, I'm going to bring in my delete. I'll do it as the default instance. And I found this to be quite useful because previously I would work with maybe multiple tops to instance various parameters. (18:16) But because we can basically store everyth"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

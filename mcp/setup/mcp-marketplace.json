@@ -1,0 +1,17 @@
+{
+  "name": "touchdesigner-mcp",
+  "description": "Control TouchDesigner from AI: create operators, connect nodes, execute Python, build complete networks via the Model Context Protocol.",
+  "repository": "https://github.com/tolchx/touchdesigner-MCP",
+  "command": "node",
+  "args": ["mcp/dist/index.js"],
+  "env": {
+    "TDAPI_HOST": {
+      "description": "TouchDesigner host address (use Windows IP from WSL, or localhost on native)",
+      "default": "localhost"
+    },
+    "TDAPI_PORT": {
+      "description": "TouchDesigner HTTP API port",
+      "default": "44444"
+    }
+  }
+}

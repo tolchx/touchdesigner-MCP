@@ -1,0 +1,182 @@
+{
+  "family": "SOP",
+  "pageTitle": "Trace SOP",
+  "pageSlug": "Trace_SOP",
+  "url": "https://docs.derivative.ca/Trace_SOP",
+  "tdOpTypeGuess": "traceSOP",
+  "summary": "[  edit  ]\nThe Trace  SOP  reads an image file and automatically traces it, generating a set of faces around areas exceeding a certain brightness threshold. You can control this threshold and the resolution of the resulting faces.\ntraceSOP_Class\nContents\n1   Summary\n2   Parameters - Trace Page\n3   Parameters - Filters Page\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "Trace",
+      "label": "TOP  Name",
+      "name": "top",
+      "description": "Specify the  TOP  image to trace."
+    },
+    {
+      "page": "Trace",
+      "label": "Threshold",
+      "name": "thresh",
+      "description": "Brightness level value adjusts where trace outline in image occurs."
+    },
+    {
+      "page": "Trace",
+      "label": "Add Point Texture",
+      "name": "addtexture",
+      "description": "This option allows the generation of point texture coordinates (UVs). This may occasionally be necessary when the  Convert to Poly  option is enabled."
+    },
+    {
+      "page": "Trace",
+      "label": "Remove Borders",
+      "name": "delborder",
+      "description": "When enabled, this option eliminates extraneous data along the edges of the original image so it isn't traced. This is useful for when \"dirty\" edges exist in the original image that you don't want traced."
+    },
+    {
+      "page": "Trace",
+      "label": "Compute Normals",
+      "name": "normals",
+      "description": "Creates normals on the geometry."
+    },
+    {
+      "page": "Filters",
+      "label": "Border Width",
+      "name": "bordwidth",
+      "description": "The number of pixels the removal border should be."
+    },
+    {
+      "page": "Filters",
+      "label": "Resample Shapes",
+      "name": "doresample",
+      "description": "Determines level of refinement (number of points) for generating trace outlines."
+    },
+    {
+      "page": "Filters",
+      "label": "Step Size",
+      "name": "step",
+      "description": "Value controlling trace outline refinement when  Resample Shapes  is checked."
+    },
+    {
+      "page": "Filters",
+      "label": "Smooth Shapes",
+      "name": "dosmooth",
+      "description": "When this option is checked, the geometry is filtered to remove sharp corners."
+    },
+    {
+      "page": "Filters",
+      "label": "Corner Delta",
+      "name": "corner",
+      "description": "Value controlling corner smoothing when  Smooth Shapes  is checked."
+    },
+    {
+      "page": "Filters",
+      "label": "Fit to Curves",
+      "name": "fitcurve",
+      "description": "If selected, the geometry at this point is converted to two-dimensional Bzier curves. Flat edges are preserved in polygons."
+    },
+    {
+      "page": "Filters",
+      "label": "Fitting Error",
+      "name": "error",
+      "description": "Value controlling accuracy of the above curve fitting process. For best results, the input should retain as many points as possible, i.e. do not select  Smooth Shapes  or  Resample Shapes ."
+    },
+    {
+      "page": "Filters",
+      "label": "Convert to Poly",
+      "name": "convpoly",
+      "description": "This option will convert the above curves back into polygons."
+    },
+    {
+      "page": "Filters",
+      "label": "Level of Detail",
+      "name": "lod",
+      "description": "This value controls the accuracy of the conversion back into polygons."
+    },
+    {
+      "page": "Filters",
+      "label": "Hole Faces",
+      "name": "hole",
+      "description": "This will bridge all holes in the output so that they may be rendered properly. Bzier curves and polygons can be holed, but polygonal holing sometimes produces better results. You may want to use the  Convert to Poly  option before holing."
+    },
+    {
+      "page": "Filters",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Filters",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Filters",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Filters",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Filters",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Filters",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Filters",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Filters",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Filters",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Filters",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Filters",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Filters",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Filters",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Filters",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Filters",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

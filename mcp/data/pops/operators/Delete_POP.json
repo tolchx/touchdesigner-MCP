@@ -1,0 +1,120 @@
+{
+  "pageTitle": "Delete POP",
+  "pageSlug": "Delete_POP",
+  "url": "https://docs.derivative.ca/Delete_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "deletePOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "Entity",
+      "type": "Menu",
+      "options": [
+        "Primitives",
+        "Points"
+      ],
+      "default": "Points",
+      "description": "Delete points or primitives."
+    },
+    {
+      "name": "Line Strip Behavior",
+      "type": "Menu",
+      "options": [
+        "Delete Point of Line Strip",
+        "Split Line Strip",
+        "Delete Line Strip"
+      ],
+      "default": "Split Line Strip",
+      "description": "How to handle line strips when deleting their points."
+    },
+    {
+      "name": "Operation",
+      "type": "Menu",
+      "options": [
+        "Delete Selected",
+        "Delete Non-Selected"
+      ],
+      "default": "Delete Selected",
+      "description": "Invert selection to keep selected instead of deleting."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ada a menciones muy breves o redirecciones sin contenido, o que las búsquedas arrojaron resultados irrelevantes de otras familias de operadores (SOPs, CHOPs, TOPs, DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Sele"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "attr0arraysize), Value (attr0value) (R, G, B, A).1 * Página Matrix: Matrix Attribute (mat), Matrix Name (mat0name), Rows (mat0numrows), Columns (mat0numcols), Array (mat0isarray), Array Size (mat0arraysize), Qualifier (mat0qualifier) (None, Transform Matrix).1 * Página Rename: Rename Attribute (ren), From Attribute (ren0from), To Attribute (ren0to).1 * Página Duplicate: Duplicate Attribute (dup), Duplicate Attribute (dup0name), New Attribute Name (dup0new).1 * Página Delete: Delete Point Attributes (ptdel) (* para todos), Delete Vertex Attributes (vertdel) (* para todos), Delete Primitive Attributes (primdel) (* para todos).1 * Página Common: Bypass (bypass), Delete Input Attributes (delinputattrs), Parameter Color Space (parmcolorspace), Parameter Reference White (parmreferencewhite).1 * Copy POP: Crea copias de su geometría de entrada. Puede generar copias basándose en parámetros (número de copias, transformaciones acumulativas) o utilizando un POP de"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ada a menciones muy breves o redirecciones sin contenido, o que las búsquedas arrojaron resultados irrelevantes de otras familias de operadores (SOPs, CHOPs, TOPs, DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Sele"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "de primitivas. • Experimental:Copy POP: Permite crear copias de geometría dentro de un POP, las cuales pueden ser manipuladas o animadas antes de la renderización. También puede generar grupos automáticamente. • Experimental:Curve POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:DAT to POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Delete POP: Permite reducir un conjunto de puntos o primitivas a un subconjunto más pequeño. Puede utilizar atributos de solo lectura incorporados para la selección. • Experimental:Dimension POP: Relacionado con una organización de orden superior de los puntos dentro de un POP. Sugiere una forma más avanzada de estructurar los datos de puntos. • Experimental:DMX Fixture POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sist"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "de primitivas. • Experimental:Copy POP: Permite crear copias de geometría dentro de un POP, las cuales pueden ser manipuladas o animadas antes de la renderización. También puede generar grupos automáticamente. • Experimental:Curve POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:DAT to POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Delete POP: Permite reducir un conjunto de puntos o primitivas a un subconjunto más pequeño. Puede utilizar atributos de solo lectura incorporados para la selección. • Experimental:Dimension POP: Relacionado con una organización de orden superior de los puntos dentro de un POP. Sugiere una forma más avanzada de estructurar los datos de puntos. • Experimental:DMX Fixture POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "de primitivas. • Experimental:Copy POP: Permite crear copias de geometría dentro de un POP, las cuales pueden ser manipuladas o animadas antes de la renderización. También puede generar grupos automáticamente. • Experimental:Curve POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:DAT to POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Delete POP: Permite reducir un conjunto de puntos o primitivas a un subconjunto más pequeño. Puede utilizar atributos de solo lectura incorporados para la selección. • Experimental:Dimension POP: Relacionado con una organización de orden superior de los puntos dentro de un POP. Sugiere una forma más avanzada de estructurar los datos de puntos. • Experimental:DMX Fixture POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sist"
+    }
+  ],
+  "useCases": [
+    "Remove by age",
+    "Cull by bounds",
+    "Optimize",
+    "Removing points outside a bounding box",
+    "Thinning out particles randomly (50% deletion)",
+    "Deleting every Nth point for performance",
+    "Spatial culling for level-of-detail"
+  ],
+  "examples": [
+    {
+      "name": "Kill Old",
+      "description": "Delete where age > lifespan * 0.8",
+      "difficulty": "intermediate"
+    },
+    {
+      "name": "Spatial Culling",
+      "description": "Particle POP -> Delete POP (Bounding Page: Box around play area)",
+      "difficulty": "beginner"
+    },
+    {
+      "name": "Performance Thinning",
+      "description": "Large particle system -> Delete POP (Thin Page: Random 0.5) for 50% reduction",
+      "difficulty": "beginner"
+    },
+    {
+      "name": "Age-Based Death",
+      "description": "Particle POP -> Delete POP (Attribute: PartAge > LifeSpan)",
+      "difficulty": "intermediate"
+    }
+  ],
+  "commonCombinations": [
+    "Particle POP to Delete POP",
+    "Particle POP -> Delete POP (spatial or age-based culling)",
+    "Feedback POP -> Delete POP (remove dead particles)",
+    "Delete POP -> GLSL POP (process remaining particles)"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "All deleted",
+      "solution": "Check criteria and use Preview."
+    },
+    {
+      "problem": "Too many or too few deleted",
+      "solution": "Check Entity setting (Points vs Primitives). Verify attribute names in conditions."
+    },
+    {
+      "problem": "Line strips broken",
+      "solution": "Use Line Strip Behavior = Split Line Strip to maintain connectivity where possible."
+    }
+  ],
+  "description": "Removes or keeps points/primitives using 5 methods: Attribute (value comparison), Thin (index range/random), Pattern (index matching), Group (group membership), Bounding (spatial volumes). Methods combine with AND/OR/XOR logic."
+}

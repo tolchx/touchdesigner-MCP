@@ -1,0 +1,323 @@
+{
+  "pageTitle": "TOP to POP",
+  "pageSlug": "TOP_to_POP",
+  "url": "https://docs.derivative.ca/TOP_to_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "tOPtoPOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "First RGBA Contains",
+      "type": "Menu",
+      "options": [
+        "Color (RGBA)",
+        "Position and Active (RGBA)",
+        "Position (RGB)",
+        "Depth",
+        "Height (R)",
+        "Custom"
+      ],
+      "default": "Color (RGBA)",
+      "description": "How pixels are interpreted."
+    },
+    {
+      "name": "Max Number of Points",
+      "type": "Toggle",
+      "default": false,
+      "description": "Enable point count override."
+    },
+    {
+      "name": "Number of Points",
+      "type": "Int",
+      "default": 65536,
+      "description": "Max points when override enabled."
+    },
+    {
+      "name": "TOP input",
+      "type": "OP",
+      "default": "",
+      "description": "Reference to TOP to convert."
+    },
+    {
+      "name": "Channel Scope",
+      "type": "Menu",
+      "options": [
+        "r",
+        "g",
+        "b",
+        "a"
+      ],
+      "default": "r,g,b,a",
+      "description": "Color channels to sample."
+    },
+    {
+      "name": "Attribute Scope",
+      "type": "Menu",
+      "options": [
+        "P",
+        "P.i01"
+      ],
+      "default": "P",
+      "description": "Attribute to create from channels."
+    },
+    {
+      "name": "Filter",
+      "type": "Menu",
+      "options": [
+        "Nearest Pixel",
+        "Interpolate Pixels",
+        "High Quality Resize"
+      ],
+      "default": "Nearest Pixel",
+      "description": "Pixel filtering method."
+    },
+    {
+      "name": "Connectivity",
+      "type": "Menu",
+      "options": [
+        "None",
+        "Point Primitives",
+        "Lines",
+        "Line Strips",
+        "Triangles",
+        "Alternating Triangles",
+        "Quadrilaterals"
+      ],
+      "default": "None",
+      "description": "Primitive type connecting points."
+    },
+    {
+      "name": "Override Size",
+      "type": "Toggle",
+      "default": false,
+      "description": "Override automatic geometry size."
+    },
+    {
+      "name": "Size",
+      "type": "Float[3]",
+      "default": "1,1,1",
+      "description": "Geometry size in XYZ."
+    },
+    {
+      "name": "Override Resolution",
+      "type": "Toggle",
+      "default": false,
+      "description": "Override TOP resolution."
+    },
+    {
+      "name": "Resolution",
+      "type": "Int[3]",
+      "default": "256,256,1",
+      "description": "Overridden resolution."
+    },
+    {
+      "name": "Pixel Sampling Location",
+      "type": "Menu",
+      "options": [
+        "Edge to Edge",
+        "Pixel Centered"
+      ],
+      "default": "Edge to Edge",
+      "description": "Where pixels are sampled."
+    },
+    {
+      "name": "Texture Coordinates",
+      "type": "Menu",
+      "options": [
+        "None",
+        "Point",
+        "Vertex"
+      ],
+      "default": "None",
+      "description": "UV attribute class."
+    },
+    {
+      "name": "Rerange from Low",
+      "type": "Float",
+      "default": 0,
+      "description": "Input range low value for depth remapping."
+    },
+    {
+      "name": "Rerange from High",
+      "type": "Float",
+      "default": 1,
+      "description": "Input range high value for depth remapping."
+    },
+    {
+      "name": "Rerange to Low",
+      "type": "Float",
+      "default": 0,
+      "description": "Output range low value for depth remapping."
+    },
+    {
+      "name": "Rerange to High",
+      "type": "Float",
+      "default": 10,
+      "description": "Output range high value for depth remapping."
+    },
+    {
+      "name": "Camera",
+      "type": "OP",
+      "default": "",
+      "description": "Camera component for depth unprojection."
+    },
+    {
+      "name": "Override Camera View",
+      "type": "Toggle",
+      "default": false,
+      "description": "Override camera view settings."
+    },
+    {
+      "name": "View Angle Method",
+      "type": "Menu",
+      "options": [
+        "Horizontal FOV",
+        "Vertical FOV",
+        "Focal Lengths"
+      ],
+      "default": "Horizontal FOV",
+      "description": "Method to convert depth TOP."
+    },
+    {
+      "name": "FOV Angle",
+      "type": "Float",
+      "default": 60,
+      "description": "Camera field of view angle."
+    },
+    {
+      "name": "Focal Length X",
+      "type": "Float",
+      "default": 1,
+      "description": "Camera focal length X."
+    },
+    {
+      "name": "Focal Length Y",
+      "type": "Float",
+      "default": 1,
+      "description": "Camera focal length Y."
+    },
+    {
+      "name": "Optical Center X",
+      "type": "Float",
+      "default": 0.5,
+      "description": "Camera optical center X for depth projection."
+    },
+    {
+      "name": "Optical Center Y",
+      "type": "Float",
+      "default": 0.5,
+      "description": "Camera optical center Y for depth projection."
+    },
+    {
+      "name": "Delete Near Points",
+      "type": "Toggle",
+      "default": false,
+      "description": "Remove points closer than Near Depth."
+    },
+    {
+      "name": "Near Depth",
+      "type": "Float",
+      "default": 0.1,
+      "description": "Near clipping plane depth."
+    },
+    {
+      "name": "Delete Far Points",
+      "type": "Toggle",
+      "default": false,
+      "description": "Remove points farther than Far Depth."
+    },
+    {
+      "name": "Far Depth",
+      "type": "Float",
+      "default": 100,
+      "description": "Far clipping plane depth."
+    },
+    {
+      "name": "Line Strip Behavior",
+      "type": "Menu",
+      "options": [
+        "Delete Point of Line Strip",
+        "Split Line Strip",
+        "Delete Line Strip"
+      ],
+      "default": "Delete Point of Line Strip",
+      "description": "What to do when line strip points are deleted."
+    },
+    {
+      "name": "Displacement Scale",
+      "type": "Float",
+      "default": 1,
+      "description": "Scale factor when pixels are interpreted as height values."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "7. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de partículas complejos, simulaciones a gran escala y efectos visuales generativo"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "7. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de partículas complejos, simulaciones a gran escala y efectos visuales genera"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "7. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de partículas complejos, simulaciones a gran escala y efectos visuales generativo"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "etallada de la función específica de este operador. • Experimental:Subdivide POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Switch POP: Un operador que permite cambiar entre diferentes entradas. Es útil para probar variaciones o controlar el flujo de datos. • Experimental:Texture Map POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:TOP to POP: Permite convertir datos de la familia TOPs (Texture Operators) a datos de POPs, específicamente para recuperar nubes de puntos. • Experimental:Topology POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Torus POP: Un operador generador que crea una geometría de toroide (forma de dona). • Experimental:Trail POP: Crea un historial de movimiento de un punto a lo largo del tiempo, generando una tira de línea para cad"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "etallada de la función específica de este operador. • Experimental:Subdivide POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Switch POP: Un operador que permite cambiar entre diferentes entradas. Es útil para probar variaciones o controlar el flujo de datos. • Experimental:Texture Map POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:TOP to POP: Permite convertir datos de la familia TOPs (Texture Operators) a datos de POPs, específicamente para recuperar nubes de puntos. • Experimental:Topology POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Torus POP: Un operador generador que crea una geometría de toroide (forma de dona). • Experimental:Trail POP: Crea un historial de movimiento de un punto a lo largo del tiempo, generando una tira de línea para"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "etallada de la función específica de este operador. • Experimental:Subdivide POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Switch POP: Un operador que permite cambiar entre diferentes entradas. Es útil para probar variaciones o controlar el flujo de datos. • Experimental:Texture Map POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:TOP to POP: Permite convertir datos de la familia TOPs (Texture Operators) a datos de POPs, específicamente para recuperar nubes de puntos. • Experimental:Topology POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Torus POP: Un operador generador que crea una geometría de toroide (forma de dona). • Experimental:Trail POP: Crea un historial de movimiento de un punto a lo largo del tiempo, generando una tira de línea para cad"
+    }
+  ],
+  "useCases": [
+    "Convert depth camera image to 3D point cloud",
+    "Create point cloud from image color data",
+    "Height map to displaced surface geometry",
+    "Video-based particle effects using live texture",
+    "Convert render output back to geometry"
+  ],
+  "examples": [
+    "Movie File In TOP → TOP to POP (Custom: Cd.r Cd.g Cd.b Cd.a) → colored point cloud",
+    "Depth TOP → TOP to POP (Depth mode) → 3D depth map point cloud"
+  ],
+  "commonCombinations": [
+    {
+      "operators": [
+        "TOP_to_POP",
+        "Render"
+      ],
+      "description": "Convert then render as particles"
+    },
+    {
+      "operators": [
+        "TOP_to_POP",
+        "Noise_POP",
+        "Transform_POP"
+      ],
+      "description": "Convert then displace with noise"
+    },
+    {
+      "operators": [
+        "MovieTOP",
+        "TOP_to_POP",
+        "Particle_POP"
+      ],
+      "description": "Live video to particle emission"
+    }
+  ],
+  "troubleshooting": [
+    "Too many points: Downscale with Fit TOP first",
+    "No output: Ensure TOP input is connected and cooking",
+    "Wrong size: Enable Override Size and set desired dimensions",
+    "Dimension mismatch: Check Override Resolution settings"
+  ],
+  "description": "Converts TOP pixel data to POP points. Supports 6 interpretation modes: Color (RGBA), Position and Active (RGB+alpha), Position (RGB), Depth (camera unprojection with FOFocal/Optical Center), Height (displacement with scale), and Custom. Depth page enables accurate 3D reconstruction from depth cameras. Multiple TOPs can be chained for multi-attribute point clouds."
+}

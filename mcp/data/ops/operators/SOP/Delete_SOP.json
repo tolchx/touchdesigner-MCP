@@ -1,0 +1,250 @@
+{
+  "family": "SOP",
+  "pageTitle": "Delete SOP",
+  "pageSlug": "Delete_SOP",
+  "url": "https://docs.derivative.ca/Delete_SOP",
+  "tdOpTypeGuess": "deleteSOP",
+  "summary": "[  edit  ]\nThe Delete  SOP  deletes input geometry as selected by a group specification or a geometry selection by using either of the three selection options: by entity number, by a bounding volume, and by entity (primitive/point) normals. You can choose to delete the selected or the non-selected geometry.\ndeleteSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Parameters - Number Page\n4   Parameters - Bounding Volume Page\n5   Parameters - Normal Page\n6   Operator Inputs\n7   Info CHOP Channels\n7.1   Common SOP Info Channels\n7.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Number",
+      "label": "Use Number",
+      "name": "usenumber",
+      "description": "When the Enable button is checked under the Number button, the selection options become active and can be used to select entities. The fields available are listed below."
+    },
+    {
+      "page": "Number",
+      "label": "Operation",
+      "name": "groupop",
+      "description": "⊞  - When the Number Enable button is checked, this option groups entities based on a defined Pattern or by a Range."
+    },
+    {
+      "page": "Number",
+      "label": "Delete by Pattern",
+      "name": "pattern",
+      "description": "Select a pattern in the Pattern field below."
+    },
+    {
+      "page": "Number",
+      "label": "Delete by Range",
+      "name": "range",
+      "description": "Select a Range using the Start/End and Select_of_ fields below."
+    },
+    {
+      "page": "Number",
+      "label": "Delete by  Expression",
+      "name": "filter",
+      "description": "Select a range using the Filter  Expression  field below."
+    },
+    {
+      "page": "Number",
+      "label": "Pattern",
+      "name": "pattern",
+      "description": "Activated when Operation is set to  Group  by Pattern. In this field, enter the range of primitives to select. The required syntax is \" S.P \", where  S  is the index of the parent surface, and  P  the profile index on that surface. You can mix primitives with profiles in the list. A mixed group is automatically ordered."
+    },
+    {
+      "page": "Number",
+      "label": "0.0",
+      "description": "6  selects six profiles on primitive 0"
+    },
+    {
+      "page": "Number",
+      "label": "Start / End",
+      "name": "range",
+      "description": "⊞  - Activated when Operation is set to  Group  by Range. Select the start and end of the primitive/point number selection."
+    },
+    {
+      "page": "Number",
+      "label": "Select _ of _",
+      "name": "select",
+      "description": "⊞  - Activated when Operation is set to  Group  by Range. Select every nth occurrence of every mth entity in the above Start/End range."
+    },
+    {
+      "page": "Number",
+      "label": "Filter  Expression",
+      "name": "filter",
+      "description": "The Filter  Expression  provided is evaluated for every point/primitive. Wherever it is true, the entity is added to the selection."
+    },
+    {
+      "page": "Bounding Volume",
+      "label": "Use Bounds",
+      "name": "usebounds",
+      "description": "When the Enable button is checked under the Bounding button, the selection options become active and can be used to select entities. The fields available are listed below. The bounding volume can be seen in the viewport as guide geometry."
+    },
+    {
+      "page": "Bounding Volume",
+      "label": "Bounding Type",
+      "name": "boundtype",
+      "description": "⊞  - Selects the type of bounding volume to use:"
+    },
+    {
+      "page": "Bounding Volume",
+      "label": "Bounding Box",
+      "name": "usebbox",
+      "description": "Bounding Box entities contained within the box are selected."
+    },
+    {
+      "page": "Bounding Volume",
+      "label": "Bounding Sphere",
+      "name": "usebsphere",
+      "description": "Bounding Sphere entities contained within the sphere are selected."
+    },
+    {
+      "page": "Bounding Volume",
+      "label": "Size",
+      "name": "size",
+      "description": "⊞  - Dimensions of either the Bounding Box or Bounding Sphere in X, Y and Z."
+    },
+    {
+      "page": "Bounding Volume",
+      "label": "Center",
+      "name": "t",
+      "description": "⊞  - The X, Y, and Z coordinates of the center of the bounding volume."
+    },
+    {
+      "page": "Normal",
+      "label": "Use Normal",
+      "name": "usenormal",
+      "description": "When the Enable button is checked under the Normal button, the selection options become active and can be used to select entities. The fields available are listed below."
+    },
+    {
+      "page": "Normal",
+      "label": "Direction",
+      "name": "dir",
+      "description": "⊞  - The default values of  0, 1, 0  create a normal vector straight up in Y, which is perpendicular to the XZ plane, which becomes the primary axis. The  1, 0, 0  points the normal in positive X, giving a normal axis perpendicular to the YZ. The plane may be positioned at an angle by using values typed in ( 1, 1, 0  gives a 45 angle plane) or interactively by using the direction vector jack. Values between 0 and 1 should be used."
+    },
+    {
+      "page": "Normal",
+      "label": "Spread Angle",
+      "name": "angle",
+      "description": "The value entered in this field generates an angle of deviation from the primary axis. This can be visualized as a cone where the radius of the base of the cone is defined by the Spread Angle and the axis of the cone is determined by the Direction axis. Viewing the primitive normals in the viewport, you can see that any primitives with normals that have an angle that lies in the range of angles defined by the cone will be selected and grouped."
+    },
+    {
+      "page": "Normal",
+      "label": "Backface from",
+      "name": "camera",
+      "description": "This menu allows you to select an object. Typically, a camera object would be chosen. The primitives which are backface when viewed from the object specified will be grouped or selected."
+    },
+    {
+      "page": "Normal",
+      "label": "Delete Unused Groups",
+      "name": "removegrp",
+      "description": "If any group has 0 entries and if this parameter is enabled, then those groups are removed. If you want to keep empty groups, disable this parameter."
+    },
+    {
+      "page": "Normal",
+      "label": "Delete  Geometry , Keep Points",
+      "name": "keeppoints",
+      "description": "Deletes the geometry but keeps the points."
+    },
+    {
+      "page": "Normal",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Normal",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Normal",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Normal",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Normal",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Normal",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Normal",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Normal",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Normal",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Normal",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Normal",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Normal",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Normal",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Normal",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Normal",
+      "label": "A polygon is a type of  Primitive  that is formed from a set of  Vertices  in 3D that are implicitly connected together to form a multi",
+      "description": "edge shape."
+    },
+    {
+      "page": "Normal",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "attr0arraysize), Value (attr0value) (R, G, B, A).1 * Página Matrix: Matrix Attribute (mat), Matrix Name (mat0name), Rows (mat0numrows), Columns (mat0numcols), Array (mat0isarray), Array Size (mat0arraysize), Qualifier (mat0qualifier) (None, Transform Matrix).1 * Página Rename: Rename Attribute (ren), From Attribute (ren0from), To Attribute (ren0to).1 * Página Duplicate: Duplicate Attribute (dup), Duplicate Attribute (dup0name), New Attribute Name (dup0new).1 * Página Delete: Delete Point Attributes (ptdel) (* para todos), Delete Vertex Attributes (vertdel) (* para todos), Delete Primitive Attributes (primdel) (* para todos).1 * Página Common: Bypass (bypass), Delete Input Attributes (delinputattrs), Parameter Color Space (parmcolorspace), Parameter Reference White (parmreferencewhite).1 * Copy POP: Crea copias de su geometría de entrada. Puede generar copias basándose en parámetros (número de copias, transformaciones acumulativas) o utilizando un POP de"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "de primitivas. • Experimental:Copy POP: Permite crear copias de geometría dentro de un POP, las cuales pueden ser manipuladas o animadas antes de la renderización. También puede generar grupos automáticamente. • Experimental:Curve POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:DAT to POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Delete POP: Permite reducir un conjunto de puntos o primitivas a un subconjunto más pequeño. Puede utilizar atributos de solo lectura incorporados para la selección. • Experimental:Dimension POP: Relacionado con una organización de orden superior de los puntos dentro de un POP. Sugiere una forma más avanzada de estructurar los datos de puntos. • Experimental:DMX Fixture POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "los datos (DMX512 tiene un máximo de 44Hz). * Puedes especificar una **Tabla de Enrutamiento (Routing Table)** desde un DAT para definir direcciones de red personalizadas para cada universo DMX512. * Soporta **Multicast** para sACN, que automáticamente construye la dirección IP para enviar a múltiples dispositivos. * Puedes especificar una **dirección de red** específica o dejarla en el valor por defecto para transmitir a todos los dispositivos en la red. --- #### 19. Delete POP * **¿Qué hace?** Este operador se utiliza para **eliminar (o mantener) puntos o primitivas** de tu geometría. Ofrece cinco métodos diferentes para definir qué elementos se eliminan. * **Características clave:** * Puedes elegir si quieres eliminar **puntos** o **primitivas**. * **Métodos de eliminación:** * **Por atributo (`Attribute Page`)**: Elimina basado en los valores de los atributos de puntos o primitivas. Puedes combinar lógicas como \"P(0) > 0 Y P(1) <"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "e don't have to instance. We obviously could instance because we have all of that point information. But in this case, I can just move through and have it be kind of output and it's going to directly output all those points and I can just add on whatever I want. (16:05) And because we have these point normals, we can easily work with a point sprite and have that attenuate via this control. So that's super cool. Something else that I think is really useful is we have this ability to essentially delete data. And this is kind of like if you work in 3D where you can delete subdivisions and all that kind of stuff. (16:27) But in this case, let's say I wanted to have a more sparse version of this. I could thin this out and instance some kind of different geometry. So let's give that a go. So for that I would go to the thin tab. And we can do this thin step. And we can see that that's starting to really thin it out. (16:52) Or we could also do thin random, which basically is a threshold between"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

@@ -1,0 +1,183 @@
+{
+  "family": "SOP",
+  "pageTitle": "Capture SOP",
+  "pageSlug": "Capture_SOP",
+  "url": "https://docs.derivative.ca/Capture_SOP",
+  "tdOpTypeGuess": "captureSOP",
+  "summary": "[  edit  ]\nThe Capture  SOP  is used to weight points in a geometry to capture regions. The weighting scheme is described in the next section,  Capture Region SOP .\nThe weights and the regions they correspond to are transferred down the  SOP  chain as point and detail attributes.\nThe Capture  SOP  can take an optional second input to specify extra capture regions to use in the capture process. Any capture regions that are in this second input are processed after the capture regions that are in the object hierarchy specified by the   Hierarchy   parameter. You can also specify a second input and not specify a Parent Object at all.\ncaptureSOP_Class\nContents\n1   Summary\n2   Parameters - Capture Page\n3   Parameters - Override Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common SOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Capture",
+      "label": "Group",
+      "name": "group",
+      "description": "Specify the point groups from the first input (input0) to operate on."
+    },
+    {
+      "page": "Capture",
+      "label": "Hierarchy",
+      "name": "rootbone",
+      "description": "An object hierarchy is traversed to find the Capture Regions with which to do the weighting. This parameter specifies the top of the traversal hierarchy."
+    },
+    {
+      "page": "Capture",
+      "label": "Weight from",
+      "name": "weightfrom",
+      "description": "⊞  - Use this menu to specify where to get the weight from."
+    },
+    {
+      "page": "Capture",
+      "label": "Surface",
+      "name": "surface",
+      "description": "(default) Uses the surface to compute the weight of a point (or CV in the case of NURBS). This is very helpful for NURBS surfaces when the CV's may be far off the surface. By using  Weight From Surface , each CV is weight based on the surface's location within a Capture Region. This is determined by calculating the CVs \"most influenced point\" on the NURBS surface and computing the weight of that position."
+    },
+    {
+      "page": "Capture",
+      "label": "Points",
+      "name": "cv",
+      "description": "Using the  Weight From Points  choice, the location of the point within the region is used for the weighting."
+    },
+    {
+      "page": "Capture",
+      "label": "Capture  Frame",
+      "name": "captframe",
+      "description": "Specifies the frame number to do the capture computations. Every time TouchDesigner reaches this frame, the geometry will be re-captured. It is a common practice to set the  Capture  Frame   to an frame outside of your animation range, -1 for example. Specifies the frame number to do the capture computations. Every time TouchDesigner reaches this frame, the geometry will be re-captured. It is a common practice to set the  Capture  Frame   to an frame outside of your animation range, -1 for example."
+    },
+    {
+      "page": "Capture",
+      "label": "Point Coloring",
+      "name": "color",
+      "description": "⊞  - This option colors each point by capture region (using point attributes) according to its capture weight. The points inherit their colors from the Capture Region(s) in which they lie. For example, if a point falls within a blue capture region and also a yellow capture region, the point will be colored green (more blue near if the blue weighting dominates, and more yellow if the yellow weight dominates). In addition, the points become darker as the weighting gets lighter. For example, near the edge of a blue region, a caught point will appear dark blue. Near the centre, it will appear bright blue. If a point is not caught by any region, it is colored bright red."
+    },
+    {
+      "page": "Capture",
+      "label": "Override File",
+      "name": "captfile",
+      "description": "The name of the capture override file ( *.ocapt ). This file is loaded after TouchDesigner completes its point weighting. Each line of the override file lists a point number, a region (path and primitive number) and a weight. The points on the geometry are modified to use these custom weights."
+    },
+    {
+      "page": "Capture",
+      "label": "Override File Format",
+      "description": "Each line in the override file must have the following format:"
+    },
+    {
+      "page": "Override",
+      "label": "Save File",
+      "name": "savefile",
+      "description": "The file specified here can be used as a \"working file\" to save the point weighting of all the points or a selected subset of points. The file format for the capture override files is fairly straight-forward (see above), so this is a good place to start if you need to do custom overriding."
+    },
+    {
+      "page": "Override",
+      "label": "Increment Save File",
+      "name": "autoincr",
+      "description": "This increments the  Save File  name before saving. Be careful about turning this option off because there is no warning or confirm dialog to prevent you from overwriting an .ocapt file."
+    },
+    {
+      "page": "Override",
+      "label": "Save All Data to File",
+      "name": "savecaptfile",
+      "description": "This saves the point weighting of all points to the  Save File ."
+    },
+    {
+      "page": "Override",
+      "label": "Save Selected Points to File",
+      "name": "savesel",
+      "description": "This saves the point weighting only for the points that are selected in the viewport."
+    },
+    {
+      "page": "Override",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Override",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Override",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Override",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Override",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Override",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Override",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Override",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Override",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Override",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Override",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Override",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Override",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Override",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Override",
+      "label": "The term \"Frame\" is a measurement of time used (1) in the  Timeline , (2) as a time",
+      "description": "unit in CHOPs, and (3) as a time unit in movie files that are read into  TOPs  and written out from TOPs. The frame rate is the frames per second ( FPS )."
+    },
+    {
+      "page": "Override",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

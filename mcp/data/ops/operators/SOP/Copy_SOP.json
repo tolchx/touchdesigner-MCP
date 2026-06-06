@@ -1,0 +1,359 @@
+{
+  "family": "SOP",
+  "pageTitle": "Copy SOP",
+  "pageSlug": "Copy_SOP",
+  "url": "https://docs.derivative.ca/Copy_SOP",
+  "tdOpTypeGuess": "copySOP",
+  "summary": "[  edit  ]\nThe Copy  SOP  lets you make copies of the geometry of other SOPs and apply a transformation to each copy.\nIt also allows you to copy geometry to points on an input template.\ncopySOP_Class\nContents\n1   Summary\n2   Parameters - Copy Page\n3   Parameters - Stamp Page\n4   Parameters - Attributes Page\n5   Tips\n6   Examples\n6.1   Creating Stamped Geometry\n7   Operator Inputs\n8   Info CHOP Channels\n8.1   Common SOP Info Channels\n8.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Copy",
+      "label": "Source  Group",
+      "name": "sourcegrp",
+      "description": "Specifies a subset of input primitives to copy from. Accepts patterns, as described in  Pattern Matching ."
+    },
+    {
+      "page": "Copy",
+      "label": "Template  Group",
+      "name": "templategrp",
+      "description": "Specifies a subset of template primitives from which to copy onto. Accepts patterns, as described in  Pattern Matching ."
+    },
+    {
+      "page": "Copy",
+      "label": "Number of Copies",
+      "name": "ncy",
+      "description": "Sets number of Copies to be made of the source. For a template input, it specifies the number of copies to be placed at each point of the template."
+    },
+    {
+      "page": "Copy",
+      "label": "Primitives per  Point",
+      "name": "nprims",
+      "description": "Defines how many primitives to copy from each point."
+    },
+    {
+      "page": "Copy",
+      "label": "Rotate to Normal",
+      "name": "nml",
+      "description": "Only used when a template input is specified. If the template is a sphere, and the first input is a circle, a circle is placed at each point of the sphere. With this option on, all the circles will re-orient to face the surface of the sphere (a default sphere has normals radiating outwards from the center)."
+    },
+    {
+      "page": "Copy",
+      "label": "Transform Cumulative",
+      "name": "cum",
+      "description": "Each transformation \"builds\" on the location left by the one before it. Transformations are cumulative as the Copy  SOP  produces new copies."
+    },
+    {
+      "page": "Copy",
+      "label": "Transform Order",
+      "name": "xord",
+      "description": "⊞  - Sets the overall transform order for the transformations. The  Transform Order  determines the order in which transformations take place. Depending on the order, you can achieve different results using the exact same values. Choose the appropriate order from the menu."
+    },
+    {
+      "page": "Copy",
+      "label": "Rotate Order",
+      "name": "rord",
+      "description": "⊞  - Sets the order of the rotations within the overall transform order."
+    },
+    {
+      "page": "Copy",
+      "label": "Translate",
+      "name": "t",
+      "description": "⊞  - These allow you to specify the Translation (how much it moves over in a given direction), Rotation, and the Scale between each copy. Three columns are given for X, Y, and Z coordinates. Guide geometry is provided for the Pivot's translations. The Pivot is represented by a single red dot in the Viewport. Changing the Pivot parameters moves this point of reference."
+    },
+    {
+      "page": "Copy",
+      "label": "Rotate",
+      "name": "r",
+      "description": "⊞  - These allow you to specify the Translation (how much it moves over in a given direction), Rotation, and the Scale between each copy. Three columns are given for X, Y, and Z coordinates. Guide geometry is provided for the Pivot's translations. The Pivot is represented by a single red dot in the Viewport. Changing the Pivot parameters moves this point of reference."
+    },
+    {
+      "page": "Copy",
+      "label": "Scale",
+      "name": "s",
+      "description": "⊞  - These allow you to specify the Translation (how much it moves over in a given direction), Rotation, and the Scale between each copy. Three columns are given for X, Y, and Z coordinates. Guide geometry is provided for the Pivot's translations. The Pivot is represented by a single red dot in the Viewport. Changing the Pivot parameters moves this point of reference."
+    },
+    {
+      "page": "Copy",
+      "label": "Pivot",
+      "name": "p",
+      "description": "⊞  - These allow you to specify the Translation (how much it moves over in a given direction), Rotation, and the Scale between each copy. Three columns are given for X, Y, and Z coordinates. Guide geometry is provided for the Pivot's translations. The Pivot is represented by a single red dot in the Viewport. Changing the Pivot parameters moves this point of reference."
+    },
+    {
+      "page": "Copy",
+      "label": "Uniform Scale",
+      "name": "scale",
+      "description": "Uniform Scale allows you to shrink or enlarge geometry along all three axes simultaneously."
+    },
+    {
+      "page": "Copy",
+      "label": "Normals Maintain Length",
+      "name": "vlength",
+      "description": "Vector type attributes (i.e. normals, velocity) maintain the same length under transforms. i.e. When geometry is scaled, the normals remain constant in length."
+    },
+    {
+      "page": "Copy",
+      "label": "Create Output Groups",
+      "name": "newg",
+      "description": "If selected, this creates a group for each copy number, and places each primitive created at that stage into it."
+    },
+    {
+      "page": "Copy",
+      "label": "Copy Groups",
+      "name": "copyg",
+      "description": "Defines the base name of the groups created."
+    },
+    {
+      "page": "Copy",
+      "label": "Look At",
+      "name": "lookat",
+      "description": "Orients the copied geometry to lookat, or point to, the  object  component specified in the parameter."
+    },
+    {
+      "page": "Copy",
+      "label": "Up Vector",
+      "name": "upvector",
+      "description": "⊞  - When specifying a Look At, it is possible to specify an up vector for the lookat. Without using an up vector, it is possible to get poor animation when the lookat object passes through the Y axis of the target object."
+    },
+    {
+      "page": "Stamp",
+      "label": "Stamp Inputs",
+      "name": "stamp",
+      "description": "When enabled, it will Stamp proceeding variables for each input copied."
+    },
+    {
+      "page": "Stamp",
+      "label": "Copy",
+      "name": "copy",
+      "description": "Sequence of stamp variables"
+    },
+    {
+      "page": "Stamp",
+      "label": "Param",
+      "name": "copy0param",
+      "description": "Token of each stamp variable. Stamped parameters are accessible via the global   fetchStamp  ()   method in the  td Module  in python, or  param()  in tscript. See the example, below."
+    },
+    {
+      "page": "Stamp",
+      "label": "Value",
+      "name": "copy0value",
+      "description": "Value of each stamp variable. Stamped parameters are accessible via the global   fetchStamp  ()   method in the  td Module  in python, or  param()  in tscript. See the example, below."
+    },
+    {
+      "page": "Attributes",
+      "label": "Set",
+      "description": "Override the source attribute."
+    },
+    {
+      "page": "Attributes",
+      "label": "Multiply",
+      "description": "Multiply the source attribute."
+    },
+    {
+      "page": "Attributes",
+      "label": "Add",
+      "description": "Get Added to the source attribute."
+    },
+    {
+      "page": "Attributes",
+      "label": "Sub",
+      "description": "Get Subtracted from the source attribute."
+    },
+    {
+      "page": "Attributes",
+      "label": "Use Template Point Attribs",
+      "name": "doattr",
+      "description": "Enables the parameters below to allow template point attributes to be applied to the copied source geometry."
+    },
+    {
+      "page": "Attributes",
+      "label": "Copy to  Point",
+      "name": "setpt",
+      "description": "⊞  - Copy the attributes to the source geometry's points."
+    },
+    {
+      "page": "Attributes",
+      "label": "Copy to  Primitive",
+      "name": "setprim",
+      "description": "⊞  - Copy the attributes to the source geometry's primitives."
+    },
+    {
+      "page": "Attributes",
+      "label": "Copy to  Vertex",
+      "name": "setvtx",
+      "description": "⊞  - Copy the attributes to the source geometry's vertices."
+    },
+    {
+      "page": "Attributes",
+      "label": "Multiply  Point",
+      "name": "mulpt",
+      "description": "⊞  - Multiply the attributes with the source geometry's point attributes."
+    },
+    {
+      "page": "Attributes",
+      "label": "Multiply  Primitive",
+      "name": "mulprim",
+      "description": "⊞  - Multiply the attributes with the source geometry's primitive attributes."
+    },
+    {
+      "page": "Attributes",
+      "label": "Multiply  Vertex",
+      "name": "mulvtx",
+      "description": "⊞  - Multiply the attributes with the source geometry's vertex attributes."
+    },
+    {
+      "page": "Attributes",
+      "label": "Add  Point",
+      "name": "addpt",
+      "description": "⊞  - Add the attributes to the source geometry's point attributes."
+    },
+    {
+      "page": "Attributes",
+      "label": "Add  Primitive",
+      "name": "addprim",
+      "description": "⊞  - Add the attributes to the source geometry's primitive attributes."
+    },
+    {
+      "page": "Attributes",
+      "label": "Add  Vertex",
+      "name": "addvtx",
+      "description": "⊞  - Add the attributes to the source geometry's vertex attributes."
+    },
+    {
+      "page": "Attributes",
+      "label": "Subtract  Point",
+      "name": "subpt",
+      "description": "⊞  - Subtract the attributes from the source geometry's point attributes."
+    },
+    {
+      "page": "Attributes",
+      "label": "Subtract  Primitive",
+      "name": "subprim",
+      "description": "⊞  - Subtract the attributes from the source geometry's primitive attributes."
+    },
+    {
+      "page": "Attributes",
+      "label": "Subtract  Vertex",
+      "name": "subvtx",
+      "description": "⊞  - Subtract the attributes from the source geometry's vertex attributes."
+    },
+    {
+      "page": "Attributes",
+      "label": "You can use the  me.copyTotal  python member to calculate the degrees of rotation for a given number of copies. For example, if you have 28 copies, you can set the rotation to be:  360/me.copyTotal",
+      "description": "this would automatically give you 12.8571 degrees, evenly spacing your 28 copies around the full circumference of the circle."
+    },
+    {
+      "page": "Attributes",
+      "label": "Make a series of copies about an axis, and skin them to achieve lathe",
+      "description": "like effects, similar to the results achieved with the Revolve  SOP ."
+    },
+    {
+      "page": "Attributes",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Attributes",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Attributes",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Attributes",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Attributes",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Attributes",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Attributes",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Attributes",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Attributes",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Attributes",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Attributes",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Attributes",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Attributes",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Attributes",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Attributes",
+      "label": "A polygon is a type of  Primitive  that is formed from a set of  Vertices  in 3D that are implicitly connected together to form a multi",
+      "description": "edge shape."
+    },
+    {
+      "page": "Attributes",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "m), To Attribute (ren0to).1 * Página Duplicate: Duplicate Attribute (dup), Duplicate Attribute (dup0name), New Attribute Name (dup0new).1 * Página Delete: Delete Point Attributes (ptdel) (* para todos), Delete Vertex Attributes (vertdel) (* para todos), Delete Primitive Attributes (primdel) (* para todos).1 * Página Common: Bypass (bypass), Delete Input Attributes (delinputattrs), Parameter Color Space (parmcolorspace), Parameter Reference White (parmreferencewhite).1 * Copy POP: Crea copias de su geometría de entrada. Puede generar copias basándose en parámetros (número de copias, transformaciones acumulativas) o utilizando un POP de plantilla, donde los puntos de una entrada definen la ubicación de la copia. Las transformaciones (traslación, rotación, escala) se pueden aplicar en varios órdenes.2 * Parámetros: Incluye la \"Página Copy\" (Number of Copies, Transform Order, Translate, Rotate, Scale, Pivot, Uniform Scale, CopyId Attribute, CopyId Attrib Name, L"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "• Experimental:CHOP to POP: Permite convertir datos de la familia CHOPs (Channel Operators) a datos de POPs. Esto es eficiente porque los POPs ya implementan muchas funciones de CHOPs directamente en la GPU, evitando conversiones de GPU a CPU y viceversa. • Experimental:Circle POP: Un operador generador que crea formas circulares. Puede generar puntos con sus primitivas correspondientes. • Experimental:Convert POP: Se usa para cambiar entre diferentes tipos de primitivas. • Experimental:Copy POP: Permite crear copias de geometría dentro de un POP, las cuales pueden ser manipuladas o animadas antes de la renderización. También puede generar grupos automáticamente. • Experimental:Curve POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:DAT to POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Delete POP: Permite reducir un conju"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "triángulos** (`Quads to Triangles`). * Puede **abrir o cerrar** line strips. * Puede \"aplanar\" una geometría haciendo que los puntos de todas las primitivas sean **únicos** (no compartidos) y luego reordenando todos los puntos según el orden de los vértices de cada primitiva. Esto es útil para ciertos flujos de trabajo. * Importante: **No cambia los datos de los puntos** ni su orden, ni los vértices ni las primitivas en sí, solo cómo se \"ven\" organizados. --- #### 14. Copy POP * **¿Qué hace?** Este operador te permite **hacer copias de tu geometría de entrada**. Puedes especificar cuántas copias quieres y cómo se transforman (mueven, rotan, escalan). * **Características clave:** * **Método 1 (Parámetros)**: Define el número de copias y una transformación acumulativa para cada una. La primera copia no tiene transformación. * **Método 2 (POP de plantilla)**: Puedes usar un segundo POP como \"plantilla\". Se colocará una copia en cada punto de este"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

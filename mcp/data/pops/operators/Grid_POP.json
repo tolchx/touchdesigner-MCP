@@ -1,0 +1,171 @@
+{
+  "pageTitle": "Grid POP",
+  "pageSlug": "Grid_POP",
+  "url": "https://docs.derivative.ca/Grid_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "gridPOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "Connectivity",
+      "type": "Menu",
+      "options": [
+        "None",
+        "Point Primitives",
+        "Lines",
+        "Line Strips",
+        "Triangles",
+        "Alternating Triangles",
+        "Quadrilaterals"
+      ],
+      "default": "None",
+      "description": "Primitive type connecting points."
+    },
+    {
+      "name": "Columns",
+      "type": "Int",
+      "default": 10,
+      "description": "Number of divisions in X."
+    },
+    {
+      "name": "Rows",
+      "type": "Int",
+      "default": 10,
+      "description": "Number of divisions in Y."
+    },
+    {
+      "name": "Slices",
+      "type": "Int",
+      "default": 1,
+      "description": "Number of divisions in Z (creates 3D grid)."
+    },
+    {
+      "name": "Size",
+      "type": "Float[3]",
+      "default": "1,1,1",
+      "description": "Grid size in XYZ."
+    },
+    {
+      "name": "Unique Points",
+      "type": "Toggle",
+      "default": false,
+      "description": "Each vertex gets unique point (no sharing). Loses dimension info."
+    },
+    {
+      "name": "Random",
+      "type": "Float[3]",
+      "default": "0,0,0",
+      "description": "Randomize point positions within their cells."
+    },
+    {
+      "name": "Line X/Y/Z",
+      "type": "Toggle[3]",
+      "default": "true,true,false",
+      "description": "Enable line primitives per axis."
+    },
+    {
+      "name": "Plane XY/YZ/ZX",
+      "type": "Toggle[3]",
+      "default": "true,false,false",
+      "description": "Enable triangle/quad planes per orientation."
+    },
+    {
+      "name": "Anchor U/V/W",
+      "type": "Menu",
+      "default": "Center",
+      "description": "Position at origin: Left/Center/Right."
+    },
+    {
+      "name": "Normal",
+      "type": "Menu",
+      "options": [
+        "None",
+        "Point",
+        "Vertex",
+        "Primitive"
+      ],
+      "default": "None",
+      "description": "Normal attribute class."
+    },
+    {
+      "name": "Texture",
+      "type": "Menu",
+      "options": [
+        "None",
+        "Point",
+        "Vertex"
+      ],
+      "default": "None",
+      "description": "Texture coordinate class."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "otras familias de operadores (SOPs, CHOPs, TOPs, DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "añadiendo quads para los lados.17 Requiere un Normal POP para un sombreado facetado adecuado.17 * Facet POP: Realiza operaciones para controlar el intercambio de puntos entre primitivas. Puede crear puntos únicos (sin puntos compartidos por vértice), consolidar puntos (fusionar puntos dentro de una tolerancia) o cusp polygons (hacer que los puntos de borde sean únicos si las caras adyacentes no están alineadas dentro de una tolerancia angular).18 Es útil para controlar el sombreado y la integridad de la malla. * GLSL POP: Permite la modificación de atributos de entrada utilizando shaders GLSL. Opera en una única clase de atributo (Puntos, Vértices o Primitivas) y no cambia el número de elementos de entrada. Los usuarios escriben un compute shader para definir la lógica de modificación de atributos.3 * Parámetros: Compute Shader (referencia DAT), Attribute Class, Number of Threads (Auto, Manual, desde Atributo), Work Group Size, Dispatch Size, Output Attributes, Output Access"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "otras familias de operadores (SOPs, CHOPs, TOPs, DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "as de manera programática. • Experimental:GLSL Create POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL POP: Un operador que te permite escribir tu propio código GLSL para manipular puntos y atributos. Ideal para simulaciones o efectos muy personalizados. • Experimental:GLSL Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Grid POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Group POP: Se usa para crear grupos de puntos, vértices o primitivas. Puedes usar estos grupos para afectar solo ciertas partes de tu geometría con otros operadores, como el Transform POP. También puede convertir un grupo en un atributo. • Experimental:Histogram POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operado"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "as de manera programática. • Experimental:GLSL Create POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL POP: Un operador que te permite escribir tu propio código GLSL para manipular puntos y atributos. Ideal para simulaciones o efectos muy personalizados. • Experimental:GLSL Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Grid POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Group POP: Se usa para crear grupos de puntos, vértices o primitivas. Puedes usar estos grupos para afectar solo ciertas partes de tu geometría con otros operadores, como el Transform POP. También puede convertir un grupo en un atributo. • Experimental:Histogram POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este ope"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "as de manera programática. • Experimental:GLSL Create POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL POP: Un operador que te permite escribir tu propio código GLSL para manipular puntos y atributos. Ideal para simulaciones o efectos muy personalizados. • Experimental:GLSL Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Grid POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Group POP: Se usa para crear grupos de puntos, vértices o primitivas. Puedes usar estos grupos para afectar solo ciertas partes de tu geometría con otros operadores, como el Transform POP. También puede convertir un grupo en un atributo. • Experimental:Histogram POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operado"
+    }
+  ],
+  "useCases": [
+    "Create base geometry for particle emission",
+    "Build 3D point clouds for volume effects",
+    "Generate LED wall layouts with controlled spacing",
+    "Create procedural terrain grids for noise displacement",
+    "Build mesh topology for deformation effects"
+  ],
+  "examples": [
+    "Grid POP (50x50, Quads) → Noise POP → deformed terrain surface",
+    "Grid POP (1x100, Lines) → Transform POP per-point → spiral formation"
+  ],
+  "commonCombinations": [
+    {
+      "operators": [
+        "Grid_POP",
+        "Noise_POP",
+        "Transform_POP"
+      ],
+      "description": "Animated terrain or organic surface"
+    },
+    {
+      "operators": [
+        "Grid_POP",
+        "Particle_POP",
+        "Render"
+      ],
+      "description": "Grid-based particle emitter"
+    },
+    {
+      "operators": [
+        "Grid_POP",
+        "GLSL_Create_POP"
+      ],
+      "description": "GPU-accelerated grid with custom shaders"
+    }
+  ],
+  "troubleshooting": [
+    "Grid appears flat: Check Slices > 1 for 3D volume",
+    "Points overlap: Increase Size or reduce Columns/Rows",
+    "Dimension info lost: Disable Unique Points to preserve _Dim[]"
+  ],
+  "description": "Creates rows and columns of points in a plane, optionally with slices for 3D grids. Outputs dimension metadata (_Dim[]) for downstream operators. Supports connectivity options (lines, quads, triangles, line strips) and randomization for organic layouts."
+}

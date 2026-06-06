@@ -1,0 +1,192 @@
+{
+  "pageTitle": "Phaser POP",
+  "pageSlug": "Phaser_POP",
+  "url": "https://docs.derivative.ca/Phaser_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "phaserPOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "phaseattrscope",
+      "label": "Phase Attribute Scope",
+      "type": "str",
+      "default": "P",
+      "description": "Input attribute used for timing offset."
+    },
+    {
+      "name": "fract",
+      "label": "Fraction",
+      "type": "float",
+      "default": 0.5,
+      "description": "Animation progress (0=off, 1=fully phased)."
+    },
+    {
+      "name": "parsize",
+      "label": "Parameter Size",
+      "type": "menu",
+      "default": "1",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "description": "Number of independent parameter values."
+    },
+    {
+      "name": "edge",
+      "label": "Edge",
+      "type": "float",
+      "default": 0,
+      "description": "Separation edge between two states."
+    },
+    {
+      "name": "reversephase",
+      "label": "Reverse Phase",
+      "type": "toggle",
+      "default": false,
+      "description": "Reverse the staggered animation direction."
+    },
+    {
+      "name": "smoothstep",
+      "label": "Smooth Step",
+      "type": "toggle",
+      "default": false,
+      "description": "Remap with smoothstep function for easing."
+    },
+    {
+      "name": "castto",
+      "label": "Cast to",
+      "type": "menu",
+      "default": "auto",
+      "options": [
+        "auto",
+        "float",
+        "int"
+      ],
+      "description": "Override output data type."
+    },
+    {
+      "name": "outputattrscope",
+      "label": "Output Attribute Scope",
+      "type": "str",
+      "default": "Phaser",
+      "description": "Output attribute name."
+    },
+    {
+      "name": "attrclass",
+      "label": "Attribute Class",
+      "type": "menu",
+      "default": "point",
+      "options": [
+        "point",
+        "vertex",
+        "primitive"
+      ],
+      "description": "Operate on point, vertex, or primitive attributes."
+    },
+    {
+      "name": "fromlow",
+      "label": "From Low",
+      "type": "float",
+      "default": 0,
+      "description": "ReRange input minimum."
+    },
+    {
+      "name": "fromhigh",
+      "label": "From High",
+      "type": "float",
+      "default": 1,
+      "description": "ReRange input maximum."
+    },
+    {
+      "name": "tolow",
+      "label": "To Low",
+      "type": "float",
+      "default": 0,
+      "description": "ReRange output minimum."
+    },
+    {
+      "name": "tohigh",
+      "label": "To High",
+      "type": "float",
+      "default": 1,
+      "description": "ReRange output maximum."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ndices de estos neighbors en un atributo de arreglo (Nebr) y el recuento de neighbors (NumNebrs). También puede generar la distancia promedio o el promedio ponderado inverso de la distancia de los atributos de los neighbors.24 * Parámetros: Neighbors Type (By Distance, Connected), Max Neighbors Distance, Max Neighbors, Output (Neighbors, Average, Inverse Distance Weighted Average), Neighbor Attrib Name, Num Neighbors Attrib Name, Add Distance Attribute, Neighbor Point Attributes.24 * Phaser POP: Similar a Phaser CHOP, realiza una interpolación de animación escalonada (con desfase temporal) en un atributo POP. Genera un nuevo atributo \"Phaser\" donde cada punto anima de 0 a 1 en un ciclo, pero en diferentes momentos.25 * Projection POP: Transforma un atributo espacial 3D de tipo float3 (como P) entre diferentes sistemas de coordenadas (Cartesiano, Esférico, Cilíndrico, Espacio de Pantalla, Coordenadas de Dispositivo Normalizadas). Permite especificar los sistemas de coordenadas de e"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ndices de estos neighbors en un atributo de arreglo (Nebr) y el recuento de neighbors (NumNebrs). También puede generar la distancia promedio o el promedio ponderado inverso de la distancia de los atributos de los neighbors.24 * Parámetros: Neighbors Type (By Distance, Connected), Max Neighbors Distance, Max Neighbors, Output (Neighbors, Average, Inverse Distance Weighted Average), Neighbor Attrib Name, Num Neighbors Attrib Name, Add Distance Attribute, Neighbor Point Attributes.24 * Phaser POP: Similar a Phaser CHOP, realiza una interpolación de animación escalonada (con desfase temporal) en un atributo POP. Genera un nuevo atributo \"Phaser\" donde cada punto anima de 0 a 1 en un ciclo, pero en diferentes momentos.25 * Projection POP: Transforma un atributo espacial 3D de tipo float3 (como P) entre diferentes sistemas de coordenadas (Cartesiano, Esférico, Cilíndrico, Espacio de Pantalla, Coordenadas de Dispositivo Normalizadas). Permite especificar los sistemas de coordenadas"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ndices de estos neighbors en un atributo de arreglo (Nebr) y el recuento de neighbors (NumNebrs). También puede generar la distancia promedio o el promedio ponderado inverso de la distancia de los atributos de los neighbors.24 * Parámetros: Neighbors Type (By Distance, Connected), Max Neighbors Distance, Max Neighbors, Output (Neighbors, Average, Inverse Distance Weighted Average), Neighbor Attrib Name, Num Neighbors Attrib Name, Add Distance Attribute, Neighbor Point Attributes.24 * Phaser POP: Similar a Phaser CHOP, realiza una interpolación de animación escalonada (con desfase temporal) en un atributo POP. Genera un nuevo atributo \"Phaser\" donde cada punto anima de 0 a 1 en un ciclo, pero en diferentes momentos.25 * Projection POP: Transforma un atributo espacial 3D de tipo float3 (como P) entre diferentes sistemas de coordenadas (Cartesiano, Esférico, Cilíndrico, Espacio de Pantalla, Coordenadas de Dispositivo Normalizadas). Permite especificar los sistemas de coordenadas de e"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "Experimental:Particle POP: Representa una partícula individual como un punto POP. Este operador añade opcionalmente atributos clave para sistemas de partículas como velocidad, dirección, edad, masa y fuerza. Es central para la simulación de partículas en TouchDesigner y genera atributos como PartForce. • Experimental:Pattern POP: Se utiliza para generar patrones para atributos, ofreciendo configuraciones más complejas. Permite crear y modificar atributos de color y textura. • Experimental:Phaser POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Point File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner, específicamente diseñado para este tipo de datos. • Experimental:Point Generator POP: Un operador generador que crea nubes de puntos directamente. Puede generar puntos con sus primitivas correspondientes. • Experimental:Point POP: Las fuentes proporcionadas no ofrecen u"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "Experimental:Particle POP: Representa una partícula individual como un punto POP. Este operador añade opcionalmente atributos clave para sistemas de partículas como velocidad, dirección, edad, masa y fuerza. Es central para la simulación de partículas en TouchDesigner y genera atributos como PartForce. • Experimental:Pattern POP: Se utiliza para generar patrones para atributos, ofreciendo configuraciones más complejas. Permite crear y modificar atributos de color y textura. • Experimental:Phaser POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Point File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner, específicamente diseñado para este tipo de datos. • Experimental:Point Generator POP: Un operador generador que crea nubes de puntos directamente. Puede generar puntos con sus primitivas correspondientes. • Experimental:Point POP: Las fuentes proporcionadas no ofrec"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "Experimental:Particle POP: Representa una partícula individual como un punto POP. Este operador añade opcionalmente atributos clave para sistemas de partículas como velocidad, dirección, edad, masa y fuerza. Es central para la simulación de partículas en TouchDesigner y genera atributos como PartForce. • Experimental:Pattern POP: Se utiliza para generar patrones para atributos, ofreciendo configuraciones más complejas. Permite crear y modificar atributos de color y textura. • Experimental:Phaser POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Point File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner, específicamente diseñado para este tipo de datos. • Experimental:Point Generator POP: Un operador generador que crea nubes de puntos directamente. Puede generar puntos con sus primitivas correspondientes. • Experimental:Point POP: Las fuentes proporcionadas no ofrecen u"
+    }
+  ],
+  "useCases": [
+    "Staggered animation across points (wave interference patterns)",
+    "Phase-based attribute blending (position, color, scale)",
+    "Time-offset particle effects and ripple animations",
+    "Procedural animation with smoothstep easing"
+  ],
+  "examples": [
+    {
+      "name": "Wave Interference",
+      "description": "Grid POP → Phaser POP (P as phase) → Transform POP (animate P.y)",
+      "difficulty": "intermediate"
+    },
+    {
+      "name": "Staggered Color",
+      "description": "Phaser POP (Cd as phase) → Attribute POP (color by phase)",
+      "difficulty": "intermediate"
+    },
+    {
+      "name": "Particle Wave",
+      "description": "Point Generator → Phaser POP → Noise POP (displace by phase)",
+      "difficulty": "advanced"
+    }
+  ],
+  "commonCombinations": [
+    "Grid POP → Phaser POP → Transform POP (staggered position animation)",
+    "Phaser POP → Attribute POP (phase-driven color/scale)",
+    "Phaser POP → Noise POP (phase-driven displacement)",
+    "Phaser POP → Render TOP (phase-based visual effects)"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Not animating",
+      "solution": "Drive Fraction with absTime.seconds or a CHOP channel."
+    },
+    {
+      "problem": "Wrong timing",
+      "solution": "Adjust Edge parameter for separation between states."
+    },
+    {
+      "problem": "Want smooth easing",
+      "solution": "Enable Smooth Step toggle for smoothstep remapping."
+    },
+    {
+      "problem": "Want reverse wave",
+      "solution": "Enable Reverse Phase toggle."
+    }
+  ],
+  "description": "Staggered (time-offset) animation interpolation on POP attributes. Each point animates from 0 to 1 over a cycle, but arrives at different times based on an input attribute. Creates a Phaser attribute for wave interference and staggered timing effects. Supports smoothstep easing and extend modes (clamp, cycle, mirror)."
+}

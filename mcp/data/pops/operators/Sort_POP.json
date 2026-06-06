@@ -1,0 +1,171 @@
+{
+  "pageTitle": "Sort POP",
+  "pageSlug": "Sort_POP",
+  "url": "https://docs.derivative.ca/Sort_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "sortPOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "Point Method",
+      "type": "Menu",
+      "options": [
+        "No Change",
+        "By Attribute",
+        "Random",
+        "Proximity to Point",
+        "Along Vector",
+        "Relative to Object Z-axis"
+      ],
+      "default": "No Change",
+      "description": "Point sorting criteria."
+    },
+    {
+      "name": "Attribute",
+      "type": "Str",
+      "default": "",
+      "description": "Attribute name for sorting (when By Attribute)."
+    },
+    {
+      "name": "Attrib is UInt",
+      "type": "Menu",
+      "options": [
+        "Not UInt",
+        "4 bits (max 16)",
+        "8 bits (max 256)",
+        "12 bits (max 4096)",
+        "16 bits (max 65K)",
+        "20 bits (max 1M)",
+        "24 bits (max 16M)",
+        "28 bits (max 268M)",
+        "32 bits (max 4B)"
+      ],
+      "default": "Not UInt",
+      "description": "Optimization: smaller UInt = fewer sort passes."
+    },
+    {
+      "name": "Seed",
+      "type": "Int",
+      "default": 0,
+      "description": "Random seed (when Random)."
+    },
+    {
+      "name": "Point",
+      "type": "Float[3]",
+      "default": "0,0,0",
+      "description": "Reference point (when Proximity to Point)."
+    },
+    {
+      "name": "Vector",
+      "type": "Float[3]",
+      "default": "0,0,0",
+      "description": "Direction vector (when Along Vector)."
+    },
+    {
+      "name": "Object",
+      "type": "OP",
+      "default": "",
+      "description": "Geometry COMP (when Relative to Object Z-axis)."
+    },
+    {
+      "name": "Reverse",
+      "type": "Toggle",
+      "default": false,
+      "description": "Reverse sorted order."
+    },
+    {
+      "name": "Shift",
+      "type": "Toggle",
+      "default": false,
+      "description": "Enable circular shift of point order."
+    },
+    {
+      "name": "Offset",
+      "type": "Int",
+      "default": 0,
+      "description": "Shift amount for circular offset."
+    },
+    {
+      "name": "Primitive Method",
+      "type": "Menu",
+      "options": [
+        "No Change",
+        "By Point Attribute",
+        "By Primitive Attribute",
+        "Random",
+        "Proximity to Point",
+        "Along Vector",
+        "Relative to Object Z-axis"
+      ],
+      "default": "No Change",
+      "description": "Primitive sorting criteria."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "d POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de partíc"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "d POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de pa"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "d POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de partíc"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "porcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Skin Deform POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Skin POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:SOP to POP: Permite la conversión de datos de la familia SOPs (Surface Operators) a datos de POPs. • Experimental:Sort POP: Implementa algoritmos de ordenación muy rápidos que pueden organizar los puntos basándose en el valor de cualquier componente de un atributo. • Experimental:Sphere POP: Un operador generador que crea una geometría esférica. • Experimental:Sprinkle POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Subdivide POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este opera"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "porcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Skin Deform POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Skin POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:SOP to POP: Permite la conversión de datos de la familia SOPs (Surface Operators) a datos de POPs. • Experimental:Sort POP: Implementa algoritmos de ordenación muy rápidos que pueden organizar los puntos basándose en el valor de cualquier componente de un atributo. • Experimental:Sphere POP: Un operador generador que crea una geometría esférica. • Experimental:Sprinkle POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Subdivide POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este o"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "porcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Skin Deform POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Skin POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:SOP to POP: Permite la conversión de datos de la familia SOPs (Surface Operators) a datos de POPs. • Experimental:Sort POP: Implementa algoritmos de ordenación muy rápidos que pueden organizar los puntos basándose en el valor de cualquier componente de un atributo. • Experimental:Sphere POP: Un operador generador que crea una geometría esférica. • Experimental:Sprinkle POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Subdivide POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este opera"
+    }
+  ],
+  "useCases": [
+    "Sort points by X position for sequential animation effects",
+    "Randomize point order for organic particle emission",
+    "Sort primitives by proximity to camera for depth-based effects",
+    "Circular shift point order for looping animations",
+    "Sort by attribute for controlled rendering order"
+  ],
+  "examples": [
+    "Grid POP → Sort POP (By Attribute: P.x) → sequential noise offset",
+    "Particle POP → Sort POP (Random) → randomized trail colors"
+  ],
+  "commonCombinations": [
+    {
+      "operators": [
+        "Sort_POP",
+        "Attribute_POP"
+      ],
+      "description": "Sort then assign color based on new order"
+    },
+    {
+      "operators": [
+        "Sort_POP",
+        "Trail_POP"
+      ],
+      "description": "Sorted trails with consistent direction"
+    },
+    {
+      "operators": [
+        "Sort_POP",
+        "Copy_POP"
+      ],
+      "description": "Ordered instancing along sorted points"
+    }
+  ],
+  "troubleshooting": [
+    "Sort not working: Ensure Attribute name exactly matches the attribute in your POP",
+    "Performance: Use Attrib is UInt optimization for integer attributes",
+    "Reverse + Shift: Reverse flips order, Shift offsets — combine for complex patterns"
+  ],
+  "description": "Sorts point and/or primitive lists based on position P or any attribute. Supports sorting by proximity to point, along vector, relative to Geometry COMP Z-axis, randomizing, or circular shifting. Uses FidelityFX Parallel Sort (GPU-accelerated)."
+}

@@ -1,0 +1,168 @@
+{
+  "pageTitle": "Random POP",
+  "pageSlug": "Random_POP",
+  "url": "https://docs.derivative.ca/Random_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "randomPOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "Type",
+      "type": "Menu",
+      "options": [
+        "Constant",
+        "Two Values",
+        "Uniform (Continuous)",
+        "Uniform (Discrete)",
+        "Direction",
+        "Inside Sphere",
+        "Normal (Gaussian)",
+        "Exponential",
+        "Log-Normal",
+        "Cauchy-Lorentz",
+        "Custom Ramp"
+      ],
+      "default": "Uniform (Continuous)",
+      "description": "Distribution type."
+    },
+    {
+      "name": "Random Size",
+      "type": "Menu",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "default": "1",
+      "description": "Number of random components."
+    },
+    {
+      "name": "Seed",
+      "type": "Int",
+      "default": 0,
+      "description": "Random seed for reproducibility."
+    },
+    {
+      "name": "Amplitude",
+      "type": "Float",
+      "default": 1,
+      "description": "Scale factor on random values."
+    },
+    {
+      "name": "Exponent",
+      "type": "Float",
+      "default": 1,
+      "description": "Power curve on random values."
+    },
+    {
+      "name": "Offset",
+      "type": "Float",
+      "default": 0,
+      "description": "Add to random result."
+    },
+    {
+      "name": "Value A",
+      "type": "Float",
+      "default": 0,
+      "description": "Range start."
+    },
+    {
+      "name": "Value B",
+      "type": "Float",
+      "default": 1,
+      "description": "Range end."
+    },
+    {
+      "name": "Combine Operation",
+      "type": "Menu",
+      "options": [
+        "Set",
+        "Add",
+        "Multiply",
+        "Translate along Normal"
+      ],
+      "default": "Set",
+      "description": "How to combine with existing attribute."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ambién se encontró una redirección a su página de documentación 47, pero sin contenido descriptivo. 6. Switch POP: Al igual que Merge POP, se indica que comparte la arquitectura de manejo de múltiples entradas con otros POPs combinadores.13 No se proporcionaron detalles adicionales. 7. Quantize POP: Se encontró una redirección a su página de documentación.48 Un tutorial de YouTube relacionado con la \"cuantificación\" de píxeles 49 no describe el operador POP en sí, sino un concepto visual. 8. Random POP: Se encontró una redirección a su página de documentación 50, pero sin contenido descriptivo. 9. Point Generator POP: Se encontraron redirecciones a su página de documentación.51 Aunque un tutorial de YouTube menciona el uso de un Point Generator POP para distribuir puntos 43, no se proporciona una descripción detallada de sus parámetros. 10. Points, Vertices and Primitives in POPs: Esta es una página conceptual que describe la estructura de datos subyacente de los POPs (puntos, vértices, pri"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ambién se encontró una redirección a su página de documentación 47, pero sin contenido descriptivo. 6. Switch POP: Al igual que Merge POP, se indica que comparte la arquitectura de manejo de múltiples entradas con otros POPs combinadores.13 No se proporcionaron detalles adicionales. 7. Quantize POP: Se encontró una redirección a su página de documentación.48 Un tutorial de YouTube relacionado con la \"cuantificación\" de píxeles 49 no describe el operador POP en sí, sino un concepto visual. 8. Random POP: Se encontró una redirección a su página de documentación 50, pero sin contenido descriptivo. 9. Point Generator POP: Se encontraron redirecciones a su página de documentación.51 Aunque un tutorial de YouTube menciona el uso de un Point Generator POP para distribuir puntos 43, no se proporciona una descripción detallada de sus parámetros. 10. Points, Vertices and Primitives in POPs: Esta es una página conceptual que describe la estructura de datos subyacente de los POPs (puntos, vértices,"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ambién se encontró una redirección a su página de documentación 47, pero sin contenido descriptivo. 6. Switch POP: Al igual que Merge POP, se indica que comparte la arquitectura de manejo de múltiples entradas con otros POPs combinadores.13 No se proporcionaron detalles adicionales. 7. Quantize POP: Se encontró una redirección a su página de documentación.48 Un tutorial de YouTube relacionado con la \"cuantificación\" de píxeles 49 no describe el operador POP en sí, sino un concepto visual. 8. Random POP: Se encontró una redirección a su página de documentación 50, pero sin contenido descriptivo. 9. Point Generator POP: Se encontraron redirecciones a su página de documentación.51 Aunque un tutorial de YouTube menciona el uso de un Point Generator POP para distribuir puntos 43, no se proporciona una descripción detallada de sus parámetros. 10. Points, Vertices and Primitives in POPs: Esta es una página conceptual que describe la estructura de datos subyacente de los POPs (puntos, vértices, pri"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "nte. • Experimental:Projection POP: Permite crear y modificar atributos de color y textura. Al igual que el Normalize POP, genera atributos normalizados. • Experimental:Proximity POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Quantize POP: Proporciona opciones para cuantizar valores, como redondear hacia abajo (Floor), redondear al entero más cercano (Round) o redondear hacia arriba (Ceiling). • Experimental:Random POP: Permite crear y modificar atributos de color y textura, presumiblemente para aplicar valores aleatorios. • Experimental:Ray POP: Crea atributos de tipo entero sin signo. Genera atributos con el prefijo Ray. • Experimental:Rectangle POP: Un operador generador que crea una geometría rectangular. • Experimental:ReRange POP: Se utiliza para re-escalar o re-mapear valores dentro de un rango específico. Es muy útil, ya que puede aplicar un re-rango diferente para cada componente de un atributo"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "nte. • Experimental:Projection POP: Permite crear y modificar atributos de color y textura. Al igual que el Normalize POP, genera atributos normalizados. • Experimental:Proximity POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Quantize POP: Proporciona opciones para cuantizar valores, como redondear hacia abajo (Floor), redondear al entero más cercano (Round) o redondear hacia arriba (Ceiling). • Experimental:Random POP: Permite crear y modificar atributos de color y textura, presumiblemente para aplicar valores aleatorios. • Experimental:Ray POP: Crea atributos de tipo entero sin signo. Genera atributos con el prefijo Ray. • Experimental:Rectangle POP: Un operador generador que crea una geometría rectangular. • Experimental:ReRange POP: Se utiliza para re-escalar o re-mapear valores dentro de un rango específico. Es muy útil, ya que puede aplicar un re-rango diferente para cada componente de un atri"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "nte. • Experimental:Projection POP: Permite crear y modificar atributos de color y textura. Al igual que el Normalize POP, genera atributos normalizados. • Experimental:Proximity POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Quantize POP: Proporciona opciones para cuantizar valores, como redondear hacia abajo (Floor), redondear al entero más cercano (Round) o redondear hacia arriba (Ceiling). • Experimental:Random POP: Permite crear y modificar atributos de color y textura, presumiblemente para aplicar valores aleatorios. • Experimental:Ray POP: Crea atributos de tipo entero sin signo. Genera atributos con el prefijo Ray. • Experimental:Rectangle POP: Un operador generador que crea una geometría rectangular. • Experimental:ReRange POP: Se utiliza para re-escalar o re-mapear valores dentro de un rango específico. Es muy útil, ya que puede aplicar un re-rango diferente para cada componente de un atributo"
+    }
+  ],
+  "useCases": [
+    "Random variation",
+    "Procedural distribution",
+    "Seed reproducibility",
+    "Random point displacement for organic effects",
+    "Color randomization for particle systems",
+    "Direction randomization for emission",
+    "Noise-like variation without coherence"
+  ],
+  "examples": [
+    {
+      "name": "Random Size",
+      "description": "pscale random 0.01-0.5",
+      "difficulty": "beginner"
+    },
+    {
+      "name": "Random Displacement",
+      "description": "Grid POP -> Random POP (Normal, Amplitude=0.5) -> Transform POP for jitter",
+      "difficulty": "beginner"
+    },
+    {
+      "name": "Random Colors",
+      "description": "Sphere POP -> Random POP (Uniform, Size=3, Cd) for colorful particles",
+      "difficulty": "beginner"
+    },
+    {
+      "name": "Direction Emission",
+      "description": "Point POP -> Random POP (Direction, Cone Angle=45) for spread emission",
+      "difficulty": "intermediate"
+    }
+  ],
+  "commonCombinations": [
+    "Generator to Random POP",
+    "Any generator -> Random POP (displace/modify) -> Render TOP",
+    "Random POP -> Attribute POP (clamp or remap values)",
+    "Random POP -> Transform POP (random position/rotation)"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Changes every frame",
+      "solution": "Set fixed Seed."
+    },
+    {
+      "problem": "Random values not changing per frame",
+      "solution": "Seed is static. Animate the Seed parameter or use absTime in expressions."
+    },
+    {
+      "problem": "Values not in expected range",
+      "solution": "Check Value A and B, Amplitude, and Exponent. Use Clamp Value to limit output."
+    }
+  ],
+  "description": "Generates random attribute values with 11 distribution types (Uniform, Gaussian, Direction, Inside Sphere, etc.). Can create new attributes or modify existing ones. Supports per-point parameter mapping via Map page."
+}

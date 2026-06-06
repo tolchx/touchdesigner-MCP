@@ -1,0 +1,297 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Hold CHOP",
+  "pageSlug": "Hold_CHOP",
+  "url": "https://docs.derivative.ca/Hold_CHOP",
+  "tdOpTypeGuess": "holdCHOP",
+  "summary": "[  edit  ]\nThe Hold  CHOP  waits for a 0 to 1 step on its second input, at which time it reads the current values from the first input (one value per channel). It holds the values constant until it receives another 0 to 1 step. The second input controls the sampling. When the second input changes from 0 to 1, the first input is sampled. This value is held in the output until the second input changes from 0 to 1 again. Hold does not sample while the second input is 1, nor on the falling edge (1 to 0).\nA common application for this  CHOP  is to grab the current value of a channel when an event occurs, so that value can be used until the event occurs again.\nholdCHOP_Class\nContents\n1   Summary\n2   Parameters - Sample Page\n3   Parameters - Common Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common CHOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Sample",
+      "label": "Sample",
+      "name": "sample",
+      "description": "⊞  - Defines when to sample the input channels. The parameters are as follows."
+    },
+    {
+      "page": "Sample",
+      "label": "Off to On",
+      "name": "offtoon",
+      "description": "Sample incoming channel when the trigger channel goes from 0 to above 0."
+    },
+    {
+      "page": "Sample",
+      "label": "While On",
+      "name": "whileon",
+      "description": "Sample incoming channel while the trigger channel is above 0."
+    },
+    {
+      "page": "Sample",
+      "label": "On to Off",
+      "name": "ontooff",
+      "description": "Sample incoming channel when the trigger channel goes above 0 to 0."
+    },
+    {
+      "page": "Sample",
+      "label": "While Off",
+      "name": "whileoff",
+      "description": "Sample incoming channel while the trigger channel is 0."
+    },
+    {
+      "page": "Sample",
+      "label": "On Value Change",
+      "name": "valuechange",
+      "description": "Sample incoming channel whenever the trigger channel changes."
+    },
+    {
+      "page": "Sample",
+      "label": "Hold Last",
+      "name": "hold",
+      "description": "When On continue to sample the input, when Off hold the values."
+    },
+    {
+      "page": "Sample",
+      "label": "Hold Last\t Pulse",
+      "name": "holdpulse",
+      "description": "Sample the input and hold those values when pulsed."
+    },
+    {
+      "page": "Sample",
+      "label": "Hold per  Sample",
+      "name": "holdsamples",
+      "description": "Useful for working with multi-sample channels, this applies the hold to each sample of the channel instead of only the last sample in the channel."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "Rename from",
+      "name": "commonrenamefrom",
+      "description": "The channel pattern to rename. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Rename to",
+      "name": "commonrenameto",
+      "description": "The replacement pattern for the names. The default parameters do not rename the channels. See  Pattern Replacement ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Names:  c[1",
+      "description": "10:2] ambient"
+    },
+    {
+      "page": "Common",
+      "label": "Rename To:  b[1",
+      "description": "5] amb    This example fetches channels  c1 c3 c5 c7 c9  and  ambient ."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "To \"pulse\" a parameter is to send it a signal from (1) an  exported  CHOP channel or (2) a python command or (3) a mouse click that causes a new action to occur immediately. A pulse via python is via the  .pulse()  function on a pulse",
+      "description": "type parameter, such as Reset parameter in a  Speed CHOP . A pulse from a CHOP is typically a 0 to 1 to 0 signal in an exported channel."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "a 0/1, ignorando).13 Esta arquitectura se comparte con Math Combine POP, Math Mix POP, Blend POP, Merge POP y Switch POP.13 * Parámetros: Se centra en la \"Página Inputs\" con bloques secuenciales para cada entrada, permitiendo In POP(s) (coincidencia de patrón), In Attributes (coincidencia de patrón), Rename Attribute y opciones de Duplicate Attributes. También incluye la selección de Attribute Class y el manejo de Length Mismatch (None, Warning, Error, con opciones para entradas más cortas: hold, 0, 1, nothing).13 * Cache Blend POP: Toma una referencia a un Cache POP y genera una mezcla de sus conjuntos de datos en caché basándose en un Cache Index y Cache Weight para bloques secuenciales. La mezcla se realiza por punto, lo que es útil para efectos basados en el tiempo como el desenfoque de movimiento o el cálculo de la velocidad de los puntos a partir de datos históricos.31 * Cache Select POP: Toma una referencia a un Cache POP y genera uno de sus conjuntos de datos en caché utiliza"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "* **Polygonize POP (POP de Poligonización)** * **Función principal:** Toma una imagen **TOP** y, utilizando solo su canal rojo, crea una **primitiva de línea de 2 puntos** donde hay una diferencia de brillo entre píxeles vecinos, según un umbral. * **Características clave:** * Es un POP **incompleto**; actualmente, su salida son líneas de 2 puntos de 1 píxel de longitud, no tiras de líneas continuas ni geometrías trianguladas completas. * Utiliza un `Threshold` (umbral) para detectar diferencias de brillo. * **Uso simple:** Aunque es experimental y no está completo, puede usarse para generar \"rastros\" de líneas a partir de una imagen, creando un efecto de contorno o visualización de bordes. * **Primitive POP (POP de Primitivas)** * **Función principal:** Permite **crear primitivas manualmente**. Puedes usar puntos de una entrada o añadir nuevos puntos directamente, y luego conectar esos puntos para formar nuevas primitivas (triángu"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "bren automáticamente (añadiendo un número), para que use el primer o el último que encuentre, o para que solo reemplace los atributos de la primera entrada. * Puedes elegir qué **clase de atributo** (punto, vértice o primitiva) quieres pasar a la salida. * Maneja las **diferencias en la cantidad de puntos/primitivas** (`Length Mismatch`) entre las entradas. Puedes elegir ignorar, advertir o generar un error. Para las entradas más cortas, puedes hacer que los valores se mantengan (`Hold`), se repitan (`Repeat`), se pongan a cero (`Zero`), se pongan a uno (`One`), o no hacer nada (`None`). * Su forma de manejar múltiples entradas es similar a la de otros POPs como Math Combine POP, Math Mix POP, Blend POP, Merge POP y Switch POP. --- #### 4. Attribute Convert POP * **¿Qué hace?** Permite **copiar un atributo de un tipo de geometría a otro**. Por ejemplo, puedes tomar un atributo que está en una primitiva (como el color de una cara de un cubo) y copiarlo a los pu"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "tially delete data. And this is kind of like if you work in 3D where you can delete subdivisions and all that kind of stuff. (16:27) But in this case, let's say I wanted to have a more sparse version of this. I could thin this out and instance some kind of different geometry. So let's give that a go. So for that I would go to the thin tab. And we can do this thin step. And we can see that that's starting to really thin it out. (16:52) Or we could also do thin random, which basically is a threshold between zero and one. And I guess in this version, if we get to one, it shows us everything. But as we move that down close to close to 0.9, we can see a much sparer version of this. So, let me kind of go ahead and just instance something. Let's see if I just put pop that in to a geo. (17:24) And these will directly input into a geo. Uh, actually what I want to do is I want to go in I'll delete that. And I'm going to make a box. And I'm going to take that uniform scale, move it way down. We ca"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

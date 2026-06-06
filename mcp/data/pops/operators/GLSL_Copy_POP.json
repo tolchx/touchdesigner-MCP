@@ -1,0 +1,178 @@
+{
+  "pageTitle": "GLSL Copy POP",
+  "pageSlug": "GLSL_Copy_POP",
+  "url": "https://docs.derivative.ca/GLSL_Copy_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "gLSLCopyPOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "ncy",
+      "label": "Number of Copies",
+      "type": "int",
+      "default": 1,
+      "description": "Number of geometry copies to create."
+    },
+    {
+      "name": "ptcomputedat",
+      "label": "Points Compute Shader",
+      "type": "datRef",
+      "default": "",
+      "description": "Required: Text DAT with point compute shader."
+    },
+    {
+      "name": "ptoutputattrs",
+      "label": "Point Output Attributes",
+      "type": "str",
+      "default": "*",
+      "description": "Point attributes modified by shader."
+    },
+    {
+      "name": "vertcomputemethod",
+      "label": "Verts Compute Method",
+      "type": "menu",
+      "default": "default",
+      "options": [
+        "default",
+        "custom"
+      ],
+      "description": "Default or custom vertex compute shader."
+    },
+    {
+      "name": "vertcomputedat",
+      "label": "Verts Compute Shader",
+      "type": "datRef",
+      "default": "",
+      "description": "Custom vertex compute shader DAT."
+    },
+    {
+      "name": "vertoutputattrs",
+      "label": "Vert Output Attributes",
+      "type": "str",
+      "default": "*",
+      "description": "Vertex attributes modified by shader."
+    },
+    {
+      "name": "primcomputemethod",
+      "label": "Prim Compute Method",
+      "type": "menu",
+      "default": "default",
+      "options": [
+        "default",
+        "custom"
+      ],
+      "description": "Default or custom primitive compute shader."
+    },
+    {
+      "name": "primcomputedat",
+      "label": "Prim Compute Shader",
+      "type": "datRef",
+      "default": "",
+      "description": "Custom primitive compute shader DAT."
+    },
+    {
+      "name": "primoutputattrs",
+      "label": "Prim Output Attributes",
+      "type": "str",
+      "default": "*",
+      "description": "Primitive attributes modified by shader."
+    },
+    {
+      "name": "dimension",
+      "label": "Append Dimension",
+      "type": "menu",
+      "default": "morethanone",
+      "options": [
+        "morethanone",
+        "always"
+      ],
+      "description": "When to add dimension metadata."
+    },
+    {
+      "name": "simplexnoise",
+      "label": "TDSimplexNoise()",
+      "type": "menu",
+      "default": "performance",
+      "options": [
+        "performance",
+        "quality"
+      ],
+      "description": "Simplex noise implementation."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "n tiene una \"Página Create Attributes\" para definir nuevos atributos dentro del shader.3 * GLSL Advanced POP: Una versión avanzada de GLSL POP, que permite leer, escribir y crear todas las clases de atributos (punto, primitiva, vértice) en un solo shader. Puede escribir en atributos de múltiples POPs (a través de \"Extra Outputs\") y modificar el número de puntos y primitivas. También soporta la escritura en el búfer de índices y tiene un modo de envío de shader \"Per Primitive Batch\".12 * GLSL Copy POP: Realiza copias de la geometría de entrada y aplica código GLSL personalizado a cada copia. Similar a Copy POP, puede usar un parámetro de \"número de copias\" o un POP de plantilla para la colocación. Un compute shader se ejecuta para cada tipo de elemento (puntos, vértices, primitivas) de una copia.19 * GLSL Select POP: Se utiliza para seleccionar y generar atributos de múltiples entradas POP, particularmente aquellos modificados por las \"Extra Outputs\" de GLSL Advanced POP.20 * Histogr"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "n tiene una \"Página Create Attributes\" para definir nuevos atributos dentro del shader.3 * GLSL Advanced POP: Una versión avanzada de GLSL POP, que permite leer, escribir y crear todas las clases de atributos (punto, primitiva, vértice) en un solo shader. Puede escribir en atributos de múltiples POPs (a través de \"Extra Outputs\") y modificar el número de puntos y primitivas. También soporta la escritura en el búfer de índices y tiene un modo de envío de shader \"Per Primitive Batch\".12 * GLSL Copy POP: Realiza copias de la geometría de entrada y aplica código GLSL personalizado a cada copia. Similar a Copy POP, puede usar un parámetro de \"número de copias\" o un POP de plantilla para la colocación. Un compute shader se ejecuta para cada tipo de elemento (puntos, vértices, primitivas) de una copia.19 * GLSL Select POP: Se utiliza para seleccionar y generar atributos de múltiples entradas POP, particularmente aquellos modificados por las \"Extra Outputs\" de GLSL Advanced POP.20 * His"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "n tiene una \"Página Create Attributes\" para definir nuevos atributos dentro del shader.3 * GLSL Advanced POP: Una versión avanzada de GLSL POP, que permite leer, escribir y crear todas las clases de atributos (punto, primitiva, vértice) en un solo shader. Puede escribir en atributos de múltiples POPs (a través de \"Extra Outputs\") y modificar el número de puntos y primitivas. También soporta la escritura en el búfer de índices y tiene un modo de envío de shader \"Per Primitive Batch\".12 * GLSL Copy POP: Realiza copias de la geometría de entrada y aplica código GLSL personalizado a cada copia. Similar a Copy POP, puede usar un parámetro de \"número de copias\" o un POP de plantilla para la colocación. Un compute shader se ejecuta para cada tipo de elemento (puntos, vértices, primitivas) de una copia.19 * GLSL Select POP: Se utiliza para seleccionar y generar atributos de múltiples entradas POP, particularmente aquellos modificados por las \"Extra Outputs\" de GLSL Advanced POP.20 * Histogr"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ugeridos. Este operador genera el atributo Weight. • Experimental:File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner. • Experimental:Force POP: Se utiliza para crear o añadir al atributo PartForce (fuerza de partícula). Es fundamental para definir cómo las fuerzas actúan sobre las partículas. • Experimental:GLSL Advanced POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL Copy POP: Permite ejecutar código de compute shader (GLSL) en cada punto para deformar geometrías basándose en los atributos del punto. Es muy potente para generar formas complejas de manera programática. • Experimental:GLSL Create POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL POP: Un operador que te permite escribir tu propio código GLSL para manipular puntos y atributos. Ideal para simulaciones o efectos muy pers"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ugeridos. Este operador genera el atributo Weight. • Experimental:File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner. • Experimental:Force POP: Se utiliza para crear o añadir al atributo PartForce (fuerza de partícula). Es fundamental para definir cómo las fuerzas actúan sobre las partículas. • Experimental:GLSL Advanced POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL Copy POP: Permite ejecutar código de compute shader (GLSL) en cada punto para deformar geometrías basándose en los atributos del punto. Es muy potente para generar formas complejas de manera programática. • Experimental:GLSL Create POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL POP: Un operador que te permite escribir tu propio código GLSL para manipular puntos y atributos. Ideal para simulaciones o efectos muy"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ugeridos. Este operador genera el atributo Weight. • Experimental:File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner. • Experimental:Force POP: Se utiliza para crear o añadir al atributo PartForce (fuerza de partícula). Es fundamental para definir cómo las fuerzas actúan sobre las partículas. • Experimental:GLSL Advanced POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL Copy POP: Permite ejecutar código de compute shader (GLSL) en cada punto para deformar geometrías basándose en los atributos del punto. Es muy potente para generar formas complejas de manera programática. • Experimental:GLSL Create POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL POP: Un operador que te permite escribir tu propio código GLSL para manipular puntos y atributos. Ideal para simulaciones o efectos muy pers"
+    }
+  ],
+  "useCases": [
+    "GPU instancing with custom per-instance shaders",
+    "Copy geometry to template points with GLSL modification",
+    "Procedural duplication with per-copy attribute variation",
+    "Complex instanced effects (foliage, particles, crowds)"
+  ],
+  "examples": [
+    {
+      "name": "Instanced Shader",
+      "description": "GLSL Copy POP with per-instance position/color via template points",
+      "difficulty": "expert"
+    },
+    {
+      "name": "Procedural Copy",
+      "description": "GLSL Copy POP → Noise displacement applied per copy",
+      "difficulty": "advanced"
+    },
+    {
+      "name": "Template Scatter",
+      "description": "Point Generator → GLSL Copy POP (scatter objects on points)",
+      "difficulty": "advanced"
+    }
+  ],
+  "commonCombinations": [
+    "Point Generator → GLSL Copy POP (template-based instancing)",
+    "GLSL Copy POP → Merge POP (combine instances)",
+    "GLSL Copy POP → Render TOP (instanced rendering)",
+    "GLSL Copy POP → Feedback POP (instanced simulations)"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Instance mismatch",
+      "solution": "Check template point count vs Number of Copies parameter."
+    },
+    {
+      "problem": "Wrong attributes",
+      "solution": "Verify Output Attributes includes target attributes (* for all)."
+    },
+    {
+      "problem": "No dimension",
+      "solution": "Set Append Dimension to Always if dimension metadata needed."
+    },
+    {
+      "problem": "Points compute shader required",
+      "solution": "Points Compute Shader DAT must be provided."
+    }
+  ],
+  "description": "Makes copies of input geometry and applies custom GLSL code to each copy. One compute shader per element type (points, vertices, primitives). Template input (second input) determines copy count and placement. Supports POP Buffers for accessing other POP data."
+}

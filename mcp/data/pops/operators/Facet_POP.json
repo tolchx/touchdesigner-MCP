@@ -1,0 +1,138 @@
+{
+  "pageTitle": "Facet POP",
+  "pageSlug": "Facet_POP",
+  "url": "https://docs.derivative.ca/Facet_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "facetPOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "Operation",
+      "type": "Menu",
+      "options": [
+        "No Operation",
+        "Unique Points",
+        "Cusp Polygons",
+        "Consolidate Points"
+      ],
+      "default": "No Operation",
+      "description": "Unique: each vertex gets own point. Cusp: split at sharp angles. Consolidate: merge nearby points."
+    },
+    {
+      "name": "Angle",
+      "type": "Float[0-180]",
+      "default": 89.5,
+      "description": "Threshold angle for cusp detection. Faces exceeding this angle get split edges."
+    },
+    {
+      "name": "Distance",
+      "type": "Float[0-1000]",
+      "default": 0.001,
+      "description": "Max distance for point consolidation."
+    },
+    {
+      "name": "Technique",
+      "type": "Menu",
+      "options": [
+        "Brute Force",
+        "Shared Memory",
+        "Spatial Grid",
+        "Spatial Grid Per Voxel"
+      ],
+      "default": "Spatial Grid",
+      "description": "Algorithm for consolidation. Spatial Grid is fastest for large point sets."
+    },
+    {
+      "name": "Remove Degenerate",
+      "type": "Toggle",
+      "default": 0,
+      "description": "Remove primitives where consecutive vertices reference the same point."
+    },
+    {
+      "name": "Remove Unused Points",
+      "type": "Toggle",
+      "default": 0,
+      "description": "Remove orphan points not referenced by any primitive."
+    },
+    {
+      "name": "Compute Point Normals",
+      "type": "Toggle",
+      "default": 0,
+      "description": "Auto-compute normals after operation."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "riod, Harmonics, Harmonic Spread, Amplitude, Exponent, Offset. También tiene una \"Página Transform\" para trasladar, rotar y escalar el campo de ruido, y una \"Página Output\" para generar valores de ruido sin procesar, gradiente o curl.16 * Extrude POP: Un operador simple que añade \"grosor\" aparente a triángulos o quads copiándolos a una distancia especificada, opcionalmente estrechándolos, y añadiendo quads para los lados.17 Requiere un Normal POP para un sombreado facetado adecuado.17 * Facet POP: Realiza operaciones para controlar el intercambio de puntos entre primitivas. Puede crear puntos únicos (sin puntos compartidos por vértice), consolidar puntos (fusionar puntos dentro de una tolerancia) o cusp polygons (hacer que los puntos de borde sean únicos si las caras adyacentes no están alineadas dentro de una tolerancia angular).18 Es útil para controlar el sombreado y la integridad de la malla. * GLSL POP: Permite la modificación de atributos de entrada utilizando shaders GLSL. Op"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "Type (Simplex, Perlin), Period, Harmonics, Harmonic Spread, Amplitude, Exponent, Offset. También tiene una \"Página Transform\" para trasladar, rotar y escalar el campo de ruido, y una \"Página Output\" para generar valores de ruido sin procesar, gradiente o curl.16 * Extrude POP: Un operador simple que añade \"grosor\" aparente a triángulos o quads copiándolos a una distancia especificada, opcionalmente estrechándolos, y añadiendo quads para los lados.17 Requiere un Normal POP para un sombreado facetado adecuado.17 * Facet POP: Realiza operaciones para controlar el intercambio de puntos entre primitivas. Puede crear puntos únicos (sin puntos compartidos por vértice), consolidar puntos (fusionar puntos dentro de una tolerancia) o cusp polygons (hacer que los puntos de borde sean únicos si las caras adyacentes no están alineadas dentro de una tolerancia angular).18 Es útil para controlar el sombreado y la integridad de la malla. * GLSL POP: Permite la modificación de atributos de entr"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "riod, Harmonics, Harmonic Spread, Amplitude, Exponent, Offset. También tiene una \"Página Transform\" para trasladar, rotar y escalar el campo de ruido, y una \"Página Output\" para generar valores de ruido sin procesar, gradiente o curl.16 * Extrude POP: Un operador simple que añade \"grosor\" aparente a triángulos o quads copiándolos a una distancia especificada, opcionalmente estrechándolos, y añadiendo quads para los lados.17 Requiere un Normal POP para un sombreado facetado adecuado.17 * Facet POP: Realiza operaciones para controlar el intercambio de puntos entre primitivas. Puede crear puntos únicos (sin puntos compartidos por vértice), consolidar puntos (fusionar puntos dentro de una tolerancia) o cusp polygons (hacer que los puntos de borde sean únicos si las caras adyacentes no están alineadas dentro de una tolerancia angular).18 Es útil para controlar el sombreado y la integridad de la malla. * GLSL POP: Permite la modificación de atributos de entrada utilizando shaders GLSL. Op"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "cionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:DMX Out POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:Extrude POP: Puede crear grupos automáticamente. Las fuentes indican que los POPs aún no realizan extrusiones completas en cualquier tira de línea. • Experimental:Facet POP: A diferencia de los SOPs donde el Facet SOP crea normales, en POPs, el Normal POP es el encargado de crear normales de superficie y tangentes. • Experimental:Feedback POP: Es esencial para habilitar sistemas de partículas y para la manipulación general de datos que requieren bucles de retroalimentación. Se utiliza para simular el movimiento de partículas a lo largo del tiempo, convirtiendo la fuerza en velocidad y la velocidad en posición. • Experimental:Field POP: Genera nuevos atributos,"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "cionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:DMX Out POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:Extrude POP: Puede crear grupos automáticamente. Las fuentes indican que los POPs aún no realizan extrusiones completas en cualquier tira de línea. • Experimental:Facet POP: A diferencia de los SOPs donde el Facet SOP crea normales, en POPs, el Normal POP es el encargado de crear normales de superficie y tangentes. • Experimental:Feedback POP: Es esencial para habilitar sistemas de partículas y para la manipulación general de datos que requieren bucles de retroalimentación. Se utiliza para simular el movimiento de partículas a lo largo del tiempo, convirtiendo la fuerza en velocidad y la velocidad en posición. • Experimental:Field POP: Genera nuevos atribu"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "cionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:DMX Out POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:Extrude POP: Puede crear grupos automáticamente. Las fuentes indican que los POPs aún no realizan extrusiones completas en cualquier tira de línea. • Experimental:Facet POP: A diferencia de los SOPs donde el Facet SOP crea normales, en POPs, el Normal POP es el encargado de crear normales de superficie y tangentes. • Experimental:Feedback POP: Es esencial para habilitar sistemas de partículas y para la manipulación general de datos que requieren bucles de retroalimentación. Se utiliza para simular el movimiento de partículas a lo largo del tiempo, convirtiendo la fuerza en velocidad y la velocidad en posición. • Experimental:Field POP: Genera nuevos atributos,"
+    }
+  ],
+  "useCases": [
+    "Control point sharing",
+    "Consolidate points",
+    "Create unique vertices",
+    "Controlling flat vs smooth shading on meshes",
+    "Merging duplicate points from SOP imports",
+    "Creating hard edges on smooth surfaces",
+    "Cleaning up geometry before rendering"
+  ],
+  "examples": [
+    {
+      "name": "Faceted Shading",
+      "description": "Any POP to Facet POP for flat shading effect",
+      "difficulty": "beginner"
+    },
+    {
+      "name": "Flat Shading",
+      "description": "SOP to POP -> Facet POP (Unique Points) -> Normal POP (Vertex) for faceted look",
+      "difficulty": "beginner"
+    },
+    {
+      "name": "Merge Duplicates",
+      "description": "File In POP -> Facet POP (Consolidate Points, Distance=0.01) to merge close points",
+      "difficulty": "beginner"
+    }
+  ],
+  "commonCombinations": [
+    "Generator to Facet POP",
+    "Facet POP to Normal POP",
+    "SOP to POP -> Facet POP -> Normal POP (clean imported geometry)",
+    "Facet POP -> Render TOP (correct shading)"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Smooth shading when want flat",
+      "solution": "Use Unique points mode."
+    },
+    {
+      "problem": "Shading looks wrong after Facet",
+      "solution": "Follow Facet POP with Normal POP. Unique Points needs vertex normals for smooth shading."
+    },
+    {
+      "problem": "Consolidation not merging enough",
+      "solution": "Increase Distance parameter. Check Technique is appropriate for your point density."
+    }
+  ],
+  "description": "Controls point sharing between primitives. Unique Points splits shared points, Consolidate Points merges nearby points, Cusp Polygons splits at sharp edges. Essential for controlling shading and geometry topology."
+}

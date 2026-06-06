@@ -1,0 +1,12 @@
+{
+  "name": "webapp-scanner",
+  "version": "1.0.0",
+  "description": "TouchDesigner .toe file scanner webapp - scans and expands .toe files using toeexpand.exe",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1"
+  }
+}

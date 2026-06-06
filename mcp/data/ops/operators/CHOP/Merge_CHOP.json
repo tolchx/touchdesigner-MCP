@@ -1,0 +1,319 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Merge CHOP",
+  "pageSlug": "Merge_CHOP",
+  "url": "https://docs.derivative.ca/Merge_CHOP",
+  "tdOpTypeGuess": "mergeCHOP",
+  "summary": "[  edit  ]\nThe Merge  CHOP  takes multiple inputs and merges them into the output. All the channels of the input appear in the output. The channel order is the channels of the first input followed by the channels of the second input, and so on.\nChannel names may conflict, but a channel is renamed according to the Duplicate Names menu. The  CHOP  appends or increments the digits of the channel name until an unused name is found.\nWhen the  Time Slice  flag on the Common parameter page is on, the Merge  CHOP  will merge only the current  Time Slice  of a channel, not the entire length of all the channels.\nmergeCHOP_Class\nContents\n1   Summary\n2   Parameters - Merge Page\n3   Parameters - Common Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common CHOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Merge",
+      "label": "Align",
+      "name": "align",
+      "description": "⊞  - This menu handles cases where multiple input CHOPs have different start or end times. All channels output from a  CHOP  share the same start/end interval, so the inputs must be treated with the Align Options:"
+    },
+    {
+      "page": "Merge",
+      "label": "Automatic",
+      "name": "auto",
+      "description": "It will trim to the current  Time Slice  if there are any Time Slices, else it will do an Extend Min/Max."
+    },
+    {
+      "page": "Merge",
+      "label": "Extend to Min/Max",
+      "name": "none",
+      "description": "Find the earliest start and latest end, and extend all inputs to that range using the extend conditions. (see  Extend Conditions )."
+    },
+    {
+      "page": "Merge",
+      "label": "Stretch to Min/Max",
+      "name": "stretch",
+      "description": "Find the earliest start and latest end, and stretch every channel's start and end to that range."
+    },
+    {
+      "page": "Merge",
+      "label": "Shift to Minimum",
+      "name": "start",
+      "description": "Find the earliest start and shift all channels so they all start at that index. All channels are extended to the length of the longest one."
+    },
+    {
+      "page": "Merge",
+      "label": "Shift to Maximum",
+      "name": "end",
+      "description": "Find the latest end and shift all channels so they all end at that index. Extend all channels to the length of the longest one."
+    },
+    {
+      "page": "Merge",
+      "label": "Shift to First Interval",
+      "name": "shift1",
+      "description": "Shift all channels to the start of the first  CHOP  and sample all inputs using the first input's range."
+    },
+    {
+      "page": "Merge",
+      "label": "Trim to First Interval",
+      "name": "trim1",
+      "description": "Trim all channels to first  CHOP 's range."
+    },
+    {
+      "page": "Merge",
+      "label": "Stretch to First Interval",
+      "name": "stretch1",
+      "description": "Stretch all channels to the first  CHOP 's range."
+    },
+    {
+      "page": "Merge",
+      "label": "Trim to Smallest Interval",
+      "name": "trim",
+      "description": "Trim all channels to the smallest start/end interval. The start and end values may not come from the same channel."
+    },
+    {
+      "page": "Merge",
+      "label": "Stretch to Smallest Interval",
+      "name": "squash",
+      "description": "Stretch all channels to the smallest start/end interval. The start and end values may not come from the same channel."
+    },
+    {
+      "page": "Merge",
+      "label": "Duplicate Names",
+      "name": "duplicate",
+      "description": "⊞  - When channels of the input CHOPs have the same name, this menu determines what to do."
+    },
+    {
+      "page": "Merge",
+      "label": "Make Unique",
+      "name": "unique",
+      "description": "Include all the input channels, and when there is a conflict of name, make the new channel's name similar but unique by adding digits to the name."
+    },
+    {
+      "page": "Merge",
+      "label": "Keep First",
+      "name": "first",
+      "description": "Include the channel of the first input  CHOP  which the name appears in, and discard any further channels with the same name."
+    },
+    {
+      "page": "Merge",
+      "label": "Keep Last",
+      "name": "last",
+      "description": "Include the channel of the last input  CHOP  which the name appears in, and discard any other channels with the same name."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "Rename from",
+      "name": "commonrenamefrom",
+      "description": "The channel pattern to rename. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Rename to",
+      "name": "commonrenameto",
+      "description": "The replacement pattern for the names. The default parameters do not rename the channels. See  Pattern Replacement ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Names:  c[1",
+      "description": "10:2] ambient"
+    },
+    {
+      "page": "Common",
+      "label": "Rename To:  b[1",
+      "description": "5] amb    This example fetches channels  c1 c3 c5 c7 c9  and  ambient ."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "Ps.5 Esto los hace ideales para simulaciones en tiempo real exigentes, sistemas de partículas y arte generativo. Los POPs proporcionan un sistema altamente personalizable y abierto para simulaciones de partículas, permitiendo a los usuarios definir estados iniciales, velocidades, masas y aplicar fuerzas a través de bucles de retroalimentación.6 La arquitectura de los POPs, especialmente para operadores de múltiples entradas como Attribute Combine POP, Math Combine POP, Math Mix POP, Blend POP, Merge POP y Switch POP, está diseñada para una selección, cambio de nombre y resolución de conflictos de atributos eficientes.13 Esto agiliza las tareas complejas de mezcla y manipulación de datos. El énfasis recurrente en la \"aceleración por GPU\" y la capacidad de manejar \"millones de puntos\" 4 sugiere un enfoque claro en el rendimiento. Sin embargo, la etiqueta de \"Experimental\" 1 y las brechas observadas en la documentación implican una compensación. Los POPs ofrecen una vía clara para un mayor r"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "atributos. Soporta la creación automática de nombres de atributos y utiliza atributos de solo lectura. • Experimental:Math POP: Un operador clave para realizar operaciones matemáticas y funciones simples en atributos sin necesidad de escribir código. Permite crear nuevos atributos para almacenar los resultados. También puedes usarlo para crear y modificar atributos de color y textura. Soporta la creación automática de nombres de atributos y utiliza atributos de solo lectura. • Experimental:Merge POP: Permite combinar múltiples flujos de datos POPs en uno solo. Puedes especificar qué grupos de datos deseas fusionar de cada entrada. Este operador puede afectar solo puntos, vértices o primitivas que estén en un grupo específico. • Experimental:Neighbor POP: Crea atributos de tipo entero sin signo. Genera atributos que comienzan con Nebr*, lo que sugiere su uso para trabajar con información de vecinos (puntos cercanos). • Experimental:Noise POP: Un operador que genera ruido para atribu"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "quieres pasar a la salida. * Maneja las **diferencias en la cantidad de puntos/primitivas** (`Length Mismatch`) entre las entradas. Puedes elegir ignorar, advertir o generar un error. Para las entradas más cortas, puedes hacer que los valores se mantengan (`Hold`), se repitan (`Repeat`), se pongan a cero (`Zero`), se pongan a uno (`One`), o no hacer nada (`None`). * Su forma de manejar múltiples entradas es similar a la de otros POPs como Math Combine POP, Math Mix POP, Blend POP, Merge POP y Switch POP. --- #### 4. Attribute Convert POP * **¿Qué hace?** Permite **copiar un atributo de un tipo de geometría a otro**. Por ejemplo, puedes tomar un atributo que está en una primitiva (como el color de una cara de un cubo) y copiarlo a los puntos de esa primitiva. * **Características clave:** * Realiza operaciones de conversión como: * **Point to Vertex** (punto a vértice) * **Vertex to Point** (vértice a punto) * **Point to Primit"
+    },
+    {
+      "source": "POPs Investigation and Workshop Plan.markdown",
+      "excerpt": "ute manipulation (e.g., multi-component, high precision). - **Limitations**: POPs lack some SOP features (e.g., tracing, booleans), though these may be added later. ## 4. Key Features - **GPU Acceleration**: Uses compute shaders for speed and efficiency. - **Memory Optimization**: References unchanged attributes, allocating memory only for modified data. - **Math Operations**: POPs like `Math`, `Transform`, and `Normalize` enable coding-free manipulations. - **Multi-Input Support**: POPs like `Merge` and `Switch` handle multiple inputs with flexible configurations. - **Swizzling**: Manipulate attribute components (e.g., `P.xy` for X and Y). ## 5. Practical Applications - **Rendering**: POPs drive 3D geometry with attributes like `Color` and `Normal`. - **Particles**: Points with attributes (e.g., `Vel`, `PartForce`) for simulations. - **Point Clouds**: Efficiently manage large datasets without TOPs’ 4-channel limitations. - **External Output**: Send data to lasers, DMX, or LEDs. ## 6. Wo"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

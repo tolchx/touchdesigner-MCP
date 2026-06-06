@@ -1,0 +1,34 @@
+{
+  "family": "SOP",
+  "pageTitle": "Cache SOP",
+  "pageSlug": "Cache_SOP",
+  "url": "https://docs.derivative.ca/Cache_SOP",
+  "tdOpTypeGuess": "cacheSOP",
+  "summary": "[  edit  ]\nThe Cache  SOP  collects its input geometry in a cache for faster random-access playback of multiple SOPs. It should be used when cook times for a chain of   SOP  s is long and a quicker playback is needed.\nOnce cached, the geometries can be accessed in any order. This is advantageous to a 2D flipbook or scene render since the geometry is still fully 3-Dimensional. The upshot being that you can scrub otherwise sluggish animations in real time because things are precomputed and stored in a cache.\ncacheSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "rquitectura se comparte con Math Combine POP, Math Mix POP, Blend POP, Merge POP y Switch POP.13 * Parámetros: Se centra en la \"Página Inputs\" con bloques secuenciales para cada entrada, permitiendo In POP(s) (coincidencia de patrón), In Attributes (coincidencia de patrón), Rename Attribute y opciones de Duplicate Attributes. También incluye la selección de Attribute Class y el manejo de Length Mismatch (None, Warning, Error, con opciones para entradas más cortas: hold, 0, 1, nothing).13 * Cache Blend POP: Toma una referencia a un Cache POP y genera una mezcla de sus conjuntos de datos en caché basándose en un Cache Index y Cache Weight para bloques secuenciales. La mezcla se realiza por punto, lo que es útil para efectos basados en el tiempo como el desenfoque de movimiento o el cálculo de la velocidad de los puntos a partir de datos históricos.31 * Cache Select POP: Toma una referencia a un Cache POP y genera uno de sus conjuntos de datos en caché utilizando un parámetro Cache Index"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "vértices o de primitivas. • Experimental:Attribute POP: Es un operador fundamental para crear nuevos atributos en puntos, vértices o primitivas, y puedes inicializarlos con valores constantes. También es el lugar donde puedes crear \"arrays de atributos\". • Experimental:Blend POP: Es un POP que soporta múltiples entradas, lo que sugiere que puede mezclar o interpolar datos de diferentes fuentes. • Experimental:Box POP: Un operador generador que crea una geometría de caja. • Experimental:Cache Blend POP: Se menciona en relación con el uso de atributos como 'Velocity' (Vel), lo que sugiere su rol en la mezcla de datos temporales o en animaciones. • Experimental:Cache POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Cache Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:CHOP to POP: Permite convertir datos de la familia"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "esquinas opcionalmente **redondeadas** con control sobre el radio y la cantidad de subdivisiones. * Puede crear **coordenadas de textura** (para aplicar imágenes) de diferentes maneras: por cara, o un \"mapa de cubo\" que se envuelve en todas las caras. * Puedes aplicar **colores de punto** o **vértice**. * Los parámetros **Anchor** te permiten alinear un lado de la caja a X=0, Y=0 o Z=0. * Puedes **trasladar y rotar** la caja después de su creación. --- #### 8. Cache Blend POP * **¿Qué hace?** Este operador se conecta a un Cache POP y te permite **mezclar diferentes conjuntos de datos guardados en caché** por ese Cache POP. * **Características clave:** * Requiere una referencia a un **Cache POP** como fuente de datos. * La mezcla se realiza **por cada punto individualmente**, lo que significa que el resultado de un punto no depende de los otros puntos en la mezcla. * Es muy útil para crear **\"desenfoques de tiempo\"** en datos de g"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

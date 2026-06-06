@@ -1,0 +1,298 @@
+{
+  "family": "DAT",
+  "pageTitle": "Multi Touch In DAT",
+  "pageSlug": "Multi_Touch_In_DAT",
+  "url": "https://docs.derivative.ca/Multi_Touch_In_DAT",
+  "tdOpTypeGuess": "multiTouchInDAT",
+  "summary": "[  edit  ]\nThe Multi Touch In  DAT  is used for receiving messages and events from the Windows standard multi-touch API. It captures all the messages, where each new message changes the table it outputs. When a messages is added to the  DAT , any script can be called pointing to the new message. The Multi Touch In  DAT  can be sent to the  Render Pick DAT , or used with interactTouch methods in the  Panel Component  and  Web Render TOP .  Multi Touch  DAT  is not supported on macOS.\nIt can output either of two table formats: (1) Raw Events as a FIFO (first in - first out) list, or (2) ID Table, which is the events processed into a more usable one-row-per-finger table.\nThe Raw Events format creates a FIFO-type  DAT  (see also  FIFO DAT ) which, for each multi-touch event, has a row added to the bottom of the table while at the same time a row at the top is deleted.\nNote: To operate panel gadgets with multi-touch screens that send events through the Windows event stream, multi-touch works without requiring DATs. You need to use the  DAT  when using multiple fingers on one panel, like in a container displaying a 3D render whose objects you want to pick.\nThe ID table format includes the columns:\nid  - every finger press increases the id by 1\nsn  - an ongoing count of each finger press.\nselect  - when 1, this row represents a finger is down.\ndownf  - the absolute frame number when the finger press occurred.\nupf  - the absolute frame number that the finger press ended\nx ,  y  - the position, in pixels in the horizontal and vertical directions.  NOTE : The  x  and  y  values are expressed in screen pixels, not panel width/height pixels. For example, the top-right corner of a panel will be different if the panel is scaled within another panel, window or network viewer. It is better to use  u  and  v , and scale them by the panel Width and Height.\nu ,  v  - the position, 0 to 1 in the horizontal and vertical directions\ndownu ,  downv  - the position, 0 to 1 in the horizontal and vertical directions when the touch first occured (ie. initial touch down location).\ncontactx ,  contacty  - the width of the contact area.\ncontactu ,  contactv  - the height of the contact area.\nmonitor  - monitor number, starting with 0\nclicktime  - like  downf , in seconds\nelapsedtime  - the number of seconds that finger has been down.\nchangedtime  - the time since the finger press that the most recent u or v value changed.\ndclick  - double-tap occurred\naux  - user supplied data via the  PanelCOMP_Class  method  interactTouch() .  When the event is triggered by the mouse via the Include Mouse option,  aux  will include the mouse buttons used ( 1  for left,  2  for middle,  4  for right, can be tested bitwise).\nYou can use the attached callback  DAT  (named  mtouchin1_callbacks ) to react to multi-touch events. This is suitable for 2D interfaces that do not require a  Render Pick DAT .\nSee the  Palette:multiTouch  example in the  Palette  under Tools.\nSee also the  MultiTouch  page.\nmultitouchinDAT_Class\nContents\n1   Summary\n2   Parameters - Multi Touch In Page\n3   Parameters - Received Messages Page",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "Multi Touch In",
+      "label": "Active",
+      "name": "active",
+      "description": "Registers event when Active is On."
+    },
+    {
+      "page": "Multi Touch In",
+      "label": "Output",
+      "name": "outputtype",
+      "description": "⊞  - Sets how the output is displayed in the table."
+    },
+    {
+      "page": "Multi Touch In",
+      "label": "Raw Events",
+      "name": "log",
+      "description": "Events are added to the table in a first in - first out (FIFO) order."
+    },
+    {
+      "page": "Multi Touch In",
+      "label": "ID Table",
+      "name": "changes",
+      "description": "Events are processed using one-row-per-finger in the table."
+    },
+    {
+      "page": "Multi Touch In",
+      "label": "Panel",
+      "name": "panel",
+      "description": "The  Panel Component  to capture the touch events from."
+    },
+    {
+      "page": "Multi Touch In",
+      "label": "Relative IDs",
+      "name": "relativeid",
+      "description": "Reorder the touch ids so only the ones within the specified panel are counted."
+    },
+    {
+      "page": "Multi Touch In",
+      "label": "Relative Position",
+      "name": "relativepos",
+      "description": "Output position and normalized coordinates relative to lower left corner of the specified panel."
+    },
+    {
+      "page": "Multi Touch In",
+      "label": "Occlude Panels by  Hierarchy",
+      "name": "occlusion",
+      "description": "Only children of the specified panel will receive multitouch events. Touches on parent and sibling panels are ignored."
+    },
+    {
+      "page": "Multi Touch In",
+      "label": "Occlude Panels by Depth Layer",
+      "name": "occbydepth",
+      "description": "Enable filtering out multitouch events by Panel Depth Layer."
+    },
+    {
+      "page": "Multi Touch In",
+      "label": "Occlude Panels Above Depth",
+      "name": "occdepthlayer",
+      "description": "Multitouch events from panels with a Depth Layer larger than this value will be ignored."
+    },
+    {
+      "page": "Multi Touch In",
+      "label": "Include Mouse",
+      "name": "mouse",
+      "description": "When on, the mouse add a touch event when clicked. This event always shares ID 1 with the first touch. Using mouse and multitouch at the same time may result in unexpected behaviours."
+    },
+    {
+      "page": "Multi Touch In",
+      "label": "Position Threshold",
+      "name": "posthresh",
+      "description": "A new message will not be added if a finger has moved less than this number of units. The units are determined by the input device, not necessarily the resolution of the screen that it is associated with."
+    },
+    {
+      "page": "Multi Touch In",
+      "label": "Contact Threshold",
+      "name": "contactthresh",
+      "description": "Some touch devices have a width and height of a press, representing pressure of amount of finger contact. This is a minimum threshold below which no events are recognized."
+    },
+    {
+      "page": "Multi Touch In",
+      "label": "Min Rows Displayed",
+      "name": "minrows",
+      "description": "The minimum number of rows always displayed in the table."
+    },
+    {
+      "page": "Multi Touch In",
+      "label": "Double Click (secs)",
+      "name": "doubleclickthresh",
+      "description": "The maximum time allowed between clicks to be registered as a 'double-click'."
+    },
+    {
+      "page": "Received Messages",
+      "label": "Callbacks  DAT",
+      "name": "callbacks",
+      "description": "Path  to a  DAT  containing callbacks."
+    },
+    {
+      "page": "Received Messages",
+      "label": "Execute from",
+      "name": "executeloc",
+      "description": "⊞  - Determines the location the script is run from."
+    },
+    {
+      "page": "Received Messages",
+      "label": "Current  Node",
+      "name": "current",
+      "description": "The script is executed from the current node location (for example, where 'cc' points to)."
+    },
+    {
+      "page": "Received Messages",
+      "label": "Callbacks  DAT",
+      "name": "callbacks",
+      "description": "The script is executed from the location of the Callbacks  DAT  specified above."
+    },
+    {
+      "page": "Received Messages",
+      "label": "Specified  Operator",
+      "name": "op",
+      "description": "The script is executed from the component specified in the   Component   parameter below."
+    },
+    {
+      "page": "Received Messages",
+      "label": "From  Operator",
+      "name": "fromop",
+      "description": "The path that the script will be executed from if the  Execute From  parameter is set to  Specified  Operator  ."
+    },
+    {
+      "page": "Received Messages",
+      "label": "Clamp Output",
+      "name": "clamp",
+      "description": "The  DAT  is limited to 100 messages by default but with Clamp Output, this can be set to anything including unlimited."
+    },
+    {
+      "page": "Received Messages",
+      "label": "Maximum Lines",
+      "name": "maxlines",
+      "description": "Limits the number of messages, older messages are removed from the list first."
+    },
+    {
+      "page": "Received Messages",
+      "label": "Clear Output",
+      "name": "clear",
+      "description": "Deletes all lines except the heading. To clear with a script command, here is an example:  opparm -c /serial1 clear"
+    },
+    {
+      "page": "Common",
+      "label": "Language",
+      "name": "language",
+      "description": "⊞  - Select how the  DAT  decides which script language to operate on."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Node",
+      "name": "node",
+      "description": "The  DAT  uses it's own script language."
+    },
+    {
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "name": "extension",
+      "description": "⊞  - Select the file extension this  DAT  should expose to external editors."
+    },
+    {
+      "page": "Common",
+      "label": "dat",
+      "name": "dat",
+      "description": "various common file extensions."
+    },
+    {
+      "page": "Common",
+      "label": "From Language",
+      "name": "language",
+      "description": "pick extension from DATs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "custom",
+      "description": "Specify a custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specifiy the custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Word Wrap",
+      "name": "wordwrap",
+      "description": "⊞  - Enable Word Wrap for Node Display."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs setting."
+    },
+    {
+      "page": "Common",
+      "label": "On",
+      "name": "on",
+      "description": "Turn on Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Off",
+      "name": "off",
+      "description": "Turn off Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "num_rows",
+      "description": "Number of rows in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "num_cols",
+      "description": "Number of columns in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "Art",
+      "description": "Net    •   Audio Devices    •   CHOP Execute    •   CHOP to    •   Clip    •   Convert    •   CPlusPlus    •   DAT   •    Execute    •   DAT Export   •   Error    •   EtherDream    •   Evaluate    •   Examine    •   Execute    •   FIFO    •   File In    •   File Out    •   Folder    •   In    •   Indices    •   Info    •   Insert    •   JSON    •   Keyboard In    •   Lookup    •   Media File Info    •   Merge    •   MIDI Event    •   MIDI In    •   Monitors    •   MPCDI    •   MQTT Client    •   Multi Touch In    •   NDI    •   Null    •   OP Execute    •   OP Find    •   OSC In    •   OSC Out    •   Out    •   Panel Execute    •   Parameter    •   Parameter Execute    •   ParGroup Execute    •   Perform    •   POP to    •   Render Pick    •   Reorder    •   Script    •   Select    •   Serial    •   Serial Devices    •   SocketIO    •   SOP to    •   Sort    •   Substitute    •   Switch    •   Table    •   TCP/IP    •   Text    •   Touch In    •   Touch Out    •   Transpose    •   TUIO In    •   UDP In    •   UDP Out    •   UDT In    •   UDT Out    •   Video Devices    •   Web Client    •   Web    •   Web Server    •   WebRTC    •   WebSocket    •   XML"
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

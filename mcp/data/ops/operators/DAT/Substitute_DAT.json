@@ -1,0 +1,436 @@
+{
+  "family": "DAT",
+  "pageTitle": "Substitute DAT",
+  "pageSlug": "Substitute_DAT",
+  "url": "https://docs.derivative.ca/Substitute_DAT",
+  "tdOpTypeGuess": "substituteDAT",
+  "summary": "[  edit  ]\nThe Substitute  DAT  changes the cells of the incoming  DAT  using pattern matching and substitution strings. It outputs a table with the same number of rows and columns.\nSee examples below. Also you can use the second input to provide a table of strings to substitute, the first column being the \"before\" strings and the second column being the \"after\" strings.\nSee also : the Python  .replace()    [1] , which is a method you can apply to any string. You can do that in an  Evaluate DAT  or  Script DAT .\nsubstituteDAT_Class\nContents\n1   Summary\n2   Parameters - Substitute Page\n3   Parameters - Scope Page\n4   Parameters - Common Page\n5   Operator Inputs\n6   Info CHOP Channels\n6.1   Common DAT Info Channels\n6.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "- Data to operate on."
+    },
+    {
+      "index": 1,
+      "description": "-  (optional)  A  Table DAT  with a  before  and  after  column containing strings to sustitute in the first input. This doesn't have to be the whole cell content but can be any partial string as well."
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Substitute",
+      "label": "Before",
+      "name": "before",
+      "description": "Search term to replace. The following special characters may be used:"
+    },
+    {
+      "page": "Substitute",
+      "label": "After",
+      "name": "after",
+      "description": "The replacement term. This replaces everything matched in the search term. Spaces are permitted."
+    },
+    {
+      "page": "Substitute",
+      "label": "Match",
+      "name": "match",
+      "description": "⊞  - Specify where to match:"
+    },
+    {
+      "page": "Substitute",
+      "label": "Anywhere",
+      "name": "anywhere",
+      "description": "Matches any part of the string."
+    },
+    {
+      "page": "Substitute",
+      "label": "Exact",
+      "name": "exact",
+      "description": "The string must match the search term exactly."
+    },
+    {
+      "page": "Substitute",
+      "label": "At Start",
+      "name": "start",
+      "description": "Match the search term to the beginning of the string."
+    },
+    {
+      "page": "Substitute",
+      "label": "At End",
+      "name": "end",
+      "description": "Match the search term to the end of the string."
+    },
+    {
+      "page": "Substitute",
+      "label": "Case Sensitive",
+      "name": "case",
+      "description": "Respect case sensitivity in search term."
+    },
+    {
+      "page": "Substitute",
+      "label": "Expand the From String",
+      "name": "expand",
+      "description": "Expand variables and back quotes in the From string."
+    },
+    {
+      "page": "Substitute",
+      "label": "Expand the To String",
+      "name": "expandto",
+      "description": "Expand variables and back quotes in the To string."
+    },
+    {
+      "page": "Substitute",
+      "label": "First Match Only",
+      "name": "first",
+      "description": "Replaces only the first instance of the matching string."
+    },
+    {
+      "page": "Scope",
+      "label": "Exclude First Row",
+      "name": "xfirstrow",
+      "description": "Forces the first row to be ignored even if it is not specified by the Select Rows settings."
+    },
+    {
+      "page": "Scope",
+      "label": "Exclude First Col",
+      "name": "xfirstcol",
+      "description": "Forces the first column to be ignored even if it is not specified by the Select Cols settings."
+    },
+    {
+      "page": "Scope",
+      "label": "Select Rows",
+      "name": "extractrows",
+      "description": "⊞  - This parameter allows you to pick different ways of specifying the rows scoped."
+    },
+    {
+      "page": "Scope",
+      "label": "All",
+      "name": "all",
+      "description": "All rows scoped."
+    },
+    {
+      "page": "Scope",
+      "label": "by Name",
+      "name": "byname",
+      "description": "Rows scoped using Start Row Name and End Row Name parameters."
+    },
+    {
+      "page": "Scope",
+      "label": "by Index",
+      "name": "byindex",
+      "description": "Rows scoped using Start Row Index and End Row Index parameters."
+    },
+    {
+      "page": "Scope",
+      "label": "by Start Name, End Index",
+      "name": "bynameindex",
+      "description": "Rows scoped using Start Row Name and End Row Index parameters."
+    },
+    {
+      "page": "Scope",
+      "label": "by Start Index, End Name",
+      "name": "byindexname",
+      "description": "Rows scoped using Start Row Index and End Row Name parameters."
+    },
+    {
+      "page": "Scope",
+      "label": "by Values",
+      "name": "bynames",
+      "description": "Rows scoped by specifying the row values explicitly."
+    },
+    {
+      "page": "Scope",
+      "label": "by Condition",
+      "name": "byexpr",
+      "description": "Rows scoped by an expression to be evaluated for the from column."
+    },
+    {
+      "page": "Scope",
+      "label": "Start Row Name",
+      "name": "rownamestart",
+      "description": "Specify the row name to start the scope range from."
+    },
+    {
+      "page": "Scope",
+      "label": "Start Row Index",
+      "name": "rowindexstart",
+      "description": "Specify the row index to start the scope range from."
+    },
+    {
+      "page": "Scope",
+      "label": "End Row Name",
+      "name": "rownameend",
+      "description": "Specify the row name to end the scope range."
+    },
+    {
+      "page": "Scope",
+      "label": "End Row Index",
+      "name": "rowindexend",
+      "description": "Specify the row index to end the scope range."
+    },
+    {
+      "page": "Scope",
+      "label": "Row Select Values",
+      "name": "rownames",
+      "description": "Specify actual row names that you want to scope. You can use pattern matching, for example row[1-4] will scope all the rows names row1 thru row4."
+    },
+    {
+      "page": "Scope",
+      "label": "Row Select Condition",
+      "name": "rowexpr",
+      "description": "Specify an expression that will be evaluated.  If the expression evaluates to true, the row will be selected."
+    },
+    {
+      "page": "Scope",
+      "label": "By default, the  Python  expression is   re  .  match  (  '.*'  ,  me  .  inputCell  .  val  )   !=   None  .   '.*'  means match any character multiple times, so this expression matches all values. If you want to match the parent's operator name followed by any numeric number you can use  parent().name+'[0",
+      "description": "9]*' , where  '[0-9]*'  matches any numerical string.   '.*'+parent().name+'.*'  will match any cell that contains the operator's parent name.  You can check   Regular Expression Operations  for additional information on how to use the Python Regular  Expression  module."
+    },
+    {
+      "page": "Scope",
+      "label": "From Column",
+      "name": "fromcol",
+      "description": "When selecting rows by values, this parameter selects which column to use when matching cell values to Selected Row Values to determine which rows are scoped."
+    },
+    {
+      "page": "Scope",
+      "label": "Select Cols",
+      "name": "extractcols",
+      "description": "⊞  - This parameter allows you to pick different ways of specifying the columns scoped."
+    },
+    {
+      "page": "Scope",
+      "label": "All",
+      "name": "all",
+      "description": "All columns scoped."
+    },
+    {
+      "page": "Scope",
+      "label": "by Name",
+      "name": "byname",
+      "description": "Columns scoped using Start Col Name and End Col Name parameters."
+    },
+    {
+      "page": "Scope",
+      "label": "by Index",
+      "name": "byindex",
+      "description": "Columns scoped using Start Col Index and End Col Index parameters."
+    },
+    {
+      "page": "Scope",
+      "label": "by Start Name, End Index",
+      "name": "bynameindex",
+      "description": "Columns scoped using Start Col Name and End Col Index parameters."
+    },
+    {
+      "page": "Scope",
+      "label": "by Start Index, End Name",
+      "name": "byindexname",
+      "description": "Columns scoped using Start Col Index and End Col Name parameters."
+    },
+    {
+      "page": "Scope",
+      "label": "by Values",
+      "name": "bynames",
+      "description": "Columns scoped by specifying the column values explicitly."
+    },
+    {
+      "page": "Scope",
+      "label": "by Condition",
+      "name": "byexpr",
+      "description": "Columns scoped by an expression to be evaluated for the from row."
+    },
+    {
+      "page": "Scope",
+      "label": "Start Col Name",
+      "name": "colnamestart",
+      "description": "Specify the column name to start the scope range from."
+    },
+    {
+      "page": "Scope",
+      "label": "Start Col Index",
+      "name": "colindexstart",
+      "description": "Specify the column index to start the scope range from."
+    },
+    {
+      "page": "Scope",
+      "label": "End Col Name",
+      "name": "colnameend",
+      "description": "Specify the column name to end the scope range."
+    },
+    {
+      "page": "Scope",
+      "label": "End Col Index",
+      "name": "colindexend",
+      "description": "Specify the column index to end the scope range."
+    },
+    {
+      "page": "Scope",
+      "label": "Col Select Values",
+      "name": "colnames",
+      "description": "Specify actual column names that you want to scope. You can use pattern matching, for example colvalue[1-4] will scope all the columns named colvalue1 thru colvalue4."
+    },
+    {
+      "page": "Scope",
+      "label": "Col Select Condition",
+      "name": "colexpr",
+      "description": "Specify an expression that will be evaluated. If the expression evaluates to true, the column will be scoped. See Row Select Condition for more details."
+    },
+    {
+      "page": "Scope",
+      "label": "From Row",
+      "name": "fromrow",
+      "description": "When scoping columns by Specified Names, this parameter selects which row to use when matching cell values to Selected Col Values to determine which columns are scoped."
+    },
+    {
+      "page": "Common",
+      "label": "Language",
+      "name": "language",
+      "description": "⊞  - Select how the  DAT  decides which script language to operate on."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Node",
+      "name": "node",
+      "description": "The  DAT  uses it's own script language."
+    },
+    {
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "name": "extension",
+      "description": "⊞  - Select the file extension this  DAT  should expose to external editors."
+    },
+    {
+      "page": "Common",
+      "label": "dat",
+      "name": "dat",
+      "description": "various common file extensions."
+    },
+    {
+      "page": "Common",
+      "label": "From Language",
+      "name": "languageext",
+      "description": "pick extension from DATs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specify a custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specifiy the custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Word Wrap",
+      "name": "wordwrap",
+      "description": "⊞  - Enable Word Wrap for Node Display."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs setting."
+    },
+    {
+      "page": "Common",
+      "label": "On",
+      "name": "on",
+      "description": "Turn on Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Off",
+      "name": "off",
+      "description": "Turn off Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Input 0:",
+      "description": "Data to operate on."
+    },
+    {
+      "page": "Common",
+      "label": "Input 1:",
+      "description": "(optional)  A  Table DAT  with a  before  and  after  column containing strings to sustitute in the first input. This doesn't have to be the whole cell content but can be any partial string as well."
+    },
+    {
+      "page": "Common",
+      "label": "num_rows",
+      "description": "Number of rows in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "num_cols",
+      "description": "Number of columns in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "Art",
+      "description": "Net    •   Audio Devices    •   CHOP Execute    •   CHOP to    •   Clip    •   Convert    •   CPlusPlus    •   DAT   •    Execute    •   DAT Export   •   Error    •   EtherDream    •   Evaluate    •   Examine    •   Execute    •   FIFO    •   File In    •   File Out    •   Folder    •   In    •   Indices    •   Info    •   Insert    •   JSON    •   Keyboard In    •   Lookup    •   Media File Info    •   Merge    •   MIDI Event    •   MIDI In    •   Monitors    •   MPCDI    •   MQTT Client    •   Multi Touch In    •   NDI    •   Null    •   OP Execute    •   OP Find    •   OSC In    •   OSC Out    •   Out    •   Panel Execute    •   Parameter    •   Parameter Execute    •   ParGroup Execute    •   Perform    •   POP to    •   Render Pick    •   Reorder    •   Script    •   Select    •   Serial    •   Serial Devices    •   SocketIO    •   SOP to    •   Sort    •   Substitute    •   Switch    •   Table    •   TCP/IP    •   Text    •   Touch In    •   Touch Out    •   Transpose    •   TUIO In    •   UDP In    •   UDP Out    •   UDT In    •   UDT Out    •   Video Devices    •   Web Client    •   Web    •   Web Server    •   WebRTC    •   WebSocket    •   XML"
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

@@ -1,0 +1,346 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Clip Blender CHOP",
+  "pageSlug": "Clip_Blender_CHOP",
+  "url": "https://docs.derivative.ca/Clip_Blender_CHOP",
+  "tdOpTypeGuess": "clipBlenderCHOP",
+  "summary": "[  edit  ]\nNOTE\nLicense:  Only available in  TouchDesigner Pro .\nThe Clip Blender  CHOP  is a an engine for blending, sequencing and scripting animation clips. It loads animation channel data that is formatted using Clip CHOPs. It reads clip  CHOP  paths from a specified  DAT  list which can be dynamically scripted. The Clip Blender plays clips from the list  DAT ; each time it reads a clip, it pop's the item off the list, and when the next clip plays through it will continue playing and popping clips off the list until it is empty. Once the list is empty the last animation in the sequence is looped.\nAnimation clips will typically come from an FBX or USD asset but can also be read using the Houdini bclip format or raw chan format. Animation clips found in FBX assets must be extracted from the asset hierarchy and then loaded speerately into a  Clip CHOP . All  Clip CHOP 's loaded into the same clipblender must have the same number of channels, all channel names must match and the all clips must be the same sample rate.  If any of these 3 important requirements are not met, there will likely be animation glitches.\nUse the  Info CHOP  and  Info DAT  to extract information about its current state. See also the  Clip CHOP  and  Clip DAT .\nclipblenderCHOP_Class\nContents\n1   Summary\n2   Parameters - ClipBlender Page\n3   Parameters - Channels Page\n4   Parameters - Transform Page\n5   Parameters - Common Page\n6   Operator Inputs\n7   Info CHOP Channels\n7.1   Specific Clip Blender CHOP Info Channels\n7.2   Common CHOP Info Channels\n7.3   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    },
+    {
+      "index": 2,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "ClipBlender",
+      "label": "Default Clip  CHOP",
+      "name": "default",
+      "description": "Operator path to a valid  Clip CHOP ."
+    },
+    {
+      "page": "ClipBlender",
+      "label": "DAT  List",
+      "name": "datlist",
+      "description": "Operator path to a valid  Table DAT ."
+    },
+    {
+      "page": "ClipBlender",
+      "label": "Target",
+      "name": "target",
+      "description": "⊞  - This parameter works in conjunction with the root transform channels as defined on the Channels page of the clpblender  CHOP  as well as the  Clip CHOP  parameter called Position Type. When Position Type is set to \"Blend To Target\" it will blend the root transform channels for the current clip to the new position defined in this parameter."
+    },
+    {
+      "page": "ClipBlender",
+      "label": "Play Speed",
+      "name": "playspeed",
+      "description": "Provides a scale value to slow down or speed up the playback of the animation sequence."
+    },
+    {
+      "page": "ClipBlender",
+      "label": "Step Forward",
+      "name": "stepforward",
+      "description": "Unknown"
+    },
+    {
+      "page": "ClipBlender",
+      "label": "Step Backward",
+      "name": "stepbackward",
+      "description": "Unknown"
+    },
+    {
+      "page": "ClipBlender",
+      "label": "A End  Script",
+      "name": "aend",
+      "description": "Broken"
+    },
+    {
+      "page": "ClipBlender",
+      "label": "Delay Samples",
+      "name": "delay",
+      "description": "Delays the output of animation data by the specified number of samples."
+    },
+    {
+      "page": "ClipBlender",
+      "label": "Reset",
+      "name": "reset",
+      "description": "When On, resets the clipblender and holds it ready to play the clip defined by the Default Clip  CHOP  parameter."
+    },
+    {
+      "page": "ClipBlender",
+      "label": "Reset  Pulse",
+      "name": "resetpulse",
+      "description": "Instantly reset the cliblender and start playing the clip defined by the Default Clip  CHOP  parameter."
+    },
+    {
+      "page": "Channels",
+      "label": "Output Time Remaining",
+      "name": "timeremaining",
+      "description": "A channel of the name defined in this parameter will return the time remaining in the current clip."
+    },
+    {
+      "page": "Channels",
+      "label": "Time  Channel",
+      "name": "timechannel",
+      "description": "A channel of the name defined in this parameter will return the time elapsed in the current clip."
+    },
+    {
+      "page": "Channels",
+      "label": "X  Root  Trans",
+      "name": "xtrans",
+      "description": "The translate X channel of the animation hierarchy that defines the  Clipblender Motion Root ."
+    },
+    {
+      "page": "Channels",
+      "label": "Y  Root  Trans",
+      "name": "ytrans",
+      "description": "The translate Y channel of the animation hierarchy that defines the  Clipblender Motion Root ."
+    },
+    {
+      "page": "Channels",
+      "label": "Z  Root  Trans",
+      "name": "ztrans",
+      "description": "The translate Z channel of the animation hierarchy that defines the  Clipblender Motion Root ."
+    },
+    {
+      "page": "Channels",
+      "label": "X  Root  Rot",
+      "name": "xrot",
+      "description": "The rotate X channel of the animation hierarchy that defines the  Clipblender Motion Root ."
+    },
+    {
+      "page": "Channels",
+      "label": "Y  Root  Rot",
+      "name": "yrot",
+      "description": "The rotate Y channel of the animation hierarchy that defines the  Clipblender Motion Root ."
+    },
+    {
+      "page": "Channels",
+      "label": "Z  Root  Rot",
+      "name": "zrot",
+      "description": "The rotate Z channel of the animation hierarchy that defines the  Clipblender Motion Root ."
+    },
+    {
+      "page": "Channels",
+      "label": "Queue Enable",
+      "name": "qenable",
+      "description": "Specifies the name of the queue enable channel that may be added to all animation clips that will be loaded into this clipblender. A \"Queue Enable\" channel may be added to the animation clip to define when this clip is safe and unsafe for blending into other clips. If the animation is not safe for blending, the channel would be set to 1, which means the clipblender should \"Queue\" the next clip in the sequence instead of playing it.  When the channel is 0, the any animation request will be executed immediately."
+    },
+    {
+      "page": "Channels",
+      "label": "Queue Trigger",
+      "name": "qtrigger",
+      "description": "Unknown"
+    },
+    {
+      "page": "Channels",
+      "label": "Pre-Rotate Adds",
+      "name": "prerotate",
+      "description": "Unknown"
+    },
+    {
+      "page": "Transform",
+      "label": "Translate",
+      "name": "t",
+      "description": "⊞  -"
+    },
+    {
+      "page": "Transform",
+      "label": "Rotate",
+      "name": "r",
+      "description": "⊞  -"
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "A set of commands located in a Text DAT that are triggered to run under certain conditions. There are two scripting languages in TouchDesigner:  Python  and the original  Tscript . Scripts and single",
+      "description": "line commands can also be run in the  Textport ."
+    },
+    {
+      "page": "Common",
+      "label": "To \"pulse\" a parameter is to send it a signal from (1) an  exported  CHOP channel or (2) a python command or (3) a mouse click that causes a new action to occur immediately. A pulse via python is via the  .pulse()  function on a pulse",
+      "description": "type parameter, such as Reset parameter in a  Speed CHOP . A pulse from a CHOP is typically a 0 to 1 to 0 signal in an exported channel."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

@@ -1,0 +1,106 @@
+{
+  "pageTitle": "Primitive POP",
+  "pageSlug": "Primitive_POP",
+  "url": "https://docs.derivative.ca/Primitive_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "primitivePOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "Primitive Type",
+      "type": "Menu",
+      "options": [
+        "Sphere",
+        "Box",
+        "Plane",
+        "Torus",
+        "Circle",
+        "Line",
+        "Cylinder",
+        "Cone",
+        "Grid",
+        "Custom"
+      ],
+      "default": "Sphere",
+      "description": "Type of primitive to generate."
+    },
+    {
+      "name": "Divisions",
+      "type": "Int",
+      "default": 10,
+      "description": "Number of subdivisions along each axis."
+    },
+    {
+      "name": "Size",
+      "type": "Float[3]",
+      "default": "1, 1, 1",
+      "description": "Size of the primitive in XYZ."
+    },
+    {
+      "name": "Center",
+      "type": "Float[3]",
+      "default": "0, 0, 0",
+      "description": "Center position of the primitive."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "artículas. Las partículas son puntos POP con atributos especiales (P, PartVel, PartMass) que son creados por el Particle POP o modificados por bucles de retroalimentación definidos por el usuario. Las partículas pueden ser emitidas a una tasa constante o basándose en un atributo de entrada.6 * Parámetros: Se basa en las características de Feedback POP para la inicialización, inicio/parada, pausa, velocidad y pre-roll. Busca los atributos PartForce y PartVel para calcular las posiciones.6 * Primitive POP: Permite la creación manual de primitivas. Puede tomar un POP de entrada opcional, eliminar sus primitivas y luego crear nuevos triángulos, quads, líneas, tiras de línea y primitivas de punto a partir de puntos existentes o recién añadidos. Las primitivas pueden crearse \"By Set\" (por ejemplo, cada 3 puntos para un triángulo) o \"By Pattern\" (utilizando la coincidencia de patrón para la selección de puntos).10 Los operadores como Attribute Combine POP, Cache Blend/Select POPs, File In POP, Looku"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ease in/out, aleatorias) en X, Y y Z. También puede añadir nuevos atributos o modificar los existentes basándose en estas funciones.14 Permite controlar el número de puntos, el comportamiento cíclico, la conectividad (tira de línea, líneas, primitivas de punto) y varios parámetros para dar forma a las curvas (por ejemplo, número de ciclos, fase, exponente, mapeo de rango).14 * Sprinkle POP: Crea puntos ya sea en la superficie o dentro del volumen de un POP de entrada. Ofrece métodos como \"Per Primitive\" para la distribución en superficie y \"Volume\" para la distribución aleatoria dentro de un volumen cerrado.15 También puede crear primitivas de punto por defecto, lo que puede desactivarse para ahorrar memoria si solo se necesita una lista de puntos.15 Los generadores como Pattern POP y Sprinkle POP 14 son fundamentales. Resaltan la naturaleza procedural de TouchDesigner y la configuración inicial de datos para los POPs. Estos operadores proporcionan el \"material bruto\" inicial (puntos, formas"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "artículas. Las partículas son puntos POP con atributos especiales (P, PartVel, PartMass) que son creados por el Particle POP o modificados por bucles de retroalimentación definidos por el usuario. Las partículas pueden ser emitidas a una tasa constante o basándose en un atributo de entrada.6 * Parámetros: Se basa en las características de Feedback POP para la inicialización, inicio/parada, pausa, velocidad y pre-roll. Busca los atributos PartForce y PartVel para calcular las posiciones.6 * Primitive POP: Permite la creación manual de primitivas. Puede tomar un POP de entrada opcional, eliminar sus primitivas y luego crear nuevos triángulos, quads, líneas, tiras de línea y primitivas de punto a partir de puntos existentes o recién añadidos. Las primitivas pueden crearse \"By Set\" (por ejemplo, cada 3 puntos para un triángulo) o \"By Pattern\" (utilizando la coincidencia de patrón para la selección de puntos).10 Los operadores como Attribute Combine POP, Cache Blend/Select POPs, File In POP, Looku"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "do para este tipo de datos. • Experimental:Point Generator POP: Un operador generador que crea nubes de puntos directamente. Puede generar puntos con sus primitivas correspondientes. • Experimental:Point POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador más allá de su listado. • Experimental:Polygonize POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Primitive POP: Puede eliminar las primitivas de un POP, dejando solo los puntos. También permite crear tiras de línea. Si lo deseas, puedes usarlo para crear primitivas en su pestaña correspondiente. • Experimental:Projection POP: Permite crear y modificar atributos de color y textura. Al igual que el Normalize POP, genera atributos normalizados. • Experimental:Proximity POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Quanti"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "do para este tipo de datos. • Experimental:Point Generator POP: Un operador generador que crea nubes de puntos directamente. Puede generar puntos con sus primitivas correspondientes. • Experimental:Point POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador más allá de su listado. • Experimental:Polygonize POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Primitive POP: Puede eliminar las primitivas de un POP, dejando solo los puntos. También permite crear tiras de línea. Si lo deseas, puedes usarlo para crear primitivas en su pestaña correspondiente. • Experimental:Projection POP: Permite crear y modificar atributos de color y textura. Al igual que el Normalize POP, genera atributos normalizados. • Experimental:Proximity POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Qu"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "do para este tipo de datos. • Experimental:Point Generator POP: Un operador generador que crea nubes de puntos directamente. Puede generar puntos con sus primitivas correspondientes. • Experimental:Point POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador más allá de su listado. • Experimental:Polygonize POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Primitive POP: Puede eliminar las primitivas de un POP, dejando solo los puntos. También permite crear tiras de línea. Si lo deseas, puedes usarlo para crear primitivas en su pestaña correspondiente. • Experimental:Projection POP: Permite crear y modificar atributos de color y textura. Al igual que el Normalize POP, genera atributos normalizados. • Experimental:Proximity POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Quanti"
+    }
+  ],
+  "useCases": [
+    "Generate base geometry for particle systems",
+    "Create reference shapes for modeling",
+    "Build procedural geometry for real-time visual effects",
+    "Generate collision geometry for physics simulations"
+  ],
+  "examples": [
+    "Connect to a Sphere Primitive → generates a sphere point cloud",
+    "Use with Subdivide POP → increases polygon detail progressively"
+  ],
+  "commonCombinations": [
+    {
+      "operators": [
+        "Primitive_POP",
+        "Transform_POP",
+        "Feedback_POP"
+      ],
+      "description": "Animated procedural shape that evolves over time"
+    },
+    {
+      "operators": [
+        "Primitive_POP",
+        "Noise_POP",
+        "Point_POP"
+      ],
+      "description": "Organic terrain or abstract shape generation"
+    }
+  ],
+  "troubleshooting": [
+    "If no geometry appears, check Divisions value (0 gives no geometry)",
+    "For particle systems, ensure Point POP or GLSL_Create POP is upstream"
+  ],
+  "description": "Generates and manipulates primitive-level data including points, vertices, polygons, and custom attributes. Supports creating basic shapes (sphere, box, torus, plane, etc.), subdividing primitives, converting between types, and applying transformations at the primitive level."
+}

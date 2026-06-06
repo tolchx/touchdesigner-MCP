@@ -1,0 +1,562 @@
+{
+  "family": "SOP",
+  "pageTitle": "Transform SOP",
+  "pageSlug": "Transform_SOP",
+  "url": "https://docs.derivative.ca/Transform_SOP",
+  "tdOpTypeGuess": "transformSOP",
+  "summary": "[  edit  ]\nThe Transform  SOP  translates, rotates and scales the input geometry in \"object space\" or local to the  SOP . The Model Editor and the Transform  SOP  both work in \"object space\", and change the X Y Z positions of the points. In contrast, animating the transformation channels of an object in the  Geometry Viewer  Pane moves/scales the entire object in \"world space\" and does not affect the XYZ point positions of the geometry.\ntransformSOP_Class\nContents\n1   Summary\n2   Parameters - Transform Page\n3   Parameters - Post Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common SOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Transform",
+      "label": "Group",
+      "name": "group",
+      "description": "If there are input groups, specifying a group name in this field will cause this  SOP  to act only upon the group specified. Accepts patterns, as described in  Pattern Matching ."
+    },
+    {
+      "page": "Transform",
+      "label": "Transform Order",
+      "name": "xord",
+      "description": "⊞  - Sets the overall transform order for the transformations. The transform order determines the order in which transformations take place. Depending on the order, you can achieve different results using the exact same values. Choose the appropriate order from the menu."
+    },
+    {
+      "page": "Transform",
+      "label": "Rotate Order",
+      "name": "rord",
+      "description": "⊞  - Sets the order of the rotations within the overall transform order."
+    },
+    {
+      "page": "Transform",
+      "label": "Translate",
+      "name": "t",
+      "description": "⊞  - These three fields move the Source geometry in the three axes."
+    },
+    {
+      "page": "Transform",
+      "label": "Rotate",
+      "name": "r",
+      "description": "⊞  - These three fields rotate the Source geometry in the three axes."
+    },
+    {
+      "page": "Transform",
+      "label": "Scale",
+      "name": "s",
+      "description": "⊞  - These three fields scale the Source geometry in the three axes."
+    },
+    {
+      "page": "Transform",
+      "label": "Pivot",
+      "name": "p",
+      "description": "⊞  - The pivot point for the transformations (not the same as the pivot point in the pivot channels). The pivot point parameters allow you to define the point about which geometry scales and rotates. Altering the pivot point produces different results depending on the transformation performed on the object."
+    },
+    {
+      "page": "Transform",
+      "label": "For example, during a scaling operation, if the pivot point of an object is located at:",
+      "description": "1, -1, 0  and you wanted to scale the object by  0.5  (reduce its size by 50%) the object would scale toward the pivot point and appear to slide down and to the left."
+    },
+    {
+      "page": "Transform",
+      "label": "Uniform Scale",
+      "name": "scale",
+      "description": "Uniform Scale  allows you to shrink or enlarge geometry along all three axes simultaneously."
+    },
+    {
+      "page": "Transform",
+      "label": "Normals Maintain Length",
+      "name": "vlength",
+      "description": "When selected, vector type attributes (i.e. normals, velocity) maintain the same length under transforms. i.e. When geometry is scaled, the normals remain constant in length."
+    },
+    {
+      "page": "Transform",
+      "label": "Look At",
+      "name": "lookat",
+      "description": "Allows you to orient your object by naming the object you would like it to  Look At , or point to. Once you have designated this object to look at, it will continue to face that object, even if you move it. This is useful if, for instance, you want a camera to follow another object's movements. The  Look At  parameter points the object in question at the other object's origin."
+    },
+    {
+      "page": "Transform",
+      "label": "Tip:  To designate a centre of interest for the camera that doesn't appear in your scene, create a Null object and disable its display flag. Then Parent the Camera to the newly created Null object, and tell the camera to look at this object using the  Look At  parameter. You can direct the attention of the camera by moving the Null object with the Select state. If you want to see both the camera and the Null object, enable the Null object's display flag, and use the Select state in an additional Viewport by clicking one of the icons in the top",
+      "description": "right corner of the TouchDesigner window."
+    },
+    {
+      "page": "Transform",
+      "label": "Up Vector",
+      "name": "upvector",
+      "description": "⊞  - When orienting an object, the  Up Vector  is used to determine where the positive Y axis points."
+    },
+    {
+      "page": "Transform",
+      "label": "Forward Direction",
+      "name": "forwarddir",
+      "description": "⊞  -"
+    },
+    {
+      "page": "Post",
+      "label": "Post Transform Order",
+      "name": "postxord",
+      "description": "⊞  - Set the order in which scale and transform is applied in the post transform."
+    },
+    {
+      "page": "Post",
+      "label": "Post Translate X",
+      "name": "posttx",
+      "description": "⊞  - Sets the center of the geometry after the Transform page has been applied."
+    },
+    {
+      "page": "Post",
+      "label": "Off",
+      "name": "off",
+      "description": "No Change."
+    },
+    {
+      "page": "Post",
+      "label": "Origin",
+      "name": "origin",
+      "description": "Moves the geometry to the origin 0,0,0."
+    },
+    {
+      "page": "Post",
+      "label": "Reference  Input",
+      "name": "reference",
+      "description": "Moves the geometry to a location based on the  Reference  Input supplied to this  SOP 's second input (ie. Input 1)."
+    },
+    {
+      "page": "Post",
+      "label": "From Input",
+      "name": "fromx",
+      "description": "⊞  - Determines which part of the input geometry to align to the Origin or  Reference  Input as selected in Post Translate parameter above."
+    },
+    {
+      "page": "Post",
+      "label": "Min",
+      "name": "min",
+      "description": "Align to the geometry's minimum bounds in this axis."
+    },
+    {
+      "page": "Post",
+      "label": "Center",
+      "name": "center",
+      "description": "Align to the geometry's center point in this axis."
+    },
+    {
+      "page": "Post",
+      "label": "Max",
+      "name": "max",
+      "description": "Align to the geometry's maximum bounds in this axis."
+    },
+    {
+      "page": "Post",
+      "label": "To  Reference",
+      "name": "tox",
+      "description": "⊞  - When using  Reference  Input this determines which part of the  Reference  Input to align the geometry to."
+    },
+    {
+      "page": "Post",
+      "label": "Min",
+      "name": "min",
+      "description": "Align to the  Reference  Input's minimum bounds in this axis."
+    },
+    {
+      "page": "Post",
+      "label": "Center",
+      "name": "center",
+      "description": "Align to the  Reference  Input's center in this axis."
+    },
+    {
+      "page": "Post",
+      "label": "Max",
+      "name": "max",
+      "description": "Align to the  Reference  Input's maximum bounds in this axis."
+    },
+    {
+      "page": "Post",
+      "label": "Post Translate Y",
+      "name": "postty",
+      "description": "⊞  - Sets the center of the geometry after the Transform page has been applied."
+    },
+    {
+      "page": "Post",
+      "label": "Off",
+      "name": "off",
+      "description": "No Change."
+    },
+    {
+      "page": "Post",
+      "label": "Origin",
+      "name": "origin",
+      "description": "Moves the geometry to the origin 0,0,0."
+    },
+    {
+      "page": "Post",
+      "label": "Reference  Input",
+      "name": "reference",
+      "description": "Moves the geometry to a location based on the  Reference  Input supplied to this  SOP 's second input (ie. Input 1)."
+    },
+    {
+      "page": "Post",
+      "label": "From Input",
+      "name": "fromy",
+      "description": "⊞  - Determines which part of the input geometry to align to the Origin or  Reference  Input as selected in Post Translate parameter above."
+    },
+    {
+      "page": "Post",
+      "label": "Min",
+      "name": "min",
+      "description": "Align to the geometry's minimum bounds in this axis."
+    },
+    {
+      "page": "Post",
+      "label": "Center",
+      "name": "center",
+      "description": "Align to the geometry's center point in this axis."
+    },
+    {
+      "page": "Post",
+      "label": "Max",
+      "name": "max",
+      "description": "Align to the geometry's maximum bounds in this axis."
+    },
+    {
+      "page": "Post",
+      "label": "To  Reference",
+      "name": "toy",
+      "description": "⊞  - When using  Reference  Input this determines which part of the  Reference  Input to align the geometry to."
+    },
+    {
+      "page": "Post",
+      "label": "Min",
+      "name": "min",
+      "description": "Align to the  Reference  Input's minimum bounds in this axis."
+    },
+    {
+      "page": "Post",
+      "label": "Center",
+      "name": "center",
+      "description": "Align to the  Reference  Input's center in this axis."
+    },
+    {
+      "page": "Post",
+      "label": "Max",
+      "name": "max",
+      "description": "Align to the  Reference  Input's maximum bounds in this axis."
+    },
+    {
+      "page": "Post",
+      "label": "Post Translate Z",
+      "name": "posttz",
+      "description": "⊞  - Sets the center of the geometry after the Transform page has been applied."
+    },
+    {
+      "page": "Post",
+      "label": "Off",
+      "name": "off",
+      "description": "No Change."
+    },
+    {
+      "page": "Post",
+      "label": "Origin",
+      "name": "origin",
+      "description": "Moves the geometry to the origin 0,0,0."
+    },
+    {
+      "page": "Post",
+      "label": "Reference  Input",
+      "name": "reference",
+      "description": "Moves the geometry to a location based on the  Reference  Input supplied to this  SOP 's second input (ie. Input 1)."
+    },
+    {
+      "page": "Post",
+      "label": "From Input",
+      "name": "fromz",
+      "description": "⊞  - Determines which part of the input geometry to align to the Origin or  Reference  Input as selected in Post Translate parameter above."
+    },
+    {
+      "page": "Post",
+      "label": "Min",
+      "name": "min",
+      "description": "Align to the geometry's minimum bounds in this axis."
+    },
+    {
+      "page": "Post",
+      "label": "Center",
+      "name": "center",
+      "description": "Align to the geometry's center point in this axis."
+    },
+    {
+      "page": "Post",
+      "label": "Max",
+      "name": "max",
+      "description": "Align to the geometry's maximum bounds in this axis."
+    },
+    {
+      "page": "Post",
+      "label": "To  Reference",
+      "name": "toz",
+      "description": "⊞  - When using  Reference  Input this determines which part of the  Reference  Input to align the geometry to."
+    },
+    {
+      "page": "Post",
+      "label": "Min",
+      "name": "min",
+      "description": "Align to the  Reference  Input's minimum bounds in this axis."
+    },
+    {
+      "page": "Post",
+      "label": "Center",
+      "name": "center",
+      "description": "Align to the  Reference  Input's center in this axis."
+    },
+    {
+      "page": "Post",
+      "label": "Max",
+      "name": "max",
+      "description": "Align to the  Reference  Input's maximum bounds in this axis."
+    },
+    {
+      "page": "Post",
+      "label": "Post Scale",
+      "name": "postscale",
+      "description": "⊞  - Sets the scale of the geometry after the Transform page has been applied."
+    },
+    {
+      "page": "Post",
+      "label": "Per Axis",
+      "name": "peraxis",
+      "description": "Allows individual settings for each axis using the parameters below."
+    },
+    {
+      "page": "Post",
+      "label": "Unity",
+      "name": "unity",
+      "description": "Scales the geometry to fit in a 1,1,1 bounding box."
+    },
+    {
+      "page": "Post",
+      "label": "Reference",
+      "name": "reference",
+      "description": "Scales the geometry to fit the  Reference  Input's bounding box (second input on this  SOP  ie. Input 1)."
+    },
+    {
+      "page": "Post",
+      "label": "Post Scale X",
+      "name": "postscalex",
+      "description": "⊞  - Sets the scale of the geometry after the Transform page has been applied to scale."
+    },
+    {
+      "page": "Post",
+      "label": "Off",
+      "name": "off",
+      "description": "No change the the scale in this axis."
+    },
+    {
+      "page": "Post",
+      "label": "Unity",
+      "name": "unity",
+      "description": "Scale the geometry to 1.0 (ie. -0.5 to 0.5) in this axis."
+    },
+    {
+      "page": "Post",
+      "label": "Reference  Input",
+      "name": "reference",
+      "description": "Scale the geometry to fit the  Reference  Input in this axis."
+    },
+    {
+      "page": "Post",
+      "label": "Unity Proportional",
+      "name": "unityprop",
+      "description": "Scale the geometry to 1.0 (ie. -0.5 to 0.5) in this axis while keeping the input geometry's original proportions."
+    },
+    {
+      "page": "Post",
+      "label": "Reference  Proportional",
+      "name": "referenceprop",
+      "description": "Scale the geometry to fit the  Reference  Input in this axis while keeping the input geometry's original proportions."
+    },
+    {
+      "page": "Post",
+      "label": "Post Scale Y",
+      "name": "postscaley",
+      "description": "⊞  - Sets the scale of the geometry after the Transform page has been applied to scale."
+    },
+    {
+      "page": "Post",
+      "label": "Off",
+      "name": "off",
+      "description": "No change the the scale in this axis."
+    },
+    {
+      "page": "Post",
+      "label": "Unity",
+      "name": "unity",
+      "description": "Scale the geometry to 1.0 (ie. -0.5 to 0.5) in this axis."
+    },
+    {
+      "page": "Post",
+      "label": "Reference  Input",
+      "name": "reference",
+      "description": "Scale the geometry to fit the  Reference  Input in this axis."
+    },
+    {
+      "page": "Post",
+      "label": "Unity Proportional",
+      "name": "unityprop",
+      "description": "Scale the geometry to 1.0 (ie. -0.5 to 0.5) in this axis while keeping the input geometry's original proportions."
+    },
+    {
+      "page": "Post",
+      "label": "Reference  Proportional",
+      "name": "referenceprop",
+      "description": "Scale the geometry to fit the  Reference  Input in this axis while keeping the input geometry's original proportions."
+    },
+    {
+      "page": "Post",
+      "label": "Post Scale Z",
+      "name": "postscalez",
+      "description": "⊞  - Sets the scale of the geometry after the Transform page has been applied to scale."
+    },
+    {
+      "page": "Post",
+      "label": "Off",
+      "name": "off",
+      "description": "No change the the scale in this axis."
+    },
+    {
+      "page": "Post",
+      "label": "Unity",
+      "name": "unity",
+      "description": "Scale the geometry to 1.0 (ie. -0.5 to 0.5) in this axis."
+    },
+    {
+      "page": "Post",
+      "label": "Reference  Input",
+      "name": "reference",
+      "description": "Scale the geometry to fit the  Reference  Input in this axis."
+    },
+    {
+      "page": "Post",
+      "label": "Unity Proportional",
+      "name": "unityprop",
+      "description": "Scale the geometry to 1.0 (ie. -0.5 to 0.5) in this axis while keeping the input geometry's original proportions."
+    },
+    {
+      "page": "Post",
+      "label": "Reference  Proportional",
+      "name": "referenceprop",
+      "description": "Scale the geometry to fit the  Reference  Input in this axis while keeping the input geometry's original proportions."
+    },
+    {
+      "page": "Post",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Post",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Post",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Post",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Post",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Post",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Post",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Post",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Post",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Post",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Post",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Post",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Post",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Post",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Post",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "LSL, Vulkan), permite un procesamiento altamente paralelo y eficiente en la GPU. Cada hilo (por ejemplo, por punto) puede acceder y modificar sus atributos directamente en la memoria, lo que es ideal para sistemas de partículas y grandes nubes de puntos. Esta elección de diseño no es simplemente un detalle de implementación; dicta cómo los desarrolladores deben pensar sobre el flujo y la manipulación de datos dentro del entorno POPs. Fomenta un enfoque de diseño orientado a los datos, donde las transformaciones y los comportamientos se aplican directamente a los atributos en lugar de depender de la generación de geometría procedural compleja, lo que se traduce en ganancias significativas de rendimiento y escalabilidad para las aplicaciones en tiempo real. 1.3 Ventajas de usar POPs en gráficos 3D en tiempo real La principal ventaja de los POPs es su aceleración por GPU, lo que permite manejar \"millones de puntos\" 6 y ofrece \"mayor rendimiento, procesamiento paralelo y flujos de trabajo"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "nes o efectos muy personalizados. • Experimental:GLSL Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Grid POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Group POP: Se usa para crear grupos de puntos, vértices o primitivas. Puedes usar estos grupos para afectar solo ciertas partes de tu geometría con otros operadores, como el Transform POP. También puede convertir un grupo en un atributo. • Experimental:Histogram POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Import Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:In POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Limit POP: Est"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "* Los vértices de las primitivas pueden especificarse **manualmente** o generarse mediante patrones numéricos. * Tiene opciones para **eliminar puntos no utilizados** o convertirlos en primitivas de punto (`Post` page). * **Uso simple:** Cuando necesitas un control muy preciso sobre cómo se conectan tus puntos para formar superficies o líneas, o para reconstruir la topología de una geometría. * **Projection POP (POP de Proyección)** * **Función principal:** Transforma un atributo espacial 3D (como la posición `P`) entre **diferentes sistemas de coordenadas**: cartesiano, esférico, cilíndrico y de perspectiva. * **Características clave:** * Puedes especificar cómo se interpretan los 3 números de la entrada (`From Coordinate System`) y en qué formato quieres la salida (`To Coordinate System`). * Soporta ángulos en **grados, radianes o ciclos**, o en un **formato normalizado de 0 a 1** para mapeo de texturas. * Permite c"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "odas las primitivas sean **únicos** (no compartidos) y luego reordenando todos los puntos según el orden de los vértices de cada primitiva. Esto es útil para ciertos flujos de trabajo. * Importante: **No cambia los datos de los puntos** ni su orden, ni los vértices ni las primitivas en sí, solo cómo se \"ven\" organizados. --- #### 14. Copy POP * **¿Qué hace?** Este operador te permite **hacer copias de tu geometría de entrada**. Puedes especificar cuántas copias quieres y cómo se transforman (mueven, rotan, escalan). * **Características clave:** * **Método 1 (Parámetros)**: Define el número de copias y una transformación acumulativa para cada una. La primera copia no tiene transformación. * **Método 2 (POP de plantilla)**: Puedes usar un segundo POP como \"plantilla\". Se colocará una copia en cada punto de este POP de plantilla. Este método se aplica después de las transformaciones del método 1. * Puedes crear un **atributo `CopyId`** (para puntos, vértices"
+    },
+    {
+      "source": "POPs Investigation and Workshop Plan.markdown",
+      "excerpt": "rengths of SOPs, CHOPs, and TOPs for a modern approach. - **Attributes**: POPs offer advanced attribute manipulation (e.g., multi-component, high precision). - **Limitations**: POPs lack some SOP features (e.g., tracing, booleans), though these may be added later. ## 4. Key Features - **GPU Acceleration**: Uses compute shaders for speed and efficiency. - **Memory Optimization**: References unchanged attributes, allocating memory only for modified data. - **Math Operations**: POPs like `Math`, `Transform`, and `Normalize` enable coding-free manipulations. - **Multi-Input Support**: POPs like `Merge` and `Switch` handle multiple inputs with flexible configurations. - **Swizzling**: Manipulate attribute components (e.g., `P.xy` for X and Y). ## 5. Practical Applications - **Rendering**: POPs drive 3D geometry with attributes like `Color` and `Normal`. - **Particles**: Points with attributes (e.g., `Vel`, `PartForce`) for simulations. - **Point Clouds**: Efficiently manage large datasets without"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "before. (23:36) So this is an analyze chop and we've had analyze in all sorts of things before, right? We have it for tops and for pops and for chops and for everything really. We can analyze certain value points. So like if I made an analyze here, we have a bunch of options for things that we can do. And it's just the same in pops except we have a lot of very cool things we can do here. (24:02) So from this analyze, and I'm sending this out to this chop. So I can just move this around in the transform, but you know, you could instance that too. But basically, I'm selecting average, centrid, but you've also got minimum, maximum, index of minimum, the sum, the RMS power, all sorts of cool stuff. And I'm basically using this to analyze this point cloud. (24:24) So if I took this pattern and change that seed, we're going to see that moving around. But also, let's see. And I haven't really used pattern much. So, let's see if I can figure out how to change this. Yeah, if I turn that down, what we"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

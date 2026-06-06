@@ -1,0 +1,32 @@
+{
+  "pageTitle": "OAK Select POP",
+  "pageSlug": "OAK_Select_POP",
+  "url": "https://docs.derivative.ca/OAK_Select_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "oAKSelectPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [
+    "Select OAK camera streams",
+    "Choose depth/color/IR",
+    "Camera data selection"
+  ],
+  "examples": [
+    {
+      "name": "Depth Select",
+      "description": "OAK Select POP to get depth stream from OAK camera",
+      "difficulty": "intermediate"
+    }
+  ],
+  "commonCombinations": [
+    "OAK Device CHOP to OAK Select POP"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "No stream available",
+      "solution": "Check OAK device connection and stream type."
+    }
+  ]
+}

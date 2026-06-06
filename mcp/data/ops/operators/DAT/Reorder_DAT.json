@@ -1,0 +1,237 @@
+{
+  "family": "DAT",
+  "pageTitle": "Reorder DAT",
+  "pageSlug": "Reorder_DAT",
+  "url": "https://docs.derivative.ca/Reorder_DAT",
+  "tdOpTypeGuess": "reorderDAT",
+  "summary": "[  edit  ]\nThe Reorder  DAT  allows you to reorder the rows and columns of the input table. You can also use In Specified Order option to get duplicate copies of rows and columns.\nreorderDAT_Class\nContents\n1   Summary\n2   Parameters - Reorder Page\n3   Parameters - Common Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common DAT Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Reorder",
+      "label": "Reorder",
+      "name": "reorder",
+      "description": "⊞  - This parameter allows you to reorder either rows or columns."
+    },
+    {
+      "page": "Reorder",
+      "label": "Method",
+      "name": "method",
+      "description": "⊞  - Specify how to reorder the table."
+    },
+    {
+      "page": "Reorder",
+      "label": "Reverse",
+      "name": "reverse",
+      "description": "Reverse the order rows or columns."
+    },
+    {
+      "page": "Reorder",
+      "label": "Replace by Names",
+      "name": "replacenames",
+      "description": "Copy a row or column in the input table specified in From to the row or column specified in To.  Rows or Columns are specified by names."
+    },
+    {
+      "page": "Reorder",
+      "label": "Replace by Indices",
+      "name": "replaceindices",
+      "description": "Copy a row or column in the input table specified in From to the row or column specified in To.  Rows or Columns are specified by numbers."
+    },
+    {
+      "page": "Reorder",
+      "label": "Swap by Names",
+      "name": "swapnames",
+      "description": "Swap a row or column specified in From with the row or column specified in To. Rows or Columns are specified by names. Swaps are cumulative."
+    },
+    {
+      "page": "Reorder",
+      "label": "Swap by Indices",
+      "name": "swapindices",
+      "description": "Swap a row or column specified in From with the row or column specified in To. Rows or Columns are specified by numbers. Swaps are cumulative."
+    },
+    {
+      "page": "Reorder",
+      "label": "In Specified Order by Name",
+      "name": "specifyname",
+      "description": "Copy the rows or columns in the specified order by name. Any row or column not listed will be appended in input order. You can specify a row or column more than once to get multiple copies of it."
+    },
+    {
+      "page": "Reorder",
+      "label": "In Specified Order by Index",
+      "name": "specifyindex",
+      "description": "Copy the rows or columns in the specified order by index. Any row or column not listed will be appended in input order. You can specify a row or column more than once to get multiple copies of it."
+    },
+    {
+      "page": "Reorder",
+      "label": "Before",
+      "name": "before",
+      "description": "The rows or columns to copy or swap from."
+    },
+    {
+      "page": "Reorder",
+      "label": "After",
+      "name": "after",
+      "description": "The rows or columns to copy or swap to."
+    },
+    {
+      "page": "Reorder",
+      "label": "Order",
+      "name": "order",
+      "description": "The order of input rows and columns to copy."
+    },
+    {
+      "page": "Reorder",
+      "label": "Delete Unspecified",
+      "name": "delete",
+      "description": "Only available when Method is 'In Specified Order by Name' or 'In Specified Order by Index'. It will delete any row/column not listed in the Order parameter."
+    },
+    {
+      "page": "Common",
+      "label": "Language",
+      "name": "language",
+      "description": "⊞  - Select how the  DAT  decides which script language to operate on."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Node",
+      "name": "node",
+      "description": "The  DAT  uses it's own script language."
+    },
+    {
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "name": "extension",
+      "description": "⊞  - Select the file extension this  DAT  should expose to external editors."
+    },
+    {
+      "page": "Common",
+      "label": "dat",
+      "name": "dat",
+      "description": "various common file extensions."
+    },
+    {
+      "page": "Common",
+      "label": "From Language",
+      "name": "languageext",
+      "description": "pick extension from DATs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specify a custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specifiy the custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Word Wrap",
+      "name": "wordwrap",
+      "description": "⊞  - Enable Word Wrap for Node Display."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs setting."
+    },
+    {
+      "page": "Common",
+      "label": "On",
+      "name": "on",
+      "description": "Turn on Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Off",
+      "name": "off",
+      "description": "Turn off Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "num_rows",
+      "description": "Number of rows in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "num_cols",
+      "description": "Number of columns in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "Art",
+      "description": "Net    •   Audio Devices    •   CHOP Execute    •   CHOP to    •   Clip    •   Convert    •   CPlusPlus    •   DAT   •    Execute    •   DAT Export   •   Error    •   EtherDream    •   Evaluate    •   Examine    •   Execute    •   FIFO    •   File In    •   File Out    •   Folder    •   In    •   Indices    •   Info    •   Insert    •   JSON    •   Keyboard In    •   Lookup    •   Media File Info    •   Merge    •   MIDI Event    •   MIDI In    •   Monitors    •   MPCDI    •   MQTT Client    •   Multi Touch In    •   NDI    •   Null    •   OP Execute    •   OP Find    •   OSC In    •   OSC Out    •   Out    •   Panel Execute    •   Parameter    •   Parameter Execute    •   ParGroup Execute    •   Perform    •   POP to    •   Render Pick    •   Reorder    •   Script    •   Select    •   Serial    •   Serial Devices    •   SocketIO    •   SOP to    •   Sort    •   Substitute    •   Switch    •   Table    •   TCP/IP    •   Text    •   Touch In    •   Touch Out    •   Transpose    •   TUIO In    •   UDP In    •   UDP Out    •   UDT In    •   UDT Out    •   Video Devices    •   Web Client    •   Web    •   Web Server    •   WebRTC    •   WebSocket    •   XML"
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

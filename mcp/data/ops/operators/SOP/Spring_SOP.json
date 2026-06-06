@@ -1,0 +1,308 @@
+{
+  "family": "SOP",
+  "pageTitle": "Spring SOP",
+  "pageSlug": "Spring_SOP",
+  "url": "https://docs.derivative.ca/Spring_SOP",
+  "tdOpTypeGuess": "springSOP",
+  "summary": "[  edit  ]\nThe Spring  SOP  deforms and moves the input geometry using spring \"forces\" on the edges of polygons and on masses attached to each point.\nGeometry is deformed using forces that simulate simple physics on the points and edges. A simulated \"mass\" is assigned to each point. Its primitive edges act as \"springs\" which oppose the forces, and pull the points back toward their original positions. When the springs are stretched by the forces, they try to pull the points back. The points do not stop moving when they return to their original positions, however, but continue to oscillate because of their mass, until the oscillation dies out.\nForces which act upon the points are as follows:\nexternal force (gravity)\nwind (similar to external force)\nturbulence (chaotic forces)   The greater the drag value, or smaller the mass, the faster the oscillation dies out.\nspringSOP_Class\nContents\n1   Summary\n2   Parameters - State Page\n3   Parameters - Forces Page\n4   Parameters - Nodes Page\n5   Parameters - Limits Page\n6   Operator Inputs\n7   Info CHOP Channels\n7.1   Common SOP Info Channels\n7.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    },
+    {
+      "index": 2,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "State",
+      "label": "Preroll Time",
+      "name": "timepreroll",
+      "description": "How many seconds of the simulation to bypass, after the reset time is reached. For example, if you put the number 33 into this field (and reset is at  $TSTART ), frame one will show the simulation that was at a time of 33 seconds. In other words, the first thirty-two seconds have been bypassed, and the time at thirty-three seconds is shifted to frame one. The first thirty-two seconds must still be calculated in order to compute the status of the points, so you will notice some delay upon reset."
+    },
+    {
+      "page": "State",
+      "label": "Time Inc",
+      "name": "timeinc",
+      "description": "The  Time Inc  parameter determines how often to cook the  SOP . By default, this parameter is set to  1/$ FPS  . This means that the  SOP  will cook once for every frame. When complex dynamics are involved, the  SOP  may require more frequent cooking for increased mathematical accuracy. To get sub-frame accuracy in the cooking, set the  Time Inc  to something smaller than  1/$ FPS   . For example, setting the  Time Inc  to  0.5/$ FPS   will mean that the  SOP  gets cooked twice for every frame."
+    },
+    {
+      "page": "State",
+      "label": "Accurate Moves",
+      "name": "accurate",
+      "description": "This option makes the nodes move more accurately between frames by calculating their trajectories for fractional frame values."
+    },
+    {
+      "page": "State",
+      "label": "Attractor Use",
+      "name": "attractmode",
+      "description": "⊞  - Describes how attractor points are assigned to each particle."
+    },
+    {
+      "page": "State",
+      "label": "All Points",
+      "name": "all",
+      "description": "All point attractors affect all particles (or points)."
+    },
+    {
+      "page": "State",
+      "label": "Single Point per Particle",
+      "name": "single",
+      "description": "When enabled, each particle is assigned a single attractor point, and is affected by only that point. Assignment is done by point number modulo the total number of attractor points."
+    },
+    {
+      "page": "State",
+      "label": "Reset",
+      "name": "reset",
+      "description": "While On resets the spring effect of the  SOP ."
+    },
+    {
+      "page": "State",
+      "label": "Reset  Pulse",
+      "name": "resetpulse",
+      "description": "Instantly reset the spring effect."
+    },
+    {
+      "page": "Forces",
+      "label": "External Force",
+      "name": "external",
+      "description": "⊞  - Forces of gravity acting on the points. When drag is zero, the points can accelerate with no limit on their speed."
+    },
+    {
+      "page": "Forces",
+      "label": "Wind",
+      "name": "wind",
+      "description": "⊞  - Wind forces acting on the points. Similar to external force. Using wind (and no other forces, such as turbulence), the points will not exceed the wind velocity."
+    },
+    {
+      "page": "Forces",
+      "label": "Turbulence",
+      "name": "turb",
+      "description": "⊞  - The amplitude of turbulent (chaotic) forces along each axis. Use positive values, if any."
+    },
+    {
+      "page": "Forces",
+      "label": "Turb Period",
+      "name": "period",
+      "description": "A small period means that the turbulence varies quickly over a small area, while a larger value will cause points close to each other to be affected similarly."
+    },
+    {
+      "page": "Forces",
+      "label": "Seed",
+      "name": "seed",
+      "description": "Random number seed for the simulation."
+    },
+    {
+      "page": "Nodes",
+      "label": "Fixed Points",
+      "name": "fixed",
+      "description": "This is a point group. All points in the point group will remain unaffected by the forces. Also see the  Group SOP  for notes on how to specify point ranges."
+    },
+    {
+      "page": "Nodes",
+      "label": "Fixed Points go to Source Positions",
+      "name": "revertfixed",
+      "description": "Determines whether or not points in the  Fixed Points  group should be moved to the positions of the corresponding points in the Source geometry."
+    },
+    {
+      "page": "Nodes",
+      "label": "Copy Groups from Source",
+      "name": "copygroups",
+      "description": "Determines if the Spring  SOP  should copy groups from the Source geometry at each frame. This lets you specify the name of an animating group in the  Fixed Points  field, and the contents of this group will be kept up to date."
+    },
+    {
+      "page": "Nodes",
+      "label": "Add Mass Attribute",
+      "name": "domass",
+      "description": "When selected, the  Mass  is computed for the deforming geometry."
+    },
+    {
+      "page": "Nodes",
+      "label": "Mass",
+      "name": "mass",
+      "description": "Mass  of each point. Heavier points take longer to get into motion, and longer to stop."
+    },
+    {
+      "page": "Nodes",
+      "label": "Add Drag Attribute",
+      "name": "dodrag",
+      "description": "When selected, the geometry is deformed by the  Drag  attribute."
+    },
+    {
+      "page": "Nodes",
+      "label": "Drag",
+      "name": "drag",
+      "description": "Drag  of each point."
+    },
+    {
+      "page": "Nodes",
+      "label": "Spring Behavior",
+      "name": "springbehavior",
+      "description": "⊞  - How the springs will behave:"
+    },
+    {
+      "page": "Nodes",
+      "label": "Hooke's Law",
+      "name": "hooke",
+      "description": "Springs will work according to Hooke's Law. This is generally more stable than  Normalized Displacement ."
+    },
+    {
+      "page": "Nodes",
+      "label": "Hooke's Law : Force = Displacement  Spring constant     Normalize Displacement",
+      "name": "normalize",
+      "description": "Similar to  Hooke's Law  except that the displacement is normalized to the original length of the Spring."
+    },
+    {
+      "page": "Nodes",
+      "label": "Spring Constant",
+      "name": "springk",
+      "description": "The spring constant. How tight the springs are. Increase this value to make the springs tighter and thus make the object more rigid. As this number becomes higher, the springs can oscillate out of control. Decrease the  Time Inc  if this happens."
+    },
+    {
+      "page": "Nodes",
+      "label": "Initial Tension",
+      "name": "tension",
+      "description": "The Initial k constant of the geometry before being deformed by the spring operation."
+    },
+    {
+      "page": "Limits",
+      "label": "+ Limit Plane",
+      "name": "limitpos",
+      "description": "⊞  - The points will bounce off the limit planes when it reaches them. The six limit plane fields define a bounding cube. The default settings are one thousand units away, which is very large. Reduce the values to about one to see the effect."
+    },
+    {
+      "page": "Limits",
+      "label": "- Limit Plane",
+      "name": "limitneg",
+      "description": "⊞  - The points will bounce off the limit planes when it reaches them. The six limit plane fields define a bounding cube. The default settings are one thousand units away, which is very large. Reduce the values to about one to see the effect."
+    },
+    {
+      "page": "Limits",
+      "label": "Hit Behavior",
+      "name": "hit",
+      "description": "⊞  - Control over what happens when the geometry hits either the six collision planes or the collision object. The options are:"
+    },
+    {
+      "page": "Limits",
+      "label": "Bounce on Contact",
+      "name": "bounce",
+      "description": "Geometry will bounce upon contact with the Collision input."
+    },
+    {
+      "page": "Limits",
+      "label": "Stick on Contact",
+      "name": "stick",
+      "description": "Geometry will stick to the Collision input upon contact."
+    },
+    {
+      "page": "Limits",
+      "label": "Gain Tangent",
+      "name": "gaintan",
+      "description": "Friction parameters which can be regarded as energy-loss upon collision. The first parameter affects the energy loss (gain) perpendicular to the surface. 0 means all energy (velocity) is lost, 1 means no energy is lost perpendicular to surface. The second parameter is the energy gain tangent to the surface."
+    },
+    {
+      "page": "Limits",
+      "label": "Gain Normal",
+      "name": "gainnorm",
+      "description": "Friction parameters which can be regarded as energy-loss upon collision. The first parameter affects the energy loss (gain) perpendicular to the surface. 0 means all energy (velocity) is lost, 1 means no energy is lost perpendicular to surface. The second parameter is the energy gain tangent to the surface."
+    },
+    {
+      "page": "Limits",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Limits",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Limits",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Limits",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Limits",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Limits",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Limits",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Limits",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Limits",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Limits",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Limits",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Limits",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Limits",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Limits",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Limits",
+      "label": "The",
+      "name": "Frames",
+      "description": "per-Second that TouchDesigner's  Timeline  runs at. Set with  project.cookRate ."
+    },
+    {
+      "page": "Limits",
+      "label": "To \"pulse\" a parameter is to send it a signal from (1) an  exported  CHOP channel or (2) a python command or (3) a mouse click that causes a new action to occur immediately. A pulse via python is via the  .pulse()  function on a pulse",
+      "description": "type parameter, such as Reset parameter in a  Speed CHOP . A pulse from a CHOP is typically a 0 to 1 to 0 signal in an exported channel."
+    },
+    {
+      "page": "Limits",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

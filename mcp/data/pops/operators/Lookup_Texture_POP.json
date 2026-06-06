@@ -1,0 +1,431 @@
+{
+  "pageTitle": "Lookup Texture POP",
+  "pageSlug": "Lookup_Texture_POP",
+  "url": "https://docs.derivative.ca/Lookup_Texture_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "lookupTexturePOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "Attribute Class",
+      "internalName": "attrclass",
+      "type": "menu",
+      "default": "point",
+      "description": "point/vertex/primitive — which attribute class"
+    },
+    {
+      "name": "Group",
+      "internalName": "group",
+      "type": "string",
+      "default": "",
+      "description": "Filter to operate only on specified group"
+    },
+    {
+      "name": "TOP",
+      "internalName": "top",
+      "type": "string",
+      "default": "",
+      "description": "TOP reference for texture lookup"
+    },
+    {
+      "name": "Lookup Index Units (U)",
+      "internalName": "indexunit0",
+      "type": "menu",
+      "default": "normalized",
+      "description": "Normalized (0-1) or Pixel Index — U axis"
+    },
+    {
+      "name": "Lookup Index Units (V)",
+      "internalName": "indexunit1",
+      "type": "menu",
+      "default": "normalized",
+      "description": "Normalized (0-1) or Pixel Index — V axis"
+    },
+    {
+      "name": "Lookup Index Units (W)",
+      "internalName": "indexunit2",
+      "type": "menu",
+      "default": "normalized",
+      "description": "Normalized (0-1) or Pixel Index — W axis"
+    },
+    {
+      "name": "Pixel Centered Sampling (U)",
+      "internalName": "pixelcentered0",
+      "type": "toggle",
+      "default": false,
+      "description": "Add half-pixel offset for normalized indices"
+    },
+    {
+      "name": "Pixel Centered Sampling (V)",
+      "internalName": "pixelcentered1",
+      "type": "toggle",
+      "default": false,
+      "description": "Add half-pixel offset for normalized indices"
+    },
+    {
+      "name": "Pixel Centered Sampling (W)",
+      "internalName": "pixelcentered2",
+      "type": "toggle",
+      "default": false,
+      "description": "Add half-pixel offset for normalized indices"
+    },
+    {
+      "name": "Cyclic Index (U)",
+      "internalName": "cyclic0",
+      "type": "toggle",
+      "default": false,
+      "description": "Wrap U index for even cycle mapping"
+    },
+    {
+      "name": "Cyclic Index (V)",
+      "internalName": "cyclic1",
+      "type": "toggle",
+      "default": false,
+      "description": "Wrap V index for even cycle mapping"
+    },
+    {
+      "name": "Cyclic Index (W)",
+      "internalName": "cyclic2",
+      "type": "toggle",
+      "default": false,
+      "description": "Wrap W index for even cycle mapping"
+    },
+    {
+      "name": "Input Extend Mode (U)",
+      "internalName": "inputextend0",
+      "type": "menu",
+      "default": "hold",
+      "description": "Repeat / Mirror / Hold / Zero — U out-of-range"
+    },
+    {
+      "name": "Input Extend Mode (V)",
+      "internalName": "inputextend1",
+      "type": "menu",
+      "default": "hold",
+      "description": "Repeat / Mirror / Hold / Zero — V out-of-range"
+    },
+    {
+      "name": "Input Extend Mode (W)",
+      "internalName": "inputextend2",
+      "type": "menu",
+      "default": "hold",
+      "description": "Repeat / Mirror / Hold / Zero — W out-of-range"
+    },
+    {
+      "name": "Interpolate",
+      "internalName": "interpolate",
+      "type": "toggle",
+      "default": true,
+      "description": "Interpolate between pixels (on) or nearest (off)"
+    },
+    {
+      "name": "Use Depth Offset",
+      "internalName": "usedepthoffset",
+      "type": "toggle",
+      "default": false,
+      "description": "Enable depth offset for Texture 3D TOP"
+    },
+    {
+      "name": "Channel Mask",
+      "internalName": "channelmask",
+      "type": "string",
+      "default": "RGBA",
+      "description": "Which color channels to sample (R, G, B, A)"
+    },
+    {
+      "name": "From Low (R)",
+      "internalName": "fromlow0",
+      "type": "float",
+      "default": 0,
+      "description": "Index rerange — R low input"
+    },
+    {
+      "name": "From Low (G)",
+      "internalName": "fromlow1",
+      "type": "float",
+      "default": 0,
+      "description": "Index rerange — G low input"
+    },
+    {
+      "name": "From Low (B)",
+      "internalName": "fromlow2",
+      "type": "float",
+      "default": 0,
+      "description": "Index rerange — B low input"
+    },
+    {
+      "name": "From Low (A)",
+      "internalName": "fromlow3",
+      "type": "float",
+      "default": 0,
+      "description": "Index rerange — A low input"
+    },
+    {
+      "name": "From High (R)",
+      "internalName": "fromhigh0",
+      "type": "float",
+      "default": 1,
+      "description": "Index rerange — R high input"
+    },
+    {
+      "name": "From High (G)",
+      "internalName": "fromhigh1",
+      "type": "float",
+      "default": 1,
+      "description": "Index rerange — G high input"
+    },
+    {
+      "name": "From High (B)",
+      "internalName": "fromhigh2",
+      "type": "float",
+      "default": 1,
+      "description": "Index rerange — B high input"
+    },
+    {
+      "name": "From High (A)",
+      "internalName": "fromhigh3",
+      "type": "float",
+      "default": 1,
+      "description": "Index rerange — A high input"
+    },
+    {
+      "name": "To Low (R)",
+      "internalName": "tolow0",
+      "type": "float",
+      "default": 0,
+      "description": "Output rerange — R low value"
+    },
+    {
+      "name": "To Low (G)",
+      "internalName": "tolow1",
+      "type": "float",
+      "default": 0,
+      "description": "Output rerange — G low value"
+    },
+    {
+      "name": "To Low (B)",
+      "internalName": "tolow2",
+      "type": "float",
+      "default": 0,
+      "description": "Output rerange — B low value"
+    },
+    {
+      "name": "To Low (A)",
+      "internalName": "tolow3",
+      "type": "float",
+      "default": 0,
+      "description": "Output rerange — A low value"
+    },
+    {
+      "name": "To High (R)",
+      "internalName": "tohigh0",
+      "type": "float",
+      "default": 1,
+      "description": "Output rerange — R high value"
+    },
+    {
+      "name": "To High (G)",
+      "internalName": "tohigh1",
+      "type": "float",
+      "default": 1,
+      "description": "Output rerange — G high value"
+    },
+    {
+      "name": "To High (B)",
+      "internalName": "tohigh2",
+      "type": "float",
+      "default": 1,
+      "description": "Output rerange — B high value"
+    },
+    {
+      "name": "To High (A)",
+      "internalName": "tohigh3",
+      "type": "float",
+      "default": 1,
+      "description": "Output rerange — A high value"
+    },
+    {
+      "name": "Output Attribute Scope",
+      "internalName": "outputattrscope",
+      "type": "menu",
+      "default": "Cd",
+      "description": "Output attribute name (P, N, Color, Tex, etc.)"
+    },
+    {
+      "name": "Override Automatic Attribute",
+      "internalName": "overrideautoattr",
+      "type": "toggle",
+      "default": false,
+      "description": "Enable manual attribute type control"
+    },
+    {
+      "name": "Attribute Type",
+      "internalName": "attrtype",
+      "type": "menu",
+      "default": "float",
+      "description": "float / double / int / uint / color / dcolor / dir / ddir"
+    },
+    {
+      "name": "Components",
+      "internalName": "attrnumcomps",
+      "type": "menu",
+      "default": 4,
+      "description": "1 / 2 / 3 / 4 components"
+    },
+    {
+      "name": "Default Value",
+      "internalName": "attrdefaultval",
+      "type": "float[4]",
+      "default": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "description": "Default values for components"
+    },
+    {
+      "name": "Lookup Index Attribute U",
+      "internalName": "lookupindexattr0",
+      "type": "string",
+      "default": "uv.x",
+      "description": "Attribute for U coordinate"
+    },
+    {
+      "name": "Lookup Index Attribute V",
+      "internalName": "lookupindexattr1",
+      "type": "string",
+      "default": "uv.y",
+      "description": "Attribute for V coordinate"
+    },
+    {
+      "name": "Lookup Index Attribute W",
+      "internalName": "lookupindexattr2",
+      "type": "string",
+      "default": "",
+      "description": "Attribute for W coordinate (3D textures)"
+    },
+    {
+      "name": "Lookup Index Offset (U)",
+      "internalName": "lookupindexoffset0",
+      "type": "float",
+      "default": 0,
+      "description": "Offset for U lookup index"
+    },
+    {
+      "name": "Lookup Index Offset (V)",
+      "internalName": "lookupindexoffset1",
+      "type": "float",
+      "default": 0,
+      "description": "Offset for V lookup index"
+    },
+    {
+      "name": "Lookup Index Offset (W)",
+      "internalName": "lookupindexoffset2",
+      "type": "float",
+      "default": 0,
+      "description": "Offset for W lookup index"
+    },
+    {
+      "name": "Bypass",
+      "internalName": "bypass",
+      "type": "toggle",
+      "default": false,
+      "description": "Pass through first input unchanged"
+    },
+    {
+      "name": "Free Extra GPU Memory",
+      "internalName": "freeextragpumem",
+      "type": "toggle",
+      "default": false,
+      "description": "Free accumulated GPU memory"
+    },
+    {
+      "name": "Delete Input Attributes",
+      "internalName": "delinputattrs",
+      "type": "toggle",
+      "default": false,
+      "description": "Only output specified attributes"
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de Touc"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de Touc"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "línea (Line MAT) de TouchDesigner se implementa internamente usando una conversión a este POP, lo que sugiere su rol en la representación visual de líneas. • Experimental:Lookup Attribute POP: Utiliza uno, dos o tres componentes de un atributo como índices para realizar búsquedas. También puede utilizar atributos de solo lectura. • Experimental:Lookup Channel POP: Similar al Lookup Attribute POP, usa componentes de atributos como índices para realizar búsquedas en canales. • Experimental:Lookup Texture POP: Similar a los anteriores, pero utiliza componentes de atributos como índices para realizar búsquedas en texturas. • Experimental:Math Combine POP: Similar al Attribute Combine, permite combinar datos de múltiples entradas y especificar qué atributos se deben combinar. También soporta la creación automática de nombres de atributos. • Experimental:Math Mix POP: Permite mezclar datos de múltiples entradas. Al igual que el Math POP, ofrece capacidades de manipulación sin codificación y la crea"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "línea (Line MAT) de TouchDesigner se implementa internamente usando una conversión a este POP, lo que sugiere su rol en la representación visual de líneas. • Experimental:Lookup Attribute POP: Utiliza uno, dos o tres componentes de un atributo como índices para realizar búsquedas. También puede utilizar atributos de solo lectura. • Experimental:Lookup Channel POP: Similar al Lookup Attribute POP, usa componentes de atributos como índices para realizar búsquedas en canales. • Experimental:Lookup Texture POP: Similar a los anteriores, pero utiliza componentes de atributos como índices para realizar búsquedas en texturas. • Experimental:Math Combine POP: Similar al Attribute Combine, permite combinar datos de múltiples entradas y especificar qué atributos se deben combinar. También soporta la creación automática de nombres de atributos. • Experimental:Math Mix POP: Permite mezclar datos de múltiples entradas. Al igual que el Math POP, ofrece capacidades de manipulación sin codificación y la"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "línea (Line MAT) de TouchDesigner se implementa internamente usando una conversión a este POP, lo que sugiere su rol en la representación visual de líneas. • Experimental:Lookup Attribute POP: Utiliza uno, dos o tres componentes de un atributo como índices para realizar búsquedas. También puede utilizar atributos de solo lectura. • Experimental:Lookup Channel POP: Similar al Lookup Attribute POP, usa componentes de atributos como índices para realizar búsquedas en canales. • Experimental:Lookup Texture POP: Similar a los anteriores, pero utiliza componentes de atributos como índices para realizar búsquedas en texturas. • Experimental:Math Combine POP: Similar al Attribute Combine, permite combinar datos de múltiples entradas y especificar qué atributos se deben combinar. También soporta la creación automática de nombres de atributos. • Experimental:Math Mix POP: Permite mezclar datos de múltiples entradas. Al igual que el Math POP, ofrece capacidades de manipulación sin codificación y la crea"
+    }
+  ],
+  "useCases": [
+    "Map video texture colors to particle attributes",
+    "Sample heightmaps for displacement",
+    "Transfer image-based data to point clouds",
+    "Create color gradients from texture lookups",
+    "3D texture sampling for volumetric attribute mapping"
+  ],
+  "examples": [
+    {
+      "name": "Video Color Transfer",
+      "description": "Movie TOP → Lookup Texture POP (Tex U/V as index) → Color attribute",
+      "difficulty": "intermediate"
+    },
+    {
+      "name": "Heightmap Displacement",
+      "description": "Noise TOP → Lookup Texture POP → P.y displacement",
+      "difficulty": "intermediate"
+    },
+    {
+      "name": "3D Texture Volume",
+      "description": "Texture 3D TOP → Lookup Texture POP (U/V/W) → volumetric attributes",
+      "difficulty": "advanced"
+    }
+  ],
+  "commonCombinations": [
+    "Movie TOP → Lookup Texture POP",
+    "Noise TOP → Lookup Texture POP",
+    "Render TOP → Lookup Texture POP",
+    "Lookup Texture POP → GLSL POP"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Wrong texture coordinates",
+      "solution": "Verify UV attributes exist and are in 0-1 range"
+    },
+    {
+      "problem": "Pixelated results",
+      "solution": "Enable Interpolate for bilinear filtering"
+    },
+    {
+      "problem": "Off-by-half errors",
+      "solution": "Enable Pixel Centered Sampling for accurate pixel mapping"
+    },
+    {
+      "problem": "3D texture issues",
+      "solution": "Ensure W attribute exists and Use Depth Offset is enabled"
+    },
+    {
+      "problem": "Channel Mask not working",
+      "solution": "Check channel names (R, G, B, A) and TOP format"
+    }
+  ],
+  "description": "Takes two attributes (Lookup Attribute U and V) with values in the 0-1 range and uses them as pixel coordinates into a TOP, pulling RGBA values and placing them into POP attributes. Supports 3D textures via the W attribute."
+}

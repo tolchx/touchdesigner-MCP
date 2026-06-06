@@ -1,0 +1,35 @@
+{
+  "name": "mcp-td",
+  "displayName": "MCP TouchDesigner",
+  "description": "Controla TouchDesigner desde VS Code. Crea operadores, conecta nodos, ejecuta Python.",
+  "version": "1.0.0",
+  "engines": { "vscode": "^1.80.0" },
+  "categories": ["Other"],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      { "command": "mcp-td.start", "title": "MCP-TD: Start Server" },
+      { "command": "mcp-td.stop", "title": "MCP-TD: Stop Server" },
+      { "command": "mcp-td.status", "title": "MCP-TD: Show Status" },
+      { "command": "mcp-td.execute", "title": "MCP-TD: Execute Python" },
+      { "command": "mcp-td.listTools", "title": "MCP-TD: List Tools" }
+    ],
+    "configuration": {
+      "title": "MCP TouchDesigner",
+      "properties": {
+        "mcp-td.host": { "type": "string", "default": "localhost", "description": "TD API host" },
+        "mcp-td.port": { "type": "number", "default": 44444, "description": "TD API port" }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "npx tsc -p tsconfig.json",
+    "watch": "npx tsc -watch -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.80.0",
+    "typescript": "^5.3.0"
+  }
+}

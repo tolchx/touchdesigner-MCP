@@ -1,0 +1,57 @@
+{
+  "pageTitle": "DMX Fixture POP",
+  "pageSlug": "DMX_Fixture_POP",
+  "url": "https://docs.derivative.ca/DMX_Fixture_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "dMXFixturePOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "pal o son mencionados en el contexto de otros operadores, pero carecen de una descripción detallada de su función, parámetros y casos de uso en los fragmentos disponibles. La información se limita a redirecciones, menciones arquitectónicas o discusiones en foros. 1. Cache POP: Aunque es referenciado por Cache Blend POP y Cache Select POP como el operador que gestiona los datos en caché, no se encontró documentación directa que describa su propósito, parámetros o casos de uso específicos.31 2. DMX Fixture POP: Solo se encontró una discusión en un foro de Derivative, que aborda un problema específico de división de canales a través de universos DMX, pero no proporciona una descripción general, parámetros o casos de uso del operador en sí.46 3. Line POP: Se menciona en el contexto de las capacidades de subdivisión de splines en POPs, indicando que, junto con Line Divide POP, permite la subdivisión de splines en conjuntos de puntos de control. Sin embargo, no hay detalles sobre sus propios parámetros"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "pal o son mencionados en el contexto de otros operadores, pero carecen de una descripción detallada de su función, parámetros y casos de uso en los fragmentos disponibles. La información se limita a redirecciones, menciones arquitectónicas o discusiones en foros. 1. Cache POP: Aunque es referenciado por Cache Blend POP y Cache Select POP como el operador que gestiona los datos en caché, no se encontró documentación directa que describa su propósito, parámetros o casos de uso específicos.31 2. DMX Fixture POP: Solo se encontró una discusión en un foro de Derivative, que aborda un problema específico de división de canales a través de universos DMX, pero no proporciona una descripción general, parámetros o casos de uso del operador en sí.46 3. Line POP: Se menciona en el contexto de las capacidades de subdivisión de splines en POPs, indicando que, junto con Line Divide POP, permite la subdivisión de splines en conjuntos de puntos de control. Sin embargo, no hay detalles sobre sus propios parámet"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "pal o son mencionados en el contexto de otros operadores, pero carecen de una descripción detallada de su función, parámetros y casos de uso en los fragmentos disponibles. La información se limita a redirecciones, menciones arquitectónicas o discusiones en foros. 1. Cache POP: Aunque es referenciado por Cache Blend POP y Cache Select POP como el operador que gestiona los datos en caché, no se encontró documentación directa que describa su propósito, parámetros o casos de uso específicos.31 2. DMX Fixture POP: Solo se encontró una discusión en un foro de Derivative, que aborda un problema específico de división de canales a través de universos DMX, pero no proporciona una descripción general, parámetros o casos de uso del operador en sí.46 3. Line POP: Se menciona en el contexto de las capacidades de subdivisión de splines en POPs, indicando que, junto con Line Divide POP, permite la subdivisión de splines en conjuntos de puntos de control. Sin embargo, no hay detalles sobre sus propios parámetros"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "AT to POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Delete POP: Permite reducir un conjunto de puntos o primitivas a un subconjunto más pequeño. Puede utilizar atributos de solo lectura incorporados para la selección. • Experimental:Dimension POP: Relacionado con una organización de orden superior de los puntos dentro de un POP. Sugiere una forma más avanzada de estructurar los datos de puntos. • Experimental:DMX Fixture POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:DMX Out POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:Extrude POP: Puede crear grupos automáticamente. Las fuentes indican que los POPs aún no realizan extrusiones completas en cualquier tira de líne"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "AT to POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Delete POP: Permite reducir un conjunto de puntos o primitivas a un subconjunto más pequeño. Puede utilizar atributos de solo lectura incorporados para la selección. • Experimental:Dimension POP: Relacionado con una organización de orden superior de los puntos dentro de un POP. Sugiere una forma más avanzada de estructurar los datos de puntos. • Experimental:DMX Fixture POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:DMX Out POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:Extrude POP: Puede crear grupos automáticamente. Las fuentes indican que los POPs aún no realizan extrusiones completas en cualquier tira de"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "AT to POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Delete POP: Permite reducir un conjunto de puntos o primitivas a un subconjunto más pequeño. Puede utilizar atributos de solo lectura incorporados para la selección. • Experimental:Dimension POP: Relacionado con una organización de orden superior de los puntos dentro de un POP. Sugiere una forma más avanzada de estructurar los datos de puntos. • Experimental:DMX Fixture POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:DMX Out POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:Extrude POP: Puede crear grupos automáticamente. Las fuentes indican que los POPs aún no realizan extrusiones completas en cualquier tira de líne"
+    }
+  ],
+  "useCases": [
+    "Define DMX fixtures",
+    "Map channels to attributes",
+    "Prepare DMX output"
+  ],
+  "examples": [
+    {
+      "name": "LED Fixture",
+      "description": "DMX Fixture POP to define RGB LED fixture",
+      "difficulty": "intermediate"
+    }
+  ],
+  "commonCombinations": [
+    "DMX Fixture POP to DMX Out POP"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Wrong channel mapping",
+      "solution": "Check DMX channel assignments."
+    }
+  ]
+}

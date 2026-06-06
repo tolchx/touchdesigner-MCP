@@ -1,0 +1,46 @@
+{
+  "family": "SOP",
+  "pageTitle": "Force SOP",
+  "pageSlug": "Force_SOP",
+  "url": "https://docs.derivative.ca/Force_SOP",
+  "tdOpTypeGuess": "forceSOP",
+  "summary": "[  edit  ]\nThe Force  SOP  adds force attributes to the input metaball field that is used by either  Particle SOP  or  Spring SOP  as attractor or repulsion force fields. In general, force values greater than 0 cause points to be attracted, less than 0 cause points to be repelled.\nforceSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Tips\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common SOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "03-twozero-evaluation.md",
+      "excerpt": "ensuciar el proyecto (non-invasive)** Convenciones sistemáticas: - encapsular sistemas en `baseCOMP`/`geoCOMP` - nodos “I/O estándar” (`in*`, `out*`, `null*`) - layout determinístico (`nodeX/nodeY`) - nombres consistentes y prefijos por dominio (`pop_`, `top_`, `chop_`) - **Validación y calidad (production tools)** Protocolos para: - verificar existencia de OPs creados - detectar cooks costosos (Info CHOP / cookTime) - validar atributos esperados en POP sims (PartVel/PartForce/…) - reportar errores con causas probables + fixes sugeridos - **Sync/portabilidad** En este contexto, “cloud sync” se reemplaza por: - base de conocimiento versionada (JSON + Markdown) - scripts reproducibles (sin estado oculto) ## Qué no se integra directamente - UI embebida y herramientas propietarias de TWOZERO. - Sincronización en la nube “integrada” (solo se replica el enfoque de versionado y reproducibilidad)."
+    },
+    {
+      "source": "07-testing-protocols.md",
+      "excerpt": "er y secciones mínimas con `node touchdesigner/mcp/dist/promptLint.js`. ## 2) Chequeo de dependencias - TouchDesigner 2025+. - `TDAPI_PORT` configurado y coincidente con el TOX. - Ollama (si aplica): `LLM_PROVIDER=ollama` y `OLLAMA_MODEL` instalado. ## 3) Pruebas funcionales (smoke tests) Ejecutar un bloque `td_execute` de validación que confirme: - operadores creados (paths) - conexiones clave (especialmente feedback loops) - atributos reservados presentes cuando aplica (p.ej. PartVel/PartForce) ## 4) Pruebas de rendimiento - Conectar `Info CHOP` a operadores críticos (POP, TOP, COMP). - Medir `cook_time` y `errors/warnings`. - Aplicar presupuestos explícitos: - número de puntos - límites de partículas - resolución TOP - frecuencia de recook ## 5) Reportes de errores y fixes sugeridos Formato recomendado para reportar fallos: - Síntoma observable - Operador/etapa afectada - Causa probable (con evidencia) - Fix sugerido (acción concreta) - Verificación posterior"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "e, a diferencia de los SOPs que a menudo comienzan con primitivas geométricas (esfera, caja), los POPs a menudo comienzan con una colección de puntos o líneas. La calidad y estructura de los datos generados por estos POPs influyen directamente en la complejidad y el resultado visual de toda la cadena de procesamiento de geometría o sistema de partículas. Por ejemplo, una nube de puntos bien distribuida de Sprinkle POP conducirá a comportamientos de partículas más naturales cuando se combine con Force POPs. El uso efectivo de los POPs requiere una sólida comprensión de cómo generar e inicializar datos proceduralmente, ya que esto forma la base para todas las manipulaciones posteriores. 2.2 POPs Modificadores Estos operadores toman datos POP existentes como entrada y los transforman, filtran o mejoran. * Attribute POP: Un operador experimental central para la gestión integral de atributos. Permite a los usuarios crear nuevos atributos (especificando clase, nombre, tipo, componentes"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "tículas y para la manipulación general de datos que requieren bucles de retroalimentación. Se utiliza para simular el movimiento de partículas a lo largo del tiempo, convirtiendo la fuerza en velocidad y la velocidad en posición. • Experimental:Field POP: Genera nuevos atributos, a menudo con nombres predeterminados sugeridos. Este operador genera el atributo Weight. • Experimental:File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner. • Experimental:Force POP: Se utiliza para crear o añadir al atributo PartForce (fuerza de partícula). Es fundamental para definir cómo las fuerzas actúan sobre las partículas. • Experimental:GLSL Advanced POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL Copy POP: Permite ejecutar código de compute shader (GLSL) en cada punto para deformar geometrías basándose en los atributos del punto. Es muy potente para generar formas compleja"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "partículas. Una partícula es un punto POP con atributos especiales que definen su comportamiento. * **Características clave:** * Opera completamente en la **GPU**, permitiendo manejar millones de partículas eficientemente. * Las partículas se crean con una **posición inicial** (`P`), **velocidad** (`PartVel`), y **masa** (`PartMass`). * Se basa en un **bucle de retroalimentación (feedback loop)**: la salida del Particle POP se envía a otros POPs (como el Force POP) para aplicar fuerzas, y el resultado vuelve al Particle POP para calcular el estado del siguiente fotograma. * El Particle POP es quien **crea y elimina partículas**, pero puedes controlar su nacimiento (emisión) y muerte. * Permite extender la simulación inyectando fuerzas, límites espaciales o colisiones a través del mecanismo de feedback. * **Uso simple:** Fundamental para crear efectos como humo, fuego, polvo, lluvia, o cualquier sistema que implique muchos"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "moria de la GPU** (tarjeta gráfica). * **Características clave:** * Soporta varios formatos de archivo. * Puedes especificar un **URL** (empezando con `http://`) para archivos accesibles en la red. * Tiene una opción para **voltear las caras de la primitiva** (`Flip Primitive Faces`). * Parámetros `Refresh` y `Refresh Pulse` para actualizar los datos del archivo. * Es el punto de partida para cargar geometrías complejas en tu entorno POP. --- #### 26. Force POP * **¿Qué hace?** Este operador se utiliza principalmente dentro de un **bucle de Particle POP** (operador de partículas) para crear y sumar un conjunto de \"fuerzas\" que afectan el movimiento de las partículas. La salida es un atributo `float3` llamado `PartForce`. * **Características clave:** * **Fuerzas Globales**: Incluye una fuerza global única y una fuerza de viento (convertida de una velocidad de viento). Estas fuerzas son uniformes para todas las partículas por defecto."
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

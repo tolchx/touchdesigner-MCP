@@ -1,0 +1,33 @@
+{
+  "pageTitle": "Force Radial POP",
+  "pageSlug": "Force_Radial_POP",
+  "url": "https://docs.derivative.ca/Force_Radial_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "forceRadialPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [
+    "Particle attraction/repulsion",
+    "Vortex fields",
+    "Radial force simulation"
+  ],
+  "examples": [
+    {
+      "name": "Particle Vortex",
+      "description": "Grid POP to Particle POP with Force Radial for orbital motion",
+      "difficulty": "intermediate"
+    }
+  ],
+  "commonCombinations": [
+    "Particle POP with Force Radial POP",
+    "Force Radial with Noise POP"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Particles fly away",
+      "solution": "Reduce force strength or add Linear Drag."
+    }
+  ]
+}

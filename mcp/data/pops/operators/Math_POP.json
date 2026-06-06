@@ -1,0 +1,354 @@
+{
+  "pageTitle": "Math POP",
+  "pageSlug": "Math_POP",
+  "url": "https://docs.derivative.ca/Math_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "mathPOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "attrclass",
+      "label": "Attribute Class",
+      "type": "menu",
+      "default": "point",
+      "options": [
+        "point",
+        "vertex",
+        "primitive"
+      ],
+      "description": "Operate on point, vertex, or primitive attributes."
+    },
+    {
+      "name": "group",
+      "label": "Group",
+      "type": "str",
+      "default": "",
+      "description": "Point or primitive group to operate on."
+    },
+    {
+      "name": "inputattrscope",
+      "label": "Input Attribute Scope",
+      "type": "str",
+      "default": "P",
+      "description": "Input attribute name or components (e.g., P(1) P(0) for reorder)."
+    },
+    {
+      "name": "angleunit",
+      "label": "Angle Units",
+      "type": "menu",
+      "default": "deg",
+      "options": [
+        "deg",
+        "rad",
+        "cycle"
+      ],
+      "description": "Degrees, Radians, or Cycles."
+    },
+    {
+      "name": "parsize",
+      "label": "Parameter Size",
+      "type": "menu",
+      "default": "1",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "description": "Number of independent parameter values (per-component control)."
+    },
+    {
+      "name": "preoper",
+      "label": "Pre Operation",
+      "type": "menu",
+      "default": "none",
+      "options": [
+        "none",
+        "abs",
+        "sign",
+        "sqrt",
+        "square",
+        "inverse",
+        "floor",
+        "round",
+        "ceil",
+        "int",
+        "fract",
+        "degrees",
+        "radians",
+        "normalize",
+        "exp10",
+        "exp2",
+        "exp",
+        "log10",
+        "log2",
+        "ln",
+        "sin",
+        "cos",
+        "tan",
+        "asin",
+        "acos",
+        "atan",
+        "dbtopow",
+        "powtodb",
+        "dbtoamp",
+        "amptodb",
+        "length",
+        "compadd",
+        "compsub",
+        "compmult",
+        "compdiv",
+        "compavg",
+        "compmin",
+        "compmax"
+      ],
+      "description": "Math operation before add-multiply-add."
+    },
+    {
+      "name": "preadd",
+      "label": "Pre Add",
+      "type": "float",
+      "default": 0,
+      "description": "Value to add before the multiply."
+    },
+    {
+      "name": "mult",
+      "label": "Multiply",
+      "type": "float",
+      "default": 1,
+      "description": "Multiply by this value."
+    },
+    {
+      "name": "postadd",
+      "label": "Post Add",
+      "type": "float",
+      "default": 0,
+      "description": "Value to add after the multiply."
+    },
+    {
+      "name": "postoper",
+      "label": "Post Operation",
+      "type": "menu",
+      "default": "none",
+      "options": [
+        "none",
+        "abs",
+        "sign",
+        "sqrt",
+        "square",
+        "inverse",
+        "floor",
+        "round",
+        "ceil",
+        "int",
+        "fract",
+        "degrees",
+        "radians",
+        "normalize",
+        "exp10",
+        "exp2",
+        "exp",
+        "log10",
+        "log2",
+        "ln",
+        "sin",
+        "cos",
+        "tan",
+        "asin",
+        "acos",
+        "atan",
+        "dbtopow",
+        "powtodb",
+        "dbtoamp",
+        "amptodb",
+        "length",
+        "compadd",
+        "compsub",
+        "compmult",
+        "compdiv",
+        "compavg",
+        "compmin",
+        "compmax"
+      ],
+      "description": "Math operation after add-multiply-add."
+    },
+    {
+      "name": "fromlow",
+      "label": "Map from Low",
+      "type": "float",
+      "default": 0,
+      "description": "ReRange input minimum."
+    },
+    {
+      "name": "fromhigh",
+      "label": "Map from High",
+      "type": "float",
+      "default": 1,
+      "description": "ReRange input maximum."
+    },
+    {
+      "name": "tolow",
+      "label": "Map to Low",
+      "type": "float",
+      "default": 0,
+      "description": "ReRange output minimum."
+    },
+    {
+      "name": "tohigh",
+      "label": "Map to High",
+      "type": "float",
+      "default": 1,
+      "description": "ReRange output maximum."
+    },
+    {
+      "name": "quantize",
+      "label": "Quantize",
+      "type": "menu",
+      "default": "off",
+      "options": [
+        "off",
+        "floor",
+        "round",
+        "ceiling",
+        "gt0",
+        "gteq0",
+        "eq0",
+        "neq0",
+        "lteq0",
+        "lt0"
+      ],
+      "description": "Convert values to discrete levels."
+    },
+    {
+      "name": "castto",
+      "label": "Cast to",
+      "type": "menu",
+      "default": "auto",
+      "options": [
+        "auto",
+        "float",
+        "int"
+      ],
+      "description": "Override output data type."
+    },
+    {
+      "name": "outputattrscope",
+      "label": "Output Attribute Scope",
+      "type": "str",
+      "default": "P",
+      "description": "Output attribute name (can choose components)."
+    },
+    {
+      "name": "overrideautoattr",
+      "label": "Override Auto Attribute",
+      "type": "toggle",
+      "default": false,
+      "description": "Manually specify output attribute type and components."
+    },
+    {
+      "name": "attrtype",
+      "label": "Attribute Type",
+      "type": "menu",
+      "default": "float",
+      "options": [
+        "float",
+        "double",
+        "int",
+        "uint",
+        "color",
+        "dcolor",
+        "dir",
+        "ddir"
+      ],
+      "description": "Output attribute data type."
+    },
+    {
+      "name": "attrnumcomps",
+      "label": "Components",
+      "type": "menu",
+      "default": "1",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "description": "Number of components in output attribute."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": ".21 * Parámetros: Attribute Class, Input Attribute, Use Input Range, Input Range, Output Bin Value, Quantize (Floor, Round, Ceiling), Outside Range (Clamp, Discard, Extra Out-of-Range Bins), Number of Bins, Count Attribute.21 * Line Metrics POP: Añade atributos de métricas a las tiras de línea, proporcionando información como la dirección a los puntos siguiente/anterior, la distancia desde el inicio de la tira de línea o el número de tira de línea. Estos atributos son útiles para los Math POPs o Lookup POPs subsiguientes.22 * Math Combine POP: Un potente operador para realizar numerosas operaciones matemáticas en atributos. Amplía las capacidades de Math Mix POP al permitir la selección explícita y el cambio de nombre de atributos de múltiples entradas, la creación de nuevos atributos con valores constantes y la aplicación de bloques de pre/post-procesamiento.23 * Parámetros: Presenta páginas \"New\" (crear nuevos atributos), \"Pre\" (operaciones de un solo atributo), \"Combin"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "de curva directamente, aunque la subdivisión de splines es posible utilizando operadores como Line POP y Line Divide POP.7 Los atributos son cruciales para almacenar datos adicionales por punto, vértice o primitiva, como normales (N), coordenadas de textura (uv) y color (Cd).1 Los POPs permiten la creación, modificación, duplicación, cambio de nombre y eliminación de estos atributos.1 El énfasis en los \"atributos\" y su manipulación a través de varios POPs (por ejemplo, Attribute POP, GLSL POP, Math Mix POP) apunta a una filosofía de diseño centrada en los atributos para los POPs. Muchos POPs (Attribute POP, GLSL POP, Math Mix POP, etc.) están explícitamente diseñados para crear, modificar o combinar atributos.1 La documentación destaca que los atributos se almacenan como Objetos de Búfer de Almacenamiento de Shader (SSBOs) en los GLSL POPs.12 Esta estructuración de datos en SSBOs, una característica central de la programación de GPU moderna (GLSL, Vulkan), permite un procesamiento altamen"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": ".21 * Parámetros: Attribute Class, Input Attribute, Use Input Range, Input Range, Output Bin Value, Quantize (Floor, Round, Ceiling), Outside Range (Clamp, Discard, Extra Out-of-Range Bins), Number of Bins, Count Attribute.21 * Line Metrics POP: Añade atributos de métricas a las tiras de línea, proporcionando información como la dirección a los puntos siguiente/anterior, la distancia desde el inicio de la tira de línea o el número de tira de línea. Estos atributos son útiles para los Math POPs o Lookup POPs subsiguientes.22 * Math Combine POP: Un potente operador para realizar numerosas operaciones matemáticas en atributos. Amplía las capacidades de Math Mix POP al permitir la selección explícita y el cambio de nombre de atributos de múltiples entradas, la creación de nuevos atributos con valores constantes y la aplicación de bloques de pre/post-procesamiento.23 * Parámetros: Presenta páginas \"New\" (crear nuevos atributos), \"Pre\" (operaciones de un solo atributo), \"Combin"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "para realizar búsquedas en canales. • Experimental:Lookup Texture POP: Similar a los anteriores, pero utiliza componentes de atributos como índices para realizar búsquedas en texturas. • Experimental:Math Combine POP: Similar al Attribute Combine, permite combinar datos de múltiples entradas y especificar qué atributos se deben combinar. También soporta la creación automática de nombres de atributos. • Experimental:Math Mix POP: Permite mezclar datos de múltiples entradas. Al igual que el Math POP, ofrece capacidades de manipulación sin codificación y la creación fácil de nuevos atributos. Soporta la creación automática de nombres de atributos y utiliza atributos de solo lectura. • Experimental:Math POP: Un operador clave para realizar operaciones matemáticas y funciones simples en atributos sin necesidad de escribir código. Permite crear nuevos atributos para almacenar los resultados. También puedes usarlo para crear y modificar atributos de color y textura. Soporta la creación automá"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "neas. • Experimental:Lookup Attribute POP: Utiliza uno, dos o tres componentes de un atributo como índices para realizar búsquedas. También puede utilizar atributos de solo lectura. • Experimental:Lookup Channel POP: Similar al Lookup Attribute POP, usa componentes de atributos como índices para realizar búsquedas en canales. • Experimental:Lookup Texture POP: Similar a los anteriores, pero utiliza componentes de atributos como índices para realizar búsquedas en texturas. • Experimental:Math Combine POP: Similar al Attribute Combine, permite combinar datos de múltiples entradas y especificar qué atributos se deben combinar. También soporta la creación automática de nombres de atributos. • Experimental:Math Mix POP: Permite mezclar datos de múltiples entradas. Al igual que el Math POP, ofrece capacidades de manipulación sin codificación y la creación fácil de nuevos atributos. Soporta la creación automática de nombres de atributos y utiliza atributos de solo lectura. • Experimen"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "para realizar búsquedas en canales. • Experimental:Lookup Texture POP: Similar a los anteriores, pero utiliza componentes de atributos como índices para realizar búsquedas en texturas. • Experimental:Math Combine POP: Similar al Attribute Combine, permite combinar datos de múltiples entradas y especificar qué atributos se deben combinar. También soporta la creación automática de nombres de atributos. • Experimental:Math Mix POP: Permite mezclar datos de múltiples entradas. Al igual que el Math POP, ofrece capacidades de manipulación sin codificación y la creación fácil de nuevos atributos. Soporta la creación automática de nombres de atributos y utiliza atributos de solo lectura. • Experimental:Math POP: Un operador clave para realizar operaciones matemáticas y funciones simples en atributos sin necesidad de escribir código. Permite crear nuevos atributos para almacenar los resultados. También puedes usarlo para crear y modificar atributos de color y textura. Soporta la creación automá"
+    }
+  ],
+  "useCases": [
+    "Wave motion and circular patterns (sin/cos with absTime.seconds)",
+    "Audio compression (log10 for wide range → visible range)",
+    "Non-linear scaling (power, exponential, logarithmic transforms)",
+    "Component re-ordering (P(1) P(0) swaps Y and X position)"
+  ],
+  "examples": [
+    {
+      "name": "Wave Surface",
+      "description": "Grid POP → Math POP (P.y += sin(P.x*2)*cos(P.z*2)*0.5)",
+      "difficulty": "beginner"
+    },
+    {
+      "name": "Audio Compression",
+      "description": "Math POP (log10 for dB compression) → Color POP",
+      "difficulty": "intermediate"
+    },
+    {
+      "name": "Pulse Animation",
+      "description": "Math POP (sin(absTime.seconds*2) for oscillation)",
+      "difficulty": "beginner"
+    }
+  ],
+  "commonCombinations": [
+    "Grid POP → Math POP (wave displacement)",
+    "Math POP → Noise POP (modified noise input)",
+    "Math POP → Color POP (attribute to color mapping)",
+    "Math POP → Render TOP (position-based effects)"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Not animating",
+      "solution": "Add absTime.seconds inside sin/cos expressions."
+    },
+    {
+      "problem": "Wrong component",
+      "solution": "Set Parameter Size to match attribute components (1-4)."
+    },
+    {
+      "problem": "Values out of range",
+      "solution": "Use built-in ReRange (Map from/to Low/High)."
+    },
+    {
+      "problem": "Want integer output",
+      "solution": "Set Cast to = Int."
+    }
+  ],
+  "description": "Single-attribute math operator with Pre Operation → Pre Add → Multiply → Post Add → Post Operation pipeline. Supports Parameter Size 1-4 for per-component control. Includes built-in ReRange and Quantize. Generates GLSL-compatible operations."
+}

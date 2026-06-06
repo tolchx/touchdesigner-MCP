@@ -1,0 +1,450 @@
+{
+  "family": "SOP",
+  "pageTitle": "Particle SOP",
+  "pageSlug": "Particle_SOP",
+  "url": "https://docs.derivative.ca/Particle_SOP",
+  "tdOpTypeGuess": "particleSOP",
+  "summary": "[  edit  ]\nThe Particle  SOP  is used for creating and controlling motion of \"particles\" for particle systems simulations. Particle systems are often used to create simulations of natural events such as rain and snow, or effects such as fireworks and sparks. In Touch, the points of the input geometry are used as the starting positions of the particles. Each point of the input can be affected by external force (gravity) and wind. Particles can collide and bounce off another object, set by the  Collision Source . They can also bounce off, or die at, limit planes set in X, Y and Z.\nParticles are created with an initial velocity/direction that comes from the source geometry’s point normals, and that velocity can be controlled by modifying the normals using, for instance, a  Point SOP ,  Facet SOP  or  Script SOP . A point with a Normal of magnitude 1 emit bear particles with a velocity of 1 unit per second in the direction of the normal.\nParticles have various  Attributes  that regular geometry do not have, such as velocity, life expectancy and age. These attributes must be carried with each point in order to carry out the simulation.\nThe fourth input is Surface Attractors that cause the particles to be attached to areas of a surface. Each particle's id is used to determine a random target primitive, and random u,v on that primitive.  That target position is used to modify the current velocity.\nparticleSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Parameters - State Page\n4   Parameters - Forces Page\n4.1   Discussion - Wind vs External Force\n5   Parameters - Particles Page\n6   Parameters - Limits Page\n7   Operator Inputs\n8   Info CHOP Channels\n8.1   Common SOP Info Channels\n8.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    },
+    {
+      "index": 2,
+      "description": "-"
+    },
+    {
+      "index": 3,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "State",
+      "label": "Particle Type",
+      "name": "prtype",
+      "description": "⊞  - Selects how the particles are rendered."
+    },
+    {
+      "page": "State",
+      "label": "Render as Lines",
+      "name": "lines",
+      "description": "Each particle will be rendered as a 2-point line, with the length determined based on the particles velocity. If the particle has no velocity it will just be a single pixel in size."
+    },
+    {
+      "page": "State",
+      "label": "Render as Point Sprites",
+      "name": "pointprites",
+      "description": "For use with the  Point Sprite MAT . Each particle is a square of pixels that always face the camera. The size of the square is determined by parameters in the Point Sprite and the  pscale  vertex/point attribute. The point sprites will have texture coordinates generated for them automatically also ((0,0) in the bottom left and (1,1) in the top right)."
+    },
+    {
+      "page": "State",
+      "label": "Behavior",
+      "name": "behave",
+      "description": "⊞  - Select between emitting particles from the geometry's points or deforming the original geometry using the Particle  SOP 's behavior."
+    },
+    {
+      "page": "State",
+      "label": "Particle System",
+      "name": "psystem",
+      "description": "Act like a particle system, where particles are born from the input points."
+    },
+    {
+      "page": "State",
+      "label": "Modify Source  Geometry",
+      "name": "modify",
+      "description": "Deforms the source input geometry."
+    },
+    {
+      "page": "State",
+      "label": "Compute Normals",
+      "name": "normals",
+      "description": "Creates normals on the geometry.  Only used when  Behaviour  is set to  Modify Source  Geometry  ."
+    },
+    {
+      "page": "State",
+      "label": "Point Reuse",
+      "name": "ptreuse",
+      "description": "⊞  - Decide how the internal memory for points is reused when a point needs to be created or when a point dies."
+    },
+    {
+      "page": "State",
+      "label": "Preroll Time",
+      "name": "timepreroll",
+      "description": "How many seconds of the simulation to bypass, after the reset time is reached. For example, if you put the number  33  into this field (and reset is at  Tstart ), frame one will show the simulation that was at a time of 33 seconds. In other words, the first thirty-two seconds have been bypassed, and the time at thirty-three seconds is shifted to frame one. The first thirty-two seconds must still be calculated in order to compute the status of the points, so you will notice some delay upon reset."
+    },
+    {
+      "page": "State",
+      "label": "Time Inc",
+      "name": "timeinc",
+      "description": "The  Time Inc  parameter determines how often to cook the  SOP . By default, this parameter is set to   1  /  me  .  time  .  rate  . This means that the  SOP  will cook once for every frame. When complex dynamics are involved, the  SOP  may require more frequent cooking for increased mathematical accuracy. To get sub-frame accuracy in the cooking, set the  Time Inc  to something smaller than   1  /  me  .  time  .  rate  ."
+    },
+    {
+      "page": "State",
+      "label": "Max Steps",
+      "name": "maxsteps",
+      "description": "Limits how far back in time TouchDesigner calculates particle positions for proper interactions.  If frame rates are slow this computation back in time can become high, this parameter limits that effect."
+    },
+    {
+      "page": "State",
+      "label": "Jitter Births",
+      "name": "jitter",
+      "description": "This allows you to jitter the location pixels of each particle as they are born."
+    },
+    {
+      "page": "State",
+      "label": "Accurate Moves",
+      "name": "accurate",
+      "description": "This option makes the particles move more accurately between frames by calculating their trajectories for fractional frame values."
+    },
+    {
+      "page": "State",
+      "label": "Remove Unused Points",
+      "name": "rmunused",
+      "description": "Removes all unused points from the input geometry. This is provided as an explicit option instead of automatically because it saves the time needed to purge the points from memory during the simulation. This prevents unnecessary slowdowns during the simulation."
+    },
+    {
+      "page": "State",
+      "label": "Attractor Use",
+      "name": "attractmode",
+      "description": "⊞  - Select which mode of attraction to use for Surface Attractors."
+    },
+    {
+      "page": "State",
+      "label": "All Points",
+      "name": "all",
+      "description": "All point attractors affect all particles (or points)."
+    },
+    {
+      "page": "State",
+      "label": "Single Point per Particle",
+      "name": "single",
+      "description": "When enabled, each particle is assigned a single attractor point, and is affected by only that point. Assignment is done by point number modulo the total number of attractor points."
+    },
+    {
+      "page": "State",
+      "label": "Reset",
+      "name": "reset",
+      "description": "When On the particle system is held in a reset state and does not emit particles."
+    },
+    {
+      "page": "State",
+      "label": "Reset  Pulse",
+      "name": "resetpulse",
+      "description": "Instantly reset the particle system to its starting state."
+    },
+    {
+      "page": "Forces",
+      "label": "External Force",
+      "name": "external",
+      "description": "⊞  - Forces of gravity acting on the particles. When drag is zero, the particles can accelerate with no limit on their speed."
+    },
+    {
+      "page": "Forces",
+      "label": "Wind",
+      "name": "wind",
+      "description": "⊞  - Wind forces acting on the particles. Similar to  External Force . Using  Wind  (and no other forces, such as  Turbulence ), the particles will not exceed the wind velocity."
+    },
+    {
+      "page": "Forces",
+      "label": "Discussion",
+      "description": "Wind vs External Force"
+    },
+    {
+      "page": "Forces",
+      "label": "Turbulence",
+      "name": "turb",
+      "description": "⊞  - The amplitude of turbulent (chaotic) forces along each axis. Use positive values, if any."
+    },
+    {
+      "page": "Forces",
+      "label": "Turb Period",
+      "name": "period",
+      "description": "A small period means that the turbulence varies quickly over a small area, while a larger value will cause points close to each other to be affected similarly."
+    },
+    {
+      "page": "Forces",
+      "label": "Seed",
+      "name": "seed",
+      "description": "Random number seed for the particle simulation."
+    },
+    {
+      "page": "Particles",
+      "label": "Add Particle ID",
+      "name": "doid",
+      "description": "Adds an ID number to each particle as it is born.  Note:  New attributes only appear once the particle system is reset via the  reset  parameter or loads for first time."
+    },
+    {
+      "page": "Particles",
+      "label": "Add Mass Attribute",
+      "name": "domass",
+      "description": "When selected, calculates the mass of the particle, as specified in the  Mass  field."
+    },
+    {
+      "page": "Particles",
+      "label": "Mass",
+      "name": "mass",
+      "description": "The relative mass of each particle. Heavier particles take longer to start moving, and longer to slow down."
+    },
+    {
+      "page": "Particles",
+      "label": "Add Drag Attribute",
+      "name": "dodrag",
+      "description": "When selected, calculates the drag coefficient of the particle, as entered in the  Drag  field."
+    },
+    {
+      "page": "Particles",
+      "label": "Drag",
+      "name": "drag",
+      "description": "Drag of each particle."
+    },
+    {
+      "page": "Particles",
+      "label": "Birth",
+      "name": "birth",
+      "description": "The number of particles born each second. Particles are not released in clusters. They are born at random times during the first frame of their existence. Their birth time is set randomly during the first frame."
+    },
+    {
+      "page": "Particles",
+      "label": "Life Expect",
+      "name": "life",
+      "description": "How long each particle will exist, in seconds. The default is  3  seconds. You may want to adjust this number based on the length of your animation."
+    },
+    {
+      "page": "Particles",
+      "label": "Life Variance",
+      "name": "lifevar",
+      "description": "Variance of a particle's life expectancy in seconds. If life expectancy is one second, and the variance is zero seconds, each particle will live exactly one second. If variance is set to 0.5, then some particles will live only a half second, while others will live a second and a half. The rest will live some time in-between. This randomness gives a more natural look to the particle births."
+    },
+    {
+      "page": "Particles",
+      "label": "Alpha Speed",
+      "name": "alpha",
+      "description": "As a particle goes faster, it should become more transparent. The  Alpha Speed  parameter defaults to 0, which doesn't change alpha as the speed increases. A typical value of 0.5 causes the particle to be 70% opaque when it's going 1 unit/second. Increasing the  Alpha Speed  parameter makes it more transparent at a given speed. At zero speed, a particle is always 100% opaque."
+    },
+    {
+      "page": "Particles",
+      "label": "Surface Attraction",
+      "name": "subattract",
+      "description": "Gives control over how much particles are attracted towards the Particle  SOP 's 4th input surface attractor."
+    },
+    {
+      "page": "Particles",
+      "label": "Birth Count",
+      "name": "birthcount",
+      "description": "Specifies the number of particles created when the Birth pulse parameter is hit."
+    },
+    {
+      "page": "Particles",
+      "label": "Birth",
+      "name": "birthpulse",
+      "description": "Manually create n particles when pulsed. The number of particles created is controlled by the Birth Count parameter."
+    },
+    {
+      "page": "Limits",
+      "label": "+ Limit Plane",
+      "name": "limitpos",
+      "description": "⊞  - The particles will die or bounce off the limit planes when it reaches them. The six limit plane fields define a bounding cube. The default settings are  1000  units away, which is very large. Reduce the values to about one to see the effect."
+    },
+    {
+      "page": "Limits",
+      "label": "- Limit Plane",
+      "name": "limitneg",
+      "description": "⊞  - The particles will die or bounce off the limit planes when it reaches them. The six limit plane fields define a bounding cube. The default settings are  1000  units away, which is very large. Reduce the values to about one to see the effect."
+    },
+    {
+      "page": "Limits",
+      "label": "Hit Behavior",
+      "name": "hit",
+      "description": "⊞  - Control over what happens when a particle hits either the six collision planes or the collide object. The options are:"
+    },
+    {
+      "page": "Limits",
+      "label": "Die on Contact",
+      "name": "die",
+      "description": "The particles will disappear when they collide with the Collision input."
+    },
+    {
+      "page": "Limits",
+      "label": "Bounce on Contact",
+      "name": "bounce",
+      "description": "The particles will bounce upon contact with the Collision input."
+    },
+    {
+      "page": "Limits",
+      "label": "Stick on Contact",
+      "name": "stick",
+      "description": "The particles will stick to the Collision input."
+    },
+    {
+      "page": "Limits",
+      "label": "Gain Tangent",
+      "name": "gaintan",
+      "description": "Friction parameters which can be regarded as energy loss upon collision. The first parameter affects the energy loss (gain) perpendicular to the surface. 0 means all energy (velocity) is lost, 1 means no energy is lost perpendicular to surface. The second parameter is the energy gain tangent to the surface."
+    },
+    {
+      "page": "Limits",
+      "label": "Gain Normal",
+      "name": "gainnorm",
+      "description": "Friction parameters which can be regarded as energy loss upon collision. The first parameter affects the energy loss (gain) perpendicular to the surface. 0 means all energy (velocity) is lost, 1 means no energy is lost perpendicular to surface. The second parameter is the energy gain tangent to the surface."
+    },
+    {
+      "page": "Limits",
+      "label": "Split",
+      "name": "splittype",
+      "description": "⊞  - Select if the particle will split and under what conditions."
+    },
+    {
+      "page": "Limits",
+      "label": "No Splitting",
+      "name": "no",
+      "description": "The default setting, this keeps the particles intact."
+    },
+    {
+      "page": "Limits",
+      "label": "Split on Contact",
+      "name": "bounce",
+      "description": "The particles will split upon contact with the Collision Source."
+    },
+    {
+      "page": "Limits",
+      "label": "Split on Death",
+      "name": "die",
+      "description": "The particles will split when they die."
+    },
+    {
+      "page": "Limits",
+      "label": "Min/Max Splits",
+      "name": "split",
+      "description": "⊞  - When a particle splits, it splits into a number of other particles. The number of particles is randomly set between this range."
+    },
+    {
+      "page": "Limits",
+      "label": "Split Velocity",
+      "name": "splitvel",
+      "description": "⊞  - Each split particle is given this base velocity."
+    },
+    {
+      "page": "Limits",
+      "label": "Velocity Variance",
+      "name": "splitvar",
+      "description": "⊞  - This is a random amount that is added to the split velocity. When creating fireworks, the variance is large while the velocity is low. When rendering raindrops splashing, the split velocity is large in Y, and the variance in X and Z causes the particles to bounce up - but randomly - in the XZ plane."
+    },
+    {
+      "page": "Limits",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Limits",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Limits",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Limits",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Limits",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Limits",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Limits",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Limits",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Limits",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Limits",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Limits",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Limits",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Limits",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Limits",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Limits",
+      "label": "To \"pulse\" a parameter is to send it a signal from (1) an  exported  CHOP channel or (2) a python command or (3) a mouse click that causes a new action to occur immediately. A pulse via python is via the  .pulse()  function on a pulse",
+      "description": "type parameter, such as Reset parameter in a  Speed CHOP . A pulse from a CHOP is typically a 0 to 1 to 0 signal in an exported channel."
+    },
+    {
+      "page": "Limits",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "04-pops-database.md",
+      "excerpt": "`touchdesigner/`: ```powershell npm run build node .\\mcp\\dist\\popsBuild.js --out .\\mcp\\data\\pops --limit 10 --local-docs ..\\Docs ``` Enriquecimiento opcional con LLM (Gemma 4 vía Ollama): ```powershell $env:LLM_PROVIDER=\"ollama\" $env:OLLAMA_MODEL=\"gemma4:e4b\" node .\\mcp\\dist\\popsBuild.js --out .\\mcp\\data\\pops --enrich --local-docs ..\\Docs ``` ## Consulta desde el MCP Se expone una herramienta MCP adicional: - `td_pops_query`: - `search`: texto libre - `page_slug`: slug exacto (p.ej. `Particle_POP`) - `limit`: máximo de resultados Objetivo: permitir que el asistente consulte documentación técnica antes de generar redes POP complejas."
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "para manejar índices fuera de rango y reescalar valores.35 * Parámetros: Lookup Attribute, Lookup Curve (segunda entrada), Index Type (normalizado 0-1 o número de punto), Extend Left/Right (Hold, Slope, Cycle, Mirror), Value Attributes a buscar, From/To Low/High para reescalar.35 * Out POP: Genera datos de POPs ubicados dentro de un componente hacia fuera de su componente padre. Añade un conector de salida al componente padre y puede mostrar una etiqueta al pasar el cursor por encima.37 * Particle POP: Se utiliza para crear y controlar el movimiento de \"partículas\" en simulaciones de sistemas de partículas. Las partículas son puntos POP con atributos especiales (P, PartVel, PartMass) que son creados por el Particle POP o modificados por bucles de retroalimentación definidos por el usuario. Las partículas pueden ser emitidas a una tasa constante o basándose en un atributo de entrada.6 * Parámetros: Se basa en las características de Feedback POP para la inicialización, inicio/parada, p"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ntal:Normalize POP: Ofrece capacidades de manipulación fundamentales sin necesidad de código. Permite crear y modificar atributos de color y textura. Este operador, al igual que otros, genera atributos normalizados. • Experimental:Null POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Out POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Particle POP: Representa una partícula individual como un punto POP. Este operador añade opcionalmente atributos clave para sistemas de partículas como velocidad, dirección, edad, masa y fuerza. Es central para la simulación de partículas en TouchDesigner y genera atributos como PartForce. • Experimental:Pattern POP: Se utiliza para generar patrones para atributos, ofreciendo configuraciones más complejas. Permite crear y modificar atributos de color y textura. • Experimental:Phaser POP: Las fuentes"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "de un componente añade un **conector de salida** al componente padre. * Puedes conectar un POP directamente a su entrada o referenciar otro POP con el parámetro `Select POP`. * Es posible añadir una `Label` (etiqueta) para que se muestre al pasar el cursor por la salida del componente padre. * **Uso simple:** Cuando construyes estructuras complejas y anidadas de operadores, el Out POP te ayuda a pasar la información clave al siguiente nivel de tu proyecto. * **Particle POP (POP de Partículas)** * **Función principal:** Utilizado para **crear y controlar el movimiento de \"partículas\"** en simulaciones de sistemas de partículas. Una partícula es un punto POP con atributos especiales que definen su comportamiento. * **Características clave:** * Opera completamente en la **GPU**, permitiendo manejar millones de partículas eficientemente. * Las partículas se crean con una **posición inicial** (`P`), **velocidad** (`PartVel`), y"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "erficies se ven lisas o facetadas. --- #### 23. Feedback POP * **¿Qué hace?** Este es un operador muy potente para crear **simulaciones que se basan en el estado anterior**. Recibe la salida de otro POP (\"POP objetivo\") del fotograma anterior, lo que permite que los datos de POP existentes se modifiquen incrementalmente fotograma a fotograma. * **Características clave:** * Es esencial para **bucles de simulación** donde el estado actual depende del estado anterior (como en el Particle POP). * **Initialize**: Toma una \"instantánea\" de la entrada conectada como su estado inicial. * **Start**: Inicia el bucle de retroalimentación. * **Pre-Roll**: Si es mayor que 0, al inicializar, el bucle se ejecuta durante ese número de segundos antes de entrar en un estado de \"listo\" (`ready`), esperando ser iniciado. * **Play**: Pausa o reanuda el bucle. * **Go To Done**: Finaliza el bucle de retroalimentación. * El **Info CHOP** asociado puede most"
+    },
+    {
+      "source": "POPs Investigation and Workshop Plan.markdown",
+      "excerpt": "Optimization**: References unchanged attributes, allocating memory only for modified data. - **Math Operations**: POPs like `Math`, `Transform`, and `Normalize` enable coding-free manipulations. - **Multi-Input Support**: POPs like `Merge` and `Switch` handle multiple inputs with flexible configurations. - **Swizzling**: Manipulate attribute components (e.g., `P.xy` for X and Y). ## 5. Practical Applications - **Rendering**: POPs drive 3D geometry with attributes like `Color` and `Normal`. - **Particles**: Points with attributes (e.g., `Vel`, `PartForce`) for simulations. - **Point Clouds**: Efficiently manage large datasets without TOPs’ 4-channel limitations. - **External Output**: Send data to lasers, DMX, or LEDs. ## 6. Workshop Plan ### Objective Equip participants with a solid understanding of POPs, their advantages, and practical use in TouchDesigner projects. ### Duration 2-3 hours, split into theory and hands-on segments. ### Structure #### Part 1: Introduction (30-45 minutes) - *"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

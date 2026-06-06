@@ -1,0 +1,174 @@
+{
+  "family": "SOP",
+  "pageTitle": "Sprinkle SOP",
+  "pageSlug": "Sprinkle_SOP",
+  "url": "https://docs.derivative.ca/Sprinkle_SOP",
+  "tdOpTypeGuess": "sprinkleSOP",
+  "summary": "[  edit  ]\nThe Sprinkle  SOP  is used to add  points  to either the surface or the volume of a  SOP . You can create points on a surface, or within a closed volume based on the Method menu. The Surface method keeps the distribution of points constant per unit area of surface, whereas Per- Primitive  gives each primitive, usually triangles, a constant number per primitive no matter their size.\nThe second input is used when you are scattering on a deforming surface. You generally don't want the distribution of points to jump while deforming, so you give the deformed surface as second input and the un-deformed surface as the first input. The Sprinkle  SOP  will then distribute points on the un-deformed surface, and then put them on their equivalent place on the deformed surface.\nsprinkleSOP_Class\nContents\n1   Summary\n2   Parameters - Sprinkle Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Sprinkle",
+      "label": "Seed",
+      "name": "seed",
+      "description": "Any number, integer or non-integer, which starts the random number generator. Each number gives completely different point positions."
+    },
+    {
+      "page": "Sprinkle",
+      "label": "Method",
+      "name": "method",
+      "description": "⊞  - Describes where points are located."
+    },
+    {
+      "page": "Sprinkle",
+      "label": "Surface",
+      "name": "surface",
+      "description": "Points are evenly distributed along the entire surface of the geometry. That is, smaller polygons receives fewer points on average than larger polygons, etc."
+    },
+    {
+      "page": "Sprinkle",
+      "label": "Per  Primitive",
+      "name": "perprim",
+      "description": "Points are distributed equally amongst each primitive. That is, each polygon receives the same number of points."
+    },
+    {
+      "page": "Sprinkle",
+      "label": "Bounding Box",
+      "name": "boundingbox",
+      "description": "Points are distributed within the bounding box volume of the geometry. This can be faster, though less accurate than the volume method."
+    },
+    {
+      "page": "Sprinkle",
+      "label": "Approximate Volume",
+      "name": "approxvol",
+      "description": "Points are evenly distributed within an approximation of the volume. Areas close to the surface may receive fewer points."
+    },
+    {
+      "page": "Sprinkle",
+      "label": "Volume",
+      "name": "volume",
+      "description": "Points are evenly distributed within the entire volume of the geometry."
+    },
+    {
+      "page": "Sprinkle",
+      "label": "Number of Points",
+      "name": "numpoints",
+      "description": "The total number of points created."
+    },
+    {
+      "page": "Sprinkle",
+      "label": "Consolidate",
+      "name": "consolidate",
+      "description": "Remove points until remaining are a minimum distance apart."
+    },
+    {
+      "page": "Sprinkle",
+      "label": "Distance to Nearest  Point",
+      "name": "neardist",
+      "description": "Minimum distance when using Consolidate option."
+    },
+    {
+      "page": "Sprinkle",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Sprinkle",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Sprinkle",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Sprinkle",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Sprinkle",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Sprinkle",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Sprinkle",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Sprinkle",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Sprinkle",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Sprinkle",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Sprinkle",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Sprinkle",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Sprinkle",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Sprinkle",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Sprinkle",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "s simples de tiras de línea utilizando funciones matemáticas elementales (seno, coseno, ondas triangulares, cuadradas, ease in/out, aleatorias) en X, Y y Z. También puede añadir nuevos atributos o modificar los existentes basándose en estas funciones.14 Permite controlar el número de puntos, el comportamiento cíclico, la conectividad (tira de línea, líneas, primitivas de punto) y varios parámetros para dar forma a las curvas (por ejemplo, número de ciclos, fase, exponente, mapeo de rango).14 * Sprinkle POP: Crea puntos ya sea en la superficie o dentro del volumen de un POP de entrada. Ofrece métodos como \"Per Primitive\" para la distribución en superficie y \"Volume\" para la distribución aleatoria dentro de un volumen cerrado.15 También puede crear primitivas de punto por defecto, lo que puede desactivarse para ahorrar memoria si solo se necesita una lista de puntos.15 Los generadores como Pattern POP y Sprinkle POP 14 son fundamentales. Resaltan la naturaleza procedural de TouchDesigner y la"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "n POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:SOP to POP: Permite la conversión de datos de la familia SOPs (Surface Operators) a datos de POPs. • Experimental:Sort POP: Implementa algoritmos de ordenación muy rápidos que pueden organizar los puntos basándose en el valor de cualquier componente de un atributo. • Experimental:Sphere POP: Un operador generador que crea una geometría esférica. • Experimental:Sprinkle POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Subdivide POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Switch POP: Un operador que permite cambiar entre diferentes entradas. Es útil para probar variaciones o controlar el flujo de datos. • Experimental:Texture Map POP: Las fuentes proporcionadas no ofrecen una descripción detallada"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "e latitud y longitud (`Detail` page). * Puede generar **normales (`N`) y coordenadas de textura (`Tex`)** de punto o vértice, con diferentes métodos de proyección (Equirectangular, Fish Eye). * La `Dimension` de la esfera se emite como metadatos para otros POPs. * **Uso simple:** Un generador básico para cualquier cosa que necesite una forma esférica, desde gotas de agua hasta planetas, o para usarla como base para efectos complejos de dispersión de puntos. * **Sprinkle POP (POP de Salpicadura)** * **Función principal:** Crea puntos **sobre la superficie o dentro del volumen** de un POP de entrada. * **Características clave:** * El método `Per Primitive` crea puntos en la superficie de triángulos o cuadrados, intentando mantener una distribución constante por primitiva, sin importar su tamaño. * El método `Volume` crea puntos aleatoriamente dentro de un volumen cerrado. * El parámetro `Number of Points` es un lími"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

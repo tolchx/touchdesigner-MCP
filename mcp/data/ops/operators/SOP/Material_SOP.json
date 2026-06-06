@@ -1,0 +1,46 @@
+{
+  "family": "SOP",
+  "pageTitle": "Material SOP",
+  "pageSlug": "Material_SOP",
+  "url": "https://docs.derivative.ca/Material_SOP",
+  "tdOpTypeGuess": "materialSOP",
+  "summary": "[  edit  ]\nThe  Material   SOP  allows the assignment of materials (MATs) to geometry at the  SOP  level.\nNote: The  Material  parameter in Object Components will override material attributes assigned to geometry using the  Material   SOP .\nmaterialSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "00-overview.md",
+      "excerpt": "# Sistema integral de documentación y capacitación — TouchDesigner MCP (Gemma 4 + POPs) Este repositorio se amplía con un sistema de: - Documentación técnica del MCP (arquitectura, herramientas, flujo). - Adaptación operativa para Gemma 4 vía Ollama (configuración y verificación). - Base de conocimiento estructurada de POPs (derivada de docs oficiales + material local). - Skills especializados para arquitectura avanzada de proyectos en TouchDesigner. - Catálogo de prompts maestros con validaciones y criterios de calidad. - Protocolos de testing/validación para redes generadas. Carpetas añadidas/propuestas: - `docs/`: documentación del sistema. - `touchdesigner/mcp/data/pops/`: base de datos POPs en JSON (index + docs por operador). - `touchdesigner/mcp/src/popsBuild.ts`: generador de la base POPs (scraping + enriquecimiento opcional vía LLM)."
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "los desarrolladores, destacando la posible inestabilidad y los futuros cambios que requieren una cuidadosa consideración para su uso en producción y el mantenimiento continuo. Este informe detalla la función, los parámetros y los casos de uso para 32 operadores POPs distintos donde se encontró documentación exhaustiva. También ofrece información sobre 10 POPs parcialmente documentados e identifica 40 operadores para los cuales la información detallada fue inaccesible o muy limitada dentro del material de investigación proporcionado. El análisis integral tiene como objetivo proporcionar a los desarrolladores y artistas técnicos de TouchDesigner el conocimiento experto necesario para integrar eficazmente los POPs en sus flujos de trabajo. 1. Introducción a los Operadores POP de TouchDesigner Esta sección introduce los conceptos fundamentales de la familia de Operadores de Puntos (POP) de TouchDesigner, enfatizando su papel en los gráficos 3D modernos en tiempo real. 1.1 ¿Qué son"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "tos, a menudo de tipo entero sin signo, con nombres predeterminados. Por ejemplo, puede generar el atributo Dir (dirección). • Experimental:Line POP: Un operador que permite la creación de tiras de línea. Puede dividir curvas o generar puntos de control con atributos que definen la forma de la curva, como Weight o Tension. También permite crear y modificar atributos de color y textura. • Experimental:Line Smooth POP: Puede añadir puntos y suavizar líneas. • Experimental:Line Thick POP: El material de línea (Line MAT) de TouchDesigner se implementa internamente usando una conversión a este POP, lo que sugiere su rol en la representación visual de líneas. • Experimental:Lookup Attribute POP: Utiliza uno, dos o tres componentes de un atributo como índices para realizar búsquedas. También puede utilizar atributos de solo lectura. • Experimental:Lookup Channel POP: Similar al Lookup Attribute POP, usa componentes de atributos como índices para realizar búsquedas en canales. • Experiment"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "**Características clave:** * `Tex` es un atributo float3 de 3 componentes que puede ser un **atributo de punto o de vértice**. * Ofrece varios **métodos de proyección**, como Equirectangular (esférica polar, útil para VR), Equidistant Azimuth (ojo de pez para domos), o Perspectiva desde Cámara. * `Triplanar Coordinates` genera 3 conjuntos de coordenadas de textura para combinar 3 proyecciones ortográficas. * Cualquier atributo puede ser usado por un Material, no solo `Tex`. * **Uso simple:** Para controlar cómo una imagen o textura se envuelve alrededor de tu geometría POP, esencial para añadir apariencia visual a tus objetos 3D. * **TOP to POP (TOP a POP)** * **Función principal:** Convierte una imagen **TOP** (Texture Operators) en geometría **POP**. * **Características clave:** * Por defecto, el canal rojo de la imagen TOP se usa para la posición `P` (RGB) y el canal alfa indica si el píxel está \"activo\" (tie"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "int Step Filter Size`). * Puede **pre-dividir** las líneas por distancia o curvatura antes de suavizar. * El parámetro **`Effect`** controla la intensidad del suavizado. * Puedes elegir si los **puntos finales** (`End Points Fixed`) se mantienen fijos o también se suavizan. --- #### 43. Line Thick POP * **¿Qué hace?** Este operador es el \"motor\" detrás de cómo se renderizan las líneas gruesas y detalladas en TouchDesigner, especialmente cuando se usa el **Line MAT (Material)**. Genera los polígonos que dan grosor y forma a tus líneas. * **Características clave:** * Toma **\"tiras de líneas\" (`line strips`) o puntos** como entrada. * Trabaja en conjunto con un **Camera COMP** para crear líneas que \"miran\" hacia la cámara y cuyo grosor puede depender de la distancia a la cámara. * Genera **triángulos** para crear las líneas engrosadas, las esquinas redondeadas en cada unión y círculos opcionales en cada punto. * Permite controlar las fo"
+    },
+    {
+      "source": "POPs Investigation and Workshop Plan.markdown",
+      "excerpt": "* (30 min) - Use `Math POP` to modify `P`, create a custom attribute, and swizzle components. - **Demo 3: Particles and Point Clouds** (30 min) - Build a simple particle system with `Particle POP` and a point cloud with `Point File In POP`. - **Demo 4: Integration** (30 min) - Combine POPs with a Geometry COMP and export data to a CHOP for external use. #### Part 3: Q&A and Wrap-Up (15-30 minutes) - Address participant questions. - Share resources (e.g., official docs, intro video). ### Materials - TouchDesigner installed (latest version with POPs support). - Sample project files for demos. - Projector for presentations. ### Tips - Highlight GPU benefits with real-time examples. - Encourage experimentation with custom attributes and multi-POP setups. - Note POPs’ evolving nature—check for updates before the workshop. ## Conclusion POPs enhance TouchDesigner’s capabilities with GPU power, flexible attributes, and modern workflows. This investigation and workshop plan provide a foundat"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

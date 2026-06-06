@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.env
+*.log
+.DS_Store
+.vscode/mcp-td/node_modules/
+.vscode/mcp-td/out/
+mcp/webui/node_modules/
+mcp/setup/webapp-scanner/node_modules/
+*.toe.dir/
+*.toe.toc/
+mcp/tests/legacy_test_*.mjs
+mcp/data/reference/python-api-classes.json

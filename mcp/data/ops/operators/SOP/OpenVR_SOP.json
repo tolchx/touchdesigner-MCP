@@ -1,0 +1,16 @@
+{
+  "family": "SOP",
+  "pageTitle": "OpenVR SOP",
+  "pageSlug": "OpenVR_SOP",
+  "url": "https://docs.derivative.ca/OpenVR_SOP",
+  "tdOpTypeGuess": "openVRSOP",
+  "summary": "[  edit  ]\nNOTE\nOS:  This operator is only supported under the  Microsoft Windows  operating system.\nThe  OpenVR   SOP  loads various models that the OpenVR driver for the installed device provides. This can be models of the controllers, headset and other peripherals. What the driver returns is entirely up to the manufacturer and can change between driver versions.\nopenvrSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Info CHOP Channels\n3.1   Common SOP Info Channels\n3.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

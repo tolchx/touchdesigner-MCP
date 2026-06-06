@@ -1,0 +1,42 @@
+{
+  "family": "SOP",
+  "pageTitle": "Deform SOP",
+  "pageSlug": "Deform_SOP",
+  "url": "https://docs.derivative.ca/Deform_SOP",
+  "tdOpTypeGuess": "deformSOP",
+  "summary": "[  edit  ]\nThe Deform  SOP  takes geometry along with point weights (assigned by the  Capture SOP ) and deforms geometry as Capture Regions are moved. This gives you the flexibility to procedurally modify geometry between the Capture and Deform SOPs.\nSee also  Deforming Geometry (Skinning) .\ndeformSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "OP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental p"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "rmite cargar archivos externos que contienen nubes de puntos en TouchDesigner. • Experimental:Force POP: Se utiliza para crear o añadir al atributo PartForce (fuerza de partícula). Es fundamental para definir cómo las fuerzas actúan sobre las partículas. • Experimental:GLSL Advanced POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL Copy POP: Permite ejecutar código de compute shader (GLSL) en cada punto para deformar geometrías basándose en los atributos del punto. Es muy potente para generar formas complejas de manera programática. • Experimental:GLSL Create POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL POP: Un operador que te permite escribir tu propio código GLSL para manipular puntos y atributos. Ideal para simulaciones o efectos muy personalizados. • Experimental:GLSL Select POP: Las fuentes proporcionadas no"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "\"skinning\", donde cada punto es afectado por múltiples transformaciones (como huesos de un esqueleto), cada una con un **peso diferente**. * **Características clave:** * Utiliza atributos de detalle `pCaptPath` (rutas a los componentes que actúan como huesos) y `pCaptData` (matrices de \"bind/rest pose\"). * Usa el atributo de punto/vértice `pCapt[]` que contiene pares de índice de transformación y peso. * Puede realizar deformaciones en la **CPU** (usando `Deform SOP`) o en la **GPU** para mayor velocidad. * Para la deformación en GPU, la geometría puede necesitar ser dividida en \"Bone Groups\" si hay muchos huesos. * **Uso simple:** Para animar personajes o modelos 3D que tienen un esqueleto, permitiendo que la malla se deforme de manera realista a medida que los huesos se mueven. * **Skin POP (POP de Superficie)** * **Función principal:** Conecta arreglos de datos en 2D (o más) para formar una **malla de triángulos o cuadrados"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "seleccionados **no cambian**. * Es principalmente una **preferencia de flujo de trabajo**; no mejora la velocidad ni la eficiencia de la memoria, ya que los atributos no modificados en POPs son solo referencias, no copias. * Puede referenciar otro POP usando un parámetro en lugar de una conexión por cable. * **Uso simple:** Para aislar y trabajar en atributos específicos de tu geometría, o para organizar tu red de operadores, similar a un `Select SOP`. * **Skin Deform POP (POP de Deformación de Piel)** * **Función principal:** Deforma la geometría usando el concepto de \"skinning\", donde cada punto es afectado por múltiples transformaciones (como huesos de un esqueleto), cada una con un **peso diferente**. * **Características clave:** * Utiliza atributos de detalle `pCaptPath` (rutas a los componentes que actúan como huesos) y `pCaptData` (matrices de \"bind/rest pose\"). * Usa el atributo de punto/vértice `pCapt[]` que conti"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "\"skinning\", donde cada punto es afectado por múltiples transformaciones (como huesos de un esqueleto), cada una con un **peso diferente**. * **Características clave:** * Utiliza atributos de detalle `pCaptPath` (rutas a los componentes que actúan como huesos) y `pCaptData` (matrices de \"bind/rest pose\"). * Usa el atributo de punto/vértice `pCapt[]` que contiene pares de índice de transformación y peso. * Puede realizar deformaciones en la **CPU** (usando `Deform SOP`) o en la **GPU** para mayor velocidad. * Para la deformación en GPU, la geometría puede necesitar ser dividida en \"Bone Groups\" si hay muchos huesos. * **Uso simple:** Para animar personajes o modelos 3D que tienen un esqueleto, permitiendo que la malla se deforme de manera realista a medida que los huesos se mueven. * **Skin POP (POP de Superficie)** * **Función principal:** Conecta arreglos de datos en 2D (o más) para formar una **malla de triángulos o cuadrados"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

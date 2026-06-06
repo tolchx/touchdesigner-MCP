@@ -1,0 +1,218 @@
+{
+  "family": "SOP",
+  "pageTitle": "Attribute SOP",
+  "pageSlug": "Attribute_SOP",
+  "url": "https://docs.derivative.ca/Attribute_SOP",
+  "tdOpTypeGuess": "attributeSOP",
+  "summary": "[  edit  ]\nThe Attribute  SOP  allows you to manually rename and delete point, vertex, and primitive attributes.\nThe top portion of each parameter page deals with the deleting of a specifc type of attributes.\nFor example:  Cd Alpha\nPattern Matching  - Deletion accepts general pattern matching when determining which attributes to delete. For example:\n*  = Delete all attributes\nCd  = Delete the Cd attribute\nCd Alpha  = Delete Cd & Alpha attributes\na*  = Delete all attributes beginning with  a\n* ^Cd  = Delete all attributes except Cd\nNote:  You should never delete just one of the following attributes, but always keep/delete them together. This is because TouchDesigner's capture/deform system expects these three attributes to occur together. Deleting a subset of the three will cause errors as they are interdependent:\npCapt (point attribute), pCaptPath, pCaptData (detail attribute)\nSee also:  Attribute Create SOP .\nThe next section of each page deals with renaming attributes. Specify the name of the original incoming attribute in the 'From Attribute' parameter, and the new name you want it renamed to in the 'To Attribute' parameter.\nattributeSOP_Class\nContents\n1   Summary\n2   Parameters - Point Page\n3   Parameters - Vertex Page\n4   Parameters - Primitive Page\n5   Parameters - Detail Page\n6   Operator Inputs\n7   Info CHOP Channels\n7.1   Common SOP Info Channels\n7.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Point",
+      "label": "Delete  Attributes",
+      "name": "ptdel",
+      "description": "⊞  - Use the field to specify the point attributes to delete. Simply enter a list of the attributes (separated by spaces) to delete, for example entering: Cd Alpha . You can also use the dropdown menu on the right to select them."
+    },
+    {
+      "page": "Point",
+      "label": "Point Rename",
+      "name": "pt",
+      "description": "Sequence of point renames"
+    },
+    {
+      "page": "Point",
+      "label": "From Attribute",
+      "name": "pt0from",
+      "description": "Specify the attribute you wish to rename, or select it from the dropdown menu on the right."
+    },
+    {
+      "page": "Point",
+      "label": "To Attribute",
+      "name": "pt0to",
+      "description": "Enter the new name for the attribute here."
+    },
+    {
+      "page": "Vertex",
+      "label": "Delete  Attributes",
+      "name": "vertdel",
+      "description": "⊞  - Use the field to specify the vertex attributes to delete. Simply enter a list of the attributes (separated by spaces) to delete, for example entering: uv N . You can also use the dropdown menu on the right to select them."
+    },
+    {
+      "page": "Vertex",
+      "label": "Vertex  Rename",
+      "name": "vert",
+      "description": "Sequence of vertex renames"
+    },
+    {
+      "page": "Vertex",
+      "label": "From Attribute",
+      "name": "vert0from",
+      "description": "Specify the attribute you wish to rename, or select it from the dropdown menu on the right."
+    },
+    {
+      "page": "Vertex",
+      "label": "To Attribute",
+      "name": "vert0to",
+      "description": "Enter the new name for the attribute here."
+    },
+    {
+      "page": "Primitive",
+      "label": "Delete  Attributes",
+      "name": "primdel",
+      "description": "⊞  - Use the field to specify the primitive attributes to delete. Simply enter a list of the attributes (separated by spaces) to delete, for example entering: Cd creaseweight . You can also use the dropdown menu on the right to select them."
+    },
+    {
+      "page": "Primitive",
+      "label": "Prim Rename",
+      "name": "prim",
+      "description": "Sequence of primitive renames"
+    },
+    {
+      "page": "Primitive",
+      "label": "From Attribute",
+      "name": "prim0from",
+      "description": "Specify the attribute you wish to rename, or select it from the dropdown menu on the right."
+    },
+    {
+      "page": "Primitive",
+      "label": "To Attribute",
+      "name": "prim0to",
+      "description": "Enter the new name for the attribute here."
+    },
+    {
+      "page": "Detail",
+      "label": "Delete  Attributes",
+      "name": "attrdel",
+      "description": "⊞  - Use the field to specify the detail attributes to delete. Simply enter a list of the attributes (separated by spaces) to delete. You can also use the dropdown menu on the right to select them."
+    },
+    {
+      "page": "Detail",
+      "label": "Detail Rename",
+      "name": "attr",
+      "description": "Sequence of detail renames"
+    },
+    {
+      "page": "Detail",
+      "label": "From Attribute",
+      "name": "attr0from",
+      "description": "Specify the attribute you wish to rename, or select it from the dropdown menu on the right."
+    },
+    {
+      "page": "Detail",
+      "label": "To Attribute",
+      "name": "attr0to",
+      "description": "Enter the new name for the attribute here."
+    },
+    {
+      "page": "Detail",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Detail",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Detail",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Detail",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Detail",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Detail",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Detail",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Detail",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Detail",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Detail",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Detail",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Detail",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Detail",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Detail",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Detail",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "04-pops-database.md",
+      "excerpt": "# Base de datos estructurada de POPs La base de conocimiento POPs vive en: - `touchdesigner/mcp/data/pops/index.json`: índice (lista + metadatos). - `touchdesigner/mcp/data/pops/operators/<PageSlug>.json`: ficha detallada por operador. ## Esquema (alto nivel) Cada operador incluye: - Identidad: `pageTitle`, `pageSlug`, `url`, `experimental`, `tdOpTypeGuess`. - Técnica: `summary`, `inputs[]`, `parameters[]`, `attributes[]`. - Capacitación: `useCases[]`, `examples[]`, `commonCombinations[]`, `troubleshooting[]`. ## Generación automática (docs oficiales) El generador: - Descarga la lista desde `https://docs.derivative.ca/Category:POPs`. - Para cada operador descarga la página oficial y extrae: - resumen - inputs - parámetros por página - atributos (cuando la tabla está presente) ### Construir / actualizar la base En `touchdesigner/`: ```powershell npm run build node .\\mcp\\dist\\popsBuild.js --out ."
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "te no admiten primitivas de curva directamente, aunque la subdivisión de splines es posible utilizando operadores como Line POP y Line Divide POP.7 Los atributos son cruciales para almacenar datos adicionales por punto, vértice o primitiva, como normales (N), coordenadas de textura (uv) y color (Cd).1 Los POPs permiten la creación, modificación, duplicación, cambio de nombre y eliminación de estos atributos.1 El énfasis en los \"atributos\" y su manipulación a través de varios POPs (por ejemplo, Attribute POP, GLSL POP, Math Mix POP) apunta a una filosofía de diseño centrada en los atributos para los POPs. Muchos POPs (Attribute POP, GLSL POP, Math Mix POP, etc.) están explícitamente diseñados para crear, modificar o combinar atributos.1 La documentación destaca que los atributos se almacenan como Objetos de Búfer de Almacenamiento de Shader (SSBOs) en los GLSL POPs.12 Esta estructuración de datos en SSBOs, una característica central de la programación de GPU moderna (GLSL, Vulkan), permite un p"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "oderno que combina lo mejor de SOPs, CHOPs y TOPs. Glosario de Operadores POPs Aquí tienes un listado de los operadores POPs, con una explicación sencilla de su función basada en las fuentes disponibles: • Experimental:Accumulate POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Analyze POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Attribute Combine POP: Este operador es útil para combinar atributos de múltiples entradas. También puedes usarlo para, por ejemplo, quitar el atributo de Posición (P) de un POP si no lo necesitas. Permite seleccionar qué atributos o grupos específicos deseas procesar de cada entrada. • Experimental:Attribute Convert POP: Se utiliza para transferir atributos entre diferentes \"clases\" (tipos) de datos, como convertir atributos de puntos a atributos de vértices o de primitivas. • Experimental:Attribute"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "o de entrada. * También puede encontrar el **índice del punto** (el número de punto) que tiene el valor máximo o mínimo del atributo seleccionado. * Permite **combinar los componentes** de un vector en un solo componente antes del análisis (sumar, restar, multiplicar, dividir, promediar, mínimo, máximo, longitud). * Si seleccionas más de un atributo o todos (`*`), los nombres de los atributos de entrada se añadirán a los nombres de los atributos de salida. --- #### 3. Attribute Combine POP * **¿Qué hace?** Este operador te permite **combinar atributos de múltiples entradas de POPs** en una sola salida. Puedes elegir qué atributos quieres de cada entrada, ya sea por su nombre exacto o usando patrones. * **Características clave:** * Puedes **renombrar** los atributos a medida que los combinas. * Gestiona los **conflictos de nombres**: Si dos entradas tienen un atributo con el mismo nombre, puedes configurarlo para que se renombren automáticamente (añ"
+    },
+    {
+      "source": "POPs Investigation and Workshop Plan.markdown",
+      "excerpt": "Operators (POPs), a new GPU-accelerated operator family in TouchDesigner, to prepare for an informative workshop. POPs create and modify 3D data, replacing the older SOPs (Surface Operators) with enhanced performance and flexibility. ## 1. What are POPs? - **Definition**: POPs (Point Operators) are a family of operators in TouchDesigner that run on the GPU, leveraging high parallelism to create and manipulate 3D data efficiently. - **Purpose**: They generate and modify points, primitives, and attributes for rendering (via Render TOP) or output to external devices like LED arrays or lasers. - **Significance**: POPs replace SOPs with GPU acceleration, memory optimization, and integration with modern workflows (e.g., USD, FBX). ## 2. Core Components ### Points - Every POP contains a set of points with attributes. - **Key Attribute**: `P` (Position), a 3D vector (float3) defining a point’s location. - **Other Attributes**: Include `Color` (float4: red, green, blue, alpha), `Normal (N)` (float3),"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "to do is essentially create these sort of plexus effects. And and maybe this would be more interesting if I popped a noise in here. I'm going to turn up that value and I'm going to animate it. So now we have a really simple inbuilt way of making a plexus model. And what's actually happening here is kind of the power of POPS. (02:43) And this is what I'm going to show you and expand upon. So what we can see here, and let's bring that out into a bigger view, is we have all this data and all the attributes from these objects. And so we have our index, we've got our point values, our normals, but then we've also got the attributes of this noise that are coming in too. (03:04) So essentially we have this chain of all this data that we can work with and this becomes really powerful with some newer objects which I'm going to show you called the math object and they kind of really develop on the math objects that we have before. I'm going to close this up and show you a few other projects and just t"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

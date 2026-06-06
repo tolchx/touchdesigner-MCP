@@ -1,0 +1,313 @@
+{
+  "family": "SOP",
+  "pageTitle": "Polypatch SOP",
+  "pageSlug": "Polypatch_SOP",
+  "url": "https://docs.derivative.ca/Polypatch_SOP",
+  "tdOpTypeGuess": "polypatchSOP",
+  "summary": "[  edit  ]\nThe Polypatch  SOP  creates a smooth polygonal patch from a mesh primitive or a set of faces (polygons, NURBS or Bezier curves).\npolypatchSOP_Class\nContents\n1   Summary\n2   Parameters - Polypatch Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Polypatch",
+      "label": "Group",
+      "name": "group",
+      "description": "Subset of input to use. Accepts patterns, as described in  Pattern Matching ."
+    },
+    {
+      "page": "Polypatch",
+      "label": "Basis",
+      "name": "basis",
+      "description": "⊞  - Select spline type:  Cardinal  or  BSpline ."
+    },
+    {
+      "page": "Polypatch",
+      "label": "Connectivity",
+      "name": "connecttype",
+      "description": "⊞  - This option is used to select how the points of the created surface are connected."
+    },
+    {
+      "page": "Polypatch",
+      "label": "Rows",
+      "name": "rows",
+      "description": "Creates horizontal lines, which are open polygons."
+    },
+    {
+      "page": "Polypatch",
+      "label": "Columns",
+      "name": "cols",
+      "description": "Creates vertical lines, which are open polygons."
+    },
+    {
+      "page": "Polypatch",
+      "label": "Rows and Columns",
+      "name": "rowcol",
+      "description": "Both rows and columns, all open polygons."
+    },
+    {
+      "page": "Polypatch",
+      "label": "Triangles",
+      "name": "triangles",
+      "description": "Build the grid with triangles."
+    },
+    {
+      "page": "Polypatch",
+      "label": "Quadrilaterals",
+      "name": "quads",
+      "description": "Default grid connection - four-sided quadrilaterals."
+    },
+    {
+      "page": "Polypatch",
+      "label": "Alternating Triangles",
+      "name": "alttriangles",
+      "description": "Generates triangles that are opposed; similar to the Triangles option."
+    },
+    {
+      "page": "Polypatch",
+      "label": "Inherit from Source",
+      "name": "inheritconnect",
+      "description": "When this connectivity option is selected, the output mesh will have the same connectivity as the input hull mesh."
+    },
+    {
+      "page": "Polypatch",
+      "label": "U Wrap",
+      "name": "closeu",
+      "description": "⊞  - Settings for wrapping in U direction."
+    },
+    {
+      "page": "Polypatch",
+      "label": "Off",
+      "name": "nonewu",
+      "description": "Do not wrap in U/V."
+    },
+    {
+      "page": "Polypatch",
+      "label": "On",
+      "name": "wu",
+      "description": "Wrap in U/V."
+    },
+    {
+      "page": "Polypatch",
+      "label": "If  Primitive  does",
+      "name": "ifprimwu",
+      "description": "Wrap in U/V if the input primitive does."
+    },
+    {
+      "page": "Polypatch",
+      "label": "V Wrap",
+      "name": "closev",
+      "description": "⊞  - Settings for wrapping in V direction."
+    },
+    {
+      "page": "Polypatch",
+      "label": "Off",
+      "name": "nonewv",
+      "description": "Do not wrap in U/V."
+    },
+    {
+      "page": "Polypatch",
+      "label": "On",
+      "name": "wv",
+      "description": "Wrap in U/V."
+    },
+    {
+      "page": "Polypatch",
+      "label": "If  Primitive  does",
+      "name": "ifprimwv",
+      "description": "Wrap in U/V if the input primitive does."
+    },
+    {
+      "page": "Polypatch",
+      "label": "U Clamp (First)",
+      "name": "firstuclamp",
+      "description": "⊞  - Settings for clamping first end in U."
+    },
+    {
+      "page": "Polypatch",
+      "label": "Off",
+      "name": "firstuclampoff",
+      "description": "Do not clamp the first/last end in the U/V direction."
+    },
+    {
+      "page": "Polypatch",
+      "label": "On",
+      "name": "firstuclampon",
+      "description": "Clamp the first/last end in the U/V direction."
+    },
+    {
+      "page": "Polypatch",
+      "label": "If primitive does",
+      "name": "firstuclampifprim",
+      "description": "Clamp the first/last end in the U/V direction if the input primitive does."
+    },
+    {
+      "page": "Polypatch",
+      "label": "U Clamp (Last)",
+      "name": "lastuclamp",
+      "description": "⊞  - Settings for clamping last end in U."
+    },
+    {
+      "page": "Polypatch",
+      "label": "Off",
+      "name": "lastuclampoff",
+      "description": "Do not clamp the first/last end in the U/V direction."
+    },
+    {
+      "page": "Polypatch",
+      "label": "On",
+      "name": "lastuclampon",
+      "description": "Clamp the first/last end in the U/V direction."
+    },
+    {
+      "page": "Polypatch",
+      "label": "If primitive does",
+      "name": "lastuclampifprim",
+      "description": "Clamp the first/last end in the U/V direction if the input primitive does."
+    },
+    {
+      "page": "Polypatch",
+      "label": "V Clamp (First)",
+      "name": "firstvclamp",
+      "description": "⊞  - Settings for clamping first end in V."
+    },
+    {
+      "page": "Polypatch",
+      "label": "Off",
+      "name": "firstvclampoff",
+      "description": "Do not clamp the first/last end in the U/V direction."
+    },
+    {
+      "page": "Polypatch",
+      "label": "On",
+      "name": "firstvclampon",
+      "description": "Clamp the first/last end in the U/V direction."
+    },
+    {
+      "page": "Polypatch",
+      "label": "If primitive does",
+      "name": "firstvclampifprim",
+      "description": "Clamp the first/last end in the U/V direction if the input primitive does."
+    },
+    {
+      "page": "Polypatch",
+      "label": "V Clamp (Last)",
+      "name": "lastvclamp",
+      "description": "⊞  - Settings for clamping last end in V."
+    },
+    {
+      "page": "Polypatch",
+      "label": "Off",
+      "name": "lastvclampoff",
+      "description": "Do not clamp the first/last end in the U/V direction."
+    },
+    {
+      "page": "Polypatch",
+      "label": "On",
+      "name": "lastvclampon",
+      "description": "Clamp the first/last end in the U/V direction."
+    },
+    {
+      "page": "Polypatch",
+      "label": "If primitive does",
+      "name": "lastvclampifprim",
+      "description": "Clamp the first/last end in the U/V direction if the input primitive does."
+    },
+    {
+      "page": "Polypatch",
+      "label": "Output Divisions",
+      "name": "divisions",
+      "description": "⊞  - The number of divisions in the output surface. Use more divisions for a smoother surface."
+    },
+    {
+      "page": "Polypatch",
+      "label": "Output Polygons",
+      "name": "polys",
+      "description": "Force polygonal rather than mesh output."
+    },
+    {
+      "page": "Polypatch",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Polypatch",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Polypatch",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Polypatch",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Polypatch",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Polypatch",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Polypatch",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Polypatch",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Polypatch",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Polypatch",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Polypatch",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Polypatch",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Polypatch",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Polypatch",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Polypatch",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

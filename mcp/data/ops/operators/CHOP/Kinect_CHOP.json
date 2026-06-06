@@ -1,0 +1,353 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Kinect CHOP",
+  "pageSlug": "Kinect_CHOP",
+  "url": "https://docs.derivative.ca/Kinect_CHOP",
+  "tdOpTypeGuess": "kinectCHOP",
+  "summary": "[  edit  ]\nNOTE\nOS:  This operator is only supported under the  Microsoft Windows  operating system.\nHardware:  This  CHOP  only supports the  Kinect for Windows  hardware and the  Kinect 2 ,  not  Kinect for Xbox hardware.\nThe Kinect  CHOP  reads positional and skeletal tracking data from the Kinect and Kinect2 sensors.  Up to 6 people's full skeletons can be tracked (2 on the original Kinect), and the center position of an addition 4 people in the camera view is tracked as well.  Multiple Kinect devices can be used by using multiple Kinect CHOPs and changing the Camera parameter.\nIt also supports face tracking.\nTo use a Kinect 2 device you need to install the Kinect 2 SDK or runtime from  here .\nTo use the original Kinect 1 you will need to install the  Kinect Runtime 1.8  for builds greater than 12000, or  Kinect Runtime 1.7  for builds below 12000.\nMultiple Kinects: The Kinect 2 SDK does not allow for multiple kinects to be used on one system at a time. There is no way to connect to different devices through the SDK. The Kinect 1 can do this, but not the 2.\nSee also  Kinect TOP ,  Kinect  and  Kinect1 .\nkinectCHOP_Class\nContents\n1   Summary\n2   Parameters - Kinect Page\n3   Parameters - Smoothing Page\n4   Parameters - Common Page\n5   Info CHOP Channels\n5.1   Common CHOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "Kinect",
+      "label": "Active",
+      "name": "active",
+      "description": "When 'On' data is captured from the Kinect sensor."
+    },
+    {
+      "page": "Kinect",
+      "label": "Hardware Version",
+      "name": "hwversion",
+      "description": "⊞  - Choose between Kinect v1 or Kinect v2 sensors."
+    },
+    {
+      "page": "Kinect",
+      "label": "Sensor",
+      "name": "sensor",
+      "description": "Selects which Kinect sensor to use. Only available when using Kinect v1."
+    },
+    {
+      "page": "Kinect",
+      "label": "Skeleton",
+      "name": "skeleton",
+      "description": "⊞  - Selects options for skeletal tracking."
+    },
+    {
+      "page": "Kinect",
+      "label": "Full",
+      "name": "full",
+      "description": "Track full skeleton."
+    },
+    {
+      "page": "Kinect",
+      "label": "Seated",
+      "name": "seated",
+      "description": "Track seated skeleton."
+    },
+    {
+      "page": "Kinect",
+      "label": "Off",
+      "name": "off",
+      "description": "Do not track skeleton."
+    },
+    {
+      "page": "Kinect",
+      "label": "Max Players",
+      "name": "maxplayers",
+      "description": "Limits how many players to track."
+    },
+    {
+      "page": "Kinect",
+      "label": "Interactions",
+      "name": "interactions",
+      "description": "Enables interactions, which returns interaction data such as \"grip\" and \"press\".  The additional channels output are prefixed with   p[1-2]/hand_l_*  and  p[1-2]/hand_r_* .<"
+    },
+    {
+      "page": "Kinect",
+      "label": "Relative Bone Rotations",
+      "name": "relbonerotations",
+      "description": "Returns rx, ry, and rz relative rotation channels for each bone. The rotation is relative to the previous joint."
+    },
+    {
+      "page": "Kinect",
+      "label": "Absolute Bone Rotations",
+      "name": "absbonerotations",
+      "description": "Returns rx, ry, and rz absolute rotation channels for each bone."
+    },
+    {
+      "page": "Kinect",
+      "label": "Bone Lengths",
+      "name": "bonelengths",
+      "description": "Returns the length for each bone."
+    },
+    {
+      "page": "Kinect",
+      "label": "Unroll Bone Values",
+      "name": "unrollbones",
+      "description": "Return the rx, ry, and rz values in a form that includes no discontinuities (or wrap arounds), so that they can be safely blended, filtered, lagged etc. For example, a rotation value running from 0 to 360 continuously, unrolled would start at 0 and increase in value indefinitely."
+    },
+    {
+      "page": "Kinect",
+      "label": "World Space Positions",
+      "name": "worldspace",
+      "description": "Returns the tracked positions in world space coordinates. For each tracked point, a  tx ,  ty ,  tz  triplet of channels will be output."
+    },
+    {
+      "page": "Kinect",
+      "label": "Color Space Positions",
+      "name": "colorspace",
+      "description": "Returns the tracked positions in image space coordinates relative to the color camera. For each tracked point, a  u ,  v ,  tz  triplet of channels will be output. Note this is only available on Kinectv2."
+    },
+    {
+      "page": "Kinect",
+      "label": "Depth Space Positions",
+      "name": "depthspace",
+      "description": "Returns the tracked positions in image space coordinates relative to the depth camera. For each tracked point, a  depthu ,  depthv ,  tz  triplet of channels will be output. Works on both Kinectv1 and Kinectv2."
+    },
+    {
+      "page": "Kinect",
+      "label": "Face Tracking",
+      "name": "facetracking",
+      "description": "Returns face tracking channels for detected faces."
+    },
+    {
+      "page": "Kinect",
+      "label": "Status Channels",
+      "name": "statuschans",
+      "description": "A number of additional status channels are reported when this is turned on. A group of channels will report if a joint is currently being tracked, and another group of channels reports if part of the player is clipped outside the bounds of the Kinect sensor. The additional channels output are suffixed with  tracked  or  clipped ."
+    },
+    {
+      "page": "Kinect",
+      "label": "Near Depth Mode",
+      "name": "neardepthmode",
+      "description": "Enables near mode for skeleton tracking, which allows the depth camera to see objects as close as 40cm to the camera (instead of the default 80cm)."
+    },
+    {
+      "page": "Kinect",
+      "label": "Flip Skeleton U Direction",
+      "name": "flipskelu",
+      "description": "Flips the u-axis for skeleton channels, helpful when using a mirror image from the camera."
+    },
+    {
+      "page": "Kinect",
+      "label": "Flip Face U Direction",
+      "name": "flipfaceu",
+      "description": "Flips the u-axis for face channels, helpful when using a mirror image from the camera."
+    },
+    {
+      "page": "Smoothing",
+      "label": "Joint Smoothing",
+      "name": "jointsmoothing",
+      "description": "Activates Kinect's smoothing algorithm for joint tracking and enables the smoothing parameters below."
+    },
+    {
+      "page": "Smoothing",
+      "label": "Smoothing",
+      "name": "smoothing",
+      "description": "Increasing the smoothing parameter value leads to more highly-smoothed skeleton position values being returned. It is the nature of smoothing that, as the smoothing value is increased, responsiveness to the raw data decreases. Thus, increased smoothing leads to increased latency in the returned skeleton values. Values must be in the range 0 through 1.0. Passing 0 causes the raw data to be returned."
+    },
+    {
+      "page": "Smoothing",
+      "label": "Correction",
+      "name": "correction",
+      "description": "Lower values are slower to correct towards the raw data and appear smoother, while higher values will correct toward the raw data more quickly. Values must be in the range 0 through 1.0."
+    },
+    {
+      "page": "Smoothing",
+      "label": "Prediction",
+      "name": "prediction",
+      "description": "The number of frames to predict into the future. Values must be greater than or equal to zero. Values greater than 0.5 will likely lead to overshooting when moving quickly. This effect can be damped by using small values of Max Deviation Radius."
+    },
+    {
+      "page": "Smoothing",
+      "label": "Jitter Radius",
+      "name": "jitterrad",
+      "description": "The radius in meters for jitter reduction. Any jitter beyond this radius is clamped to the radius."
+    },
+    {
+      "page": "Smoothing",
+      "label": "Max Deviation Radius",
+      "name": "maxdevrad",
+      "description": "The maximum radius in meters that filtered positions are allowed to deviate from raw data. Filtered values that would be more than this radius from the raw data are clamped at this distance, in the direction of the filtered value."
+    },
+    {
+      "page": "Smoothing",
+      "label": "Rotation Smoothing",
+      "name": "rotationsmoothing",
+      "description": "Activates Kinect's smoothing algorithm for rotations. As with joint smoothing above, higher levels of smoothing will introduce more latency."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

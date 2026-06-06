@@ -1,0 +1,286 @@
+{
+  "pageTitle": "GLSL Advanced POP",
+  "pageSlug": "GLSL_Advanced_POP",
+  "url": "https://docs.derivative.ca/GLSL_Advanced_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "gLSLAdvancedPOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "computedat",
+      "label": "Compute Shader",
+      "type": "datRef",
+      "default": "",
+      "description": "Text DAT with GLSL compute shader code."
+    },
+    {
+      "name": "shaderdispatchmode",
+      "label": "Shader Dispatch Mode",
+      "type": "menu",
+      "default": "single",
+      "options": [
+        "single",
+        "perprimbatch"
+      ],
+      "description": "Single Shader Dispatch or Per Primitive Batch."
+    },
+    {
+      "name": "numthreadsmode",
+      "label": "Number of Threads",
+      "type": "menu",
+      "default": "inputpoint",
+      "options": [
+        "inputpoint",
+        "inputvert",
+        "inputprim",
+        "outputpoint",
+        "outputvert",
+        "outputprim",
+        "numelems",
+        "numelemsattrib",
+        "manual"
+      ],
+      "description": "How to determine thread count."
+    },
+    {
+      "name": "ptoutputattrs",
+      "label": "Point Output Attributes",
+      "type": "str",
+      "default": "*",
+      "description": "Point attributes modified by shader."
+    },
+    {
+      "name": "primoutputattrs",
+      "label": "Prim Output Attributes",
+      "type": "str",
+      "default": "*",
+      "description": "Primitive attributes modified by shader."
+    },
+    {
+      "name": "vertoutputattrs",
+      "label": "Vert Output Attributes",
+      "type": "str",
+      "default": "*",
+      "description": "Vertex attributes modified by shader."
+    },
+    {
+      "name": "outputaccess",
+      "label": "Output Access",
+      "type": "menu",
+      "default": "writeonly",
+      "options": [
+        "writeonly",
+        "readwrite"
+      ],
+      "description": "Write Only or Read-Write access."
+    },
+    {
+      "name": "initoutputattrs",
+      "label": "Initialize Output Attributes",
+      "type": "toggle",
+      "default": false,
+      "description": "Copy input defaults before shader."
+    },
+    {
+      "name": "prevpassoutput",
+      "label": "Copy Previous Pass Output to Input",
+      "type": "toggle",
+      "default": false,
+      "description": "Enable multi-pass feedback."
+    },
+    {
+      "name": "npasses",
+      "label": "Passes",
+      "type": "int",
+      "default": 1,
+      "description": "Number of shader passes."
+    },
+    {
+      "name": "simplexnoise",
+      "label": "TDSimplexNoise()",
+      "type": "menu",
+      "default": "performance",
+      "options": [
+        "performance",
+        "quality"
+      ],
+      "description": "Simplex noise implementation."
+    },
+    {
+      "name": "maxpoints",
+      "label": "Max Points",
+      "type": "int",
+      "default": 0,
+      "description": "Maximum number of points (0 = from input)."
+    },
+    {
+      "name": "maxtriangles",
+      "label": "Max Triangles",
+      "type": "int",
+      "default": 0,
+      "description": "Maximum triangle primitives."
+    },
+    {
+      "name": "maxquads",
+      "label": "Max Quads",
+      "type": "int",
+      "default": 0,
+      "description": "Maximum quad primitives."
+    },
+    {
+      "name": "maxlinestrips",
+      "label": "Max Line Strips",
+      "type": "int",
+      "default": 0,
+      "description": "Maximum line strip primitives."
+    },
+    {
+      "name": "maxlines",
+      "label": "Max Lines",
+      "type": "int",
+      "default": 0,
+      "description": "Maximum line primitives."
+    },
+    {
+      "name": "maxpointprims",
+      "label": "Max Point Prims",
+      "type": "int",
+      "default": 0,
+      "description": "Maximum point primitives."
+    },
+    {
+      "name": "initoutputprims",
+      "label": "Initialize Output Primitives",
+      "type": "menu",
+      "default": "none",
+      "options": [
+        "none",
+        "copy",
+        "zero"
+      ],
+      "description": "How to initialize output primitives."
+    },
+    {
+      "name": "topoinfo",
+      "label": "Topology Info",
+      "type": "menu",
+      "default": "input",
+      "options": [
+        "input",
+        "fromattrs",
+        "fromparams"
+      ],
+      "description": "Source for topology information."
+    },
+    {
+      "name": "extraout0name",
+      "label": "Extra Output Name",
+      "type": "str",
+      "default": "",
+      "description": "Name for extra output (GLSL Select)."
+    },
+    {
+      "name": "extraout0pop",
+      "label": "Extra Output POP",
+      "type": "opRef",
+      "default": "",
+      "description": "POP reference for extra output."
+    },
+    {
+      "name": "extraout0ptattrs",
+      "label": "Extra Point Attributes",
+      "type": "str",
+      "default": "",
+      "description": "Point attributes for extra output."
+    },
+    {
+      "name": "extraout0primattrs",
+      "label": "Extra Prim Attributes",
+      "type": "str",
+      "default": "",
+      "description": "Primitive attributes for extra output."
+    },
+    {
+      "name": "extraout0vertattrs",
+      "label": "Extra Vert Attributes",
+      "type": "str",
+      "default": "",
+      "description": "Vertex attributes for extra output."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "o cambia el número de elementos de entrada. Los usuarios escriben un compute shader para definir la lógica de modificación de atributos.3 * Parámetros: Compute Shader (referencia DAT), Attribute Class, Number of Threads (Auto, Manual, desde Atributo), Work Group Size, Dispatch Size, Output Attributes, Output Access (Solo Escritura, Lectura-Escritura), Initialize Output Attributes, Passes. También tiene una \"Página Create Attributes\" para definir nuevos atributos dentro del shader.3 * GLSL Advanced POP: Una versión avanzada de GLSL POP, que permite leer, escribir y crear todas las clases de atributos (punto, primitiva, vértice) en un solo shader. Puede escribir en atributos de múltiples POPs (a través de \"Extra Outputs\") y modificar el número de puntos y primitivas. También soporta la escritura en el búfer de índices y tiene un modo de envío de shader \"Per Primitive Batch\".12 * GLSL Copy POP: Realiza copias de la geometría de entrada y aplica código GLSL personalizado a cada copia. Simila"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "o cambia el número de elementos de entrada. Los usuarios escriben un compute shader para definir la lógica de modificación de atributos.3 * Parámetros: Compute Shader (referencia DAT), Attribute Class, Number of Threads (Auto, Manual, desde Atributo), Work Group Size, Dispatch Size, Output Attributes, Output Access (Solo Escritura, Lectura-Escritura), Initialize Output Attributes, Passes. También tiene una \"Página Create Attributes\" para definir nuevos atributos dentro del shader.3 * GLSL Advanced POP: Una versión avanzada de GLSL POP, que permite leer, escribir y crear todas las clases de atributos (punto, primitiva, vértice) en un solo shader. Puede escribir en atributos de múltiples POPs (a través de \"Extra Outputs\") y modificar el número de puntos y primitivas. También soporta la escritura en el búfer de índices y tiene un modo de envío de shader \"Per Primitive Batch\".12 * GLSL Copy POP: Realiza copias de la geometría de entrada y aplica código GLSL personalizado a cada copia. Si"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "o cambia el número de elementos de entrada. Los usuarios escriben un compute shader para definir la lógica de modificación de atributos.3 * Parámetros: Compute Shader (referencia DAT), Attribute Class, Number of Threads (Auto, Manual, desde Atributo), Work Group Size, Dispatch Size, Output Attributes, Output Access (Solo Escritura, Lectura-Escritura), Initialize Output Attributes, Passes. También tiene una \"Página Create Attributes\" para definir nuevos atributos dentro del shader.3 * GLSL Advanced POP: Una versión avanzada de GLSL POP, que permite leer, escribir y crear todas las clases de atributos (punto, primitiva, vértice) en un solo shader. Puede escribir en atributos de múltiples POPs (a través de \"Extra Outputs\") y modificar el número de puntos y primitivas. También soporta la escritura en el búfer de índices y tiene un modo de envío de shader \"Per Primitive Batch\".12 * GLSL Copy POP: Realiza copias de la geometría de entrada y aplica código GLSL personalizado a cada copia. Simila"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "la fuerza en velocidad y la velocidad en posición. • Experimental:Field POP: Genera nuevos atributos, a menudo con nombres predeterminados sugeridos. Este operador genera el atributo Weight. • Experimental:File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner. • Experimental:Force POP: Se utiliza para crear o añadir al atributo PartForce (fuerza de partícula). Es fundamental para definir cómo las fuerzas actúan sobre las partículas. • Experimental:GLSL Advanced POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL Copy POP: Permite ejecutar código de compute shader (GLSL) en cada punto para deformar geometrías basándose en los atributos del punto. Es muy potente para generar formas complejas de manera programática. • Experimental:GLSL Create POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL P"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "la fuerza en velocidad y la velocidad en posición. • Experimental:Field POP: Genera nuevos atributos, a menudo con nombres predeterminados sugeridos. Este operador genera el atributo Weight. • Experimental:File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner. • Experimental:Force POP: Se utiliza para crear o añadir al atributo PartForce (fuerza de partícula). Es fundamental para definir cómo las fuerzas actúan sobre las partículas. • Experimental:GLSL Advanced POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL Copy POP: Permite ejecutar código de compute shader (GLSL) en cada punto para deformar geometrías basándose en los atributos del punto. Es muy potente para generar formas complejas de manera programática. • Experimental:GLSL Create POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GL"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "la fuerza en velocidad y la velocidad en posición. • Experimental:Field POP: Genera nuevos atributos, a menudo con nombres predeterminados sugeridos. Este operador genera el atributo Weight. • Experimental:File In POP: Permite cargar archivos externos que contienen nubes de puntos en TouchDesigner. • Experimental:Force POP: Se utiliza para crear o añadir al atributo PartForce (fuerza de partícula). Es fundamental para definir cómo las fuerzas actúan sobre las partículas. • Experimental:GLSL Advanced POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL Copy POP: Permite ejecutar código de compute shader (GLSL) en cada punto para deformar geometrías basándose en los atributos del punto. Es muy potente para generar formas complejas de manera programática. • Experimental:GLSL Create POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:GLSL P"
+    }
+  ],
+  "useCases": [
+    "Complex GPU simulations requiring multi-class attribute access",
+    "Topology generation (add/remove points and primitives)",
+    "Multi-output processing (write to multiple POP destinations)",
+    "Per-primitive batch processing for instanced effects"
+  ],
+  "examples": [
+    {
+      "name": "Dynamic Topology",
+      "description": "GLSL Advanced POP creating points + triangles from compute",
+      "difficulty": "expert"
+    },
+    {
+      "name": "Multi-Output",
+      "description": "GLSL Advanced POP → GLSL Select POP (extra output routing)",
+      "difficulty": "advanced"
+    },
+    {
+      "name": "Per-Primitive Batch",
+      "description": "GLSL Advanced POP (Per Primitive Batch mode for instanced effects)",
+      "difficulty": "expert"
+    }
+  ],
+  "commonCombinations": [
+    "GLSL Advanced POP → GLSL Select POP (extra output selection)",
+    "GLSL Advanced POP → Topology POP (dynamic topology)",
+    "GLSL Advanced POP → Render TOP (custom geometry)",
+    "GLSL Advanced POP → Feedback POP (complex GPU simulations)"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Shader errors",
+      "solution": "Check GLSL version. Verify attribute class declarations in shader."
+    },
+    {
+      "problem": "Missing primitives",
+      "solution": "Check Max Primitives parameters. Verify topology info source."
+    },
+    {
+      "problem": "Extra Outputs not working",
+      "solution": "Verify POP reference and attribute names match shader declarations."
+    },
+    {
+      "problem": "Per Primitive Batch issues",
+      "solution": "Check Number of Threads per Batch Mode setting."
+    }
+  ],
+  "description": "Advanced GLSL compute shader POP. Can read/write/create all attribute classes (point, vertex, primitive) simultaneously. Supports Extra Outputs for multi-POP destinations, topology modification (point/primitive counts), Per Primitive Batch mode, and full index buffer control."
+}

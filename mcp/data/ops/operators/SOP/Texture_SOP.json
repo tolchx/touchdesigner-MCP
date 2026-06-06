@@ -1,0 +1,324 @@
+{
+  "family": "SOP",
+  "pageTitle": "Texture SOP",
+  "pageSlug": "Texture_SOP",
+  "url": "https://docs.derivative.ca/Texture_SOP",
+  "tdOpTypeGuess": "textureSOP",
+  "summary": "[  edit  ]\nThe Texture  SOP  assigns texture UV and W coordinates to the Source geometry for use in texture and bump mapping. It generates multi-layers of texture coordinates.\ntextureSOP_Class\nContents\n1   Summary\n2   Fixing Seams & Unrolling Geometry\n3   Parameters -  Page\n4   Parameters - Texture Page\n5   Parameters - Transform Page\n6   Operator Inputs\n7   Info CHOP Channels\n7.1   Common SOP Info Channels\n7.2   Common Operator Info Channels\nFixing Seams & Unrolling  Geometry\nNOTE:  the following discussing pertains only to face and hull primitives.\nIf a texture type requires fixing of seams and the texture is applied to vertices, the wrapped primitives are unrolled before computing the texture coordinates. Unrolling a wrapped primitive turns it into an open primitive whose new vertices use the same points as the vertices they have been uniqued from. Thus, unrolling does not change the point count, nor does it allow cracks to appear further down the road. Explicit unrolling, using the  Primitive SOP , is not required.\nThe seam fixing is done after computing the texture coordinates. It is required whether textures are applied to vertices or points, and it's done in u, v, or both.\nThe following texture types require fixing of seams:\nCylindrical  - seams fixed in u.\nPolar  - seams fixed in u and v.\nRow/col  - seams fixed in u and v.\nSpline types :  Uniform ,  Chord Length , and  Average  - seams fixed in u and v.\nNote:  When the projection type is  Cylindrical  or  Polar , closed meshes, Bzier & NURBS surfaces will be opened. At least one row/column of vertices will be added (possibly more for NURBS<). This is to prevent poor interpolation of texture coordinates at the seam of the join.",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Texture",
+      "label": "Texture Layer",
+      "name": "texlayer",
+      "description": "If the geometry has multiple textures layers applied to it, this parameter determines which layer of UV coordinates this Texture  SOP  will effect."
+    },
+    {
+      "page": "Texture",
+      "label": "Texture Type",
+      "name": "type",
+      "description": "⊞  - The  Face ,  Uniform Spline , and  Arc-Length Spline  texturing methods accept spline curves as well as polygons."
+    },
+    {
+      "page": "Texture",
+      "label": "When using one of the spline",
+      "description": "based methods, specifying a paste hierarchy in the   Group   field will propagate the computation of texture coordinates to all of its nodes. Projection methods will typically yield smoother texture continuity between pasted surfaces than any of the spline methods. Sometimes it helps ensuring that pasted features are Chord-length parameterized with the  Basis SOP ."
+    },
+    {
+      "page": "Texture",
+      "label": "Orthographic",
+      "name": "texture",
+      "description": "Direct projection from  Projection Axis ."
+    },
+    {
+      "page": "Texture",
+      "label": "XYZ Position",
+      "name": "xyzposition",
+      "description": "The XYZ position of the vertices will be copied into the UVW values."
+    },
+    {
+      "page": "Texture",
+      "label": "Equirectangular Inside (Spherical Polar)",
+      "name": "equirectangularin",
+      "description": "Applies corrdinates to properly apply an equirectangular texture map to the inside of an object. Useful for skyboxes for example."
+    },
+    {
+      "page": "Texture",
+      "label": "Equirectangular Outside (Spherical Polar)",
+      "name": "equirectangularout",
+      "description": "Applies corrdinates to properly apply an equirectangular texture map to the outside of an object."
+    },
+    {
+      "page": "Texture",
+      "label": "Cylindrical",
+      "name": "cylin",
+      "description": "Wrap cylindrically in  Projection Axis  direction."
+    },
+    {
+      "page": "Texture",
+      "label": "Row & Columns",
+      "name": "rowcol",
+      "description": "For geometry constructed as a mesh (Grid, Sphere, Tube, Skin, and Sweep). The U coordinates are placed along rows, and the V coordinates along columns. This is good for texturing curved meshes such as car fenders where you cannot project from any one axis."
+    },
+    {
+      "page": "Texture",
+      "label": "Face",
+      "name": "face",
+      "description": "Maps a copy of the texture onto every face. You should make points unique using a  Facet SOP , before using this function in the Texture  SOP . The map is graphically projected to each face along its normal, so the texture is oriented properly for each face. However, the map is not scaled to fit each polygon, nor is it distorted by the shape of each polygon. If the geometry changes in size in object space, the texture does not \"stick\" to the geometry. It is best suited to texturing objects that represent chunks of rock and brick, as the textures will likely not match at the edges between polygons."
+    },
+    {
+      "page": "Texture",
+      "label": "Modify Source",
+      "name": "modify",
+      "description": "If the Source already has texture UV coordinates, they are maintained. You can offset and scale them, however, using  Scale  and  Offset ."
+    },
+    {
+      "page": "Texture",
+      "label": "Uniform Spline",
+      "name": "suniform",
+      "description": "This projection type operates only on NURBS and Bzier surfaces. It samples the domain space (i.e. the basis) of each surface uniformly in U and V and assigns those (u,v) values as texture coordinates to the surface points or vertices. To ensure continuity between the texture space of adjacent surfaces insert a  Basis SOP  before the Texture  SOP  and toggle  Concatenate  on to merge the spline bases in U and/or V."
+    },
+    {
+      "page": "Texture",
+      "label": "Average Spline",
+      "name": "saverage",
+      "description": "Stores the average of degree successive knots into the texture attribute. These averages are known as  Greville points . This method and  Uniform Spline  are recommended for pasted surfaces."
+    },
+    {
+      "page": "Texture",
+      "label": "Arc Length Spline",
+      "name": "sarclen",
+      "description": "This method is similar to the  Uniform Spline  method since it relies on the underlying spline basis when computing the texture coordinates. Both methods generate texture coordinates in the same range, bounded by the minimum and maximum knot values. The difference between the two spline methods lies in the spacing between successive texture coordinates. The uniform method samples the parameter space uniformly. The  Arc-Length Spline  method chooses the texture coordinates based on surface arc-lengths."
+    },
+    {
+      "page": "Texture",
+      "label": "Since the  Uniform Spline  method relies heavily on the parametric fabric of the surface, the resulting texture will tend to squash and stretch given uneven surface parameterizations. The",
+      "name": "Arc",
+      "description": "Length Spline  method reduces this effect by relating the texture space directly to the world space of the surface, while ensuring that the size and origin of the generated texture space coincide with those of the underlying domain."
+    },
+    {
+      "page": "Texture",
+      "label": "Edge Length",
+      "name": "edgelength",
+      "description": "Applies to hulls + faces (NURBs/Bezier/ Polygon )."
+    },
+    {
+      "page": "Texture",
+      "label": "Perspective From Camera",
+      "name": "persp",
+      "description": "The texture coordinates are assigned so that the world space of the object can be textured to fit the projection of the camera exactly. If any points are behind the near clipping plane or beyond the far clipping plane, the texture coordinates ( 0, 0, 0 ) are assigned. Note: Unless a Custom Projection matrix is used in the  Camera COMP , the aspect ratio of the projection is assumed to be 1:1. You may need to scale the UVs to match the aspect ratio of your render."
+    },
+    {
+      "page": "Texture",
+      "label": "Equidistant Azimuth (Fish Eye 180)",
+      "name": "equiazimuth",
+      "description": "Applies coordinates for using 180 degree Fish Eye maps."
+    },
+    {
+      "page": "Texture",
+      "label": "Equidistant Azimuth (Fish Eye 360)",
+      "name": "equiazimuth360",
+      "description": "Applies coordinates for using 360 degree Fish Eye maps."
+    },
+    {
+      "page": "Texture",
+      "label": "Projection Axis",
+      "name": "axis",
+      "description": "⊞  - Axis to project along, or projection method from splines. X, Y, or Z axes."
+    },
+    {
+      "page": "Texture",
+      "label": "Camera Name",
+      "name": "camera",
+      "description": "This is used when the  Perspective From Camera  Texture Type is selected. The menu is used to select which light or camera to project the perspective coordinates from."
+    },
+    {
+      "page": "Texture",
+      "label": "Apply to",
+      "name": "coord",
+      "description": "⊞  - Select to apply texture coordinates to their Natural Location, Point textures, or  Vertex  textures."
+    },
+    {
+      "page": "Texture",
+      "label": "Scale",
+      "name": "s",
+      "description": "⊞  - Scales the texture coordinates a specific amount."
+    },
+    {
+      "page": "Texture",
+      "label": "Offset",
+      "name": "offset",
+      "description": "⊞  - Offsets the texture coordinates a specific amount."
+    },
+    {
+      "page": "Texture",
+      "label": "Rotate",
+      "name": "angle",
+      "description": "Rotates the texture coordinates the specified value."
+    },
+    {
+      "page": "Texture",
+      "label": "Tip:  Before applying a spline",
+      "description": "based texture projection with the Texture  SOP , remap the U and/or V bases of the spline surface (using a  Basis SOP ) between 0 and 1 to ensure a complete mapping of the texture. If a single texture map must be shared by several surfaces, the surface bases should be concatenated prior to being remapped."
+    },
+    {
+      "page": "Texture",
+      "label": "Fix Face Seams",
+      "name": "fixseams",
+      "description": "Attempts to correct texture continuity at face seams."
+    },
+    {
+      "page": "Transform",
+      "label": "Transform Order",
+      "name": "xord",
+      "description": "⊞  - Sets the overall transform order for the transformations. The transform order determines the order in which transformations take place. Depending on the order, you can achieve different results using the exact same values. Choose the appropriate order from the menu."
+    },
+    {
+      "page": "Transform",
+      "label": "Rotate Order",
+      "name": "rord",
+      "description": "⊞  - Sets the order of the rotations within the overall transform order."
+    },
+    {
+      "page": "Transform",
+      "label": "Translate",
+      "name": "t",
+      "description": "⊞  - These three fields move the texture coordinates in the three axes."
+    },
+    {
+      "page": "Transform",
+      "label": "Rotate",
+      "name": "r",
+      "description": "⊞  - These three fields rotate the texture coordinates in the three axes."
+    },
+    {
+      "page": "Transform",
+      "label": "Scale",
+      "name": "scaletwo",
+      "description": "⊞  - These three fields scale the texture coordinates in the three axes."
+    },
+    {
+      "page": "Transform",
+      "label": "Pivot",
+      "name": "p",
+      "description": "⊞  - The pivot point for the transformations (not the same as the pivot point in the pivot channels). The pivot point parameters allow you to define the point about which the texture coordinates scale and rotate. Altering the pivot point produces different results depending on the transformation performed."
+    },
+    {
+      "page": "Transform",
+      "label": "For example, during a scaling operation, if the pivot point of the texture coordinates is located at:",
+      "description": "1, -1, 0  and you wanted to scale by  0.5  (reduce its size by 50%) the texture would scale toward the pivot point and appear to slide down and to the left."
+    },
+    {
+      "page": "Transform",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Transform",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Transform",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Transform",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Transform",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Transform",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Transform",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Transform",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Transform",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Transform",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Transform",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Transform",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Transform",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Transform",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Transform",
+      "label": "A polygon is a type of  Primitive  that is formed from a set of  Vertices  in 3D that are implicitly connected together to form a multi",
+      "description": "edge shape."
+    },
+    {
+      "page": "Transform",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "u función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "(Line MAT) de TouchDesigner se implementa internamente usando una conversión a este POP, lo que sugiere su rol en la representación visual de líneas. • Experimental:Lookup Attribute POP: Utiliza uno, dos o tres componentes de un atributo como índices para realizar búsquedas. También puede utilizar atributos de solo lectura. • Experimental:Lookup Channel POP: Similar al Lookup Attribute POP, usa componentes de atributos como índices para realizar búsquedas en canales. • Experimental:Lookup Texture POP: Similar a los anteriores, pero utiliza componentes de atributos como índices para realizar búsquedas en texturas. • Experimental:Math Combine POP: Similar al Attribute Combine, permite combinar datos de múltiples entradas y especificar qué atributos se deben combinar. También soporta la creación automática de nombres de atributos. • Experimental:Math Mix POP: Permite mezclar datos de múltiples entradas. Al igual que el Math POP, ofrece capacidades de manipulación sin codificación y la"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "tamente) convirtiéndolos a \"line strips\", triangulándolos, o ignorándolos. * Las mallas SOP se pueden convertir en `quads`, \"line strips\" o primitivas de punto. * Las primitivas SOP como esferas, Bézier o NURBS se convierten **solo en puntos** en los POPs. * **Uso simple:** Para llevar geometrías estáticas o animadas (pero no basadas en partículas) creadas con SOPs al entorno de POPs para aplicar simulaciones de partículas u otros efectos basados en puntos. * **Texture Map POP (POP de Mapeo de Textura)** * **Función principal:** Crea el atributo **`Tex`**, que se utiliza para aplicar texturas a las superficies o para posicionar texturas generadas por procedimiento. * **Características clave:** * `Tex` es un atributo float3 de 3 componentes que puede ser un **atributo de punto o de vértice**. * Ofrece varios **métodos de proyección**, como Equirectangular (esférica polar, útil para VR), Equidistant Azimuth (ojo de pez para d"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "s parámetros **`Extend Left` y `Extend Right`** controlan el comportamiento si el índice está fuera del rango del CHOP (mantener, ciclar, reflejar). * Los **bloques secuenciales** te permiten definir qué hacer con cada valor de canal recuperado, incluyendo la **re-escalado (`re-range`)** antes de asignarlos a los atributos de salida. * Puedes elegir el `Output Attribute Scope` para especificar dónde se guardan los valores (`P`, `N`, `Color`, `Tex`, etc.). --- #### 46. Lookup Texture POP * **¿Qué hace?** Este operador es una herramienta para **muestrear datos de una textura (TOP) y aplicarlos como atributos a tus puntos**. Toma dos atributos de tu geometría (generalmente `Lookup Attribute U` y `Lookup Attribute V`) con valores entre 0 y 1, y para cada punto, usa esos valores como coordenadas para buscar píxeles en un TOP (Texture Operator). Los valores RGBA (rojo, verde, azul, alfa) de esos píxeles se convierten en atributos POP. * **Características clave:** *"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "p that into my controls here. (25:38) And it's probably going to be somewhat similar because the average should probably be the center. But we have this way of getting sort of the central point of a lot of data, which is kind of super cool. Other things that we can do that I think are really awesome is we have a much more souped up version of sorting. Touch Designer team has really developed and made a really efficient way of sorting here. (26:08) And what you can do is by combining different textures, you can have these attributes that allow you to basically sort by an external image. So I could take in this case I'm taking this pattern chop which is generating a ramp or in this case a sign um but I can then sort by a secondary value which is this image here. (26:31) And let's just take a look at what's happening here um without that whole like section. It looks like I'm probably sorting something that is not available to sort. So I'm going to go into a top just so we can see that output."
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

@@ -1,0 +1,148 @@
+{
+  "pageTitle": "Proximity POP",
+  "pageSlug": "Proximity_POP",
+  "url": "https://docs.derivative.ca/Proximity_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "proximityPOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "Maximum Distance",
+      "type": "Float[0-10000]",
+      "default": 1,
+      "description": "Max distance for connections."
+    },
+    {
+      "name": "Minimum Distance",
+      "type": "Float[0-10000]",
+      "default": 0,
+      "description": "Min distance for connections (excludes self)."
+    },
+    {
+      "name": "Max Lines per Point",
+      "type": "Int[1-1000]",
+      "default": 10,
+      "description": "Limit connections per point."
+    },
+    {
+      "name": "Uniform Distribution",
+      "type": "Toggle",
+      "default": 0,
+      "description": "Even distribution vs nearest-first."
+    },
+    {
+      "name": "Duplicate Lines",
+      "type": "Menu",
+      "options": [
+        "Do Nothing",
+        "Avoid",
+        "Delete"
+      ],
+      "default": "Delete",
+      "description": "Handle duplicate connection pairs."
+    },
+    {
+      "name": "Output",
+      "type": "Menu",
+      "options": [
+        "Lines (Shared Points)",
+        "Point Prims"
+      ],
+      "default": "Lines (Shared Points)",
+      "description": "Output line primitives or point primitives."
+    },
+    {
+      "name": "Line Direction",
+      "type": "Toggle",
+      "default": 0,
+      "description": "Output line direction attribute."
+    },
+    {
+      "name": "Line Length",
+      "type": "Toggle",
+      "default": 0,
+      "description": "Output line length attribute."
+    },
+    {
+      "name": "End Point Attributes",
+      "type": "Toggle",
+      "default": 0,
+      "description": "Output matched point attributes (EndP, EndN, etc.)."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "de animación escalonada (con desfase temporal) en un atributo POP. Genera un nuevo atributo \"Phaser\" donde cada punto anima de 0 a 1 en un ciclo, pero en diferentes momentos.25 * Projection POP: Transforma un atributo espacial 3D de tipo float3 (como P) entre diferentes sistemas de coordenadas (Cartesiano, Esférico, Cilíndrico, Espacio de Pantalla, Coordenadas de Dispositivo Normalizadas). Permite especificar los sistemas de coordenadas de entrada y salida y las unidades angulares.26 * Proximity POP: Conecta puntos a puntos cercanos dentro de una distancia mínima/máxima especificada, creando \"primitivas de línea\" de 2 puntos. Puede limitar el número de líneas por punto y generar líneas de conexión o primitivas de punto dentro del rango. También puede generar atributos de los puntos coincidentes (por ejemplo, EndP, EndN).27 * Skin POP: Toma una disposición de datos bidimensional (o más) (por ejemplo, tiras de línea) y los conecta como una malla de triángulos o quads. Aplica el skinning"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "de animación escalonada (con desfase temporal) en un atributo POP. Genera un nuevo atributo \"Phaser\" donde cada punto anima de 0 a 1 en un ciclo, pero en diferentes momentos.25 * Projection POP: Transforma un atributo espacial 3D de tipo float3 (como P) entre diferentes sistemas de coordenadas (Cartesiano, Esférico, Cilíndrico, Espacio de Pantalla, Coordenadas de Dispositivo Normalizadas). Permite especificar los sistemas de coordenadas de entrada y salida y las unidades angulares.26 * Proximity POP: Conecta puntos a puntos cercanos dentro de una distancia mínima/máxima especificada, creando \"primitivas de línea\" de 2 puntos. Puede limitar el número de líneas por punto y generar líneas de conexión o primitivas de punto dentro del rango. También puede generar atributos de los puntos coincidentes (por ejemplo, EndP, EndN).27 * Skin POP: Toma una disposición de datos bidimensional (o más) (por ejemplo, tiras de línea) y los conecta como una malla de triángulos o quads. Aplica el skinn"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "de animación escalonada (con desfase temporal) en un atributo POP. Genera un nuevo atributo \"Phaser\" donde cada punto anima de 0 a 1 en un ciclo, pero en diferentes momentos.25 * Projection POP: Transforma un atributo espacial 3D de tipo float3 (como P) entre diferentes sistemas de coordenadas (Cartesiano, Esférico, Cilíndrico, Espacio de Pantalla, Coordenadas de Dispositivo Normalizadas). Permite especificar los sistemas de coordenadas de entrada y salida y las unidades angulares.26 * Proximity POP: Conecta puntos a puntos cercanos dentro de una distancia mínima/máxima especificada, creando \"primitivas de línea\" de 2 puntos. Puede limitar el número de líneas por punto y generar líneas de conexión o primitivas de punto dentro del rango. También puede generar atributos de los puntos coincidentes (por ejemplo, EndP, EndN).27 * Skin POP: Toma una disposición de datos bidimensional (o más) (por ejemplo, tiras de línea) y los conecta como una malla de triángulos o quads. Aplica el skinning"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ze POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Primitive POP: Puede eliminar las primitivas de un POP, dejando solo los puntos. También permite crear tiras de línea. Si lo deseas, puedes usarlo para crear primitivas en su pestaña correspondiente. • Experimental:Projection POP: Permite crear y modificar atributos de color y textura. Al igual que el Normalize POP, genera atributos normalizados. • Experimental:Proximity POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Quantize POP: Proporciona opciones para cuantizar valores, como redondear hacia abajo (Floor), redondear al entero más cercano (Round) o redondear hacia arriba (Ceiling). • Experimental:Random POP: Permite crear y modificar atributos de color y textura, presumiblemente para aplicar valores aleatorios. • Experimental:Ray POP: Crea atributos de tipo entero sin signo. Ge"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ze POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Primitive POP: Puede eliminar las primitivas de un POP, dejando solo los puntos. También permite crear tiras de línea. Si lo deseas, puedes usarlo para crear primitivas en su pestaña correspondiente. • Experimental:Projection POP: Permite crear y modificar atributos de color y textura. Al igual que el Normalize POP, genera atributos normalizados. • Experimental:Proximity POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Quantize POP: Proporciona opciones para cuantizar valores, como redondear hacia abajo (Floor), redondear al entero más cercano (Round) o redondear hacia arriba (Ceiling). • Experimental:Random POP: Permite crear y modificar atributos de color y textura, presumiblemente para aplicar valores aleatorios. • Experimental:Ray POP: Crea atributos de tipo entero sin signo"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ze POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Primitive POP: Puede eliminar las primitivas de un POP, dejando solo los puntos. También permite crear tiras de línea. Si lo deseas, puedes usarlo para crear primitivas en su pestaña correspondiente. • Experimental:Projection POP: Permite crear y modificar atributos de color y textura. Al igual que el Normalize POP, genera atributos normalizados. • Experimental:Proximity POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Quantize POP: Proporciona opciones para cuantizar valores, como redondear hacia abajo (Floor), redondear al entero más cercano (Round) o redondear hacia arriba (Ceiling). • Experimental:Random POP: Permite crear y modificar atributos de color y textura, presumiblemente para aplicar valores aleatorios. • Experimental:Ray POP: Crea atributos de tipo entero sin signo. Ge"
+    }
+  ],
+  "useCases": [
+    "Distance calculations",
+    "Influence fields",
+    "Clustering",
+    "Creating wireframe connections between nearby particles",
+    "Proximity-based interaction visualization",
+    "Spatial relationship graphs",
+    "Connecting two point clouds with lines"
+  ],
+  "examples": [
+    {
+      "name": "Influence Field",
+      "description": "Proximity POP to calculate distance to attractors",
+      "difficulty": "advanced"
+    },
+    {
+      "name": "Particle Connections",
+      "description": "Particle POP -> Proximity POP (MaxDist=2, MaxLines=3) -> Render for network viz",
+      "difficulty": "beginner"
+    },
+    {
+      "name": "Two-Cloud Bridge",
+      "description": "Grid POP + Sphere POP -> Proximity POP (2 inputs) -> Render for cross-cloud lines",
+      "difficulty": "intermediate"
+    }
+  ],
+  "commonCombinations": [
+    "Two point clouds to Proximity POP",
+    "Proximity to Attribute POP",
+    "Grid POP -> Noise POP -> Proximity POP (organic connections)",
+    "Two Particle POPs -> Proximity POP (interaction lines)",
+    "Proximity POP -> Render TOP (line-based visualization)"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Wrong distances",
+      "solution": "Check local vs world space."
+    },
+    {
+      "problem": "No connections formed",
+      "solution": "Increase Maximum Distance. Check point density."
+    },
+    {
+      "problem": "Too many connections",
+      "solution": "Reduce Max Lines per Point. Increase Minimum Distance."
+    }
+  ],
+  "description": "Connects nearby points with lines within a distance range. Single input = self-connection. Two inputs = cross-connection. Outputs line primitives or point primitives with matched point attributes."
+}

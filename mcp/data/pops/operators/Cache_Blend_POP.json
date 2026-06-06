@@ -1,0 +1,164 @@
+{
+  "pageTitle": "Cache Blend POP",
+  "pageSlug": "Cache_Blend_POP",
+  "url": "https://docs.derivative.ca/Cache_Blend_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "cacheBlendPOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "Cache POP",
+      "internalName": "cachepop",
+      "type": "string",
+      "default": "",
+      "description": "The Cache POP to retrieve from"
+    },
+    {
+      "name": "CHOP",
+      "internalName": "chop",
+      "type": "string",
+      "default": "",
+      "description": "Weight and index can be from CHOP channels"
+    },
+    {
+      "name": "Index Channel",
+      "internalName": "indexchan",
+      "type": "string",
+      "default": "",
+      "description": "Channel name for cache index (when using CHOP)"
+    },
+    {
+      "name": "Index Channel Unit",
+      "internalName": "indexchanunit",
+      "type": "menu",
+      "default": "index",
+      "description": "I (index) / F (frames) / S (seconds)"
+    },
+    {
+      "name": "Weight Channel",
+      "internalName": "weightchan",
+      "type": "string",
+      "default": "",
+      "description": "Channel containing weight values"
+    },
+    {
+      "name": "Interpolate Frames",
+      "internalName": "interp",
+      "type": "toggle",
+      "default": false,
+      "description": "Interpolate between cached frames"
+    },
+    {
+      "name": "Cache Index",
+      "internalName": "cache0index",
+      "type": "float",
+      "default": 0,
+      "description": "The Cache Index to select"
+    },
+    {
+      "name": "Cache Index Unit",
+      "internalName": "cache0indexunit",
+      "type": "menu",
+      "default": "frames",
+      "description": "Seconds, frames, or raw index"
+    },
+    {
+      "name": "Cache Weight",
+      "internalName": "cache0weight",
+      "type": "float",
+      "default": 1,
+      "description": "Weight for this cache entry"
+    },
+    {
+      "name": "Bypass",
+      "internalName": "bypass",
+      "type": "toggle",
+      "default": false,
+      "description": "Pass through first input unchanged"
+    },
+    {
+      "name": "Free Extra GPU Memory",
+      "internalName": "freeextragpumem",
+      "type": "toggle",
+      "default": false,
+      "description": "Free accumulated GPU memory"
+    },
+    {
+      "name": "Delete Input Attributes",
+      "internalName": "delinputattrs",
+      "type": "toggle",
+      "default": false,
+      "description": "Only output specified attributes"
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "rquitectura se comparte con Math Combine POP, Math Mix POP, Blend POP, Merge POP y Switch POP.13 * Parámetros: Se centra en la \"Página Inputs\" con bloques secuenciales para cada entrada, permitiendo In POP(s) (coincidencia de patrón), In Attributes (coincidencia de patrón), Rename Attribute y opciones de Duplicate Attributes. También incluye la selección de Attribute Class y el manejo de Length Mismatch (None, Warning, Error, con opciones para entradas más cortas: hold, 0, 1, nothing).13 * Cache Blend POP: Toma una referencia a un Cache POP y genera una mezcla de sus conjuntos de datos en caché basándose en un Cache Index y Cache Weight para bloques secuenciales. La mezcla se realiza por punto, lo que es útil para efectos basados en el tiempo como el desenfoque de movimiento o el cálculo de la velocidad de los puntos a partir de datos históricos.31 * Cache Select POP: Toma una referencia a un Cache POP y genera uno de sus conjuntos de datos en caché utilizando un parámetro Cache Index. Un Cache"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "rquitectura se comparte con Math Combine POP, Math Mix POP, Blend POP, Merge POP y Switch POP.13 * Parámetros: Se centra en la \"Página Inputs\" con bloques secuenciales para cada entrada, permitiendo In POP(s) (coincidencia de patrón), In Attributes (coincidencia de patrón), Rename Attribute y opciones de Duplicate Attributes. También incluye la selección de Attribute Class y el manejo de Length Mismatch (None, Warning, Error, con opciones para entradas más cortas: hold, 0, 1, nothing).13 * Cache Blend POP: Toma una referencia a un Cache POP y genera una mezcla de sus conjuntos de datos en caché basándose en un Cache Index y Cache Weight para bloques secuenciales. La mezcla se realiza por punto, lo que es útil para efectos basados en el tiempo como el desenfoque de movimiento o el cálculo de la velocidad de los puntos a partir de datos históricos.31 * Cache Select POP: Toma una referencia a un Cache POP y genera uno de sus conjuntos de datos en caché utilizando un parámetro Cache Index. Un C"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "rquitectura se comparte con Math Combine POP, Math Mix POP, Blend POP, Merge POP y Switch POP.13 * Parámetros: Se centra en la \"Página Inputs\" con bloques secuenciales para cada entrada, permitiendo In POP(s) (coincidencia de patrón), In Attributes (coincidencia de patrón), Rename Attribute y opciones de Duplicate Attributes. También incluye la selección de Attribute Class y el manejo de Length Mismatch (None, Warning, Error, con opciones para entradas más cortas: hold, 0, 1, nothing).13 * Cache Blend POP: Toma una referencia a un Cache POP y genera una mezcla de sus conjuntos de datos en caché basándose en un Cache Index y Cache Weight para bloques secuenciales. La mezcla se realiza por punto, lo que es útil para efectos basados en el tiempo como el desenfoque de movimiento o el cálculo de la velocidad de los puntos a partir de datos históricos.31 * Cache Select POP: Toma una referencia a un Cache POP y genera uno de sus conjuntos de datos en caché utilizando un parámetro Cache Index. Un Cache"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "vértices o de primitivas. • Experimental:Attribute POP: Es un operador fundamental para crear nuevos atributos en puntos, vértices o primitivas, y puedes inicializarlos con valores constantes. También es el lugar donde puedes crear \"arrays de atributos\". • Experimental:Blend POP: Es un POP que soporta múltiples entradas, lo que sugiere que puede mezclar o interpolar datos de diferentes fuentes. • Experimental:Box POP: Un operador generador que crea una geometría de caja. • Experimental:Cache Blend POP: Se menciona en relación con el uso de atributos como 'Velocity' (Vel), lo que sugiere su rol en la mezcla de datos temporales o en animaciones. • Experimental:Cache POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Cache Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:CHOP to POP: Permite convertir datos de la familia CHOPs (Ch"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "vértices o de primitivas. • Experimental:Attribute POP: Es un operador fundamental para crear nuevos atributos en puntos, vértices o primitivas, y puedes inicializarlos con valores constantes. También es el lugar donde puedes crear \"arrays de atributos\". • Experimental:Blend POP: Es un POP que soporta múltiples entradas, lo que sugiere que puede mezclar o interpolar datos de diferentes fuentes. • Experimental:Box POP: Un operador generador que crea una geometría de caja. • Experimental:Cache Blend POP: Se menciona en relación con el uso de atributos como 'Velocity' (Vel), lo que sugiere su rol en la mezcla de datos temporales o en animaciones. • Experimental:Cache POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Cache Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:CHOP to POP: Permite convertir datos de la familia CHOPs"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "vértices o de primitivas. • Experimental:Attribute POP: Es un operador fundamental para crear nuevos atributos en puntos, vértices o primitivas, y puedes inicializarlos con valores constantes. También es el lugar donde puedes crear \"arrays de atributos\". • Experimental:Blend POP: Es un POP que soporta múltiples entradas, lo que sugiere que puede mezclar o interpolar datos de diferentes fuentes. • Experimental:Box POP: Un operador generador que crea una geometría de caja. • Experimental:Cache Blend POP: Se menciona en relación con el uso de atributos como 'Velocity' (Vel), lo que sugiere su rol en la mezcla de datos temporales o en animaciones. • Experimental:Cache POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Cache Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:CHOP to POP: Permite convertir datos de la familia CHOPs (Ch"
+    }
+  ],
+  "useCases": [
+    "Time-blur effects on geometry",
+    "Slope/speed calculation from cached frames",
+    "Smooth transitions between simulation states",
+    "Multi-frame weighted averaging"
+  ],
+  "examples": [
+    {
+      "name": "Time Blur",
+      "description": "Cache POP (10 frames) → Cache Blend POP (3 blocks: indices 0,-1,-2, equal weights)",
+      "difficulty": "advanced"
+    },
+    {
+      "name": "Speed Calculation",
+      "description": "Cache Blend POP with 2 frames (current and previous) → Math POP subtract",
+      "difficulty": "advanced"
+    },
+    {
+      "name": "Smooth Transition",
+      "description": "Cache Blend POP blending across 5 cached frames with bell-curve weights",
+      "difficulty": "advanced"
+    }
+  ],
+  "commonCombinations": [
+    "Cache POP → Cache Blend POP",
+    "Cache Blend POP → Analyze POP",
+    "CHOP → Cache Blend POP"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "No blending visible",
+      "solution": "Ensure Cache POP has multiple frames and weights > 0"
+    },
+    {
+      "problem": "Point count mismatch",
+      "solution": "Cache POP must have consistent point count for interpolation"
+    },
+    {
+      "problem": "Index out of range",
+      "solution": "Indices clamp to -(Cache Size-1) and 0"
+    }
+  ],
+  "description": "Takes a reference to a Cache POP and outputs a blend of its cached data sets based on Cache Index and Cache Weight. Blend is per-point, useful for time-blurs and slope/speed calculation."
+}

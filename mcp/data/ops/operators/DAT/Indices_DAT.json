@@ -1,0 +1,133 @@
+{
+  "family": "DAT",
+  "pageTitle": "Indices DAT",
+  "pageSlug": "Indices_DAT",
+  "url": "https://docs.derivative.ca/Indices_DAT",
+  "tdOpTypeGuess": "indicesDAT",
+  "summary": "[  edit  ]\nThe Indices  DAT  creates a series of numbers in a table, ranging between the start and end values.  These values are suitable for display along a graph horizontal or vertical axis.  They are carefully picked to make them all round, nicely spaced, etc.\nindicesDAT_Class\nContents\n1   Summary\n2   Parameters - Indices Page\n3   Parameters - Common Page\n4   Operator Inputs",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Indices",
+      "label": "Start",
+      "name": "start",
+      "description": "The start of the number range."
+    },
+    {
+      "page": "Indices",
+      "label": "End",
+      "name": "end",
+      "description": "The end of the number range."
+    },
+    {
+      "page": "Indices",
+      "label": "Level",
+      "name": "level",
+      "description": "Determines how the range is divided. Coarse = 0, Medium = 1, Fine = 2."
+    },
+    {
+      "page": "Indices",
+      "label": "Origin",
+      "name": "origin",
+      "description": "The first number in the series."
+    },
+    {
+      "page": "Common",
+      "label": "Language",
+      "name": "language",
+      "description": "⊞  - Select how the  DAT  decides which script language to operate on."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Node",
+      "name": "node",
+      "description": "The  DAT  uses it's own script language."
+    },
+    {
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "name": "extension",
+      "description": "⊞  - Select the file extension this  DAT  should expose to external editors."
+    },
+    {
+      "page": "Common",
+      "label": "dat",
+      "name": "dat",
+      "description": "various common file extensions."
+    },
+    {
+      "page": "Common",
+      "label": "From Language",
+      "name": "language",
+      "description": "pick extension from DATs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "custom",
+      "description": "Specify a custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specifiy the custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Word Wrap",
+      "name": "wordwrap",
+      "description": "⊞  - Enable Word Wrap for Node Display."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs setting."
+    },
+    {
+      "page": "Common",
+      "label": "On",
+      "name": "on",
+      "description": "Turn on Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Off",
+      "name": "off",
+      "description": "Turn off Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Art",
+      "description": "Net    •   Audio Devices    •   CHOP Execute    •   CHOP to    •   Clip    •   Convert    •   CPlusPlus    •   DAT   •    Execute    •   DAT Export   •   Error    •   EtherDream    •   Evaluate    •   Examine    •   Execute    •   FIFO    •   File In    •   File Out    •   Folder    •   In    •   Indices    •   Info    •   Insert    •   JSON    •   Keyboard In    •   Lookup    •   Media File Info    •   Merge    •   MIDI Event    •   MIDI In    •   Monitors    •   MPCDI    •   MQTT Client    •   Multi Touch In    •   NDI    •   Null    •   OP Execute    •   OP Find    •   OSC In    •   OSC Out    •   Out    •   Panel Execute    •   Parameter    •   Parameter Execute    •   ParGroup Execute    •   Perform    •   POP to    •   Render Pick    •   Reorder    •   Script    •   Select    •   Serial    •   Serial Devices    •   SocketIO    •   SOP to    •   Sort    •   Substitute    •   Switch    •   Table    •   TCP/IP    •   Text    •   Touch In    •   Touch Out    •   Transpose    •   TUIO In    •   UDP In    •   UDP Out    •   UDT In    •   UDT Out    •   Video Devices    •   Web Client    •   Web    •   Web Server    •   WebRTC    •   WebSocket    •   XML"
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "POPs Investigation and Workshop Plan.markdown",
+      "excerpt": "### Points - Every POP contains a set of points with attributes. - **Key Attribute**: `P` (Position), a 3D vector (float3) defining a point’s location. - **Other Attributes**: Include `Color` (float4: red, green, blue, alpha), `Normal (N)` (float3), and user-defined attributes. ### Primitives - **Types**: - **Point**: 1 point. - **Line**: 2 points. - **Line Strip**: Multiple points (open or closed). - **Triangle**: 3 points. - **Quad**: 4 points. - Primitives are defined by vertices (indices into the point list) and can have their own attributes. ### Attributes - **Types**: Scalars (e.g., `Weight`), vectors (e.g., `P`), matrices, or arrays (e.g., `float4[5]`). - **Data Types**: Float (32-bit), double (64-bit), integer (32-bit), unsigned integer (32-bit). - **Creation**: Generated via POPs like `Attribute POP` or on-the-fly by specifying new names in output scopes. ## 3. POPs vs. SOPs - **Execution**: POPs run on the GPU (parallelized compute shaders); SOPs run on the CPU. - **Wor"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

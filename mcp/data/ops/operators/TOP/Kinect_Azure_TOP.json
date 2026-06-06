@@ -1,0 +1,836 @@
+{
+  "family": "TOP",
+  "pageTitle": "Kinect Azure TOP",
+  "pageSlug": "Kinect_Azure_TOP",
+  "url": "https://docs.derivative.ca/Kinect_Azure_TOP",
+  "tdOpTypeGuess": "kinectAzureTOP",
+  "summary": "[  edit  ]\nNOTE\nOS:  This operator is only supported under the  Microsoft Windows 10 April 2018 or newer  operating system.\nThe Kinect Azure  TOP  can be used to configure and capture data from a Microsoft Kinect Azure camera or a Kinect compatible  Orbbec  camera (Femto Mega, Femto Bolt, etc).\nThe  TOP  can be used to configure the settings of the camera (resolution, frame rate, synchronization, etc) as well to retrieve captured images from either its color or depth cameras. Image data from one camera can be remapped (aligned) to the other camera in order to match color and depth information. Only one Kinect Azure  TOP  can be connected to a single Kinect camera. To retrieve additional images from the same camera, use a  Kinect Azure Select TOP .\nThe Kinect Azure can also extract body tracking information and skeleton positions using the depth camera image. To access this data, use a  Kinect Azure CHOP  and set its Kinect  TOP  parameter to the primary  Kinect Azure TOP  that is connected to the device.  Note:  While both Microsoft and Orbbec hardware can be used in the same project, only one hardware type can have body tracking enabled at any one time. Body tracking is required for the Player Index image or to obtain skeleton data. If body tracking is not required from the Orbbec, it is recommended to use the native  Orbbec TOP  instead.\nNote:  The Orbbec Femto Mega does not automatically support ethernet connections using the Kinect Azure  TOP  or  CHOP . However, you can enable detection of ethernet devices using an external configuration file places alongside your toe file. Ethernet connections only support depth and IR images, color video is only supported over USB. For further information on the file see the  Orbbec documentaion .\nWarning:  When working with Orbbec hardware, using both Kinect Azure and Orbbec nodes in the same project may lead to instability. It is recommended to use either all Kinect Azure or all Orbbec nodes depending on project requirements.\nTIP:  See Elburz' video on using KinectAzure's point clouds and a bunch of Azure general tips.  Kinect Azure Point Cloud in TouchDesigner Tutorial  on the Interactive and Immersive HQ.\nSee also  Kinect Azure CHOP ,  Kinect Azure Select TOP ,  Palette:pointRender ,  Palette:kinectCalibration ,  Palette:kinectRecorder ,  Palette:kinectPointcloud .\nkinectazureTOP_Class\nContents\n1   Summary\n2   Parameters - Kinect Azure Page\n3   Parameters - Color Page\n4   Parameters - Timing Page\n5   Parameters - Common Page\n6   Info CHOP Channels\n6.1   Specific Kinect Azure TOP Info Channels\n6.2   Common TOP Info Channels\n6.3   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "Kinect Azure",
+      "label": "Active",
+      "name": "active",
+      "description": "Enable or disable the camera.  Note  Disabling this  TOP  will also disable any other operators ( Kinect Azure Select TOP  or  Kinect Azure CHOP ) that rely on it."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "Hardware Type",
+      "name": "library",
+      "description": "⊞  - Choose whether you are using Microsoft Kinect Azure hardware or a Kinect compatible Orbbec camera (Femto Mega, Femto Bolt, etc). Both camera types can be used together in the same project, but only one hardware type can enable body tracking at any one time."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "Microsoft Kinect Azure",
+      "name": "microsoft",
+      "description": "Select this option if you are using an original Microsoft Kinect Azure camera."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "Orrbec Compatible (Femto Mega, Femto Bolt, ...)",
+      "name": "orbbec",
+      "description": "Selection this option for a Kinect compatible Orbbec camera e.g. Femto Mega, Femto Bolt, etc. Not all Orbbec cameras are compatible with the Kinect Azure. For general Orbbec support use an  Orbbec TOP ."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "Sensor",
+      "name": "sensor",
+      "description": "The serial number of the connected Kinect Azure camera. The  TOP  will automatically fill the list with all available cameras. Note: Only one Kinect Azure  TOP  should be connected to a single camera."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "Camera  FPS",
+      "name": "fps",
+      "description": "⊞  - Controls the frame rate of both the color and depth cameras. Some higher camera resolutions are not supported when running at 30FPS. Lower framerates can produce brighter color images in low light conditions."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "Color  Resolution",
+      "name": "colorres",
+      "description": "⊞  - The resolution of images captured by the color camera. Different resolutions may have different aspect ratios. Note: 4096 x 3072 is not supported at 30  FPS ."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "4096 x 3072 (4x3)",
+      "name": "4096x3072",
+      "description": "Note: This resolution is not supported when operating at 30FPS. Reduce the framerate to 15 or 5  FPS  to use this setting."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "Depth Mode",
+      "name": "depthmode",
+      "description": "⊞  - The depth mode controls which of the Kinect's two depth cameras (Wide or Narrow FOV) are used to produce the depth image and whether any 'binning' is used to process the data. In 'binned' modes, 2x2 blocks of pixels are combined to produce a filter, lower resolution image. Note: Body tracking is not supported when using the Passive IR depth mode."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "Narrow FOV",
+      "description": "Unbinned (640x576)   narrowunbinned  -"
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "Wide FOV",
+      "description": "2x2 Binned (512x512)   widebinned  -"
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "Narrow FOV - 2x2 Binned (320x288)",
+      "name": "narrowbinned",
+      "description": "Note: This mode is not recommended for use with body tracking."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "Wide FOV - Unbinned (1024x1024)",
+      "name": "wideunbinned",
+      "description": "Note: This mode is not supported at 30FPS and is not recommended for use with body tracking."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "Passive IR (1024x1024)",
+      "name": "passiveir",
+      "description": "Note: This mode does not support body tracking."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "Body Tracking Model",
+      "name": "modelpath",
+      "description": "The file path to the ONNX model that performs body tracking features. TouchDesigner includes the regular and lite models that are part of the Kinect Azure SDK."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "Body Tracking Processing Mode",
+      "name": "proccessingmode",
+      "description": "⊞  - Determines how the body tracking model is processed. The default mode runs mostly on the  GPU  (supports Nvidia, AMD and Intel), but this can also be switched to a CPU mode when a compatible  GPU  is not available."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "GPU  Default",
+      "name": "gpudefault",
+      "description": "The default processing mode. It is equivalent to DirectML when running on Windows."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "CPU",
+      "name": "cpu",
+      "description": "The AI model will run on the CPU instead of the graphics cards. This is notably slower and not recommended for production release."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "DirectML",
+      "name": "directml",
+      "description": "Equivalent to the default mode when running on Windows. The AI model will run on the  GPU . This is compatible with Nvidia, AMD and Intel GPUs."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "Body Tracking  GPU  Device",
+      "name": "gpu",
+      "description": "The device number of the  GPU  to use when there are multiple GPUs in the system. The ordering system may be dependent on the  GPU  manufacturer."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "Sensor Orientation",
+      "name": "orientation",
+      "description": "⊞  - Used to indicate when the camera is mounted in a non-upright position. This can help improve body-tracking results."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "Image",
+      "name": "image",
+      "description": "⊞  - A list of available image types to capture from the device and display in this  TOP . All image types have a second version that is mapped (aligned) to the image space of the other camera so that color and depth image data can be matched. The resolution of the image is controlled by the Color  Resolution  or Depth Mode parameters depending on the type of image selected. Use a  Kinect Azure Select TOP  to access additional image types from the same camera."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "Color",
+      "name": "color",
+      "description": "An 8-bit RGBA image from the color camera."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "Color aligned to Depth",
+      "name": "colorremap",
+      "description": "The color camera image remapped to align with the current depth camera image. The resolution is determined by the Depth Mode."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "Depth",
+      "name": "depth",
+      "description": "A single channel 32bit floating point depth image where pixel values measure the distance in meters from the camera.  Resolution  and field of view are determined by the Depth Mode parameter."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "Depth aligned to Color",
+      "name": "depthremap",
+      "description": "The depth image remapped to align with the current color camera image. The resolution is determined by the Color  Resolution  parameter."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "IR",
+      "name": "ir",
+      "description": "A 16-bit integer infrared image captured by the depth camera.  Resolution  and field of view are determined by the Depth Mode."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "IR aligned to Color",
+      "name": "irremap",
+      "description": "The infrared image remapped to align the current color camera image. The resolution is determined by the Color  Resolution  parameter."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "Player Index",
+      "name": "playerindex",
+      "description": "An 8-bit single channel image that maps pixels to players that have been identified by the body tracking system. Pixel values represent the body id multiplied by 25 to improve contrast. Note: The player index map may have additional hardware requirements (CUDA capable graphics card) and may not synchronize with the color or depth images depending on current settings. The resolution is determined by the current Depth Mode."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "Player Index aligned to Color",
+      "name": "playerindexremap",
+      "description": "The player index map remapped to align with the current color image. The resolution is determined by the Color  Resolution  parameter."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "Point Cloud",
+      "name": "pointcloud",
+      "description": "A 32bit floating point RGBA image where the depth information has been converted into XYZ positions that are stored in the RGB channels. Position data is represented in meters and the resolution and field of view are determined by the Depth Mode. The Point Cloud image can be viewed in 3D by activating the  TOP  and selecting 'View as Points' in the right-click menu, or by using the  TOP  as an instance source in the Geometry  COMP ."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "Point Cloud aligned to Color",
+      "name": "pointcloudremap",
+      "description": "The point cloud image remapped to align with the current color image. Note: Remapping the image can create gaps and artifacts when view the points in 3D."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "Align Image to Other Camera",
+      "name": "remapimage",
+      "description": "When enabled, the current image will be remapped to align with images from the other camera. For example, use this feature to create a color camera image that maps to the pixels of the depth camera."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "Sync Image to Body Tracking",
+      "name": "bodyimage",
+      "description": "When enabled, the image produced will be delayed so that it corresponds to the most recent data in the body tracking system. The amount of delay may fluctuate based on the power of the processor doing the body tracking and the complexity of the scene. A  Kinect Azure Select TOP  can be used at the same time to retrieve the real-time image stream."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "Mirror Image",
+      "name": "mirrorimage",
+      "description": "Flip the image in the horizontal axis."
+    },
+    {
+      "page": "Kinect Azure",
+      "label": "CPU Body Tracking",
+      "name": "cpu",
+      "description": "When enabled, body tracking calculations will be done on the CPU rather than on the graphics card. This method is much slower, but does not require a high-powered graphics card to function."
+    },
+    {
+      "page": "Color",
+      "label": "Reset Color Controls",
+      "name": "resetcolors",
+      "description": "Reset all of the color controls to the camera's defaults. These vary per camera and may be different than the parameter defaults."
+    },
+    {
+      "page": "Color",
+      "label": "Enable Color Controls",
+      "name": "enablecolors",
+      "description": "Turn on to enable adjustment controls for the color camera. When disabled, the previous color settings will remain in place. Use the Reset Color Controls button to switch the camera back to its default settings."
+    },
+    {
+      "page": "Color",
+      "label": "Manual Exposure",
+      "name": "manualexposure",
+      "description": "Enable to allow setting the exposure time manually. When disabled, the camera will automatically choose an exposure based on the light levels and frame rate."
+    },
+    {
+      "page": "Color",
+      "label": "Exposure Time",
+      "name": "exposure",
+      "description": "Adjust the exposure time of the color image measured in microseconds. The time must be less than one frame."
+    },
+    {
+      "page": "Color",
+      "label": "Manual White Balance",
+      "name": "manualwhitebalance",
+      "description": "Enable to allow setting the camera white balance manually."
+    },
+    {
+      "page": "Color",
+      "label": "White Balance",
+      "name": "whitebalance",
+      "description": "Select the temperature in degrees Kelvin used to set the white balance of the image. The value is rounded to the nearest 10 degrees."
+    },
+    {
+      "page": "Color",
+      "label": "Brightness",
+      "name": "brightness",
+      "description": "Used to adjust the brightness of the image from 0 to 255. 128 is the default."
+    },
+    {
+      "page": "Color",
+      "label": "Contrast",
+      "name": "contrast",
+      "description": "Conrtols the contrast of the color image."
+    },
+    {
+      "page": "Color",
+      "label": "Saturation",
+      "name": "saturation",
+      "description": "Controls the saturation of the color image."
+    },
+    {
+      "page": "Color",
+      "label": "Sharpness",
+      "name": "sharpness",
+      "description": "Adjusts the sharpness of the color image."
+    },
+    {
+      "page": "Color",
+      "label": "Gain",
+      "name": "gain",
+      "description": "The gain of the color image."
+    },
+    {
+      "page": "Color",
+      "label": "Backlight Compensation",
+      "name": "backlight",
+      "description": "Enables compensation for bright back lighting in a scene."
+    },
+    {
+      "page": "Color",
+      "label": "Powerline Frequency",
+      "name": "powerfreq",
+      "description": "⊞  - Select the frequency of the power supply for use in the cameras noise cancellation system."
+    },
+    {
+      "page": "Timing",
+      "label": "Depth Image Delay",
+      "name": "depthdelay",
+      "description": "A delay in microseconds between when the depth and color images are captured. The delay must be less than one frame in length based on the current framerate."
+    },
+    {
+      "page": "Timing",
+      "label": "Wired Sync Mode",
+      "name": "syncmode",
+      "description": "⊞  - When using more than one Kinect Azure camera, this setting can be used to determine which unit is the master and which are subordinates."
+    },
+    {
+      "page": "Timing",
+      "label": "Subordinate Delay",
+      "name": "subdelay",
+      "description": "A delay in microseconds between when the master unit captures an image and when this device captures an image. (Only applicable for subordinate devices)."
+    },
+    {
+      "page": "Common",
+      "label": "Output  Resolution",
+      "name": "outputresolution",
+      "description": "⊞  - quickly change the resolution of the  TOP 's data."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's resolution"
+    },
+    {
+      "page": "Common",
+      "label": "Eighth",
+      "name": "eighth",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Quarter",
+      "name": "quarter",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Half",
+      "name": "half",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "2X",
+      "name": "2x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "4X",
+      "name": "4x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "8X",
+      "name": "8x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Fit  Resolution",
+      "name": "fit",
+      "description": "Grow or shrink the input resolution to fit this resolution, while keeping the aspect ratio the same."
+    },
+    {
+      "page": "Common",
+      "label": "Limit  Resolution",
+      "name": "limit",
+      "description": "Limit the input resolution to be not larger than this resolution, while keeping the aspect ratio the same."
+    },
+    {
+      "page": "Common",
+      "label": "Custom  Resolution",
+      "name": "custom",
+      "description": "Directly control the width and height."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution",
+      "name": "resolution",
+      "description": "⊞  - Enabled only when the  Resolution  parameter is set to Custom  Resolution . Some Generators like Constant and Ramp do not use inputs and only use this field to determine their size. The drop down menu on the right provides some commonly used resolutions."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution  Menu",
+      "name": "resmenu",
+      "description": "A drop-down menu with some commonly used resolutions."
+    },
+    {
+      "page": "Common",
+      "label": "Use Global Res Multiplier",
+      "name": "resmult",
+      "description": "Uses the Global  Resolution  Multiplier found in  Edit>Preferences>TOPs . This multiplies all the TOPs resolutions by the set amount. This is handy when working on computers with different hardware specifications. If a project is designed on a desktop workstation with lots of graphics memory, a user on a laptop with only 64MB VRAM can set the Global  Resolution  Multiplier to a value of half or quarter so it runs at an acceptable speed. By checking this checkbox on, this  TOP  is affected by the global multiplier."
+    },
+    {
+      "page": "Common",
+      "label": "Output Aspect",
+      "name": "outputaspect",
+      "description": "⊞  - Sets the image aspect ratio allowing any textures to be viewed in any size. Watch for unexpected results when compositing TOPs with different aspect ratios. (You can define images with non-square pixels using xres, yres, aspectx, aspecty where xres/yres != aspectx/aspecty.)"
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's aspect ratio."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution",
+      "name": "resolution",
+      "description": "Uses the aspect of the image's defined resolution (ie 512x256 would be 2:1), whereby each pixel is square."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Aspect",
+      "name": "custom",
+      "description": "Lets you explicitly define a custom aspect ratio in the Aspect parameter below."
+    },
+    {
+      "page": "Common",
+      "label": "Aspect",
+      "name": "aspect",
+      "description": "⊞  - Use when Output Aspect parameter is set to Custom Aspect."
+    },
+    {
+      "page": "Common",
+      "label": "Aspect Menu",
+      "name": "armenu",
+      "description": "A drop-down menu with some commonly used aspect ratios."
+    },
+    {
+      "page": "Common",
+      "label": "Input Smoothness",
+      "name": "inputfiltertype",
+      "description": "⊞  - This controls pixel filtering on the input image of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Nearest Pixel",
+      "name": "nearest",
+      "description": "Uses nearest pixel or accurate image representation. Images will look jaggy when viewing at any zoom level other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Interpolate Pixels",
+      "name": "linear",
+      "description": "Uses linear filtering between pixels. This is how you get  TOP  images in viewers to look good at various zoom levels, especially useful when using any Fill Viewer setting other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Mipmap Pixels",
+      "name": "mipmap",
+      "description": "Uses   mipmap  filtering when scaling images. This can be used to reduce artifacts and sparkling in moving/scaling images that have lots of detail."
+    },
+    {
+      "page": "Common",
+      "label": "Fill  Viewer",
+      "name": "fillmode",
+      "description": "⊞  - Determine how the  TOP  image is displayed in the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the same Fill Viewer settings as it's input."
+    },
+    {
+      "page": "Common",
+      "label": "Fill",
+      "name": "fill",
+      "description": "Stretches the image to fit the edges of the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Horizontal",
+      "name": "width",
+      "description": "Stretches image to fit viewer horizontally."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Vertical",
+      "name": "height",
+      "description": "Stretches image to fit viewer vertically."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Best",
+      "name": "best",
+      "description": "Stretches or squashes image so no part of image is cropped."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Outside",
+      "name": "outside",
+      "description": "Stretches or squashes image so image fills viewer while constraining it's proportions. This often leads to part of image getting cropped by viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Native  Resolution",
+      "name": "nativeres",
+      "description": "Displays the native resolution of the image in the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Viewer Smoothness",
+      "name": "filtertype",
+      "description": "⊞  - This controls pixel filtering in the viewers."
+    },
+    {
+      "page": "Common",
+      "label": "Nearest Pixel",
+      "name": "nearest",
+      "description": "Uses nearest pixel or accurate image representation. Images will look jaggy when viewing at any zoom level other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Interpolate Pixels",
+      "name": "linear",
+      "description": "Uses linear filtering between pixels. Use this to get  TOP  images in viewers to look good at various zoom levels, especially useful when using any Fill Viewer setting other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Mipmap Pixels",
+      "name": "mipmap",
+      "description": "Uses   mipmap  filtering when scaling images. This can be used to reduce artifacts and sparkling in moving/scaling images that have lots of detail. When the input is 32-bit float format, only nearest filtering will be used (regardless of what is selected)."
+    },
+    {
+      "page": "Common",
+      "label": "Passes",
+      "name": "npasses",
+      "description": "Duplicates the operation of the  TOP  the specified number of times. For every pass after the first it takes the result of the previous pass and replaces the node's first input with the result of the previous pass. One exception to this is the  GLSL TOP  when using compute shaders, where the input will continue to be the connected  TOP 's image."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Mask",
+      "name": "chanmask",
+      "description": "Allows you to choose which channels (R, G, B, or A) the  TOP  will operate on. All channels are selected by default."
+    },
+    {
+      "page": "Common",
+      "label": "Pixel Format",
+      "name": "format",
+      "description": "⊞  - Format used to store data for each channel in the image (ie. R, G, B, and A). Refer to  Pixel Formats  for more information."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's pixel format."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (RGBA)",
+      "name": "rgba8fixed",
+      "description": "Uses 8-bit integer values for each channel."
+    },
+    {
+      "page": "Common",
+      "label": "sRGB 8-bit fixed (RGBA)",
+      "name": "srgba8fixed",
+      "description": "Uses 8-bit integer values for each channel and stores color in sRGB colorspace. Note that this does  not  apply an sRGB curve to the pixel values, it only stores them using an sRGB curve. This means more data is used for the darker values and less for the brighter values. When the values are read downstream they will be converted back to linear. For more information refer to  sRGB ."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (RGBA)",
+      "name": "rgba16float",
+      "description": "Uses 16-bits per color channel, 64-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (RGBA)",
+      "name": "rgba32float",
+      "description": "Uses 32-bits per color channel, 128-bits per pixels."
+    },
+    {
+      "page": "Common",
+      "label": "10-bit RGB, 2-bit Alpha, fixed (RGBA)",
+      "name": "rgb10a2fixed",
+      "description": "Uses 10-bits per color channel and 2-bits for alpha, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (RGBA)",
+      "name": "rgba16fixed",
+      "description": "Uses 16-bits per color channel, 64-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "11-bit float (RGB), Positive Values Only",
+      "name": "rgba11float",
+      "description": "A RGB floating point format that has 11 bits for the Red and Green channels, and 10-bits for the Blue  Channel , 32-bits total per pixel (therefore the same memory usage as 8-bit RGBA). The Alpha channel in this format will always be 1. Values can go above one, but can't be negative. ie. the range is [0, infinite)."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (Mono)",
+      "name": "mono8fixed",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 8-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (Mono)",
+      "name": "mono16fixed",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (Mono)",
+      "name": "mono16float",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (Mono)",
+      "name": "mono32float",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (RG)",
+      "name": "rg8fixed",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 8-bits per channel, 16-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (RG)",
+      "name": "rg16fixed",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 16-bits per channel, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (RG)",
+      "name": "rg16float",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 16-bits per channel, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (RG)",
+      "name": "rg32float",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 32-bits per channel, 64-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (A)",
+      "name": "a8fixed",
+      "description": "An Alpha only format that has 8-bits per channel, 8-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (A)",
+      "name": "a16fixed",
+      "description": "An Alpha only format that has 16-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (A)",
+      "name": "a16float",
+      "description": "An Alpha only format that has 16-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (A)",
+      "name": "a32float",
+      "description": "An Alpha only format that has 32-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (Mono+Alpha)",
+      "name": "monoalpha8fixed",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 8-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (Mono+Alpha)",
+      "name": "monoalpha16fixed",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 16-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (Mono+Alpha)",
+      "name": "monoalpha16float",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 16-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (Mono+Alpha)",
+      "name": "monoalpha32float",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 32-bits per channel, 64-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "image_frame",
+      "description": "The number of image frames processed by the camera."
+    },
+    {
+      "page": "Common",
+      "label": "bodytracking_frame",
+      "description": "The number of body tracking frames processed by the camera."
+    },
+    {
+      "page": "Common",
+      "label": "color_timestamp",
+      "description": "The camera timestamp in microseconds of the latest frame from the color camera."
+    },
+    {
+      "page": "Common",
+      "label": "depth_timestamp",
+      "description": "The camera timestamp in microseconds of the latest frame from the depth camera."
+    },
+    {
+      "page": "Common",
+      "label": "bodytracking_timestamp",
+      "description": "The timestamp in microseconds of the frame used to calculate body tracking data."
+    },
+    {
+      "page": "Common",
+      "label": "image_errors",
+      "description": "The total number of errors produced by the image system."
+    },
+    {
+      "page": "Common",
+      "label": "bodytracking_errors",
+      "description": "The total number of errors procuded by the body tracking system."
+    },
+    {
+      "page": "Common",
+      "label": "resx",
+      "description": "Horizontal resolution of the  TOP  in pixels."
+    },
+    {
+      "page": "Common",
+      "label": "resy",
+      "description": "Vertical resolution of the  TOP  in pixels."
+    },
+    {
+      "page": "Common",
+      "label": "aspectx",
+      "description": "Horizontal aspect of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "aspecty",
+      "description": "Vertical aspect of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "depth",
+      "description": "Depth of 2D or 3D array if this  TOP  contains a 2D or 3D texture array."
+    },
+    {
+      "page": "Common",
+      "label": "gpu_memory_used",
+      "description": "Total amount of texture memory used by this  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "The",
+      "name": "Frames",
+      "description": "per-Second that TouchDesigner's  Timeline  runs at. Set with  project.cookRate ."
+    },
+    {
+      "page": "Common",
+      "label": "The width and height of an image in pixels. Most TOPs, like the  Movie File In TOP  can set the image resolution. See  Aspect Ratio  for the width/height ratio of an image, taking into account non",
+      "description": "square pixels."
+    },
+    {
+      "page": "Common",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    },
+    {
+      "page": "Common",
+      "label": "The viewer of a node can be (1) the interior of a node (the  Node Viewer ), (2) a floating window (RMB",
+      "description": ">View... on node), or (3) a  Pane  that graphically shows the results of an operator."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

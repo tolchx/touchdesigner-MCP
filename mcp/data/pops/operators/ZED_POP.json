@@ -1,0 +1,182 @@
+{
+  "pageTitle": "ZED POP",
+  "pageSlug": "ZED_POP",
+  "url": "https://docs.derivative.ca/ZED_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "zEDPOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "Active",
+      "type": "Toggle",
+      "default": false,
+      "description": "Extra pass to free unused GPU memory."
+    },
+    {
+      "name": "ZED TOP",
+      "type": "OP",
+      "default": "",
+      "description": "Reference to ZED TOP for input data."
+    },
+    {
+      "name": "Output Mode",
+      "type": "Menu",
+      "options": [
+        "Mesh",
+        "Point Cloud"
+      ],
+      "default": "Mesh",
+      "description": "Output geometry type."
+    },
+    {
+      "name": "Connectivity",
+      "type": "Menu",
+      "options": [
+        "None",
+        "Point Primitives",
+        "Triangles"
+      ],
+      "default": "None",
+      "description": "Point connectivity type."
+    },
+    {
+      "name": "Initialize",
+      "type": "Pulse",
+      "default": false,
+      "description": "Clear geometry and reset spatial mapping."
+    },
+    {
+      "name": "Start",
+      "type": "Pulse",
+      "default": false,
+      "description": "Start scanning/recording."
+    },
+    {
+      "name": "Play",
+      "type": "Toggle",
+      "default": false,
+      "description": "Enable playback of scan."
+    },
+    {
+      "name": "Preview",
+      "type": "Menu",
+      "options": [
+        "No Preview",
+        "Limited Preview",
+        "Full Preview"
+      ],
+      "default": "No Preview",
+      "description": "Camera preview mode."
+    },
+    {
+      "name": "Maximum Memory",
+      "type": "Int",
+      "default": 2048,
+      "description": "Max memory for spatial mapping (MB)."
+    },
+    {
+      "name": "Resolution",
+      "type": "Float",
+      "default": 0.05,
+      "description": "Spatial mapping resolution in meters."
+    },
+    {
+      "name": "Range",
+      "type": "Float",
+      "default": 10,
+      "description": "Depth range in meters."
+    },
+    {
+      "name": "Normals",
+      "type": "Toggle",
+      "default": true,
+      "description": "Compute normals for geometry."
+    },
+    {
+      "name": "Color",
+      "type": "Toggle",
+      "default": true,
+      "description": "Output color as attribute."
+    },
+    {
+      "name": "Filter",
+      "type": "Menu",
+      "options": [
+        "Low",
+        "Medium",
+        "High"
+      ],
+      "default": "Medium",
+      "description": "Mesh smoothing/filtering level."
+    },
+    {
+      "name": "Perspective",
+      "type": "Menu",
+      "options": [
+        "Left",
+        "Right"
+      ],
+      "default": "Left",
+      "description": "Camera perspective."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "ano, esférico, cilíndrico y de perspectiva. * **Características clave:** * Puedes especificar cómo se interpretan los 3 números de la entrada (`From Coordinate System`) y en qué formato quieres la salida (`To Coordinate System`). * Soporta ángulos en **grados, radianes o ciclos**, o en un **formato normalizado de 0 a 1** para mapeo de texturas. * Permite conversiones a espacio de pantalla (`Screen Space`) o coordenadas de dispositivo normalizadas (`Normalized Device Coordinates - NDC`), útiles para cámaras. * **Uso simple:** Para remapear coordenadas de puntos, por ejemplo, convertir una esfera en un plano, o un plano en una esfera, o preparar una geometría para ser proyectada como una textura de 360 grados. * **Proximity POP (POP de Proximidad)** * **Función principal:** Conecta puntos entre sí o entre dos grupos de puntos si están dentro de un **rango de distancia** específico. * **Características clave:** * De"
+    },
+    {
+      "source": "POPs Investigation and Workshop Plan.markdown",
+      "excerpt": "nts. - Primitives are defined by vertices (indices into the point list) and can have their own attributes. ### Attributes - **Types**: Scalars (e.g., `Weight`), vectors (e.g., `P`), matrices, or arrays (e.g., `float4[5]`). - **Data Types**: Float (32-bit), double (64-bit), integer (32-bit), unsigned integer (32-bit). - **Creation**: Generated via POPs like `Attribute POP` or on-the-fly by specifying new names in output scopes. ## 3. POPs vs. SOPs - **Execution**: POPs run on the GPU (parallelized compute shaders); SOPs run on the CPU. - **Workflow**: POPs combine strengths of SOPs, CHOPs, and TOPs for a modern approach. - **Attributes**: POPs offer advanced attribute manipulation (e.g., multi-component, high precision). - **Limitations**: POPs lack some SOP features (e.g., tracing, booleans), though these may be added later. ## 4. Key Features - **GPU Acceleration**: Uses compute shaders for speed and efficiency. - **Memory Optimization**: References unchanged attributes, allocating me"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "hether we see the active particle or reset it to its original position. So when we come to pops we can actually chain together a bunch of attributes. So before I kind of go through this network let's see what's going on at the end in terms of just that data chain. Let's make it big. (04:27) So we can see here again we've got our point positions and then we've got all these positions and attributes that have been set out by me. So for example, we can see here everything's moving but are initialized positions which are stored as attributes are not. They're static in this feed of data and that means that when I need to reset it's going to move back. (04:50) We can see here I have this do reset and reset parameter. And we can see that it's cycling from zero to one. So when this do reset hits one, it's going to reset that particle. And then I need a secondary way of kind of resetting that back. This is maybe a little bit convoluted, but um this is kind of my first pass at doing this in pops."
+    }
+  ],
+  "useCases": [
+    "Real-time room scanning and mesh reconstruction",
+    "Depth camera point cloud visualization",
+    "Interactive spatial mapping installations",
+    "3D scanning with ZED stereo camera",
+    "Mixed reality scene capture"
+  ],
+  "examples": [
+    "ZED TOP → ZED POP (Output Mode=Mesh, Filter=Medium) → live room mesh",
+    "ZED POP (Output Mode=Point Cloud) → Noise POP → deformed depth points"
+  ],
+  "commonCombinations": [
+    {
+      "operators": [
+        "ZED_TOP",
+        "ZED_POP",
+        "Render"
+      ],
+      "description": "Live depth scan visualization"
+    },
+    {
+      "operators": [
+        "ZED_POP",
+        "Normal_POP",
+        "Noise_POP"
+      ],
+      "description": "Scan then displace with noise"
+    },
+    {
+      "operators": [
+        "ZED_POP",
+        "Transform_POP",
+        "Merge_POP"
+      ],
+      "description": "Scan then merge with other geometry"
+    }
+  ],
+  "troubleshooting": [
+    "No output: Ensure ZED camera is connected and ZED TOP is cooking",
+    "Windows only: ZED POP requires Microsoft Windows",
+    "Memory issues: Reduce Maximum Memory or Resolution",
+    "Mesh quality: Increase Filter level for smoother results"
+  ],
+  "description": "Uses ZED StereoLabs SDK to scan and create geometry meshes or point clouds from depth camera data. Supports live spatial mapping with mesh reconstruction, filtering, and normals. Windows only. Requires ZED TOP for input data."
+}

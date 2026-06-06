@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TD-MCP Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <h1>TD-MCP Dashboard</h1>
+      <span class="version">v3.0.0</span>
+    </div>
+    <div class="header-right">
+      <span class="status-indicator" id="statusDot"></span>
+      <span id="statusText">Connecting...</span>
+      <span class="sep">|</span>
+      <span id="toolCount">Tools: --</span>
+    </div>
+  </header>
+
+  <main>
+    <!-- Tool Call Panel -->
+    <section class="panel" id="toolPanel">
+      <h2>Call Tool</h2>
+      <form id="toolForm">
+        <div class="form-row">
+          <label for="toolName">Tool</label>
+          <input type="text" id="toolName" list="toolList" placeholder="e.g. td_list_ops" autocomplete="off" />
+          <datalist id="toolList"></datalist>
+        </div>
+        <div class="form-row">
+          <label for="toolArgs">Arguments (JSON)</label>
+          <textarea id="toolArgs" rows="4" placeholder='{"path": "/"}'>{"path": "/"}</textarea>
+        </div>
+        <button type="submit" id="callBtn">Call Tool</button>
+      </form>
+      <div id="toolResult">
+        <h3>Result</h3>
+        <pre id="resultContent"><span class="placeholder">Call a tool to see the result here.</span></pre>
+      </div>
+    </section>
+
+    <!-- Logs Panel -->
+    <section class="panel" id="logPanel">
+      <div class="panel-header">
+        <h2>Live Logs</h2>
+        <div class="log-actions">
+          <button id="clearLogsBtn" title="Clear logs">Clear</button>
+          <span id="logCount">0</span>
+        </div>
+      </div>
+      <div id="logContainer">
+        <div id="logEntries"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

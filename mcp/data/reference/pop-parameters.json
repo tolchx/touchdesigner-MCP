@@ -1,0 +1,171 @@
+{
+  "metadata": {
+    "title": "POP Parameter Reference — Verified against TouchDesigner build 2025.32460",
+    "source": "claude-touchdesigner/Docs/pop-parameter-reference.md",
+    "verified": true,
+    "lastUpdated": "2025-06-06"
+  },
+  "operators": {
+    "noisePOP": {
+      "description": "Applies noise fields to point positions and attributes",
+      "parameters": [
+        {"name": "amp0", "label": "Amplitude", "type": "Float", "default": 0.1, "description": "Scale on output noise values"},
+        {"name": "period", "label": "Period", "type": "Float", "default": 1.0, "description": "Distance between noise peaks"},
+        {"name": "seed", "label": "Seed", "type": "Float", "default": 1.0, "description": "Random seed for noise generation"},
+        {"name": "type", "label": "Type", "type": "Menu", "options": ["simplex4d", "perlin4d", "sparse", "alligator", "random"], "default": "simplex4d", "description": "Noise algorithm type"},
+        {"name": "harmon", "label": "Harmonics", "type": "Int", "default": 2, "description": "Number of fBm octaves"},
+        {"name": "gain", "label": "Harmonic Gain", "type": "Float", "default": 0.7, "description": "Amplitude falloff per harmonic layer"}
+      ]
+    },
+    "mathPOP": {
+      "description": "Performs math operations on point attributes",
+      "parameters": [
+        {"name": "inputattrscope", "label": "Target Attribute", "type": "StrMenu", "default": "P", "description": "Attribute to operate on"},
+        {"name": "preoper", "label": "Pre-operation", "type": "Menu", "options": ["none", "mult", "add", "min", "max"], "default": "none", "description": "Operation applied before post-operations"},
+        {"name": "mult0", "label": "Multiply", "type": "Float", "default": 1.0, "description": "Multiplication factor"},
+        {"name": "postadd0", "label": "Post-add", "type": "Float", "default": 0.0, "description": "Value added after multiply"},
+        {"name": "postoper", "label": "Post-operation", "type": "Menu", "default": "none", "description": "Operation applied after multiply/add"}
+      ]
+    },
+    "limitPOP": {
+      "description": "Clamps point attributes to a range",
+      "parameters": [
+        {"name": "inputattrscope", "label": "Target Attribute", "type": "StrMenu", "default": "P", "description": "Attribute to limit"},
+        {"name": "mintype0", "label": "Min Type", "type": "Menu", "options": ["off", "Range"], "default": "off", "description": "Minimum boundary type — use 'Range' not 'const'"},
+        {"name": "maxtype0", "label": "Max Type", "type": "Menu", "options": ["off", "Range"], "default": "off", "description": "Maximum boundary type"},
+        {"name": "min0", "label": "Min Value", "type": "Float", "default": -1.0, "description": "Minimum boundary value"},
+        {"name": "max0", "label": "Max Value", "type": "Float", "default": 1.0, "description": "Maximum boundary value"}
+      ],
+      "notes": "mintype0 and maxtype0 use enum strings. Use 'Range' not 'const'."
+    },
+    "deletePOP": {
+      "description": "Filters points by attribute condition",
+      "parameters": [
+        {"name": "invert", "label": "Delete Mode", "type": "Menu", "options": ["delete", "keep"], "default": "delete", "description": "Delete matching or keep matching entities"},
+        {"name": "entity", "label": "Entity Type", "type": "Menu", "options": ["point", "prim", "vert"], "default": "point", "description": "Type of entity to delete"},
+        {"name": "attr0inattr", "label": "Attribute to Test", "type": "StrMenu", "default": "", "description": "Attribute name to test condition against"},
+        {"name": "attr0func", "label": "Comparison", "type": "Menu", "options": ["lt", "gt", "eq", "neq"], "default": "lt", "description": "Comparison function"},
+        {"name": "attr0value", "label": "Threshold Value", "type": "Float", "default": 0.0, "description": "Value to compare against"}
+      ],
+      "notes": "Can throw 'Too many input components' with large point counts. Reduce copy count or remove deletePOP from chain."
+    },
+    "attributePOP": {
+      "description": "Creates and manipulates custom point attributes",
+      "parameters": [
+        {"name": "attr0name", "label": "Attribute Name", "type": "Menu", "options": ["custom", "P", "N", "Cd", "uv"], "default": "custom", "description": "Attribute to create or modify"},
+        {"name": "attr0customname", "label": "Custom Name", "type": "Str", "default": "", "description": "Name for custom attribute"},
+        {"name": "attr0type", "label": "Type", "type": "Menu", "options": ["float", "vector", "color", "int"], "default": "float", "description": "Attribute data type"},
+        {"name": "attr0value0", "label": "Default Value", "type": "Float", "default": 0.0, "description": "Initial/default attribute value"}
+      ]
+    },
+    "copyPOP": {
+      "description": "Creates copies of input geometry with cumulative transforms",
+      "parameters": [
+        {"name": "ncy", "label": "Number of Copies (Y)", "type": "Int", "default": 1, "description": "Number of copies to create. NOTE: ncx does NOT exist — use ncy + tx for X copies"},
+        {"name": "tx", "label": "Translate X", "type": "Float", "default": 0.0, "description": "Per-copy translation on X"},
+        {"name": "ty", "label": "Translate Y", "type": "Float", "default": 0.0, "description": "Per-copy translation on Y"},
+        {"name": "tz", "label": "Translate Z", "type": "Float", "default": 0.0, "description": "Per-copy translation on Z"},
+        {"name": "sx", "label": "Scale X", "type": "Float", "default": 1.0, "description": "Per-copy scale on X"},
+        {"name": "sy", "label": "Scale Y", "type": "Float", "default": 1.0, "description": "Per-copy scale on Y"},
+        {"name": "sz", "label": "Scale Z", "type": "Float", "default": 1.0, "description": "Per-copy scale on Z"}
+      ],
+      "notes": "ncx parameter does NOT exist. Use ncy + tx for copies in X direction."
+    },
+    "blendPOP": {
+      "description": "Blends between multiple POP inputs",
+      "parameters": [
+        {"name": "blendtype", "label": "Blend Mode", "type": "Menu", "options": ["off", "add", "mult", "max", "min", "average"], "default": "off", "description": "Blending operation"},
+        {"name": "input0weight", "label": "Input Weight", "type": "Float", "default": 1.0, "description": "Weight/blend factor for first input"},
+        {"name": "pointattrscope", "label": "Point Attributes", "type": "StrMenu", "default": "*", "description": "Point attributes to blend (default: all)"}
+      ]
+    },
+    "feedbackPOP": {
+      "description": "Creates a feedback loop on POP data",
+      "parameters": [
+        {"name": "play", "label": "Play", "type": "Toggle", "default": true, "description": "Enable/disable feedback playback"},
+        {"name": "preroll", "label": "Preroll Frames", "type": "Float", "default": 0.0, "description": "Number of frames to pre-roll before feedback activates"},
+        {"name": "inputmul", "label": "Input Multiplier", "type": "Int", "default": 1, "description": "Multiplier applied to input before feedback loop"}
+      ]
+    },
+    "cachePOP": {
+      "description": "Caches POP simulation frames for playback",
+      "parameters": [
+        {"name": "cachesize", "label": "Cache Size", "type": "Int", "default": 32, "description": "Number of frames to cache"},
+        {"name": "active", "label": "Active", "type": "Toggle", "default": true, "description": "Enable/disable caching"},
+        {"name": "step", "label": "Step Size", "type": "Float", "default": 1.0, "description": "Frame step size for cache playback"}
+      ]
+    }
+  },
+  "commonParameterCombinations": {
+    "noiseDisplacement": {
+      "description": "Noise Displacement — visual deformation",
+      "chain": "spherePOP → noisePOP → nullPOP",
+      "params": {"noisePOP": {"amp0": 0.5, "period": 2.0, "seed": 42}}
+    },
+    "mathScaleOffset": {
+      "description": "Math Scale + Offset — point cloud expansion",
+      "chain": "spherePOP → mathPOP → nullPOP",
+      "params": {"mathPOP": {"preoper": "mult", "mult0": 2.0, "postadd0": 0.5}}
+    },
+    "copyTranslateLimit": {
+      "description": "Copy + Translate + Limit — grid array",
+      "chain": "spherePOP → copyPOP → limitPOP → nullPOP",
+      "params": {"copyPOP": {"ncy": 3, "ty": 1.5}, "limitPOP": {"mintype0": "Range", "maxtype0": "Range", "min0": -1, "max0": 1}}
+    },
+    "attributeMathBlend": {
+      "description": "Attribute + Math + Blend — custom attribute manipulation",
+      "chain": "gridPOP → noisePOP → copyPOP → attributePOP → mathPOP → blendPOP → limitPOP → nullPOP",
+      "params": {
+        "attributePOP": {"attr0name": "custom", "attr0customname": "mysize", "attr0value0": 0.3},
+        "mathPOP": {"mult0": 3.0},
+        "blendPOP": {"blendtype": "add"}
+      }
+    },
+    "feedbackBlendLoop": {
+      "description": "Feedback + Blend Loop — trail effect",
+      "chain": "spherePOP → noisePOP → feedbackPOP → blendPOP → nullPOP",
+      "params": {
+        "feedbackPOP": {"preroll": 1, "inputmul": 2},
+        "blendPOP": {"blendtype": "add", "input0weight": 0.7},
+        "noisePOP": {"amp0": 0.8, "period": 0.5}
+      }
+    }
+  },
+  "knownErrors": [
+    {
+      "error": "Not enough sources specified",
+      "cause": "POP → SOP direct connection across operator families",
+      "fix": "Don't cross families; use compatible chain (POP → POP only)"
+    },
+    {
+      "error": "No Camera COMP found",
+      "cause": "renderTOP without camera in scene",
+      "fix": "Warning only, not blocking — renders with default camera"
+    },
+    {
+      "error": "baseCOMP → nullPOP fails",
+      "cause": "COMP can't connect to POP directly",
+      "fix": "Use inPOP/outPOP or implicit COMP output"
+    },
+    {
+      "error": "noisePOP has no input",
+      "cause": "Node created without source connected",
+      "fix": "Create POP chain linearly from generator"
+    },
+    {
+      "error": "Too many input components",
+      "cause": "deletePOP can't handle large point counts",
+      "fix": "Remove deletePOP from chain OR reduce copy count"
+    },
+    {
+      "error": "'td.ParCollection' has no attribute 'ncx'",
+      "cause": "copyPOP parameter name is ncy only",
+      "fix": "Use ncy + tx for X copies, ncx does not exist"
+    },
+    {
+      "error": "mintype0 stays 'off'",
+      "cause": "limitPOP menu values are enum strings",
+      "fix": "Use 'Range' not 'const' for mintype0/maxtype0"
+    }
+  ]
+}

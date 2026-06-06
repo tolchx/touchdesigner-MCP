@@ -1,0 +1,133 @@
+{
+  "pageTitle": "Copy POP",
+  "pageSlug": "Copy_POP",
+  "url": "https://docs.derivative.ca/Copy_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "copyPOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "Number of Copies",
+      "type": "Int[0-10000]",
+      "default": 1,
+      "description": "Copies per template point."
+    },
+    {
+      "name": "Translate",
+      "type": "Float3",
+      "default": [
+        0,
+        0,
+        0
+      ],
+      "description": "Per-copy translation (cumulative)."
+    },
+    {
+      "name": "Rotate",
+      "type": "Float3",
+      "default": [
+        0,
+        0,
+        0
+      ],
+      "description": "Per-copy rotation (cumulative)."
+    },
+    {
+      "name": "Scale",
+      "type": "Float3",
+      "default": [
+        1,
+        1,
+        1
+      ],
+      "description": "Per-copy scale (cumulative)."
+    },
+    {
+      "name": "CopyId Attribute",
+      "type": "Toggle",
+      "default": 0,
+      "description": "Output copy index attribute."
+    },
+    {
+      "name": "Look At",
+      "type": "COMP",
+      "default": "",
+      "description": "Orient copies toward target component."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "m), To Attribute (ren0to).1 * Página Duplicate: Duplicate Attribute (dup), Duplicate Attribute (dup0name), New Attribute Name (dup0new).1 * Página Delete: Delete Point Attributes (ptdel) (* para todos), Delete Vertex Attributes (vertdel) (* para todos), Delete Primitive Attributes (primdel) (* para todos).1 * Página Common: Bypass (bypass), Delete Input Attributes (delinputattrs), Parameter Color Space (parmcolorspace), Parameter Reference White (parmreferencewhite).1 * Copy POP: Crea copias de su geometría de entrada. Puede generar copias basándose en parámetros (número de copias, transformaciones acumulativas) o utilizando un POP de plantilla, donde los puntos de una entrada definen la ubicación de la copia. Las transformaciones (traslación, rotación, escala) se pueden aplicar en varios órdenes.2 * Parámetros: Incluye la \"Página Copy\" (Number of Copies, Transform Order, Translate, Rotate, Scale, Pivot, Uniform Scale, CopyId Attribute, CopyId Attrib Name, Look"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "m), To Attribute (ren0to).1 * Página Duplicate: Duplicate Attribute (dup), Duplicate Attribute (dup0name), New Attribute Name (dup0new).1 * Página Delete: Delete Point Attributes (ptdel) (* para todos), Delete Vertex Attributes (vertdel) (* para todos), Delete Primitive Attributes (primdel) (* para todos).1 * Página Common: Bypass (bypass), Delete Input Attributes (delinputattrs), Parameter Color Space (parmcolorspace), Parameter Reference White (parmreferencewhite).1 * Copy POP: Crea copias de su geometría de entrada. Puede generar copias basándose en parámetros (número de copias, transformaciones acumulativas) o utilizando un POP de plantilla, donde los puntos de una entrada definen la ubicación de la copia. Las transformaciones (traslación, rotación, escala) se pueden aplicar en varios órdenes.2 * Parámetros: Incluye la \"Página Copy\" (Number of Copies, Transform Order, Translate, Rotate, Scale, Pivot, Uniform Scale, CopyId Attribute, CopyId Attrib Name, L"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "m), To Attribute (ren0to).1 * Página Duplicate: Duplicate Attribute (dup), Duplicate Attribute (dup0name), New Attribute Name (dup0new).1 * Página Delete: Delete Point Attributes (ptdel) (* para todos), Delete Vertex Attributes (vertdel) (* para todos), Delete Primitive Attributes (primdel) (* para todos).1 * Página Common: Bypass (bypass), Delete Input Attributes (delinputattrs), Parameter Color Space (parmcolorspace), Parameter Reference White (parmreferencewhite).1 * Copy POP: Crea copias de su geometría de entrada. Puede generar copias basándose en parámetros (número de copias, transformaciones acumulativas) o utilizando un POP de plantilla, donde los puntos de una entrada definen la ubicación de la copia. Las transformaciones (traslación, rotación, escala) se pueden aplicar en varios órdenes.2 * Parámetros: Incluye la \"Página Copy\" (Number of Copies, Transform Order, Translate, Rotate, Scale, Pivot, Uniform Scale, CopyId Attribute, CopyId Attrib Name, Look"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "• Experimental:CHOP to POP: Permite convertir datos de la familia CHOPs (Channel Operators) a datos de POPs. Esto es eficiente porque los POPs ya implementan muchas funciones de CHOPs directamente en la GPU, evitando conversiones de GPU a CPU y viceversa. • Experimental:Circle POP: Un operador generador que crea formas circulares. Puede generar puntos con sus primitivas correspondientes. • Experimental:Convert POP: Se usa para cambiar entre diferentes tipos de primitivas. • Experimental:Copy POP: Permite crear copias de geometría dentro de un POP, las cuales pueden ser manipuladas o animadas antes de la renderización. También puede generar grupos automáticamente. • Experimental:Curve POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:DAT to POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Delete POP: Permite reducir un conjunto"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "• Experimental:CHOP to POP: Permite convertir datos de la familia CHOPs (Channel Operators) a datos de POPs. Esto es eficiente porque los POPs ya implementan muchas funciones de CHOPs directamente en la GPU, evitando conversiones de GPU a CPU y viceversa. • Experimental:Circle POP: Un operador generador que crea formas circulares. Puede generar puntos con sus primitivas correspondientes. • Experimental:Convert POP: Se usa para cambiar entre diferentes tipos de primitivas. • Experimental:Copy POP: Permite crear copias de geometría dentro de un POP, las cuales pueden ser manipuladas o animadas antes de la renderización. También puede generar grupos automáticamente. • Experimental:Curve POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:DAT to POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Delete POP: Permite reducir un conju"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "• Experimental:CHOP to POP: Permite convertir datos de la familia CHOPs (Channel Operators) a datos de POPs. Esto es eficiente porque los POPs ya implementan muchas funciones de CHOPs directamente en la GPU, evitando conversiones de GPU a CPU y viceversa. • Experimental:Circle POP: Un operador generador que crea formas circulares. Puede generar puntos con sus primitivas correspondientes. • Experimental:Convert POP: Se usa para cambiar entre diferentes tipos de primitivas. • Experimental:Copy POP: Permite crear copias de geometría dentro de un POP, las cuales pueden ser manipuladas o animadas antes de la renderización. También puede generar grupos automáticamente. • Experimental:Curve POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:DAT to POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Delete POP: Permite reducir un conjunto"
+    }
+  ],
+  "useCases": [
+    "Instance geometry",
+    "Scatter objects",
+    "Template-based duplication",
+    "Instancing objects at particle positions",
+    "Creating arrays of geometry",
+    "Populating LED layouts with geometry",
+    "Motion graphics copy effects"
+  ],
+  "examples": [
+    {
+      "name": "Instance Trees",
+      "description": "Sprinkle POP to Copy POP with tree template",
+      "difficulty": "intermediate"
+    },
+    {
+      "name": "Spiral Copies",
+      "description": "Sphere POP -> Copy POP (50 copies, Rotate Y=7, Translate Z=0.1) for spiral",
+      "difficulty": "beginner"
+    },
+    {
+      "name": "Template Instancing",
+      "description": "Torus POP -> Copy POP (template=Grid POP) for grid-based instancing",
+      "difficulty": "intermediate"
+    }
+  ],
+  "commonCombinations": [
+    "Sprinkle POP to Copy POP",
+    "Copy POP to Render",
+    "Any generator -> Copy POP -> Transform POP (further modify copies)",
+    "Copy POP -> Render TOP (instanced rendering)",
+    "Grid POP (template) -> Copy POP (source) for object arrays"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Instances at wrong position",
+      "solution": "Check template transform attributes."
+    },
+    {
+      "problem": "Copies not appearing",
+      "solution": "Check Number of Copies > 0. If using template, ensure template has points."
+    },
+    {
+      "problem": "Copics all at same position",
+      "solution": "Transforms are cumulative — ensure Translate is non-zero for offset between copies."
+    }
+  ],
+  "description": "Makes copies of input geometry using either a count parameter or a template POP. Copies are placed at template point positions with cumulative transforms. Supports look-at, up vector, and per-copy attribute combinations."
+}

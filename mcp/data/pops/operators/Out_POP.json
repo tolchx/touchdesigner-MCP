@@ -1,0 +1,58 @@
+{
+  "pageTitle": "Out POP",
+  "pageSlug": "Out_POP",
+  "url": "https://docs.derivative.ca/Out_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "outPOP",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "03-twozero-evaluation.md",
+      "excerpt": "curada de patrones (component library)** Crear un catálogo de “recetas” reproducibles (render, instancing, feedback loops, POP sims, GLSL) como: - skills en Markdown (`touchdesigner/skills/*`) - prompts maestros (`docs/06-master-prompts.md` o carpeta `prompts/`) - scripts Python idempotentes (crear/actualizar redes sin duplicar) - **No ensuciar el proyecto (non-invasive)** Convenciones sistemáticas: - encapsular sistemas en `baseCOMP`/`geoCOMP` - nodos “I/O estándar” (`in*`, `out*`, `null*`) - layout determinístico (`nodeX/nodeY`) - nombres consistentes y prefijos por dominio (`pop_`, `top_`, `chop_`) - **Validación y calidad (production tools)** Protocolos para: - verificar existencia de OPs creados - detectar cooks costosos (Info CHOP / cookTime) - validar atributos esperados en POP sims (PartVel/PartForce/…) - reportar errores con causas probables + fixes sugeridos - **Sync/portabilidad** En este contexto, “cloud sync” se reemplaza por: - base"
+    },
+    {
+      "source": "04-pops-database.md",
+      "excerpt": "ibutes[]`. - Capacitación: `useCases[]`, `examples[]`, `commonCombinations[]`, `troubleshooting[]`. ## Generación automática (docs oficiales) El generador: - Descarga la lista desde `https://docs.derivative.ca/Category:POPs`. - Para cada operador descarga la página oficial y extrae: - resumen - inputs - parámetros por página - atributos (cuando la tabla está presente) ### Construir / actualizar la base En `touchdesigner/`: ```powershell npm run build node .\\mcp\\dist\\popsBuild.js --out .\\mcp\\data\\pops --limit 10 --local-docs ..\\Docs ``` Enriquecimiento opcional con LLM (Gemma 4 vía Ollama): ```powershell $env:LLM_PROVIDER=\"ollama\" $env:OLLAMA_MODEL=\"gemma4:e4b\" node .\\mcp\\dist\\popsBuild.js --out .\\mcp\\data\\pops --enrich --local-docs ..\\Docs ``` ## Consulta desde el MCP Se expone una herramienta MCP adicional: - `td_pops_query`: - `search`: texto libre - `page_slug`: slug exacto (p.ej. `Particle_POP`) - `limit`: máximo de resultados Objetivo: permitir que el asiste"
+    },
+    {
+      "source": "07-testing-protocols.md",
+      "excerpt": "# Sistema de validación y testing Objetivo: asegurar que redes generadas por prompts complejos sean estables, reproducibles y eficientes. ## 1) Validación de sintaxis y formato - **LLM output (router/CLI)**: debe ser JSON único (sin markdown). - **Scripts Python**: deben ser idempotentes y usar `from_op`/paths explícitos. - **Prompts maestros**: validar frontmatter y secciones mínimas con `node touchdesigner/mcp/dist/promptLint.js`. ## 2) Chequeo de dependencias - TouchDesigner 2025+. - `TDAPI_PORT` configurado y coincidente con el TOX. - Ollama (si aplica): `LLM_PROVIDER=ollama` y `OLLAMA_MODEL` instalado. ## 3) Pruebas funcionales (smoke tests) Ejecutar un bloque `td_execut"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "un atributo (el Lookup Attribute) con valores en el rango 0-1 y lo utiliza como índice en los atributos de otro POP (la Lookup Curve). Extrae valores interpolados de la Lookup Curve y los genera. Tiene opciones para manejar índices fuera de rango y reescalar valores.35 * Parámetros: Lookup Attribute, Lookup Curve (segunda entrada), Index Type (normalizado 0-1 o número de punto), Extend Left/Right (Hold, Slope, Cycle, Mirror), Value Attributes a buscar, From/To Low/High para reescalar.35 * Out POP: Genera datos de POPs ubicados dentro de un componente hacia fuera de su componente padre. Añade un conector de salida al componente padre y puede mostrar una etiqueta al pasar el cursor por encima.37 * Particle POP: Se utiliza para crear y controlar el movimiento de \"partículas\" en simulaciones de sistemas de partículas. Las partículas son puntos POP con atributos especiales (P, PartVel, PartMass) que son creados por el Particle POP o modificados por bucles de retroalimentación definidos por"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "e Operadores POP Los POPs pueden clasificarse ampliamente según su función principal dentro de una red de TouchDesigner, reflejando las divisiones funcionales observadas en otras familias de operadores. 2.1 POPs Generadores Estos operadores son responsables de crear nueva geometría o datos 3D desde cero. * Pattern POP: Un generador versátil que crea formas simples de tiras de línea utilizando funciones matemáticas elementales (seno, coseno, ondas triangulares, cuadradas, ease in/out, aleatorias) en X, Y y Z. También puede añadir nuevos atributos o modificar los existentes basándose en estas funciones.14 Permite controlar el número de puntos, el comportamiento cíclico, la conectividad (tira de línea, líneas, primitivas de punto) y varios parámetros para dar forma a las curvas (por ejemplo, número de ciclos, fase, exponente, mapeo de rango).14 * Sprinkle POP: Crea puntos ya sea en la superficie o dentro del volumen de un POP de entrada. Ofrece métodos como \"Per Primitive\" p"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "un atributo (el Lookup Attribute) con valores en el rango 0-1 y lo utiliza como índice en los atributos de otro POP (la Lookup Curve). Extrae valores interpolados de la Lookup Curve y los genera. Tiene opciones para manejar índices fuera de rango y reescalar valores.35 * Parámetros: Lookup Attribute, Lookup Curve (segunda entrada), Index Type (normalizado 0-1 o número de punto), Extend Left/Right (Hold, Slope, Cycle, Mirror), Value Attributes a buscar, From/To Low/High para reescalar.35 * Out POP: Genera datos de POPs ubicados dentro de un componente hacia fuera de su componente padre. Añade un conector de salida al componente padre y puede mostrar una etiqueta al pasar el cursor por encima.37 * Particle POP: Se utiliza para crear y controlar el movimiento de \"partículas\" en simulaciones de sistemas de partículas. Las partículas son puntos POP con atributos especiales (P, PartVel, PartMass) que son creados por el Particle POP o modificados por bucles de retroalimentación definidos por"
+    }
+  ],
+  "useCases": [
+    "Component output connector",
+    "Export data from sub-network",
+    "Define exit points"
+  ],
+  "examples": [
+    {
+      "name": "Component Output",
+      "description": "Out POP as output connector inside a Component",
+      "difficulty": "beginner"
+    }
+  ],
+  "commonCombinations": [
+    "Processing chain to Out POP",
+    "Out POP inside Component"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "No output",
+      "solution": "Verify Out POP is connected and active."
+    }
+  ]
+}

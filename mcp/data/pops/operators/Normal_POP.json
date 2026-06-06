@@ -1,0 +1,146 @@
+{
+  "pageTitle": "Normal POP",
+  "pageSlug": "Normal_POP",
+  "url": "https://docs.derivative.ca/Normal_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "normalPOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "Normals Action",
+      "type": "Menu",
+      "options": [
+        "No Action",
+        "Always Compute",
+        "Compute if it does not exist",
+        "Remove"
+      ],
+      "default": "Always Compute",
+      "description": "When to compute normals."
+    },
+    {
+      "name": "Attribute Class",
+      "type": "Menu",
+      "options": [
+        "Point",
+        "Vertex",
+        "Primitive"
+      ],
+      "default": "Vertex",
+      "description": "Attribute class for normals."
+    },
+    {
+      "name": "Normals Weighting",
+      "type": "Menu",
+      "options": [
+        "Average",
+        "Angle Weighted",
+        "Area Weighted"
+      ],
+      "default": "Angle Weighted",
+      "description": "How to weight face normals at shared vertices."
+    },
+    {
+      "name": "Angle",
+      "type": "Float[0-180]",
+      "default": 89.5,
+      "description": "Threshold angle for vertex normal cusp. Higher = smoother."
+    },
+    {
+      "name": "Tangents Action",
+      "type": "Menu",
+      "options": [
+        "No Action",
+        "Always Compute",
+        "Compute if it does not exist",
+        "Remove"
+      ],
+      "default": "No Action",
+      "description": "When to compute tangent vectors."
+    },
+    {
+      "name": "Input Texture Coord",
+      "type": "Menu",
+      "options": [
+        "Tex",
+        "Custom"
+      ],
+      "default": "Tex",
+      "description": "Texture coordinate attribute for tangent computation."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "Los parámetros clave incluyen Type (Simplex, Perlin), Period, Harmonics, Harmonic Spread, Amplitude, Exponent, Offset. También tiene una \"Página Transform\" para trasladar, rotar y escalar el campo de ruido, y una \"Página Output\" para generar valores de ruido sin procesar, gradiente o curl.16 * Extrude POP: Un operador simple que añade \"grosor\" aparente a triángulos o quads copiándolos a una distancia especificada, opcionalmente estrechándolos, y añadiendo quads para los lados.17 Requiere un Normal POP para un sombreado facetado adecuado.17 * Facet POP: Realiza operaciones para controlar el intercambio de puntos entre primitivas. Puede crear puntos únicos (sin puntos compartidos por vértice), consolidar puntos (fusionar puntos dentro de una tolerancia) o cusp polygons (hacer que los puntos de borde sean únicos si las caras adyacentes no están alineadas dentro de una tolerancia angular).18 Es útil para controlar el sombreado y la integridad de la malla. * GLSL POP: Permite la modificac"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "íneas y primitivas de punto.7 Las primitivas de punto, por ejemplo, son primitivas de un solo vértice renderizadas como puntos, ideales para nubes de puntos o sistemas de partículas.7 Una distinción clave con respecto a los SOPs es que los POPs actualmente no admiten primitivas de curva directamente, aunque la subdivisión de splines es posible utilizando operadores como Line POP y Line Divide POP.7 Los atributos son cruciales para almacenar datos adicionales por punto, vértice o primitiva, como normales (N), coordenadas de textura (uv) y color (Cd).1 Los POPs permiten la creación, modificación, duplicación, cambio de nombre y eliminación de estos atributos.1 El énfasis en los \"atributos\" y su manipulación a través de varios POPs (por ejemplo, Attribute POP, GLSL POP, Math Mix POP) apunta a una filosofía de diseño centrada en los atributos para los POPs. Muchos POPs (Attribute POP, GLSL POP, Math Mix POP, etc.) están explícitamente diseñados para crear, modificar o combinar atributos.1 La do"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "Los parámetros clave incluyen Type (Simplex, Perlin), Period, Harmonics, Harmonic Spread, Amplitude, Exponent, Offset. También tiene una \"Página Transform\" para trasladar, rotar y escalar el campo de ruido, y una \"Página Output\" para generar valores de ruido sin procesar, gradiente o curl.16 * Extrude POP: Un operador simple que añade \"grosor\" aparente a triángulos o quads copiándolos a una distancia especificada, opcionalmente estrechándolos, y añadiendo quads para los lados.17 Requiere un Normal POP para un sombreado facetado adecuado.17 * Facet POP: Realiza operaciones para controlar el intercambio de puntos entre primitivas. Puede crear puntos únicos (sin puntos compartidos por vértice), consolidar puntos (fusionar puntos dentro de una tolerancia) o cusp polygons (hacer que los puntos de borde sean únicos si las caras adyacentes no están alineadas dentro de una tolerancia angular).18 Es útil para controlar el sombreado y la integridad de la malla. * GLSL POP: Permite la modificac"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "rador. Se relaciona con sistemas de iluminación DMX. • Experimental:DMX Out POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:Extrude POP: Puede crear grupos automáticamente. Las fuentes indican que los POPs aún no realizan extrusiones completas en cualquier tira de línea. • Experimental:Facet POP: A diferencia de los SOPs donde el Facet SOP crea normales, en POPs, el Normal POP es el encargado de crear normales de superficie y tangentes. • Experimental:Feedback POP: Es esencial para habilitar sistemas de partículas y para la manipulación general de datos que requieren bucles de retroalimentación. Se utiliza para simular el movimiento de partículas a lo largo del tiempo, convirtiendo la fuerza en velocidad y la velocidad en posición. • Experimental:Field POP: Genera nuevos atributos, a menudo con nombres predeterminados sugeridos. Este operador genera el atributo W"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "cambian. Los datos en POPs siempre comienzan como puntos con atributos. A partir de estos puntos, puedes trabajar con sistemas de partículas, nubes de puntos, polígonos, líneas, curvas spline y cualquier forma de datos geométricos 3D. Cada POP se compone de tres elementos principales: • Una lista de puntos: Son los elementos fundamentales de cualquier forma 3D. Cada punto tiene atributos, siendo el más común la Posición (P) en el espacio 3D. Otros atributos comunes incluyen Color (Color) y Normal (N) (un vector de dirección). También puedes definir tus propios atributos. • Una lista de vértices: Cada primitiva tiene una lista de vértices. Un vértice es un índice que apunta a un punto específico en la lista de puntos. Los vértices también pueden tener atributos. • Una lista de primitivas: Son conjuntos de puntos que definen una forma geométrica. Los tipos de primitivas en POPs incluyen Punto (1 punto), Línea (2 puntos), Tira de Líneas (1 o más puntos), Triángulo (3 puntos) y Quad (4"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "rador. Se relaciona con sistemas de iluminación DMX. • Experimental:DMX Out POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Se relaciona con sistemas de iluminación DMX. • Experimental:Extrude POP: Puede crear grupos automáticamente. Las fuentes indican que los POPs aún no realizan extrusiones completas en cualquier tira de línea. • Experimental:Facet POP: A diferencia de los SOPs donde el Facet SOP crea normales, en POPs, el Normal POP es el encargado de crear normales de superficie y tangentes. • Experimental:Feedback POP: Es esencial para habilitar sistemas de partículas y para la manipulación general de datos que requieren bucles de retroalimentación. Se utiliza para simular el movimiento de partículas a lo largo del tiempo, convirtiendo la fuerza en velocidad y la velocidad en posición. • Experimental:Field POP: Genera nuevos atributos, a menudo con nombres predeterminados sugeridos. Este operador genera el atributo W"
+    }
+  ],
+  "useCases": [
+    "Calculate surface normals",
+    "Fix inverted normals",
+    "Prepare for lighting",
+    "Computing normals for imported geometry",
+    "Creating flat shading (low cusp angle)",
+    "Generating tangent vectors for normal mapping",
+    "Preparing geometry for PBR materials"
+  ],
+  "examples": [
+    {
+      "name": "Fix Normals",
+      "description": "Any POP to Normal POP before Phong MAT",
+      "difficulty": "beginner"
+    },
+    {
+      "name": "Smooth Shading",
+      "description": "SOP to POP -> Normal POP (Point, Area Weighted) -> PBR MAT",
+      "difficulty": "beginner"
+    },
+    {
+      "name": "Flat Faceted",
+      "description": "SOP to POP -> Facet POP (Unique) -> Normal POP (Vertex, Angle=10) for hard edges",
+      "difficulty": "intermediate"
+    }
+  ],
+  "commonCombinations": [
+    "Any generator to Normal POP to Render",
+    "SOP to POP -> Normal POP -> Render TOP",
+    "Facet POP -> Normal POP (control shading)",
+    "Normal POP -> PBR MAT (normal mapping)"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Inverted lighting",
+      "solution": "Flip normals or check winding order."
+    },
+    {
+      "problem": "Normals pointing wrong direction",
+      "solution": "Check Attribute Class (Point vs Vertex). Vertex normals are smoother."
+    },
+    {
+      "problem": "Tangents not computing",
+      "solution": "Ensure Input Texture Coord is set and Tex attribute exists on input geometry."
+    }
+  ],
+  "description": "Creates normal and tangent vectors from triangle/quad geometry. Computes point or vertex normals with weighting methods (Average, Angle Weighted, Area Weighted). Tangents computed from texture coordinates for normal mapping."
+}

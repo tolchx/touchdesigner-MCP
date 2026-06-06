@@ -1,0 +1,131 @@
+{
+  "family": "SOP",
+  "pageTitle": "CPlusPlus SOP",
+  "pageSlug": "CPlusPlus_SOP",
+  "url": "https://docs.derivative.ca/CPlusPlus_SOP",
+  "tdOpTypeGuess": "cPlusPlusSOP",
+  "summary": "[  edit  ]\nThe CPlusPlus  SOP  allows you to make custom  SOP  operators by writing your own plugin using C++.\nSee  Write a CPlusPlus Plugin  and the other articles in the  C++ category  for more detailed information on how to make .dll for use with this  SOP .\nThe C++ code can be written for  GPU  or CPU loading. The ease of developing C++ code for either of these two options are fairly similar. Nevertheless, by setting the “ directToGPU ” flag within the C++ code, only one of these modes is recognized as a valid mode. Different classes are dedicated for each of these two modes, so bear in mind that setting the “ directToGPU ” flag to “ true ” or “ false ” requires different classes and functions to be called within either of  execute()  or  executeVBO() .\nIn CPU mode, the geometry data can be added one at a time or all at once. As well, in CPU mode the CPlusPlus  SOP  can use wired  SOP  inputs and  SOP  to  DAT ,  SOP  to  CHOP , or  SOP  output OPs as well. Additionally  DAT ,  CHOP , and  TOP  'non-wired' input operators can be used as custom parameters. In this case, the custom parameters must be first handled in the C++ code to be able to accept any input from the other operators.\nThe  GPU  direct mode is similar to CPU mode, but it cannot use any output SOPs downstream or be accessed by  SOP  to  DAT  or  SOP  to  CHOP  operators. In  GPU  direct mode the data is added to the VBO buffers immediately which improves the performance through faster updating, however the size of the vertices and face array indices must be known prior to filling the buffers.\nExample for CPlusPlus  SOP  as a Visual Studio project in Windows are available in  C:/Program Files/Derivative/TouchDesigner/Samples/CPlusPlus/SimpleShapesSOP  or your custom TouchDesigner installation folder. (NOTE: On macOS it is here:  TouchDesigner.app/Contents/Resources/tfs/Samples/CPlusPlus/SimpleShapesSOP )\nCustom Parameters  - Custom Parameters can be automatically created by the C++  SOP   .dll . This custom parameter page can be removed, edited, or appended to from within the  setupParameters()  function in SimpleShapes.cpp. The defined custom parameters can be enabled or disabled depending on whether they are valid for a specific task or not.\nGeometry Data  - Geometry within the C++  SOP  code can be defined by any algorithm or even imported from external files. The possible geometries are triangular meshes and particle systems. Note that if your original geometry has polygons with more than 3 vertices, they must be converted to triangles with known and valid vertex indices, before being added to the list of triangles.\nThe geometry data for exporting to TouchDesigner can have point, normal, and texture coordinates, RGBA colors, triangle information in case of meshes and/or particle systems, as well as custom attributes with an arbitrary name, float or integer type, and up to 4 components (ie. Cd0, Cd1, Cd2, Cd3).\ncplusplusSOP_Class\nContents\n1   Summary\n2   Parameters - Load Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Load",
+      "label": "Plugin  Path",
+      "name": "plugin",
+      "description": "The path to the plugin you want to load."
+    },
+    {
+      "page": "Load",
+      "label": "Re-Init Class",
+      "name": "reinit",
+      "description": "When this parameter is On, it will delete the instance of the class created by the plugin, and create a new one."
+    },
+    {
+      "page": "Load",
+      "label": "Re-Init Class",
+      "name": "reinitpulse",
+      "description": "Instantly reinitialize the class."
+    },
+    {
+      "page": "Load",
+      "label": "Unload Plugin",
+      "name": "unloadplugin",
+      "description": "When this parameter goes above 1, it will delete the instance of the class created by the plugin and unload the plugin. If multiple SOPs have loaded the same plugin they will all need to unload it to release the file."
+    },
+    {
+      "page": "Load",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Load",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Load",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Load",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Load",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Load",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Load",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Load",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Load",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Load",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Load",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Load",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Load",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Load",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Load",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    },
+    {
+      "page": "Load",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "xperimental:Import Select POP | Derivative - TouchDesigner, fecha de acceso: julio 1, 2025, https://derivative.ca/UserGuide/Experimental%3AImport_Select_POP 42. A Look at the Particle POP in TouchDesigner - TouchDesigner Tutorial 211 - YouTube, fecha de acceso: julio 1, 2025, https://www.youtube.com/watch?v=MTtmGBRC8vM 43. TouchDesigner POPs Exploding Particles - TouchDesigner Tutorial 213 - YouTube, fecha de acceso: julio 1, 2025, https://www.youtube.com/watch?v=iTe-2B764vg 44. Experimental:CPlusPlus POP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:CPlusPlus_POP 45. Cache POP - Derivative, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Cache_POP 46. RFE: DMX Fixture POP - Attribute Channel Split across Universe - TouchDesigner forum, fecha de acceso: julio 1, 2025, https://forum.derivative.ca/t/rfe-dmx-fixture-pop-attribute-channel-split-across-universe/696642 47. Merge POP - Derivative, fecha de acceso: julio 1, 2025,"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

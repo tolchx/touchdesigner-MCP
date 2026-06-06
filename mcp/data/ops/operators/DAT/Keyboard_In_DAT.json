@@ -1,0 +1,303 @@
+{
+  "family": "DAT",
+  "pageTitle": "Keyboard In DAT",
+  "pageSlug": "Keyboard_In_DAT",
+  "url": "https://docs.derivative.ca/Keyboard_In_DAT",
+  "tdOpTypeGuess": "keyboardInDAT",
+  "summary": "[  edit  ]\nThe Keyboard In  DAT  lists the most recent key events in its FIFO (first in/first out) table. There is one row for every key press down and every key-up, including Shift, Ctrl and Alt, with distinction between left and right side. For convenience, with each key press, a column indicates if the  Shift, Ctrl and Alt were being held down at the time.\nYou get key presses even of the cursor is outside the TouchDesigner windows, whether they are control panels,  Perform Mode  or the network editor window. Exceptions: while entering text in the editor window.\nYou can set a filter to watch only certain keys. Custom shortcuts can be defined and handled by a  python callback in the attached script .\nkeyboardinDAT_Class\nContents\n1   Summary\n2   Parameters - Keyboard In Page\n3   Parameters - Log Page\n4   Parameters - Common Page\n5   Notes\n6   Operator Inputs\n7   Info CHOP Channels\n7.1   Common DAT Info Channels\n7.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Keyboard In",
+      "label": "Active",
+      "name": "active",
+      "description": "Inhibits and allows message to be added to log."
+    },
+    {
+      "page": "Keyboard In",
+      "label": "Perform  Window  Only",
+      "name": "perform",
+      "description": "When on, key events are only detected while in perform mode."
+    },
+    {
+      "page": "Keyboard In",
+      "label": "Keys",
+      "name": "keys",
+      "description": "List of keys to allow through the filter. Just put the characters in the list, space-separated. Eg. '1 2 g h' for the 1, 2, g and h keys. Only these keys will be added to the log and generate an event. If blank, no filtering will be done. List of accepted keys:  Keyboard UI"
+    },
+    {
+      "page": "Keyboard In",
+      "label": "Shortcuts",
+      "name": "shortcuts",
+      "description": "List of shortcuts to watch for. See \"Shortcuts\" in the notes for defining shortcuts."
+    },
+    {
+      "page": "Keyboard In",
+      "label": "Panels",
+      "name": "panels",
+      "description": "Optional list of references to panels to detect events from. Events will only be fired when any of the listed panels has focus."
+    },
+    {
+      "page": "Keyboard In",
+      "label": "Left/Right Modifiers",
+      "name": "lrmodifiers",
+      "description": "When on, the states of the left and right modifier keys (see Notes) will be added to the table. Switching the state of this parameter will reset the table's contents."
+    },
+    {
+      "page": "Log",
+      "label": "Callbacks  DAT",
+      "name": "callbacks",
+      "description": "Path  to a  DAT  containing callbacks for each keyboard event received. See keyboardinDAT_Class for usage."
+    },
+    {
+      "page": "Log",
+      "label": "Execute from",
+      "name": "executeloc",
+      "description": "⊞  - Determines the location the script is run from."
+    },
+    {
+      "page": "Log",
+      "label": "Current  Node",
+      "name": "current",
+      "description": "The script is executed from the current node location (for example, where 'cc' points to)."
+    },
+    {
+      "page": "Log",
+      "label": "Specified  Operator",
+      "name": "op",
+      "description": "The script is executed from the operator specified in the  From  Operator   parameter below."
+    },
+    {
+      "page": "Log",
+      "label": "From  Operator",
+      "name": "fromop",
+      "description": "The operator whose state change will trigger the  DAT  to execute its script when  Execute  is set to  Specified  Operator  . This operator is also the path that the script will be executed from if the  Execute From  parameter is set to  Specified  Operator  ."
+    },
+    {
+      "page": "Log",
+      "label": "Clamp Output",
+      "name": "clamp",
+      "description": "The  DAT  is limited to 100 messages by default but with Clamp Output, this can be set to anything including unlimited."
+    },
+    {
+      "page": "Log",
+      "label": "Maximum Lines",
+      "name": "maxlines",
+      "description": "Limits the number of messages, older messages are removed from the list first."
+    },
+    {
+      "page": "Log",
+      "label": "Clear Output",
+      "name": "clear",
+      "description": "Deletes all lines except the heading.  To clear with a python script  op( \"opname\" ).par.clear.pulse()"
+    },
+    {
+      "page": "Common",
+      "label": "Language",
+      "name": "language",
+      "description": "⊞  - Select how the  DAT  decides which script language to operate on."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Node",
+      "name": "node",
+      "description": "The  DAT  uses it's own script language."
+    },
+    {
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "name": "extension",
+      "description": "⊞  - Select the file extension this  DAT  should expose to external editors."
+    },
+    {
+      "page": "Common",
+      "label": "dat",
+      "name": "dat",
+      "description": "various common file extensions."
+    },
+    {
+      "page": "Common",
+      "label": "From Language",
+      "name": "language",
+      "description": "pick extension from DATs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "custom",
+      "description": "Specify a custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specifiy the custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Word Wrap",
+      "name": "wordwrap",
+      "description": "⊞  - Enable Word Wrap for Node Display."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs setting."
+    },
+    {
+      "page": "Common",
+      "label": "On",
+      "name": "on",
+      "description": "Turn on Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Off",
+      "name": "off",
+      "description": "Turn off Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Modifier Keys",
+      "description": "The following are all the valid modifier keys:"
+    },
+    {
+      "page": "Common",
+      "label": "lalt",
+      "description": "Left alt key."
+    },
+    {
+      "page": "Common",
+      "label": "ralt",
+      "description": "Right alt key."
+    },
+    {
+      "page": "Common",
+      "label": "alt",
+      "description": "Either left or right alt key."
+    },
+    {
+      "page": "Common",
+      "label": "lctrl",
+      "description": "Left ctrl key."
+    },
+    {
+      "page": "Common",
+      "label": "rctrl",
+      "description": "Right ctrl key."
+    },
+    {
+      "page": "Common",
+      "label": "ctrl",
+      "description": "Either left or right ctrl key."
+    },
+    {
+      "page": "Common",
+      "label": "lshift",
+      "description": "Left shift key."
+    },
+    {
+      "page": "Common",
+      "label": "rshift",
+      "description": "Right shift key."
+    },
+    {
+      "page": "Common",
+      "label": "shift",
+      "description": "Either left or right shift key."
+    },
+    {
+      "page": "Common",
+      "label": "num_rows",
+      "description": "Number of rows in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "num_cols",
+      "description": "Number of columns in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "Art",
+      "description": "Net    •   Audio Devices    •   CHOP Execute    •   CHOP to    •   Clip    •   Convert    •   CPlusPlus    •   DAT   •    Execute    •   DAT Export   •   Error    •   EtherDream    •   Evaluate    •   Examine    •   Execute    •   FIFO    •   File In    •   File Out    •   Folder    •   In    •   Indices    •   Info    •   Insert    •   JSON    •   Keyboard In    •   Lookup    •   Media File Info    •   Merge    •   MIDI Event    •   MIDI In    •   Monitors    •   MPCDI    •   MQTT Client    •   Multi Touch In    •   NDI    •   Null    •   OP Execute    •   OP Find    •   OSC In    •   OSC Out    •   Out    •   Panel Execute    •   Parameter    •   Parameter Execute    •   ParGroup Execute    •   Perform    •   POP to    •   Render Pick    •   Reorder    •   Script    •   Select    •   Serial    •   Serial Devices    •   SocketIO    •   SOP to    •   Sort    •   Substitute    •   Switch    •   Table    •   TCP/IP    •   Text    •   Touch In    •   Touch Out    •   Transpose    •   TUIO In    •   UDP In    •   UDP Out    •   UDT In    •   UDT Out    •   Video Devices    •   Web Client    •   Web    •   Web Server    •   WebRTC    •   WebSocket    •   XML"
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "Perform Mode is an optimized mode for live performance that only renders one specified  Window COMP  which is one window that contains your video outputs and your (optional) control interface. In Perform Mode the network editing window is not open",
+      "description": "you edit your networks in  Designer Mode .  Alternate with F1 and Esc."
+    },
+    {
+      "page": "Common",
+      "label": "A Window in TouchDesigner is a window in Microsoft Windows or macOS that contains either (1) the TouchDesigner editing interface that exists in  Designer Mode , or (2) a user",
+      "description": "created  Panel  inside a  Window Component . The user-created windows can span  Multiple Monitors  borderless, or be floating windows with borders, or popups."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

@@ -1,0 +1,141 @@
+{
+  "pageTitle": "Box POP",
+  "pageSlug": "Box_POP",
+  "url": "https://docs.derivative.ca/Box_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "boxPOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "Connectivity",
+      "type": "Menu",
+      "options": [
+        "None",
+        "Point Primitives",
+        "Triangles",
+        "Quadrilaterals"
+      ],
+      "default": "None",
+      "description": "Primitive type for box faces."
+    },
+    {
+      "name": "Unique Points",
+      "type": "Toggle",
+      "default": false,
+      "description": "Each face uses unique points (24 total vs 8 shared)."
+    },
+    {
+      "name": "Size",
+      "type": "Float[3]",
+      "default": "1,1,1",
+      "description": "Box dimensions in XYZ."
+    },
+    {
+      "name": "Round Corners",
+      "type": "Toggle",
+      "default": false,
+      "description": "Enable rounded corner geometry."
+    },
+    {
+      "name": "Corner Radius",
+      "type": "Float",
+      "default": 0.1,
+      "description": "Radius for rounded corners."
+    },
+    {
+      "name": "Subdivisions Depth",
+      "type": "Int",
+      "default": 3,
+      "description": "Smoothing iterations for rounded corners."
+    },
+    {
+      "name": "Texture Method",
+      "type": "Menu",
+      "options": [
+        "Box Inside",
+        "Face Inside",
+        "Cube Map Inside",
+        "Box Outside",
+        "Face Outside",
+        "Cube Map Outside"
+      ],
+      "default": "Box Inside",
+      "description": "How texture coordinates are applied."
+    },
+    {
+      "name": "Extend to Corner",
+      "type": "Toggle",
+      "default": false,
+      "description": "Texture wraps around rounded corners."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "material de investigación proporcionado indicó que la información era inaccesible, limitada a menciones muy breves o redirecciones sin contenido, o que las búsquedas arrojaron resultados irrelevantes de otras familias de operadores (SOPs, CHOPs, TOPs, DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. P"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "material de investigación proporcionado indicó que la información era inaccesible, limitada a menciones muy breves o redirecciones sin contenido, o que las búsquedas arrojaron resultados irrelevantes de otras familias de operadores (SOPs, CHOPs, TOPs, DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 3"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "material de investigación proporcionado indicó que la información era inaccesible, limitada a menciones muy breves o redirecciones sin contenido, o que las búsquedas arrojaron resultados irrelevantes de otras familias de operadores (SOPs, CHOPs, TOPs, DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. P"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "tes \"clases\" (tipos) de datos, como convertir atributos de puntos a atributos de vértices o de primitivas. • Experimental:Attribute POP: Es un operador fundamental para crear nuevos atributos en puntos, vértices o primitivas, y puedes inicializarlos con valores constantes. También es el lugar donde puedes crear \"arrays de atributos\". • Experimental:Blend POP: Es un POP que soporta múltiples entradas, lo que sugiere que puede mezclar o interpolar datos de diferentes fuentes. • Experimental:Box POP: Un operador generador que crea una geometría de caja. • Experimental:Cache Blend POP: Se menciona en relación con el uso de atributos como 'Velocity' (Vel), lo que sugiere su rol en la mezcla de datos temporales o en animaciones. • Experimental:Cache POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Cache Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "tes \"clases\" (tipos) de datos, como convertir atributos de puntos a atributos de vértices o de primitivas. • Experimental:Attribute POP: Es un operador fundamental para crear nuevos atributos en puntos, vértices o primitivas, y puedes inicializarlos con valores constantes. También es el lugar donde puedes crear \"arrays de atributos\". • Experimental:Blend POP: Es un POP que soporta múltiples entradas, lo que sugiere que puede mezclar o interpolar datos de diferentes fuentes. • Experimental:Box POP: Un operador generador que crea una geometría de caja. • Experimental:Cache Blend POP: Se menciona en relación con el uso de atributos como 'Velocity' (Vel), lo que sugiere su rol en la mezcla de datos temporales o en animaciones. • Experimental:Cache POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Cache Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "tes \"clases\" (tipos) de datos, como convertir atributos de puntos a atributos de vértices o de primitivas. • Experimental:Attribute POP: Es un operador fundamental para crear nuevos atributos en puntos, vértices o primitivas, y puedes inicializarlos con valores constantes. También es el lugar donde puedes crear \"arrays de atributos\". • Experimental:Blend POP: Es un POP que soporta múltiples entradas, lo que sugiere que puede mezclar o interpolar datos de diferentes fuentes. • Experimental:Box POP: Un operador generador que crea una geometría de caja. • Experimental:Cache Blend POP: Se menciona en relación con el uso de atributos como 'Velocity' (Vel), lo que sugiere su rol en la mezcla de datos temporales o en animaciones. • Experimental:Cache POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Cache Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este"
+    }
+  ],
+  "useCases": [
+    "Create collision boxes for particle simulations",
+    "Build LED cube or volumetric display layouts",
+    "Generate architectural elements with rounded corners",
+    "Create bounding box visualizations",
+    "Build instanced geometry for rendering"
+  ],
+  "examples": [
+    "Box POP (Round Corners=On) → Subdivide POP (Crease Weight=1) → smooth rounded box",
+    "Box POP (Unique Points, Color=Point) → different color per face for debugging"
+  ],
+  "commonCombinations": [
+    {
+      "operators": [
+        "Box_POP",
+        "Noise_POP",
+        "Transform_POP"
+      ],
+      "description": "Organic deformed cube"
+    },
+    {
+      "operators": [
+        "Box_POP",
+        "Particle_POP",
+        "Force_Radial_POP"
+      ],
+      "description": "Box-volume particle emitter"
+    },
+    {
+      "operators": [
+        "Box_POP",
+        "Extrude_POP"
+      ],
+      "description": "Extruded box with depth"
+    }
+  ],
+  "troubleshooting": [
+    "Box looks faceted: Use Point normals instead of Vertex/Primitive",
+    "Rounded corners slow: Reduce Subdivisions Depth",
+    "Texture seams visible: Try Cube Map method instead of Box/Face"
+  ],
+  "description": "Creates 6-sided boxes with optional rounded corners, multiple texture mapping methods, and per-face color. Supports triangles, quads, or point primitives with vertex/point/primitive normals."
+}

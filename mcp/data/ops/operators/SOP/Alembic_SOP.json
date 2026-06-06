@@ -1,0 +1,21 @@
+{
+  "family": "SOP",
+  "pageTitle": "Alembic SOP",
+  "pageSlug": "Alembic_SOP",
+  "url": "https://docs.derivative.ca/Alembic_SOP",
+  "tdOpTypeGuess": "alembicSOP",
+  "summary": "[  edit  ]\nThe Alembic  SOP  loads and plays back  Alembic  file geometry sequences.\nThe supported Alembic primitives are polymesh, curves, and points for geometry. As well, Alembic transformations are supported.\nFor Alembic files that contain animation, use the Time parameter and pay attention to the Unit menu to control it in frames, seconds, or whatever you like.\nAn Alembic archive may contain one or more object paths for one or multiple geometries. It is possible to view these objects all at once or select them separately using the 'Object  Path ' parameter menu.\nEach object in an Alembic file schema may possess standard or custom attributes. The standard attributes are normal ( N ), velocity ( V ), and texture coordinates ( UV ).\nMultiple custom attributes may live in an Alembic schema with more flexible names and types. The custom attribute types can be any of the following:\nfloat arrays\ninteger arrays\n2d or 3d vectors of floats\nmatrix with 16 float elements\nThe conversion between the Alembic geometries scopes to the TouchDesigner attributes types are shown in the table below:\nAlembic  Scope\nTouchDesigner Attribute\nVarying,  Vertex\nPoint\nFacevarying\nVertex\nUniform, Constant\nPrimitive\nThe Alembic  SOP  lets you load geometry to either the CPU or the  GPU .\nWhile using the  GPU  is much faster, it has some limitations:\nIn  GPU  direct mode you can not connect additional SOPs downstream.\nIn  GPU  direct mode, when there are multiple objects with different sets of attributes, a default value is used for the missing attributes of each objects. For example, if one geometry has normal data and another one doesn’t, the x, y, and z elements of normal vector for the geometry with the missing normal attribute will be set to 0, 0, 1 respectively.\nalembicSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Info CHOP Channels\n3.1   Specific Alembic SOP Info Channels",
+  "inputs": [],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Full data.txt",
+      "excerpt": "s implementaciones anteriores en TOPs, ya que eliminan la necesidad de mapear posiciones a canales de color o dividir en grupos rígidos, permitiendo una mayor flexibilidad y atributos ilimitados por punto. Aunque los POPs son increíblemente capaces, algunas funcionalidades como el trazado (tracing), las extrusiones completas de line strips o las operaciones booleanas, aún están en desarrollo o serán portadas desde las funcionalidades de CPU de los SOPs en el futuro. Además, la edición de datos Alembic como POPs es una característica próxima. En resumen, los POPs ofrecen un flujo de trabajo moderno y eficiente que aprovecha el poder de la GPU para una manipulación y creación de geometría 3D sin precedentes, especialmente en el control de puntos y sistemas de partículas. Los Atributos de Puntos son un concepto fundamental y extraordinariamente potente dentro de la nueva familia de Operadores de Puntos (POPs) en TouchDesigner. Son la clave que permite a los POPs manipular y definir geomet"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

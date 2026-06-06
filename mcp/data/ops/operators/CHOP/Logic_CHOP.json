@@ -1,0 +1,373 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Logic CHOP",
+  "pageSlug": "Logic_CHOP",
+  "url": "https://docs.derivative.ca/Logic_CHOP",
+  "tdOpTypeGuess": "logicCHOP",
+  "summary": "[  edit  ]\nThe Logic  CHOP  first converts channels of all its input CHOPs into binary (0 = off, 1 = on) channels and then combines the channels using a variety of logic operations.\nNOTE:  The Logic  CHOP  is superceded by more convenient operators like the  CHOP Execute DAT  or the  Text DAT  which will run their scripts when  CHOP  channels change.\nThe Logic  CHOP  performs logic operations on the samples in  CHOP  channels. The channels of a  CHOP  can be combined into one channel, and several CHOPs can be combined into one  CHOP .\nWith one input  CHOP , you can invert the values of each sample. You can also do logic operations on the samples of one channel by the samples in the other channels, reducing N channels down to one. You can combine by applying an \"or\", \"and\", etc..\nWith two or more  CHOP  inputs, you can combine the channels in one  CHOP  with the channels in all the other CHOPs, reducing N CHOPs to 1.\nTo do math operations (add, multiply, ...) between channels or CHOPs, use the  Math CHOP .\nlogicCHOP_Class\nContents\n1   Summary\n2   Parameters - Logic Page\n3   Parameters - Common Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common CHOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Logic",
+      "label": "Convert Input",
+      "name": "convert",
+      "description": "⊞  - This menu determines the method to convert inputs to binary:"
+    },
+    {
+      "page": "Logic",
+      "label": "Off When Zero",
+      "name": "nonzero",
+      "description": "Returns a logical 0 when channel value is zero;"
+    },
+    {
+      "page": "Logic",
+      "label": "Off When Zero Or Less",
+      "name": "pos",
+      "description": "Returns a logical 0 when a channel value is zero or less; and 1 when values are positive."
+    },
+    {
+      "page": "Logic",
+      "label": "Off When Outside Bounds",
+      "name": "bound",
+      "description": "Returns 0 when channel value is outside the bounds set by the Bounds parameter below."
+    },
+    {
+      "page": "Logic",
+      "label": "On When Value Changed",
+      "name": "valchange",
+      "description": "Returns 1 when the channel value changes."
+    },
+    {
+      "page": "Logic",
+      "label": "On When Channel Name Changed",
+      "name": "namechange",
+      "description": "Returns 1 when the channel name changes."
+    },
+    {
+      "page": "Logic",
+      "label": "Channel Pre  OP",
+      "name": "preop",
+      "description": "⊞  - Once converted by the Convert Input stage, Channel Pre OP defines a unary operation on each input sample:"
+    },
+    {
+      "page": "Logic",
+      "label": "Invert",
+      "name": "invert",
+      "description": "Changes 0 to 1; and 1 to 0."
+    },
+    {
+      "page": "Logic",
+      "label": "Toggle",
+      "name": "toggle",
+      "description": "Causes each 0 to 1 transition of the input channel to switch the current state between 0 and 1."
+    },
+    {
+      "page": "Logic",
+      "label": "Radio Button",
+      "name": "radio",
+      "description": "Only one channel per input can be on at once. If another channel turns on, the previously \"on\" channel is turned off."
+    },
+    {
+      "page": "Logic",
+      "label": "Last Two On",
+      "name": "radio2",
+      "description": "This is like Radio Button, but it keeps up to two channels on. If followed by a  Lag CHOP , it is useful for blending between pairs of poses."
+    },
+    {
+      "page": "Logic",
+      "label": "Rising Edge",
+      "name": "rise",
+      "description": "On for one sample only, at each place where a channel goes from off to on."
+    },
+    {
+      "page": "Logic",
+      "label": "Falling Edge",
+      "name": "fall",
+      "description": "On for one sample only, at each place where a a channel goes from on to off."
+    },
+    {
+      "page": "Logic",
+      "label": "Combine Channels",
+      "name": "chanop",
+      "description": "⊞  - Takes the first input and combines its channels, then the second input and combines its channels, and so on."
+    },
+    {
+      "page": "Logic",
+      "label": "Combine CHOPs",
+      "name": "chopop",
+      "description": "⊞  - Combine CHOPs combines the first channels of each  CHOP , the second channels of each  CHOP , etc.. Channels between inputs can be combined by number or name. Combining (Logic) Operations are:"
+    },
+    {
+      "page": "Logic",
+      "label": "And",
+      "name": "and",
+      "description": "On if all inputs are on, otherwise off."
+    },
+    {
+      "page": "Logic",
+      "label": "Or",
+      "name": "or",
+      "description": "On if at least one input is on, otherwise off."
+    },
+    {
+      "page": "Logic",
+      "label": "Exclusive Or",
+      "name": "xor",
+      "description": "On if one input on, but not more than one."
+    },
+    {
+      "page": "Logic",
+      "label": "Not And",
+      "name": "nand",
+      "description": "Off if all inputs are on, otherwise on."
+    },
+    {
+      "page": "Logic",
+      "label": "Not Or",
+      "name": "nor",
+      "description": "Off if at least one input is on, otherwise on."
+    },
+    {
+      "page": "Logic",
+      "label": "Equivalence",
+      "name": "eqv",
+      "description": "On if inputs are equal (all on or off), otherwise off."
+    },
+    {
+      "page": "Logic",
+      "label": "Lowest Index On",
+      "name": "lowest",
+      "description": "Gives the lowest index of the channel that is currently on,"
+    },
+    {
+      "page": "Logic",
+      "label": "Highest Index On",
+      "name": "highest",
+      "description": "Gives the highest index of the channel that is currently on on,"
+    },
+    {
+      "page": "Logic",
+      "label": "Match by",
+      "name": "match",
+      "description": "⊞  - Channels are matched between inputs by Channel Name or Channel Number."
+    },
+    {
+      "page": "Logic",
+      "label": "Align",
+      "name": "align",
+      "description": "⊞  - Inputs that don't start at the same frame can be aligned. Se the section, Align Options."
+    },
+    {
+      "page": "Logic",
+      "label": "Bounds",
+      "name": "bound",
+      "description": "⊞  - Set lower and upper bounds for when Convert Input is set to  Off When Outside Bounds ."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "Rename from",
+      "name": "commonrenamefrom",
+      "description": "The channel pattern to rename. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Rename to",
+      "name": "commonrenameto",
+      "description": "The replacement pattern for the names. The default parameters do not rename the channels. See  Pattern Replacement ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Names:  c[1",
+      "description": "10:2] ambient"
+    },
+    {
+      "page": "Common",
+      "label": "Rename To:  b[1",
+      "description": "5] amb    This example fetches channels  c1 c3 c5 c7 c9  and  ambient ."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "which actually should be called one value because this is basically a static value I'm using to invert. Um if id known a little bit better about how to do this stuff when I made this network, I would have created an attribute earlier down the chain which would have fed in and I wouldn't have had to make this this uniform. (12:00) But that's kind of something that you know as you learn this framework you get better at. But basically in this combination, in this combine tab, I've got a bunch of logic here that's basically like when the life value exceeds life max, I do a bunch of steps to reset that particle. And so basically what that means is I'm checking to see if I'm staying or not staying. (12:25) And and then I eventually do a reset, which moves that particle back to its original position. I had to do a little bit more at the end just to make sure I'm resetting also the the reset. So before I added this section and I can just take this out so you can see what happens once everything"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

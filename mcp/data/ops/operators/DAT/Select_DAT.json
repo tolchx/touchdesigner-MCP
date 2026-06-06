@@ -1,0 +1,411 @@
+{
+  "family": "DAT",
+  "pageTitle": "Select DAT",
+  "pageSlug": "Select_DAT",
+  "url": "https://docs.derivative.ca/Select_DAT",
+  "tdOpTypeGuess": "selectDAT",
+  "summary": "[  edit  ]\nThe Select  DAT  allows you to fetch a  DAT  from any other location in the project, and to select any subset of rows and columns if it is a table.\nselectDAT_Class\nContents\n1   Summary\n2   Parameters - Select Page\n3   Parameters - Common Page\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common DAT Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Select",
+      "label": "DAT",
+      "name": "dat",
+      "description": "The  path  of the  DAT  being referenced."
+    },
+    {
+      "page": "Select",
+      "label": "Include First Row",
+      "name": "firstrow",
+      "description": "Forces the first row to be selected even if it is not specified by the Select Rows settings."
+    },
+    {
+      "page": "Select",
+      "label": "Include First Col",
+      "name": "firstcol",
+      "description": "Forces the first column to be selected even if it is not specified by the Select Cols settings."
+    },
+    {
+      "page": "Select",
+      "label": "Select Rows",
+      "name": "extractrows",
+      "description": "⊞  - This parameter allows you to pick different ways of specifying the rows selected."
+    },
+    {
+      "page": "Select",
+      "label": "All",
+      "name": "all",
+      "description": "All rows selected."
+    },
+    {
+      "page": "Select",
+      "label": "by Name",
+      "name": "byname",
+      "description": "Rows selected using Start Row Name and End Row Name parameters."
+    },
+    {
+      "page": "Select",
+      "label": "by Index",
+      "name": "byindex",
+      "description": "Rows selected using Start Row Index and End Row Index parameters."
+    },
+    {
+      "page": "Select",
+      "label": "by Start Name, End Index",
+      "name": "bynameindex",
+      "description": "Rows selected using Start Row Name and End Row Index parameters."
+    },
+    {
+      "page": "Select",
+      "label": "by Start Index, End Name",
+      "name": "byindexname",
+      "description": "Rows selected using Start Row Index and End Row Name parameters."
+    },
+    {
+      "page": "Select",
+      "label": "by Values",
+      "name": "bynames",
+      "description": "Rows selected by specifying the row values explicitly."
+    },
+    {
+      "page": "Select",
+      "label": "by Condition",
+      "name": "byexpr",
+      "description": "Rows selected by an expression to be evaluated for the from column."
+    },
+    {
+      "page": "Select",
+      "label": "Start Row Name",
+      "name": "rownamestart",
+      "description": "Specify the row name to start the selection range from."
+    },
+    {
+      "page": "Select",
+      "label": "Start Row Index",
+      "name": "rowindexstart",
+      "description": "Specify the row index to start the selection range from."
+    },
+    {
+      "page": "Select",
+      "label": "End Row  Name",
+      "name": "rownameend",
+      "description": "Specify the row name to end the selection range."
+    },
+    {
+      "page": "Select",
+      "label": "End Row Index",
+      "name": "rowindexend",
+      "description": "Specify the row index to end the selection range."
+    },
+    {
+      "page": "Select",
+      "label": "Row Select Values",
+      "name": "rownames",
+      "description": "Specify actual row names that you want to select. You can use TouchDesigner's pattern matching (see wiki page  Pattern Matching ), for example  row[1-4]  will select all the rows names  row1  thru  row4 . Some characters like  '  need a  \\  in front of it."
+    },
+    {
+      "page": "Select",
+      "label": "Row Select Condition",
+      "name": "rowexpr",
+      "description": "Specify an expression that will be evaluated.  If the expression evaluates to true, the row will be selected."
+    },
+    {
+      "page": "Select",
+      "label": "By default, the  Python  expression is  re.match('.*',me.inputCell.val) != None .   '.*'  means match any character multiple times, so this expression matches all values.  If you want to match the parent's operator name followed by any numeric number you can use  parent().name+'[0",
+      "description": "9]*' , where  '[0-9]*'  matches any numerical string.   '.*'+parent().name+'.*'  will match any cell that contains the operator's parent name.  You can check   Regular Expression Operations  for additional information on how to use the Python Regular  Expression  module."
+    },
+    {
+      "page": "Select",
+      "label": "From Column",
+      "name": "fromcol",
+      "description": "When selecting rows by values, this parameter selects which column to use when matching cell values to Selected Row Values to determine which rows are selected."
+    },
+    {
+      "page": "Select",
+      "label": "Select Cols",
+      "name": "extractcols",
+      "description": "⊞  - This parameter allows you to pick different ways of specifying the columns selected."
+    },
+    {
+      "page": "Select",
+      "label": "All",
+      "name": "all",
+      "description": "All columns selected."
+    },
+    {
+      "page": "Select",
+      "label": "by Name",
+      "name": "byname",
+      "description": "Columns selected using Start Col Name and End Col Name parameters."
+    },
+    {
+      "page": "Select",
+      "label": "by Index",
+      "name": "byindex",
+      "description": "Columns selected using Start Col Index and End Col Index parameters."
+    },
+    {
+      "page": "Select",
+      "label": "by Start Name, End Index",
+      "name": "bynameindex",
+      "description": "Columns selected using Start Col Name and End Col Index parameters."
+    },
+    {
+      "page": "Select",
+      "label": "by Start Index, End Name",
+      "name": "byindexname",
+      "description": "Columns selected using Start Col Index and End Col Name parameters."
+    },
+    {
+      "page": "Select",
+      "label": "by Values",
+      "name": "bynames",
+      "description": "Columns selected by specifying the column values explicitly."
+    },
+    {
+      "page": "Select",
+      "label": "by Condition",
+      "name": "byexpr",
+      "description": "Rows selected by an expression to be evaluated for the from row."
+    },
+    {
+      "page": "Select",
+      "label": "Start Col Name",
+      "name": "colnamestart",
+      "description": "Specify the column name to start the selection range from."
+    },
+    {
+      "page": "Select",
+      "label": "Start Col Index",
+      "name": "colindexstart",
+      "description": "Specify the column index to start the selection range from."
+    },
+    {
+      "page": "Select",
+      "label": "End Col Name",
+      "name": "colnameend",
+      "description": "Specify the column name to end the selection range."
+    },
+    {
+      "page": "Select",
+      "label": "End Col Index",
+      "name": "colindexend",
+      "description": "Specify the column index to end the selection range."
+    },
+    {
+      "page": "Select",
+      "label": "Col Select Values",
+      "name": "colnames",
+      "description": "Specify actual column names that you want to select. You can use TouchDesigner's pattern matching  (see wiki page  Pattern Matching ), for example  colvalue[1-4]  will select all the columns named  colvalue1  thru  colvalue4 .\tMatching some characters like  '  need a  \\  in front of it."
+    },
+    {
+      "page": "Select",
+      "label": "Col Select Condition",
+      "name": "colexpr",
+      "description": "Specify an expression that will be evaluated. If the expression evaluates to true, the column will be selected. See Row Select Condition for more details."
+    },
+    {
+      "page": "Select",
+      "label": "From Row",
+      "name": "fromrow",
+      "description": "When extracting columns by Specified Names, this parameter selects which row to use when matching cell values to Selected Col Values to determine which columns are selected."
+    },
+    {
+      "page": "Select",
+      "label": "Output",
+      "name": "output",
+      "description": "⊞  - Determines what format will be used for output from the  DAT ."
+    },
+    {
+      "page": "Select",
+      "label": "Input Data",
+      "name": "data",
+      "description": "Passes through data from first input without manipulation."
+    },
+    {
+      "page": "Select",
+      "label": "Strings",
+      "name": "string",
+      "description": "Evaluates input data as strings, including expanding any variable values to full strings."
+    },
+    {
+      "page": "Select",
+      "label": "Expressions",
+      "name": "expr",
+      "description": "Evaluates input data as expressions."
+    },
+    {
+      "page": "Common",
+      "label": "Language",
+      "name": "language",
+      "description": "⊞  - Select how the  DAT  decides which script language to operate on."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Node",
+      "name": "node",
+      "description": "The  DAT  uses it's own script language."
+    },
+    {
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "name": "extension",
+      "description": "⊞  - Select the file extension this  DAT  should expose to external editors."
+    },
+    {
+      "page": "Common",
+      "label": "dat",
+      "name": "dat",
+      "description": "various common file extensions."
+    },
+    {
+      "page": "Common",
+      "label": "From Language",
+      "name": "languageext",
+      "description": "pick extension from DATs script language."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specify a custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Extension",
+      "name": "customext",
+      "description": "Specifiy the custom extension."
+    },
+    {
+      "page": "Common",
+      "label": "Word Wrap",
+      "name": "wordwrap",
+      "description": "⊞  - Enable Word Wrap for Node Display."
+    },
+    {
+      "page": "Common",
+      "label": "Input",
+      "name": "input",
+      "description": "The  DAT  uses the inputs setting."
+    },
+    {
+      "page": "Common",
+      "label": "On",
+      "name": "on",
+      "description": "Turn on Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "Off",
+      "name": "off",
+      "description": "Turn off Word Wrap."
+    },
+    {
+      "page": "Common",
+      "label": "num_rows",
+      "description": "Number of rows in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "num_cols",
+      "description": "Number of columns in this  DAT ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "Art",
+      "description": "Net    •   Audio Devices    •   CHOP Execute    •   CHOP to    •   Clip    •   Convert    •   CPlusPlus    •   DAT   •    Execute    •   DAT Export   •   Error    •   EtherDream    •   Evaluate    •   Examine    •   Execute    •   FIFO    •   File In    •   File Out    •   Folder    •   In    •   Indices    •   Info    •   Insert    •   JSON    •   Keyboard In    •   Lookup    •   Media File Info    •   Merge    •   MIDI Event    •   MIDI In    •   Monitors    •   MPCDI    •   MQTT Client    •   Multi Touch In    •   NDI    •   Null    •   OP Execute    •   OP Find    •   OSC In    •   OSC Out    •   Out    •   Panel Execute    •   Parameter    •   Parameter Execute    •   ParGroup Execute    •   Perform    •   POP to    •   Render Pick    •   Reorder    •   Script    •   Select    •   Serial    •   Serial Devices    •   SocketIO    •   SOP to    •   Sort    •   Substitute    •   Switch    •   Table    •   TCP/IP    •   Text    •   Touch In    •   Touch Out    •   Transpose    •   TUIO In    •   UDP In    •   UDP Out    •   UDT In    •   UDT Out    •   Video Devices    •   Web Client    •   Web    •   Web Server    •   WebRTC    •   WebSocket    •   XML"
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "01-mcp-architecture.md",
+      "excerpt": "ner — arquitectura (Node + TouchDesigner) ## Componentes - **Servidor MCP (stdio)**: `touchdesigner/mcp/src/index.ts` Expone herramientas para ejecutar Python y consultar estado del editor y operadores. - **Cliente TD (HTTP)**: `touchdesigner/api/src/index.ts` Llama al servidor HTTP levantado dentro de TouchDesigner por el TOX. - **Servidor TD (Python/TOX)**: `touchdesigner/toe/src/TouchDesignerAPI.py` Expone endpoints: - `POST /execute` - `GET /editor/pane` - `GET /editor/selection` - `GET /operators?path=...` ## Tools MCP (existentes + extendidos) - `td_execute`: ejecuta Python en TD. - `td_pane`: estado del Network Editor. - `td_selection`: selección actual. - `td_operators`: lista hijos en un path. - `td_pops_query`: consulta la base local de POPs (sin tocar TD). ## Flujo de extremo a extremo 1. Host MCP arranca `node touchdesigner/mcp/dist/index.js`. 2. El MCP recibe requests de tools. 3. Para acciones en TD: `td-api` hace fetch a `http://localhost:${TDAPI_PO"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "tputs\") y modificar el número de puntos y primitivas. También soporta la escritura en el búfer de índices y tiene un modo de envío de shader \"Per Primitive Batch\".12 * GLSL Copy POP: Realiza copias de la geometría de entrada y aplica código GLSL personalizado a cada copia. Similar a Copy POP, puede usar un parámetro de \"número de copias\" o un POP de plantilla para la colocación. Un compute shader se ejecuta para cada tipo de elemento (puntos, vértices, primitivas) de una copia.19 * GLSL Select POP: Se utiliza para seleccionar y generar atributos de múltiples entradas POP, particularmente aquellos modificados por las \"Extra Outputs\" de GLSL Advanced POP.20 * Histogram POP: Toma un atributo de un solo componente (por ejemplo, P(1)) de su entrada y crea una distribución de frecuencia. Genera un nuevo POP con un número especificado de puntos (bins) y un atributo \"Count\", que indica cuántos valores de entrada caen en cada bin. Puede manejar valores fuera del rango definido.21 *"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ntradas, lo que sugiere que puede mezclar o interpolar datos de diferentes fuentes. • Experimental:Box POP: Un operador generador que crea una geometría de caja. • Experimental:Cache Blend POP: Se menciona en relación con el uso de atributos como 'Velocity' (Vel), lo que sugiere su rol en la mezcla de datos temporales o en animaciones. • Experimental:Cache POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Cache Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:CHOP to POP: Permite convertir datos de la familia CHOPs (Channel Operators) a datos de POPs. Esto es eficiente porque los POPs ya implementan muchas funciones de CHOPs directamente en la GPU, evitando conversiones de GPU a CPU y viceversa. • Experimental:Circle POP: Un operador generador que crea formas circulares. Puede generar puntos con sus primitivas correspond"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "tu red de operadores. Muy útil para organizar tu proyecto o para depurar, aislando partes de tu cadena de operaciones. * **Out POP (POP de Salida)** * **Función principal:** Permite **enviar datos POPs fuera** del componente donde se encuentra. * **Características clave:** * Cada Out POP dentro de un componente añade un **conector de salida** al componente padre. * Puedes conectar un POP directamente a su entrada o referenciar otro POP con el parámetro `Select POP`. * Es posible añadir una `Label` (etiqueta) para que se muestre al pasar el cursor por la salida del componente padre. * **Uso simple:** Cuando construyes estructuras complejas y anidadas de operadores, el Out POP te ayuda a pasar la información clave al siguiente nivel de tu proyecto. * **Particle POP (POP de Partículas)** * **Función principal:** Utilizado para **crear y controlar el movimiento de \"partículas\"** en simulaciones de sistemas de partículas. Una"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "e POP * **¿Qué hace?** Este operador es como una \"grabadora\" de geometría. Recibe datos POP en cada fotograma y **guarda los fotogramas más recientes en la memoria de la GPU** (tarjeta gráfica). * **Características clave:** * Puedes controlar la **cantidad de fotogramas** que guarda (`Cache Size`). * Permite **acceder a cualquiera de los fotogramas guardados** usando un `Output Index`. Esto es útil para crear efectos de retardo de tiempo. * Otros operadores como Cache Select POP y Cache Blend POP pueden acceder y combinar los datos almacenados en este Cache POP. * El parámetro **Step Size** te permite guardar datos solo cada X fotogramas (por ejemplo, cada 3 fotogramas), lo que reduce la memoria necesaria para cachés largos. * Los datos se guardan **sin comprimir** en la memoria de la GPU. * Puedes **reiniciar** la caché. --- #### 10. Cache Select POP * **¿Qué hace?** Este operador trabaja junto con un Cache POP. Su función es **selecc"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "ata which isn't super exciting but I could go in and this is maybe a showcase of how we might actually pack some kind of attribute together. Like let's say I did a math operation on this and then I said attribute combine and I'll actually start off with that going in there. (19:27) And I'll plug this in. So before I tweak this math, let's set up that attribute. And so we can see when I add in the second link, this in pops grays out, which means we have a second operator that sees. And so I can select P or L. And I'm going to select L. And I'm going to rename it to rotate. So now when I go to this section here, I've got my rotate one, two, and three. (20:01) And let's just say actually, let's just do that in my math. Let's try scaling that up to like 100. Aha. And also this is important, right? Like we see that not much is happening as I move this around. And this is because I'm looking at the P element. So let's actually look at that L element. (20:29) So now let's see if this actually wo"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

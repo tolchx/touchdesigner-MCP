@@ -1,0 +1,148 @@
+{
+  "pageTitle": "Tube POP",
+  "pageSlug": "Tube_POP",
+  "url": "https://docs.derivative.ca/Tube_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "tubePOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "radialdivisions",
+      "label": "Radial Divisions",
+      "type": "int",
+      "default": 24,
+      "description": "Number of sides around the tube circumference."
+    },
+    {
+      "name": "heightdivisions",
+      "label": "Height Divisions",
+      "type": "int",
+      "default": 1,
+      "description": "Number of segments along the tube height."
+    },
+    {
+      "name": "radius",
+      "label": "Radius",
+      "type": "float",
+      "default": 1,
+      "description": "Uniform radius (overrides top/bottom when used)."
+    },
+    {
+      "name": "topradius",
+      "label": "Top Radius",
+      "type": "float",
+      "default": 1,
+      "description": "Radius at the top of the tube."
+    },
+    {
+      "name": "bottomradius",
+      "label": "Bottom Radius",
+      "type": "float",
+      "default": 1,
+      "description": "Radius at the bottom of the tube."
+    },
+    {
+      "name": "height",
+      "label": "Height",
+      "type": "float",
+      "default": 1,
+      "description": "Total height of the tube."
+    },
+    {
+      "name": "closedtop",
+      "label": "Closed Top",
+      "type": "toggle",
+      "default": true,
+      "description": "Add a cap to the top of the tube."
+    },
+    {
+      "name": "closedbottom",
+      "label": "Closed Bottom",
+      "type": "toggle",
+      "default": true,
+      "description": "Add a cap to the bottom of the tube."
+    },
+    {
+      "name": "orientation",
+      "label": "Orientation",
+      "type": "menu",
+      "default": "Y",
+      "options": [
+        "Y",
+        "Z"
+      ],
+      "description": "Axis along which the tube extends."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de partículas complejos, simulaciones a gran escala y efectos visuales generativos que superan las capacidades de las metodologías tradicionales basadas en CP"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "de manejo de múltiples entradas con Attribute Combine POP, Math Combine POP, Math Mix POP, Blend POP y Switch POP.13 También se encontró una redirección a su página de documentación 47, pero sin contenido descriptivo. 6. Switch POP: Al igual que Merge POP, se indica que comparte la arquitectura de manejo de múltiples entradas con otros POPs combinadores.13 No se proporcionaron detalles adicionales. 7. Quantize POP: Se encontró una redirección a su página de documentación.48 Un tutorial de YouTube relacionado con la \"cuantificación\" de píxeles 49 no describe el operador POP en sí, sino un concepto visual. 8. Random POP: Se encontró una redirección a su página de documentación 50, pero sin contenido descriptivo. 9. Point Generator POP: Se encontraron redirecciones a su página de documentación.51 Aunque un tutorial de YouTube menciona el uso de un Point Generator POP para distribuir puntos 43, no se proporciona una descripción detallada de sus parámetros. 10. Points, Vertices and Primit"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de partículas complejos, simulaciones a gran escala y efectos visuales generativos que superan las capacidades de las metodologías tradicionales basadas en CP"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "largo del tiempo. • Experimental:Transform POP: Un operador esencial para mover, rotar y escalar puntos o geometrías. Puede usar atributos de \"peso\" (Weight) para aplicar transformaciones parciales a los puntos. Sus parámetros pueden ser controlados por otros atributos. Puede afectar puntos, vértices o primitivas dentro de un grupo específico. • Experimental:Trig POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Tube POP: Un operador generador que crea una geometría de tubo. • Experimental:Twist POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Aquí tienes un guion con voz en off para un video tutorial sobre los operadores POPs en TouchDesigner, enfatizando sus características, la capacidad de usar la GPU y el control efectivo de puntos: -------------------------------------------------------------------------------- (0) Intro - Título en pant"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "largo del tiempo. • Experimental:Transform POP: Un operador esencial para mover, rotar y escalar puntos o geometrías. Puede usar atributos de \"peso\" (Weight) para aplicar transformaciones parciales a los puntos. Sus parámetros pueden ser controlados por otros atributos. Puede afectar puntos, vértices o primitivas dentro de un grupo específico. • Experimental:Trig POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Tube POP: Un operador generador que crea una geometría de tubo. • Experimental:Twist POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Aquí tienes un guion con voz en off para un video tutorial sobre los operadores POPs en TouchDesigner, enfatizando sus características, la capacidad de usar la GPU y el control efectivo de puntos: -------------------------------------------------------------------------------- (0) Intro - Título en"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "largo del tiempo. • Experimental:Transform POP: Un operador esencial para mover, rotar y escalar puntos o geometrías. Puede usar atributos de \"peso\" (Weight) para aplicar transformaciones parciales a los puntos. Sus parámetros pueden ser controlados por otros atributos. Puede afectar puntos, vértices o primitivas dentro de un grupo específico. • Experimental:Trig POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Tube POP: Un operador generador que crea una geometría de tubo. • Experimental:Twist POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. Aquí tienes un guion con voz en off para un video tutorial sobre los operadores POPs en TouchDesigner, enfatizando sus características, la capacidad de usar la GPU y el control efectivo de puntos: -------------------------------------------------------------------------------- (0) Intro - Título en pant"
+    }
+  ],
+  "useCases": [
+    "Light beam and cone visualization",
+    "Cylindrical particle emitters",
+    "Pipe and tube geometry for architectural viz",
+    "Column and pillar shapes"
+  ],
+  "examples": [
+    {
+      "name": "Light Beam Cone",
+      "description": "Tube POP (Top=0.1, Bottom=2.0, Height=3) → GLSL POP (glow shader)",
+      "difficulty": "intermediate"
+    },
+    {
+      "name": "Cylindrical Emitter",
+      "description": "Tube POP (Height=2, Caps=Off) → Particle POP (emit from surface)",
+      "difficulty": "beginner"
+    },
+    {
+      "name": "Animated Pipe",
+      "description": "Tube POP → Noise POP (deform) → Transform POP (scale animation)",
+      "difficulty": "intermediate"
+    }
+  ],
+  "commonCombinations": [
+    "Tube POP → Noise POP (deform tube surface)",
+    "Tube POP → Particle POP (cylindrical emitter)",
+    "Tube POP → GLSL POP (custom shaders on tube)",
+    "Tube POP → Transform POP (animate size/position)"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Want hollow tube",
+      "solution": "Disable Closed Top and Closed Bottom."
+    },
+    {
+      "problem": "Want cone shape",
+      "solution": "Set Top Radius ≠ Bottom Radius (e.g., Top=0, Bottom=1)."
+    },
+    {
+      "problem": "Tube looks faceted",
+      "solution": "Increase Radial Divisions (try 48 or higher)."
+    }
+  ],
+  "description": "GPU-accelerated tube/cylinder geometry generator. Creates configurable cylinders with independent top/bottom radii for cones, pipes, and light beams. Supports optional caps and height divisions."
+}

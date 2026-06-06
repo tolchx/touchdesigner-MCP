@@ -1,0 +1,407 @@
+{
+  "family": "SOP",
+  "pageTitle": "Primitive SOP",
+  "pageSlug": "Primitive_SOP",
+  "url": "https://docs.derivative.ca/Primitive_SOP",
+  "tdOpTypeGuess": "primitiveSOP",
+  "summary": "[  edit  ]\nThe  Primitive   SOP  is like the  Point SOP  but manipulates a  primitive 's position, size, orientation, color, alpha, in addition to primitive-specific attributes, such as reversing primitive normals. The  Primitive   SOP  also lets you create custom primitive attributes.\nYou can also apply parametric affine transformations to a profile by using this  SOP . You can also use it to open, close, reverse, and cycle the profile curves.\nNote:  When applying transformations to a profile, you can only rotate about the Z axis because the projected curve is a planar curve that lives in the domain of the surface. Therefore it wouldn't make any sense to allow rotations in X or Y for profiles.\nTransformation of Primitives vs Profiles\nA Bezier surface is a single primitive, as is a NURBS surface, while a polygon mesh can consist of hundreds of individual primitives. Care must be taken to ensure the desired result. Profiles can be translated, rotated, and scaled along with 3D primitives. The Z component of translation and scaling is ignored. The X and Y components would be interpreted as U and V values because they apply to the space in which profiles are defined.\nExample - Mapping a Texture Inside a Sphere\nThere are many uses for the  Primitive   SOP . Normally, if you apply a texture onto a sphere, it is mapped onto the outside surface because the U surface normals point outwards by default. If you wanted to map the texture onto the inside of the sphere instead, you could simply run the sphere geometry through a  Primitive   SOP , and select Reverse U (i.e. the surface normals) in the Face/Hull page >  Vertex  menu.\nprimitiveSOP_Class\nContents\n1   Summary\n1.1   Transformation of Primitives vs Profiles\n1.2   Example - Mapping a Texture Inside a Sphere\n2   Parameters - Primitive Page\n3   Parameters - Transform Page\n4   Parameters - Attributes Page\n5   Parameters - Face/Hull Page\n6   Parameters - Meta Page\n7   Parameters - Particles Page\n8   Operator Inputs\n9   Info CHOP Channels\n9.1   Common SOP Info Channels\n9.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Primitive",
+      "label": "Source  Group",
+      "name": "group",
+      "description": "If there are input groups, specifying a group name in this field will cause this  SOP  to act only upon the group specified. You can specify profile curves within the group by providing a profile pattern (e.g. *.3 specifies the fourth profile in all spline surfaces)."
+    },
+    {
+      "page": "Primitive",
+      "label": "Template  Group",
+      "name": "templategrp",
+      "description": "A subset of template points to transform to."
+    },
+    {
+      "page": "Transform",
+      "label": "Do Transformation",
+      "name": "doxform",
+      "description": "When checked, allows transformations to occur."
+    },
+    {
+      "page": "Transform",
+      "label": "Rotate to Template",
+      "name": "dorot",
+      "description": "⊞  - A template can be specified using the second input of the  Primitive   SOP . When set to On, this template can be used to transform each primitive to the location and orientation of the template point. This is similar to what the  Copy SOP  does except that the actual primitives are transformed, not copies made."
+    },
+    {
+      "page": "Transform",
+      "label": "Off",
+      "name": "off",
+      "description": "Don't rotate."
+    },
+    {
+      "page": "Transform",
+      "label": "On",
+      "name": "on",
+      "description": "The primitive gets rotated as if its normal was (0,0,1), and is meant to point the same direction as the template normal."
+    },
+    {
+      "page": "Transform",
+      "label": "Match Normals",
+      "name": "match",
+      "description": "Rotates the primitive so that its real normal lines up with the normal of the template point."
+    },
+    {
+      "page": "Transform",
+      "label": "Transform Order",
+      "name": "xord",
+      "description": "⊞  - Sets the overall transform order for the transformations. The transform order determines the order in which transformations take place. Depending on the order, you can achieve different results using the exact same values. Choose the appropriate order from the menu."
+    },
+    {
+      "page": "Transform",
+      "label": "Rotate Order",
+      "name": "rord",
+      "description": "⊞  - Sets the order of the rotations within the overall transform order."
+    },
+    {
+      "page": "Transform",
+      "label": "Translate",
+      "name": "t",
+      "description": "⊞  - These three fields move the input geometry in the three axes. Profiles use tx and ty only."
+    },
+    {
+      "page": "Transform",
+      "label": "Rotate",
+      "name": "r",
+      "description": "⊞  - These three fields rotate the Source geometry in the three axes. Profiles use rz only."
+    },
+    {
+      "page": "Transform",
+      "label": "Scale",
+      "name": "s",
+      "description": "⊞  - These three fields scale the Source geometry in the three axes. Profiles use sx and sy only."
+    },
+    {
+      "page": "Transform",
+      "label": "Pivot",
+      "name": "p",
+      "description": "⊞  - The pivot point for the transformations. Profiles use px and py only."
+    },
+    {
+      "page": "Transform",
+      "label": "Lookat  Object",
+      "name": "lookat",
+      "description": "Selects the object the primitive should point towards. This performs the lookat in object space; if you need to a lookat in world space, use the lookat in the object's Transform page instead."
+    },
+    {
+      "page": "Transform",
+      "label": "Up-Vector",
+      "name": "upvector",
+      "description": "⊞  - Defines the orientation of the primitive along the X, Y, or Z axes."
+    },
+    {
+      "page": "Attributes",
+      "label": "Color",
+      "name": "doclr",
+      "description": "⊞  - If Keep is selected, the color attribute is left unchanged. If Add is selected, this parameter changes the color of input primitives according to diffuse color field. If No is selected, the color attribute is removed."
+    },
+    {
+      "page": "Attributes",
+      "label": "Color",
+      "name": "diff",
+      "description": "⊞  - The color to add."
+    },
+    {
+      "page": "Attributes",
+      "label": "Alpha",
+      "name": "alpha",
+      "description": "The alpha value to add."
+    },
+    {
+      "page": "Attributes",
+      "label": "Crease",
+      "name": "docrease",
+      "description": "⊞  - If Keep is selected, the crease attribute is left unchanged. If Add is selected, this parameter generates a crease attribute for the primitive. If No is selected, the crease attribute is removed."
+    },
+    {
+      "page": "Attributes",
+      "label": "Crease",
+      "name": "crease",
+      "description": "Attribute is used to set edge crease weights for subdivision surfaces (see  Subdivide SOP ). The Crease Weight attribute for a primitive sets all edges of the polygon to the value specified. On shared edges, the maximum of the two crease weights is used to define the sharpness of the subdivided surface. Crease weights should be larger than 0, with larger values defining sharper edges."
+    },
+    {
+      "page": "Attributes",
+      "label": "Custom Attrib",
+      "name": "attr",
+      "description": "Sequence of custom attributes to be added to the geometry created."
+    },
+    {
+      "page": "Attributes",
+      "label": "Name",
+      "name": "attr0name",
+      "description": "Creates a custom attribute with this name."
+    },
+    {
+      "page": "Attributes",
+      "label": "Size",
+      "name": "attr0size",
+      "description": "⊞  - The size of the attribute to create. It'll use however many values from the Value parameter as the size is."
+    },
+    {
+      "page": "Attributes",
+      "label": "Value",
+      "name": "attr0value",
+      "description": "⊞  - The value(s) to assign to the attribute."
+    },
+    {
+      "page": "Face/Hull",
+      "label": "Preserve Shape U",
+      "name": "pshapeu",
+      "description": "These options only become available once a type of clamping or closure has been selected."
+    },
+    {
+      "page": "Face/Hull",
+      "label": "Closure",
+      "description": "Change the closure and clamping of a face or hull."
+    },
+    {
+      "page": "Face/Hull",
+      "label": "Preserve Shape V",
+      "name": "pshapev",
+      "description": "These options only become available once a type of clamping or closure has been selected."
+    },
+    {
+      "page": "Face/Hull",
+      "label": "Closure",
+      "description": "Change the closure and clamping of a face or hull. The options are:"
+    },
+    {
+      "page": "Face/Hull",
+      "label": "Close U",
+      "name": "closeu",
+      "description": "⊞  - Close the primitive in U / V. Select from: Open, Closed Straight, Close Rounded, and Unroll. When you unroll a closed curve you duplicate the wrapped points (you make them unique) and turn the curve into an open curve. The shape of the curve does not change. Same goes for hulls, only there we unique entire rows and cols. This addresses a problem with texturing wrapped surfaces whereby the texture repeats itself in the wrapped portion of the surface."
+    },
+    {
+      "page": "Face/Hull",
+      "label": "Close V",
+      "name": "closev",
+      "description": "⊞  - Close the primitive in U / V. Select from: Open, Closed Straight, Close Rounded, and Unroll. When you unroll a closed curve you duplicate the wrapped points (you make them unique) and turn the curve into an open curve. The shape of the curve does not change. Same goes for hulls, only there we unique entire rows and cols. This addresses a problem with texturing wrapped surfaces whereby the texture repeats itself in the wrapped portion of the surface."
+    },
+    {
+      "page": "Face/Hull",
+      "label": "Clamp U",
+      "name": "clampu",
+      "description": "⊞  - Clamp the primitive in U / V. Select from: Clamp, Unclamp."
+    },
+    {
+      "page": "Face/Hull",
+      "label": "Clamp V",
+      "name": "clampv",
+      "description": "⊞  - Clamp the primitive in U / V. Select from: Clamp, Unclamp."
+    },
+    {
+      "page": "Face/Hull",
+      "label": "Vertex",
+      "name": "vtxsort",
+      "description": "⊞  - Reorder the vertices in a number of ways."
+    },
+    {
+      "page": "Face/Hull",
+      "label": "No change",
+      "name": "samevertex",
+      "description": "Does not affect the ordering of the vertices."
+    },
+    {
+      "page": "Face/Hull",
+      "label": "Reverse",
+      "name": "reverse",
+      "description": "Reverses both U and V for hulls, and just U for faces."
+    },
+    {
+      "page": "Face/Hull",
+      "label": "Reverse U",
+      "name": "reverseu",
+      "description": "Reverses column order of hulls."
+    },
+    {
+      "page": "Face/Hull",
+      "label": "Reverse V",
+      "name": "reversev",
+      "description": "Reverses row order of hulls."
+    },
+    {
+      "page": "Face/Hull",
+      "label": "Swap U and V",
+      "name": "swapuv",
+      "description": "Interchanges rows/columns while preserving topology."
+    },
+    {
+      "page": "Face/Hull",
+      "label": "Shift",
+      "name": "shift",
+      "description": "Cycles the vertices by \"U Offset\" and \"V Offset\"."
+    },
+    {
+      "page": "Face/Hull",
+      "label": "U Offset",
+      "name": "vtxuoff",
+      "description": "Cycles face or hull columns / rows when the Shift operation is selected."
+    },
+    {
+      "page": "Face/Hull",
+      "label": "V Offset",
+      "name": "vtxvoff",
+      "description": "Cycles face or hull columns / rows when the Shift operation is selected."
+    },
+    {
+      "page": "Meta",
+      "label": "Meta-Surface Weight",
+      "name": "metaweight",
+      "description": "When selected, allows meta-surface weighting."
+    },
+    {
+      "page": "Meta",
+      "label": "Weight",
+      "name": "doweight",
+      "description": "Enter weight of meta-surface here when Meta-surface Weight is selected."
+    },
+    {
+      "page": "Particles",
+      "label": "Particle Render Type",
+      "name": "doprender",
+      "description": "When On the Particle Type menu below allows section of particle render type."
+    },
+    {
+      "page": "Particles",
+      "label": "Particle Type",
+      "name": "prtype",
+      "description": "⊞  - Selects how the particles are rendered."
+    },
+    {
+      "page": "Particles",
+      "label": "Render as Lines",
+      "name": "lines",
+      "description": "Each particle will be rendered as a 2-point line, with the length determined based on the particles velocity. If the particle has no velocity it will just be a single pixel in size."
+    },
+    {
+      "page": "Particles",
+      "label": "Render as Point Sprites",
+      "name": "pointprites",
+      "description": "For use with the  Point Sprite MAT . Each particle is a square of pixels that always face the camera. The size of the square is determined by parameters in the Point Sprite and the  pscale  vertex/point attribute. The point sprites will have texture coordinates generated for them automatically also ((0,0) in the bottom left and (1,1) in the top right)."
+    },
+    {
+      "page": "Particles",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Particles",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Particles",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Particles",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Particles",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Particles",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Particles",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Particles",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Particles",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Particles",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Particles",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Particles",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Particles",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Particles",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Particles",
+      "label": "The sub",
+      "description": "Family  of  Component  types that are used to define and render 3D scenes. A  Geometry Component  is an Object that contains the 3D shapes to render. A  Camera COMP  and  Light COMP  are other Object types. Separately, \"Objects\" also refers to Python objects."
+    },
+    {
+      "page": "Particles",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ease in/out, aleatorias) en X, Y y Z. También puede añadir nuevos atributos o modificar los existentes basándose en estas funciones.14 Permite controlar el número de puntos, el comportamiento cíclico, la conectividad (tira de línea, líneas, primitivas de punto) y varios parámetros para dar forma a las curvas (por ejemplo, número de ciclos, fase, exponente, mapeo de rango).14 * Sprinkle POP: Crea puntos ya sea en la superficie o dentro del volumen de un POP de entrada. Ofrece métodos como \"Per Primitive\" para la distribución en superficie y \"Volume\" para la distribución aleatoria dentro de un volumen cerrado.15 También puede crear primitivas de punto por defecto, lo que puede desactivarse para ahorrar memoria si solo se necesita una lista de puntos.15 Los generadores como Pattern POP y Sprinkle POP 14 son fundamentales. Resaltan la naturaleza procedural de TouchDesigner y la configuración inicial de datos para los POPs. Estos operadores proporcionan el \"material bruto\" inicial (puntos, formas"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "do para este tipo de datos. • Experimental:Point Generator POP: Un operador generador que crea nubes de puntos directamente. Puede generar puntos con sus primitivas correspondientes. • Experimental:Point POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador más allá de su listado. • Experimental:Polygonize POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Primitive POP: Puede eliminar las primitivas de un POP, dejando solo los puntos. También permite crear tiras de línea. Si lo deseas, puedes usarlo para crear primitivas en su pestaña correspondiente. • Experimental:Projection POP: Permite crear y modificar atributos de color y textura. Al igual que el Normalize POP, genera atributos normalizados. • Experimental:Proximity POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Qu"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "to)** * **Función principal:** Un generador que crea **solamente puntos** y no tiene entradas. Es útil para crear POPs de un solo punto que pueden actuar como \"uniforms\" (valores globales) en otros operadores. * **Características clave:** * Puedes crear **cualquier atributo** en la página `Setup` y darles valores en la página `Points`. * Por cada punto en la lista, crea una **primitiva de punto** en la lista de primitivas, a menos que desactives `Create Point Primitives`. * Útil para crear POPs sin el atributo de posición (`P`), por ejemplo, solo con un atributo de `Color`. * **Uso simple:** Crear puntos simples con atributos específicos que pueden ser usados para controlar otras operaciones, como definir el origen de una fuerza o un color global. * **Polygonize POP (POP de Poligonización)** * **Función principal:** Toma una imagen **TOP** y, utilizando solo su canal rojo, crea una **primitiva de línea de 2 puntos** donde hay una"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "Merge POP y Switch POP. --- #### 4. Attribute Convert POP * **¿Qué hace?** Permite **copiar un atributo de un tipo de geometría a otro**. Por ejemplo, puedes tomar un atributo que está en una primitiva (como el color de una cara de un cubo) y copiarlo a los puntos de esa primitiva. * **Características clave:** * Realiza operaciones de conversión como: * **Point to Vertex** (punto a vértice) * **Vertex to Point** (vértice a punto) * **Point to Primitive** (punto a primitiva) * **Primitive to Point** (primitiva a punto) * **Vertex to Primitive** (vértice a primitiva) * **Primitive to Vertex** (primitiva a vértice) * Si la conversión es ambigua (por ejemplo, un punto es compartido por varias primitivas), el POP elige un valor y no da un error. * Puedes **eliminar el atributo original** después de la conversión. * Puede generar una advertencia o un error si el atributo que estás creando ya exi"
+    },
+    {
+      "source": "POPs Investigation and Workshop Plan.markdown",
+      "excerpt": "n explores Point Operators (POPs), a new GPU-accelerated operator family in TouchDesigner, to prepare for an informative workshop. POPs create and modify 3D data, replacing the older SOPs (Surface Operators) with enhanced performance and flexibility. ## 1. What are POPs? - **Definition**: POPs (Point Operators) are a family of operators in TouchDesigner that run on the GPU, leveraging high parallelism to create and manipulate 3D data efficiently. - **Purpose**: They generate and modify points, primitives, and attributes for rendering (via Render TOP) or output to external devices like LED arrays or lasers. - **Significance**: POPs replace SOPs with GPU acceleration, memory optimization, and integration with modern workflows (e.g., USD, FBX). ## 2. Core Components ### Points - Every POP contains a set of points with attributes. - **Key Attribute**: `P` (Position), a 3D vector (float3) defining a point’s location. - **Other Attributes**: Include `Color` (float4: red, green, blue, alpha), `Norma"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

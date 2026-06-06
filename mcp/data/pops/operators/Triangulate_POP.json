@@ -1,0 +1,87 @@
+{
+  "pageTitle": "Triangulate POP",
+  "pageSlug": "Triangulate_POP",
+  "url": "https://docs.derivative.ca/Triangulate_POP",
+  "experimental": true,
+  "tdOpTypeGuess": "triangulatePOP",
+  "inputs": ["input0"],
+  "description": "New in TD 2025.3: Triangulates closed line strips into surface geometry made of triangles. Two modes: Convex only (highly parallel, fast) and Convex and Concave (slower but handles complex shapes). Primarily used to surface the output of Trace POP or other line-strip generators.",
+  "parameters": [
+    {
+      "name": "Triangulation Mode",
+      "type": "Menu",
+      "options": ["Convex Only", "Convex and Concave"],
+      "default": "Convex Only",
+      "description": "Convex Only is fast and highly parallel but only works for convex shapes. Convex and Concave handles any closed line strip but may be slower for long strips."
+    },
+    {
+      "name": "Remove Zero Area",
+      "type": "Toggle",
+      "default": 1,
+      "description": "New in 2025.3: Removes triangles with zero or near-zero area that can appear at degenerate input points."
+    },
+    {
+      "name": "Hole Detection",
+      "type": "Toggle",
+      "default": 0,
+      "description": "When enabled, detects interior holes in the triangulated surface and excludes them from the output."
+    }
+  ],
+  "attributes": [],
+  "useCases": [
+    "Converting closed line strips to filled triangle meshes",
+    "Surfacing Trace POP output for rendering",
+    "Creating meshes from line strip outlines for LED walls",
+    "Surface generation from contour lines in scientific visualization",
+    "Filling enclosed 2D shapes for projection mapping"
+  ],
+  "examples": [
+    {
+      "name": "Trace to Mesh",
+      "description": "Movie File In TOP → Trace POP (Auto) → Triangulate POP (Convex Only) → Render TOP",
+      "difficulty": "beginner"
+    },
+    {
+      "name": "Complex Shape Surfacing",
+      "description": "Trace POP (Threshold) → Triangulate POP (Convex and Concave) → Normal POP → Render for lit surface",
+      "difficulty": "intermediate"
+    },
+    {
+      "name": "Contour Line Filling",
+      "description": "Line POP (closed shape) → Triangulate POP → Noise POP displacement → Render for organic surface",
+      "difficulty": "advanced"
+    }
+  ],
+  "commonCombinations": [
+    "Trace POP → Triangulate POP (line trace to filled mesh)",
+    "Triangulate POP → Normal POP (compute surface normals for lighting)",
+    "Triangulate POP → Render TOP (render triangulated surface)",
+    "Triangulate POP → Noise POP (displace triangulated surface)",
+    "Text POP (Triangles) → Triangulate POP (fill text outlines)",
+    "Triangulate POP → GLSL POP (custom surface manipulation)"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Triangulation produces holes or gaps",
+      "solution": "Ensure input line strips are fully closed (last point connects to first). Switch to Convex and Concave mode for non-convex shapes."
+    },
+    {
+      "problem": "Output is very slow for long line strips",
+      "solution": "Convex and Concave mode is slower for long strips. Try reducing the number of points with Line Resample POP first, or use Convex Only if shapes are simple."
+    },
+    {
+      "problem": "Zero-area triangles cause visual artifacts",
+      "solution": "Enable the Remove Zero Area toggle (enabled by default) to filter degenerate triangles."
+    },
+    {
+      "problem": "No output from Triangulate POP",
+      "solution": "Verify input contains closed line strips (not open polylines or individual points). Check that the line strip forms a valid closed loop."
+    }
+  ],
+  "localNotes": [
+    {
+      "source": "Docs/115-td-2025-release-notes-knowledge.md",
+      "excerpt": "Triangulate POP: New POP to triangulate closed line strips. Two modes: Convex only (highly parallel, fast) and Convex and Concave (can be slow for longer line strips)."
+    }
+  ]
+}

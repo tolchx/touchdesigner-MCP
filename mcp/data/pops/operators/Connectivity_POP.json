@@ -1,0 +1,106 @@
+{
+  "pageTitle": "Connectivity POP",
+  "pageSlug": "Connectivity_POP",
+  "url": "https://docs.derivative.ca/Connectivity_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "connectivityPOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "Connectivity",
+      "type": "Menu",
+      "options": [
+        "None",
+        "Point Primitives",
+        "Lines",
+        "Line Strips",
+        "Line Strip per Plane",
+        "Zig Zag per Plane",
+        "Spiral per Plane",
+        "Triangles",
+        "Alternating Triangles",
+        "Quadrilaterals"
+      ],
+      "default": "Line Strips",
+      "description": "Primitive type. Zig Zag and Spiral are unique to this operator."
+    },
+    {
+      "name": "First Dimension Index",
+      "type": "Int",
+      "default": 0,
+      "description": "First dimension index for 2D connectivity modes."
+    },
+    {
+      "name": "Second Dimension Index",
+      "type": "Int",
+      "default": 1,
+      "description": "Second dimension index for 2D modes."
+    },
+    {
+      "name": "First Dimension Closed",
+      "type": "Toggle",
+      "default": 0,
+      "description": "Wrap first dimension to create closed loops."
+    },
+    {
+      "name": "Second Dimension Closed",
+      "type": "Toggle",
+      "default": 0,
+      "description": "Wrap second dimension to create closed loops."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Full data.txt",
+      "excerpt": "ntos y vértices, las primitivas también pueden tener sus propios Atributos de Primitiva. Por ejemplo, un atributo Color aplicado a una primitiva afectaría a toda la primitiva. Creación y Manipulación de Primitivas Varios operadores POP permiten la creación y manipulación de primitivas: • Los POPs generadores como Circle POP, Torus POP, Tube POP, Point Generator POP, Box POP, Rectangle POP y Sphere POP pueden crear puntos con sus primitivas correspondientes, especialmente cuando su parámetro Connectivity está configurado adecuadamente. • El Primitive POP puede usarse para eliminar primitivas, dejando solo los puntos, a menos que se creen nuevas primitivas en su pestaña de Primitivas. • El Convert POP se utiliza específicamente para convertir entre diferentes tipos de primitivas. Diferencias entre POPs y SOPs en cuanto a Primitivas Los POPs representan una revisión del concepto de geometría 3D en comparación con los SOPs (que operan en la CPU): • Tipos de Superficie: En POPs, las superfi"
+    }
+  ],
+  "useCases": [
+    "Find connected components",
+    "Group by connectivity",
+    "Topology analysis",
+    "Creating line strips from point clouds",
+    "Making zig-zag LED patterns",
+    "Spiral line art from grid data",
+    "Connecting multi-dimensional point arrays"
+  ],
+  "examples": [
+    {
+      "name": "Connected Groups",
+      "description": "Connectivity POP to identify separate mesh pieces",
+      "difficulty": "intermediate"
+    },
+    {
+      "name": "Zig-Zag LED Pattern",
+      "description": "Grid POP (rows x cols) -> Connectivity POP (Zig Zag per Plane) -> Render for LED wall",
+      "difficulty": "beginner"
+    },
+    {
+      "name": "Spiral Line Art",
+      "description": "Sphere POP -> Connectivity POP (Spiral per Plane) -> Noise POP for organic spirals",
+      "difficulty": "intermediate"
+    }
+  ],
+  "commonCombinations": [
+    "Any POP to Connectivity POP",
+    "Grid POP -> Connectivity POP (re-connect with different pattern)",
+    "Dimension POP -> Connectivity POP (multi-D connectivity)",
+    "Connectivity POP -> Noise POP (displace connected geometry)"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Wrong connectivity",
+      "solution": "Check connectivity type (points vs primitives)."
+    },
+    {
+      "problem": "Points not connecting correctly",
+      "solution": "Check dimension indices match your point layout. Use Dimension POP to verify structure."
+    },
+    {
+      "problem": "Spiral/Zig Zag looks wrong",
+      "solution": "Ensure First/Second Dimension indices are correct for your grid orientation."
+    }
+  ],
+  "description": "Re-connects input points with new primitives. Works on multi-dimensional POPs (rows, columns, slices). Offers line strips, zig-zag, spiral, triangles, quads, and more connectivity patterns unique to this operator."
+}

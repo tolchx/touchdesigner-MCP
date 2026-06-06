@@ -1,0 +1,26 @@
+{
+  "family": "SOP",
+  "pageTitle": "Hole SOP",
+  "pageSlug": "Hole_SOP",
+  "url": "https://docs.derivative.ca/Hole_SOP",
+  "tdOpTypeGuess": "holeSOP",
+  "summary": "[  edit  ]\nThe Hole  SOP  is for making holes where faces are enclosed, even if they are not in the same plane. It can also remove existing holes from the input geometry.\nThe holes are made by searching for faces which are enclosed by other faces and creating bridges to the interior faces. It offers more flexibility than either the  Extrude SOP  or  Divide SOP 's hole-making capabilities because it can deal with interior faces which are not exactly in the same orientation as the exterior ones. It can also remove existing bridges that it finds in the input geometry if needed.\nNote:  This  SOP  works with Polygonal and Bezier geometry types only. NURBS surfaces will be converted internally to Beziers.\nholeSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "ng things and we can turn up or down how connected things are. So now things start to connect when they kind of get pushed apart and there's some of these blocks. But we can also set up a minimum distance. So basically like it won't connect unless it's within these these these values. (22:22) We can also play around like how many lines per point and max distance. So you can set things up that are going to be these really big chains. So this is actually like super effective. And basically this whole field that we've kind of tried working in before of creating this type of plexus effect is really like augmented by this. (22:47) Let's call that like make that blue. Like it's really augmented by this technique where we can just sort of add things in really really fast. Okay, this isn't really meant to be about making things look nice, but I have a problem with that. So, I'm just going to color these yellow in here and make that line sprite bigger. (23:06) Obviously you could do stuff to um"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

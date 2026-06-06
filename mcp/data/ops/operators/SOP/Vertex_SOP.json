@@ -1,0 +1,205 @@
+{
+  "family": "SOP",
+  "pageTitle": "Vertex SOP",
+  "pageSlug": "Vertex_SOP",
+  "url": "https://docs.derivative.ca/Vertex_SOP",
+  "tdOpTypeGuess": "vertexSOP",
+  "summary": "[  edit  ]\nThe  Vertex   SOP  allows you to edit/create attributes on a per-vertex (rather than per-point) basis. It is similar to the  Point SOP  in this respect. It supports two inputs, and will inherit the first input source by default.  If the second input have less primitives than the first input, it will cycle through the primitives and match the vertices.  If the primitive in the first input has more vertices than the matching primitive in the second input, the extra vertices are ignored.\nThere are currently three vertex attributes supported:\nDiffuse Color\nAlpha\nTexture Coordinates\nWhen the attribute is defined, it can only occur on either points or vertices, but not both. Thus, if the input geometry has a point attribute for diffuse color, the attribute will automatically be \"elevated\" to be a vertex attribute (if diffuse colors are added in the  Vertex   SOP ).\nThe  SOP  processes every vertex of every primitive. For each vertex processed, there are variables which allow you to know the:\nVertex  number of the primitive being processed\nThe number of vertices in the primitive being processed\nThe point which is referenced by the vertex\nThe primitive which contains the vertex\nThe total number of points\nThe total number of primitives\nThere are also local variables to find out the values of some point attributes (i.e. position, normal - if they exist), in addition to vertex attributes.  To access the attributes of the second input source, append a 2 to the variable.\nvertexSOP_Class\nContents\n1   Summary\n2   Parameters - Vertex Page\n3   Parameters - Attributes Page\n4   Examples\n4.1   Texture Offsets\n5   Operator Inputs\n6   Info CHOP Channels\n6.1   Common SOP Info Channels\n6.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    },
+    {
+      "index": 1,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Vertex",
+      "label": "Group",
+      "name": "group",
+      "description": "If there are input groups, specifying a group name in this field will cause this   SOP   to act only upon the group specified. Accepts patterns, as described in  Pattern Matching ."
+    },
+    {
+      "page": "Vertex",
+      "label": "Color",
+      "name": "doclr",
+      "description": "⊞  - Select between keeping the color, adding new color, or using no color for vertex color attributes from incoming geometry."
+    },
+    {
+      "page": "Vertex",
+      "label": "Color",
+      "name": "diff",
+      "description": "⊞  - If you select 'Add Color' from the menu above, Cd color vertex attributes will be added/modified in the  SOP . Enter expressions below to control the values of the point colors. The attributes to modify are:  me.inputColor[0]  for red,  me.inputColor[1]  for green,  me.inputColor[2]  for blue, and  me.inputColor[3]  for alpha. If you select 'No Color' from the menu above, the Cd color vertex attribute will be removed from the  SOP ."
+    },
+    {
+      "page": "Vertex",
+      "label": "Alpha",
+      "name": "alpha",
+      "description": "Control the alpha attribute in the same manner as the rgb colors above. Alpha is Cd[3] and comes from input via  me.inputColor[3]"
+    },
+    {
+      "page": "Vertex",
+      "label": "Texture",
+      "name": "douvw",
+      "description": "⊞  - Select between keeping the texture coordinates, adding new texture coordinates, or using no texture coordinates for the vertex texture attributes from incoming geometry."
+    },
+    {
+      "page": "Vertex",
+      "label": "Texture",
+      "name": "map",
+      "description": "⊞  - If you select 'Add Texture' from the menu above, uv texture coordinate vertex attributes will be added/modified in the  SOP . Enter expressions here to control the values of the vertex texture coordinates here. The attributes to modify are:  me.inputTexture[0] ,  me.inputTexture[1]  and  me.inputTexture[2] . If you select 'No Texture' from the menu above, the uv texture coordinates vertex attribute will be removed from the  SOP ."
+    },
+    {
+      "page": "Vertex",
+      "label": "Crease",
+      "name": "docrease",
+      "description": "⊞  - Select between keeping the crease, adding new crease, or using no crease for creaseweight attribute from incoming geometry."
+    },
+    {
+      "page": "Vertex",
+      "label": "The  Crease Weight  attribute can be used to set individual edge crease weights for sub",
+      "description": "division surfaces (see  Subdivide SOP  ). This vertex attribute defines the weight for the edge which goes from that vertex to the next vertex in the polygon. For example, with a triangle (which has vertices 0, 1, 2), the attribute for vertex 1 defines the crease weight for the edge (1, 2). The attribute for vertex 2 defines the crease weight for edge (2, 0). The crease weight should be greater than 0. The larger the value for crease weights, the sharper the edge will be when sub-divided."
+    },
+    {
+      "page": "Vertex",
+      "label": "Crease",
+      "name": "crease",
+      "description": "If you select 'Add Crease' from the menu above, enter expressions here to control the values of the creaseweights here. The attribute to modify is: me.inputVertex.creaseWeight[0]. Values for the weight of the vertex can range from 0.0001 to infinity."
+    },
+    {
+      "page": "Attributes",
+      "label": "Custom Attribute",
+      "name": "attr",
+      "description": "Sequence of custom attributes to be added to the geometry created."
+    },
+    {
+      "page": "Attributes",
+      "label": "Name",
+      "name": "attr0name",
+      "description": "Creates a custom attribute with this name."
+    },
+    {
+      "page": "Attributes",
+      "label": "Type",
+      "name": "attr0type",
+      "description": "⊞  - The type of attribute created can be selected from this menu."
+    },
+    {
+      "page": "Attributes",
+      "label": "Value",
+      "name": "attr0value",
+      "description": "⊞  - Set the values of the Custom Attrib using these parameters."
+    },
+    {
+      "page": "Attributes",
+      "label": "You can have set of images in a  TOP , and apply all of them in one material to different parts of an object. This allows you to have a pre",
+      "description": "rendered animation clip with the clip playing at different speeds and time offsets on different surfaces."
+    },
+    {
+      "page": "Attributes",
+      "label": "You can adjust the material frame time by the first vertex/point texture W component (texture coordinated are U (horizontal), V (vertical) and W (one of a set of texture images). A texture (W) value of",
+      "description": "1 moves back in time 1 frame. This lets you apply different frames to many polygons simultaneously using the  Vertex   SOP , or  Point SOP ."
+    },
+    {
+      "page": "Attributes",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Attributes",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Attributes",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Attributes",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Attributes",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Attributes",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Attributes",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Attributes",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Attributes",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Attributes",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Attributes",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Attributes",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Attributes",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Attributes",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Attributes",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ntal:POP 5. What Are POPs? The New TouchDesigner Operator Family That Changes Everything, fecha de acceso: julio 1, 2025, https://www.youtube.com/watch?v=xCmn625J-vA 6. Experimental:Particle POP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:Particle_POP 7. Experimental:Points, Vertices and Primitives in POPs - Derivative, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:Points,_Vertices_and_Primitives_in_POPs 8. Vertex SOP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Vertex_SOP 9. POPs Experimental: Shape Morphs in TouchDesigner - YouTube, fecha de acceso: julio 1, 2025, https://www.youtube.com/watch?v=S921HzHMKxc 10. Experimental:Primitive POP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:Primitive_POP 11. Experimental:Math Mix POP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.de"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ina Matrix: Matrix Attribute (mat), Matrix Name (mat0name), Rows (mat0numrows), Columns (mat0numcols), Array (mat0isarray), Array Size (mat0arraysize), Qualifier (mat0qualifier) (None, Transform Matrix).1 * Página Rename: Rename Attribute (ren), From Attribute (ren0from), To Attribute (ren0to).1 * Página Duplicate: Duplicate Attribute (dup), Duplicate Attribute (dup0name), New Attribute Name (dup0new).1 * Página Delete: Delete Point Attributes (ptdel) (* para todos), Delete Vertex Attributes (vertdel) (* para todos), Delete Primitive Attributes (primdel) (* para todos).1 * Página Common: Bypass (bypass), Delete Input Attributes (delinputattrs), Parameter Color Space (parmcolorspace), Parameter Reference White (parmreferencewhite).1 * Copy POP: Crea copias de su geometría de entrada. Puede generar copias basándose en parámetros (número de copias, transformaciones acumulativas) o utilizando un POP de plantilla, donde los puntos de una entrada definen la ubicació"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ntal:POP 5. What Are POPs? The New TouchDesigner Operator Family That Changes Everything, fecha de acceso: julio 1, 2025, https://www.youtube.com/watch?v=xCmn625J-vA 6. Experimental:Particle POP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:Particle_POP 7. Experimental:Points, Vertices and Primitives in POPs - Derivative, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:Points,_Vertices_and_Primitives_in_POPs 8. Vertex SOP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Vertex_SOP 9. POPs Experimental: Shape Morphs in TouchDesigner - YouTube, fecha de acceso: julio 1, 2025, https://www.youtube.com/watch?v=S921HzHMKxc 10. Experimental:Primitive POP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.derivative.ca/Experimental:Primitive_POP 11. Experimental:Math Mix POP - TouchDesigner Documentation, fecha de acceso: julio 1, 2025, https://docs.de"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "nejar múltiples entradas es similar a la de otros POPs como Math Combine POP, Math Mix POP, Blend POP, Merge POP y Switch POP. --- #### 4. Attribute Convert POP * **¿Qué hace?** Permite **copiar un atributo de un tipo de geometría a otro**. Por ejemplo, puedes tomar un atributo que está en una primitiva (como el color de una cara de un cubo) y copiarlo a los puntos de esa primitiva. * **Características clave:** * Realiza operaciones de conversión como: * **Point to Vertex** (punto a vértice) * **Vertex to Point** (vértice a punto) * **Point to Primitive** (punto a primitiva) * **Primitive to Point** (primitiva a punto) * **Vertex to Primitive** (vértice a primitiva) * **Primitive to Vertex** (primitiva a vértice) * Si la conversión es ambigua (por ejemplo, un punto es compartido por varias primitivas), el POP elige un valor y no da un error. * Puedes **eliminar el atributo original** después de"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

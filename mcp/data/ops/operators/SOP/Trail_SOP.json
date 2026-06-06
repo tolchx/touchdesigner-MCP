@@ -1,0 +1,38 @@
+{
+  "family": "SOP",
+  "pageTitle": "Trail SOP",
+  "pageSlug": "Trail_SOP",
+  "url": "https://docs.derivative.ca/Trail_SOP",
+  "tdOpTypeGuess": "trailSOP",
+  "summary": "[  edit  ]\nThe Trail  SOP  takes an input  SOP  and makes a trail of each point of the input  SOP  over the past several frames, and connects the trails in different ways. It will generate trails of any input geometry, whether it is a cube translating, a deforming surface, or particles. This is useful for multi-frame ghosting effects and temporal modelling.\nWhen using a  Particle SOP  or  Spring SOP  as input, it is important to keep the trail increment to integer values. Otherwise, the trail will not work well.\ntrailSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Examples\n3.1   Velocity Computation\n3.2   Temporal Modelling\n4   Operator Inputs\n5   Info CHOP Channels\n5.1   Common SOP Info Channels\n5.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "9. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración por GPU. Esta familia de operadores, aunque aún en fase \"Experimental\", es fundamental para desarrollar sistemas de partículas complejos, simulaciones a gran escala y efectos visuales generativos que superan las capacida"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "onadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:TOP to POP: Permite convertir datos de la familia TOPs (Texture Operators) a datos de POPs, específicamente para recuperar nubes de puntos. • Experimental:Topology POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Torus POP: Un operador generador que crea una geometría de toroide (forma de dona). • Experimental:Trail POP: Crea un historial de movimiento de un punto a lo largo del tiempo, generando una tira de línea para cada punto. Esto te permite visualizar la trayectoria de una partícula o punto a lo largo del tiempo. • Experimental:Transform POP: Un operador esencial para mover, rotar y escalar puntos o geometrías. Puede usar atributos de \"peso\" (Weight) para aplicar transformaciones parciales a los puntos. Sus parámetros pueden ser controlados por otros atributos. Puede afectar puntos, vértices o prim"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "`Columns` (divisiones alrededor del anillo). * El `End Caps` (tapa de extremos) puede añadir triángulos o cuadrados para cerrar el volumen si creas un toro parcial. * Emite `Dimension` como metadatos para otros POPs. Puede generar normales (`N`) y coordenadas de textura (`Tex`). * **Uso simple:** Un generador versátil para crear anillos, neumáticos, o cualquier forma que tenga una sección transversal circular repetida a lo largo de una trayectoria circular. * **Trail POP (POP de Rastro)** * **Función principal:** Captura y retiene todos los puntos de la entrada durante un número determinado de fotogramas o \"slices\" recientes, creando un **historial temporal** de los puntos. * **Características clave:** * Puede conectar los puntos a lo largo del tiempo con primitivas (por ejemplo, una \"line strip\" por cada punto a lo largo de su rastro) si el número de puntos de entrada es constante. * Si el número de puntos cambia (como e"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "etween different um projections I guess. And then I have another blend which is going to allow me to blend between just the starting points of each thing. So, we've got our little cube here or we have if I play this blend a little bit more, we have whatever this chaotic circlly thing is. (36:05) But essentially, by combining these things together, we have loads and loads of control over a bunch of stuff. And um for me, like I said, this is just me kind of experimenting with stuff. We have this trail here, which again is really great because it's going to be instanced or not instanced, it's just going to go into that geo. We can just turn up the scale. (36:25) It does kind of mess with the frame rate a little bit, but um super super cool. And what we could do is we could very easily have this trail and then we could also just create a geo for this null. Maybe make it into a point sprite. Okay, my computer stopped yet again. Basically, I've attached this point sprite. (36:53) I'm going to"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

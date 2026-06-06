@@ -1,0 +1,172 @@
+{
+  "family": "CHOP",
+  "pageTitle": "FreeD Out CHOP",
+  "pageSlug": "FreeD_Out_CHOP",
+  "url": "https://docs.derivative.ca/FreeD_Out_CHOP",
+  "tdOpTypeGuess": "freeDOutCHOP",
+  "summary": "[  edit  ]\nThe FreeD Out  CHOP  sends camera tracking information, including position and orientation, to an external device or program over the network using the popular device-indepedent FreeD protocol. This can be used to emulate a physical camera or to send data to another program/device that can process FreeD tracking data. Data packets are sent out once per frame based on the current data in the  CHOP  channels. If one of the expected channels is not found in the input, then a default value will be sent. FreeD data can be received from other devices using the corresponding  FreeD In CHOP .\nThe channels used by the FreeD Out  CHOP  are:\ncamera_id  - a number from 0 - 255 that can be used to store an id number for the camera\ntx, ty, tz  - camera position, can be connected to the  Camera COMP  Translate parameters. Values can range from +/- 131.07m.\nrx, ry, rz  - camera rotation, can be connected to the  Camera COMP  Rotate parameters. Values can range from +/- 256 degrees.\nfocus  - a 24-bit positive integer (0-16 million) in arbitrary units that relates to the focus ring on a camera lens. Applications can interpret this value according to the hardware in use.\nzoom  - a 24-bit positive integer (0-16 million) in arbitrary units that relates to the zoom ring on a camera lens. Applications can interpret this value according to the hardware in use.\nuser  - a 16-bit positive integer (0 - 65k) that can be used by the camera system to send custom user-defined data    Note:  The FreeD Out  CHOP  sends the 'D1' camera position and orientation message that is part of the FreeD protocol.\nfreedoutCHOP_Class\nContents\n1   Summary\n2   Parameters - FreeD Out Page\n3   Parameters - Common Page\n4   Operator Inputs",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "FreeD Out",
+      "label": "Active",
+      "name": "active",
+      "description": "Turn this parameter off to stop sending out data packets."
+    },
+    {
+      "page": "FreeD Out",
+      "label": "Protocol",
+      "name": "protocol",
+      "description": "⊞  - Selects the network protocol to use. Refer to the Network Protocols article for more information."
+    },
+    {
+      "page": "FreeD Out",
+      "label": "Multi",
+      "description": "Cast Messaging (UDP)   multicastmsging  -"
+    },
+    {
+      "page": "FreeD Out",
+      "label": "Network Address",
+      "name": "netaddress",
+      "description": "The network address of the computer to send the Stype data to. The address can be a domain name, an IP address (e.g. 100.123.45.78), or \"localhost\" to target the packets at another program on the same machine."
+    },
+    {
+      "page": "FreeD Out",
+      "label": "Network Port",
+      "name": "port",
+      "description": "The port to send the data packets to."
+    },
+    {
+      "page": "FreeD Out",
+      "label": "Local Address",
+      "name": "localaddress",
+      "description": "Specify an IP address to send from. This is useful when the system has multiple NICs (Network Interface Card) and you want to select which one to use."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "Rename from",
+      "name": "commonrenamefrom",
+      "description": "The channel pattern to rename. See  Pattern Matching ."
+    },
+    {
+      "page": "Common",
+      "label": "Rename to",
+      "name": "commonrenameto",
+      "description": "The replacement pattern for the names. The default parameters do not rename the channels. See  Pattern Replacement ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Names:  c[1",
+      "description": "10:2] ambient"
+    },
+    {
+      "page": "Common",
+      "label": "Rename To:  b[1",
+      "description": "5] amb    This example fetches channels  c1 c3 c5 c7 c9  and  ambient ."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

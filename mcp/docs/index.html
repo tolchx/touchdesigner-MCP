@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="TouchDesigner MCP Server — Interactive documentation for all 60+ tools. Browse, search, and inspect schemas for TouchDesigner MCP integration.">
+<meta name="keywords" content="TouchDesigner, MCP, AI, Claude, tools, documentation">
+<meta property="og:title" content="TouchDesigner MCP Tools">
+<meta property="og:description" content="Interactive docs for 60+ TouchDesigner MCP tools">
+<meta property="og:type" content="website">
+<title>TouchDesigner MCP Tools</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    background: #0a0a0f;
+    color: #f0f0f5;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  .wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+  header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+  header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #0d7ff2, #5ba3ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  header p {
+    color: #8888a0;
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+  }
+  .nav-back {
+    display: block;
+    text-align: left;
+    margin-bottom: 0.75rem;
+    font-size: 0.85rem;
+    color: #555570;
+  }
+  .nav-back a { color: #0d7ff2; text-decoration: none; }
+  .nav-back a:hover { text-decoration: underline; }
+  .toolbar {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .search-box {
+    flex: 1;
+    min-width: 200px;
+    position: relative;
+  }
+  .search-box input {
+    width: 100%;
+    padding: 0.7rem 1rem 0.7rem 2.5rem;
+    background: #12121a;
+    border: 1px solid #2a2a3a;
+    border-radius: 8px;
+    color: #f0f0f5;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-box input:focus {
+    border-color: #0d7ff2;
+  }
+  .search-box input::placeholder { color: #555570; }
+  .search-box .icon {
+    position: absolute;
+    left: 0.85rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #555570;
+    font-size: 0.9rem;
+    pointer-events: none;
+  }
+  .filter-btns {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+  .filter-btns button {
+    padding: 0.5rem 1rem;
+    background: #12121a;
+    border: 1px solid #2a2a3a;
+    border-radius: 6px;
+    color: #a0a0b8;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .filter-btns button:hover { border-color: #0d7ff2; color: #f0f0f5; }
+  .filter-btns button.active {
+    background: #0d7ff2;
+    border-color: #0d7ff2;
+    color: #fff;
+  }
+  .stats {
+    font-size: 0.8rem;
+    color: #666680;
+    margin-bottom: 1rem;
+    padding: 0 0.25rem;
+  }
+  .tools-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .tool-card {
+    background: #12121a;
+    border: 1px solid #1e1e2e;
+    border-radius: 9px;
+    padding: 1rem 1.25rem;
+    transition: all 0.15s;
+    cursor: default;
+    position: relative;
+  }
+  .tool-card:hover {
+    border-color: #2a2a4a;
+    background: #16161f;
+  }
+  .tool-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .tool-name {
+    font-family: 'SF Mono', 'Fira Code', 'Fira Mono', monospace;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #e0e0ef;
+  }
+  .badge {
+    font-size: 0.65rem;
+    font-weight: 500;
+    padding: 0.15rem 0.55rem;
+    border-radius: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .badge-td {
+    background: rgba(13, 127, 242, 0.18);
+    color: #0d7ff2;
+    border: 1px solid rgba(13, 127, 242, 0.3);
+  }
+  .badge-local {
+    background: rgba(80, 200, 120, 0.12);
+    color: #50c878;
+    border: 1px solid rgba(80, 200, 120, 0.25);
+  }
+  .badge-mod {
+    background: rgba(180, 120, 255, 0.12);
+    color: #b478ff;
+    border: 1px solid rgba(180, 120, 255, 0.25);
+    font-size: 0.6rem;
+  }
+  .tool-desc {
+    color: #a0a0b8;
+    font-size: 0.88rem;
+    margin-top: 0.4rem;
+  }
+  .tool-schema {
+    margin-top: 0.6rem;
+    display: none;
+    font-size: 0.8rem;
+  }
+  .tool-card.expanded .tool-schema { display: block; }
+  .tool-schema-toggle {
+    color: #555570;
+    font-size: 0.78rem;
+    cursor: pointer;
+    margin-top: 0.4rem;
+    display: inline-block;
+  }
+  .tool-schema-toggle:hover { color: #0d7ff2; }
+  .schema-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.4rem;
+  }
+  .schema-table th, .schema-table td {
+    text-align: left;
+    padding: 0.3rem 0.6rem;
+    border-bottom: 1px solid #1e1e2e;
+    font-size: 0.8rem;
+  }
+  .schema-table th {
+    color: #666680;
+    font-weight: 500;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .schema-table td { color: #c0c0d5; font-family: 'SF Mono', 'Fira Code', monospace; }
+  .schema-table tr:last-child td { border-bottom: none; }
+  .required-mark { color: #ff5a5a; margin-left: 0.2rem; }
+  .empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #555570;
+  }
+  .empty-state .big-icon { font-size: 3rem; margin-bottom: 0.5rem; }
+  footer {
+    margin-top: 2.5rem;
+    text-align: center;
+    font-size: 0.75rem;
+    color: #3a3a50;
+  }
+  footer a { color: #3a3a50; text-decoration: none; }
+  footer a:hover { color: #0d7ff2; }
+  @media (max-width: 600px) {
+    .wrapper { padding: 1rem 0.75rem; }
+    header h1 { font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="nav-back"><a href="../index.html">&#x2190; TouchDesigner MCP Home</a></div>
+  <header>
+    <h1>TouchDesigner MCP Tools</h1>
+    <p>MCP server for TouchDesigner integration via AI — <a href="https://github.com/tolchx/touchdesigner-MCP" style="color:#0d7ff2;">GitHub</a></p>
+  </header>
+
+  <div class="toolbar">
+    <div class="search-box">
+      <span class="icon">&#x1F50D;</span>
+      <input type="text" id="searchInput" placeholder="Search tools by name or description..." autofocus>
+    </div>
+    <div class="filter-btns">
+      <button data-filter="all" class="active">All</button>
+      <button data-filter="td">Requires TD</button>
+      <button data-filter="local">Local only</button>
+    </div>
+  </div>
+
+  <div class="stats" id="stats"></div>
+  <div class="tools-list" id="toolsList"></div>
+  <footer>
+    TouchDesigner MCP v3 &middot; <a href="https://github.com/tolchx/touchdesigner-MCP">tolchx/touchdesigner-MCP</a>
+  </footer>
+</div>
+
+<script>
+(async function() {
+  const tools = await (await fetch('tools.json')).json();
+
+  const searchInput = document.getElementById('searchInput');
+  const toolsList = document.getElementById('toolsList');
+  const statsEl = document.getElementById('stats');
+  const filterBtns = document.querySelectorAll('[data-filter]');
+
+  let activeFilter = 'all';
+  let searchQuery = '';
+
+  function render() {
+    const q = searchQuery.toLowerCase().trim();
+    const filtered = tools.filter(t => {
+      if (activeFilter === 'td' && !t.requires_td) return false;
+      if (activeFilter === 'local' && t.requires_td) return false;
+      if (q && !t.name.toLowerCase().includes(q) && !t.description.toLowerCase().includes(q)) return false;
+      return true;
+    });
+
+    statsEl.textContent = `Showing ${filtered.length} of ${tools.length} tools`;
+
+    if (filtered.length === 0) {
+      toolsList.innerHTML = '<div class="empty-state"><div class="big-icon">🔍</div><p>No tools match your search</p></div>';
+      return;
+    }
+
+    toolsList.innerHTML = filtered.map(t => {
+      const badgeClass = t.requires_td ? 'badge-td' : 'badge-local';
+      const badgeText = t.requires_td ? 'Requires TD' : 'Local';
+      const schemaKeys = Object.keys(t.input_schema || {});
+      const hasSchema = schemaKeys.length > 0;
+
+      let schemaHtml = '';
+      if (hasSchema) {
+        let rows = '';
+        for (const [key, val] of Object.entries(t.input_schema)) {
+          const required = val.required ? '<span class="required-mark">*</span>' : '';
+          const typeLabel = val.type || 'any';
+          rows += `<tr><td>${key}${required}</td><td>${typeLabel}</td></tr>`;
+        }
+        schemaHtml = `
+          <div class="tool-schema-toggle" onclick="event.stopPropagation(); this.parentElement.classList.toggle('expanded')">
+            ${schemaKeys.length} parameter(s) &darr;
+          </div>
+          <div class="tool-schema">
+            <table class="schema-table">
+              <thead><tr><th>Parameter</th><th>Type</th></tr></thead>
+              <tbody>${rows}</tbody>
+            </table>
+          </div>`;
+      }
+
+      return `
+        <div class="tool-card" data-name="${t.name}">
+          <div class="tool-card-header">
+            <span class="tool-name">${t.name}</span>
+            <span class="badge ${badgeClass}">${badgeText}</span>
+            <span class="badge badge-mod">${t.module || 'unknown'}</span>
+          </div>
+          <div class="tool-desc">${t.description}</div>
+          ${schemaHtml}
+        </div>`;
+    }).join('');
+  }
+
+  searchInput.addEventListener('input', () => {
+    searchQuery = searchInput.value;
+    render();
+  });
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = btn.dataset.filter;
+      render();
+    });
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

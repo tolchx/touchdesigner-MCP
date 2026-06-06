@@ -1,0 +1,628 @@
+{
+  "family": "SOP",
+  "pageTitle": "Arm SOP",
+  "pageSlug": "Arm_SOP",
+  "url": "https://docs.derivative.ca/Arm_SOP",
+  "tdOpTypeGuess": "armSOP",
+  "summary": "[  edit  ]\nThe Arm  SOP  creates all the necessary geometry for an arm, and provides a smooth, untwisted skin that connects the arm to the body. It is controlled through inverse kinematics linked to a handprint.\narmSOP_Class\nContents\n1   Summary\n2   Parameters - Arm Page\n3   Parameters - Lengths Page\n4   Parameters - Transforms Page\n5   Parameters - End Affector Page\n6   Info CHOP Channels\n6.1   Common SOP Info Channels\n6.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "Arm",
+      "label": "Capture Type",
+      "name": "capttype",
+      "description": "⊞  - You can use either  Ellipses  or  Capture Regions  as deformation geometry. Ellipses are for use with the Skeleton  SOP . Capture Regions are for use with the Capture  SOP ."
+    },
+    {
+      "page": "Arm",
+      "label": "Arm Axis",
+      "name": "axis",
+      "description": "⊞  - Position the model along the +X or -X axis."
+    },
+    {
+      "page": "Arm",
+      "label": "Radius",
+      "name": "bonerad",
+      "description": "Controls the scale of the circle radii."
+    },
+    {
+      "page": "Arm",
+      "label": "Rotate Hand",
+      "name": "rotatehand",
+      "description": "This parameter rotates the hand and the wrist joint to match the orientation of the hand-print object. In order to operate correctly, the end-affector (hand print) scale transformations must remain at 1."
+    },
+    {
+      "page": "Arm",
+      "label": "Auto Elbow Twist",
+      "name": "autoelbow",
+      "description": "This parameter affects the default twist of the elbow joint to a more natural position."
+    },
+    {
+      "page": "Arm",
+      "label": "Elbow Twist",
+      "name": "elbowtwist",
+      "description": "Specifies the rotation angle of the elbow joint."
+    },
+    {
+      "page": "Arm",
+      "label": "Flip Elbow",
+      "name": "flipelbow",
+      "description": "This toggle positions the arm using an alternative elbow position solution."
+    },
+    {
+      "page": "Lengths",
+      "label": "Clavicle",
+      "name": "clavlength",
+      "description": "Control bone lengths, as illustrated above."
+    },
+    {
+      "page": "Lengths",
+      "label": "Humerous",
+      "name": "humlength",
+      "description": "Control bone lengths, as illustrated above."
+    },
+    {
+      "page": "Lengths",
+      "label": "Ulna",
+      "name": "ulnalength",
+      "description": "Control bone lengths, as illustrated above."
+    },
+    {
+      "page": "Lengths",
+      "label": "Hand",
+      "name": "handlength",
+      "description": "Control bone lengths, as illustrated above."
+    },
+    {
+      "page": "Lengths",
+      "label": "Shoulder Joint",
+      "name": "shoulder",
+      "description": "Control the joint lengths, as illustrated above."
+    },
+    {
+      "page": "Lengths",
+      "label": "Elbow Joint",
+      "name": "elbow",
+      "description": "Control the joint lengths, as illustrated above."
+    },
+    {
+      "page": "Lengths",
+      "label": "Wrist Joint",
+      "name": "wrist",
+      "description": "Control the joint lengths, as illustrated above."
+    },
+    {
+      "page": "Transforms",
+      "label": "Shoulder 1",
+      "name": "shoulder1t",
+      "description": "⊞  - The X, Z position of the first shoulder circle, as well as its overall scale."
+    },
+    {
+      "page": "Transforms",
+      "label": "X",
+      "name": "shoulder1tx",
+      "description": "The X position of the first shoulder circle."
+    },
+    {
+      "page": "Transforms",
+      "label": "Y",
+      "name": "shoulder1ty",
+      "description": "The Z position of the first shoulder circle. ( Note:  the parameter is labelled Y)."
+    },
+    {
+      "page": "Transforms",
+      "label": "Z",
+      "name": "shoulder1tz",
+      "description": "The overall scale of the first shoulder circle. ( Note:  the parameter is labelled Z)."
+    },
+    {
+      "page": "Transforms",
+      "label": "Shoulder 2",
+      "name": "shoulder2t",
+      "description": "⊞  - The X, Z position of the second shoulder circle, as well as its overall scale."
+    },
+    {
+      "page": "Transforms",
+      "label": "X",
+      "name": "shoulder2tx",
+      "description": "The X position of the second shoulder circle."
+    },
+    {
+      "page": "Transforms",
+      "label": "Y",
+      "name": "shoulder2ty",
+      "description": "The Z position of the second shoulder circle. ( Note:  the parameter is labelled Y)."
+    },
+    {
+      "page": "Transforms",
+      "label": "Z",
+      "name": "shoulder2tz",
+      "description": "The overall scale of the second shoulder circle. ( Note:  the parameter is labelled Z)."
+    },
+    {
+      "page": "Transforms",
+      "label": "Shoulder 3",
+      "name": "shoulder3t",
+      "description": "⊞  - The X, Z position of the third shoulder circle, as well as its overall scale."
+    },
+    {
+      "page": "Transforms",
+      "label": "X",
+      "name": "shoulder3tx",
+      "description": "The X position of the third shoulder circle."
+    },
+    {
+      "page": "Transforms",
+      "label": "Y",
+      "name": "shoulder3ty",
+      "description": "The Z position of the third shoulder circle. ( Note:  the parameter is labelled Y)."
+    },
+    {
+      "page": "Transforms",
+      "label": "Z",
+      "name": "shoulder3tz",
+      "description": "The overall scale of the third shoulder circle. ( Note:  the parameter is labelled Z)."
+    },
+    {
+      "page": "Transforms",
+      "label": "Shoulder 4",
+      "name": "shoulder4t",
+      "description": "⊞  - The X, Z position of the fourth shoulder circle, as well as its overall scale."
+    },
+    {
+      "page": "Transforms",
+      "label": "X",
+      "name": "shoulder4tx",
+      "description": "The X position of the fourth shoulder circle."
+    },
+    {
+      "page": "Transforms",
+      "label": "Y",
+      "name": "shoulder4ty",
+      "description": "The Z position of the fourth shoulder circle. ( Note:  the parameter is labelled Y)."
+    },
+    {
+      "page": "Transforms",
+      "label": "Z",
+      "name": "shoulder4tz",
+      "description": "The overall scale of the fourth shoulder circle. ( Note:  the parameter is labelled Z)."
+    },
+    {
+      "page": "Transforms",
+      "label": "Shoulder 5",
+      "name": "shoulder5t",
+      "description": "⊞  - The X, Z position of the fifth shoulder circle, as well as its overall scale."
+    },
+    {
+      "page": "Transforms",
+      "label": "X",
+      "name": "shoulder5tx",
+      "description": "The X position of the fifth shoulder circle."
+    },
+    {
+      "page": "Transforms",
+      "label": "Y",
+      "name": "shoulder5ty",
+      "description": "The Z position of the fifth shoulder circle. ( Note:  the parameter is labelled Y)."
+    },
+    {
+      "page": "Transforms",
+      "label": "Z",
+      "name": "shoulder5tz",
+      "description": "The overall scale of the fifth shoulder circle. ( Note:  the parameter is labelled Z)."
+    },
+    {
+      "page": "Transforms",
+      "label": "Elbow 1",
+      "name": "elbow1t",
+      "description": "⊞  - The X, Z position of the first elbow circle, as well as its overall scale."
+    },
+    {
+      "page": "Transforms",
+      "label": "X",
+      "name": "elbow1tx",
+      "description": "The X position of the first elbow circle."
+    },
+    {
+      "page": "Transforms",
+      "label": "Y",
+      "name": "elbow1ty",
+      "description": "The Z position of the first elbow circle. ( Note:  the parameter is labelled Y)."
+    },
+    {
+      "page": "Transforms",
+      "label": "Z",
+      "name": "elbow1tz",
+      "description": "The overall scale of the first elbow circle. ( Note:  the parameter is labelled Z)."
+    },
+    {
+      "page": "Transforms",
+      "label": "Elbow 2",
+      "name": "elbow2t",
+      "description": "⊞  - The X, Z position of the second elbow circle, as well as its overall scale."
+    },
+    {
+      "page": "Transforms",
+      "label": "X",
+      "name": "elbow2tx",
+      "description": "The X position of the second elbow circle."
+    },
+    {
+      "page": "Transforms",
+      "label": "Y",
+      "name": "elbow2ty",
+      "description": "The Z position of the second elbow circle. ( Note:  the parameter is labelled Y)."
+    },
+    {
+      "page": "Transforms",
+      "label": "Z",
+      "name": "elbow2tz",
+      "description": "The overall scale of the second elbow circle. ( Note:  the parameter is labelled Z)."
+    },
+    {
+      "page": "Transforms",
+      "label": "Elbow 3",
+      "name": "elbow3t",
+      "description": "⊞  - The X, Z position of the third elbow circle, as well as its overall scale."
+    },
+    {
+      "page": "Transforms",
+      "label": "X",
+      "name": "elbow3tx",
+      "description": "The X position of the third elbow circle."
+    },
+    {
+      "page": "Transforms",
+      "label": "Y",
+      "name": "elbow3ty",
+      "description": "The Z position of the third elbow circle. ( Note:  the parameter is labelled Y)."
+    },
+    {
+      "page": "Transforms",
+      "label": "Z",
+      "name": "elbow3tz",
+      "description": "The overall scale of the third elbow circle. ( Note:  the parameter is labelled Z)."
+    },
+    {
+      "page": "Transforms",
+      "label": "Elbow 4",
+      "name": "elbow4t",
+      "description": "⊞  - The X, Z position of the fourth elbow circle, as well as its overall scale."
+    },
+    {
+      "page": "Transforms",
+      "label": "X",
+      "name": "elbow4tx",
+      "description": "The X position of the fourth elbow circle."
+    },
+    {
+      "page": "Transforms",
+      "label": "Y",
+      "name": "elbow4ty",
+      "description": "The overall scale of the fourth elbow circle. ( Note:  the parameter is labelled Z)."
+    },
+    {
+      "page": "Transforms",
+      "label": "Z",
+      "name": "elbow4tz",
+      "description": "The overall scale of the fourth elbow circle. ( Note:  the parameter is labelled Z)."
+    },
+    {
+      "page": "Transforms",
+      "label": "Elbow 5",
+      "name": "elbow5t",
+      "description": "⊞  - The X, Z position of the fifth elbow circle, as well as its overall scale."
+    },
+    {
+      "page": "Transforms",
+      "label": "X",
+      "name": "elbow5tx",
+      "description": "The X position of the fifth elbow circle."
+    },
+    {
+      "page": "Transforms",
+      "label": "Y",
+      "name": "elbow5ty",
+      "description": "The overall scale of the fifth elbow circle. ( Note:  the parameter is labelled Z)."
+    },
+    {
+      "page": "Transforms",
+      "label": "Z",
+      "name": "elbow5tz",
+      "description": "The overall scale of the fifth elbow circle. ( Note:  the parameter is labelled Z)."
+    },
+    {
+      "page": "Transforms",
+      "label": "Wrist 1",
+      "name": "wrist1t",
+      "description": "⊞  - The X, Z position of the first wrist circle, as well as its overall scale."
+    },
+    {
+      "page": "Transforms",
+      "label": "X",
+      "name": "wrist1tx",
+      "description": "The X position of the first wrist circle."
+    },
+    {
+      "page": "Transforms",
+      "label": "Y",
+      "name": "wrist1ty",
+      "description": "The overall scale of the first wrist circle. ( Note:  the parameter is labelled Z)."
+    },
+    {
+      "page": "Transforms",
+      "label": "Z",
+      "name": "wrist1tz",
+      "description": "The overall scale of the first wrist circle. ( Note:  the parameter is labelled Z)."
+    },
+    {
+      "page": "Transforms",
+      "label": "Wrist 2",
+      "name": "wrist2t",
+      "description": "⊞  - The X, Z position of the second wrist circle, as well as its overall scale."
+    },
+    {
+      "page": "Transforms",
+      "label": "X",
+      "name": "wrist2tx",
+      "description": "The X position of the second wrist circle."
+    },
+    {
+      "page": "Transforms",
+      "label": "Y",
+      "name": "wrist2ty",
+      "description": "The overall scale of the second wrist circle. ( Note:  the parameter is labelled Z)."
+    },
+    {
+      "page": "Transforms",
+      "label": "Z",
+      "name": "wrist2tz",
+      "description": "The overall scale of the second wrist circle. ( Note:  the parameter is labelled Z)."
+    },
+    {
+      "page": "Transforms",
+      "label": "Wrist 3",
+      "name": "wrist3t",
+      "description": "⊞  - The X, Z position of the third wrist circle, as well as its overall scale."
+    },
+    {
+      "page": "Transforms",
+      "label": "X",
+      "name": "wrist3tx",
+      "description": "The X position of the third wrist circle."
+    },
+    {
+      "page": "Transforms",
+      "label": "Y",
+      "name": "wrist3ty",
+      "description": "The overall scale of the third wrist circle. ( Note:  the parameter is labelled Z)."
+    },
+    {
+      "page": "Transforms",
+      "label": "Z",
+      "name": "wrist3tz",
+      "description": "The overall scale of the third wrist circle. ( Note:  the parameter is labelled Z)."
+    },
+    {
+      "page": "Transforms",
+      "label": "Wrist 4",
+      "name": "wrist4t",
+      "description": "⊞  - The X, Z position of the fourth wrist circle, as well as its overall scale."
+    },
+    {
+      "page": "Transforms",
+      "label": "X",
+      "name": "wrist4tx",
+      "description": "The X position of the fourth wrist circle."
+    },
+    {
+      "page": "Transforms",
+      "label": "Y",
+      "name": "wrist4ty",
+      "description": "The overall scale of the fourth wrist circle. ( Note:  the parameter is labelled Z)."
+    },
+    {
+      "page": "Transforms",
+      "label": "Z",
+      "name": "wrist4tz",
+      "description": "The overall scale of the fourth wrist circle. ( Note:  the parameter is labelled Z)."
+    },
+    {
+      "page": "Transforms",
+      "label": "Wrist 5",
+      "name": "wrist5t",
+      "description": "⊞  - The X, Z position of the fifth wrist circle, as well as its overall scale."
+    },
+    {
+      "page": "Transforms",
+      "label": "X",
+      "name": "wrist5tx",
+      "description": "The X position of the fifth wrist circle."
+    },
+    {
+      "page": "Transforms",
+      "label": "Y",
+      "name": "wrist5ty",
+      "description": "The overall scale of the fifth wrist circle. ( Note:  the parameter is labelled Z)."
+    },
+    {
+      "page": "Transforms",
+      "label": "Z",
+      "name": "wrist5tz",
+      "description": "The overall scale of the fifth wrist circle. ( Note:  the parameter is labelled Z)."
+    },
+    {
+      "page": "End Affector",
+      "label": "Affector  Object",
+      "name": "affector",
+      "description": "Allows the end affector to be another object, or simply defined by a default box, which is controlled by the transformations below."
+    },
+    {
+      "page": "End Affector",
+      "label": "Translate",
+      "name": "t",
+      "description": "⊞  - End Affector Translation. For a full explanation of transforms, see the  Transform SOP ."
+    },
+    {
+      "page": "End Affector",
+      "label": "X",
+      "name": "tx",
+      "description": "End Affector X Translate."
+    },
+    {
+      "page": "End Affector",
+      "label": "Y",
+      "name": "ty",
+      "description": "End Affector Y Translate."
+    },
+    {
+      "page": "End Affector",
+      "label": "Z",
+      "name": "tz",
+      "description": "End Affector Z Translate."
+    },
+    {
+      "page": "End Affector",
+      "label": "Rotate",
+      "name": "r",
+      "description": "⊞  - End Affector Rotation. For a full explanation of transforms, see the  Transform SOP ."
+    },
+    {
+      "page": "End Affector",
+      "label": "X",
+      "name": "rx",
+      "description": "End Affector X Rotate."
+    },
+    {
+      "page": "End Affector",
+      "label": "Y",
+      "name": "ry",
+      "description": "End Affector Y Rotate."
+    },
+    {
+      "page": "End Affector",
+      "label": "Z",
+      "name": "rz",
+      "description": "End Affector Z Rotate."
+    },
+    {
+      "page": "End Affector",
+      "label": "Scale",
+      "name": "s",
+      "description": "⊞  - End Affector Scale. For a full explanation of transforms, see the  Transform SOP ."
+    },
+    {
+      "page": "End Affector",
+      "label": "X",
+      "name": "sx",
+      "description": "End Affector X Scale."
+    },
+    {
+      "page": "End Affector",
+      "label": "Y",
+      "name": "sy",
+      "description": "End Affector Y Scale."
+    },
+    {
+      "page": "End Affector",
+      "label": "Z",
+      "name": "sz",
+      "description": "End Affector Z Scale."
+    },
+    {
+      "page": "End Affector",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "End Affector",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "End Affector",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "End Affector",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "End Affector",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "End Affector",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "End Affector",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "End Affector",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "End Affector",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "End Affector",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "End Affector",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "End Affector",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "End Affector",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "End Affector",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "End Affector",
+      "label": "The sub",
+      "description": "Family  of  Component  types that are used to define and render 3D scenes. A  Geometry Component  is an Object that contains the 3D shapes to render. A  Camera COMP  and  Light COMP  are other Object types. Separately, \"Objects\" also refers to Python objects."
+    },
+    {
+      "page": "End Affector",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "* Página Rename: Rename Attribute (ren), From Attribute (ren0from), To Attribute (ren0to).1 * Página Duplicate: Duplicate Attribute (dup), Duplicate Attribute (dup0name), New Attribute Name (dup0new).1 * Página Delete: Delete Point Attributes (ptdel) (* para todos), Delete Vertex Attributes (vertdel) (* para todos), Delete Primitive Attributes (primdel) (* para todos).1 * Página Common: Bypass (bypass), Delete Input Attributes (delinputattrs), Parameter Color Space (parmcolorspace), Parameter Reference White (parmreferencewhite).1 * Copy POP: Crea copias de su geometría de entrada. Puede generar copias basándose en parámetros (número de copias, transformaciones acumulativas) o utilizando un POP de plantilla, donde los puntos de una entrada definen la ubicación de la copia. Las transformaciones (traslación, rotación, escala) se pueden aplicar en varios órdenes.2 * Parámetros: Incluye la \"Página Copy\" (Number of Copies, Transform Order, Translate, Rota"
+    },
+    {
+      "source": "POPs Analisis 1.txt",
+      "excerpt": "ales o aplicar efectos basados en la proximidad. * **Noise POP (POP de Ruido)** * **Función principal:** Este POP aplica un **campo de ruido** (valores suaves y aleatorios en 3D) a tus puntos, generalmente moviendo su posición (`P`). * **Características clave:** * Ofrece diferentes **tipos de ruido** como Simplex y Perlin, en 2D, 3D o 4D. * Puedes controlar la **\"rugosidad\" o el detalle** del ruido con parámetros como `Period` (distancia entre picos) y `Harmonics` (capas de detalle adicionales). * Permite ajustar la **magnitud** (`Amplitude`) y el `Offset` de los valores de ruido. * Puede generar y nombrar nuevos atributos para los valores de ruido sin procesar, así como sus derivadas (como `NoiseGradient` y `NoiseCurl`). * Puedes hacer que los **parámetros del ruido cambien por cada punto** individualmente, usando atributos de entrada (`Map` page). * **Uso simple:** Ideal para simular el movimiento de humo,"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

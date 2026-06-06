@@ -1,0 +1,150 @@
+{
+  "pageTitle": "Ray POP",
+  "pageSlug": "Ray_POP",
+  "url": "https://docs.derivative.ca/Ray_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "rayPOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "Ray Attribute",
+      "type": "Menu",
+      "options": [
+        "N (Normal)",
+        "Cd (Color)",
+        "Custom"
+      ],
+      "default": "N (Normal)",
+      "description": "Attribute to use as ray direction vector."
+    },
+    {
+      "name": "Negate Ray",
+      "type": "Toggle",
+      "default": 0,
+      "description": "Reverse the ray direction."
+    },
+    {
+      "name": "Number of Bounces",
+      "type": "Int[0-100]",
+      "default": 1,
+      "description": "Number of reflection bounces for each ray."
+    },
+    {
+      "name": "Connect Points",
+      "type": "Toggle",
+      "default": 0,
+      "description": "Connect bounce intersections as line strips."
+    },
+    {
+      "name": "Limit Ray Length",
+      "type": "Toggle",
+      "default": 0,
+      "description": "Limit maximum ray travel distance."
+    },
+    {
+      "name": "Hardware Ray Tracing",
+      "type": "Menu",
+      "options": [
+        "Off",
+        "Fast Build (Dynamic)",
+        "Fast Trace (Static)"
+      ],
+      "default": "Off",
+      "description": "Enable hardware-accelerated ray tracing for supported GPUs."
+    },
+    {
+      "name": "Hit Normal",
+      "type": "Toggle",
+      "default": 0,
+      "description": "Generate normal attribute at hit locations on collision surface."
+    },
+    {
+      "name": "Reflected Ray",
+      "type": "Toggle",
+      "default": 0,
+      "description": "Output reflected ray direction attribute."
+    },
+    {
+      "name": "Inside",
+      "type": "Toggle",
+      "default": 0,
+      "description": "Output 0=outside, 1=inside for closed mesh volumes."
+    },
+    {
+      "name": "Scale",
+      "type": "Float[0-1]",
+      "default": 1,
+      "description": "Blend between original position (0) and projected position (1)."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "1 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración po"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": ".1 * Página Create: Attribute Class (attrclass) (Punto, Vértice, Primitiva), Group (group), Notification if Attribute Exists (notificationifexists) (Ignorar, Advertencia, Error), Override if Attribute Exists (overrideifexists), Pre-Multiply RGB by Alpha (premultcolor), New Attribute (attr), Name (attr0name) (N, Color, Tex, PointScale, LineWidth, Custom), Custom Name (attr0customname), Type (attr0type) (float, double, int, uint, dir, dbl dir), Number of Components (attr0numcomps) (1-4), Array (attr0isarray), Array Size (attr0arraysize), Value (attr0value) (R, G, B, A).1 * Página Matrix: Matrix Attribute (mat), Matrix Name (mat0name), Rows (mat0numrows), Columns (mat0numcols), Array (mat0isarray), Array Size (mat0arraysize), Qualifier (mat0qualifier) (None, Transform Matrix).1 * Página Rename: Rename Attribute (ren), From Attribute (ren0from), To Attribute (ren0to).1 * Página Duplicate: Duplicate Attribute (dup), Duplicate Attribute (dup0name), New Attribute Name"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "1 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP 44. Torus POP 45. Trail POP 46. Transform POP 47. Trig POP 48. Tube POP 49. Twist POP Conclusiones Los Operadores de Puntos (POPs) de TouchDesigner representan una evolución significativa en el manejo de datos 3D en tiempo real, ofreciendo un rendimiento superior gracias a su aceleración po"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ributos normalizados. • Experimental:Proximity POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Quantize POP: Proporciona opciones para cuantizar valores, como redondear hacia abajo (Floor), redondear al entero más cercano (Round) o redondear hacia arriba (Ceiling). • Experimental:Random POP: Permite crear y modificar atributos de color y textura, presumiblemente para aplicar valores aleatorios. • Experimental:Ray POP: Crea atributos de tipo entero sin signo. Genera atributos con el prefijo Ray. • Experimental:Rectangle POP: Un operador generador que crea una geometría rectangular. • Experimental:ReRange POP: Se utiliza para re-escalar o re-mapear valores dentro de un rango específico. Es muy útil, ya que puede aplicar un re-rango diferente para cada componente de un atributo (ej., X, Y y Z de la posición) sin necesidad de múltiples operadores. • Experimental:Revolve POP: Las fuentes proporcionadas no"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "as. Permite seleccionar qué atributos o grupos específicos deseas procesar de cada entrada. • Experimental:Attribute Convert POP: Se utiliza para transferir atributos entre diferentes \"clases\" (tipos) de datos, como convertir atributos de puntos a atributos de vértices o de primitivas. • Experimental:Attribute POP: Es un operador fundamental para crear nuevos atributos en puntos, vértices o primitivas, y puedes inicializarlos con valores constantes. También es el lugar donde puedes crear \"arrays de atributos\". • Experimental:Blend POP: Es un POP que soporta múltiples entradas, lo que sugiere que puede mezclar o interpolar datos de diferentes fuentes. • Experimental:Box POP: Un operador generador que crea una geometría de caja. • Experimental:Cache Blend POP: Se menciona en relación con el uso de atributos como 'Velocity' (Vel), lo que sugiere su rol en la mezcla de datos temporales o en animaciones. • Experimental:Cache POP: Las fuentes proporcionadas no ofrecen una descripció"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ributos normalizados. • Experimental:Proximity POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Quantize POP: Proporciona opciones para cuantizar valores, como redondear hacia abajo (Floor), redondear al entero más cercano (Round) o redondear hacia arriba (Ceiling). • Experimental:Random POP: Permite crear y modificar atributos de color y textura, presumiblemente para aplicar valores aleatorios. • Experimental:Ray POP: Crea atributos de tipo entero sin signo. Genera atributos con el prefijo Ray. • Experimental:Rectangle POP: Un operador generador que crea una geometría rectangular. • Experimental:ReRange POP: Se utiliza para re-escalar o re-mapear valores dentro de un rango específico. Es muy útil, ya que puede aplicar un re-rango diferente para cada componente de un atributo (ej., X, Y y Z de la posición) sin necesidad de múltiples operadores. • Experimental:Revolve POP: Las fuentes proporcionadas no"
+    }
+  ],
+  "useCases": [
+    "Particle collision detection against meshes",
+    "Interior/exterior detection for closed volumes",
+    "Refraction/reflection ray path visualization",
+    "Point projection onto surfaces (Scale=1, Lift=0)"
+  ],
+  "examples": [
+    {
+      "name": "Surface Projection",
+      "description": "Grid POP → Ray POP (Scale=1) → Sphere SOP (collision) projects grid onto sphere",
+      "difficulty": "beginner"
+    },
+    {
+      "name": "Ray Path Visualization",
+      "description": "Point POP → Ray POP (Bounces=5, Connect=on) → Render for ray trace visualization",
+      "difficulty": "intermediate"
+    },
+    {
+      "name": "Hit Testing",
+      "description": "CHOP to POP (mouse) → Ray POP → Delete POP (remove misses) for interactive hit testing",
+      "difficulty": "advanced"
+    }
+  ],
+  "commonCombinations": [
+    "Point POP → Ray POP → Particle POP (shoot rays, scatter on hit)",
+    "Ray POP → Delete POP (remove miss/hit points)",
+    "Ray POP → GLSL POP (custom hit processing)"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "No hits detected",
+      "solution": "Ensure collision geometry (input 1) has triangles/quads, not points. Check ray direction."
+    },
+    {
+      "problem": "Rays going wrong direction",
+      "solution": "Verify Ray Attribute is correct (N for normals). Try Negate Ray toggle."
+    },
+    {
+      "problem": "Slow performance",
+      "solution": "Enable Hardware Ray Tracing for static geometry. Reduce input point count."
+    }
+  ],
+  "description": "Casts rays from input points in a defined direction and reports hit information against collision geometry (second input). Supports hardware ray tracing, multiple bounces, interior/exterior detection, and barycentric coordinates."
+}

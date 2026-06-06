@@ -1,0 +1,304 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Pangolin CHOP",
+  "pageSlug": "Pangolin_CHOP",
+  "url": "https://docs.derivative.ca/Pangolin_CHOP",
+  "tdOpTypeGuess": "pangolinCHOP",
+  "summary": "[  edit  ]\nNOTE\nOS:  This operator is only supported under the  Microsoft Windows  operating system.\nThe Pangolin  CHOP  interfaces with Pangolin's  Beyond . Beyond is a professional laser and multimedia show control application. When Beyond is running, the Pangolin  CHOP  will send laser image frames to it. The image frames are created from either a  POP ,  CHOP  or  SOP .  See  Lasers  for an overview of lasers with TouchDesigner.\nThe Pangolin  CHOP  should work with any version of Beyond but it is recommended to use at least Beyond v5.1.\nTouchDesigner Non-Commercial licenses will only work with the demo version of Beyond. A TouchDesigner Commercial, Educational, or Pro license is required to interface with licensed versions of Beyond.\nUsing a  SOP  Input : input points will be grouped by primitive, and point position as well as color attributes from either vertex, point, or primitives will be used to construct the points to send to Beyond.\nUsing a  CHOP  input : Input channels are determined by name:  x ,  y ,  z ,  r ,  g ,  b ,  id ,  zone . Only the  x , and  y  channels are required. Every sample will be interpreted as a point to be drawn. Points can be grouped together into different shapes using the  id  channel. If not used then all points will be considered as part of the same shape. The  zone  channel can be used to override the zone parameter value for each sample, adding the option to have more control over which sample/point goes to which zone in Beyond.\nUsing a  POP  input : similar to  SOP , input points will be grouped by primitive. A Point position attribute ( P ) is a required, and a Point color attribute ( Color ) can optionally be used. If  Color  is not specified then point color will be set to white. Additionally, a primitive  Zone  attribute can be used to control which primitive goes to which zone in Beyond.\nSee also:  Laser CHOP ,  Lasers .\npangolinCHOP_Class\nContents\n1   Summary\n2   Usage\n3   Parameters - Pangolin Page\n4   Parameters - Common Page\n5   Info CHOP Channels\n5.1   Specific Pangolin CHOP Info Channels\n5.2   Common CHOP Info Channels\n5.3   Common Operator Info Channels\nUsage\nBeyond must be open to use the Pangolin  CHOP .\nThe Pangolin  CHOP  will construct a laser image from the points of a  SOP  or samples of a  CHOP  and send it to Beyond. With Beyond open and the Pangolin  CHOP  active (with input) the laser image can immediately be seen in its respective zone in the zone viewer of Beyond. See below an example of sending a circle to zone 1 in Beyond from the Pangolin  CHOP .",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "Pangolin",
+      "label": "Active",
+      "name": "active",
+      "description": "When disabled, the  CHOP  will no longer send to Beyond. The corresponding image in Beyond will also be cleared."
+    },
+    {
+      "page": "Pangolin",
+      "label": "Source",
+      "name": "source",
+      "description": "⊞  - Select the source operator."
+    },
+    {
+      "page": "Pangolin",
+      "label": "SOP",
+      "name": "sop",
+      "description": "Use a  SOP  as the source. Apart from position attributes, the  SOP 's point color attributes are used to determine the color output."
+    },
+    {
+      "page": "Pangolin",
+      "label": "CHOP",
+      "name": "chop",
+      "description": "Use a  CHOP  as the source. Input channels are determined by name:  x ,  y ,  z ,  r ,  g ,  b ,  id . Only the  x , and  y  channels are required. Every sample will be interpreted as a point to be drawn. Points can be grouped together into a single shape using the  id  channel."
+    },
+    {
+      "page": "Pangolin",
+      "label": "SOP",
+      "name": "sop",
+      "description": "Path  to the  SOP ."
+    },
+    {
+      "page": "Pangolin",
+      "label": "CHOP",
+      "name": "chop",
+      "description": "Path  to the  CHOP . The input  CHOP  must have  x ,  y  channels for the point positions. In addition, it also supports  z ,  r ,  g ,  b , and  id  channels. The  id  channel is used for grouping points together as a single shape. By default when no  id  channel is present, each point is separate and unconnected."
+    },
+    {
+      "page": "Pangolin",
+      "label": "POP",
+      "name": "pop",
+      "description": "Path  to the  POP ."
+    },
+    {
+      "page": "Pangolin",
+      "label": "Zone",
+      "name": "zone",
+      "description": "The index of the zone to send to in Beyond."
+    },
+    {
+      "page": "Pangolin",
+      "label": "Rate Mode",
+      "name": "ratemode",
+      "description": "⊞  - Select the mode for calculating the rate of the image in Beyond. Note: this is not the rate of the  CHOP ."
+    },
+    {
+      "page": "Pangolin",
+      "label": "Percent of Projector  Sample Rate",
+      "name": "percent",
+      "description": "Rate will be calculated as a percent of the default projector sample rate. Specify the percent using the Percent parameter."
+    },
+    {
+      "page": "Pangolin",
+      "label": "Sample Rate",
+      "name": "sample",
+      "description": "Specify the sample rate."
+    },
+    {
+      "page": "Pangolin",
+      "label": "Percent",
+      "name": "percent",
+      "description": "Specify the sample rate as a percent of the projector default sample rate."
+    },
+    {
+      "page": "Pangolin",
+      "label": "Sample Rate",
+      "name": "rate",
+      "description": "Specify the sample rate of the image in Beyond"
+    },
+    {
+      "page": "Pangolin",
+      "label": "Vertex  Repeat",
+      "name": "repeat",
+      "description": "How often to repeat each point in the image (not including blanked points)."
+    },
+    {
+      "page": "Pangolin",
+      "label": "Vector  Frame",
+      "name": "vector",
+      "description": "When enabled, the image will be sent to Beyond as a vector frame. A vector frame will have extra computation done in Beyond, such as the addition of blanking points. When disabled, the image will be sent as points to the DAC, with nothing extra added."
+    },
+    {
+      "page": "Pangolin",
+      "label": "Resend Image",
+      "name": "resend",
+      "description": "Resend the image to Beyond."
+    },
+    {
+      "page": "Pangolin",
+      "label": "Enable Laser Output",
+      "name": "enableout",
+      "description": "Enables laser output in Beyond. Has the same effect as hitting the \"Enable Laser Output\" button in Beyond."
+    },
+    {
+      "page": "Pangolin",
+      "label": "Disable Laser Output",
+      "name": "disableout",
+      "description": "Disables laser output in Beyond. Has the same effect as hitting the \"Disable Laser Output\" button in Beyond."
+    },
+    {
+      "page": "Pangolin",
+      "label": "Blackout",
+      "name": "blackout",
+      "description": "Sends a blackout command to Beyond. Has the effect as hitting the \"Blackout\" button in Beyond."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "The term \"Frame\" is a measurement of time used (1) in the  Timeline , (2) as a time",
+      "description": "unit in CHOPs, and (3) as a time unit in movie files that are read into  TOPs  and written out from TOPs. The frame rate is the frames per second ( FPS )."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

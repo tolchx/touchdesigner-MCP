@@ -1,0 +1,97 @@
+{
+  "pageTitle": "Group POP",
+  "pageSlug": "Group_POP",
+  "url": "https://docs.derivative.ca/Group_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "groupPOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "Group Name",
+      "type": "String",
+      "default": "group1",
+      "description": "Name of the group to create."
+    },
+    {
+      "name": "Entity",
+      "type": "Menu",
+      "options": [
+        "Primitives",
+        "Points"
+      ],
+      "default": "Points",
+      "description": "Group points or primitives."
+    },
+    {
+      "name": "Debug Color",
+      "type": "Toggle",
+      "default": 0,
+      "description": "Add color attribute to differentiate groups visually."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "operadores (SOPs, CHOPs, TOPs, DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "ite a los usuarios crear nuevos atributos (especificando clase, nombre, tipo, componentes, tamaño de arreglo, valor por defecto), cambiar el nombre de atributos existentes, duplicar atributos y eliminar atributos (de punto, vértice o primitiva). También soporta la creación de atributos de matriz.1 * Parámetros: Se organiza lógicamente en varias páginas de parámetros, cada una dedicada a una función específica.1 * Página Create: Attribute Class (attrclass) (Punto, Vértice, Primitiva), Group (group), Notification if Attribute Exists (notificationifexists) (Ignorar, Advertencia, Error), Override if Attribute Exists (overrideifexists), Pre-Multiply RGB by Alpha (premultcolor), New Attribute (attr), Name (attr0name) (N, Color, Tex, PointScale, LineWidth, Custom), Custom Name (attr0customname), Type (attr0type) (float, double, int, uint, dir, dbl dir), Number of Components (attr0numcomps) (1-4), Array (attr0isarray), Array Size (attr0arraysize), Value (attr0value) (R, G, B, A).1"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "operadores (SOPs, CHOPs, TOPs, DATs) o tutoriales generales de YouTube. Por lo tanto, no fue posible extraer un conocimiento experto detallado sobre su función, parámetros o casos de uso. 1. Accumulate POP 52 2. Analyze POP 44 3. Attribute Convert POP 24 4. Blend POP 57 5. Box POP 59 6. CHOP to POP 61 7. Circle POP 64 8. Curve POP 52 9. DAT to POP 67 10. Delete POP 11. Dimension POP 12. DMX Out POP 67 13. Field POP 67 14. Force POP 67 15. GLSL Create POP 67 16. Grid POP 37 17. Group POP 1 18. In POP 4 19. Limit POP 67 20. Line Break POP 1 21. Line Smooth POP 5 22. Line Thick POP 67 23. Lookup Channel POP 67 24. Lookup Texture POP 67 25. Math POP 11 26. Normal POP 9 27. Normalize POP 67 28. Null POP 6 29. Point File In POP 4 30. Point POP 5 31. Polygonize POP 3 32. Ray POP 33. Rectangle POP 34. ReRange POP 35. Revolve POP 36. Select POP 37. Skin Deform POP 38. SOP to POP 39. Sort POP 40. Sphere POP 41. Subdivide POP 42. Texture Map POP 43. TOP to POP"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ción específica de este operador. • Experimental:GLSL POP: Un operador que te permite escribir tu propio código GLSL para manipular puntos y atributos. Ideal para simulaciones o efectos muy personalizados. • Experimental:GLSL Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Grid POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Group POP: Se usa para crear grupos de puntos, vértices o primitivas. Puedes usar estos grupos para afectar solo ciertas partes de tu geometría con otros operadores, como el Transform POP. También puede convertir un grupo en un atributo. • Experimental:Histogram POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Import Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ción específica de este operador. • Experimental:GLSL POP: Un operador que te permite escribir tu propio código GLSL para manipular puntos y atributos. Ideal para simulaciones o efectos muy personalizados. • Experimental:GLSL Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Grid POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Group POP: Se usa para crear grupos de puntos, vértices o primitivas. Puedes usar estos grupos para afectar solo ciertas partes de tu geometría con otros operadores, como el Transform POP. También puede convertir un grupo en un atributo. • Experimental:Histogram POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Import Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "ción específica de este operador. • Experimental:GLSL POP: Un operador que te permite escribir tu propio código GLSL para manipular puntos y atributos. Ideal para simulaciones o efectos muy personalizados. • Experimental:GLSL Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Grid POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Group POP: Se usa para crear grupos de puntos, vértices o primitivas. Puedes usar estos grupos para afectar solo ciertas partes de tu geometría con otros operadores, como el Transform POP. También puede convertir un grupo en un atributo. • Experimental:Histogram POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Import Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este"
+    }
+  ],
+  "useCases": [
+    "Create point groups",
+    "Filter by attributes",
+    "Organize subsets",
+    "Creating spatial subsets for selective transforms",
+    "Grouping particles by age or custom attribute",
+    "Preparing geometry for group-based operations"
+  ],
+  "examples": [
+    {
+      "name": "Group by Height",
+      "description": "Group POP to create group of points above Y=0",
+      "difficulty": "beginner"
+    },
+    {
+      "name": "Spatial Grouping",
+      "description": "Grid POP -> Group POP (Bounding: Box left half) -> Transform POP (Group=left, Rotate Z)",
+      "difficulty": "beginner"
+    }
+  ],
+  "commonCombinations": [
+    "Any generator to Group POP",
+    "Group POP to Transform POP",
+    "Group POP -> Transform POP (affect only group members)",
+    "Group POP -> Delete POP (remove group)",
+    "Group POP -> Attribute POP (modify only grouped points)"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Group empty",
+      "solution": "Check group criteria matches point data."
+    },
+    {
+      "problem": "Group not affecting downstream POPs",
+      "solution": "Verify Group Name matches in downstream POPs. Check Entity (Points vs Primitives)."
+    }
+  ],
+  "description": "Creates named groups of points or primitives using 5 methods (Attribute, Thin, Pattern, Group, Bounding). Groups can then be used in other POPs to affect only specific elements. Edit page supports rename, convert, delete."
+}

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TouchDesigner MCP Server</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    background: #0a0a0f;
+    color: #f0f0f5;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  .wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 4rem;
+  }
+  header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+  header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #0d7ff2, #5ba3ff, #b478ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+  header p.subtitle {
+    color: #8888a0;
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .badge-row {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 1.5rem 0;
+  }
+  .badge {
+    display: inline-block;
+    padding: 0.35rem 0.9rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+  .badge-blue { background: rgba(13, 127, 242, 0.15); color: #5ba3ff; border: 1px solid rgba(13, 127, 242, 0.3); }
+  .badge-green { background: rgba(80, 200, 120, 0.12); color: #50c878; border: 1px solid rgba(80, 200, 120, 0.25); }
+  .badge-purple { background: rgba(180, 120, 255, 0.12); color: #b478ff; border: 1px solid rgba(180, 120, 255, 0.25); }
+  .badge-orange { background: rgba(255, 160, 60, 0.12); color: #ffa03c; border: 1px solid rgba(255, 160, 60, 0.25); }
+
+  section {
+    margin-bottom: 2.5rem;
+  }
+  section h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #e0e0ef;
+    margin-bottom: 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid #1e1e2e;
+  }
+  section p, section li {
+    color: #a0a0b8;
+    font-size: 0.95rem;
+  }
+  ul.feature-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 0.6rem;
+  }
+  ul.feature-list li {
+    background: #12121a;
+    border: 1px solid #1e1e2e;
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+    color: #c0c0d5;
+  }
+  ul.feature-list li strong {
+    color: #e0e0ef;
+  }
+
+  .links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 2rem 0;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+  .btn-primary {
+    background: #0d7ff2;
+    color: #fff;
+  }
+  .btn-primary:hover { background: #1a8aff; }
+  .btn-secondary {
+    background: #1e1e2e;
+    color: #e0e0ef;
+    border: 1px solid #2a2a3a;
+  }
+  .btn-secondary:hover { border-color: #0d7ff2; }
+
+  .code-block {
+    background: #12121a;
+    border: 1px solid #1e1e2e;
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    font-family: 'SF Mono', 'Fira Code', 'Fira Mono', monospace;
+    font-size: 0.85rem;
+    color: #c0c0d5;
+    overflow-x: auto;
+    margin: 0.8rem 0;
+  }
+  .code-block .comment { color: #555570; }
+  .code-block .keyword { color: #0d7ff2; }
+  .code-block .string { color: #50c878; }
+
+  footer {
+    margin-top: 3rem;
+    text-align: center;
+    font-size: 0.75rem;
+    color: #3a3a50;
+  }
+
+  @media (max-width: 600px) {
+    .wrapper { padding: 1.5rem 0.75rem; }
+    header h1 { font-size: 1.7rem; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <h1>TouchDesigner MCP Server</h1>
+    <p class="subtitle">Control TouchDesigner from any AI assistant via the Model Context Protocol — create operators, connect nodes, execute Python, and build complete visual networks.</p>
+  </header>
+
+  <div class="badge-row">
+    <span class="badge badge-blue">60+ tools</span>
+    <span class="badge badge-green">Online + Offline modes</span>
+    <span class="badge badge-purple">Multi-client compatible</span>
+    <span class="badge badge-orange">MIT License</span>
+  </div>
+
+  <div class="links">
+    <a href="mcp/docs/index.html" class="btn btn-primary">&#x1F4D6; Docs interactivas</a>
+    <a href="https://github.com/tolchx/touchdesigner-MCP" class="btn btn-secondary">GitHub</a>
+    <a href="https://www.npmjs.com/package/touchdesigner-mcp" class="btn btn-secondary">npm</a>
+  </div>
+
+  <section>
+    <h2>&#x1F680; Características</h2>
+    <ul class="feature-list">
+      <li><strong>60+ tools</strong> — CRUD de operadores, parámetros, ejecución Python, networks</li>
+      <li><strong>Modo online</strong> — Conexión directa a TouchDesigner vía HTTP API</li>
+      <li><strong>Modo offline</strong> — Base de conocimiento local de TOPs, CHOPs, SOPs, POPs</li>
+      <li><strong>Network Planner</strong> — Describe tu red en lenguaje natural y se construye sola</li>
+      <li><strong>Batch execution</strong> — Ejecuta hasta 8 tools en una sola llamada</li>
+      <li><strong>Watchdog</strong> — Monitoreo de rendimiento en tiempo real</li>
+      <li><strong>Tutoriales</strong> — 5 tutoriales interactivos integrados</li>
+      <li><strong>Workflows</strong> — 8 workflows reutilizables listos para usar</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>&#x1F525; Instalación rápida</h2>
+    <div class="code-block">
+      <span class="comment"># Usando npm (global)</span><br>
+      npm install -g touchdesigner-mcp<br><br>
+      <span class="comment"># O desde el repositorio</span><br>
+      git clone https://github.com/tolchx/touchdesigner-MCP.git<br>
+      cd touchdesigner/mcp<br>
+      npm install<br>
+      npx tsc<br><br>
+      <span class="comment"># Ejecutar</span><br>
+      TDAPI_HOST=localhost TDAPI_PORT=44444 node dist/index.js
+    </div>
+  </section>
+
+  <section>
+    <h2>&#x1F4CB; Configuración MCP (Claude Desktop / Cursor / Windsurf)</h2>
+    <div class="code-block">
+      {<br>
+      &nbsp;&nbsp;"mcpServers": {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;"touchdesigner": {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"command": "node",<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"args": ["ruta/a/mcp/dist/index.js"],<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"env": {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"TDAPI_HOST": "localhost",<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"TDAPI_PORT": "44444"<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+      &nbsp;&nbsp;}<br>
+      }
+    </div>
+  </section>
+
+  <section>
+    <h2>&#x1F4D6; Documentación</h2>
+    <p>Visita las <a href="mcp/docs/index.html" style="color:#0d7ff2;">docs interactivas</a> para explorar todas las tools con búsqueda en vivo, filtros y schemas de parámetros.</p>
+    <p style="margin-top:0.5rem;">También disponible en el <a href="https://github.com/tolchx/touchdesigner-MCP" style="color:#0d7ff2;">repositorio de GitHub</a> y en el <a href="setup/mcp-marketplace.json" style="color:#0d7ff2;">MCP Marketplace</a>.</p>
+  </section>
+
+  <footer>
+    TouchDesigner MCP v3 &middot; MIT License &middot; <a href="https://github.com/tolchx/touchdesigner-MCP" style="color:#3a3a50;">tolchx/touchdesigner-MCP</a>
+  </footer>
+
+</div>
+</body>
+</html>

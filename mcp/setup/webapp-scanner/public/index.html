@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TouchDesigner Auto-Expand</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>TouchDesigner Batch Auto-Expand</h1>
+        <p>Esta herramienta descomprime múltiples archivos <code>.toe</code> automáticamente, genera un <code>README.md</code> y crea un Trae Skill para cada uno de ellos.</p>
+        
+        <div class="card">
+            <div class="input-group">
+                <label for="dirPath">Ruta de la carpeta con archivos .toe:</label>
+                <input type="text" id="dirPath" placeholder="Ej: C:\Users\Tolch\Documents\AI_Code\Touchdesigner_MCP\claude-touchdesigner\toe" value="C:\Users\User\Documents\TouchDesigner\Projects">
+                <button id="scanBtn">Escanear</button>
+            </div>
+            
+            <div class="input-group">
+                <label for="outPath">Carpeta de destino (Opcional, dejar en blanco para usar la misma):</label>
+                <input type="text" id="outPath" placeholder="Ej: C:\Users\Tolch\Documents\AI_Code\Touchdesigner_MCP\claude-touchdesigner\Toe_Expand" value="C:\Users\User\Documents\TouchDesigner\Toe_Expand">
+            </div>
+        </div>
+
+        <div id="fileListContainer" class="hidden">
+            <h3>Archivos encontrados:</h3>
+            <ul id="fileList"></ul>
+            <button id="processBtn" class="primary-btn">Descomprimir Seleccionados</button>
+        </div>
+
+        <div id="statusContainer" class="hidden">
+            <h3>Estado del proceso:</h3>
+            <div id="statusLogs"></div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

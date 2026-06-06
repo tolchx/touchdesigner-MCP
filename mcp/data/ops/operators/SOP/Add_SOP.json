@@ -1,0 +1,293 @@
+{
+  "family": "SOP",
+  "pageTitle": "Add SOP",
+  "pageSlug": "Add_SOP",
+  "url": "https://docs.derivative.ca/Add_SOP",
+  "tdOpTypeGuess": "addSOP",
+  "summary": "[  edit  ]\nThe Add  SOP  can both create new Points and Polygons on its own, or it can be used to add Points and Polygons to an existing input.\nIf an input is specified, this  SOP  adds points and polygons to it as specified below. If no input is specified, then it generates the points and polygons below as a new entity. It can read points and vertices from DATs. See also  DAT to SOP .\naddSOP_Class\nContents\n1   Summary\n2   Parameters - Points Page\n3   Parameters - Polygons Page\n4   Parameters - Post Page\n5   Uses\n6   Operator Inputs\n7   Info CHOP Channels\n7.1   Common SOP Info Channels\n7.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [
+    {
+      "page": "Points",
+      "label": "Points  DAT",
+      "name": "pointdat",
+      "description": "Path  to a  Table DAT  containing point data. By default, x, y, z, and w can be defined in the first 4 columns of the table using un-named columns."
+    },
+    {
+      "page": "Points",
+      "label": "Any other columns are added as single",
+      "description": "float attributes."
+    },
+    {
+      "page": "Points",
+      "label": "Named  Attributes",
+      "name": "namedattribs",
+      "description": "Allows extra attributes to be defined in the Point  Table DAT  above."
+    },
+    {
+      "page": "Points",
+      "label": "Delete  Geometry , Keep Points",
+      "name": "keep",
+      "description": "Use this option to remove any unused points. When checked, existing geometry in the input are discarded, but the polygons created by this  SOP  are kept, as well as any points in the input."
+    },
+    {
+      "page": "Points",
+      "label": "Add Points",
+      "name": "addpts",
+      "description": "When On you can add individual points with position and weight of your choosing by using the parameters below."
+    },
+    {
+      "page": "Points",
+      "label": "Point",
+      "name": "point",
+      "description": "Sequence of points to add"
+    },
+    {
+      "page": "Points",
+      "label": "Position",
+      "name": "point0pos",
+      "description": "⊞  - The three input fields represent the X, Y and Z coordinates of the point. These values can be constants (numbers) or variables. Below are three examples:"
+    },
+    {
+      "page": "Points",
+      "label": "Weight",
+      "name": "point0weight",
+      "description": "The spline weight of the point. If the point is later used to create a spline (nurbs or Bezier) primitive, the weight will influence the shape of the primitive and may cause that primitive to become rational. Polygons and metaballs are not affected by this weight."
+    },
+    {
+      "page": "Polygons",
+      "label": "Method",
+      "name": "method",
+      "description": "⊞  - Specify to create polygons from the points by using a  Group  method or Pattern Method."
+    },
+    {
+      "page": "Polygons",
+      "label": "By  Group",
+      "name": "group",
+      "description": "Create as many polygons as determined by the group field and by the grouping / skipping rules."
+    },
+    {
+      "page": "Polygons",
+      "label": "By Pattern",
+      "name": "pattern",
+      "description": "Specify the points to use to create polygons using the parameters  Polygon  Table or  Polygon  0 below."
+    },
+    {
+      "page": "Polygons",
+      "label": "Group",
+      "name": "group",
+      "description": "Subset of points to be connected."
+    },
+    {
+      "page": "Polygons",
+      "label": "Add",
+      "name": "add",
+      "description": "⊞  - Optionally join subgroups of points."
+    },
+    {
+      "page": "Polygons",
+      "label": "All Points",
+      "name": "all",
+      "description": "Adds all points just as if you added them manually in the Points page."
+    },
+    {
+      "page": "Polygons",
+      "label": "Groups of N Points",
+      "name": "group",
+      "description": "Adds only the number of points specified."
+    },
+    {
+      "page": "Polygons",
+      "label": "Skip Every Nth  Point",
+      "name": "skip",
+      "description": "Adds points, buts skips every Nth one."
+    },
+    {
+      "page": "Polygons",
+      "label": "Each  Group  Separately",
+      "name": "sep",
+      "description": "Creates separate polygons for each group specified in the   Group   parameter. For example, if you have a  Group   SOP  creating a group called group1 and using the  Create Boundary Groups  option, you can connect this to an Add  SOP  and enter group1__* in the   Group   parameter. If  Each  Group  Separately  is chosen, polygons will be created for each boundary on the surface."
+    },
+    {
+      "page": "Polygons",
+      "label": "N",
+      "name": "inc",
+      "description": "Increment / skip amount to use for adding points."
+    },
+    {
+      "page": "Polygons",
+      "label": "Closed",
+      "name": "closedall",
+      "description": "Closes the generated polygons."
+    },
+    {
+      "page": "Polygons",
+      "label": "Polygons Table",
+      "name": "polydat",
+      "description": "Path  to a  Table DAT  containing polygon data. Accepts rows of polygons specified by point number in the first column. The second column indicates if the polygons are closed (1) or open (0)."
+    },
+    {
+      "page": "Polygons",
+      "label": "Polygon",
+      "name": "poly",
+      "description": "Sequence of polygon patterns"
+    },
+    {
+      "page": "Polygons",
+      "label": "Pattern",
+      "name": "poly0pattern",
+      "description": "Create a fixed number of polygons by specifying a point pattern for each polygon. Enter connection lists here to add polygons. These consist of a list of point numbers to define the order in which the points are to be connected. The form is: {from}-{to}[:{every}][,{of}]."
+    },
+    {
+      "page": "Polygons",
+      "label": "1 2 3 4",
+      "description": "Makes a polygon by connecting point numbers 1,2,3,4."
+    },
+    {
+      "page": "Polygons",
+      "label": "1 3",
+      "description": "15 16 8  - All points from 3-15 are included."
+    },
+    {
+      "page": "Polygons",
+      "label": "!100",
+      "description": "200  - Every point <100 and >200 is included."
+    },
+    {
+      "page": "Polygons",
+      "label": "Closed",
+      "name": "poly0closed",
+      "description": "To create a closed polygon, check the Closed button."
+    },
+    {
+      "page": "Post",
+      "label": "Remove Unused Points",
+      "name": "remove",
+      "description": "Keep only the connected points, and discard unused points."
+    },
+    {
+      "page": "Post",
+      "label": "Compute Normals",
+      "name": "normals",
+      "description": "Creates normals on the geometry."
+    },
+    {
+      "page": "Post",
+      "label": "Points added in this way are appended to the end of the point list if a Source is specified. Middle",
+      "description": "mouse click on the  SOP  node to find out how many points there are. For example, if you have added two points and there are 347 points (from 0 to 346), you have added the last two point numbers: 345 and 346."
+    },
+    {
+      "page": "Post",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Post",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Post",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Post",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Post",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Post",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Post",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Post",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Post",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Post",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Post",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Post",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Post",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Post",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Post",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Post",
+      "label": "A polygon is a type of  Primitive  that is formed from a set of  Vertices  in 3D that are implicitly connected together to form a multi",
+      "description": "edge shape."
+    },
+    {
+      "page": "Post",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "n la proximidad (distancia) o la conectividad. Genera los índices de estos neighbors en un atributo de arreglo (Nebr) y el recuento de neighbors (NumNebrs). También puede generar la distancia promedio o el promedio ponderado inverso de la distancia de los atributos de los neighbors.24 * Parámetros: Neighbors Type (By Distance, Connected), Max Neighbors Distance, Max Neighbors, Output (Neighbors, Average, Inverse Distance Weighted Average), Neighbor Attrib Name, Num Neighbors Attrib Name, Add Distance Attribute, Neighbor Point Attributes.24 * Phaser POP: Similar a Phaser CHOP, realiza una interpolación de animación escalonada (con desfase temporal) en un atributo POP. Genera un nuevo atributo \"Phaser\" donde cada punto anima de 0 a 1 en un ciclo, pero en diferentes momentos.25 * Projection POP: Transforma un atributo espacial 3D de tipo float3 (como P) entre diferentes sistemas de coordenadas (Cartesiano, Esférico, Cilíndrico, Espacio de Pantalla, Coordenadas de Dispositivo N"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "con un nuevo nombre. * **Eliminar atributos**: Puedes borrar atributos de puntos, vértices o primitivas. --- #### 6. Blend POP * **¿Qué hace?** Este operador te permite **mezclar (blender) un atributo** que se encuentra en todas sus entradas de POPs. Un ejemplo común es mezclar el atributo de posición (`P`) de varias geometrías. * **Características clave:** * Ofrece **más de 8 tipos de mezcla**, como promedio (`Average`), máximo (`Maximum`), mínimo (`Minimum`), suma (`Add`) o producto (`Multiply`) de los atributos de todas las entradas. * Los tipos de mezcla más avanzados pueden usar un **factor de mezcla de entrada** (generalmente entre 0 y 1) para cada entrada, lo que te da un control preciso sobre cómo se mezclan. * Puedes mezclar múltiples atributos de puntos, vértices y primitivas al mismo tiempo. * Puede obtener los **pesos de la mezcla** de atributos de las propias entradas POP. * Su arquitectura para manejar múltiples entradas"
+    },
+    {
+      "source": "POPs Investigation and Workshop Plan.markdown",
+      "excerpt": "eation**: Generated via POPs like `Attribute POP` or on-the-fly by specifying new names in output scopes. ## 3. POPs vs. SOPs - **Execution**: POPs run on the GPU (parallelized compute shaders); SOPs run on the CPU. - **Workflow**: POPs combine strengths of SOPs, CHOPs, and TOPs for a modern approach. - **Attributes**: POPs offer advanced attribute manipulation (e.g., multi-component, high precision). - **Limitations**: POPs lack some SOP features (e.g., tracing, booleans), though these may be added later. ## 4. Key Features - **GPU Acceleration**: Uses compute shaders for speed and efficiency. - **Memory Optimization**: References unchanged attributes, allocating memory only for modified data. - **Math Operations**: POPs like `Math`, `Transform`, and `Normalize` enable coding-free manipulations. - **Multi-Input Support**: POPs like `Merge` and `Switch` handle multiple inputs with flexible configurations. - **Swizzling**: Manipulate attribute components (e.g., `P.xy` for X and Y). ## 5"
+    },
+    {
+      "source": "TouchDesigner POPs - a first look - YouTube.txt",
+      "excerpt": "ng together the attributes that I actually need. So I know here that I want to use random. So I'm labeling the random value life max. (06:04) So I'm taking that value which I've created here. I've labeled that in the attribute scope. And this is something that as we actually go through proper tutorials of how to build stuff, we're going to get more comfortable with. But basically, we have to label a lot of these parameters. And so I'm putting that into this attribute combine which is basically adding that attribute to my long list of attributes that's growing. (06:31) We start off a feedback which basically is very very similar to what we've worked with before where everything is basically running. It's taking that data and then feeding that back and it's incrementing step by step. So what's happening in this feedback loop is I'm starting off with something called a math mix and I'm incrementing here in this uniform. (06:53) This is basically the increment for how fast I move from zero"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

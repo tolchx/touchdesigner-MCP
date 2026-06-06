@@ -1,0 +1,21 @@
+{
+  "family": "SOP",
+  "pageTitle": "Sequence Blend SOP",
+  "pageSlug": "Sequence_Blend_SOP",
+  "url": "https://docs.derivative.ca/Sequence_Blend_SOP",
+  "tdOpTypeGuess": "sequenceBlendSOP",
+  "summary": "[  edit  ]\nThe Sequence Blend  SOP  allows you do 3D Metamorphosis between shapes and Interpolate point position, colors, point normals, and texture coordinates between shapes.\nSee also  Blend SOP  and  Switch SOP .\nsequenceblendSOP_Class\nContents\n1   Summary\n2   Parameters -  Page\n3   Operator Inputs\n4   Info CHOP Channels\n4.1   Common SOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [
+    {
+      "index": 0,
+      "description": "-"
+    }
+  ],
+  "parameters": [],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

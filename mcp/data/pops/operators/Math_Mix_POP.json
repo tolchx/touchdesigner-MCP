@@ -1,0 +1,272 @@
+{
+  "pageTitle": "Math Mix POP",
+  "pageSlug": "Math_Mix_POP",
+  "url": "https://docs.derivative.ca/Math_Mix_POP",
+  "experimental": false,
+  "tdOpTypeGuess": "mathMixPOP",
+  "inputs": [],
+  "parameters": [
+    {
+      "name": "lengthmismatchnotif",
+      "label": "Length Mismatch",
+      "type": "menu",
+      "default": "warning",
+      "options": [
+        "error",
+        "warning",
+        "ignore"
+      ],
+      "description": "Notification action when input point counts differ."
+    },
+    {
+      "name": "lengthmismatchaction",
+      "label": "Length Mismatch Action",
+      "type": "menu",
+      "default": "hold",
+      "options": [
+        "hold",
+        "0",
+        "1",
+        "none"
+      ],
+      "description": "How to handle out-of-range samples."
+    },
+    {
+      "name": "group",
+      "label": "Group",
+      "type": "str",
+      "default": "",
+      "description": "Point or primitive group to operate on."
+    },
+    {
+      "name": "angleunit",
+      "label": "Angle Units",
+      "type": "menu",
+      "default": "deg",
+      "options": [
+        "deg",
+        "rad",
+        "cycle"
+      ],
+      "description": "Degrees, Radians, or Cycles (0-1 = one rotation)."
+    },
+    {
+      "name": "attrclass",
+      "label": "Attribute Class",
+      "type": "menu",
+      "default": "point",
+      "options": [
+        "point",
+        "vertex",
+        "primitive"
+      ],
+      "description": "Operate on point, vertex, or primitive attributes."
+    },
+    {
+      "name": "comb0oper",
+      "label": "Operation",
+      "type": "menu",
+      "default": "none",
+      "options": [
+        "none",
+        "copya",
+        "abs",
+        "sign",
+        "sqrt",
+        "square",
+        "inverse",
+        "floor",
+        "round",
+        "ceil",
+        "int",
+        "fract",
+        "normalize",
+        "exp10",
+        "exp2",
+        "exp",
+        "log10",
+        "log2",
+        "ln",
+        "sin",
+        "cos",
+        "tan",
+        "asin",
+        "acos",
+        "atan",
+        "degrees",
+        "radians",
+        "length",
+        "compadd",
+        "compsub",
+        "compmult",
+        "compdiv",
+        "compavg",
+        "compmin",
+        "compmax",
+        "add",
+        "asubb",
+        "bsuba",
+        "mult",
+        "adivb",
+        "bdiva",
+        "apowerb",
+        "logba",
+        "avg",
+        "min",
+        "max",
+        "mod",
+        "intadivb",
+        "gt",
+        "gte",
+        "lt",
+        "lte",
+        "eq",
+        "ne",
+        "atan2",
+        "dot",
+        "angle",
+        "cross",
+        "reflect",
+        "aaddbmultc",
+        "amultbaddc",
+        "aaddbaddc",
+        "amultbmultc",
+        "rangefrom",
+        "rangeto",
+        "mix",
+        "ifelse",
+        "loop",
+        "zigzag",
+        "clamp",
+        "smoothstep",
+        "bltealtc",
+        "bltaltec",
+        "refract",
+        "dbtopow",
+        "powtodb",
+        "dbtoamp",
+        "amptodb",
+        "rgbtohsv",
+        "hsvtorgb"
+      ],
+      "description": "The math operation to perform (70+ available)."
+    },
+    {
+      "name": "comb0scopea",
+      "label": "Scope A",
+      "type": "str",
+      "default": "",
+      "description": "First operand attribute or component (e.g., P(1) or P.yz)."
+    },
+    {
+      "name": "comb0scopeb",
+      "label": "Scope B",
+      "type": "str",
+      "default": "",
+      "description": "Second operand attribute (if applicable)."
+    },
+    {
+      "name": "comb0scopec",
+      "label": "Scope C",
+      "type": "str",
+      "default": "",
+      "description": "Third operand attribute (if applicable)."
+    },
+    {
+      "name": "comb0result",
+      "label": "Result Scope",
+      "type": "str",
+      "default": "",
+      "description": "Output attribute name or component."
+    },
+    {
+      "name": "delattrs",
+      "label": "Delete Attributes",
+      "type": "str",
+      "default": "",
+      "description": "Attributes to delete from output."
+    },
+    {
+      "name": "delnewattrs",
+      "label": "Delete New Attributes",
+      "type": "toggle",
+      "default": false,
+      "description": "Remove attributes created by this operator."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "de curva directamente, aunque la subdivisión de splines es posible utilizando operadores como Line POP y Line Divide POP.7 Los atributos son cruciales para almacenar datos adicionales por punto, vértice o primitiva, como normales (N), coordenadas de textura (uv) y color (Cd).1 Los POPs permiten la creación, modificación, duplicación, cambio de nombre y eliminación de estos atributos.1 El énfasis en los \"atributos\" y su manipulación a través de varios POPs (por ejemplo, Attribute POP, GLSL POP, Math Mix POP) apunta a una filosofía de diseño centrada en los atributos para los POPs. Muchos POPs (Attribute POP, GLSL POP, Math Mix POP, etc.) están explícitamente diseñados para crear, modificar o combinar atributos.1 La documentación destaca que los atributos se almacenan como Objetos de Búfer de Almacenamiento de Shader (SSBOs) en los GLSL POPs.12 Esta estructuración de datos en SSBOs, una característica central de la programación de GPU moderna (GLSL, Vulkan), permite un procesamiento altamente paral"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "de curva directamente, aunque la subdivisión de splines es posible utilizando operadores como Line POP y Line Divide POP.7 Los atributos son cruciales para almacenar datos adicionales por punto, vértice o primitiva, como normales (N), coordenadas de textura (uv) y color (Cd).1 Los POPs permiten la creación, modificación, duplicación, cambio de nombre y eliminación de estos atributos.1 El énfasis en los \"atributos\" y su manipulación a través de varios POPs (por ejemplo, Attribute POP, GLSL POP, Math Mix POP) apunta a una filosofía de diseño centrada en los atributos para los POPs. Muchos POPs (Attribute POP, GLSL POP, Math Mix POP, etc.) están explícitamente diseñados para crear, modificar o combinar atributos.1 La documentación destaca que los atributos se almacenan como Objetos de Búfer de Almacenamiento de Shader (SSBOs) en los GLSL POPs.12 Esta estructuración de datos en SSBOs, una característica central de la programación de GPU moderna (GLSL, Vulkan), permite un procesamiento altamente p"
+    },
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "de curva directamente, aunque la subdivisión de splines es posible utilizando operadores como Line POP y Line Divide POP.7 Los atributos son cruciales para almacenar datos adicionales por punto, vértice o primitiva, como normales (N), coordenadas de textura (uv) y color (Cd).1 Los POPs permiten la creación, modificación, duplicación, cambio de nombre y eliminación de estos atributos.1 El énfasis en los \"atributos\" y su manipulación a través de varios POPs (por ejemplo, Attribute POP, GLSL POP, Math Mix POP) apunta a una filosofía de diseño centrada en los atributos para los POPs. Muchos POPs (Attribute POP, GLSL POP, Math Mix POP, etc.) están explícitamente diseñados para crear, modificar o combinar atributos.1 La documentación destaca que los atributos se almacenan como Objetos de Búfer de Almacenamiento de Shader (SSBOs) en los GLSL POPs.12 Esta estructuración de datos en SSBOs, una característica central de la programación de GPU moderna (GLSL, Vulkan), permite un procesamiento altamente paral"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "Similar al Lookup Attribute POP, usa componentes de atributos como índices para realizar búsquedas en canales. • Experimental:Lookup Texture POP: Similar a los anteriores, pero utiliza componentes de atributos como índices para realizar búsquedas en texturas. • Experimental:Math Combine POP: Similar al Attribute Combine, permite combinar datos de múltiples entradas y especificar qué atributos se deben combinar. También soporta la creación automática de nombres de atributos. • Experimental:Math Mix POP: Permite mezclar datos de múltiples entradas. Al igual que el Math POP, ofrece capacidades de manipulación sin codificación y la creación fácil de nuevos atributos. Soporta la creación automática de nombres de atributos y utiliza atributos de solo lectura. • Experimental:Math POP: Un operador clave para realizar operaciones matemáticas y funciones simples en atributos sin necesidad de escribir código. Permite crear nuevos atributos para almacenar los resultados. También puedes usarlo para cre"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "Similar al Lookup Attribute POP, usa componentes de atributos como índices para realizar búsquedas en canales. • Experimental:Lookup Texture POP: Similar a los anteriores, pero utiliza componentes de atributos como índices para realizar búsquedas en texturas. • Experimental:Math Combine POP: Similar al Attribute Combine, permite combinar datos de múltiples entradas y especificar qué atributos se deben combinar. También soporta la creación automática de nombres de atributos. • Experimental:Math Mix POP: Permite mezclar datos de múltiples entradas. Al igual que el Math POP, ofrece capacidades de manipulación sin codificación y la creación fácil de nuevos atributos. Soporta la creación automática de nombres de atributos y utiliza atributos de solo lectura. • Experimental:Math POP: Un operador clave para realizar operaciones matemáticas y funciones simples en atributos sin necesidad de escribir código. Permite crear nuevos atributos para almacenar los resultados. También puedes usarlo para"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "Similar al Lookup Attribute POP, usa componentes de atributos como índices para realizar búsquedas en canales. • Experimental:Lookup Texture POP: Similar a los anteriores, pero utiliza componentes de atributos como índices para realizar búsquedas en texturas. • Experimental:Math Combine POP: Similar al Attribute Combine, permite combinar datos de múltiples entradas y especificar qué atributos se deben combinar. También soporta la creación automática de nombres de atributos. • Experimental:Math Mix POP: Permite mezclar datos de múltiples entradas. Al igual que el Math POP, ofrece capacidades de manipulación sin codificación y la creación fácil de nuevos atributos. Soporta la creación automática de nombres de atributos y utiliza atributos de solo lectura. • Experimental:Math POP: Un operador clave para realizar operaciones matemáticas y funciones simples en atributos sin necesidad de escribir código. Permite crear nuevos atributos para almacenar los resultados. También puedes usarlo para cre"
+    }
+  ],
+  "useCases": [
+    "Multi-step attribute math pipelines in a single node",
+    "Combining attributes from multiple inputs with auto-naming (in1_, in2_)",
+    "Creating complex derived attributes (dot product, cross product, smoothstep)",
+    "Debugging GLSL shaders via generated code inspection (Info DAT)"
+  ],
+  "examples": [
+    {
+      "name": "State Blend",
+      "description": "Two Attribute POPs → Math Mix POP (mix operation) for smooth blending",
+      "difficulty": "intermediate"
+    },
+    {
+      "name": "Color Transform",
+      "description": "Math Mix POP (RGBtoHSV → modify V → HSVtoRGB) for color manipulation",
+      "difficulty": "advanced"
+    },
+    {
+      "name": "Force Accumulation",
+      "description": "Math Mix POP (A+B*C for force = mass × acceleration)",
+      "difficulty": "intermediate"
+    }
+  ],
+  "commonCombinations": [
+    "Two Attribute POPs → Math Mix POP (combine states)",
+    "CHOP to POP → Math Mix POP (process channel data)",
+    "Math Mix POP → GLSL POP (pre-process attributes)",
+    "Math Mix POP → Render TOP (output visualization)"
+  ],
+  "troubleshooting": [
+    {
+      "problem": "No blending",
+      "solution": "Check Scope A/B/C match incoming attribute names. Use menu > to browse attributes."
+    },
+    {
+      "problem": "Wrong results",
+      "solution": "Check Angle Units — degrees vs radians vs cycles."
+    },
+    {
+      "problem": "Attributes missing",
+      "solution": "Use Delete Input Attributes toggle carefully — it strips everything not kept."
+    },
+    {
+      "problem": "Debug needed",
+      "solution": "Middle-click node for pseudocode, or attach Info DAT for generated GLSL."
+    }
+  ],
+  "description": "Multi-step attribute math operator with sequential blocks. Each block operates on 1-3 attributes using 70+ operations (A+B, sin(A), mix(A,B,C), etc.). Supports multiple inputs with auto-naming (in1_, in2_ prefixes), built-in attributes (_ prefixed), and generates GLSL code viewable via Info DAT."
+}

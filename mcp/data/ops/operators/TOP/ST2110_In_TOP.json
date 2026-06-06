@@ -1,0 +1,847 @@
+{
+  "family": "TOP",
+  "pageTitle": "ST2110 In TOP",
+  "pageSlug": "ST2110_In_TOP",
+  "url": "https://docs.derivative.ca/ST2110_In_TOP",
+  "tdOpTypeGuess": "sT2110InTOP",
+  "summary": "[  edit  ]\nNOTE\nLicense:  Only available in  TouchDesigner Pro .\nSupport for Blackmagic IP range and Deltacast DELTA-ip-ST2110 devices.\nSee also  ST2110 Out TOP ,  ST2110 Device CHOP .\nst2110inTOP_Class\nContents\n1   Summary\n2   Parameters - ST2110 In Page\n3   Parameters - Common Page\n4   Info CHOP Channels\n4.1   Specific ST2110 In TOP Info Channels\n4.2   Common TOP Info Channels\n4.3   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "ST2110 In",
+      "label": "Active",
+      "name": "active",
+      "description": "Controls if this input has it's connection open and is capturing data."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "ST2110 Device  CHOP",
+      "name": "st2110devicechop",
+      "description": "Since a NIC has one set of settings such as DHCP/IP settings, that is controlled for each device using the  ST2110 Device CHOP . This node will use that device to discover available input channels, and use the settings configured in that node for it's operation."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "Device",
+      "name": "device",
+      "description": "Will be populated when the  ST2110 Device CHOP  is active and configured properly. Select which input channel on the device to use."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "Setup Mode",
+      "name": "setupmode",
+      "description": "⊞  - Controls how this node configures it's input streams."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "SDP Parameters",
+      "name": "sdpparameters",
+      "description": "Use the Video, Audio and Ancillary SDP parameters to point to string that contain the SDPs each essences."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "NMOS",
+      "name": "nmos",
+      "description": "Use NMOS to push the configuration onto this stream. The  Riedel NMOS Explorer  is a free basic app that does NMOS control."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "Video SDP",
+      "name": "videosdp",
+      "description": "The SDP string for the video essence."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "Audio SDP",
+      "name": "audiosdp",
+      "description": "The SDP string for the audio essence."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "Ancillary SDP",
+      "name": "ancillarysdp",
+      "description": "The SDP string for the ancillary essence."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "Set Source IP from SDP",
+      "name": "setsourceipfromsdp",
+      "description": "On devices that support it, this causes the Source IP to also be assigned to the device's configuration, based on what is in the SDP."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "Main Stream Identifier",
+      "name": "mainstreamidentifier",
+      "description": "Default's to 'primary' when blank, controls the name of identifier to select the section of the SDP to use, for the main stream."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "SPS Stream Identifier",
+      "name": "spsstreamidentifier",
+      "description": "Default's to 'secondary' when blank, controls the name of identifier to select the section of the SDP to use, for the SPS stream."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "Deinterlace",
+      "name": "deinterlace",
+      "description": "⊞  - Controls how the content is deinterlaced, if desired."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "Field Precedence",
+      "name": "precedence",
+      "description": "⊞  - When using 'Bob (Split)' deinterlacing, controls which field is used as the first frame of the two fields."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "Input Pixel Format",
+      "name": "inputpixelformat",
+      "description": "⊞  - Controls the bit depth to convert the input signal into when uploading the data to the  GPU ."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "Input Color Space",
+      "name": "inputcolorspace",
+      "description": "⊞  - Controls what color space the input data will be treated as. It will be converted to the Working  Color Space  when uploaded to the  GPU ."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "Automatic",
+      "name": "automatic",
+      "description": "Automatically try to determine the input's color space based on color space metadata available from the input, if any. If no color space can be determined, it is assumed to be sRGB."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "sRGB",
+      "name": "srgb",
+      "description": "sRGB  color space, with sRGB transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "sRGB - Linear",
+      "name": "srgblinear",
+      "description": "sRGB  color space, with linear transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "Rec.601 (NTSC)",
+      "name": "rec601ntsc",
+      "description": "Rec.601  with NTSC primaries color space, with Rec.601 transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "Rec.709",
+      "name": "rec709",
+      "description": "Rec.709  color space, with Rec.709 (same as Rec.2020) transfer function. Considered an SDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "Rec.2020",
+      "name": "rec2020",
+      "description": "Rec.2020  color space, with Rec.2020 (same as Rec.709) transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "Rec.2020 ST2084PQ",
+      "name": "rec2020st2084pq",
+      "description": "Rec.2020  color space, with  Perceptual Quantizer  transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "Rec.2020 HLG",
+      "name": "rec2020hlg",
+      "description": "Rec.2020  color space, with  Hybrid Log Gamma  transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "DCI-P3",
+      "name": "dcip3",
+      "description": "DCI-P3  color space, with D65 white point and 2.6 gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "DCI-P3 (D60)",
+      "name": "dcip3d60",
+      "description": "DCI-P3 \"D60 sim\"  color space, with D60 white point, and 2.6 gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "Display-P3 (D65)",
+      "name": "displayp3d65",
+      "description": "Display-P3  color space, with D65 white point, and sRGB gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "Display-P3 (D65) - Linear",
+      "name": "displayp3d65linear",
+      "description": "Display-P3  color space, with D65 white point, and linear transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "ACES2065-1",
+      "name": "aces2065",
+      "description": "1  -  ACES 2065-1  (also known as ACES AP0) color space, with a linear gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "ACEScg",
+      "name": "acescg",
+      "description": "ACEScg  (also known as ACES AP1) color space, with a linear gamma transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "ACESproxy",
+      "name": "acesproxy",
+      "description": "ACESproxy  color space, which has a log transfer function. Considered an HDR color space with respect to  Reference  White."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "Passthrough",
+      "name": "passthrough",
+      "description": "When selected, the color values will be used as-is in the operation, without any modification or attempt to convert them into the Working Color Space."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "Input  Reference  White",
+      "name": "inputreferencewhite",
+      "description": "⊞  - When converting the input color values to the Working Color Space, this controls how they should be treated with respect to  Reference White . If the Working Color Space is the same  Reference  White, then no adjustment is done. If they are different, then the  Reference  White level (brightness) of the colors will be adjusted to the range expected by the Working Color Space. For example if the project is set to have a SDR  Reference  White of 120 nits, and the HDR  Reference  White is 80 nits, then a color of (1, 1, 1), which is 120 nits in the SDR color space, will be converted to be (1.5, 1.5, 1.5), which is 120 nits still in the HDR Working Color Space."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "Default For Color Space",
+      "name": "default",
+      "description": "Will use either the SDR or the HDR  Reference  White, based on the color space detected/selected."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "Standard (SDR)",
+      "name": "sdr",
+      "description": "Will treat the Input Color Space as SDR for it's reference white value."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "High (HDR)",
+      "name": "hdr",
+      "description": "Will treat the Input Color Space as HDR for it's reference white value."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "Transfer Mode",
+      "name": "transfermode",
+      "description": "⊞  - Controls the strategy used to upload images to the  GPU ."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "Automatic",
+      "name": "automatic",
+      "description": "Use the best option based on the hardware."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "Pre-Upload",
+      "name": "preupload",
+      "description": "Upload every frame as they become available from the device. This is usually used for Automatic."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "On-Demand",
+      "name": "ondemand",
+      "description": "Only upload frames when they are chosen to be shown. This is a lower performance mode, and usually only useful in a low performance situation, where PCIe bandwidth is constrained and frames are already being dropped."
+    },
+    {
+      "page": "ST2110 In",
+      "label": "Reset Stats",
+      "name": "resetstats",
+      "description": "Reset the stats given from the  Info CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Output  Resolution",
+      "name": "outputresolution",
+      "description": "⊞  - quickly change the resolution of the  TOP 's data."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's resolution"
+    },
+    {
+      "page": "Common",
+      "label": "Eighth",
+      "name": "eighth",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Quarter",
+      "name": "quarter",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Half",
+      "name": "half",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "2X",
+      "name": "2x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "4X",
+      "name": "4x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "8X",
+      "name": "8x",
+      "description": "Multiply the input's resolution by that amount."
+    },
+    {
+      "page": "Common",
+      "label": "Fit  Resolution",
+      "name": "fit",
+      "description": "Grow or shrink the input resolution to fit this resolution, while keeping the aspect ratio the same."
+    },
+    {
+      "page": "Common",
+      "label": "Limit  Resolution",
+      "name": "limit",
+      "description": "Limit the input resolution to be not larger than this resolution, while keeping the aspect ratio the same."
+    },
+    {
+      "page": "Common",
+      "label": "Custom  Resolution",
+      "name": "custom",
+      "description": "Directly control the width and height."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution",
+      "name": "resolution",
+      "description": "⊞  - Enabled only when the  Resolution  parameter is set to Custom  Resolution . Some Generators like Constant and Ramp do not use inputs and only use this field to determine their size. The drop down menu on the right provides some commonly used resolutions."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution  Menu",
+      "name": "resmenu",
+      "description": "A drop-down menu with some commonly used resolutions."
+    },
+    {
+      "page": "Common",
+      "label": "Use Global Res Multiplier",
+      "name": "resmult",
+      "description": "Uses the Global  Resolution  Multiplier found in  Edit>Preferences>TOPs . This multiplies all the TOPs resolutions by the set amount. This is handy when working on computers with different hardware specifications. If a project is designed on a desktop workstation with lots of graphics memory, a user on a laptop with only 64MB VRAM can set the Global  Resolution  Multiplier to a value of half or quarter so it runs at an acceptable speed. By checking this checkbox on, this  TOP  is affected by the global multiplier."
+    },
+    {
+      "page": "Common",
+      "label": "Output Aspect",
+      "name": "outputaspect",
+      "description": "⊞  - Sets the image aspect ratio allowing any textures to be viewed in any size. Watch for unexpected results when compositing TOPs with different aspect ratios. (You can define images with non-square pixels using xres, yres, aspectx, aspecty where xres/yres != aspectx/aspecty.)"
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's aspect ratio."
+    },
+    {
+      "page": "Common",
+      "label": "Resolution",
+      "name": "resolution",
+      "description": "Uses the aspect of the image's defined resolution (ie 512x256 would be 2:1), whereby each pixel is square."
+    },
+    {
+      "page": "Common",
+      "label": "Custom Aspect",
+      "name": "custom",
+      "description": "Lets you explicitly define a custom aspect ratio in the Aspect parameter below."
+    },
+    {
+      "page": "Common",
+      "label": "Aspect",
+      "name": "aspect",
+      "description": "⊞  - Use when Output Aspect parameter is set to Custom Aspect."
+    },
+    {
+      "page": "Common",
+      "label": "Aspect Menu",
+      "name": "armenu",
+      "description": "A drop-down menu with some commonly used aspect ratios."
+    },
+    {
+      "page": "Common",
+      "label": "Input Smoothness",
+      "name": "inputfiltertype",
+      "description": "⊞  - This controls pixel filtering on the input image of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Nearest Pixel",
+      "name": "nearest",
+      "description": "Uses nearest pixel or accurate image representation. Images will look jaggy when viewing at any zoom level other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Interpolate Pixels",
+      "name": "linear",
+      "description": "Uses linear filtering between pixels. This is how you get  TOP  images in viewers to look good at various zoom levels, especially useful when using any Fill Viewer setting other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Mipmap Pixels",
+      "name": "mipmap",
+      "description": "Uses   mipmap  filtering when scaling images. This can be used to reduce artifacts and sparkling in moving/scaling images that have lots of detail."
+    },
+    {
+      "page": "Common",
+      "label": "Fill  Viewer",
+      "name": "fillmode",
+      "description": "⊞  - Determine how the  TOP  image is displayed in the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the same Fill Viewer settings as it's input."
+    },
+    {
+      "page": "Common",
+      "label": "Fill",
+      "name": "fill",
+      "description": "Stretches the image to fit the edges of the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Horizontal",
+      "name": "width",
+      "description": "Stretches image to fit viewer horizontally."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Vertical",
+      "name": "height",
+      "description": "Stretches image to fit viewer vertically."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Best",
+      "name": "best",
+      "description": "Stretches or squashes image so no part of image is cropped."
+    },
+    {
+      "page": "Common",
+      "label": "Fit Outside",
+      "name": "outside",
+      "description": "Stretches or squashes image so image fills viewer while constraining it's proportions. This often leads to part of image getting cropped by viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Native  Resolution",
+      "name": "nativeres",
+      "description": "Displays the native resolution of the image in the viewer."
+    },
+    {
+      "page": "Common",
+      "label": "Viewer Smoothness",
+      "name": "filtertype",
+      "description": "⊞  - This controls pixel filtering in the viewers."
+    },
+    {
+      "page": "Common",
+      "label": "Nearest Pixel",
+      "name": "nearest",
+      "description": "Uses nearest pixel or accurate image representation. Images will look jaggy when viewing at any zoom level other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Interpolate Pixels",
+      "name": "linear",
+      "description": "Uses linear filtering between pixels. Use this to get  TOP  images in viewers to look good at various zoom levels, especially useful when using any Fill Viewer setting other than Native  Resolution ."
+    },
+    {
+      "page": "Common",
+      "label": "Mipmap Pixels",
+      "name": "mipmap",
+      "description": "Uses   mipmap  filtering when scaling images. This can be used to reduce artifacts and sparkling in moving/scaling images that have lots of detail. When the input is 32-bit float format, only nearest filtering will be used (regardless of what is selected)."
+    },
+    {
+      "page": "Common",
+      "label": "Passes",
+      "name": "npasses",
+      "description": "Duplicates the operation of the  TOP  the specified number of times. For every pass after the first it takes the result of the previous pass and replaces the node's first input with the result of the previous pass. One exception to this is the  GLSL TOP  when using compute shaders, where the input will continue to be the connected  TOP 's image."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Mask",
+      "name": "chanmask",
+      "description": "Allows you to choose which channels (R, G, B, or A) the  TOP  will operate on. All channels are selected by default."
+    },
+    {
+      "page": "Common",
+      "label": "Pixel Format",
+      "name": "format",
+      "description": "⊞  - Format used to store data for each channel in the image (ie. R, G, B, and A). Refer to  Pixel Formats  for more information."
+    },
+    {
+      "page": "Common",
+      "label": "Use Input",
+      "name": "useinput",
+      "description": "Uses the input's pixel format."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (RGBA)",
+      "name": "rgba8fixed",
+      "description": "Uses 8-bit integer values for each channel."
+    },
+    {
+      "page": "Common",
+      "label": "sRGB 8-bit fixed (RGBA)",
+      "name": "srgba8fixed",
+      "description": "Uses 8-bit integer values for each channel and stores color in sRGB colorspace. Note that this does  not  apply an sRGB curve to the pixel values, it only stores them using an sRGB curve. This means more data is used for the darker values and less for the brighter values. When the values are read downstream they will be converted back to linear. For more information refer to  sRGB ."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (RGBA)",
+      "name": "rgba16float",
+      "description": "Uses 16-bits per color channel, 64-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (RGBA)",
+      "name": "rgba32float",
+      "description": "Uses 32-bits per color channel, 128-bits per pixels."
+    },
+    {
+      "page": "Common",
+      "label": "10-bit RGB, 2-bit Alpha, fixed (RGBA)",
+      "name": "rgb10a2fixed",
+      "description": "Uses 10-bits per color channel and 2-bits for alpha, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (RGBA)",
+      "name": "rgba16fixed",
+      "description": "Uses 16-bits per color channel, 64-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "11-bit float (RGB), Positive Values Only",
+      "name": "rgba11float",
+      "description": "A RGB floating point format that has 11 bits for the Red and Green channels, and 10-bits for the Blue  Channel , 32-bits total per pixel (therefore the same memory usage as 8-bit RGBA). The Alpha channel in this format will always be 1. Values can go above one, but can't be negative. ie. the range is [0, infinite)."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (Mono)",
+      "name": "mono8fixed",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 8-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (Mono)",
+      "name": "mono16fixed",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (Mono)",
+      "name": "mono16float",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (Mono)",
+      "name": "mono32float",
+      "description": "Single channel, where RGB will all have the same value, and Alpha will be 1.0. 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (RG)",
+      "name": "rg8fixed",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 8-bits per channel, 16-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (RG)",
+      "name": "rg16fixed",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 16-bits per channel, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (RG)",
+      "name": "rg16float",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 16-bits per channel, 32-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (RG)",
+      "name": "rg32float",
+      "description": "A 2 channel format, R and G have values, while B is 0 always and Alpha is 1.0. 32-bits per channel, 64-bits total per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (A)",
+      "name": "a8fixed",
+      "description": "An Alpha only format that has 8-bits per channel, 8-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (A)",
+      "name": "a16fixed",
+      "description": "An Alpha only format that has 16-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (A)",
+      "name": "a16float",
+      "description": "An Alpha only format that has 16-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (A)",
+      "name": "a32float",
+      "description": "An Alpha only format that has 32-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "8-bit fixed (Mono+Alpha)",
+      "name": "monoalpha8fixed",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 8-bits per channel, 16-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit fixed (Mono+Alpha)",
+      "name": "monoalpha16fixed",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 16-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "16-bit float (Mono+Alpha)",
+      "name": "monoalpha16float",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 16-bits per channel, 32-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "32-bit float (Mono+Alpha)",
+      "name": "monoalpha32float",
+      "description": "A 2 channel format, one value for RGB and one value for Alpha. 32-bits per channel, 64-bits per pixel."
+    },
+    {
+      "page": "Common",
+      "label": "connected",
+      "description": "1 if the node is successfully connected to the device, 0 if not. This does not necessarily mean there is valid input coming to the device."
+    },
+    {
+      "page": "Common",
+      "label": "sync_timeouts",
+      "description": "When using the 'Sync  Group ' feature, this counts how many times the group failed to all provide a frame with similar enough timestamps within the timeout period."
+    },
+    {
+      "page": "Common",
+      "label": "last_sync_wait",
+      "description": "How long the node had to wait from the time it was ready for a new frame until all the inputs provided valid frames for a synced output."
+    },
+    {
+      "page": "Common",
+      "label": "odd_field",
+      "description": "When de-interlacing an interlaced input, this will be 1 when the odd field is being shown and 0 when the even field is being shown."
+    },
+    {
+      "page": "Common",
+      "label": "capture_fps",
+      "description": "The calculated number of frames per second that are being captured by the device. This does  not  map directly to the signal format rate. It won't show 59.97 for example. This is simply a count of how many frames were captured in the last 1000ms."
+    },
+    {
+      "page": "Common",
+      "label": "capture_total",
+      "description": "The total number of frames that have been captured this capture began."
+    },
+    {
+      "page": "Common",
+      "label": "frames_repeated",
+      "description": "How many times the node has shown the same frame more than once. It does not currently correct for if the repeats are expected, such as when capturing a 30hz signal but TouchDesigner is running at 60fps. In that case the channel will keep increasing since each captured frame will be shown twice."
+    },
+    {
+      "page": "Common",
+      "label": "frames_dropped",
+      "description": "This counts how many frames were captured by the card, but never consumed by TouchDesigner's reading thread. This occurs if the capture is running faster than TouchDesigner is able to consume frames."
+    },
+    {
+      "page": "Common",
+      "label": "frames_skipped",
+      "description": "This counts how many frames were consumed by TouchDesigner's reading thread, but never consumed by the node itself. This can occur if TouchDesigner isn't running at full frame rate."
+    },
+    {
+      "page": "Common",
+      "label": "packets_received",
+      "description": "The number of packets received on the primary port."
+    },
+    {
+      "page": "Common",
+      "label": "video_receive_jitter",
+      "description": "The arrival jitter for video packets on the primary port."
+    },
+    {
+      "page": "Common",
+      "label": "audio_receive_jitter",
+      "description": "The arrival jitter for audio packets on the primary port."
+    },
+    {
+      "page": "Common",
+      "label": "sps_packets_received",
+      "description": "The number of packets received on the SPS port."
+    },
+    {
+      "page": "Common",
+      "label": "sps_video_receive_jitter",
+      "description": "The arrival jitter for video packets on the SPS port."
+    },
+    {
+      "page": "Common",
+      "label": "sps_audio_receive_jitter",
+      "description": "The arrival jitter for audio packets on the SPS port."
+    },
+    {
+      "page": "Common",
+      "label": "connection_changes",
+      "description": "Counts connection changes, not supported by all devices."
+    },
+    {
+      "page": "Common",
+      "label": "signal_fps",
+      "description": "The actual signal format  FPS  of the input signal. 0 if unknown."
+    },
+    {
+      "page": "Common",
+      "label": "rgb_input",
+      "description": "Will be 1 if the input is detected as an RGB (such as RGB 4:4:4) format. 0 if it is a YUV/YCbCr based. -1 if it is unknown or not supported by the the library."
+    },
+    {
+      "page": "Common",
+      "label": "frame_queue_length",
+      "description": "The number of receieved frames queued inside TouchDesigner."
+    },
+    {
+      "page": "Common",
+      "label": "frame_hw_queue_length",
+      "description": "The number of frames still queued on the device that TouchDesigner has not yet read."
+    },
+    {
+      "page": "Common",
+      "label": "last_dma_copy_time",
+      "description": "The number of milliseconds it took to copy the last frame from the device to the CPU. -1 if this is not measured."
+    },
+    {
+      "page": "Common",
+      "label": "frame_timestamp",
+      "description": "Time in seconds of the last frame displayed. -1 if this is not provided by the device."
+    },
+    {
+      "page": "Common",
+      "label": "resx",
+      "description": "Horizontal resolution of the  TOP  in pixels."
+    },
+    {
+      "page": "Common",
+      "label": "resy",
+      "description": "Vertical resolution of the  TOP  in pixels."
+    },
+    {
+      "page": "Common",
+      "label": "aspectx",
+      "description": "Horizontal aspect of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "aspecty",
+      "description": "Vertical aspect of the  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "depth",
+      "description": "Depth of 2D or 3D array if this  TOP  contains a 2D or 3D texture array."
+    },
+    {
+      "page": "Common",
+      "label": "gpu_memory_used",
+      "description": "Total amount of texture memory used by this  TOP ."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    },
+    {
+      "page": "Common",
+      "label": "The width and height of an image in pixels. Most TOPs, like the  Movie File In TOP  can set the image resolution. See  Aspect Ratio  for the width/height ratio of an image, taking into account non",
+      "description": "square pixels."
+    },
+    {
+      "page": "Common",
+      "label": "The viewer of a node can be (1) the interior of a node (the  Node Viewer ), (2) a floating window (RMB",
+      "description": ">View... on node), or (3) a  Pane  that graphically shows the results of an operator."
+    },
+    {
+      "page": "Common",
+      "label": "The",
+      "name": "Frames",
+      "description": "per-Second that TouchDesigner's  Timeline  runs at. Set with  project.cookRate ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

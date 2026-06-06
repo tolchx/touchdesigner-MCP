@@ -1,0 +1,312 @@
+{
+  "family": "SOP",
+  "pageTitle": "Import Select SOP",
+  "pageSlug": "Import_Select_SOP",
+  "url": "https://docs.derivative.ca/Import_Select_SOP",
+  "tdOpTypeGuess": "importSelectSOP",
+  "summary": "[  edit  ]\nThe Import Select  SOP  is used to import and load the geometry types primitives defined in  USD COMP  and  FBX COMP . It essentially loads any geometry type that  USD COMP  or  FBX COMP  can support such as a Mesh, Points, NURBS Curves or Patches, Basis Curves. Each geometry represents one primitive from the loading file or it can be a set of primitives merged together for better performance.\nIn  USD COMP  and  FBX COMP  if the Import Select  SOP  renders merged geometries, an  Info DAT  operator is created next to this  SOP  which represents the original paths of primitives within/from importing file, which can be useful for user to checkout what geometry the current  SOP  is made of.\nImport Select  SOP  can have its own animation controls within the Playback page or use the settings from its parent  COMP .\nThe imported geometry can be loaded directly from  GPU  or CPU, depending on whether the Straight To  GPU  toggle is set to ON or not at the parent  COMP  node.\nimportselectSOP_Class\nContents\n1   Summary\n2   Parameters - General Page\n3   Parameters - Playback Page\n4   Info CHOP Channels\n4.1   Specific Import Select SOP Info Channels\n4.2   Common SOP Info Channels\n4.3   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "General",
+      "label": "Import  Parent",
+      "name": "parent",
+      "description": "Specify the import parent (eg. USD/FBX  COMP ) to search for the asset. When no  COMP  is specified it will by default search in the first import parent in its path."
+    },
+    {
+      "page": "General",
+      "label": "Geo  Path",
+      "name": "geometry",
+      "description": "The geometry path from the imported file."
+    },
+    {
+      "page": "General",
+      "label": "Reload",
+      "name": "reload",
+      "description": "Reloads the asset from the import parent."
+    },
+    {
+      "page": "General",
+      "label": "Compute Tangents",
+      "name": "comptang",
+      "description": "A toggle to compute the tangents for this  SOP ."
+    },
+    {
+      "page": "Playback",
+      "label": "Use Parent Animation",
+      "name": "useparentanim",
+      "description": "A toggle to specify whether to use the parent  COMP  animation controls or have a custom setting for this  SOP ."
+    },
+    {
+      "page": "Playback",
+      "label": "Shift Animation Start",
+      "name": "shiftanimationstart",
+      "description": "A toggle to specify whether to shift the animation to the start of animation indicated in the importing file."
+    },
+    {
+      "page": "Playback",
+      "label": "Sample Rate  Mode",
+      "name": "sampleratemode",
+      "description": "⊞  - A menu to choose between the  FPS  or use a custom sample rate."
+    },
+    {
+      "page": "Playback",
+      "label": "File  FPS",
+      "name": "filefps",
+      "description": "uses the  FPS  from what is defined in the importing file."
+    },
+    {
+      "page": "Playback",
+      "label": "Custom",
+      "name": "custom",
+      "description": "a desired value specified by  Sample Rate  parameter."
+    },
+    {
+      "page": "Playback",
+      "label": "Sample Rate",
+      "name": "samplerate",
+      "description": "It is used to specify the sample rate ( FPS ) for the animation. This parameter is disabled by default and can be enabled once the Custom option is selected from the  Sample Rate  Menu."
+    },
+    {
+      "page": "Playback",
+      "label": "Play Mode",
+      "name": "playmode",
+      "description": "⊞  - A menu to specify the method used to play the animation."
+    },
+    {
+      "page": "Playback",
+      "label": "Locked to  Timeline",
+      "name": "lockedtotimeline",
+      "description": "This mode locks the animation position to the timeline. The parameters Play, Speed, Index, Cue and Cue  Point , are disabled in this mode since the timeline is directly tied to animation position."
+    },
+    {
+      "page": "Playback",
+      "label": "Specify Index",
+      "name": "specifyindex",
+      "description": "This mode allows the user to specify a particular index (position) in the animation using the Index parameter below. Use this mode for random access to any location in the animation."
+    },
+    {
+      "page": "Playback",
+      "label": "Sequential",
+      "name": "sequential",
+      "description": "This mode continually plays regardless of the timeline position (the Index parameter is disabled). Play, Speed, Cue, and Cue Point parameters below are enabled to allow some control. The default is set to this value."
+    },
+    {
+      "page": "Playback",
+      "label": "Initialize",
+      "name": "initialize",
+      "description": "Resets the animation to its initial state."
+    },
+    {
+      "page": "Playback",
+      "label": "Start",
+      "name": "start",
+      "description": "Resets the animation to its initial state and starts playback."
+    },
+    {
+      "page": "Playback",
+      "label": "Cue",
+      "name": "cue",
+      "description": "A toggle to jump to Cue Point when it is set to ON and it stays at that position. Only available when Play Mode is Sequential."
+    },
+    {
+      "page": "Playback",
+      "label": "Cue  Pulse",
+      "name": "cuepulse",
+      "description": "When pressed the animation jumps to the Cue Point and continues from that point."
+    },
+    {
+      "page": "Playback",
+      "label": "Cue  Point",
+      "name": "cuepoint",
+      "description": "Set any index in the animation as a point to jump to."
+    },
+    {
+      "page": "Playback",
+      "label": "Cue Point Unit",
+      "name": "cuepointunit",
+      "description": "⊞  - Specifies a unit type for Cue  Point . Changing this will convert the previous unit to the selected unit."
+    },
+    {
+      "page": "Playback",
+      "label": "Play",
+      "name": "play",
+      "description": "A toggle that makes the animation to play when it sets to ON. This Parameter is only available/enabled if the Sequential mode is selected from the Play Mode."
+    },
+    {
+      "page": "Playback",
+      "label": "Index",
+      "name": "index",
+      "description": "This parameter explicitly sets the animation position when Play Mode is set to Specify Index. The units’ menu on the right lets you specify the index in the following units: Index, Frames, Seconds, and Fraction (percentage)."
+    },
+    {
+      "page": "Playback",
+      "label": "Index Unit",
+      "name": "indexunit",
+      "description": "⊞  - Specifies a unit type for Index. Changing this will convert the previous unit to the selected unit."
+    },
+    {
+      "page": "Playback",
+      "label": "Speed",
+      "name": "speed",
+      "description": "This is a speed multiplier which only works when Play Mode is Sequential. A value of 1 is the default playback speed. A value of 2 is double speed, 0.5 is half speed and so on."
+    },
+    {
+      "page": "Playback",
+      "label": "Trim",
+      "name": "trim",
+      "description": "A toggle to enable the Trim Start and Trim End parameters."
+    },
+    {
+      "page": "Playback",
+      "label": "Trim Start",
+      "name": "tstart",
+      "description": "Sets an in point from the beginning of the animation, allowing you to trim the starting index of the animation. The units’ menu on the right let you specify this position by index, frames, seconds, or fraction (percentage)."
+    },
+    {
+      "page": "Playback",
+      "label": "Trim Start Unit",
+      "name": "tstartunit",
+      "description": "⊞  - Specifies a unit type for Trim Start. Changing this will convert the previous unit to the selected unit."
+    },
+    {
+      "page": "Playback",
+      "label": "Trim End",
+      "name": "tend",
+      "description": "Sets an end point from the end of the movie, allowing you to trim the ending index of the animation. The units’ menu on the right let you specify this position by index, frames, seconds, or fraction (percentage)."
+    },
+    {
+      "page": "Playback",
+      "label": "Trim End Unit",
+      "name": "tendunit",
+      "description": "⊞  - Specifies a unit type for Trim End. Changing this will convert the previous unit to the selected unit."
+    },
+    {
+      "page": "Playback",
+      "label": "Extend Left",
+      "name": "textendleft",
+      "description": "⊞  - Determines how the parent  COMP  handles animation positions that lie before the Trim Start position. For example, if Trim Start is set to 1, and the animation current index is -10, the Extend Left menu determines how the animation position is calculated."
+    },
+    {
+      "page": "Playback",
+      "label": "Extend Right",
+      "name": "textendright",
+      "description": "⊞  - Determines how the parent  COMP  handles animation positions that lie after the Trim End position. For example, if Trim End is set to 20, and the animation current index is 25, the Extend Right menu determines how the animation position is calculated."
+    },
+    {
+      "page": "Playback",
+      "label": "num_points",
+      "description": "Number of points in this  SOP ."
+    },
+    {
+      "page": "Playback",
+      "label": "num_prims",
+      "description": "Number of primitives in this  SOP ."
+    },
+    {
+      "page": "Playback",
+      "label": "num_particles",
+      "description": "Number of particles in this  SOP ."
+    },
+    {
+      "page": "Playback",
+      "label": "last_vbo_update_time",
+      "description": "Time spent in another thread updating geometry data on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Playback",
+      "label": "last_meta_vbo_update_time",
+      "description": "Time spent in another thread updating meta surface geometry data (such as metaballs or nurbs) on the  GPU  from the  SOP 's CPU data. As it is part of another thread, this time is not part of the usual frame time."
+    },
+    {
+      "page": "Playback",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Playback",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Playback",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Playback",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Playback",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Playback",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Playback",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Playback",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Playback",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Playback",
+      "label": "The Graphics Processing Unit. This is the high",
+      "description": "speed, many-core processor of the graphics card/chip that takes geometry, images and data from the CPU and creates images and processed data."
+    },
+    {
+      "page": "Playback",
+      "label": "There are 2 kinds of parenting. The \"parent component\" is the component in which a node resides. The metaphor is extended to include grand parents, grand",
+      "description": "grand parents, etc. The root  /  is the ultimate parent to all nodes. See also  3D Parenting  and panel  Parenting ."
+    },
+    {
+      "page": "Playback",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Playback",
+      "label": "The",
+      "name": "Frames",
+      "description": "per-Second that TouchDesigner's  Timeline  runs at. Set with  project.cookRate ."
+    },
+    {
+      "page": "Playback",
+      "label": "To \"pulse\" a parameter is to send it a signal from (1) an  exported  CHOP channel or (2) a python command or (3) a mouse click that causes a new action to occur immediately. A pulse via python is via the  .pulse()  function on a pulse",
+      "description": "type parameter, such as Reset parameter in a  Speed CHOP . A pulse from a CHOP is typically a 0 to 1 to 0 signal in an exported channel."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [
+    {
+      "source": "Análisis Experto Operadores POPs Derivative_.txt",
+      "excerpt": "o Primitivas) y no cambia el número de elementos de entrada.3 * GLSL Select POP: Se utiliza para seleccionar y generar atributos de múltiples entradas POP, particularmente aquellos modificados por las \"Extra Outputs\" de GLSL Advanced POP.20 * Histogram POP: Toma un atributo de un solo componente de su entrada y crea una distribución de frecuencia. Genera un nuevo POP con un número especificado de puntos (bins) y un atributo \"Count\", indicando cuántos valores de entrada caen en cada bin.21 * Import Select POP: Se utiliza para importar y cargar tipos de geometría definidos en USD COMP y FBX COMP, como mallas, puntos, curvas NURBS o parches. Convierte los tipos de geometría no soportados por POPs a triángulos, quads, tiras de línea y primitivas de punto.41 * Line Metrics POP: Añade atributos de métricas a las tiras de línea, proporcionando información como la dirección a los puntos siguiente/anterior, la distancia desde el inicio de la tira de línea o el número de tira de línea. Estos atributos s"
+    },
+    {
+      "source": "Full data.txt",
+      "excerpt": "cionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Group POP: Se usa para crear grupos de puntos, vértices o primitivas. Puedes usar estos grupos para afectar solo ciertas partes de tu geometría con otros operadores, como el Transform POP. También puede convertir un grupo en un atributo. • Experimental:Histogram POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Import Select POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:In POP: Las fuentes proporcionadas no ofrecen una descripción detallada de la función específica de este operador. • Experimental:Limit POP: Este POP proporciona capacidades de manipulación fundamentales sin necesidad de escribir código. Permite crear nuevos atributos fácilmente y utiliza atributos de solo lectura internos. • Experimental:Line Break POP: Se utiliz"
+    },
+    {
+      "source": "POPs Analisis 2.txt",
+      "excerpt": "res. * **Valores fuera de rango**: Puedes elegir ignorarlos, \"clamparlos\" (ajustarlos al mínimo o máximo del rango), o añadir dos cubos extra para contar los valores que están fuera del rango. * Puede generar un atributo `BinValue` que almacena los valores de inicio de cada cubo. * Puedes crear histogramas de atributos de **puntos** o de **primitivas**. * Los resultados a menudo se visualizan bien con un POP to CHOP o con el componente `popViewer`. --- #### 35. Import Select POP * **¿Qué hace?** Este operador es fundamental para **cargar geometrías de archivos externos** o de otros componentes de TouchDesigner como USD COMP y FBX COMP. Es una puerta de entrada para traer modelos 3D y otros tipos de geometría a tu entorno POP. * **Características clave:** * Puede cargar varios tipos de geometría soportados por USD COMP o FBX COMP, como **Mallas (`Mesh`), Puntos (`Points`), Curvas o Patches NURBS, Curvas de Base (`Basis Curves`)**. * Cada geometrí"
+    }
+  ],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}

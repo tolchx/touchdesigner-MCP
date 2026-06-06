@@ -1,0 +1,316 @@
+{
+  "family": "CHOP",
+  "pageTitle": "Leuze ROD4 CHOP",
+  "pageSlug": "Leuze_ROD4_CHOP",
+  "url": "https://docs.derivative.ca/Leuze_ROD4_CHOP",
+  "tdOpTypeGuess": "leuzeROD4CHOP",
+  "summary": "[  edit  ]\nNOTE\nLicense:  Only available in  TouchDesigner Educational ,  TouchDesigner Commercial  and  TouchDesigner Pro .\nThe Leuze ROD4  CHOP  connects to the  Leuze ROD4  laser scanner via TCP/IP. Blob Tracking mode allows for turning the measured distances into blobs for use as an interaction surface. It should work with any of the ROD4 scanners currently available.\nThe 'object detection' mode available on some of the models is not currently supported.\nThe Leuze can be used with the  Blob Track CHOP  to detect objects in its field. See the OP Snippet for Blob Track.\nleuzerod4CHOP_Class\nContents\n1   Summary\n2   Parameters - ROD4 Page\n3   Parameters - Common Page\n4   Info CHOP Channels\n4.1   Common CHOP Info Channels\n4.2   Common Operator Info Channels",
+  "inputs": [],
+  "parameters": [
+    {
+      "page": "ROD4",
+      "label": "Active",
+      "name": "active",
+      "description": "While on, the  CHOP  receives information from the scanner. While off, the network connection is disconnected and no updating occurs."
+    },
+    {
+      "page": "ROD4",
+      "label": "Network Address",
+      "name": "netaddress",
+      "description": "The IP address of the ROD4 scanner."
+    },
+    {
+      "page": "ROD4",
+      "label": "Network Port",
+      "name": "port",
+      "description": "The network port of the scanner."
+    },
+    {
+      "page": "ROD4",
+      "label": "ROD4 Protocol",
+      "name": "rod4porotocol",
+      "description": "⊞  - Selects which protocol to use. This must match the protocol the scanner was set to use in the RODplussoft setup utility for the device. You may still get some sort of data if the wrong protocol is selected, but the data will be random and incorrect."
+    },
+    {
+      "page": "ROD4",
+      "label": "ROD4plus ASCII",
+      "description": "Remote   ascii  -"
+    },
+    {
+      "page": "ROD4",
+      "label": "Input Coordinate",
+      "name": "inputcoordinate",
+      "description": "⊞  - Available when using ROD4plus ASCII-Remote protocol, specifies whether to use Polar or Cartesian input coordinates. This must match the coordinate the scanner was set to use in the RODplussoft setup utility for the device."
+    },
+    {
+      "page": "ROD4",
+      "label": "Output Mode",
+      "name": "outputmode",
+      "description": "⊞  - Select Raw Data or Blob Tracking mode for output channels. The parameters below are only available in Blob Tracking mode."
+    },
+    {
+      "page": "ROD4",
+      "label": "Raw Data",
+      "name": "rawdata",
+      "description": "A  CHOP  of 529 samples long that will contain the raw X/Y position in meters of every measured point from the scanner."
+    },
+    {
+      "page": "ROD4",
+      "label": "Blob Tracking",
+      "name": "blobtracking",
+      "description": "The raw data will be analyzed for points that are close together which will be turned into blobs and assigned unique IDs."
+    },
+    {
+      "page": "ROD4",
+      "label": "Max Blobs",
+      "name": "maxblobs",
+      "description": "The maximum number of blobs that can be tracked."
+    },
+    {
+      "page": "ROD4",
+      "label": "Max Point Distance in Blob",
+      "name": "maxpointdistance",
+      "description": "Two measured points from the scanner are considered to be part of the same blob if they are this distance or closer to each other. Distance is specified in meters."
+    },
+    {
+      "page": "ROD4",
+      "label": "Max Blob Movement",
+      "name": "maxblobmovement",
+      "description": "Specified in meters. This controls the maximum distance a blob can move between successive frames and still be considered the same 'blob'."
+    },
+    {
+      "page": "ROD4",
+      "label": "Area of Interest",
+      "name": "areaofinterest",
+      "description": "⊞  - Limits the area in which blobs are tracked."
+    },
+    {
+      "page": "ROD4",
+      "label": "Off",
+      "name": "off",
+      "description": "No limitations, blobs tracked throughout the scanned area."
+    },
+    {
+      "page": "ROD4",
+      "label": "Distance Based",
+      "name": "distancebased",
+      "description": "Blobs only tracked within specified distance from the scanner."
+    },
+    {
+      "page": "ROD4",
+      "label": "Bounding Box",
+      "name": "boundingbox",
+      "description": "Blobs only tracked within specified bounding box."
+    },
+    {
+      "page": "ROD4",
+      "label": "Max Distance",
+      "name": "maxdistance",
+      "description": "Maximum distance in which blobs are tracked when Area of Interest parameter is set to Distance Based."
+    },
+    {
+      "page": "ROD4",
+      "label": "Lower Left Corner",
+      "name": "lowerleft",
+      "description": "⊞  - Specifies the lower left corner of the bounding box used when Area of Interest parameter is set to Bounding Box."
+    },
+    {
+      "page": "ROD4",
+      "label": "Upper Right Corner",
+      "name": "upperright",
+      "description": "⊞  - Specifies the upper right corner of the bounding box used when Area of Interest parameter is set to Bounding Box."
+    },
+    {
+      "page": "ROD4",
+      "label": "Allow Movement Outside Area",
+      "name": "allowmovementoutside",
+      "description": "When this is on, blobs detected within the Area of Interest can move outside of that area and still be tracked. When this is off blobs that move outside the area of interest will stop being tracked."
+    },
+    {
+      "page": "ROD4",
+      "label": "Bounding Box Mask  TOP",
+      "name": "boundingboxmask",
+      "description": "Specify a  TOP  to use as a mask for the bounding box when Area of Interest parameter is set to Bounding Box. Any pixel with a non-zero value will be treated as part of the area of interest, any pixel that is (0,0,0) will be treated as not in the area of interest. Regardless of resolution/aspect ratio of the  TOP , the  TOP  will be stretched to fix the bounding box specified. This  TOP  should  not  be cooking every frame as that will make the ROD4  CHOP  very slow."
+    },
+    {
+      "page": "ROD4",
+      "label": "Rotate Incoming Coordinates",
+      "name": "rotate",
+      "description": "Rotates all incoming coordinates where the tx and ty values are rotated around a perpendicular z-axis."
+    },
+    {
+      "page": "Common",
+      "label": "Time Slice",
+      "name": "timeslice",
+      "description": "Turning this on forces the channels to be \" Time Sliced \".  A  Time Slice  is the time between the last cook frame and the current cook frame."
+    },
+    {
+      "page": "Common",
+      "label": "Scope",
+      "name": "scope",
+      "description": "To determine which channels get affected, some CHOPs use a  Scope  string on the Common page."
+    },
+    {
+      "page": "Common",
+      "label": "Sample Rate  Match",
+      "name": "srselect",
+      "description": "⊞  - Handle cases where multiple input CHOPs' sample rates are different. When Resampling occurs, the curves are interpolated according to the Interpolation Method Option, or \"Linear\" if the Interpolate Options are not available."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At First Input's Rate",
+      "name": "first",
+      "description": "Use rate of first input to resample others."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Maximum Rate",
+      "name": "max",
+      "description": "Resample to the highest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Resample At Minimum Rate",
+      "name": "min",
+      "description": "Resample to the lowest sample rate."
+    },
+    {
+      "page": "Common",
+      "label": "Error If Rates Differ",
+      "name": "err",
+      "description": "Doesn't accept conflicting sample rates."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Method",
+      "name": "exportmethod",
+      "description": "⊞  - This will determine how to connect the  CHOP  channel to the parameter. Refer to the  Export  article for more information."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Index",
+      "name": "datindex",
+      "description": "Uses the docked  DAT  table and references the channel via the index of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "DAT  Table by Name",
+      "name": "datname",
+      "description": "Uses the docked  DAT  table and references the channel via the name of the channel in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "Channel Name is  Path : Parameter",
+      "name": "autoname",
+      "description": "The channel is the full destination of where to export to, such has  geo1/transform1:tx ."
+    },
+    {
+      "page": "Common",
+      "label": "Export   Root",
+      "name": "autoexportroot",
+      "description": "This path points to the root node where all of the paths that exporting by  Channel Name is  Path : Parameter   are relative to."
+    },
+    {
+      "page": "Common",
+      "label": "Export  Table",
+      "name": "exporttable",
+      "description": "The  DAT  used to hold the export information when using the  DAT  Table  Export  Methods (See above)."
+    },
+    {
+      "page": "Common",
+      "label": "start",
+      "description": "Start of the  CHOP  interval in samples."
+    },
+    {
+      "page": "Common",
+      "label": "length",
+      "description": "Number of samples in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "sample_rate",
+      "description": "The samplerate of the channels in frames per second."
+    },
+    {
+      "page": "Common",
+      "label": "num_channels",
+      "description": "Number of channels in the  CHOP ."
+    },
+    {
+      "page": "Common",
+      "label": "time_slice",
+      "description": "1 if  CHOP  is  Time Slice  enabled, 0 otherwise."
+    },
+    {
+      "page": "Common",
+      "label": "export_sernum",
+      "description": "A count of how often the export connections have been updated."
+    },
+    {
+      "page": "Common",
+      "label": "total_cooks",
+      "description": "Number of times the operator has cooked since the process started."
+    },
+    {
+      "page": "Common",
+      "label": "cook_time",
+      "description": "Duration of the last cook in milliseconds."
+    },
+    {
+      "page": "Common",
+      "label": "cook_frame",
+      "description": "Frame number when this operator was last cooked relative to the component timeline."
+    },
+    {
+      "page": "Common",
+      "label": "cook_abs_frame",
+      "description": "Frame number when this operator was last cooked relative to the absolute time."
+    },
+    {
+      "page": "Common",
+      "label": "cook_start_time",
+      "description": "Time in milliseconds at which the operator started cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cook_end_time",
+      "description": "Time in milliseconds at which the operator finished cooking in the frame it was cooked."
+    },
+    {
+      "page": "Common",
+      "label": "cooked_this_frame",
+      "description": "1 if operator was cooked this frame."
+    },
+    {
+      "page": "Common",
+      "label": "warnings",
+      "description": "Number of warnings in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "errors",
+      "description": "Number of errors in this operator if any."
+    },
+    {
+      "page": "Common",
+      "label": "samples",
+      "description": "per-second of a  CHOP . Each CHOP in your network has a sample rate. In contrast, the overall timeline has a  Frame Rate , which is the number of frames to  cook  and display per second, generally your monitor display frequency, default 60."
+    },
+    {
+      "page": "Common",
+      "label": "An  Operator Family  that manipulates text strings: multi",
+      "description": "line text or tables. Multi-line text is often a python  Script  or  GLSL  Shader, but can be any multi-line text.  Tables  are rows and columns of cells, each containing a text string."
+    },
+    {
+      "page": "Common",
+      "label": "TouchDesigner is a hierarchy of components. \"root\" is the top",
+      "description": "most network in the hierarchy. The  Network Path  or Path for root is simply  / . A typical path is  /project1/moviein1 ."
+    }
+  ],
+  "attributes": [],
+  "localNotes": [],
+  "useCases": [],
+  "examples": [],
+  "commonCombinations": [],
+  "troubleshooting": []
+}
