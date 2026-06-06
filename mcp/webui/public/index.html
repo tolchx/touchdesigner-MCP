@@ -1,62 +1,247 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TD-MCP Dashboard</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>MCP TouchDesigner — Dashboard</title>
+  <link rel="stylesheet" href="style.css?v=2" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
+  <!-- ═══ HEADER ═══ -->
   <header>
     <div class="header-left">
-      <h1>TD-MCP Dashboard</h1>
-      <span class="version">v3.0.0</span>
+      <div class="logo">
+        <span class="logo-icon">◆</span>
+        <span class="logo-text">MCP TD</span>
+      </div>
+      <span class="version-badge">v3.0.0</span>
+    </div>
+    <div class="header-center">
+      <nav class="nav-tabs" id="navTabs">
+        <button class="nav-tab active" data-page="dashboard">Dashboard</button>
+        <button class="nav-tab" data-page="tools">Tools</button>
+        <button class="nav-tab" data-page="commands">Comandos</button>
+        <button class="nav-tab" data-page="tutorials">Tutoriales</button>
+        <button class="nav-tab" data-page="logs">Logs</button>
+        <button class="nav-tab" data-page="about">Acerca de</button>
+      </nav>
     </div>
     <div class="header-right">
-      <span class="status-indicator" id="statusDot"></span>
-      <span id="statusText">Connecting...</span>
-      <span class="sep">|</span>
-      <span id="toolCount">Tools: --</span>
+      <div class="connection-status" id="connectionStatus">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">Conectando...</span>
+      </div>
     </div>
   </header>
 
+  <!-- ═══ MAIN CONTENT ═══ -->
   <main>
-    <!-- Tool Call Panel -->
-    <section class="panel" id="toolPanel">
-      <h2>Call Tool</h2>
-      <form id="toolForm">
-        <div class="form-row">
-          <label for="toolName">Tool</label>
-          <input type="text" id="toolName" list="toolList" placeholder="e.g. td_list_ops" autocomplete="off" />
-          <datalist id="toolList"></datalist>
+
+    <!-- ─── DASHBOARD ─── -->
+    <section class="page active" id="page-dashboard">
+      <div class="hero">
+        <h1 class="hero-title">MCP <span class="gradient-text">TouchDesigner</span></h1>
+        <p class="hero-sub">Servidor MCP para controlar TouchDesigner con Inteligencia Artificial</p>
+        <div class="hero-stats" id="heroStats">
+          <div class="stat-card"><span class="stat-value" id="statTools">--</span><span class="stat-label">Tools</span></div>
+          <div class="stat-card"><span class="stat-value" id="statTutorials">15</span><span class="stat-label">Tutoriales</span></div>
+          <div class="stat-card"><span class="stat-value" id="statWorkflows">32</span><span class="stat-label">Workflows</span></div>
+          <div class="stat-card"><span class="stat-value" id="statClasses">609</span><span class="stat-label">API Classes</span></div>
+          <div class="stat-card"><span class="stat-value" id="statOperators">630+</span><span class="stat-label">Operadores</span></div>
+          <div class="stat-card"><span class="stat-value" id="statOnline">--</span><span class="stat-label">Estado TD</span></div>
         </div>
-        <div class="form-row">
-          <label for="toolArgs">Arguments (JSON)</label>
-          <textarea id="toolArgs" rows="4" placeholder='{"path": "/"}'>{"path": "/"}</textarea>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="card">
+          <div class="card-header"><span class="card-icon">⚡</span><h3>Quick Actions</h3></div>
+          <div class="card-body">
+            <button class="quick-btn" onclick="navigateTo('tools')">🔧 Explorar Tools</button>
+            <button class="quick-btn" onclick="navigateTo('commands')">📋 Comandos Rápidos</button>
+            <button class="quick-btn" onclick="navigateTo('tutorials')">📚 Ver Tutoriales</button>
+            <button class="quick-btn" onclick="quickCall('td_healthcheck', {path:'/', recurse:false})">🔍 Healthcheck</button>
+            <button class="quick-btn" onclick="quickCall('td_get_info', {})">ℹ️ Info TD</button>
+            <button class="quick-btn" onclick="quickCall('td_get_focus', {})">🎯 Focus Actual</button>
+          </div>
         </div>
-        <button type="submit" id="callBtn">Call Tool</button>
-      </form>
-      <div id="toolResult">
-        <h3>Result</h3>
-        <pre id="resultContent"><span class="placeholder">Call a tool to see the result here.</span></pre>
+
+        <div class="card">
+          <div class="card-header"><span class="card-icon">📊</span><h3>Estadísticas</h3></div>
+          <div class="card-body stats-body" id="statsBody">
+            <div class="stat-row"><span>Tools Online</span><span class="stat-online" id="statsOnline">--</span></div>
+            <div class="stat-row"><span>Tools Offline</span><span class="stat-offline" id="statsOffline">--</span></div>
+            <div class="stat-row"><span>Familias de operadores</span><span>6</span></div>
+            <div class="stat-row"><span>Tests de compatibilidad</span><span>30/30 ✅</span></div>
+          </div>
+          <div class="card-footer">
+            <div class="progress-bar"><div class="progress-fill" id="toolsProgress" style="width:0%"></div></div>
+            <span class="progress-label" id="toolsProgressLabel">0% son offline</span>
+          </div>
+        </div>
+
+        <div class="card card-wide">
+          <div class="card-header"><span class="card-icon">📡</span><h3>Monitor de Conexión</h3></div>
+          <div class="card-body" id="monitorBody">
+            <div class="monitor-row"><span>MCP Server</span><span class="tag tag-green" id="monMCP">───</span></div>
+            <div class="monitor-row"><span>TouchDesigner</span><span class="tag tag-red" id="monTD">Desconectado</span></div>
+            <div class="monitor-row"><span>WebSocket</span><span class="tag tag-green" id="monWS">Conectado</span></div>
+            <div class="monitor-row"><span>Tools Registradas</span><span id="monTools">--</span></div>
+          </div>
+        </div>
+
+        <div class="card card-wide">
+          <div class="card-header"><span class="card-icon">📌</span><h3>Resultado Rápido</h3></div>
+          <div class="card-body">
+            <pre id="quickResult" class="result-box"><span class="placeholder">Usá los botones de Quick Actions para ver resultados aquí.</span></pre>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- Logs Panel -->
-    <section class="panel" id="logPanel">
-      <div class="panel-header">
-        <h2>Live Logs</h2>
-        <div class="log-actions">
-          <button id="clearLogsBtn" title="Clear logs">Clear</button>
-          <span id="logCount">0</span>
+    <!-- ─── TOOLS ─── -->
+    <section class="page" id="page-tools">
+      <div class="page-header">
+        <h2>🔧 Explorador de Tools</h2>
+        <div class="tool-controls">
+          <input type="text" id="toolSearch" placeholder="Buscar tool..." class="search-input" />
+          <select id="toolFilter" class="filter-select">
+            <option value="all">Todas</option>
+            <option value="online">Requiere TD</option>
+            <option value="offline">Local (sin TD)</option>
+          </select>
         </div>
       </div>
-      <div id="logContainer">
+      <div class="tools-summary">
+        <span id="toolsFoundCount">0</span> tools encontradas
+      </div>
+      <div class="tools-grid" id="toolsGrid"></div>
+    </section>
+
+    <!-- ─── COMANDOS ─── -->
+    <section class="page" id="page-commands">
+      <div class="page-header">
+        <h2>📋 Comandos Rápidos</h2>
+        <p class="page-desc">Ejecutá comandos comunes con un clic. Personalizá los argumentos antes de enviar.</p>
+      </div>
+      <div class="commands-grid" id="commandsGrid"></div>
+      <div class="command-result-section">
+        <h3>Resultado</h3>
+        <pre id="cmdResult" class="result-box"><span class="placeholder">Ejecutá un comando para ver el resultado aquí.</span></pre>
+      </div>
+    </section>
+
+    <!-- ─── TUTORIALES ─── -->
+    <section class="page" id="page-tutorials">
+      <div class="page-header">
+        <h2>📚 Tutoriales y Workflows</h2>
+        <div class="tutorial-tabs">
+          <button class="tut-tab active" data-tut="tutorials">Tutoriales</button>
+          <button class="tut-tab" data-tut="workflows">Workflows</button>
+        </div>
+      </div>
+      <div class="tutorial-grid" id="tutorialGrid"></div>
+    </section>
+
+    <!-- ─── LOGS ─── -->
+    <section class="page" id="page-logs">
+      <div class="page-header">
+        <h2>📜 Logs en Tiempo Real</h2>
+        <div class="log-actions">
+          <button id="clearLogsBtn" class="btn-secondary">🗑️ Limpiar</button>
+          <span class="log-badge" id="logCount">0</span>
+        </div>
+      </div>
+      <div class="log-filters">
+        <button class="log-filter active" data-level="all">Todos</button>
+        <button class="log-filter" data-level="info">Info</button>
+        <button class="log-filter" data-level="error">Error</button>
+        <button class="log-filter" data-level="warn">Warn</button>
+        <button class="log-filter" data-level="stderr">Stderr</button>
+      </div>
+      <div class="log-container" id="logContainer">
         <div id="logEntries"></div>
       </div>
     </section>
+
+    <!-- ─── ACERCA DE ─── -->
+    <section class="page" id="page-about">
+      <div class="about-content">
+        <h1><span class="logo-icon">◆</span> MCP TouchDesigner <span class="version-badge">v3.0.0</span></h1>
+        <p class="about-desc">El servidor MCP más completo para TouchDesigner. 63 herramientas, modo offline, tutoriales integrados, 32 workflows reutilizables y 609 API classes documentadas.</p>
+        
+        <div class="about-grid">
+          <div class="about-card">
+            <h4>📦 Repositorio</h4>
+            <p><a href="https://github.com/tolchx/touchdesigner-MCP" target="_blank">github.com/tolchx/touchdesigner-MCP</a></p>
+          </div>
+          <div class="about-card">
+            <h4>📄 Licencia</h4>
+            <p>MIT — uso libre y gratuito</p>
+          </div>
+          <div class="about-card">
+            <h4>🌐 Documentación</h4>
+            <p><a href="https://tolchx.com/td-edu/subjects/touchdesigner/mcp.html" target="_blank">tolchx.com/td-edu</a></p>
+          </div>
+          <div class="about-card">
+            <h4>⚙️ Setup</h4>
+            <p><code>npm install && npx tsc</code></p>
+          </div>
+        </div>
+
+        <div class="feature-list">
+          <h3>🚀 Características</h3>
+          <div class="feature-grid">
+            <div class="feature-item">✅ 63 tools MCP</div>
+            <div class="feature-item">✅ 15 tutoriales</div>
+            <div class="feature-item">✅ 32 workflows</div>
+            <div class="feature-item">✅ 609 API classes</div>
+            <div class="feature-item">✅ 630+ operadores</div>
+            <div class="feature-item">✅ Modo offline</div>
+            <div class="feature-item">✅ Git-diff export</div>
+            <div class="feature-item">✅ Historial undo</div>
+            <div class="feature-item">✅ Monitoreo perf</div>
+            <div class="feature-item">✅ WebSocket</div>
+            <div class="feature-item">✅ VS Code ext</div>
+            <div class="feature-item">✅ Auto-tox</div>
+          </div>
+        </div>
+
+        <div class="comparison-table-wrapper">
+          <h3>🏆 Comparativa vs otros MCPs</h3>
+          <div class="table-scroll">
+            <table class="comparison-table">
+              <thead><tr><th>Característica</th><th>Este MCP</th><th>iflow-mcp</th><th>8beeeaaat</th></tr></thead>
+              <tbody>
+                <tr><td>Tools</td><td class="best">63</td><td>21</td><td>12</td></tr>
+                <tr><td>Tutoriales</td><td class="best">15</td><td>14</td><td>❌</td></tr>
+                <tr><td>Workflows</td><td class="best">32</td><td>32</td><td>❌</td></tr>
+                <tr><td>API Classes</td><td class="best">609</td><td>69</td><td>❌</td></tr>
+                <tr><td>Modo offline</td><td class="best">✅</td><td>❌</td><td>❌</td></tr>
+                <tr><td>Git-diff export</td><td class="best">✅</td><td>❌</td><td>❌</td></tr>
+                <tr><td>Historial undo</td><td class="best">✅</td><td>❌</td><td>❌</td></tr>
+                <tr><td>Monitoreo perf</td><td class="best">✅</td><td>❌</td><td>❌</td></tr>
+                <tr><td>Web UI</td><td class="best">✅</td><td>❌</td><td>❌</td></tr>
+                <tr><td>VS Code ext</td><td class="best">✅</td><td>❌</td><td>❌</td></tr>
+                <tr><td>Auto-tox</td><td class="best">✅</td><td>❌</td><td>❌</td></tr>
+                <tr><td>Bundle .mcpb</td><td class="best">✅</td><td>❌</td><td>✅</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
-  <script src="app.js"></script>
+  <footer>
+    <span>MCP TouchDesigner v3</span>
+    <a href="https://github.com/tolchx/touchdesigner-MCP" target="_blank">GitHub</a>
+    <a href="https://tolchx.com/td-edu/subjects/touchdesigner/mcp.html" target="_blank">TD Academy</a>
+    <span id="footerStatus">● <span id="footerStatusText">Desconectado</span></span>
+  </footer>
+
+  <script src="app.js?v=2"></script>
 </body>
 </html>
