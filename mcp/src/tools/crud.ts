@@ -2,6 +2,19 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { TDClient } from "td-api";
 import { z } from "zod";
 import { ok, err } from "../helpers.js";
+import { postModifyValidate, getParentPath } from "./postValidate.js";
+
+/**
+ * GLSL POP types that require outputattrs to be set for P[id]/Cd[id] writes.
+ * Without this, the GLSL shader compilation fails with "undeclared identifier" errors.
+ */
+const GLSL_POP_TYPES = new Set([
+  "glslPOP",
+  "glslCreatePOP",
+  "glslAdvancedPOP",
+  "glslcopyPOP",
+  "glslCopyPOP",
+]);
 
 export function registerCrudTools(server: McpServer, client: TDClient) {
   // ---------------------------------------------------------------------------
@@ -12,7 +25,7 @@ export function registerCrudTools(server: McpServer, client: TDClient) {
     {
       title: "Create Operator",
       description:
-        "Create a new operator in TouchDesigner. Specify the opType (e.g. noiseTOP, constantTOP, nullCHOP) and optional name, parent path, and position.",
+        "Create a new operator in TouchDesigner. Specify the opType (e.g. noiseTOP, constantTOP, nullCHOP) and optional name, parent path, and position. For GLSL POPs (glslPOP, glslCreatePOP, etc.), outputattrs is auto-set to 'P' and numelems to 100 unless overridden — these are required for P[id]/Cd[id] writes to compile.",
       inputSchema: {
         type: z
           .string()
@@ -27,9 +40,24 @@ export function registerCrudTools(server: McpServer, client: TDClient) {
           .describe("Parent operator path (default: '/')"),
         position_x: z.number().optional().describe("X position in the network editor"),
         position_y: z.number().optional().describe("Y position in the network editor"),
+        outputattrs: z
+          .string()
+          .optional()
+          .describe(
+            "Output attributes for GLSL POPs (e.g. 'P', 'P Cd', 'P Cd N'). " +
+            "Auto-set to 'P' for glslPOP/glslCreatePOP/glslAdvancedPOP/glslcopyPOP. " +
+            "Set to empty string to skip auto-configuration."
+          ),
+        numelems: z
+          .number()
+          .optional()
+          .describe(
+            "Number of elements for GLSL POPs. Auto-set to 100 for glslPOP/glslCreatePOP/glslAdvancedPOP/glslcopyPOP. " +
+            "Set to 0 to skip auto-configuration."
+          ),
       },
     },
-    async ({ type, name, path: opPath, position_x, position_y }) => {
+    async ({ type, name, path: opPath, position_x, position_y, outputattrs, numelems }) => {
       try {
         const result = await client.createOperator(
           type,
@@ -38,7 +66,37 @@ export function registerCrudTools(server: McpServer, client: TDClient) {
           position_x,
           position_y
         );
-        return ok(result);
+
+        // Auto-set outputattrs + numelems for GLSL POPs
+        const isGlslPop = GLSL_POP_TYPES.has(type);
+        if (isGlslPop) {
+          const createdPath = (result as any)?.path;
+          if (createdPath) {
+            const updates: { name: string; value: unknown }[] = [];
+            if (outputattrs !== "") {
+              updates.push({ name: "outputattrs", value: outputattrs ?? "P" });
+            }
+            if (numelems !== 0) {
+              updates.push({ name: "numelems", value: numelems ?? 100 });
+            }
+            if (updates.length > 0) {
+              try {
+                await client.setParameters(createdPath, updates, false);
+                if (outputattrs !== "") (result as any).outputattrs = outputattrs ?? "P";
+                if (numelems !== 0) (result as any).numelems = numelems ?? 100;
+              } catch {
+                (result as any).glslConfigWarning =
+                  `Operator created but failed to set GLSL params`;
+              }
+            }
+          }
+        }
+
+        // Post-modification validation
+        const parentPath = opPath || "/";
+        const createdPath = (result as any)?.path || `${parentPath}/${name || type}`;
+        const validation = await postModifyValidate(client, createdPath, parentPath);
+        return ok({ ...result, validation });
       } catch (e: any) {
         return err(e);
       }
@@ -99,7 +157,9 @@ export function registerCrudTools(server: McpServer, client: TDClient) {
           target_path,
           target_input ?? 0
         );
-        return ok(result);
+        // Post-modification validation (check target for cook loops)
+        const validation = await postModifyValidate(client, target_path);
+        return ok({ ...result, validation });
       } catch (e: any) {
         return err(e);
       }
@@ -155,7 +215,10 @@ export function registerCrudTools(server: McpServer, client: TDClient) {
     async ({ path: opPath, destination, name }) => {
       try {
         const result = await client.copyNode(opPath, destination, name);
-        return ok(result);
+        // Post-modification validation
+        const parentPath = destination || getParentPath(opPath);
+        const validation = await postModifyValidate(client, opPath, parentPath);
+        return ok({ ...result, validation });
       } catch (e: any) {
         return err(e);
       }
