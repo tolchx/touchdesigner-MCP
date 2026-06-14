@@ -1,0 +1,1 @@
+void main(){const uint id = TDIndex(); if(id >= TDNumElements()) return; P[id] = vec3(0);}
