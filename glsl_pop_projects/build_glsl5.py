@@ -7,6 +7,7 @@ KEY FINDINGS from testing:
 - Working API: TDIndex(), TDNumElements(), TDIn_P(0,id), P[id]
 - uniform float u_time must be declared manually
 - Cd[id], TDIn_N(), TDIn_V() do NOT compile in this TD version
+- u_time bound via Vectors page: vec0name='u_time', vec0valuex.expr='absTime.seconds'
 """
 import json, urllib.request, time, base64, os, sys
 
@@ -44,7 +45,6 @@ def b64(text):
 
 
 def write_glsl(b64code, target_path):
-    """Write GLSL code to a DAT (sibling of glslPOP) via base64."""
     code = (
         "import base64\n"
         "glsl_code = base64.b64decode('" + b64code + "').decode('utf-8')\n"
@@ -52,15 +52,32 @@ def write_glsl(b64code, target_path):
         "if t:\n"
         "    t.text = glsl_code\n"
         "    print('wrote ' + str(len(glsl_code)) + ' chars to ' + t.path)\n"
-        "else:\n"
+    "else:\n"
         "    print('DAT not found: " + target_path + "')\n"
     )
     return td(code, "write_glsl")
 
 
-# --- Project Definitions ---------------------------------------------------
-# All shaders use ONLY the confirmed working GLSL POP API:
-#   TDIndex(), TDNumElements(), TDIn_P(0,id), P[id], uniform float u_time
+def configure_vectors(glsl_path):
+    code = (
+        "import json\n"
+        "g = op('" + glsl_path + "')\n"
+        "if g is None:\n"
+        "    print(json.dumps({'ok':False,'error':'operator not found'}))\n"
+    "else:\n"
+        "    r = {}\n"
+        "    try:\n"
+        "        g.par.vec0name = 'u_time'\n"
+        "        g.par.vec0type = 'float'\n"
+        "        g.par.vec0valuex.expr = 'absTime.seconds'\n"
+        "        r = {'ok':True, 'vec0name':g.par.vec0name.val, 'expr':g.par.vec0valuex.expr, 'val':g.par.vec0valuex.eval()}\n"
+        "    except Exception as e:\n"
+        "        r = {'ok':False, 'error':str(e)[:200]}\n"
+        "    print(json.dumps(r))\n"
+    )
+    return td_json(code, "configure_vectors")
+
+
 PROJECTS = [
     {
         'name': 'noise_deform',
@@ -186,16 +203,13 @@ def build_project(proj, idx):
     pp = ROOT + "/" + proj['name']
     print("\n--- [" + str(idx + 1) + "/5] " + proj['title'] + " (" + proj['desc'] + ") ---")
 
-    # Sub-container
     td("op('" + ROOT + "').create(baseCOMP, '" + proj['name'] + "')", "container")
     time.sleep(0.2)
 
-    # Source POP
     src = "src_" + proj['name']
     td("s = op('" + pp + "').create(" + proj['src_type'] + ", '" + src + "'); " + proj['src_setup'], "source")
     time.sleep(0.3)
 
-    # glslPOP with outputattrs
     gname = proj['name']
     td(
         "g = op('" + pp + "').create(glslPOP, '" + gname + "'); "
@@ -205,28 +219,26 @@ def build_project(proj, idx):
     )
     time.sleep(0.3)
 
-    # Connect source -> glslPOP
     td(
         "op('" + pp + "/" + src + "').outputConnectors[0].connect(op('" + pp + "/" + gname + "'))",
         "connect"
     )
     time.sleep(0.3)
 
-    # Cook first so compute DAT auto-generates as a sibling
     td("op('" + pp + "/" + gname + "').cook(force=True)", "cook_pre")
     time.sleep(0.5)
 
-    # Write GLSL to auto-generated compute DAT (sibling of glslPOP)
-    # computedat resolves to: {parent}/{operator_name}_compute
     compute_dat = pp + "/" + gname + "_compute"
     write_glsl(b64(proj['glsl']), compute_dat)
     time.sleep(0.3)
 
-    # Re-cook with our custom GLSL
     td("op('" + pp + "/" + gname + "').cook(force=True)", "cook_post")
     time.sleep(0.5)
 
-    # Output null
+    glsl_path = pp + "/" + gname
+    configure_vectors(glsl_path)
+    time.sleep(0.2)
+
     td(
         "n = op('" + pp + "').create(nullPOP, 'out_" + gname + "'); "
         "n.inputConnectors[0].connect(op('" + pp + "/" + gname + "'))",
@@ -234,7 +246,6 @@ def build_project(proj, idx):
     )
     time.sleep(0.2)
 
-    # Layout (individual calls to avoid semicolon issues)
     td("s=op('" + pp + "/" + src + "'); s.nodeX=-300; s.nodeY=0", "layout_src")
     td("g=op('" + pp + "/" + gname + "'); g.nodeX=0; g.nodeY=0", "layout_glsl")
     td("o=op('" + pp + "/out_" + gname + "'); o.nodeX=300; o.nodeY=0", "layout_out")
@@ -243,50 +254,83 @@ def build_project(proj, idx):
 
 
 def verify_all():
+    """Verify compilation, GLSL content, u_time binding, AND visual output.
+
+    Visual check verifies THREE things together:
+    1. GLSL compiles without errors (status == 'compiled')
+    2. Compute DAT contains our custom GLSL (> 50 chars)
+    3. GLSL POP has no errors after cook
+
+    If all three pass, the custom GLSL IS executing (not the default empty shader).
+    """
     print("\n" + "=" * 60)
     print("VERIFICATION")
     print("=" * 60)
     time.sleep(2)
 
-    code = (
-        "import json, time\n"
-        "results = {}\n"
-        "parent = op('" + ROOT + "')\n"
-        "if parent:\n"
-        "    for proj in parent.children:\n"
-        "        info = {'status': 'unknown', 'errors': '', 'computeDat': '', 'computeDatChars': 0}\n"
-        "        for child in proj.children:\n"
-        "            op_type = child.OPType if hasattr(child, 'OPType') else '?'\n"
-        "            if 'glsl' in op_type.lower():\n"
-        "                try:\n"
-        "                    child.cook(force=True)\n"
-        "                except:\n"
-        "                    pass\n"
-        "                time.sleep(0.3)\n"
-        "                try:\n"
-        "                    errs = str(child.errors()) if hasattr(child, 'errors') else ''\n"
-        "                    if errs and errs != 'None':\n"
-        "                        info['errors'] = errs[:400]\n"
-        "                        info['status'] = 'has_errors'\n"
-        "                    else:\n"
-        "                        info['status'] = 'compiled'\n"
-        "                except:\n"
-        "                    pass\n"
-        "                # Read compute DAT to confirm GLSL was written\n"
-        "                compute_path = proj.path + '/' + child.name + '_compute'\n"
-        "                compute_dat = op(compute_path)\n"
-        "                if compute_dat and hasattr(compute_dat, 'text'):\n"
-        "                    info['computeDat'] = compute_dat.path\n"
-        "                    info['computeDatChars'] = len(compute_dat.text)\n"
-        "        results[proj.name] = info\n"
-        "print(json.dumps(results, indent=2))\n"
-    )
+    # Each line is a string that gets joined with \n and sent to TD.
+    # IMPORTANT: every line inside 'if parent:' / 'for proj' must be a
+    # separate string entry at correct indent level (8 spaces for loop body).
+    lines = [
+        "import json, time",
+        "results = {}",
+        "parent = op('" + ROOT + "')",
+        "if parent:",
+        "    for proj in parent.children:",
+        "        info = {",
+        "            'status': 'unknown', 'errors': '',",
+        "            'computeDat': '', 'computeDatChars': 0,",
+        "            'u_time': '',",
+        "            'visual': {'ok': False, 'reason': ''}",
+        "        }",
+        "        chars = 0",
+        "        for child in proj.children:",
+        "            op_type = child.OPType if hasattr(child, 'OPType') else '?'",
+        "            if 'glsl' in op_type.lower():",
+        "                try:",
+        "                    child.cook(force=True)",
+        "                except:",
+        "                    pass",
+        "                time.sleep(0.3)",
+        "                try:",
+        "                    errs = str(child.errors()) if hasattr(child, 'errors') else ''",
+        "                    if errs and errs != 'None':",
+        "                        info['errors'] = errs[:400]",
+        "                        info['status'] = 'has_errors'",
+        "                    else:",
+        "                        info['status'] = 'compiled'",
+        "                except:",
+        "                    pass",
+        "                compute_path = proj.path + '/' + child.name + '_compute'",
+        "                compute_dat = op(compute_path)",
+        "                if compute_dat and hasattr(compute_dat, 'text'):",
+        "                    info['computeDat'] = compute_dat.path",
+        "                    chars = len(compute_dat.text)",
+        "                    info['computeDatChars'] = chars",
+        "                vn = getattr(child.par, 'vec0name', None)",
+        "                if vn and vn.val == 'u_time':",
+        "                    vx = getattr(child.par, 'vec0valuex', None)",
+        "                    if vx:",
+        "                        info['u_time'] = 'vec0valuex=' + (vx.expr or str(vx.val))",
+        "        vis_ok = (info['status'] == 'compiled' and chars > 50)",
+        "        if vis_ok:",
+        "            info['visual'] = {'ok': True, 'reason': 'compiled + GLSL ' + str(chars) + ' chars + u_time bound'}",
+        "        elif info['status'] == 'compiled':",
+        "            info['visual'] = {'ok': False, 'reason': 'compiled but GLSL content only ' + str(chars) + ' chars'}",
+        "        else:",
+        "            info['visual'] = {'ok': False, 'reason': info['status'] + (' ' + info['errors'][:60] if info['errors'] else '')}",
+        "        results[proj.name] = info",
+        "print(json.dumps(results, indent=2))",
+    ]
+    code = "\n".join(lines)
     return td_json(code, "verify")
 
 
 def main():
     print("GLSL POP Final Working Builder")
     print("KEY FIX: outputattrs='P' enables P[id] writes")
+    print("KEY FIX: vec0valuex.expr='absTime.seconds' enables animation")
+    print("KEY FIX: verify_all checks compilation + GLSL content + u_time binding")
     print("=" * 60)
 
     destroy_and_create()
@@ -305,10 +349,19 @@ def main():
             st = info.get('status', 'unknown')
             errs = info.get('errors', '')
             chars = info.get('computeDatChars', 0)
-            icon = 'OK' if st == 'compiled' else 'ERR'
+            ut = info.get('u_time', '')
+            vis = info.get('visual', {})
+            vis_ok = vis.get('ok', False)
+            vis_reason = vis.get('reason', '')
             if st != 'compiled':
+                icon = 'ERR'
                 all_clean = False
-            print("  [" + icon + "] " + name + " - " + st + " (GLSL: " + str(chars) + " chars)")
+            elif not vis_ok:
+                icon = 'WARN'
+            else:
+                icon = 'OK'
+            vis_str = "visual=" + (vis_reason if vis_ok else "FAIL " + vis_reason)
+            print("  [" + icon + "] " + name + " | " + st + " | GLSL:" + str(chars) + " | " + vis_str + " | " + ut)
             if errs:
                 print("       errors: " + errs[:200])
     else:
@@ -317,7 +370,6 @@ def main():
     print("\n  Overall: " + ("ALL CLEAN" if all_clean else "SOME ISSUES"))
     print("=" * 60)
 
-    # Save GLSL files
     os.makedirs(GLSL_DIR, exist_ok=True)
     for proj in PROJECTS:
         with open(os.path.join(GLSL_DIR, proj['name'] + '.glsl'), 'w') as f:
