@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TD-MCP Dashboard</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0e0e12;color:#ccc;font:12px/1.5 ui-monospace,monospace;padding:20px}
+h1{color:#888;font-size:16px;margin-bottom:20px}
+h2{color:#5a8ec9;font-size:13px;margin:20px 0 8px;border-bottom:1px solid #222;padding-bottom:4px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.card{background:#18181e;border:1px solid #2a2a30;border-radius:4px;padding:12px}
+.card h3{color:#aaa;font-size:11px;margin-bottom:6px}
+.stat{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #1a1a20}
+.stat:last-child{border:none}
+.stat .label{color:#666}
+.stat .value{color:#ddd;font-weight:bold}
+.ok{color:#22c55e}
+.warn{color:#f5b342}
+.err{color:#e04040}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{color:#555;text-align:left;padding:4px 6px;border-bottom:1px solid #2a2a30}
+td{padding:4px 6px;border-bottom:1px solid #1a1a20}
+tr:hover td{background:#1e1e26}
+.badge{display:inline-block;padding:1px 6px;border-radius:3px;font-size:10px}
+.badge.get{background:#1a3a2a;color:#22c55e}
+.badge.post{background:#1a2a3a;color:#5a8ec9}
+.bar{height:4px;border-radius:2px;background:#2a2a30;margin-top:2px}
+.bar-fill{height:4px;border-radius:2px;background:#5a8ec9;width:0%}
+.bar-fill.err{background:#e04040}
+.refresh{padding:6px 14px;background:#1c1c22;border:1px solid #333;color:#ccc;border-radius:4px;cursor:pointer;font:11px monospace}
+.refresh:hover{background:#2a2a36}
+.status-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px}
+.status-dot.on{background:#22c55e;box-shadow:0 0 6px #22c55e44}
+.status-dot.off{background:#e04040;box-shadow:0 0 6px #e0404044}
+.flex{display:flex;align-items:center;gap:12px}
+.endpoint-list{list-style:none;font-size:11px}
+.endpoint-list li{padding:3px 0;display:flex;align-items:center;gap:6px}
+.endpoint-list li .path{color:#aaa}
+.endpoint-list li .desc{color:#555}
+#loading{text-align:center;padding:40px;color:#555}
+</style>
+</head>
+<body>
+<h1>⬡ TD-MCP Dashboard</h1>
+<div class="flex" style="margin-bottom:16px">
+  <span id="status"><span class="status-dot off"></span> Checking...</span>
+  <button class="refresh" onclick="refresh()">⟳ Refresh</button>
+  <span style="color:#555;font-size:11px" id="version"></span>
+</div>
+
+<div id="loading">Connecting to MCP server...</div>
+<div id="content" style="display:none">
+
+<div class="grid">
+  <div class="card">
+    <h3>📊 Project Stats</h3>
+    <div id="stats"></div>
+  </div>
+  <div class="card">
+    <h3>⚡ Performance</h3>
+    <div id="perf"></div>
+  </div>
+  <div class="card">
+    <h3>⚠️ Errors</h3>
+    <div id="errors"></div>
+  </div>
+</div>
+
+<h2>📡 Endpoints</h2>
+<ul class="endpoint-list" id="endpoints"></ul>
+
+<h2>🐌 Slowest Operators</h2>
+<div id="slowest"></div>
+
+</div>
+
+<script>
+const HOST = 'http://127.0.0.1:44444'
+
+async function api(method, path, body) {
+  try {
+    const opts = {method}
+    if (body) opts.body = JSON.stringify(body)
+    const r = await fetch(HOST + path, opts)
+    const t = await r.text()
+    try { return JSON.parse(t) } catch { return {error: t} }
+  } catch(e) { return {error: e.message} }
+}
+
+async function refresh() {
+  document.getElementById('loading').style.display = 'block'
+  document.getElementById('content').style.display = 'none'
+
+  const [info, ops, verify, perf, sel] = await Promise.all([
+    api('GET', '/info'),
+    api('GET', '/operators?path=/project1'),
+    api('GET', '/verify?path=/project1'),
+    api('GET', '/audit/performance'),
+    api('GET', '/editor/selection')
+  ])
+
+  const status = document.getElementById('status')
+  if (info && !info.error) {
+    status.innerHTML = '<span class="status-dot on"></span> Online'
+    document.getElementById('version').textContent = `TD ${info.build || '?'} · ${info.version || ''}`
+  } else {
+    status.innerHTML = '<span class="status-dot off"></span> Offline'
+  }
+
+  document.getElementById('loading').style.display = 'none'
+  document.getElementById('content').style.display = 'block'
+
+  // Stats
+  const opsList = ops?.operators || []
+  const stats = document.getElementById('stats')
+  stats.innerHTML = `
+    <div class="stat"><span class="label">Operators</span><span class="value">${verify?.operator_count ?? opsList.length}</span></div>
+    <div class="stat"><span class="label">Connections</span><span class="value">${verify?.total_connections ?? '?'}</span></div>
+    <div class="stat"><span class="label">Errors</span><span class="value ${verify?.error_count > 0 ? 'err' : 'ok'}">${verify?.error_count ?? '?'}</span></div>
+    <div class="stat"><span class="label">FPS</span><span class="value">${perf?.fps ?? info?.projectFPS ?? '?'}</span></div>
+    <div class="stat"><span class="label">Healthy</span><span class="value ${verify?.healthy ? 'ok' : 'err'}">${verify?.healthy ? '✓' : '✗'}</span></div>
+  `
+
+  // Perf
+  const perfDiv = document.getElementById('perf')
+  const totalCook = perf?.total_cook_time_ms || 0
+  perfDiv.innerHTML = `
+    <div class="stat"><span class="label">Total cook time</span><span class="value">${totalCook.toFixed(1)} ms</span></div>
+    <div class="stat"><span class="label">Avg per op</span><span class="value">${perf?.total_ops > 0 ? (totalCook / perf.total_ops).toFixed(2) : 0} ms</span></div>
+    <div class="stat"><span class="label">Total ops cooked</span><span class="value">${perf?.total_ops ?? '?'}</span></div>
+  `
+
+  // Errors
+  const errDiv = document.getElementById('errors')
+  const errs = verify?.errors || []
+  if (errs.length === 0) {
+    errDiv.innerHTML = '<div class="stat"><span class="ok">✓ No errors</span></div>'
+  } else {
+    errDiv.innerHTML = errs.slice(0, 5).map(e => 
+      `<div class="stat"><span class="label err">${e.path}</span><span class="value err">${(e.error || '').slice(0, 40)}</span></div>`
+    ).join('')
+  }
+
+  // Endpoints
+  const eps = [
+    {method:'GET', path:'/info', desc:'TD build info'},
+    {method:'GET', path:'/operators', desc:'List operators'},
+    {method:'GET', path:'/connections', desc:'Wire graph'},
+    {method:'GET', path:'/parameters', desc:'Get params'},
+    {method:'POST', path:'/parameters/set', desc:'Set params'},
+    {method:'GET', path:'/editor/selection', desc:'Selection'},
+    {method:'GET', path:'/spatial_context', desc:'*here/*this/*these'},
+    {method:'GET', path:'/verify', desc:'Network verification'},
+    {method:'GET', path:'/audit/performance', desc:'Slow ops'},
+    {method:'GET', path:'/help', desc:'TD module docs'},
+    {method:'POST', path:'/screenshot', desc:'Capture viewer'},
+    {method:'POST', path:'/exec', desc:'Execute Python'},
+  ]
+  document.getElementById('endpoints').innerHTML = eps.map(e =>
+    `<li><span class="badge ${e.method.toLowerCase()}">${e.method}</span> <span class="path">${e.path}</span> <span class="desc">— ${e.desc}</span></li>`
+  ).join('')
+
+  // Slowest
+  const slow = document.getElementById('slowest')
+  const slowest = perf?.slowest_ops || []
+  if (slowest.length === 0) {
+    slow.innerHTML = '<div style="color:#555">No performance data</div>'
+  } else {
+    const maxCook = Math.max(...slowest.map(s => s.cookTime_ms), 1)
+    let html = '<table><tr><th>Operator</th><th>Type</th><th>Cook (ms)</th><th></th></tr>'
+    slowest.forEach(s => {
+      const pct = (s.cookTime_ms / maxCook * 100).toFixed(0)
+      html += `<tr>
+        <td style="color:#aaa">${s.name || s.path?.split('/').pop()}</td>
+        <td style="color:#555">${s.type || '?'}</td>
+        <td class="warn">${s.cookTime_ms?.toFixed(2) || '?'}</td>
+        <td style="width:80px"><div class="bar"><div class="bar-fill ${s.cookTime_ms > 5 ? 'err' : ''}" style="width:${pct}%"></div></div></td>
+      </tr>`
+    })
+    html += '</table>'
+    slow.innerHTML = html
+  }
+}
+
+refresh()
+</script>
+</body>
+</html>

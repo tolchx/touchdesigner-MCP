@@ -162,6 +162,19 @@ class TouchDesignerAPI:
         if uri.startswith("/spatial_context") and method == "GET":
             return self._handle_spatial_context(response)
 
+        # GET /audit/performance - Slowest operators by cook time
+        if uri == "/audit/performance" and method == "GET":
+            return self._handle_audit_performance(response)
+
+        # GET /help - Python help for a TD module/class
+        if uri.startswith("/help") and method == "GET":
+            module = pars.get("module", "")
+            return self._handle_help(module, response)
+
+        # POST /screenshot - Capture frame as base64
+        if uri == "/screenshot" and method == "POST":
+            return self._handle_screenshot_post(response)
+
         # GET /pop_inspect - POP operator data
         if uri.startswith("/pop_inspect") and method == "GET":
             path = unquote(pars.get("path", ""))
@@ -856,31 +869,86 @@ print(json.dumps({{'success':True,'opType':'{op_type}','available':exists}}))
     # =========================================================================
 
     def _handle_spatial_context(self, response: dict) -> dict:
-        """Spatial context: *here, *this, *parent, *selected."""
+        """Spatial context: *here, *this, *these, *parent with operator details."""
         try:
             pane = ui.panes.current
-            ctx = {"context": {"spatialMarkers": {"*here": "/", "*this": None, "*parent": None, "*selected": []}}}
+            ctx = {
+                "context": {
+                    "spatialMarkers": {
+                        "*here": "/",
+                        "*this": None,
+                        "*these": [],
+                        "*parent": None,
+                    },
+                    "operators": []
+                }
+            }
             if pane and pane.owner:
                 here_path = pane.owner.path
+                # Resolve "here" to actual path, not just "/"
+                here_op = op(here_path) if here_path and here_path != "/" else op("/")
+                if here_op:
+                    here_path = here_op.path
                 ctx["context"]["spatialMarkers"]["*here"] = here_path
+
+                # Collect selected operators with details
+                selected_ops = []
                 try:
-                    selected = [
-                        {"path": o.path, "name": o.name, "type": o.OPType}
-                        for o in pane.owner.children if o.selected or o.current
-                    ]
-                    ctx["context"]["spatialMarkers"]["*selected"] = [s["path"] for s in selected]
-                    if selected:
-                        ctx["context"]["spatialMarkers"]["*this"] = selected[0]["path"]
+                    all_children = list(pane.owner.children)
+                    for o in all_children:
+                        if getattr(o, "selected", False) or getattr(o, "current", False):
+                            op_detail = self._collect_operator_detail(o)
+                            selected_ops.append(op_detail)
                 except:
                     pass
+
+                # *this: first selected operator
+                if selected_ops:
+                    ctx["context"]["spatialMarkers"]["*this"] = selected_ops[0]["path"]
+
+                # *these: all selected operator paths
+                ctx["context"]["spatialMarkers"]["*these"] = [s["path"] for s in selected_ops]
+
+                # *parent: parent of current network
                 try:
-                    ctx["context"]["spatialMarkers"]["*parent"] = op(here_path).parent().path if op(here_path) else None
+                    if here_op:
+                        parent_op = here_op.parent()
+                        if parent_op:
+                            ctx["context"]["spatialMarkers"]["*parent"] = parent_op.path
                 except:
                     pass
+
+                # Detailed operator info for selected
+                ctx["context"]["operators"] = selected_ops
+
+                # Also collect current/pane owner detail
                 try:
-                    ctx["context"]["siblings"] = [{"path": c.path, "name": c.name, "type": c.OPType} for c in op(here_path).parent().children if c.path != here_path]
+                    here_detail = self._collect_operator_detail(here_op) if here_op else None
+                    if here_detail:
+                        ctx["context"]["currentNetwork"] = here_detail
                 except:
                     pass
+
+                # Siblings of the current network
+                try:
+                    if here_op:
+                        parent_op = here_op.parent()
+                        if parent_op:
+                            siblings = []
+                            for c in parent_op.children:
+                                if c.path != here_path:
+                                    try:
+                                        siblings.append({
+                                            "path": c.path,
+                                            "name": c.name,
+                                            "type": c.OPType,
+                                        })
+                                    except:
+                                        pass
+                            ctx["context"]["siblings"] = siblings
+                except:
+                    pass
+
             response["statusCode"] = 200
             response["statusReason"] = "OK"
             response["data"] = json.dumps(ctx)
@@ -888,6 +956,316 @@ print(json.dumps({{'success':True,'opType':'{op_type}','available':exists}}))
             response["statusCode"] = 500
             response["statusReason"] = "Internal Server Error"
             response["data"] = json.dumps({"error": str(e)})
+        return self._send_response(response)
+
+    def _collect_operator_detail(self, op_node) -> dict:
+        """Collect detailed operator info for spatial context."""
+        detail = {
+            "path": "/",
+            "name": "",
+            "type": "",
+            "opType": "",
+            "family": None,
+            "errorCount": 0,
+        }
+        if op_node is None:
+            return detail
+        try:
+            detail["path"] = op_node.path
+        except:
+            pass
+        try:
+            detail["name"] = op_node.name
+        except:
+            pass
+        try:
+            detail["type"] = op_node.type
+        except:
+            pass
+        try:
+            detail["opType"] = op_node.OPType
+        except:
+            pass
+        try:
+            detail["family"] = getattr(op_node, "family", None)
+        except:
+            pass
+        # Error count
+        try:
+            errs = op_node.errors()
+            if isinstance(errs, (list, tuple)):
+                detail["errorCount"] = len(errs)
+            elif errs:
+                detail["errorCount"] = 1
+        except:
+            pass
+        # Cook time
+        try:
+            ct = getattr(op_node, "cookTime", None)
+            if ct is not None:
+                detail["cookTime_ms"] = ct
+        except:
+            pass
+        return detail
+
+    # =========================================================================
+    # GET /audit/performance
+    # =========================================================================
+
+    def _handle_audit_performance(self, response: dict) -> dict:
+        """Audit: list slowest operators with cook times across the project."""
+        code = r"""import json
+try:
+    # Get FPS from project cook rate
+    fps = 0.0
+    try:
+        fps = float(project.cookRate) if hasattr(project, 'cookRate') else 0.0
+    except:
+        pass
+    try:
+        fps = float(tdu.getFPS())
+    except:
+        pass
+
+    # Walk all operators and collect cook times
+    all_ops = []
+    def walk(n, depth=0):
+        if n is None or depth > 30:
+            return
+        try:
+            ct = n.cookTime
+            if ct is not None and ct > 0.0:
+                all_ops.append({
+                    'path': n.path,
+                    'name': n.name,
+                    'type': n.OPType,
+                    'cookTime_ms': round(float(ct), 3)
+                })
+        except:
+            pass
+        try:
+            for c in n.children:
+                walk(c, depth + 1)
+        except:
+            pass
+
+    walk(op('/'))
+
+    # Sort descending by cook time
+    all_ops.sort(key=lambda x: -x['cookTime_ms'])
+
+    # Take top 20
+    slowest = all_ops[:20]
+
+    # Total cook time
+    total_ct = round(sum(o['cookTime_ms'] for o in all_ops), 3)
+
+    result = {
+        'total_ops': len(all_ops),
+        'slowest_ops': slowest,
+        'total_cook_time_ms': total_ct,
+        'fps': round(fps, 1) if fps else 0.0,
+    }
+    print(json.dumps(result))
+except Exception as e:
+    print(json.dumps({'error': str(e), 'total_ops': 0, 'slowest_ops': [], 'total_cook_time_ms': 0.0, 'fps': 0.0}))
+"""
+        result = self._execute_python_robust(code)
+        # Unwrap the output JSON from the robust executor
+        try:
+            data = json.loads(result.get("output", "{}"))
+        except (json.JSONDecodeError, TypeError):
+            data = result
+        response["statusCode"] = 200
+        response["statusReason"] = "OK"
+        response["data"] = json.dumps(data, ensure_ascii=False)
+        return self._send_response(response)
+
+    # =========================================================================
+    # GET /help
+    # =========================================================================
+
+    def _handle_help(self, module: str, response: dict) -> dict:
+        """Get Python help() for a TD module/class like noiseTOP."""
+        if not module:
+            result = {"module": "", "help": "", "parameters": [], "error": "No module specified"}
+            response["statusCode"] = 400
+            response["statusReason"] = "Bad Request"
+            response["data"] = json.dumps(result)
+            return self._send_response(response)
+
+        code = rf"""import json, sys, io
+
+module_name = '{module}'
+help_text = ''
+parameters = []
+
+# Strategy 1: try help(td.<module>)
+try:
+    buf = io.StringIO()
+    old_stdout = sys.stdout
+    sys.stdout = buf
+    try:
+        obj = getattr(td, module_name, None)
+        if obj is not None:
+            help(obj)
+    except:
+        pass
+    sys.stdout = old_stdout
+    help_text = buf.getvalue()
+except:
+    pass
+
+# Strategy 2: try help(op(module_name))
+if not help_text:
+    try:
+        buf = io.StringIO()
+        old_stdout = sys.stdout
+        sys.stdout = buf
+        try:
+            t = op(module_name)
+            if t is not None:
+                help(t)
+        except:
+            pass
+        sys.stdout = old_stdout
+        help_text = buf.getvalue()
+    except:
+        pass
+
+# Strategy 3: try dir() on the module
+if not help_text:
+    try:
+        obj = getattr(td, module_name, None)
+        if obj is not None:
+            members = dir(obj)
+            help_text = 'Members of ' + module_name + ':\\n' + '\\n'.join(members)
+    except:
+        pass
+
+# Try to extract parameter names from help text or via dir
+try:
+    obj = getattr(td, module_name, None)
+    if obj is not None:
+        # Look for common TD parameter patterns
+        for member in dir(obj):
+            m = member.lower()
+            if any(x in m for x in ['amp', 'freq', 'rate', 'gain', 'bias', 'scale', 'offset',
+                                      'level', 'thresh', 'mix', 'blend', 'width', 'height',
+                                      'resol', 'speed', 'time', 'dura', 'color', 'pos',
+                                      'rot', 'translate', 'opacity', 'alpha', 'bright',
+                                      'contrast', 'satur', 'hue', 'val', 'param', 'par']):
+                if member not in parameters:
+                    parameters.append(member)
+except:
+    pass
+
+# If still no parameters, return what we have
+if not parameters:
+    try:
+        obj = getattr(td, module_name, None)
+        if obj is not None:
+            for member in dir(obj):
+                if not member.startswith('_'):
+                    parameters.append(member)
+            parameters = parameters[:50]
+    except:
+        pass
+
+print(json.dumps({{
+    'module': module_name,
+    'help': help_text[:10000] if help_text else '(no help available)',
+    'parameters': parameters
+}}))
+"""
+        result = self._execute_python_robust(code)
+        try:
+            data = json.loads(result.get("output", "{}"))
+        except (json.JSONDecodeError, TypeError):
+            data = {"module": module, "help": str(result), "parameters": []}
+        response["statusCode"] = 200
+        response["statusReason"] = "OK"
+        response["data"] = json.dumps(data, ensure_ascii=False)
+        return self._send_response(response)
+
+    # =========================================================================
+    # POST /screenshot
+    # =========================================================================
+
+    def _handle_screenshot_post(self, response: dict) -> dict:
+        """Save a frame from TOP output and return as base64 image."""
+        code = r"""import json, tempfile, base64, os, io
+
+try:
+    # Attempt to capture from the current pane's active TOP
+    pane = ui.panes.current
+    target = None
+    if pane and pane.owner:
+        # Look for a TOP in the current network
+        for c in pane.owner.children:
+            try:
+                if getattr(c, 'family', '') == 'TOP' and (getattr(c, 'selected', False) or getattr(c, 'current', False)):
+                    target = c
+                    break
+            except:
+                pass
+        if target is None:
+            # Try first TOP child available
+            for c in pane.owner.children:
+                try:
+                    if getattr(c, 'family', '') == 'TOP':
+                        target = c
+                        break
+                except:
+                    pass
+
+    if target is None:
+        # Fall back: try root for any TOP
+        for c in op('/').children:
+            try:
+                if getattr(c, 'family', '') == 'TOP':
+                    target = c
+                    break
+            except:
+                pass
+
+    if target is None:
+        print(json.dumps({
+            'success': False,
+            'error': 'No TOP output found',
+            'note': 'Select a TOP operator or create one to capture a screenshot'
+        }))
+    else:
+        tf = tempfile.NamedTemporaryFile(suffix='.png', delete=False).name
+        try:
+            target.save(tf)
+            with open(tf, 'rb') as f:
+                b64 = base64.b64encode(f.read()).decode()
+            result = {
+                'success': True,
+                'path': target.path,
+                'name': target.name,
+                'type': target.OPType,
+                'image': b64,
+                'format': 'png',
+            }
+            print(json.dumps(result))
+        finally:
+            try:
+                os.unlink(tf)
+            except:
+                pass
+except Exception as e:
+    print(json.dumps({'success': False, 'error': str(e), 'note': 'Screenshot requires TD UI interaction'}))
+"""
+        result = self._execute_python_robust(code)
+        try:
+            data = json.loads(result.get("output", "{}"))
+        except (json.JSONDecodeError, TypeError):
+            data = result
+        response["statusCode"] = 200
+        response["statusReason"] = "OK"
+        response["data"] = json.dumps(data, ensure_ascii=False)
         return self._send_response(response)
 
     # =========================================================================
