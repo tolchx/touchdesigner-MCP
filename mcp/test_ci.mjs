@@ -16,6 +16,10 @@ import fs from "node:fs";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
 
+const isWin = process.platform === "win32";
+// npx is npx.cmd on Windows, npx elsewhere
+const NPX = isWin ? "npx.cmd" : "npx";
+
 let exitCode = 0;
 let totalPassed = 0;
 let totalFailed = 0;
@@ -64,11 +68,12 @@ async function main() {
       fail(`tsconfig check ${label}`, `(file not found: ${tsconfigPath})`);
       continue;
     }
-    const tscResult = spawnSync("npx", ["tsc", "-p", tsconfigPath, "--noEmit"], {
+    const tscResult = spawnSync(NPX, ["tsc", "-p", tsconfigPath, "--noEmit"], {
       stdio: ["ignore", "pipe", "pipe"],
       encoding: "utf8",
       timeout: 60_000,
       cwd: ROOT,
+      shell: isWin,
     });
     if (tscResult.status === 0) {
       pass(`TypeScript (${label})`, "(no errors)");

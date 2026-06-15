@@ -137,7 +137,7 @@ async function run() {
   try {
     const plan = await send("tools/call", { name: "td_network_plan", arguments: { prompt: "create a noise and blur effect system", apply: false } }, 8000);
     const planText = JSON.parse(plan.result?.content?.[0]?.text || "{}");
-    const nodeCount = planText.plan?.nodes?.length || 0;
+    const nodeCount = planText.graph?.nodes?.length || 0;
     check("network planner 'noise blur'", nodeCount > 5, `(${nodeCount} nodes found)`);
   } catch (e) {
     check("network planner", false, `(${e.message})`);

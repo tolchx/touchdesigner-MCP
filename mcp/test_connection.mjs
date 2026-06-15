@@ -135,7 +135,7 @@ async function run() {
         { prompt: pt.prompt, apply: false },
         8000,
       );
-      const nodeCount = result.data?.plan?.nodes?.length || 0;
+      const nodeCount = result.data?.graph?.nodes?.length || 0;
       client.check(pt.label, result.ok && nodeCount >= pt.minNodes, `(${nodeCount} nodes)`);
     } catch (e) {
       client.check(pt.label, false, `(${e.message.substring(0, 80)})`);

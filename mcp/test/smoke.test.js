@@ -10,19 +10,19 @@ import { createTouchDesignerMcpServer } from "../dist/server.js";
 
 describe("TouchDesigner MCP Server", () => {
   it("should create a server instance", async () => {
-    const server = createTouchDesignerMcpServer();
+    const server = await createTouchDesignerMcpServer();
     assert.ok(server, "Server should be created");
     assert.strictEqual(typeof server.registerTool, "function");
   });
 
   it("should have server metadata", async () => {
-    const server = createTouchDesignerMcpServer();
+    const server = await createTouchDesignerMcpServer();
     // Default McpServer has name/version in internal state
     assert.ok(server, "Server instance exists");
   });
 
   it("should be able to list registered tools", async () => {
-    const server = createTouchDesignerMcpServer();
+    const server = await createTouchDesignerMcpServer();
     // The McpServer registers tools via registerTool
     // This simply confirms no crash on initialization
     assert.ok(server, "Tools registered without error");
