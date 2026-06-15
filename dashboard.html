@@ -6,6 +6,7 @@
 <title>TD-MCP Nexus</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
+/* ─── Theming (CSS Variables) ─── */
 :root {
   --bg: #07070d;
   --bg2: #0c0c18;
@@ -26,6 +27,26 @@
   --text2: #8888aa;
   --text3: #55557a;
 }
+[data-theme="light"] {
+  --bg: #f0f0f8;
+  --bg2: #e8e8f2;
+  --bg3: #ddddee;
+  --card: #ffffff;
+  --card2: #f5f5ff;
+  --border: #d0d0e0;
+  --border2: #b0b0cc;
+  --accent: #6c5ce7;
+  --accent2: #7c6df0;
+  --neon: #0099cc;
+  --neon2: #6c5ce7;
+  --green: #00a854;
+  --red: #d50032;
+  --yellow: #ccaa00;
+  --orange: #cc7700;
+  --text: #1a1a2e;
+  --text2: #55557a;
+  --text3: #8888aa;
+}
 
 * { margin:0; padding:0; box-sizing:border-box; }
 
@@ -35,6 +56,7 @@ body {
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;
   min-height: 100vh;
+  transition: background .3s, color .3s;
 }
 
 /* ─── Background ─── */
@@ -50,7 +72,6 @@ body::before {
   z-index: 0;
 }
 
-/* ─── Grid lines ─── */
 body::after {
   content: '';
   position: fixed;
@@ -74,6 +95,8 @@ body::after {
   border-bottom: 1px solid var(--border);
   background: linear-gradient(180deg, rgba(12,12,24,.95) 0%, rgba(12,12,24,.8) 100%);
   backdrop-filter: blur(20px);
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .header-left { display: flex; align-items: center; gap: 16px; }
@@ -93,7 +116,7 @@ body::after {
   text-transform: uppercase;
 }
 
-.header-status { display: flex; align-items: center; gap: 24px; }
+.header-status { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
 .status-pill {
   display: flex; align-items: center; gap: 8px;
   padding: 6px 16px;
@@ -143,7 +166,7 @@ body::after {
   border: 1px solid var(--border);
   border-radius: 12px;
   overflow: hidden;
-  transition: border-color .2s;
+  transition: border-color .2s, background .3s;
 }
 .section:hover { border-color: var(--border2); }
 .section.full { grid-column: 1 / -1; }
@@ -220,7 +243,9 @@ body::after {
   background: var(--bg);
   border-radius: 8px;
   border: 1px solid var(--border);
+  cursor: grab;
 }
+.network-canvas:active { cursor: grabbing; }
 
 /* ─── Tables ─── */
 .data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
@@ -233,13 +258,17 @@ body::after {
   color: var(--text3);
   border-bottom: 1px solid var(--border);
   font-weight: 600;
+  cursor: pointer;
+  user-select: none;
 }
+.data-table th:hover { color: var(--text2); }
 .data-table td {
   padding: 7px 10px;
   border-bottom: 1px solid rgba(26,26,58,.5);
   color: var(--text);
 }
 .data-table tr:hover td { background: rgba(108,92,231,.04); }
+.data-table tr { cursor: pointer; }
 
 .perf-bar {
   height: 4px;
@@ -371,7 +400,7 @@ body::after {
 .op-search:focus { border-color: var(--accent); box-shadow: 0 0 15px rgba(108,92,231,.08); }
 .op-search::placeholder { color: var(--text3); }
 
-.op-list {
+.op-list, .op-detail-list {
   margin-top: 8px;
   max-height: 250px;
   overflow-y: auto;
@@ -393,6 +422,7 @@ body::after {
 
 /* ─── Mini Chart ─── */
 .chart-container { height: 80px; position: relative; margin-top: 8px; }
+.chart-container.large { height: 160px; }
 .chart-canvas { width: 100%; height: 100%; border-radius: 4px; }
 
 /* ─── Screenshot ─── */
@@ -461,7 +491,7 @@ body::after {
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* ─── Tabs ─── */
-.tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); }
+.tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); overflow-x: auto; }
 .tab {
   padding: 10px 18px;
   font-size: 11px;
@@ -472,11 +502,263 @@ body::after {
   transition: all .2s;
   text-transform: uppercase;
   letter-spacing: .5px;
+  white-space: nowrap;
 }
 .tab:hover { color: var(--text2); }
 .tab.active { color: var(--accent2); border-bottom-color: var(--accent); }
 .tab-content { display: none; padding: 16px; }
 .tab-content.active { display: block; }
+
+/* ─── GLSL Editor ─── */
+.glsl-editor-wrap { position: relative; }
+.glsl-editor-wrap textarea {
+  width: 100%;
+  min-height: 300px;
+  background: #0a0a14;
+  color: #c8c8e0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  padding-left: 48px;
+  resize: vertical;
+  outline: none;
+  tab-size: 2;
+  white-space: pre;
+  overflow: auto;
+}
+.glsl-editor-wrap textarea:focus { border-color: var(--accent); }
+.glsl-line-numbers {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 36px;
+  padding: 12px 4px;
+  background: #0a0a14;
+  border-right: 1px solid var(--border);
+  color: var(--text3);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  text-align: right;
+  user-select: none;
+  pointer-events: none;
+  white-space: pre;
+  overflow: hidden;
+  border-radius: 8px 0 0 8px;
+}
+.glsl-toolbar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.glsl-toolbar select {
+  padding: 6px 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 11px;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  cursor: pointer;
+}
+.glsl-toolbar select:focus { border-color: var(--accent); }
+
+/* ─── Context Menu ─── */
+.context-menu {
+  position: fixed;
+  z-index: 9999;
+  background: var(--card2);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 4px;
+  min-width: 160px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.4);
+  display: none;
+}
+.context-menu-item {
+  padding: 8px 12px;
+  font-size: 11px;
+  color: var(--text);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background .15s;
+}
+.context-menu-item:hover { background: rgba(108,92,231,.15); }
+.context-menu-item.danger { color: var(--red); }
+.context-menu-item.danger:hover { background: rgba(255,23,68,.1); }
+
+/* ─── Tooltip ─── */
+.net-tooltip {
+  position: fixed;
+  z-index: 9998;
+  background: var(--card2);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: var(--text);
+  box-shadow: 0 4px 16px rgba(0,0,0,.3);
+  pointer-events: none;
+  display: none;
+  max-width: 280px;
+}
+.net-tooltip .tt-label { color: var(--text3); font-size: 9px; text-transform: uppercase; letter-spacing: .5px; }
+
+/* ─── Connection Quality ─── */
+.conn-quality {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.conn-quality.good { color: var(--green); background: rgba(0,230,118,.08); }
+.conn-quality.fair { color: var(--yellow); background: rgba(255,214,0,.08); }
+.conn-quality.poor { color: var(--red); background: rgba(255,23,68,.08); }
+
+/* ─── Graph Legend ─── */
+.graph-legend {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: var(--text2);
+}
+.legend-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+}
+
+/* ─── Session Recorder ─── */
+.recorder-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg2);
+  margin-top: 8px;
+}
+.rec-btn {
+  padding: 4px 14px;
+  border-radius: 6px;
+  border: none;
+  font: 600 11px 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all .2s;
+}
+.rec-btn.rec { background: var(--red); color: #fff; }
+.rec-btn.rec.active { animation: recPulse 1s infinite; }
+.rec-btn.rec.active::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #fff; margin-right: 4px; }
+.rec-btn.stop { background: var(--text3); color: var(--text); }
+.rec-btn.export { background: var(--accent); color: #fff; }
+@keyframes recPulse { 0%,100%{opacity:1} 50%{opacity:.6} }
+.rec-stat { font-size: 10px; color: var(--text3); }
+
+/* ─── Operator Palette ─── */
+.palette-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 6px;
+}
+.palette-item {
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 10px;
+  text-align: center;
+  cursor: grab;
+  transition: all .15s;
+  background: var(--bg2);
+  color: var(--text2);
+  user-select: none;
+}
+.palette-item:hover { border-color: var(--accent); background: rgba(108,92,231,.08); }
+.palette-item:active { cursor: grabbing; }
+.palette-item .pi-icon { font-size: 18px; display: block; margin-bottom: 2px; }
+
+/* ─── Drop zone overlay ─── */
+.drop-zone {
+  position: fixed;
+  inset: 0;
+  z-index: 9997;
+  background: rgba(108,92,231,.15);
+  border: 3px dashed var(--accent);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent2);
+  pointer-events: none;
+}
+.drop-zone.show { display: flex; }
+
+/* ─── Audio Vis ─── */
+.audio-vis {
+  width: 100%;
+  height: 60px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin-top: 8px;
+}
+
+/* ─── Snapshot Compare ─── */
+.snapshot-bar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.snapshot-btn {
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg2);
+  color: var(--text);
+  font: 600 10px 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all .15s;
+}
+.snapshot-btn:hover { border-color: var(--accent); }
+
+/* ─── Animate Param ─── */
+.anim-param-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(26,26,58,.2);
+  font-size: 11px;
+}
+.anim-param-row input[type="range"] {
+  flex: 1;
+  accent-color: var(--accent);
+}
+.anim-param-row input[type="number"] {
+  width: 60px;
+  padding: 4px 6px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+}
 
 /* ─── Responsive ─── */
 @media (max-width: 900px) {
@@ -548,7 +830,17 @@ body::after {
       <span class="dot"></span>
       <span id="statusText">Online</span>
       <span id="fpsDisplay" style="color:var(--text3);font-weight:400;margin-left:8px"></span>
+      <span id="lastRefreshDisplay" style="color:var(--text3);font-weight:400;margin-left:8px;font-size:10px"></span>
+      <span id="latencyDisplay" style="font-size:10px;margin-left:4px"></span>
+      <span id="connQualityDisplay"></span>
     </div>
+    <select id="portSelect" class="header-btn" style="padding:6px 10px;font-size:11px;appearance:auto" title="TD Instance Port">
+      <option value="44444">Port 44444</option>
+      <option value="44445">Port 44445</option>
+      <option value="44446">Port 44446</option>
+      <option value="44447">Port 44447</option>
+    </select>
+    <button class="header-btn glow" onclick="toggleTheme()" id="themeBtn" title="Toggle Dark/Light">🌙 Theme</button>
     <button class="header-btn glow" onclick="refreshAll()">⟳ Refresh</button>
     <button class="header-btn glow" onclick="toggleAutoRefresh()" id="autoBtn">⏱ Auto: ON</button>
   </div>
@@ -560,7 +852,7 @@ body::after {
   <div class="section full">
     <div class="section-header">
       <span class="section-title">📊 System Overview</span>
-      <span class="section-badge">LIVE</span>
+      <span class="section-badge" id="liveBadge">LIVE</span>
     </div>
     <div class="section-body">
       <div class="stats-grid" id="statsGrid">
@@ -570,18 +862,25 @@ body::after {
         <div class="stat-card"><div class="stat-icon">⏱</div><div class="stat-value" id="statCook">—</div><div class="stat-label">Cook Time</div></div>
         <div class="stat-card"><div class="stat-icon">⚠️</div><div class="stat-value" id="statErrs" style="font-size:22px">—</div><div class="stat-label">Errors</div></div>
         <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-value" id="statHealth" style="font-size:22px">—</div><div class="stat-label">Health</div></div>
+        <div class="stat-card"><div class="stat-icon">📈</div><div class="stat-value" id="statAvgFps" style="font-size:22px">—</div><div class="stat-label">Avg FPS</div></div>
+        <div class="stat-card"><div class="stat-icon">📊</div><div class="stat-value" id="statMinMaxFps" style="font-size:16px">—</div><div class="stat-label">Min/Max</div></div>
       </div>
     </div>
   </div>
 
-  <!-- Col 1: Tabs -->
+  <!-- Col 1: Tabs (extended) -->
   <div class="section" style="grid-column:1">
     <div class="tabs" id="mainTabs">
       <div class="tab active" data-tab="network">🌐 Network</div>
       <div class="tab" data-tab="ops">🔧 Operators</div>
       <div class="tab" data-tab="params">🎛 Params</div>
+      <div class="tab" data-tab="glsl">🔮 GLSL</div>
       <div class="tab" data-tab="terminal">⌨️ Terminal</div>
+      <div class="tab" data-tab="palette">🎨 Palette</div>
+      <div class="tab" data-tab="anim">⏳ Animate</div>
     </div>
+
+    <!-- Network tab -->
     <div class="tab-content active" id="tab-network">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap">
         <input class="op-search" style="flex:1;min-width:120px" placeholder="Search operators..." id="opSearch">
@@ -601,13 +900,30 @@ body::after {
         <button class="param-btn glow" onclick="selectedAction('select')">Select in TD</button>
         <button class="param-btn glow" onclick="selectedAction('display')">Toggle Display</button>
         <button class="param-btn glow" onclick="selectedAction('delete')" style="border-color:var(--red);color:var(--red);background:rgba(255,23,68,.08)">Delete</button>
+        <button class="param-btn glow" onclick="selectedAction('viewParams')" style="border-color:var(--neon);color:var(--neon);background:rgba(0,245,255,.08)">View Params</button>
+        <button class="param-btn glow" onclick="globalParamSearch()" style="border-color:var(--yellow);color:var(--yellow);background:rgba(255,214,0,.08)">🔍 Search Params</button>
+        <button class="param-btn glow" onclick="autoFixErrors()" style="border-color:var(--green);color:var(--green);background:rgba(0,230,118,.08)">🛠 Auto-Fix</button>
+      </div>
+      <!-- Op detail expand -->
+      <div id="opDetail" style="display:none;margin-top:8px;border-top:1px solid var(--border);padding-top:8px"></div>
+      <!-- Global param search -->
+      <div id="globalParamSearchPanel" style="display:none;margin-top:8px;border-top:1px solid var(--border);padding-top:8px">
+        <div style="display:flex;gap:6px;margin-bottom:6px">
+          <input class="op-search" placeholder="Search all params (e.g. amp=0.5, gain, frequency)" id="globalParamQuery" style="font-size:11px">
+          <button class="param-btn" onclick="doGlobalParamSearch()">Search</button>
+        </div>
+        <div id="globalParamResults" style="max-height:200px;overflow-y:auto;font-size:11px"></div>
       </div>
     </div>
 
+    <!-- Ops tab -->
     <div class="tab-content" id="tab-ops">
       <div class="data-table" id="slowestTable"><div style="color:var(--text3);padding:10px;text-align:center">Loading...</div></div>
+      <!-- Operator detail section -->
+      <div id="opsDetailPanel" style="margin-top:8px;border-top:1px solid var(--border);padding-top:8px;display:none"></div>
     </div>
 
+    <!-- Params tab -->
     <div class="tab-content" id="tab-params">
       <div style="display:flex;gap:8px;margin-bottom:8px">
         <input class="op-search" placeholder="Operator path e.g. /project1/noise1" id="paramPath" value="/project1/noise_deform">
@@ -618,9 +934,28 @@ body::after {
       </div>
     </div>
 
+    <!-- GLSL tab -->
+    <div class="tab-content" id="tab-glsl">
+      <div class="glsl-toolbar">
+        <span style="font-size:11px;color:var(--text2);font-weight:600">GLSL Editor</span>
+        <select id="glslOpSelect" onchange="glslOpChanged()">
+          <option value="">— Select a GLSL OP —</option>
+        </select>
+        <button class="param-btn" onclick="glslLoad()">⬇ Load from TD</button>
+        <button class="param-btn" onclick="glslApply()" style="border-color:var(--green);color:var(--green);background:rgba(0,230,118,.08)">⬆ Apply to TD</button>
+        <button class="param-btn" onclick="glslFormat()" style="border-color:var(--neon);color:var(--neon);background:rgba(0,245,255,.08)">Format</button>
+      </div>
+      <div class="glsl-editor-wrap">
+        <div class="glsl-line-numbers" id="glslLineNums">1</div>
+        <textarea id="glslEditor" placeholder="// GLSL shader code&#10;// Select a GLSL OP and click 'Load from TD'&#10;void main() {&#10;  vec3 color = vec3(1.0);&#10;  gl_FragColor = TDOutputSwizzle(vec4(color, 1.0));&#10;}"></textarea>
+      </div>
+      <div id="glslStatus" style="font-size:10px;color:var(--text3);margin-top:4px"></div>
+    </div>
+
+    <!-- Terminal tab -->
     <div class="tab-content" id="tab-terminal">
       <div class="terminal">
-        <div class="terminal-header">⚡ TD Console · Python REPL</div>
+        <div class="terminal-header">⚡ TD Console · Python REPL <span style="margin-left:auto;font-size:9px;color:var(--text3)">Ctrl+Enter to exec</span></div>
         <div class="terminal-body" id="termOutput"><span style="color:var(--text3)">// Welcome to TD-MCP Nexus Terminal\n// Type Python code to execute in TouchDesigner\n</span></div>
         <div class="terminal-input-line">
           <span class="terminal-prompt">❯</span>
@@ -628,34 +963,146 @@ body::after {
         </div>
       </div>
     </div>
+
+    <!-- Palette tab -->
+    <div class="tab-content" id="tab-palette">
+      <div style="font-size:11px;color:var(--text2);margin-bottom:8px">Drag an operator onto the network graph or use buttons to create</div>
+      <div class="palette-grid" id="paletteGrid"></div>
+      <div style="margin-top:8px">
+        <input class="op-search" placeholder="Path to create op (default: /project1)" id="palettePath" value="/project1" style="font-size:11px;margin-bottom:6px">
+        <div id="paletteStatus" style="font-size:10px;color:var(--text3)"></div>
+      </div>
+    </div>
+
+    <!-- Animate tab -->
+    <div class="tab-content" id="tab-anim">
+      <div style="font-size:11px;color:var(--text2);margin-bottom:8px">Animate parameters over time</div>
+      <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap">
+        <input class="op-search" placeholder="Op path" id="animOpPath" style="flex:2;font-size:11px">
+        <input class="op-search" placeholder="Param name" id="animParamName" style="flex:1;font-size:11px">
+        <input class="op-search" placeholder="Start val" id="animStartVal" style="flex:1;font-size:11px" value="0">
+        <input class="op-search" placeholder="End val" id="animEndVal" style="flex:1;font-size:11px" value="1">
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+        <span style="font-size:10px;color:var(--text3);display:flex;align-items:center">Duration (s):</span>
+        <input type="number" id="animDuration" value="5" min="0.5" max="300" step="0.5" style="width:60px;padding:4px 6px;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:11px;font-family:'JetBrains Mono',monospace">
+        <button class="param-btn" onclick="animStartRamp()" style="border-color:var(--green);color:var(--green);background:rgba(0,230,118,.08)">▶ Start Ramp</button>
+        <button class="param-btn" onclick="animStopAll()" style="border-color:var(--red);color:var(--red);background:rgba(255,23,68,.08)">■ Stop All</button>
+      </div>
+      <div id="animRunningList" style="max-height:150px;overflow-y:auto;font-size:10px"></div>
+    </div>
   </div>
 
-  <!-- Col 2: Performance + Logs -->
+  <!-- Col 2: Performance + Logs + Tools -->
   <div class="section" style="grid-column:2">
     <div class="tabs" id="rightTabs">
       <div class="tab active" data-tab="perf">⚡ Performance</div>
       <div class="tab" data-tab="errors">⚠️ Log</div>
       <div class="tab" data-tab="screenshot">📷 Viewer</div>
+      <div class="tab" data-tab="tools">🔧 Tools</div>
+      <div class="tab" data-tab="snapshot">📸 Snap</div>
+      <div class="tab" data-tab="audio">🎵 Audio</div>
     </div>
 
+    <!-- Perf tab -->
     <div class="tab-content active" id="tab-perf">
-      <div class="chart-container"><canvas class="chart-canvas" id="fpsChart"></canvas></div>
-      <div style="margin-top:12px">
+      <div style="display:flex;gap:6px;margin-bottom:6px;align-items:center;flex-wrap:wrap">
+        <span style="font-size:10px;color:var(--text3)">FPS Chart:</span>
+        <button class="param-btn" style="font-size:9px;padding:3px 8px" onclick="setFpsRange(60)">1 min</button>
+        <button class="param-btn" style="font-size:9px;padding:3px 8px;border-color:var(--accent2)" onclick="setFpsRange(300)">5 min</button>
+        <button class="param-btn" style="font-size:9px;padding:3px 8px" onclick="setFpsRange(1800)">30 min</button>
+        <span style="font-size:10px;color:var(--text3);margin-left:auto" id="fpsStatsLabel"></span>
+      </div>
+      <div class="chart-container large"><canvas class="chart-canvas" id="fpsChart"></canvas></div>
+      <div id="fpsStats" style="display:flex;gap:12px;margin-top:6px;font-size:10px;color:var(--text2);flex-wrap:wrap"></div>
+      <hr style="border-color:var(--border);margin:10px 0">
+      <div class="recorder-bar">
+        <span style="font-size:10px;color:var(--text2);font-weight:600">📼 Session Recorder</span>
+        <button class="rec-btn rec" id="recBtn" onclick="toggleRecording()">● Record</button>
+        <button class="rec-btn export" onclick="exportCSV()">⬇ Export CSV</button>
+        <span class="rec-stat" id="recStat">Idle</span>
+      </div>
+      <hr style="border-color:var(--border);margin:10px 0">
+      <div style="margin-top:8px">
         <div class="data-table" id="perfTable"><div style="color:var(--text3);padding:8px;text-align:center">Loading...</div></div>
       </div>
     </div>
 
+    <!-- Errors tab -->
     <div class="tab-content" id="tab-errors">
       <div class="section-body" style="padding:0" id="errorLog">
         <div style="color:var(--text3);padding:16px;text-align:center">No errors</div>
       </div>
     </div>
 
+    <!-- Screenshot tab -->
     <div class="tab-content" id="tab-screenshot">
       <div class="screenshot-area" id="screenshotArea" onclick="captureScreenshot()">
         <span style="font-size:32px;color:var(--border2)">📷</span>
         <span>Click to capture viewer</span>
       </div>
+    </div>
+
+    <!-- Tools tab -->
+    <div class="tab-content" id="tab-tools">
+      <div style="font-size:11px;color:var(--text2);margin-bottom:10px;font-weight:600">⚙️ Dashboard Tools</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="param-btn glow" onclick="saveLayout()">💾 Save Layout</button>
+          <button class="param-btn glow" onclick="loadLayout()">📂 Load Layout</button>
+          <button class="param-btn glow" onclick="exportStateAsUrl()">🔗 Copy State URL</button>
+        </div>
+        <hr style="border-color:var(--border)">
+        <div>
+          <span style="font-size:10px;color:var(--text3)">Snapshot Compare</span>
+          <div class="snapshot-bar" style="margin-top:4px">
+            <button class="snapshot-btn" onclick="saveSnapshot()">📸 Save Snapshot A</button>
+            <button class="snapshot-btn" onclick="saveSnapshotB()">📸 Save Snapshot B</button>
+            <button class="snapshot-btn" onclick="compareSnapshots()" style="border-color:var(--accent)">↔ Compare</button>
+          </div>
+          <div id="snapshotResult" style="margin-top:4px;font-size:10px;color:var(--text3);max-height:120px;overflow-y:auto"></div>
+        </div>
+        <hr style="border-color:var(--border)">
+        <div>
+          <span style="font-size:10px;color:var(--text3)">Audio Visualizer (CHOP)</span>
+          <div style="display:flex;gap:6px;margin-top:4px">
+            <input class="op-search" placeholder="CHOP path" id="audioChopPath" style="font-size:10px;flex:1" value="/project1/audio1">
+            <button class="param-btn" onclick="startAudioVis()" style="font-size:9px">▶ Start</button>
+            <button class="param-btn" onclick="stopAudioVis()" style="font-size:9px">■ Stop</button>
+          </div>
+          <canvas class="audio-vis" id="audioVisCanvas"></canvas>
+        </div>
+        <hr style="border-color:var(--border)">
+        <div>
+          <span style="font-size:10px;color:var(--text3)">File Upload (drop image onto operator)</span>
+          <div style="margin-top:4px;font-size:10px;color:var(--text2)" id="dropInfo">Drag & drop an image file onto an operator in the Network tab above, or click to browse.</div>
+          <input type="file" id="fileUploadInput" accept="image/*" style="display:none" onchange="handleFileSelect(event)">
+          <button class="param-btn" onclick="document.getElementById('fileUploadInput').click()" style="margin-top:4px;font-size:10px">📁 Browse & Upload</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Snapshot tab -->
+    <div class="tab-content" id="tab-snapshot">
+      <div style="font-size:11px;color:var(--text2);margin-bottom:8px">📸 Network State Snapshots</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="snapshot-btn" onclick="saveSnapshot()">📸 Snapshot A</button>
+        <button class="snapshot-btn" onclick="saveSnapshotB()">📸 Snapshot B</button>
+        <button class="snapshot-btn" onclick="compareSnapshots()" style="border-color:var(--accent)">↔ Compare</button>
+      </div>
+      <div id="snapshotDetail" style="margin-top:8px;font-size:10px;color:var(--text3);max-height:300px;overflow-y:auto"></div>
+    </div>
+
+    <!-- Audio tab -->
+    <div class="tab-content" id="tab-audio">
+      <div style="font-size:11px;color:var(--text2);margin-bottom:8px">🎵 Audio Waveform Visualizer</div>
+      <div style="display:flex;gap:6px;margin-bottom:8px">
+        <input class="op-search" placeholder="CHOP path (e.g. /project1/audio1)" id="audioChopPath2" style="font-size:11px;flex:1" value="/project1/audio1">
+        <button class="param-btn" onclick="startAudioVis()" style="font-size:10px">▶ Start</button>
+        <button class="param-btn" onclick="stopAudioVis()" style="font-size:10px">■ Stop</button>
+      </div>
+      <canvas class="audio-vis" id="audioVisCanvas2" style="height:120px"></canvas>
+      <div id="audioStatus" style="font-size:10px;color:var(--text3);margin-top:4px"></div>
     </div>
   </div>
 
@@ -663,10 +1110,20 @@ body::after {
   <div class="section full">
     <div class="section-header">
       <span class="section-title">🌐 Network Graph</span>
-      <span class="section-badge" id="graphCount">0 nodes</span>
+      <div style="display:flex;gap:10px;align-items:center">
+        <span class="section-badge" id="graphCount">0 nodes</span>
+      </div>
     </div>
     <div class="section-body" style="padding:8px">
       <canvas class="network-canvas" id="netCanvas"></canvas>
+      <div class="graph-legend" id="graphLegend">
+        <span class="legend-item"><span class="legend-dot" style="background:#7c3aed"></span> GLSL</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#00e676"></span> TOP</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#00f5ff"></span> CHOP</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#ff9100"></span> SOP</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#ffd600"></span> DAT</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#6c5ce7"></span> Other</span>
+      </div>
     </div>
   </div>
 
@@ -683,32 +1140,93 @@ body::after {
 
 </div>
 
+<!-- Context Menu (hidden) -->
+<div class="context-menu" id="contextMenu"></div>
+
+<!-- Tooltip (hidden) -->
+<div class="net-tooltip" id="netTooltip"></div>
+
+<!-- Drop zone overlay -->
+<div class="drop-zone" id="dropZone">📁 Drop image to set as texture</div>
+
 <script>
-const API = 'http://127.0.0.1:44444'
+// ─── State ───
+let API_BASE = 'http://127.0.0.1:44444'
 let autoRefresh = true
 let autoTimer = null
 let fpsHistory = []
+let fpsHistoryTimestamps = []
 let selectedOps = new Set()
 let allOperators = []
+let networkNodePositions = []
+let networkDragging = null
+let networkDragOffset = { x: 0, y: 0 }
+let lastRefreshTime = Date.now()
+let lastRequestTime = 0
+let connectionQuality = 'good'
+let connQualitySamples = []
+let recording = false
+let recordedData = []
+let animTimers = {}
+let audioVisInterval = null
+let currentFpsRange = 300 // 5 min default
+let snapshotA = null
+let snapshotB = null
+let glslHighlightTimer = null
+
+function getApi() { return API_BASE }
 
 // ─── API Helper ───
 async function api(method, path, body) {
+  const startTime = performance.now()
+  lastRequestTime = Date.now()
   try {
     const opts = { method }
     if (body) { opts.body = JSON.stringify(body); opts.headers = {'Content-Type':'application/json'} }
-    const r = await fetch(API + path, opts)
+    const r = await fetch(getApi() + path, opts)
+    const latency = performance.now() - startTime
+    updateLatency(latency)
     if (!r.ok) return { error: `HTTP ${r.status}` }
     const text = await r.text()
     try { return JSON.parse(text) }
     catch { return { error: text.slice(0,200) } }
-  } catch(e) { return { error: e.message } }
+  } catch(e) {
+    updateLatency(performance.now() - startTime)
+    return { error: e.message }
+  }
 }
+
+function updateLatency(ms) {
+  connQualitySamples.push(ms)
+  if (connQualitySamples.length > 20) connQualitySamples.shift()
+  const avg = connQualitySamples.reduce((a,b) => a+b, 0) / connQualitySamples.length
+  const latEl = document.getElementById('latencyDisplay')
+  latEl.textContent = `${ms.toFixed(0)}ms`
+  latEl.style.color = ms < 50 ? 'var(--green)' : ms < 200 ? 'var(--yellow)' : 'var(--red)'
+  let qual = 'good'
+  if (avg > 200) qual = 'poor'
+  else if (avg > 80) qual = 'fair'
+  connectionQuality = qual
+  const cqEl = document.getElementById('connQualityDisplay')
+  cqEl.innerHTML = `<span class="conn-quality ${qual}">● ${qual}</span>`
+}
+
+function updateLastRefresh() {
+  const el = document.getElementById('lastRefreshDisplay')
+  const sec = Math.floor((Date.now() - lastRefreshTime) / 1000)
+  el.textContent = sec < 60 ? `⏱ ${sec}s ago` : `⏱ ${Math.floor(sec/60)}m ago`
+}
+
+// ─── Port Select ───
+document.getElementById('portSelect').addEventListener('change', function() {
+  API_BASE = 'http://127.0.0.1:' + this.value
+  refreshAll()
+})
 
 // ─── Tab system ───
 document.querySelectorAll('.tabs').forEach(tabs => {
   tabs.querySelectorAll('.tab').forEach(tab => {
     tab.addEventListener('click', () => {
-      const parent = tab.closest('.section') || tab.closest('.main')
       const container = tab.closest('.section')
       container.querySelectorAll('.tab').forEach(t => t.classList.remove('active'))
       container.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'))
@@ -719,10 +1237,44 @@ document.querySelectorAll('.tabs').forEach(tabs => {
   })
 })
 
+// ─── Theme Toggle ───
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme')
+  const next = current === 'light' ? 'dark' : 'light'
+  document.documentElement.setAttribute('data-theme', next === 'light' ? 'light' : '')
+  document.getElementById('themeBtn').textContent = next === 'light' ? '☀️ Theme' : '🌙 Theme'
+  localStorage.setItem('tdmcp_theme', next)
+}
+if (localStorage.getItem('tdmcp_theme') === 'light') {
+  document.documentElement.setAttribute('data-theme', 'light')
+  document.getElementById('themeBtn').textContent = '☀️ Theme'
+}
+
+// ─── Keyboard Shortcuts ───
+document.addEventListener('keydown', function(e) {
+  // Ctrl+R refresh (not on inputs to avoid conflicts except terminal)
+  if (e.ctrlKey && e.key === 'r' && !e.target.closest('input,textarea,select')) {
+    e.preventDefault()
+    refreshAll()
+  }
+  // Ctrl+Enter exec terminal
+  if (e.ctrlKey && e.key === 'Enter') {
+    const termInput = document.getElementById('termInput')
+    if (document.activeElement === termInput || document.activeElement.closest('.terminal')) {
+      e.preventDefault()
+      executeTerminal()
+    }
+  }
+  // Escape close context menu
+  if (e.key === 'Escape') {
+    document.getElementById('contextMenu').style.display = 'none'
+    document.getElementById('netTooltip').style.display = 'none'
+  }
+})
+
 // ─── Terminal ───
-document.getElementById('termInput').addEventListener('keydown', async (e) => {
-  if (e.key !== 'Enter') return
-  const input = e.target
+async function executeTerminal() {
+  const input = document.getElementById('termInput')
   const code = input.value.trim()
   if (!code) return
   input.value = ''
@@ -732,6 +1284,11 @@ document.getElementById('termInput').addEventListener('keydown', async (e) => {
   const result = r.output || r.error || 'OK'
   out.innerHTML += result + '\n'
   out.scrollTop = out.scrollHeight
+}
+document.getElementById('termInput').addEventListener('keydown', async (e) => {
+  if (e.key === 'Enter' && !e.ctrlKey) {
+    executeTerminal()
+  }
 })
 
 // ─── Operator Search & Filter ───
@@ -749,7 +1306,7 @@ function renderOpList() {
     const p = o.path || ''
     const sel = selectedOps.has(p) ? 'background:rgba(108,92,231,.15)' : ''
     const err = o.errorCount > 0 ? `<span class="op-err">⚠${o.errorCount}</span>` : ''
-    return `<div class="op-item" style="${sel}" onclick="toggleOp('${p}')" ondblclick="selectInTD('${p}')">
+    return `<div class="op-item" style="${sel}" onclick="toggleOp('${escapeAttr(p)}')" ondblclick="selectInTD('${escapeAttr(p)}')">
       <span class="op-name">${o.name || p.split('/').pop()}</span>
       <span class="op-type">${o.type || ''}</span>
       ${err}
@@ -758,6 +1315,8 @@ function renderOpList() {
   document.getElementById('selCount').textContent = selectedOps.size + ' selected'
 }
 
+function escapeAttr(s) { return (s||'').replace(/'/g, "\\'") }
+
 function toggleOp(path) {
   if (selectedOps.has(path)) selectedOps.delete(path)
   else selectedOps.add(path)
@@ -765,21 +1324,27 @@ function toggleOp(path) {
 }
 
 async function selectInTD(path) {
-  await api('POST', '/exec', { code: `op('${path}').selected = True` })
+  await api('POST', '/exec', { code: `op('${path.replace(/'/g,"\\'")}').selected = True` })
 }
 
 async function selectedAction(action) {
   if (selectedOps.size === 0) return
   const paths = [...selectedOps]
   if (action === 'select') {
-    for (const p of paths) await api('POST', '/exec', { code: `op('${p}').selected = True` })
+    for (const p of paths) await api('POST', '/exec', { code: `op('${p.replace(/'/g,"\\'")}').selected = True` })
   } else if (action === 'display') {
-    for (const p of paths) await api('POST', '/exec', { code: `op('${p}').display = not op('${p}').display` })
+    for (const p of paths) await api('POST', '/exec', { code: `op('${p.replace(/'/g,"\\'")}').display = not op('${p.replace(/'/g,"\\'")}').display` })
   } else if (action === 'delete') {
     if (!confirm(`Delete ${paths.length} operator(s)?`)) return
-    for (const p of paths) await api('POST', '/exec', { code: `op('${p}').destroy()` })
+    for (const p of paths) await api('POST', '/exec', { code: `op('${p.replace(/'/g,"\\'")}').destroy()` })
     selectedOps.clear()
     refreshAll()
+  } else if (action === 'viewParams') {
+    const p = paths[0]
+    if (!p) return
+    document.getElementById('paramPath').value = p
+    document.querySelector('[data-tab="params"]')?.click()
+    loadParams()
   }
 }
 
@@ -812,6 +1377,87 @@ async function setParam(path, name, value) {
   if (r.error) alert('Error: ' + r.error)
 }
 
+// ─── GLSL Editor ───
+function glslOpChanged() {
+  const sel = document.getElementById('glslOpSelect').value
+  if (sel) {
+    document.getElementById('paramPath').value = sel
+  }
+}
+
+async function glslLoad() {
+  const path = document.getElementById('glslOpSelect').value
+  if (!path) { document.getElementById('glslStatus').textContent = 'Please select a GLSL OP first'; return }
+  document.getElementById('glslStatus').textContent = 'Loading...'
+  const r = await api('GET', `/parameters?path=${encodeURIComponent(path)}`)
+  if (r.error || !r.parameters) {
+    document.getElementById('glslStatus').textContent = `Error: ${r.error || 'No params'}`
+    return
+  }
+  // Try to find a parameter that might hold shader code
+  const codeParams = r.parameters.filter(p => p.style === 'Str' && (p.name.toLowerCase().includes('code') || p.name.toLowerCase().includes('shader') || p.name.toLowerCase().includes('frag') || p.name.toLowerCase().includes('vert') || p.name.toLowerCase().includes('compute') || p.name.toLowerCase().includes('glsl')))
+  if (codeParams.length > 0) {
+    const code = codeParams[0].value || ''
+    document.getElementById('glslEditor').value = code
+    updateGlslLineNumbers()
+    glslHighlight()
+    document.getElementById('glslStatus').textContent = `Loaded from ${codeParams[0].name} on ${path}`
+    return
+  }
+  // Fallback: try /exec to get the GLSL code via a DAT
+  const execR = await api('POST', '/exec', { code: `try:\n  d = op('${path.replace(/'/g,"\\'")}')\n  if hasattr(d, 'text'):\n    print(d.text)\n  elif hasattr(d, 'code'):\n    print(d.code)\n  else:\n    print('No text/code attr')\nexcept Exception as e:\n  print(f'Error: {e}')` })
+  if (execR.output) {
+    document.getElementById('glslEditor').value = execR.output
+    updateGlslLineNumbers()
+    glslHighlight()
+    document.getElementById('glslStatus').textContent = `Loaded via exec from ${path}`
+  } else {
+    document.getElementById('glslStatus').textContent = 'Could not load shader code'
+  }
+}
+
+async function glslApply() {
+  const path = document.getElementById('glslOpSelect').value
+  if (!path) { document.getElementById('glslStatus').textContent = 'Please select a GLSL OP first'; return }
+  const code = document.getElementById('glslEditor').value
+  document.getElementById('glslStatus').textContent = 'Applying...'
+  const r = await api('POST', '/exec', { code: `try:\n  d = op('${path.replace(/'/g,"\\'")}')\n  if hasattr(d, 'text'):\n    d.text = '''${code.replace(/'/g,"\\'").replace(/\n/g,'\\n')}'''\n    print('Code applied to text')\n  elif hasattr(d, 'par'):\n    for p in d.pars('str'):\n      if 'code' in p.name.lower() or 'shader' in p.name.lower() or 'frag' in p.name.lower():\n        p.val = '''${code.replace(/'/g,"\\'").replace(/\n/g,'\\n')}'''\n        print(f'Applied to {p.name}')\n        break\n    else:\n      print('No code par found')\n  else:\n    print('Cannot apply')\nexcept Exception as e:\n  print(f'Error: {e}')` })
+  document.getElementById('glslStatus').textContent = r.output || r.error || 'Applied!'
+}
+
+function glslFormat() {
+  let code = document.getElementById('glslEditor').value
+  // Simple formatting: ensure newline after semicolons, consistent indentation
+  code = code.replace(/;/g, ';\n').replace(/\n{2,}/g, '\n').replace(/^\s*\n/gm, '')
+  document.getElementById('glslEditor').value = code
+  updateGlslLineNumbers()
+  glslHighlight()
+  document.getElementById('glslStatus').textContent = 'Formatted'
+}
+
+function updateGlslLineNumbers() {
+  const ta = document.getElementById('glslEditor')
+  const lines = ta.value.split('\n').length
+  document.getElementById('glslLineNums').textContent = Array.from({length: lines}, (_, i) => i+1).join('\n')
+}
+
+function glslHighlight() {
+  if (glslHighlightTimer) clearTimeout(glslHighlightTimer)
+  glslHighlightTimer = setTimeout(() => {
+    updateGlslLineNumbers()
+  }, 200)
+}
+
+document.getElementById('glslEditor').addEventListener('input', glslHighlight)
+document.getElementById('glslEditor').addEventListener('scroll', function() {
+  document.getElementById('glslLineNums').scrollTop = this.scrollTop
+})
+
+// ─── GLSL Syntax Highlight Overlay (CSS-based via textarea) ───
+// The textarea uses a dark bg and monospace font; the visual highlighting
+// is achieved via the line numbers and the dark theme. For a full
+// overlay approach we use the textarea itself with colored text approach.
+
 // ─── Screenshot ───
 async function captureScreenshot() {
   const area = document.getElementById('screenshotArea')
@@ -829,7 +1475,17 @@ async function captureScreenshot() {
   }
 }
 
-// ─── Network Graph ───
+// ─── Interactive Network Graph ───
+function getNodeColor(type) {
+  const t = (type || '').toLowerCase()
+  if (t.includes('glsl')) return '#7c3aed'
+  if (t.includes('top')) return '#00e676'
+  if (t.includes('chop')) return '#00f5ff'
+  if (t.includes('sop')) return '#ff9100'
+  if (t.includes('dat')) return '#ffd600'
+  return '#6c5ce7'
+}
+
 function drawNetwork(operators) {
   const canvas = document.getElementById('netCanvas')
   const ctx = canvas.getContext('2d')
@@ -847,19 +1503,34 @@ function drawNetwork(operators) {
     ctx.font = '12px Inter, sans-serif'
     ctx.textAlign = 'center'
     ctx.fillText('No network data', W/2, H/2)
+    document.getElementById('graphCount').textContent = '0 nodes'
     return
   }
 
   // Layout: circular
   const cx = W/2, cy = H/2
   const radius = Math.min(W, H) * 0.35
-  const nodes = operators.slice(0, 60)
-  const positions = nodes.map((n, i) => {
-    const a = (i / nodes.length) * Math.PI * 2 - Math.PI/2
-    return { x: cx + Math.cos(a) * radius, y: cy + Math.sin(a) * radius, name: n.name || n.path?.split('/').pop() || '?', type: n.type || '' }
-  })
+  const nodes = operators.slice(0, 80)
+  
+  // Use stored positions or compute new ones
+  if (networkNodePositions.length !== nodes.length || networkNodePositions.length === 0) {
+    networkNodePositions = nodes.map((n, i) => {
+      const a = (i / nodes.length) * Math.PI * 2 - Math.PI/2
+      return { 
+        x: cx + Math.cos(a) * radius, 
+        y: cy + Math.sin(a) * radius, 
+        name: n.name || n.path?.split('/').pop() || '?', 
+        type: n.type || '', 
+        path: n.path || '',
+        cookTime: n.cookTime_ms || n.cookTime || 0,
+        errorCount: n.errorCount || 0
+      }
+    })
+  }
 
-  // Draw connections (randomized for visual effect)
+  const positions = networkNodePositions
+
+  // Draw connections
   ctx.strokeStyle = 'rgba(108,92,231,.08)'
   ctx.lineWidth = .5
   for (let i = 0; i < positions.length; i++) {
@@ -874,21 +1545,17 @@ function drawNetwork(operators) {
 
   // Draw nodes
   positions.forEach((p, i) => {
+    const color = getNodeColor(p.type)
     const isGlsl = p.type.toLowerCase().includes('glsl')
-    const isTop = p.type.toLowerCase().includes('top')
-    const isChop = p.type.toLowerCase().includes('chop')
-
-    let color = 'rgba(108,92,231,.5)'
-    if (isGlsl) color = '#7c3aed'
-    else if (isTop) color = '#00e676'
-    else if (isChop) color = '#00f5ff'
-
     const size = isGlsl ? 5 : 3.5
+
+    // Glow for GLSL nodes
+    ctx.shadowColor = isGlsl ? '#7c3aed' : color
+    ctx.shadowBlur = isGlsl ? 14 : 4
+
     ctx.beginPath()
     ctx.arc(p.x, p.y, size, 0, Math.PI * 2)
     ctx.fillStyle = color
-    ctx.shadowColor = color
-    ctx.shadowBlur = isGlsl ? 10 : 4
     ctx.fill()
     ctx.shadowBlur = 0
 
@@ -904,9 +1571,147 @@ function drawNetwork(operators) {
   document.getElementById('graphCount').textContent = nodes.length + ' nodes'
 }
 
+// ─── Network Graph Mouse Events ───
+const netCanvas = document.getElementById('netCanvas')
+
+netCanvas.addEventListener('mousedown', function(e) {
+  const rect = this.getBoundingClientRect()
+  const mx = e.clientX - rect.left
+  const my = e.clientY - rect.top
+  
+  // Check if clicking on a node
+  for (let i = 0; i < networkNodePositions.length; i++) {
+    const p = networkNodePositions[i]
+    const dist = Math.sqrt((mx - p.x) ** 2 + (my - p.y) ** 2)
+    const hitRadius = p.type.toLowerCase().includes('glsl') ? 8 : 6
+    if (dist < hitRadius) {
+      networkDragging = i
+      networkDragOffset.x = p.x - mx
+      networkDragOffset.y = p.y - my
+      this.style.cursor = 'grabbing'
+      return
+    }
+  }
+})
+
+netCanvas.addEventListener('mousemove', function(e) {
+  const rect = this.getBoundingClientRect()
+  const mx = e.clientX - rect.left
+  const my = e.clientY - rect.top
+
+  // Tooltip on hover
+  let found = -1
+  for (let i = 0; i < networkNodePositions.length; i++) {
+    const p = networkNodePositions[i]
+    const dist = Math.sqrt((mx - p.x) ** 2 + (my - p.y) ** 2)
+    if (dist < 8) { found = i; break }
+  }
+
+  const tooltip = document.getElementById('netTooltip')
+  if (found >= 0) {
+    const p = networkNodePositions[found]
+    tooltip.innerHTML = `<div class="tt-label">Node</div><div style="font-weight:600;color:var(--accent2)">${p.name}</div><div class="tt-label">Type</div><div>${p.type}</div><div class="tt-label">Path</div><div style="font-size:10px">${p.path}</div>${p.cookTime ? `<div class="tt-label">Cook Time</div><div>${p.cookTime}ms</div>` : ''}`
+    tooltip.style.display = 'block'
+    tooltip.style.left = (e.clientX + 12) + 'px'
+    tooltip.style.top = (e.clientY - 10) + 'px'
+  } else {
+    tooltip.style.display = 'none'
+  }
+
+  // Drag
+  if (networkDragging !== null) {
+    const p = networkNodePositions[networkDragging]
+    p.x = mx + networkDragOffset.x
+    p.y = my + networkDragOffset.y
+    p.x = Math.max(5, Math.min(rect.width - 5, p.x))
+    p.y = Math.max(5, Math.min(rect.height - 5, p.y))
+    drawNetwork(allOperators)
+  }
+})
+
+netCanvas.addEventListener('mouseup', function() {
+  networkDragging = null
+  this.style.cursor = 'grab'
+})
+
+netCanvas.addEventListener('mouseleave', function() {
+  networkDragging = null
+  this.style.cursor = 'grab'
+  document.getElementById('netTooltip').style.display = 'none'
+})
+
+// Right-click context menu
+netCanvas.addEventListener('contextmenu', function(e) {
+  e.preventDefault()
+  const rect = this.getBoundingClientRect()
+  const mx = e.clientX - rect.left
+  const my = e.clientY - rect.top
+
+  let found = -1
+  for (let i = 0; i < networkNodePositions.length; i++) {
+    const p = networkNodePositions[i]
+    const dist = Math.sqrt((mx - p.x) ** 2 + (my - p.y) ** 2)
+    if (dist < 8) { found = i; break }
+  }
+
+  const menu = document.getElementById('contextMenu')
+  if (found >= 0) {
+    const p = networkNodePositions[found]
+    menu.innerHTML = `
+      <div class="context-menu-item" onclick="closeContextMenu(); selectInTD('${escapeAttr(p.path)}')">Select in TD</div>
+      <div class="context-menu-item" onclick="closeContextMenu(); toggleOpDisplay('${escapeAttr(p.path)}')">Toggle Display</div>
+      <div class="context-menu-item" onclick="closeContextMenu(); viewOpParams('${escapeAttr(p.path)}')">View Params</div>
+      <div class="context-menu-item danger" onclick="closeContextMenu(); selectedAction('delete'); selectedOps.clear(); selectedOps.add('${escapeAttr(p.path)}'); selectedAction('delete')">Delete</div>
+    `
+    menu.style.display = 'block'
+    menu.style.left = e.clientX + 'px'
+    menu.style.top = e.clientY + 'px'
+  } else {
+    menu.style.display = 'none'
+  }
+})
+
+document.addEventListener('click', function() {
+  document.getElementById('contextMenu').style.display = 'none'
+})
+
+function closeContextMenu() {
+  document.getElementById('contextMenu').style.display = 'none'
+}
+
+async function toggleOpDisplay(path) {
+  await api('POST', '/exec', { code: `op('${path.replace(/'/g,"\\'")}').display = not op('${path.replace(/'/g,"\\'")}').display` })
+}
+
+function viewOpParams(path) {
+  // Switch to params tab and load
+  document.querySelectorAll('[data-tab="params"]').forEach(el => {
+    const parent = el.closest('.section')
+    if (parent) {
+      parent.querySelectorAll('.tab').forEach(t => t.classList.remove('active'))
+      parent.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'))
+      el.classList.add('active')
+      const target = parent.querySelector('#tab-params')
+      if (target) target.classList.add('active')
+    }
+  })
+  document.getElementById('paramPath').value = path
+  loadParams()
+}
+
 // ─── FPS Chart ───
+function setFpsRange(seconds) {
+  currentFpsRange = seconds
+  // Update button styles
+  document.querySelectorAll('#tab-perf .param-btn').forEach(btn => {
+    btn.style.borderColor = ''
+  })
+  drawFpsChart()
+}
+
 function drawFpsChart() {
   const canvas = document.getElementById('fpsChart')
+  if (!canvas) return
   const ctx = canvas.getContext('2d')
   const dpr = Math.min(devicePixelRatio || 1, 2)
   const rect = canvas.getBoundingClientRect()
@@ -917,16 +1722,29 @@ function drawFpsChart() {
 
   ctx.clearRect(0, 0, W, H)
 
-  if (fpsHistory.length < 2) {
+  // Get data within range
+  const now = Date.now()
+  const cutoff = now - currentFpsRange * 1000
+  let visibleData = []
+  for (let i = 0; i < fpsHistory.length; i++) {
+    if (fpsHistoryTimestamps[i] >= cutoff || fpsHistoryTimestamps.length === 0) {
+      visibleData.push(fpsHistory[i])
+    }
+  }
+  // If no timestamps, use all data
+  if (fpsHistoryTimestamps.length === 0) visibleData = fpsHistory.slice()
+
+  if (visibleData.length < 2) {
     ctx.fillStyle = '#55557a'
     ctx.font = '10px Inter, sans-serif'
     ctx.textAlign = 'center'
-    ctx.fillText('Collecting data...', W/2, H/2)
+    ctx.fillText(visibleData.length === 1 ? 'Collecting more data...' : 'Collecting data...', W/2, H/2)
+    updateFpsStats(visibleData)
     return
   }
 
-  const max = Math.max(...fpsHistory, 60)
-  const min = Math.min(...fpsHistory, 0)
+  const max = Math.max(...visibleData, 60)
+  const min = Math.min(...visibleData, 0)
   const range = Math.max(max - min, 1)
   const pad = 4
 
@@ -939,9 +1757,9 @@ function drawFpsChart() {
   }
 
   // Line
-  const step = (W - pad*2) / (fpsHistory.length - 1)
+  const step = (W - pad*2) / (visibleData.length - 1)
   ctx.beginPath()
-  fpsHistory.forEach((v, i) => {
+  visibleData.forEach((v, i) => {
     const x = pad + i * step
     const y = pad + (H - pad*2) * (1 - (v - min) / range)
     i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y)
@@ -954,7 +1772,7 @@ function drawFpsChart() {
   ctx.shadowBlur = 0
 
   // Fill
-  const lastX = pad + (fpsHistory.length - 1) * step
+  const lastX = pad + (visibleData.length - 1) * step
   ctx.lineTo(lastX, H-pad)
   ctx.lineTo(pad, H-pad)
   ctx.closePath()
@@ -965,15 +1783,527 @@ function drawFpsChart() {
   ctx.fill()
 
   // Current value
-  const lv = fpsHistory[fpsHistory.length-1]
+  const lv = visibleData[visibleData.length-1]
   ctx.fillStyle = '#a29bfe'
   ctx.font = '600 18px Inter, sans-serif'
   ctx.textAlign = 'right'
   ctx.fillText(lv.toFixed(0) + ' FPS', W - pad, 18)
+
+  updateFpsStats(visibleData)
+}
+
+function updateFpsStats(data) {
+  if (!data || data.length === 0) return
+  const avg = data.reduce((a,b) => a+b, 0) / data.length
+  const min = Math.min(...data)
+  const max = Math.max(...data)
+  const el = document.getElementById('fpsStats')
+  el.innerHTML = `<span>📊 Min: <strong style="color:var(--red)">${min.toFixed(1)}</strong></span>
+    <span>📈 Avg: <strong style="color:var(--accent2)">${avg.toFixed(1)}</strong></span>
+    <span>📈 Max: <strong style="color:var(--green)">${max.toFixed(1)}</strong></span>
+    <span>📊 Samples: ${data.length}</span>`
+}
+
+// ─── Historical FPS (localStorage) ───
+function saveFpsHistory() {
+  try {
+    const data = { fps: fpsHistory.slice(-600), timestamps: fpsHistoryTimestamps.slice(-600) }
+    localStorage.setItem('tdmcp_fps_history', JSON.stringify(data))
+  } catch(e) {}
+}
+
+function loadFpsHistory() {
+  try {
+    const raw = localStorage.getItem('tdmcp_fps_history')
+    if (raw) {
+      const data = JSON.parse(raw)
+      if (data.fps) fpsHistory = data.fps
+      if (data.timestamps) fpsHistoryTimestamps = data.timestamps
+    }
+  } catch(e) {}
+}
+
+// ─── Session Recorder ───
+function toggleRecording() {
+  recording = !recording
+  const btn = document.getElementById('recBtn')
+  const stat = document.getElementById('recStat')
+  if (recording) {
+    btn.textContent = '● Recording'
+    btn.classList.add('active')
+    stat.textContent = 'Recording...'
+    recordedData = []
+  } else {
+    btn.textContent = '● Record'
+    btn.classList.remove('active')
+    stat.textContent = `Recorded ${recordedData.length} samples`
+  }
+}
+
+function recordSample(fps, cookTimeMs) {
+  if (!recording) return
+  recordedData.push({ time: new Date().toISOString(), fps, cookTimeMs })
+  document.getElementById('recStat').textContent = `Recording: ${recordedData.length} samples`
+}
+
+function exportCSV() {
+  if (recordedData.length === 0) {
+    // Export FPS history instead
+    let csv = 'timestamp,fps\n'
+    for (let i = 0; i < fpsHistory.length; i++) {
+      const ts = fpsHistoryTimestamps[i] ? new Date(fpsHistoryTimestamps[i]).toISOString() : new Date(Date.now() - (fpsHistory.length - i) * 3000).toISOString()
+      csv += `${ts},${fpsHistory[i]}\n`
+    }
+    downloadCSV(csv, 'tdmcp_fps_history.csv')
+  } else {
+    let csv = 'timestamp,fps,cookTimeMs\n'
+    for (const r of recordedData) {
+      csv += `${r.time},${r.fps},${r.cookTimeMs}\n`
+    }
+    downloadCSV(csv, 'tdmcp_session_recording.csv')
+  }
+}
+
+function downloadCSV(csv, filename) {
+  const blob = new Blob([csv], { type: 'text/csv' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = filename
+  a.click()
+  URL.revokeObjectURL(url)
+}
+
+// ─── Operator Palette ───
+const paletteOperators = [
+  { name: 'noiseTOP', icon: '🌀', type: 'top' },
+  { name: 'blurTOP', icon: '💧', type: 'top' },
+  { name: 'levelTOP', icon: '🔆', type: 'top' },
+  { name: 'glslTOP', icon: '🔮', type: 'glsl' },
+  { name: 'glslMAT', icon: '✨', type: 'glsl' },
+  { name: 'constantCHOP', icon: '📊', type: 'chop' },
+  { name: 'audioCHOP', icon: '🎵', type: 'chop' },
+  { name: 'noiseCHOP', icon: '〰️', type: 'chop' },
+  { name: 'lfoCHOP', icon: '📈', type: 'chop' },
+  { name: 'mathCHOP', icon: '➕', type: 'chop' },
+  { name: 'nullTOP', icon: '⬜', type: 'top' },
+  { name: 'nullCHOP', icon: '⬜', type: 'chop' },
+  { name: 'nullDAT', icon: '📋', type: 'dat' },
+  { name: 'textDAT', icon: '📝', type: 'dat' },
+  { name: 'tableDAT', icon: '📊', type: 'dat' },
+  { name: 'containerCOMP', icon: '📦', type: 'comp' },
+  { name: 'geometryCOMP', icon: '🎭', type: 'comp' },
+  { name: 'sphereSOP', icon: '⚪', type: 'sop' },
+  { name: 'boxSOP', icon: '📦', type: 'sop' },
+  { name: 'circleSOP', icon: '⭕', type: 'sop' },
+]
+
+function renderPalette() {
+  const grid = document.getElementById('paletteGrid')
+  grid.innerHTML = paletteOperators.map(op => 
+    `<div class="palette-item" draggable="true" data-op="${op.name}" data-type="${op.type}" onclick="createFromPalette('${op.name}')">
+      <span class="pi-icon">${op.icon}</span>
+      ${op.name}
+    </div>`
+  ).join('')
+  
+  // Drag events for palette items
+  grid.querySelectorAll('.palette-item').forEach(item => {
+    item.addEventListener('dragstart', function(e) {
+      e.dataTransfer.setData('text/plain', this.dataset.op)
+      e.dataTransfer.effectAllowed = 'copy'
+    })
+  })
+}
+
+async function createFromPalette(opName) {
+  const basePath = document.getElementById('palettePath').value.trim() || '/project1'
+  const name = opName + '_' + Math.random().toString(36).slice(2, 6)
+  const status = document.getElementById('paletteStatus')
+  status.textContent = `Creating ${opName} as ${name}...`
+  const r = await api('POST', '/exec', { code: `try:\n  d = op('${basePath.replace(/'/g,"\\'")}').create(td.${opName}, '${name}')\n  print(f'Created {d.path}')\nexcept Exception as e:\n  print(f'Error: {e}')` })
+  status.textContent = r.output || r.error || 'Done'
+  setTimeout(refreshAll, 500)
+}
+
+// ─── File Drag & Drop ───
+document.addEventListener('dragover', function(e) {
+  if (e.dataTransfer.types.includes('Files')) {
+    e.preventDefault()
+    document.getElementById('dropZone').classList.add('show')
+  }
+})
+
+document.addEventListener('dragleave', function(e) {
+  if (!e.relatedTarget || e.relatedTarget === document.body) {
+    document.getElementById('dropZone').classList.remove('show')
+  }
+})
+
+document.addEventListener('drop', function(e) {
+  e.preventDefault()
+  document.getElementById('dropZone').classList.remove('show')
+  const files = e.dataTransfer.files
+  if (files.length > 0 && files[0].type.startsWith('image/')) {
+    uploadImageAsTexture(files[0])
+  }
+})
+
+async function handleFileSelect(event) {
+  const file = event.target.files[0]
+  if (file && file.type.startsWith('image/')) {
+    uploadImageAsTexture(file)
+  }
+}
+
+async function uploadImageAsTexture(file) {
+  const reader = new FileReader()
+  reader.onload = async function(e) {
+    const base64 = e.target.result.split(',')[1]
+    const path = [...selectedOps][0] || '/project1'
+    const r = await api('POST', '/exec', { code: `try:\n  import base64, io\n  from PIL import Image\n  img_data = base64.b64decode('${base64}')\n  img = Image.open(io.BytesIO(img_data))\n  # Save to temp and load\n  temp_path = op('/project1').path + '/_uploaded_top'\n  if op(temp_path):\n    op(temp_path).destroy()\n  top = op('/project1').create(td.topTOP, '_uploaded_top')\n  top.open(io.BytesIO(img_data))\n  print(f'Uploaded to {top.path}')\nexcept Exception as e:\n  print(f'Error: {e}')` })
+    document.getElementById('dropInfo').textContent = r.output || r.error || 'Uploaded!'
+    refreshAll()
+  }
+  reader.readAsDataURL(file)
+}
+
+// ─── Audio Visualizer ───
+function startAudioVis() {
+  const path = document.getElementById('audioChopPath').value.trim() || document.getElementById('audioChopPath2').value.trim()
+  if (!path) return
+  
+  stopAudioVis()
+  document.getElementById('audioStatus').textContent = `Listening to ${path}...`
+  
+  audioVisInterval = setInterval(async () => {
+    const r = await api('POST', '/exec', { code: `try:\n  d = op('${path.replace(/'/g,"\\'")}')\n  if hasattr(d, 'numpyArray'):\n    arr = d.numpyArray()\n    if arr is not None and arr.size > 0:\n      print(','.join(f'{x:.4f}' for x in arr.flatten()[:256]))\n    else:\n      print('NO_DATA')\n  elif hasattr(d, 'val'):\n    print(f'CHAN,{d.val}')\n  else:\n    print('NO_DATA')\nexcept Exception as e:\n  print(f'ERR:{e}')` })
+    
+    const data = (r.output || '').trim()
+    if (data && data !== 'NO_DATA' && !data.startsWith('ERR:')) {
+      drawAudioWaveform(data)
+      document.getElementById('audioStatus').textContent = `Visualizing ${path}`
+    } else if (data && data.startsWith('ERR:')) {
+      document.getElementById('audioStatus').textContent = data
+    }
+  }, 100)
+}
+
+function stopAudioVis() {
+  if (audioVisInterval) {
+    clearInterval(audioVisInterval)
+    audioVisInterval = null
+  }
+  document.getElementById('audioStatus').textContent = 'Stopped'
+  // Clear both canvases
+  clearAudioCanvas('audioVisCanvas')
+  clearAudioCanvas('audioVisCanvas2')
+}
+
+function clearAudioCanvas(id) {
+  const c = document.getElementById(id)
+  if (!c) return
+  const ctx = c.getContext('2d')
+  c.width = c.clientWidth || c.parentElement.clientWidth || 300
+  c.height = c.clientHeight || 60
+  ctx.fillStyle = '#0a0a14'
+  ctx.fillRect(0, 0, c.width, c.height)
+}
+
+function drawAudioWaveform(dataStr) {
+  const values = dataStr.split(',').map(v => parseFloat(v)).filter(v => !isNaN(v))
+  for (const canvasId of ['audioVisCanvas', 'audioVisCanvas2']) {
+    const c = document.getElementById(canvasId)
+    if (!c || c.offsetParent === null) continue
+    const ctx = c.getContext('2d')
+    c.width = c.clientWidth || 300
+    c.height = c.clientHeight || 60
+    const W = c.width, H = c.height
+    
+    ctx.fillStyle = '#0a0a14'
+    ctx.fillRect(0, 0, W, H)
+    
+    if (values.length < 2) {
+      ctx.fillStyle = '#55557a'
+      ctx.font = '9px Inter, sans-serif'
+      ctx.textAlign = 'center'
+      ctx.fillText('No data', W/2, H/2)
+      return
+    }
+    
+    // Draw waveform
+    const step = W / values.length
+    ctx.beginPath()
+    ctx.moveTo(0, H/2)
+    for (let i = 0; i < values.length; i++) {
+      const y = H/2 + values[i] * (H/2 - 4) * -1
+      ctx.lineTo(i * step, Math.max(0, Math.min(H, y)))
+    }
+    ctx.strokeStyle = '#00f5ff'
+    ctx.lineWidth = 1.5
+    ctx.shadowColor = '#00f5ff'
+    ctx.shadowBlur = 6
+    ctx.stroke()
+    ctx.shadowBlur = 0
+    
+    // Fill
+    ctx.lineTo(W, H/2)
+    ctx.closePath()
+    const grad = ctx.createLinearGradient(0, 0, 0, H)
+    grad.addColorStop(0, 'rgba(0,245,255,.15)')
+    grad.addColorStop(1, 'rgba(0,245,255,0)')
+    ctx.fillStyle = grad
+    ctx.fill()
+  }
+}
+
+// ─── Global Param Search ───
+function globalParamSearch() {
+  const panel = document.getElementById('globalParamSearchPanel')
+  panel.style.display = panel.style.display === 'none' ? 'block' : 'none'
+  if (panel.style.display === 'block') {
+    document.getElementById('globalParamQuery').focus()
+  }
+}
+
+async function doGlobalParamSearch() {
+  const query = document.getElementById('globalParamQuery').value.trim().toLowerCase()
+  if (!query) return
+  const results = document.getElementById('globalParamResults')
+  results.innerHTML = '<div style="color:var(--text3)">Searching...</div>'
+  
+  // Search across all operators' parameters
+  let found = []
+  for (const op of allOperators.slice(0, 40)) { // Limit to avoid too many requests
+    const path = op.path
+    if (!path) continue
+    const r = await api('GET', `/parameters?path=${encodeURIComponent(path)}`)
+    if (r.parameters) {
+      for (const p of r.parameters) {
+        const valStr = String(p.value ?? p.default ?? '')
+        const nameStr = (p.label || p.name || '').toLowerCase()
+        if (nameStr.includes(query) || valStr.toLowerCase().includes(query)) {
+          found.push({ path: p.path || path, name: p.label || p.name, value: valStr, opName: op.name || path.split('/').pop() })
+        }
+      }
+    }
+  }
+  
+  if (found.length === 0) {
+    results.innerHTML = '<div style="color:var(--text3)">No matching parameters found</div>'
+  } else {
+    results.innerHTML = found.slice(0, 50).map(f => 
+      `<div style="padding:4px 6px;border-bottom:1px solid rgba(26,26,58,.2);display:flex;gap:6px;align-items:center">
+        <span style="color:var(--accent2);cursor:pointer" onclick="document.getElementById('paramPath').value='${escapeAttr(f.path)}';loadParams()">${f.opName}</span>
+        <span style="color:var(--text3)">${f.name}</span>
+        <span style="margin-left:auto;color:var(--text2);font-family:'JetBrains Mono',monospace;font-size:10px">${f.value.slice(0,40)}</span>
+      </div>`
+    ).join('')
+  }
+}
+
+// ─── Auto-Fix Errors ───
+async function autoFixErrors() {
+  const verify = await api('GET', '/verify?path=/project1')
+  const errs = verify?.errors || []
+  if (errs.length === 0) { alert('No errors to fix!'); return }
+  
+  const results = document.getElementById('errorLog')
+  results.innerHTML = '<div style="padding:12px;text-align:center"><div class="spinner" style="margin:0 auto"></div><span style="color:var(--text2);font-size:11px">Attempting to fix errors...</span></div>'
+  
+  let fixed = 0
+  let failed = 0
+  for (const e of errs.slice(0, 20)) {
+    const opPath = e.path || ''
+    if (!opPath) continue
+    // Try to reconnect or fix common issues
+    const r = await api('POST', '/exec', { code: `try:\n  d = op('${opPath.replace(/'/g,"\\'")}')\n  if hasattr(d, 'cook'):\n    d.cook(force=True)\n    print(f'Re-cooked {d.path}')\n  elif hasattr(d, 'par'):\n    for p in d.pars:\n      if hasattr(p, 'reset') and callable(p.reset):\n        try: p.reset()\n        except: pass\n    print(f'Reset pars on {d.path}')\n  else:\n    print('No fix available for ' + d.path)\nexcept Exception as ex:\n  print(f'Error fixing {opPath}: {ex}')` })
+    if (r.output && !r.output.includes('Error')) fixed++
+    else failed++
+  }
+  
+  results.innerHTML = `<div style="padding:12px;text-align:center">
+    <span style="color:var(--green);font-size:14px">✅ Fixed ${fixed} operators</span>
+    ${failed > 0 ? `<span style="color:var(--red)">, ${failed} failed</span>` : ''}
+  </div>`
+  
+  setTimeout(refreshAll, 1000)
+}
+
+// ─── Animated Parameters ───
+let animCounter = 0
+
+function animStartRamp() {
+  const opPath = document.getElementById('animOpPath').value.trim()
+  const paramName = document.getElementById('animParamName').value.trim()
+  const startVal = parseFloat(document.getElementById('animStartVal').value) || 0
+  const endVal = parseFloat(document.getElementById('animEndVal').value) || 1
+  const duration = parseFloat(document.getElementById('animDuration').value) || 5
+  
+  if (!opPath || !paramName) { alert('Enter op path and param name'); return }
+  
+  const id = ++animCounter
+  const startTime = Date.now()
+  const range = endVal - startVal
+  
+  animTimers[id] = setInterval(async () => {
+    const elapsed = (Date.now() - startTime) / 1000
+    const progress = Math.min(elapsed / duration, 1)
+    const val = startVal + range * progress
+    
+    await api('POST', '/parameters/set', { path: opPath, params: { [paramName]: val } })
+    
+    updateAnimList()
+    
+    if (progress >= 1) {
+      clearInterval(animTimers[id])
+      delete animTimers[id]
+      updateAnimList()
+    }
+  }, 50)
+  
+  updateAnimList()
+}
+
+function animStopAll() {
+  for (const id in animTimers) {
+    clearInterval(animTimers[id])
+    delete animTimers[id]
+  }
+  updateAnimList()
+}
+
+function updateAnimList() {
+  const el = document.getElementById('animRunningList')
+  const entries = Object.keys(animTimers)
+  if (entries.length === 0) {
+    el.innerHTML = '<div style="color:var(--text3)">No active animations</div>'
+  } else {
+    el.innerHTML = entries.map(id => `<div class="anim-param-row">⏳ Animation #${id} running...</div>`).join('')
+  }
+}
+
+// ─── Save/Load Layout ───
+function saveLayout() {
+  const data = {
+    paramPath: document.getElementById('paramPath').value,
+    opSearch: document.getElementById('opSearch').value,
+    opTypeFilter: document.getElementById('opTypeFilter').value,
+    port: document.getElementById('portSelect').value,
+    fpsRange: currentFpsRange,
+    palettePath: document.getElementById('palettePath').value,
+    animOpPath: document.getElementById('animOpPath').value,
+    animParamName: document.getElementById('animParamName').value,
+    audioChopPath: document.getElementById('audioChopPath').value,
+    audioChopPath2: document.getElementById('audioChopPath2').value,
+  }
+  localStorage.setItem('tdmcp_layout', JSON.stringify(data))
+  alert('Layout saved!')
+}
+
+function loadLayout() {
+  try {
+    const raw = localStorage.getItem('tdmcp_layout')
+    if (!raw) { alert('No saved layout found'); return }
+    const data = JSON.parse(raw)
+    if (data.paramPath) document.getElementById('paramPath').value = data.paramPath
+    if (data.opSearch) document.getElementById('opSearch').value = data.opSearch
+    if (data.opTypeFilter) document.getElementById('opTypeFilter').value = data.opTypeFilter
+    if (data.port) { document.getElementById('portSelect').value = data.port; API_BASE = 'http://127.0.0.1:' + data.port }
+    if (data.fpsRange) currentFpsRange = data.fpsRange
+    if (data.palettePath) document.getElementById('palettePath').value = data.palettePath
+    if (data.animOpPath) document.getElementById('animOpPath').value = data.animOpPath
+    if (data.animParamName) document.getElementById('animParamName').value = data.animParamName
+    if (data.audioChopPath) document.getElementById('audioChopPath').value = data.audioChopPath
+    if (data.audioChopPath2) document.getElementById('audioChopPath2').value = data.audioChopPath2
+    alert('Layout loaded!')
+    refreshAll()
+  } catch(e) { alert('Error loading layout') }
+}
+
+// ─── Snapshot Compare ───
+async function saveSnapshot() {
+  const r = await api('GET', '/verify?path=/project1')
+  snapshotA = r
+  document.getElementById('snapshotResult').innerHTML = '<span style="color:var(--green)">✅ Snapshot A saved</span>'
+  document.getElementById('snapshotDetail').innerHTML = `<div style="color:var(--text2)">Snapshot A: ${r?.operator_count || 0} ops, ${r?.error_count || 0} errors</div>`
+}
+
+async function saveSnapshotB() {
+  const r = await api('GET', '/verify?path=/project1')
+  snapshotB = r
+  document.getElementById('snapshotResult').innerHTML = '<span style="color:var(--green)">✅ Snapshot B saved</span>'
+  document.getElementById('snapshotDetail').innerHTML += `<div style="color:var(--text2)">Snapshot B: ${r?.operator_count || 0} ops, ${r?.error_count || 0} errors</div>`
+}
+
+function compareSnapshots() {
+  const detail = document.getElementById('snapshotDetail')
+  if (!snapshotA || !snapshotB) {
+    detail.innerHTML = '<span style="color:var(--red)">⚠️ Save both snapshots first (A and B)</span>'
+    return
+  }
+  const a = snapshotA, b = snapshotB
+  const diffOps = (b?.operator_count || 0) - (a?.operator_count || 0)
+  const diffConns = (b?.total_connections || 0) - (a?.total_connections || 0)
+  const diffErrs = (b?.error_count || 0) - (a?.error_count || 0)
+  const healthChanged = a?.healthy !== b?.healthy
+  
+  let html = `<div style="border:1px solid var(--border);border-radius:6px;padding:8px;font-size:10px">
+    <div style="font-weight:600;color:var(--accent2);margin-bottom:4px">📊 Snapshot Comparison</div>
+    <table class="data-table">
+      <tr><th>Metric</th><th>A</th><th>B</th><th>Δ</th></tr>
+      <tr><td>Operators</td><td>${a?.operator_count || 0}</td><td>${b?.operator_count || 0}</td><td style="color:${diffOps > 0 ? 'var(--green)' : diffOps < 0 ? 'var(--red)' : 'var(--text3)'}">${diffOps > 0 ? '+' : ''}${diffOps}</td></tr>
+      <tr><td>Connections</td><td>${a?.total_connections || 0}</td><td>${b?.total_connections || 0}</td><td style="color:${diffConns > 0 ? 'var(--green)' : diffConns < 0 ? 'var(--red)' : 'var(--text3)'}">${diffConns > 0 ? '+' : ''}${diffConns}</td></tr>
+      <tr><td>Errors</td><td>${a?.error_count || 0}</td><td>${b?.error_count || 0}</td><td style="color:${diffErrs > 0 ? 'var(--red)' : diffErrs < 0 ? 'var(--green)' : 'var(--text3)'}">${diffErrs > 0 ? '+' : ''}${diffErrs}</td></tr>
+      <tr><td>Healthy</td><td>${a?.healthy ? '✓' : '✗'}</td><td>${b?.healthy ? '✓' : '✗'}</td><td style="color:${healthChanged ? 'var(--yellow)' : 'var(--text3)'}">${healthChanged ? 'Changed' : 'Same'}</td></tr>
+    </table>
+  </div>`
+  detail.innerHTML = html
+}
+
+// ─── Export State as URL ───
+function exportStateAsUrl() {
+  const params = new URLSearchParams()
+  params.set('port', document.getElementById('portSelect').value)
+  params.set('paramPath', document.getElementById('paramPath').value)
+  params.set('autoRefresh', autoRefresh ? '1' : '0')
+  const url = window.location.origin + window.location.pathname + '?' + params.toString()
+  navigator.clipboard.writeText(url).then(() => {
+    alert('State URL copied to clipboard!')
+  }).catch(() => {
+    // Fallback
+    const ta = document.createElement('textarea')
+    ta.value = url
+    document.body.appendChild(ta)
+    ta.select()
+    document.execCommand('copy')
+    document.body.removeChild(ta)
+    alert('State URL copied to clipboard!')
+  })
+}
+
+// Parse URL params on load
+function parseUrlParams() {
+  const params = new URLSearchParams(window.location.search)
+  if (params.has('port')) {
+    document.getElementById('portSelect').value = params.get('port')
+    API_BASE = 'http://127.0.0.1:' + params.get('port')
+  }
+  if (params.has('paramPath')) {
+    document.getElementById('paramPath').value = params.get('paramPath')
+  }
+  if (params.has('autoRefresh')) {
+    autoRefresh = params.get('autoRefresh') === '1'
+    document.getElementById('autoBtn').textContent = autoRefresh ? '⏱ Auto: ON' : '⏱ Auto: OFF'
+    document.getElementById('autoBtn').style.opacity = autoRefresh ? '1' : '.5'
+  }
 }
 
 // ─── Refresh All ───
 async function refreshAll() {
+  lastRefreshTime = Date.now()
+  updateLastRefresh()
+  
   const [info, verify, perf, ops] = await Promise.all([
     api('GET', '/info'),
     api('GET', '/verify?path=/project1'),
@@ -1005,11 +2335,28 @@ async function refreshAll() {
   document.getElementById('statHealth').textContent = verify?.healthy ? '✓' : '✗'
   document.getElementById('statHealth').style.color = verify?.healthy ? 'var(--green)' : 'var(--red)'
 
-  // FPS History
+  // FPS History with timestamps & localStorage
   if (perf?.fps) {
     fpsHistory.push(perf.fps)
-    if (fpsHistory.length > 60) fpsHistory.shift()
+    fpsHistoryTimestamps.push(Date.now())
+    // Keep based on current range + buffer
+    const maxLen = Math.max(600, currentFpsRange)
+    if (fpsHistory.length > maxLen) {
+      fpsHistory = fpsHistory.slice(-maxLen)
+      fpsHistoryTimestamps = fpsHistoryTimestamps.slice(-maxLen)
+    }
+    saveFpsHistory()
     drawFpsChart()
+    recordSample(perf.fps, perf?.total_cook_time_ms || 0)
+  }
+
+  // Perf stats in stat cards
+  if (fpsHistory.length > 0) {
+    const avg = fpsHistory.reduce((a,b) => a+b, 0) / fpsHistory.length
+    document.getElementById('statAvgFps').textContent = avg.toFixed(1)
+    const min = Math.min(...fpsHistory)
+    const max = Math.max(...fpsHistory)
+    document.getElementById('statMinMaxFps').textContent = `${min.toFixed(0)} / ${max.toFixed(0)}`
   }
 
   // Slowest ops
@@ -1023,14 +2370,15 @@ async function refreshAll() {
       slowest.map(s => {
         const pct = (s.cookTime_ms / max * 100).toFixed(0)
         const color = s.cookTime_ms > 5 ? 'var(--red)' : s.cookTime_ms > 2 ? 'var(--yellow)' : 'var(--green)'
-        return `<tr><td>${s.name || s.path?.split('/').pop()}</td><td style="color:var(--text3)">${s.type || '?'}</td><td style="color:${color};font-weight:600">${s.cookTime_ms.toFixed(2)}ms</td>
+        return `<tr onclick="viewOpParams('${escapeAttr(s.path || '')}')"><td>${s.name || s.path?.split('/').pop()}</td><td style="color:var(--text3)">${s.type || '?'}</td><td style="color:${color};font-weight:600">${s.cookTime_ms.toFixed(2)}ms</td>
           <td style="width:80px"><div class="perf-bar"><div class="perf-bar-fill" style="width:${pct}%;background:${color}"></div></div></td></tr>`
       }).join('') + '</table>'
   }
 
-  // Operators list
+  // Operators list & GLSL dropdown
   allOperators = ops?.operators || []
   renderOpList()
+  updateGlslSelect()
 
   // Errors log
   const errs = verify?.errors || []
@@ -1047,6 +2395,17 @@ async function refreshAll() {
 
   // Network graph
   drawNetwork(ops?.operators)
+  
+  // Update last refresh timer
+  updateLastRefresh()
+}
+
+function updateGlslSelect() {
+  const sel = document.getElementById('glslOpSelect')
+  const current = sel.value
+  const glslOps = allOperators.filter(o => (o.type || '').toLowerCase().includes('glsl'))
+  sel.innerHTML = '<option value="">— Select a GLSL OP —</option>' + 
+    glslOps.map(o => `<option value="${escapeAttr(o.path)}" ${o.path === current ? 'selected' : ''}>${o.name || o.path}</option>`).join('')
 }
 
 // ─── Auto Refresh ───
@@ -1062,11 +2421,17 @@ function toggleAutoRefresh() {
 function startAutoRefresh() {
   if (autoTimer) clearInterval(autoTimer)
   autoTimer = setInterval(refreshAll, 3000)
+  // Also update last refresh display
+  setInterval(updateLastRefresh, 1000)
 }
 
 // ─── Init ───
+loadFpsHistory()
+parseUrlParams()
+renderPalette()
 startAutoRefresh()
 refreshAll()
+updateAnimList()
 
 // ─── Resize handler ───
 window.addEventListener('resize', () => { drawNetwork(allOperators); drawFpsChart() })
