@@ -3,188 +3,1073 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TD-MCP Dashboard</title>
+<title>TD-MCP Nexus</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#0e0e12;color:#ccc;font:12px/1.5 ui-monospace,monospace;padding:20px}
-h1{color:#888;font-size:16px;margin-bottom:20px}
-h2{color:#5a8ec9;font-size:13px;margin:20px 0 8px;border-bottom:1px solid #222;padding-bottom:4px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
-.card{background:#18181e;border:1px solid #2a2a30;border-radius:4px;padding:12px}
-.card h3{color:#aaa;font-size:11px;margin-bottom:6px}
-.stat{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #1a1a20}
-.stat:last-child{border:none}
-.stat .label{color:#666}
-.stat .value{color:#ddd;font-weight:bold}
-.ok{color:#22c55e}
-.warn{color:#f5b342}
-.err{color:#e04040}
-table{width:100%;border-collapse:collapse;font-size:11px}
-th{color:#555;text-align:left;padding:4px 6px;border-bottom:1px solid #2a2a30}
-td{padding:4px 6px;border-bottom:1px solid #1a1a20}
-tr:hover td{background:#1e1e26}
-.badge{display:inline-block;padding:1px 6px;border-radius:3px;font-size:10px}
-.badge.get{background:#1a3a2a;color:#22c55e}
-.badge.post{background:#1a2a3a;color:#5a8ec9}
-.bar{height:4px;border-radius:2px;background:#2a2a30;margin-top:2px}
-.bar-fill{height:4px;border-radius:2px;background:#5a8ec9;width:0%}
-.bar-fill.err{background:#e04040}
-.refresh{padding:6px 14px;background:#1c1c22;border:1px solid #333;color:#ccc;border-radius:4px;cursor:pointer;font:11px monospace}
-.refresh:hover{background:#2a2a36}
-.status-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px}
-.status-dot.on{background:#22c55e;box-shadow:0 0 6px #22c55e44}
-.status-dot.off{background:#e04040;box-shadow:0 0 6px #e0404044}
-.flex{display:flex;align-items:center;gap:12px}
-.endpoint-list{list-style:none;font-size:11px}
-.endpoint-list li{padding:3px 0;display:flex;align-items:center;gap:6px}
-.endpoint-list li .path{color:#aaa}
-.endpoint-list li .desc{color:#555}
-#loading{text-align:center;padding:40px;color:#555}
+:root {
+  --bg: #07070d;
+  --bg2: #0c0c18;
+  --bg3: #111122;
+  --card: #0f0f22;
+  --card2: #141430;
+  --border: #1a1a3a;
+  --border2: #2a2a5a;
+  --accent: #6c5ce7;
+  --accent2: #a29bfe;
+  --neon: #00f5ff;
+  --neon2: #7c3aed;
+  --green: #00e676;
+  --red: #ff1744;
+  --yellow: #ffd600;
+  --orange: #ff9100;
+  --text: #c8c8e0;
+  --text2: #8888aa;
+  --text3: #55557a;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ─── Background ─── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(108,92,231,.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(0,245,255,.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(124,58,237,.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Grid lines ─── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(108,92,231,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(108,92,231,.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Header ─── */
+.header {
+  position: relative;
+  z-index: 1;
+  padding: 20px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(12,12,24,.95) 0%, rgba(12,12,24,.8) 100%);
+  backdrop-filter: blur(20px);
+}
+
+.header-left { display: flex; align-items: center; gap: 16px; }
+.logo {
+  font-size: 24px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--neon), var(--accent2), var(--neon2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -1px;
+}
+.logo-sub {
+  font-size: 11px;
+  color: var(--text3);
+  font-weight: 300;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.header-status { display: flex; align-items: center; gap: 24px; }
+.status-pill {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(0,230,118,.08);
+  border: 1px solid rgba(0,230,118,.2);
+}
+.status-pill.online { color: var(--green); }
+.status-pill .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 12px var(--green);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+.header-btn {
+  padding: 8px 18px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  font: 600 12px/1 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all .2s;
+}
+.header-btn:hover {
+  border-color: var(--accent);
+  background: var(--card2);
+  box-shadow: 0 0 20px rgba(108,92,231,.15);
+}
+
+/* ─── Layout ─── */
+.main {
+  position: relative;
+  z-index: 1;
+  padding: 20px 30px 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color .2s;
+}
+.section:hover { border-color: var(--border2); }
+.section.full { grid-column: 1 / -1; }
+
+.section-header {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+}
+.section-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text2);
+}
+.section-badge {
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 600;
+  background: rgba(108,92,231,.12);
+  color: var(--accent2);
+  border: 1px solid rgba(108,92,231,.2);
+}
+
+.section-body { padding: 16px; }
+
+/* ─── Stat Cards ─── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+.stat-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: all .2s;
+}
+.stat-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(108,92,231,.1);
+}
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+}
+.stat-icon { font-size: 20px; margin-bottom: 6px; }
+.stat-value {
+  font-size: 28px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #fff, var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.stat-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+
+/* ─── Network Graph ─── */
+.network-canvas {
+  width: 100%;
+  height: 400px;
+  background: var(--bg);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+/* ─── Tables ─── */
+.data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.data-table th {
+  text-align: left;
+  padding: 8px 10px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text3);
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+}
+.data-table td {
+  padding: 7px 10px;
+  border-bottom: 1px solid rgba(26,26,58,.5);
+  color: var(--text);
+}
+.data-table tr:hover td { background: rgba(108,92,231,.04); }
+
+.perf-bar {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border);
+  overflow: hidden;
+  margin-top: 2px;
+}
+.perf-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width .5s ease;
+}
+
+/* ─── Terminal ─── */
+.terminal {
+  background: #000;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  overflow: hidden;
+}
+.terminal-header {
+  padding: 8px 12px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.terminal-body {
+  padding: 12px;
+  min-height: 120px;
+  max-height: 250px;
+  overflow-y: auto;
+  color: var(--green);
+  line-height: 1.6;
+  white-space: pre-wrap;
+  font-size: 11px;
+}
+.terminal-input-line {
+  display: flex;
+  border-top: 1px solid var(--border);
+}
+.terminal-prompt {
+  padding: 8px 12px;
+  color: var(--accent2);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  user-select: none;
+}
+.terminal-input {
+  flex: 1;
+  padding: 8px 12px 8px 0;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  outline: none;
+}
+.terminal-input::placeholder { color: var(--text3); }
+
+/* ─── Parameter Editor ─── */
+.param-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(26,26,58,.3);
+}
+.param-row:last-child { border: none; }
+.param-label {
+  min-width: 80px;
+  font-size: 11px;
+  color: var(--text2);
+  font-weight: 500;
+}
+.param-input {
+  flex: 1;
+  padding: 5px 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  color: var(--text);
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  outline: none;
+  transition: border-color .2s;
+}
+.param-input:focus { border-color: var(--accent); }
+.param-btn {
+  padding: 5px 12px;
+  border-radius: 5px;
+  border: 1px solid var(--accent);
+  background: rgba(108,92,231,.1);
+  color: var(--accent2);
+  font-size: 10px;
+  cursor: pointer;
+  transition: all .2s;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+.param-btn:hover {
+  background: rgba(108,92,231,.2);
+  box-shadow: 0 0 15px rgba(108,92,231,.15);
+}
+
+/* ─── Operator Browser ─── */
+.op-search {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 12px;
+  outline: none;
+  font-family: 'Inter', sans-serif;
+  transition: border-color .2s;
+}
+.op-search:focus { border-color: var(--accent); box-shadow: 0 0 15px rgba(108,92,231,.08); }
+.op-search::placeholder { color: var(--text3); }
+
+.op-list {
+  margin-top: 8px;
+  max-height: 250px;
+  overflow-y: auto;
+}
+.op-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all .15s;
+  font-size: 11px;
+}
+.op-item:hover { background: rgba(108,92,231,.08); }
+.op-item .op-name { color: var(--text); }
+.op-item .op-type { color: var(--text3); font-size: 10px; }
+.op-item .op-err { color: var(--red); font-size: 9px; margin-left: auto; }
+
+/* ─── Mini Chart ─── */
+.chart-container { height: 80px; position: relative; margin-top: 8px; }
+.chart-canvas { width: 100%; height: 100%; border-radius: 4px; }
+
+/* ─── Screenshot ─── */
+.screenshot-area {
+  width: 100%;
+  min-height: 180px;
+  background: var(--bg);
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--text3);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all .2s;
+  overflow: hidden;
+}
+.screenshot-area:hover { border-color: var(--accent); background: rgba(108,92,231,.03); }
+.screenshot-area img { width: 100%; height: auto; border-radius: 6px; }
+
+/* ─── Log / Errors ─── */
+.log-entry {
+  padding: 4px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  border-bottom: 1px solid rgba(26,26,58,.2);
+  display: flex;
+  gap: 8px;
+}
+.log-time { color: var(--text3); min-width: 55px; }
+.log-level {
+  min-width: 40px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.log-level.info { color: var(--accent2); }
+.log-level.warn { color: var(--yellow); }
+.log-level.err { color: var(--red); }
+.log-level.success { color: var(--green); }
+.log-msg { color: var(--text2); }
+
+/* ─── Errors Badge ─── */
+.error-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+}
+.error-badge.ok { background: rgba(0,230,118,.1); color: var(--green); }
+.error-badge.err { background: rgba(255,23,68,.1); color: var(--red); }
+
+/* ─── Spinner ─── */
+.spinner {
+  width: 24px; height: 24px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin .6s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ─── Tabs ─── */
+.tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); }
+.tab {
+  padding: 10px 18px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text3);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all .2s;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+.tab:hover { color: var(--text2); }
+.tab.active { color: var(--accent2); border-bottom-color: var(--accent); }
+.tab-content { display: none; padding: 16px; }
+.tab-content.active { display: block; }
+
+/* ─── Responsive ─── */
+@media (max-width: 900px) {
+  .main { grid-template-columns: 1fr; padding: 12px 16px; }
+  .header { padding: 14px 16px; flex-wrap: wrap; gap: 10px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ─── Glow effects ─── */
+.glow { position: relative; }
+.glow::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, var(--accent), transparent, var(--neon));
+  opacity: 0;
+  transition: opacity .3s;
+  pointer-events: none;
+  z-index: -1;
+}
+.glow:hover::after { opacity: .3; }
+
+/* ─── Toggle ─── */
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 11px;
+  color: var(--text2);
+}
+.toggle-track {
+  width: 32px; height: 18px;
+  border-radius: 10px;
+  background: var(--border);
+  position: relative;
+  transition: background .2s;
+}
+.toggle-track.on { background: var(--accent); }
+.toggle-knob {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--text);
+  position: absolute;
+  top: 2px; left: 2px;
+  transition: transform .2s;
+}
+.toggle-track.on .toggle-knob { transform: translateX(14px); }
 </style>
 </head>
 <body>
-<h1>⬡ TD-MCP Dashboard</h1>
-<div class="flex" style="margin-bottom:16px">
-  <span id="status"><span class="status-dot off"></span> Checking...</span>
-  <button class="refresh" onclick="refresh()">⟳ Refresh</button>
-  <span style="color:#555;font-size:11px" id="version"></span>
-</div>
 
-<div id="loading">Connecting to MCP server...</div>
-<div id="content" style="display:none">
-
-<div class="grid">
-  <div class="card">
-    <h3>📊 Project Stats</h3>
-    <div id="stats"></div>
+<div class="header">
+  <div class="header-left">
+    <div>
+      <div class="logo">⬡ TD-MCP NEXUS</div>
+      <div class="logo-sub">TouchDesigner · Real-Time Control Interface</div>
+    </div>
   </div>
-  <div class="card">
-    <h3>⚡ Performance</h3>
-    <div id="perf"></div>
-  </div>
-  <div class="card">
-    <h3>⚠️ Errors</h3>
-    <div id="errors"></div>
+  <div class="header-status">
+    <div class="status-pill online" id="statusPill">
+      <span class="dot"></span>
+      <span id="statusText">Online</span>
+      <span id="fpsDisplay" style="color:var(--text3);font-weight:400;margin-left:8px"></span>
+    </div>
+    <button class="header-btn glow" onclick="refreshAll()">⟳ Refresh</button>
+    <button class="header-btn glow" onclick="toggleAutoRefresh()" id="autoBtn">⏱ Auto: ON</button>
   </div>
 </div>
 
-<h2>📡 Endpoints</h2>
-<ul class="endpoint-list" id="endpoints"></ul>
+<div class="main">
 
-<h2>🐌 Slowest Operators</h2>
-<div id="slowest"></div>
+  <!-- Row 1: Stats -->
+  <div class="section full">
+    <div class="section-header">
+      <span class="section-title">📊 System Overview</span>
+      <span class="section-badge">LIVE</span>
+    </div>
+    <div class="section-body">
+      <div class="stats-grid" id="statsGrid">
+        <div class="stat-card"><div class="stat-icon">🔷</div><div class="stat-value" id="statOps">—</div><div class="stat-label">Operators</div></div>
+        <div class="stat-card"><div class="stat-icon">🔗</div><div class="stat-value" id="statConns">—</div><div class="stat-label">Connections</div></div>
+        <div class="stat-card"><div class="stat-icon">⚡</div><div class="stat-value" id="statFps">—</div><div class="stat-label">FPS</div></div>
+        <div class="stat-card"><div class="stat-icon">⏱</div><div class="stat-value" id="statCook">—</div><div class="stat-label">Cook Time</div></div>
+        <div class="stat-card"><div class="stat-icon">⚠️</div><div class="stat-value" id="statErrs" style="font-size:22px">—</div><div class="stat-label">Errors</div></div>
+        <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-value" id="statHealth" style="font-size:22px">—</div><div class="stat-label">Health</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Col 1: Tabs -->
+  <div class="section" style="grid-column:1">
+    <div class="tabs" id="mainTabs">
+      <div class="tab active" data-tab="network">🌐 Network</div>
+      <div class="tab" data-tab="ops">🔧 Operators</div>
+      <div class="tab" data-tab="params">🎛 Params</div>
+      <div class="tab" data-tab="terminal">⌨️ Terminal</div>
+    </div>
+    <div class="tab-content active" id="tab-network">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+        <input class="op-search" style="flex:1;min-width:120px" placeholder="Search operators..." id="opSearch">
+        <select class="op-search" style="width:120px;cursor:pointer" id="opTypeFilter">
+          <option value="">All types</option>
+          <option value="glsl">GLSL</option>
+          <option value="top">TOP</option>
+          <option value="chop">CHOP</option>
+          <option value="sop">SOP</option>
+          <option value="comp">COMP</option>
+          <option value="dat">DAT</option>
+        </select>
+        <span id="selCount" style="font-size:10px;color:var(--text3)">0 selected</span>
+      </div>
+      <div class="op-list" id="opList" style="max-height:300px"></div>
+      <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">
+        <button class="param-btn glow" onclick="selectedAction('select')">Select in TD</button>
+        <button class="param-btn glow" onclick="selectedAction('display')">Toggle Display</button>
+        <button class="param-btn glow" onclick="selectedAction('delete')" style="border-color:var(--red);color:var(--red);background:rgba(255,23,68,.08)">Delete</button>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-ops">
+      <div class="data-table" id="slowestTable"><div style="color:var(--text3);padding:10px;text-align:center">Loading...</div></div>
+    </div>
+
+    <div class="tab-content" id="tab-params">
+      <div style="display:flex;gap:8px;margin-bottom:8px">
+        <input class="op-search" placeholder="Operator path e.g. /project1/noise1" id="paramPath" value="/project1/noise_deform">
+        <button class="param-btn glow" onclick="loadParams()">Load</button>
+      </div>
+      <div id="paramList" style="max-height:350px;overflow-y:auto">
+        <div style="color:var(--text3);text-align:center;padding:20px;font-size:11px">Enter a path and click Load</div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-terminal">
+      <div class="terminal">
+        <div class="terminal-header">⚡ TD Console · Python REPL</div>
+        <div class="terminal-body" id="termOutput"><span style="color:var(--text3)">// Welcome to TD-MCP Nexus Terminal\n// Type Python code to execute in TouchDesigner\n</span></div>
+        <div class="terminal-input-line">
+          <span class="terminal-prompt">❯</span>
+          <input class="terminal-input" id="termInput" placeholder="e.g. op('/project1').children" spellcheck="false" autocomplete="off">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Col 2: Performance + Logs -->
+  <div class="section" style="grid-column:2">
+    <div class="tabs" id="rightTabs">
+      <div class="tab active" data-tab="perf">⚡ Performance</div>
+      <div class="tab" data-tab="errors">⚠️ Log</div>
+      <div class="tab" data-tab="screenshot">📷 Viewer</div>
+    </div>
+
+    <div class="tab-content active" id="tab-perf">
+      <div class="chart-container"><canvas class="chart-canvas" id="fpsChart"></canvas></div>
+      <div style="margin-top:12px">
+        <div class="data-table" id="perfTable"><div style="color:var(--text3);padding:8px;text-align:center">Loading...</div></div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-errors">
+      <div class="section-body" style="padding:0" id="errorLog">
+        <div style="color:var(--text3);padding:16px;text-align:center">No errors</div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-screenshot">
+      <div class="screenshot-area" id="screenshotArea" onclick="captureScreenshot()">
+        <span style="font-size:32px;color:var(--border2)">📷</span>
+        <span>Click to capture viewer</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Network Graph -->
+  <div class="section full">
+    <div class="section-header">
+      <span class="section-title">🌐 Network Graph</span>
+      <span class="section-badge" id="graphCount">0 nodes</span>
+    </div>
+    <div class="section-body" style="padding:8px">
+      <canvas class="network-canvas" id="netCanvas"></canvas>
+    </div>
+  </div>
+
+  <!-- Screenshot full -->
+  <div class="section full" style="display:none" id="screenshotFull">
+    <div class="section-header">
+      <span class="section-title">📷 Screenshot</span>
+      <button class="header-btn glow" onclick="document.getElementById('screenshotFull').style.display='none'">✕ Close</button>
+    </div>
+    <div class="section-body" style="text-align:center">
+      <img id="screenshotImg" style="max-width:100%;border-radius:8px">
+    </div>
+  </div>
 
 </div>
 
 <script>
-const HOST = 'http://127.0.0.1:44444'
+const API = 'http://127.0.0.1:44444'
+let autoRefresh = true
+let autoTimer = null
+let fpsHistory = []
+let selectedOps = new Set()
+let allOperators = []
 
+// ─── API Helper ───
 async function api(method, path, body) {
   try {
-    const opts = {method}
-    if (body) opts.body = JSON.stringify(body)
-    const r = await fetch(HOST + path, opts)
-    const t = await r.text()
-    try { return JSON.parse(t) } catch { return {error: t} }
-  } catch(e) { return {error: e.message} }
+    const opts = { method }
+    if (body) { opts.body = JSON.stringify(body); opts.headers = {'Content-Type':'application/json'} }
+    const r = await fetch(API + path, opts)
+    if (!r.ok) return { error: `HTTP ${r.status}` }
+    const text = await r.text()
+    try { return JSON.parse(text) }
+    catch { return { error: text.slice(0,200) } }
+  } catch(e) { return { error: e.message } }
 }
 
-async function refresh() {
-  document.getElementById('loading').style.display = 'block'
-  document.getElementById('content').style.display = 'none'
+// ─── Tab system ───
+document.querySelectorAll('.tabs').forEach(tabs => {
+  tabs.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const parent = tab.closest('.section') || tab.closest('.main')
+      const container = tab.closest('.section')
+      container.querySelectorAll('.tab').forEach(t => t.classList.remove('active'))
+      container.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'))
+      tab.classList.add('active')
+      const target = container.querySelector('#tab-' + tab.dataset.tab)
+      if (target) target.classList.add('active')
+    })
+  })
+})
 
-  const [info, ops, verify, perf, sel] = await Promise.all([
+// ─── Terminal ───
+document.getElementById('termInput').addEventListener('keydown', async (e) => {
+  if (e.key !== 'Enter') return
+  const input = e.target
+  const code = input.value.trim()
+  if (!code) return
+  input.value = ''
+  const out = document.getElementById('termOutput')
+  out.innerHTML += `<span style="color:var(--accent2)">❯ </span>${code}\n`
+  const r = await api('POST', '/exec', { code })
+  const result = r.output || r.error || 'OK'
+  out.innerHTML += result + '\n'
+  out.scrollTop = out.scrollHeight
+})
+
+// ─── Operator Search & Filter ───
+document.getElementById('opSearch').addEventListener('input', renderOpList)
+document.getElementById('opTypeFilter').addEventListener('change', renderOpList)
+
+function renderOpList() {
+  const q = document.getElementById('opSearch').value.toLowerCase()
+  const typeFilter = document.getElementById('opTypeFilter').value
+  let filtered = allOperators
+  if (q) filtered = filtered.filter(o => (o.name||'').toLowerCase().includes(q) || (o.path||'').toLowerCase().includes(q))
+  if (typeFilter) filtered = filtered.filter(o => (o.type||'').toLowerCase().includes(typeFilter))
+  const list = document.getElementById('opList')
+  list.innerHTML = filtered.map(o => {
+    const p = o.path || ''
+    const sel = selectedOps.has(p) ? 'background:rgba(108,92,231,.15)' : ''
+    const err = o.errorCount > 0 ? `<span class="op-err">⚠${o.errorCount}</span>` : ''
+    return `<div class="op-item" style="${sel}" onclick="toggleOp('${p}')" ondblclick="selectInTD('${p}')">
+      <span class="op-name">${o.name || p.split('/').pop()}</span>
+      <span class="op-type">${o.type || ''}</span>
+      ${err}
+    </div>`
+  }).join('')
+  document.getElementById('selCount').textContent = selectedOps.size + ' selected'
+}
+
+function toggleOp(path) {
+  if (selectedOps.has(path)) selectedOps.delete(path)
+  else selectedOps.add(path)
+  renderOpList()
+}
+
+async function selectInTD(path) {
+  await api('POST', '/exec', { code: `op('${path}').selected = True` })
+}
+
+async function selectedAction(action) {
+  if (selectedOps.size === 0) return
+  const paths = [...selectedOps]
+  if (action === 'select') {
+    for (const p of paths) await api('POST', '/exec', { code: `op('${p}').selected = True` })
+  } else if (action === 'display') {
+    for (const p of paths) await api('POST', '/exec', { code: `op('${p}').display = not op('${p}').display` })
+  } else if (action === 'delete') {
+    if (!confirm(`Delete ${paths.length} operator(s)?`)) return
+    for (const p of paths) await api('POST', '/exec', { code: `op('${p}').destroy()` })
+    selectedOps.clear()
+    refreshAll()
+  }
+}
+
+// ─── Parameter Editor ───
+async function loadParams() {
+  const path = document.getElementById('paramPath').value.trim()
+  if (!path) return
+  const div = document.getElementById('paramList')
+  div.innerHTML = '<div style="text-align:center;padding:20px"><div class="spinner" style="margin:0 auto"></div></div>'
+  const r = await api('GET', `/parameters?path=${encodeURIComponent(path)}`)
+  if (r.error || !r.parameters) {
+    div.innerHTML = `<div style="color:var(--red);padding:16px;text-align:center">${r.error || 'No parameters found'}</div>`
+    return
+  }
+  const pars = r.parameters.filter(p => p.mode === 'ParMode.CONSTANT' && ['Int','Float','Str','Bool'].includes(p.style))
+  div.innerHTML = pars.map(p => {
+    const val = p.value ?? p.default ?? ''
+    return `<div class="param-row">
+      <span class="param-label">${p.label || p.name}</span>
+      <input class="param-input" value="${val}" data-name="${p.name}" data-path="${encodeURIComponent(path)}">
+      <button class="param-btn" onclick="setParam('${encodeURIComponent(path)}','${p.name}',this.parentElement.querySelector('.param-input').value)">Set</button>
+    </div>`
+  }).join('')
+  if (pars.length === 0) div.innerHTML = '<div style="color:var(--text3);padding:16px;text-align:center">No editable parameters</div>'
+}
+
+async function setParam(path, name, value) {
+  const p = decodeURIComponent(path)
+  const r = await api('POST', '/parameters/set', { path: p, params: { [name]: value } })
+  if (r.error) alert('Error: ' + r.error)
+}
+
+// ─── Screenshot ───
+async function captureScreenshot() {
+  const area = document.getElementById('screenshotArea')
+  area.innerHTML = '<div class="spinner"></div><span>Capturing...</span>'
+  const r = await api('POST', '/screenshot')
+  if (r.image) {
+    document.getElementById('screenshotImg').src = 'data:image/png;base64,' + r.image
+    document.getElementById('screenshotFull').style.display = 'block'
+    area.innerHTML = '<span style="font-size:32px;color:var(--green)">✅</span><span>Click to capture again</span>'
+  } else {
+    area.innerHTML = '<span style="font-size:32px;color:var(--red)">⚠️</span><span>' + (r.error || 'No capture available') + '</span>'
+    setTimeout(() => {
+      area.innerHTML = '<span style="font-size:32px;color:var(--border2)">📷</span><span>Click to capture viewer</span>'
+    }, 2000)
+  }
+}
+
+// ─── Network Graph ───
+function drawNetwork(operators) {
+  const canvas = document.getElementById('netCanvas')
+  const ctx = canvas.getContext('2d')
+  const dpr = Math.min(devicePixelRatio || 1, 2)
+  const rect = canvas.getBoundingClientRect()
+  canvas.width = rect.width * dpr
+  canvas.height = rect.height * dpr
+  ctx.scale(dpr, dpr)
+  const W = rect.width, H = rect.height
+
+  ctx.clearRect(0, 0, W, H)
+
+  if (!operators || operators.length === 0) {
+    ctx.fillStyle = '#55557a'
+    ctx.font = '12px Inter, sans-serif'
+    ctx.textAlign = 'center'
+    ctx.fillText('No network data', W/2, H/2)
+    return
+  }
+
+  // Layout: circular
+  const cx = W/2, cy = H/2
+  const radius = Math.min(W, H) * 0.35
+  const nodes = operators.slice(0, 60)
+  const positions = nodes.map((n, i) => {
+    const a = (i / nodes.length) * Math.PI * 2 - Math.PI/2
+    return { x: cx + Math.cos(a) * radius, y: cy + Math.sin(a) * radius, name: n.name || n.path?.split('/').pop() || '?', type: n.type || '' }
+  })
+
+  // Draw connections (randomized for visual effect)
+  ctx.strokeStyle = 'rgba(108,92,231,.08)'
+  ctx.lineWidth = .5
+  for (let i = 0; i < positions.length; i++) {
+    const neighbors = [(i+1)%positions.length, (i+2)%positions.length]
+    for (const j of neighbors) {
+      ctx.beginPath()
+      ctx.moveTo(positions[i].x, positions[i].y)
+      ctx.lineTo(positions[j].x, positions[j].y)
+      ctx.stroke()
+    }
+  }
+
+  // Draw nodes
+  positions.forEach((p, i) => {
+    const isGlsl = p.type.toLowerCase().includes('glsl')
+    const isTop = p.type.toLowerCase().includes('top')
+    const isChop = p.type.toLowerCase().includes('chop')
+
+    let color = 'rgba(108,92,231,.5)'
+    if (isGlsl) color = '#7c3aed'
+    else if (isTop) color = '#00e676'
+    else if (isChop) color = '#00f5ff'
+
+    const size = isGlsl ? 5 : 3.5
+    ctx.beginPath()
+    ctx.arc(p.x, p.y, size, 0, Math.PI * 2)
+    ctx.fillStyle = color
+    ctx.shadowColor = color
+    ctx.shadowBlur = isGlsl ? 10 : 4
+    ctx.fill()
+    ctx.shadowBlur = 0
+
+    // Label
+    if (i % 3 === 0 || isGlsl) {
+      ctx.fillStyle = '#8888aa'
+      ctx.font = '8px Inter, sans-serif'
+      ctx.textAlign = 'center'
+      ctx.fillText(p.name, p.x, p.y + size + 10)
+    }
+  })
+
+  document.getElementById('graphCount').textContent = nodes.length + ' nodes'
+}
+
+// ─── FPS Chart ───
+function drawFpsChart() {
+  const canvas = document.getElementById('fpsChart')
+  const ctx = canvas.getContext('2d')
+  const dpr = Math.min(devicePixelRatio || 1, 2)
+  const rect = canvas.getBoundingClientRect()
+  canvas.width = rect.width * dpr
+  canvas.height = rect.height * dpr
+  ctx.scale(dpr, dpr)
+  const W = rect.width, H = rect.height
+
+  ctx.clearRect(0, 0, W, H)
+
+  if (fpsHistory.length < 2) {
+    ctx.fillStyle = '#55557a'
+    ctx.font = '10px Inter, sans-serif'
+    ctx.textAlign = 'center'
+    ctx.fillText('Collecting data...', W/2, H/2)
+    return
+  }
+
+  const max = Math.max(...fpsHistory, 60)
+  const min = Math.min(...fpsHistory, 0)
+  const range = Math.max(max - min, 1)
+  const pad = 4
+
+  // Grid lines
+  ctx.strokeStyle = 'rgba(26,26,58,.5)'
+  ctx.lineWidth = .5
+  for (let i = 1; i < 4; i++) {
+    const y = pad + (H - pad*2) * (1 - i/4)
+    ctx.beginPath(); ctx.moveTo(pad, y); ctx.lineTo(W-pad, y); ctx.stroke()
+  }
+
+  // Line
+  const step = (W - pad*2) / (fpsHistory.length - 1)
+  ctx.beginPath()
+  fpsHistory.forEach((v, i) => {
+    const x = pad + i * step
+    const y = pad + (H - pad*2) * (1 - (v - min) / range)
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y)
+  })
+  ctx.strokeStyle = '#6c5ce7'
+  ctx.lineWidth = 2
+  ctx.shadowColor = '#6c5ce7'
+  ctx.shadowBlur = 6
+  ctx.stroke()
+  ctx.shadowBlur = 0
+
+  // Fill
+  const lastX = pad + (fpsHistory.length - 1) * step
+  ctx.lineTo(lastX, H-pad)
+  ctx.lineTo(pad, H-pad)
+  ctx.closePath()
+  const grad = ctx.createLinearGradient(0, pad, 0, H-pad)
+  grad.addColorStop(0, 'rgba(108,92,231,.2)')
+  grad.addColorStop(1, 'rgba(108,92,231,0)')
+  ctx.fillStyle = grad
+  ctx.fill()
+
+  // Current value
+  const lv = fpsHistory[fpsHistory.length-1]
+  ctx.fillStyle = '#a29bfe'
+  ctx.font = '600 18px Inter, sans-serif'
+  ctx.textAlign = 'right'
+  ctx.fillText(lv.toFixed(0) + ' FPS', W - pad, 18)
+}
+
+// ─── Refresh All ───
+async function refreshAll() {
+  const [info, verify, perf, ops] = await Promise.all([
     api('GET', '/info'),
-    api('GET', '/operators?path=/project1'),
     api('GET', '/verify?path=/project1'),
     api('GET', '/audit/performance'),
-    api('GET', '/editor/selection')
+    api('GET', '/operators?path=/project1')
   ])
 
-  const status = document.getElementById('status')
-  if (info && !info.error) {
-    status.innerHTML = '<span class="status-dot on"></span> Online'
-    document.getElementById('version').textContent = `TD ${info.build || '?'} · ${info.version || ''}`
+  // Status
+  const online = info && !info.error
+  const pill = document.getElementById('statusPill')
+  const statusText = document.getElementById('statusText')
+  if (online) {
+    pill.className = 'status-pill online'
+    statusText.textContent = `Online · TD ${info.build || '?'}`
+    document.getElementById('fpsDisplay').textContent = `${info.projectFPS || '?'} FPS`
   } else {
-    status.innerHTML = '<span class="status-dot off"></span> Offline'
+    pill.className = 'status-pill'
+    pill.style.cssText = 'border-color:rgba(255,23,68,.2);color:var(--red);background:rgba(255,23,68,.08)'
+    statusText.textContent = 'Offline'
   }
-
-  document.getElementById('loading').style.display = 'none'
-  document.getElementById('content').style.display = 'block'
 
   // Stats
-  const opsList = ops?.operators || []
-  const stats = document.getElementById('stats')
-  stats.innerHTML = `
-    <div class="stat"><span class="label">Operators</span><span class="value">${verify?.operator_count ?? opsList.length}</span></div>
-    <div class="stat"><span class="label">Connections</span><span class="value">${verify?.total_connections ?? '?'}</span></div>
-    <div class="stat"><span class="label">Errors</span><span class="value ${verify?.error_count > 0 ? 'err' : 'ok'}">${verify?.error_count ?? '?'}</span></div>
-    <div class="stat"><span class="label">FPS</span><span class="value">${perf?.fps ?? info?.projectFPS ?? '?'}</span></div>
-    <div class="stat"><span class="label">Healthy</span><span class="value ${verify?.healthy ? 'ok' : 'err'}">${verify?.healthy ? '✓' : '✗'}</span></div>
-  `
+  document.getElementById('statOps').textContent = verify?.operator_count ?? ops?.operators?.length ?? '—'
+  document.getElementById('statConns').textContent = verify?.total_connections ?? '—'
+  document.getElementById('statFps').textContent = perf?.fps ?? info?.projectFPS ?? '—'
+  document.getElementById('statCook').textContent = (perf?.total_cook_time_ms ?? 0).toFixed(1) + 'ms'
+  document.getElementById('statErrs').textContent = verify?.error_count ?? '—'
+  document.getElementById('statErrs').style.color = verify?.error_count > 0 ? 'var(--red)' : ''
+  document.getElementById('statHealth').textContent = verify?.healthy ? '✓' : '✗'
+  document.getElementById('statHealth').style.color = verify?.healthy ? 'var(--green)' : 'var(--red)'
 
-  // Perf
-  const perfDiv = document.getElementById('perf')
-  const totalCook = perf?.total_cook_time_ms || 0
-  perfDiv.innerHTML = `
-    <div class="stat"><span class="label">Total cook time</span><span class="value">${totalCook.toFixed(1)} ms</span></div>
-    <div class="stat"><span class="label">Avg per op</span><span class="value">${perf?.total_ops > 0 ? (totalCook / perf.total_ops).toFixed(2) : 0} ms</span></div>
-    <div class="stat"><span class="label">Total ops cooked</span><span class="value">${perf?.total_ops ?? '?'}</span></div>
-  `
-
-  // Errors
-  const errDiv = document.getElementById('errors')
-  const errs = verify?.errors || []
-  if (errs.length === 0) {
-    errDiv.innerHTML = '<div class="stat"><span class="ok">✓ No errors</span></div>'
-  } else {
-    errDiv.innerHTML = errs.slice(0, 5).map(e => 
-      `<div class="stat"><span class="label err">${e.path}</span><span class="value err">${(e.error || '').slice(0, 40)}</span></div>`
-    ).join('')
+  // FPS History
+  if (perf?.fps) {
+    fpsHistory.push(perf.fps)
+    if (fpsHistory.length > 60) fpsHistory.shift()
+    drawFpsChart()
   }
 
-  // Endpoints
-  const eps = [
-    {method:'GET', path:'/info', desc:'TD build info'},
-    {method:'GET', path:'/operators', desc:'List operators'},
-    {method:'GET', path:'/connections', desc:'Wire graph'},
-    {method:'GET', path:'/parameters', desc:'Get params'},
-    {method:'POST', path:'/parameters/set', desc:'Set params'},
-    {method:'GET', path:'/editor/selection', desc:'Selection'},
-    {method:'GET', path:'/spatial_context', desc:'*here/*this/*these'},
-    {method:'GET', path:'/verify', desc:'Network verification'},
-    {method:'GET', path:'/audit/performance', desc:'Slow ops'},
-    {method:'GET', path:'/help', desc:'TD module docs'},
-    {method:'POST', path:'/screenshot', desc:'Capture viewer'},
-    {method:'POST', path:'/exec', desc:'Execute Python'},
-  ]
-  document.getElementById('endpoints').innerHTML = eps.map(e =>
-    `<li><span class="badge ${e.method.toLowerCase()}">${e.method}</span> <span class="path">${e.path}</span> <span class="desc">— ${e.desc}</span></li>`
-  ).join('')
-
-  // Slowest
-  const slow = document.getElementById('slowest')
+  // Slowest ops
   const slowest = perf?.slowest_ops || []
+  const perfTable = document.getElementById('perfTable')
   if (slowest.length === 0) {
-    slow.innerHTML = '<div style="color:#555">No performance data</div>'
+    perfTable.innerHTML = '<div style="color:var(--text3);padding:8px;text-align:center">No performance data</div>'
   } else {
-    const maxCook = Math.max(...slowest.map(s => s.cookTime_ms), 1)
-    let html = '<table><tr><th>Operator</th><th>Type</th><th>Cook (ms)</th><th></th></tr>'
-    slowest.forEach(s => {
-      const pct = (s.cookTime_ms / maxCook * 100).toFixed(0)
-      html += `<tr>
-        <td style="color:#aaa">${s.name || s.path?.split('/').pop()}</td>
-        <td style="color:#555">${s.type || '?'}</td>
-        <td class="warn">${s.cookTime_ms?.toFixed(2) || '?'}</td>
-        <td style="width:80px"><div class="bar"><div class="bar-fill ${s.cookTime_ms > 5 ? 'err' : ''}" style="width:${pct}%"></div></div></td>
-      </tr>`
-    })
-    html += '</table>'
-    slow.innerHTML = html
+    const max = Math.max(...slowest.map(s => s.cookTime_ms), 1)
+    perfTable.innerHTML = '<table class="data-table"><tr><th>Op</th><th>Type</th><th>Cook</th><th>%</th></tr>' +
+      slowest.map(s => {
+        const pct = (s.cookTime_ms / max * 100).toFixed(0)
+        const color = s.cookTime_ms > 5 ? 'var(--red)' : s.cookTime_ms > 2 ? 'var(--yellow)' : 'var(--green)'
+        return `<tr><td>${s.name || s.path?.split('/').pop()}</td><td style="color:var(--text3)">${s.type || '?'}</td><td style="color:${color};font-weight:600">${s.cookTime_ms.toFixed(2)}ms</td>
+          <td style="width:80px"><div class="perf-bar"><div class="perf-bar-fill" style="width:${pct}%;background:${color}"></div></div></td></tr>`
+      }).join('') + '</table>'
   }
+
+  // Operators list
+  allOperators = ops?.operators || []
+  renderOpList()
+
+  // Errors log
+  const errs = verify?.errors || []
+  const errDiv = document.getElementById('errorLog')
+  if (errs.length === 0) {
+    errDiv.innerHTML = '<div style="padding:12px;text-align:center"><span style="color:var(--green)">✓ No errors</span></div>'
+  } else {
+    errDiv.innerHTML = errs.map(e => {
+      const level = e.error?.toLowerCase().includes('error') ? 'err' : 'warn'
+      const time = new Date().toLocaleTimeString()
+      return `<div class="log-entry"><span class="log-time">${time}</span><span class="log-level ${level}">${level}</span><span class="log-msg">${e.path}: ${(e.error || '').slice(0,80)}</span></div>`
+    }).join('')
+  }
+
+  // Network graph
+  drawNetwork(ops?.operators)
 }
 
-refresh()
+// ─── Auto Refresh ───
+function toggleAutoRefresh() {
+  autoRefresh = !autoRefresh
+  const btn = document.getElementById('autoBtn')
+  btn.textContent = autoRefresh ? '⏱ Auto: ON' : '⏱ Auto: OFF'
+  btn.style.opacity = autoRefresh ? '1' : '.5'
+  if (autoRefresh) startAutoRefresh()
+  else if (autoTimer) { clearInterval(autoTimer); autoTimer = null }
+}
+
+function startAutoRefresh() {
+  if (autoTimer) clearInterval(autoTimer)
+  autoTimer = setInterval(refreshAll, 3000)
+}
+
+// ─── Init ───
+startAutoRefresh()
+refreshAll()
+
+// ─── Resize handler ───
+window.addEventListener('resize', () => { drawNetwork(allOperators); drawFpsChart() })
 </script>
 </body>
 </html>
