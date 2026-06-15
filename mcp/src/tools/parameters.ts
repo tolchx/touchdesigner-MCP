@@ -2,6 +2,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { TDClient } from "td-api";
 import { z } from "zod";
 import { ok, err } from "../helpers.js";
+import { postModifyValidate } from "./postValidate.js";
 
 export function registerParameterTools(server: McpServer, client: TDClient) {
   // ---------------------------------------------------------------------------
@@ -62,7 +63,9 @@ export function registerParameterTools(server: McpServer, client: TDClient) {
           updates,
           transactional ?? true
         );
-        return ok(result);
+        // Post-modification validation (catch expression errors)
+        const validation = await postModifyValidate(client, opPath);
+        return ok({ ...result, validation });
       } catch (e: any) {
         return err(e);
       }
@@ -106,7 +109,9 @@ export function registerParameterTools(server: McpServer, client: TDClient) {
           apiUpdates,
           transactional ?? true
         );
-        return ok(result);
+        // Post-modification validation (catch expression errors)
+        const validation = await postModifyValidate(client, opPath);
+        return ok({ ...result, validation });
       } catch (e: any) {
         return err(e);
       }
@@ -166,7 +171,8 @@ export function registerParameterTools(server: McpServer, client: TDClient) {
     async ({ path: opPath, page, params }) => {
       try {
         const result = await client.customParameters(opPath, page, params);
-        return ok(result);
+        const validation = await postModifyValidate(client, opPath);
+        return ok({ ...result, validation });
       } catch (e: any) {
         return err(e);
       }

@@ -1,0 +1,61 @@
+{
+  "name": "chroma-key",
+  "description": "Chroma key: foreground + background \u2192 chromakey \u2192 composite \u2192 output",
+  "tags": [
+    "keying",
+    "chroma",
+    "greenscreen"
+  ],
+  "nodes": [
+    {
+      "id": "fg",
+      "opType": "moviefileinTOP",
+      "label": "Foreground"
+    },
+    {
+      "id": "bg",
+      "opType": "rampTOP",
+      "label": "Background"
+    },
+    {
+      "id": "chromakey",
+      "opType": "chromakeyTOP",
+      "label": "Key"
+    },
+    {
+      "id": "composite",
+      "opType": "overTOP",
+      "label": "Over",
+      "parameters": {
+        "operand": "over"
+      }
+    },
+    {
+      "id": "output",
+      "opType": "nullTOP",
+      "label": "Output"
+    }
+  ],
+  "connections": [
+    {
+      "from": "fg",
+      "to": "chromakey",
+      "inputIndex": 0
+    },
+    {
+      "from": "bg",
+      "to": "composite",
+      "inputIndex": 0
+    },
+    {
+      "from": "chromakey",
+      "to": "composite",
+      "inputIndex": 1
+    },
+    {
+      "from": "composite",
+      "to": "output",
+      "inputIndex": 0
+    }
+  ]
+}

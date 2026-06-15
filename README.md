@@ -69,8 +69,7 @@ Conecta Inteligencia Artificial con TouchDesigner usando el Model Context Protoc
 git clone https://github.com/tolchx/touchdesigner-MCP.git
 cd touchdesigner-MCP
 npm install
-npx tsc -p api/tsconfig.json
-npx tsc -p mcp/tsconfig.json
+npm run build
 ```
 
 ### 2. Preparar TouchDesigner
@@ -107,6 +106,159 @@ Agrega esta configuración a tu cliente MCP (Claude Desktop, VS Code, etc.):
   }
 }
 ```
+
+---
+
+## 🔌 Usar en otro proyecto de TouchDesigner
+
+El MCP se comunica con TD a través del `.tox`. Para usarlo en cualquier proyecto, solo necesitas importar el `.tox` y apuntar el MCP server a la IP/puerto correctos.
+
+### Arquitectura
+
+```
+AI Client (Codebuff / Claude)
+    ↕ MCP protocol (stdin/stdout)
+MCP Server (Node.js)
+    ↕ HTTP (localhost:44444)
+TouchDesigner (con .tox importado)
+```
+
+### Paso 1: Generar el .tox (una sola vez)
+
+```bash
+python mcp/setup/generate_tox.py
+# → Crea mcp/setup/TouchDesigner_MCP_Server.tox
+```
+
+### Paso 2: Importar el .tox en tu proyecto TD
+
+1. Abre tu `.toe` en TouchDesigner
+2. **Arrastra** `mcp/setup/TouchDesigner_MCP_Server.tox` al network editor
+   - Se crea un Base COMP llamado `mcp_server`
+   - Contiene: WebServer DAT (puerto 44444) + extensión Python + Execute DAT
+3. Verifica que el WebServer esté activo:
+   - Abre `http://localhost:44444/info` en tu navegador
+   - Deberías ver un JSON con la info de tu TD
+
+### Paso 3: Configurar el MCP server
+
+El MCP server necesita saber dónde está TD. Configura las variables de entorno:
+
+```bash
+# Si TD está en la misma máquina:
+TDAPI_HOST=localhost TDAPI_PORT=44444 node mcp/dist/index.js
+
+# Si TD está en otra máquina (ej: otra PC en la red):
+TDAPI_HOST=192.168.1.50 TDAPI_PORT=44444 node mcp/dist/index.js
+```
+
+### Paso 4: Conectar tu cliente MCP
+
+Configura tu cliente MCP (Claude Desktop, VS Code, Codebuff, etc.) con la ruta al MCP server:
+
+```json
+{
+  "mcpServers": {
+    "touchdesigner": {
+      "command": "node",
+      "args": ["C:/Users/TuUsuario/Documents/touchdesigner-MCP/mcp/dist/index.js"],
+      "env": {
+        "TDAPI_HOST": "localhost",
+        "TDAPI_PORT": "44444"
+      }
+    }
+  }
+}
+```
+
+> **WSL/Linux**: Si usas TD en Windows y el MCP en WSL, `TDAPI_HOST` debe ser la IP de Windows (ej: `172.24.0.1`). Ejecuta `ipconfig` en Windows para obtenerla. En Windows puedes usar `start_freebuff.bat` para lanzar todo automáticamente.
+
+### Verificación
+
+```bash
+# Probar que TD responde:
+curl http://localhost:44444/info
+
+# Probar el MCP server:
+cd touchdesigner-MCP && node mcp/dist/index.js
+```
+
+### ¿Qué archivos necesito?
+
+| Archivo | ¿Necesario? | Para qué |
+|---------|-------------|----------|
+| `mcp/setup/TouchDesigner_MCP_Server.tox` | ✅ Sí | Se importa en tu `.toe` |
+| `mcp/dist/index.js` | ✅ Sí | El MCP server (Node.js) |
+| `mcp/data/` | ✅ Sí | Base de conocimiento (ops, pops, tutorials) |
+| `mcp/templates/` | ✅ Sí | Templates de redes reutilizables |
+| `api/` + `node_modules/` | ✅ Sí | Se generan automáticamente con `npm install && npm run build` |
+| `.mcp.json` | ⚙️ Opcional | Configuración del cliente MCP |
+| `toe/` | ❌ No | Solo fuente del .tox, no necesario después |
+| `test_*` | ❌ No | Tests del MCP |
+| `webui/` | ❌ No | Dashboard web (opcional) |
+
+### Resumen rápido
+
+```
+1. python mcp/setup/generate_tox.py     → genera .tox
+2. Arrastra .tox a tu .toe              → instala API en TD
+3. TDAPI_HOST=localhost node mcp/dist/index.js → lanza MCP server
+4. Configura tu cliente MCP             → conecta IA con TD
+```
+
+Listo. Desde tu cliente MCP puedes crear operadores, ejecutar Python, construir redes completas, y más — todo sobre tu proyecto TD.
+
+### 📁 Git: Versionado de redes TD (TDN)
+
+El MCP incluye herramientas para exportar redes TD a formato `.tdn` (TouchDesigner Network) — un JSON legible que se puede versionar con git. El textconv driver de git stripa headers volátiles (build, timestamp, versión TD) para que `git diff` muestre solo cambios semánticos.
+
+**Setup automático (recomendado):**
+
+Desde tu cliente MCP, ejecuta:
+```
+td_tdn_git_setup
+```
+
+Esto genera automáticamente:
+- `.gitattributes` con `*.tdn diff=tdn`
+- `git config diff.tdn.textconv` apuntando al textconv driver
+
+O manualmente:
+
+```bash
+# 1. Crear .gitattributes
+echo '*.tdn diff=tdn' >> .gitattributes
+
+# 2. Configurar textconv driver (verificar que textconv.py existe)
+git config diff.tdn.textconv 'python3 "mcp/src/tdn/textconv.py"'
+```
+
+> **Windows**: Usa `python` en lugar de `python3`. El tool `td_tdn_git_setup` detecta la plataforma automáticamente.
+>
+> **Nota**: Los archivos `.tdn` deben ser **tracked** por git (no ignorados). El textconv driver es el que hace los diffs limpios.
+
+**Flujo de trabajo TDN:**
+
+```bash
+# Exportar una red desde TD (via MCP tool td_tdn_export)
+# → Crea networks/mySystem.tdn
+
+# Agregar al commit
+git add networks/mySystem.tdn
+
+# Ahora git diff muestra solo cambios de red (no timestamps)
+git diff networks/mySystem.tdn
+
+# Comparar live vs guardado (via MCP tool td_tdn_diff)
+# → Detecta ops añadidos/eliminados, params cambiados, conexiones rotas
+```
+
+| Tool TDN | Descripción |
+|----------|-------------|
+| `td_tdn_export` | Exportar red a archivo `.tdn` JSON |
+| `td_tdn_import` | Importar `.tdn` de vuelta a TD |
+| `td_tdn_diff` | Comparar red live vs archivo `.tdn` |
+| `td_tdn_git_setup` | Auto-configurar git para `.tdn` |
 
 ---
 
@@ -247,7 +399,10 @@ touchdesigner-MCP/
 │   │   ├── server.ts     # Entry point
 │   │   ├── networkPlanner.ts
 │   │   ├── templatesDb.ts
-│   │   └── tools/        # 12 módulos de tools
+│   │   ├── tdn/           # TDN v1.4: export/import/diff para git
+│   │   │   ├── schema.ts      # Tipos TDN (TdnDocument, TdnOperator)
+│   │   │   └── textconv.py    # Git textconv driver (stripa headers)
+│   │   └── tools/        # 13 módulos de tools
 │   ├── data/
 │   │   ├── ops/          # 507 operadores TOP/CHOP/SOP/DAT
 │   │   ├── pops/         # 102 operadores POP
@@ -255,14 +410,21 @@ touchdesigner-MCP/
 │   │   ├── workflows/    # 32 workflows
 │   │   ├── reference/    # 609 API classes + parámetros POP
 │   │   └── docs/         # Documentación técnica
+│   ├── setup/            # .tox generator, auto-setup, marketplace
+│   │   ├── generate_tox.py       # Genera el .tox automáticamente
+│   │   ├── TouchDesigner_MCP_Server.tox  # .tox pre-generado
+│   │   ├── tox_instructions.md   # Guía manual del .tox
+│   │   └── README_SETUP.md       # Guía de configuración
 │   ├── webui/            # Dashboard web (puerto 3333)
-│   ├── setup/            # Auto-tox, marketplace, instalador
 │   ├── scripts/          # Publicación npm, demo guide
-│   ├── tests/            # 79 tests legacy + 4 tests MCP
 │   └── docs/             # Documentación interactiva HTML
+├── toe/                  # Fuente del servidor TD
+│   ├── TouchDesignerAPI.tox      # .tox alternativo (desarrollo)
+│   └── src/
+│       ├── TouchDesignerAPI.py   # Extensión Python principal
+│       └── td_utils.py           # Utilidades layout + async
 ├── .vscode/mcp-td/       # VS Code Extension
 ├── docs/                 # Landing page GitHub Pages
-├── toe/                  # Servidor TD (TouchDesignerAPI.py)
 └── .github/workflows/    # CI/CD a GitHub Pages
 ```
 

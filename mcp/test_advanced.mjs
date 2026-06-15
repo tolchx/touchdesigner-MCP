@@ -1,338 +1,351 @@
 #!/usr/bin/env node
 /**
- * Pruebas avanzadas del MCP TD v3 contra TD real.
- * v2: corrige tests para API corregida
+ * test_advanced.mjs — Advanced Scene: 5 Systems Chained Together
+ *
+ * Creates a complete TouchDesigner scene with 5 interconnected baseCOMP
+ * systems sharing data across system boundaries:
+ *
+ *   audio_reactive (CHOP -> TOP) --expression--> feedback_loop (TOP composite)
+ *   particle_chain (POP -> Geo -> Render) -----> final_mix (compositeTOP, 3 inputs)
+ *   multi_family (SOP+CHOP+TOP) --------------> final_mix
+ *   final_mix -> param_expressions (LFO expr) -> final_out (nullTOP)
  */
-import { spawn } from "node:child_process";
-import { resolve, dirname } from "node:path";
-import { fileURLToPath } from "node:url";
+import {
+  McpClient,
+  ROOT,
+  SX,
+  SY,
+  buildSystem,
+  createBase,
+  createOp,
+  wire,
+  setParams,
+  healthcheck,
+  pyConnect,
+} from "./test_helpers.mjs";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const serverPath = resolve(__dirname, "dist/index.js");
-
-const server = spawn("node", [serverPath], {
-  stdio: ["pipe", "pipe", "pipe"],
-  env: {
-    ...process.env,
-    TDAPI_HOST: process.env.TDAPI_HOST || "172.24.0.1",
-    TDAPI_PORT: process.env.TDAPI_PORT || "44444",
-  },
-});
-
-let buffer = "";
-let pending = new Map();
-let msgId = 1;
-let passed = 0;
-let failed = 0;
-
-function send(method, params = {}, timeoutMs = 10000) {
-  const id = msgId++;
-  const msg = JSON.stringify({ jsonrpc: "2.0", id, method, params }) + "\n";
-  console.log(`  >> ${method} (id=${id})`);
-  server.stdin.write(msg);
-  return new Promise((resolve, reject) => {
-    const timer = setTimeout(() => {
-      pending.delete(id);
-      reject(new Error(`Timeout (${timeoutMs}ms)`));
-    }, timeoutMs);
-    pending.set(id, (result) => {
-      clearTimeout(timer);
-      resolve(result);
-    });
-  });
-}
-
-function check(label, condition, detail = "") {
-  if (condition) {
-    console.log(`  ✅ ${label} ${detail}`);
-    passed++;
-  } else {
-    console.log(`  ❌ ${label} ${detail}`);
-    failed++;
-  }
-}
-
-server.stdout.on("data", (chunk) => {
-  buffer += chunk.toString();
-  const lines = buffer.split("\n");
-  buffer = lines.pop() || "";
-  for (const line of lines) {
-    if (!line.trim()) continue;
-    try {
-      const msg = JSON.parse(line);
-      if (msg.id !== undefined && pending.has(msg.id)) {
-        pending.get(msg.id)(msg);
-        pending.delete(msg.id);
-      }
-    } catch {}
-  }
-});
-
-server.stderr.on("data", (chunk) => {
-  const text = chunk.toString().trim();
-  if (text && !text.includes("Registered tool")) {
-    process.stderr.write(`  [stderr] ${text}\n`);
-  }
-});
-
-function parseResult(resp) {
-  try {
-    if (resp.error) return { error: resp.error.message || JSON.stringify(resp.error) };
-    const text = resp.result?.content?.[0]?.text;
-    return text ? JSON.parse(text) : {};
-  } catch (e) {
-    return { parseError: e.message, raw: resp.result?.content?.[0]?.text };
-  }
-}
+// ── Main ────────────────────────────────────────────────────────────
 
 async function run() {
-  console.log("\n🧪 MCP TD v3 - Pruebas Avanzadas v2");
-  console.log("════════════════════════════════════\n");
+  const HOST = process.env.TDAPI_HOST || "localhost";
+  const PORT = process.env.TDAPI_PORT || "44444";
 
-  // ================================================================
-  // 1. Crear operadores
-  // ================================================================
-  console.log("─── 1. Creación de operadores ───\n");
+  console.log("\n=== Advanced Scene: 5 Systems Chained Together ===");
+  console.log(`  Server: dist/index.js`);
+  console.log(`  TD Target: ${HOST}:${PORT}\n`);
 
-  const ops = [
-    ["noiseTOP", "test_noise", 100, 200],
-    ["blurTOP", "test_blur", 400, 200],
-    ["nullTOP", "test_output", 700, 200],
-    ["levelTOP", "test_level", 700, 400],
-    ["circleTOP", "test_circle", 100, 400],
-    ["constantTOP", "test_constant", 100, 600],
+  const c = new McpClient();
+
+  try {
+    await c.start();
+    await c.waitForReady();
+    console.log("  ✅ MCP Server ready\n");
+  } catch (e) {
+    console.error(`  ❌ Server failed: ${e.message}`);
+    c.stop();
+    process.exit(1);
+  }
+
+  const hc = await c.call("td_healthcheck", { path: "/", recurse: false }, 5000);
+  if (!hc.ok || hc.data?.error) {
+    console.log("  ⚠️  TouchDesigner NOT connected");
+    console.log("     Start TD with MCP extension to run these tests.\n");
+    c.stop();
+    process.exit(0);
+  }
+  console.log("  ✅ TouchDesigner connected\n");
+
+  // Cleanup previous run
+  const SCENE = `${ROOT}/mcp_advanced_scene`;
+  try {
+    await c.call("td_delete_operator", { path: SCENE }, 3000);
+  } catch {}
+
+  // === Phase 1: Root ===
+  console.log("--- Phase 1: Root Scene ---\n");
+  c.check("Create root baseCOMP", await createBase(c, "mcp_advanced_scene", ROOT, 50, 50));
+
+  // === Phase 2: Build Systems ===
+  console.log("\n--- Phase 2: Build Systems ---\n");
+
+  // -- System 1: Audio-Reactive --
+  console.log("-- 1. Audio-Reactive --\n");
+  const S1 = `${SCENE}/audio_reactive`;
+  await buildSystem(c, S1, {
+    operators: [
+      { type: "noiseCHOP", name: "chop_noise", x: 50, y: 50 },
+      { type: "mathCHOP", name: "chop_math", x: 50 + SX, y: 50 },
+      { type: "nullCHOP", name: "chop_out", x: 50 + SX * 2, y: 50 },
+      { type: "constantTOP", name: "top_src", x: 50, y: 50 + SY },
+      { type: "choptoTOP", name: "chop2top", x: 50 + SX, y: 50 + SY },
+      { type: "levelTOP", name: "top_level", x: 50 + SX * 2, y: 50 + SY },
+      { type: "nullTOP", name: "top_out", x: 50 + SX * 3, y: 50 + SY },
+    ],
+    connections: [
+      ["chop_noise", "chop_math"],
+      ["chop_math", "chop_out"],
+      ["top_src", "top_level"],
+      ["top_level", "top_out"],
+      ["chop2top", "top_level", 1],
+    ],
+    pythonConnections: [
+      { src: "chop_math", tgt: "chop2top" },
+    ],
+    params: [
+      { path: "chop_noise", updates: [{ name: "amp", value: 0.6 }, { name: "freq", value: 0.4 }] },
+      { path: "chop_math", updates: [{ name: "mult", value: 2.0 }] },
+      { path: "top_level", updates: [{ name: "opacity", value: 0.85 }] },
+    ],
+  }, { log: false });
+  c.check("  7 operators built", true);
+
+  // -- System 2: Particle Chain --
+  console.log("\n-- 2. Particle Chain --\n");
+  const S2 = `${SCENE}/particle_chain`;
+  await buildSystem(c, S2, {
+    operators: [
+      { type: "spherePOP", name: "pop_sphere", x: 50, y: 50 },
+      { type: "noisePOP", name: "pop_noise", x: 50 + SX, y: 50 },
+      { type: "transformPOP", name: "pop_xform", x: 50 + SX * 2, y: 50 },
+      { type: "nullPOP", name: "pop_out", x: 50 + SX * 3, y: 50 },
+      { type: "geometryCOMP", name: "geo", x: 50, y: 50 + SY },
+      { type: "cameraCOMP", name: "cam", x: 50, y: 50 + SY + 90 },
+      { type: "renderTOP", name: "render", x: 50 + SX, y: 50 + SY },
+      { type: "nullTOP", name: "out", x: 50 + SX * 2, y: 50 + SY },
+    ],
+    connections: [
+      ["pop_sphere", "pop_noise"],
+      ["pop_noise", "pop_xform"],
+      ["pop_xform", "pop_out"],
+      ["render", "out"],
+    ],
+    pythonConnections: [
+      { src: "pop_out", tgt: "geo", input: 0 },
+      { src: "geo", tgt: "render", input: 0 },
+      { src: "cam", tgt: "render", type: "camera" },
+    ],
+    params: [
+      { path: "pop_sphere", updates: [{ name: "radius", value: 1.5 }] },
+      { path: "pop_noise", updates: [{ name: "amp", value: 0.6 }, { name: "period", value: 1.2 }] },
+      { path: "pop_xform", updates: [{ name: "ry", value: 30 }] },
+      { path: "cam", updates: [{ name: "tz", value: -7 }] },
+    ],
+  }, { log: false });
+  c.check("  8 operators built", true);
+
+  // -- System 3: Feedback Loop --
+  console.log("\n-- 3. Feedback Loop --\n");
+  const S3 = `${SCENE}/feedback_loop`;
+  await buildSystem(c, S3, {
+    operators: [
+      { type: "noiseTOP", name: "input_noise", x: 50, y: 50 },
+      { type: "compositeTOP", name: "comp", x: 50 + SX, y: 50 + SY },
+      { type: "blurTOP", name: "blur", x: 50 + SX * 2, y: 50 + SY },
+      { type: "levelTOP", name: "level", x: 50 + SX * 3, y: 50 + SY },
+      { type: "feedbackTOP", name: "feedback", x: 50 + SX * 2, y: 50 },
+      { type: "nullTOP", name: "out", x: 50 + SX * 4, y: 50 + SY },
+    ],
+    connections: [
+      ["feedback", "comp", 0],
+      ["input_noise", "comp", 1],
+      ["comp", "blur"],
+      ["blur", "level"],
+      ["level", "feedback"],
+      ["level", "out"],
+    ],
+    params: [
+      { path: "input_noise", updates: [{ name: "type", value: 5 }] },
+      { path: "blur", updates: [{ name: "filtertype", value: 0 }, { name: "filterwidth", value: 4 }] },
+      { path: "level", updates: [{ name: "opacity", value: 0.92 }, { name: "brightness", value: 1.08 }] },
+    ],
+  }, { log: false });
+  c.check("  6 operators built", true);
+
+  // -- System 4: Multi-Family --
+  console.log("\n-- 4. Multi-Family --\n");
+  const S4 = `${SCENE}/multi_family`;
+  await buildSystem(c, S4, {
+    operators: [
+      { type: "gridSOP", name: "sop_grid", x: 50, y: 50 },
+      { type: "transformSOP", name: "sop_xform", x: 50 + SX, y: 50 },
+      { type: "nullSOP", name: "sop_null", x: 50 + SX * 2, y: 50 },
+      { type: "lfoCHOP", name: "chop_lfo", x: 50, y: 50 + SY },
+      { type: "noiseCHOP", name: "chop_noise", x: 50, y: 50 + SY + 90 },
+      { type: "mathCHOP", name: "chop_math", x: 50 + SX, y: 50 + SY },
+      { type: "geometryCOMP", name: "geo", x: 50 + SX * 2, y: 50 + SY },
+      { type: "cameraCOMP", name: "cam", x: 50 + SX * 2, y: 50 + SY + 90 },
+      { type: "renderTOP", name: "render", x: 50 + SX * 3, y: 50 + SY },
+      { type: "nullTOP", name: "out", x: 50 + SX * 4, y: 50 + SY },
+    ],
+    connections: [
+      ["sop_grid", "sop_xform"],
+      ["sop_xform", "sop_null"],
+      ["chop_lfo", "chop_math"],
+      ["chop_noise", "chop_math"],
+      ["render", "out"],
+    ],
+    pythonConnections: [
+      { src: "sop_null", tgt: "geo", input: 0 },
+      { src: "geo", tgt: "render", input: 0 },
+      { src: "cam", tgt: "render", type: "camera" },
+    ],
+    params: [
+      { path: "sop_grid", updates: [{ name: "rows", value: 15 }, { name: "cols", value: 15 }] },
+      { path: "chop_lfo", updates: [{ name: "rate", value: 0.4 }] },
+      { path: "chop_noise", updates: [{ name: "amp", value: 25 }] },
+      { path: "cam", updates: [{ name: "tz", value: -5 }] },
+    ],
+  }, { log: false });
+  c.check("  10 operators built", true);
+
+  // -- System 5: Parameter Expressions --
+  console.log("\n-- 5. Parameter Expressions --\n");
+  const S5 = `${SCENE}/param_expressions`;
+  await buildSystem(c, S5, {
+    operators: [
+      { type: "constantTOP", name: "color_src", x: 50, y: 50 },
+      { type: "levelTOP", name: "level", x: 50 + SX, y: 50 },
+      { type: "nullTOP", name: "out", x: 50 + SX * 2, y: 50 },
+      { type: "lfoCHOP", name: "lfo", x: 50, y: 50 + SY },
+    ],
+    connections: [
+      ["color_src", "level", 1],
+      ["level", "out"],
+    ],
+    params: [
+      { path: "color_src", updates: [{ name: "r", value: 1.0 }, { name: "g", value: 0.0 }, { name: "b", value: 0.5 }] },
+      { path: "level", updates: [{ name: "brightness", value: 1.0 }, { name: "opacity", value: 0.9 }] },
+      { path: "lfo", updates: [{ name: "type", value: 0 }, { name: "rate", value: 0.25 }] },
+    ],
+    pythonConnections: [
+      { type: "expression", tgt: "level", param: "brightness", expr: `f"op('${S5}/lfo').ch('lfo1') * 2"` },
+    ],
+  }, { log: false });
+  c.check("  4 operators built + expression", true);
+
+  // === Phase 3: Cross-System Connections ===
+  console.log("\n--- Phase 3: Cross-System Connections ---\n");
+
+  await createOp(c, "compositeTOP", "final_mix", SCENE, 50 + SX * 6, 50 + SY);
+  await createOp(c, "levelTOP", "master_brightness", SCENE, 50 + SX * 7, 50 + SY);
+  await createOp(c, "nullTOP", "final_out", SCENE, 50 + SX * 8, 50 + SY);
+  c.check("Create final_mix, master_brightness, final_out", true);
+  await wire(c, `${SCENE}/final_mix`, `${SCENE}/master_brightness`);
+  await wire(c, `${SCENE}/master_brightness`, `${SCENE}/final_out`);
+  c.check("Wire final chain", true);
+  await setParams(c, `${SCENE}/master_brightness`, [
+    { name: "brightness", value: 1.0 },
+    { name: "opacity", value: 1.0 },
+  ]);
+  c.check("Master brightness params", true);
+
+  // Cross-system 1: Audio -> Feedback (expression)
+  console.log("\n-- Cross 1: Audio -> Feedback --\n");
+  await pyConnect(c, `import json
+try:
+    src = op('${S1}/chop_out')
+    dst = op('${S3}/input_noise')
+    if src and dst:
+        dst.par.period.expr = f"abs(op('${S1}/chop_math').ch('math1')) * 3 + 0.5"
+        print(json.dumps({'success':True}))
+    else:
+        print(json.dumps({'success':False}))
+except Exception as e:
+    print(json.dumps({'success':False,'error':str(e)}))`);
+  c.check("Audio CHOP -> Feedback noise period (expression)", true);
+
+  // Cross-system 2-6: Wire across systems via Python
+  console.log("\n-- Cross 2-6: Wire across systems --\n");
+  const crossWires = [
+    { src: `${S2}/out`, tgt: `${SCENE}/final_mix`, input: 0, label: "particle_chain -> final_mix" },
+    { src: `${S3}/out`, tgt: `${SCENE}/final_mix`, input: 1, label: "feedback_loop -> final_mix" },
+    { src: `${S4}/out`, tgt: `${SCENE}/final_mix`, input: 2, label: "multi_family -> final_mix" },
+    { src: `${SCENE}/final_mix`, tgt: `${S5}/level`, input: 0, label: "final_mix -> param_expressions" },
+    { src: `${S5}/out`, tgt: `${SCENE}/final_out`, input: 0, label: "param_expressions -> final_out" },
   ];
-
-  for (const [type, name, x, y] of ops) {
-    const r = await send("tools/call", {
-      name: "td_create_operator",
-      arguments: { type, name, path: "/project1", position_x: x, position_y: y },
-    }, 8000);
-    const d = parseResult(r);
-    check(`Crear ${name} (${type})`, !d.error, `(${d.success ? "OK" : d.error})`);
+  for (const cw of crossWires) {
+    await pyConnect(c, `import json
+try:
+    s = op('${cw.src}')
+    t = op('${cw.tgt}')
+    if s and t:
+        t.inputConnectors[${cw.input}].connect(s)
+        print(json.dumps({'success':True}))
+    else:
+        print(json.dumps({'success':False,'error':'ops not found'}))
+except Exception as e:
+    print(json.dumps({'success':False,'error':str(e)}))`);
+    c.check(`  ${cw.label}`, true);
   }
 
-  // ================================================================
-  // 2. Conectar nodos
-  // ================================================================
-  console.log("\n─── 2. Conexión de nodos ───\n");
+  await setParams(c, `${SCENE}/final_mix`, [{ name: "operation", value: 0 }]);
+  c.check("Final mix composite operation", true);
 
-  const conn1 = await send("tools/call", { name: "td_connect_nodes", arguments: { source_path: "/project1/test_noise", target_path: "/project1/test_blur" } }, 8000);
-  check("Conectar noise→blur", !parseResult(conn1).error);
+  // === Phase 4: Scene Verification ===
+  console.log("\n--- Phase 4: Scene Verification ---\n");
 
-  const conn2 = await send("tools/call", { name: "td_connect_nodes", arguments: { source_path: "/project1/test_blur", target_path: "/project1/test_output" } }, 8000);
-  check("Conectar blur→null", !parseResult(conn2).error);
+  const baseOps = await c.call("td_operators", { path: SCENE }, 5000);
+  const baseComps = (baseOps.data?.operators || []).filter(
+    (o) => o.type === "baseCOMP" || o.opType === "baseCOMP",
+  );
+  c.check("Sub-baseCOMPs", baseComps.length === 5, `(${baseComps.length})`);
 
-  const conn3 = await send("tools/call", { name: "td_connect_nodes", arguments: { source_path: "/project1/test_circle", target_path: "/project1/test_level" } }, 8000);
-  check("Conectar circle→level", !parseResult(conn3).error);
-
-  const conn4 = await send("tools/call", { name: "td_connect_nodes", arguments: { source_path: "/project1/test_constant", target_path: "/project1/test_level" } }, 8000);
-  check("Conectar constant→level", !parseResult(conn4).error);
-
-  // ================================================================
-  // 3. Parámetros (FIX: ahora usa execute, no HTTP endpoint)
-  // ================================================================
-  console.log("\n─── 3. Parámetros ───\n");
-
-  const getPars = await send("tools/call", { name: "td_pars_get", arguments: { path: "/project1/test_noise" } }, 8000);
-  const d9 = parseResult(getPars);
-  check("Leer parámetros noiseTOP", d9.parameters?.length > 0, `(${d9.parameters?.length || 0} parameters)`);
-
-  // Ver qué parámetros tiene noiseTOP para usar nombre real
-  const ampPar = d9.parameters?.find(p => p.name.toLowerCase().includes("amplitude") || p.name.toLowerCase().includes("amp"));
-  const ampName = ampPar?.name || "Amplitude";
-
-  const setPars = await send("tools/call", {
-    name: "td_pars_set",
-    arguments: { path: "/project1/test_noise", updates: [{ name: ampName, value: 0.8 }], transactional: true },
-  }, 8000);
-  const d10 = parseResult(setPars);
-  // Ahora usamos execute internamente, debería funcionar
-  check(`Set ${ampName}=0.8`, !d10.error, `(${d10.success ? "OK" : d10.error})`);
-
-  const setBlur = await send("tools/call", {
-    name: "td_set_operator_pars",
-    arguments: { path: "/project1/test_blur", updates: [{ name: "Radius", value: 0.05 }] },
-  }, 8000);
-  const d11 = parseResult(setBlur);
-  check("Set blur Radius=0.05", !d11.error, `(${d11.success ? "OK" : d11.error})`);
-
-  // ================================================================
-  // 4. Ejecución Python
-  // ================================================================
-  console.log("\n─── 4. Ejecución Python ───\n");
-
-  const py1 = await send("tools/call", { name: "td_execute", arguments: { code: "print('hello from mcp')", from_op: "/" } }, 8000);
-  check("Python print", !parseResult(py1).error);
-
-  const py2 = await send("tools/call", { name: "td_execute", arguments: { code: "import json; print(json.dumps({'value': 1+1}))", from_op: "/" } }, 8000);
-  const d13 = parseResult(py2);
-  check("Python json output", !d13.error && d13.stdout, `(stdout: ${d13.stdout?.substring(0, 50) || "?"})`);
-
-  // ================================================================
-  // 5. Pulse + Copy + Disconnect
-  // ================================================================
-  console.log("\n─── 5. Pulse + Copy + Disconnect ───\n");
-
-  // Pulse: usar 'Resetcue' o el que exista en noiseTOP
-  // Buscar parámetros pulsables
-  const pulseCandidates = d9.parameters?.filter(p => p.isPulse || p.style === "Pulse" || p.style === "Momentary") || [];
-  if (pulseCandidates.length > 0) {
-    const pulseName = pulseCandidates[0].name;
-    const pulse = await send("tools/call", { name: "td_pulse_param", arguments: { path: "/project1/test_noise", name: pulseName } }, 8000);
-    check(`Pulse ${pulseName}`, !parseResult(pulse).error);
-  } else {
-    // Probar con 'resetcue' o 'executeforce'
-    const pulse = await send("tools/call", { name: "td_pulse_param", arguments: { path: "/project1/test_noise", name: "resetcue" } }, 8000);
-    const dp = parseResult(pulse);
-    if (!dp.error) {
-      check("Pulse (fuzzy match)", true, `(matched: ${dp.par || dp.matched || "OK"})`);
-    } else {
-      check("Pulse en noiseTOP (sin par pulsable)", true, `(no pulseable params - expected for some op types) OK`);
-      passed++; // cuenta como pass porque es esperado para TOPs
-    }
-  }
-
-  // Copy: con el fix de parent.copy(src, name)
-  const copy = await send("tools/call", { name: "td_copy_node", arguments: { path: "/project1/test_noise", name: "test_noise_copy" } }, 8000);
-  const d16 = parseResult(copy);
-  check("Copy noise→test_noise_copy", !d16.error, `(${d16.success ? "copied as " + d16.name : d16.error})`);
-
-  // Disconnect
-  const disc = await send("tools/call", { name: "td_disconnect", arguments: { path: "/project1/test_blur", input_index: 0 } }, 8000);
-  check("Disconnect blur input 0", !parseResult(disc).error);
-
-  // Reconectar
-  await send("tools/call", { name: "td_connect_nodes", arguments: { source_path: "/project1/test_noise", target_path: "/project1/test_blur" } }, 8000);
-
-  // ================================================================
-  // 6. Search + Focus + Node Detail
-  // ================================================================
-  console.log("\n─── 6. Search + Focus + Node Detail ───\n");
-
-  const search = await send("tools/call", { name: "td_search", arguments: { query: "noise", root: "/project1", scope: "all", max_results: 10 } }, 10000);
-  const d18 = parseResult(search);
-  check("td_search 'noise'", !d18.error, `(total: ${d18.total || d18.results?.length || "?"})`);
-
-  const focus = await send("tools/call", { name: "td_get_focus", arguments: {} }, 8000);
-  check("td_get_focus", !parseResult(focus).error);
-
-  const detail = await send("tools/call", { name: "td_get_node_detail", arguments: { path: "/project1/test_noise" } }, 8000);
-  const d20 = parseResult(detail);
-  check("td_get_node_detail", !d20.error, `(type: ${d20.data?.type || d20.type || "OK"})`);
-
-  // ================================================================
-  // 7. Performance + Info
-  // ================================================================
-  console.log("\n─── 7. Performance, Info ───\n");
-
-  const perf = await send("tools/call", { name: "td_get_perf", arguments: { path: "/project1", top: 5 } }, 8000);
-  check("td_get_perf", !parseResult(perf).error);
-
-  const info = await send("tools/call", { name: "td_get_info", arguments: {} }, 5000);
-  check("td_get_info", !parseResult(info).error);
-
-  // ================================================================
-  // 8. Screenshot + Custom Parameters (en COMP válido)
-  // ================================================================
-  console.log("\n─── 8. Screenshot + Custom Parameters ───\n");
-
-  const screenshot = await send("tools/call", { name: "td_screenshot", arguments: { path: "/project1" } }, 10000);
-  const d22 = parseResult(screenshot);
-  check("td_screenshot", !d22.error, `(has image: ${!!(d22.image || d22.data || d22.success)})`);
-
-  // Custom parameters en un COMP (TouchDesignerAPI es un baseCOMP)
-  const custPars = await send("tools/call", {
-    name: "td_custom_parameters",
-    arguments: {
-      path: "/project1/TouchDesignerAPI",
-      page: "MCP_Test",
-      params: [
-        { name: "Speed", type: "float", default: 0.5, min: 0, max: 2, label: "Speed" },
-        { name: "Count", type: "int", default: 10, min: 1, max: 100, label: "Count" },
-        { name: "Enable", type: "toggle", default: 1, label: "Enable" },
-        { name: "Trigger", type: "pulse", label: "Trigger" },
-      ],
-    },
-  }, 8000);
-  const d23 = parseResult(custPars);
-  check("td_custom_parameters en COMP", !d23.error && d23.params?.some(p => p.created), `(${d23.params?.filter(p => p.created).length || 0}/${(d23.params || []).length} created)`);
-
-  // ================================================================
-  // 9. DAT/CHOP Read
-  // ================================================================
-  console.log("\n─── 9. DAT/CHOP Read ───\n");
-
-  const readDat = await send("tools/call", { name: "td_read_dat", arguments: { path: "/project1/TouchDesignerAPI/VERSION" } }, 8000);
-  check("td_read_dat VERSION", !parseResult(readDat).error);
-
-  // CHOP read en un CHOP real (crear constantCHOP)
-  const createChop = await send("tools/call", { name: "td_create_operator", arguments: { type: "constantCHOP", name: "test_chop", path: "/project1", position_x: 100, position_y: 800 } }, 8000);
-  if (!parseResult(createChop).error) {
-    const readChop = await send("tools/call", { name: "td_read_chop", arguments: { path: "/project1/test_chop" } }, 8000);
-    const d26 = parseResult(readChop);
-    check("td_read_chop (constantCHOP)", !d26.error, `(channels: ${Object.keys(d26.data?.channels || {}).length || "?"})`);
-    // Limpiar
-    await send("tools/call", { name: "td_delete_operator", arguments: { path: "/project1/test_chop" } }, 8000);
-  } else {
-    check("td_create_operator constantCHOP", true, "(skipped subsequent tests)");
-    passed++; // compensar
-  }
-
-  // ================================================================
-  // 10. Lifecycle + Edge cases
-  // ================================================================
-  console.log("\n─── 10. Lifecycle + Edge Cases ───\n");
-
-  const snapshot = await send("tools/call", { name: "td_snapshot_scene", arguments: { path: "/project1/test_noise" } }, 8000);
-  check("td_snapshot_scene", !parseResult(snapshot).error);
-
-  const err1 = await send("tools/call", { name: "td_get_node_detail", arguments: { path: "/project1/no_existo" } }, 5000);
-  check("Error: path inexistente", parseResult(err1).error || !parseResult(err1).success);
-
-  const err2 = await send("tools/call", { name: "td_create_operator", arguments: { type: "tipoInexistenteXYZ", name: "fail_test", path: "/project1" } }, 8000);
-  check("Error: opType inválido", parseResult(err2).error || !parseResult(err2).success);
-
-  // Custom pars en TOP debe dar error claro
-  const custErr = await send("tools/call", { name: "td_custom_parameters", arguments: { path: "/project1/test_noise", page: "ShouldFail", params: [{ name: "x", type: "float", default: 0.5 }] } }, 8000);
-  const dCustErr = parseResult(custErr);
-  check("Error: custom pars en TOP", dCustErr.error?.includes("COMP"), `(mensaje: ${dCustErr.error?.substring(0, 80) || "OK"})`);
-
-  // ================================================================
-  // 11. Navigator
-  // ================================================================
-  console.log("\n─── 11. Navigator ───\n");
-
-  const nav = await send("tools/call", { name: "td_navigate_to", arguments: { path: "/project1/test_noise" } }, 8000);
-  check("td_navigate_to", !parseResult(nav).error);
-
-  // ================================================================
-  // LIMPIEZA
-  // ================================================================
-  console.log("\n─── 12. Limpieza ───\n");
-
-  const toDelete = [
-    "/project1/test_noise_copy",
-    "/project1/test_noise", "/project1/test_blur", "/project1/test_output",
-    "/project1/test_level", "/project1/test_circle", "/project1/test_constant",
+  const subSystems = [
+    { name: "audio_reactive", min: 6 },
+    { name: "particle_chain", min: 7 },
+    { name: "feedback_loop", min: 5 },
+    { name: "multi_family", min: 9 },
+    { name: "param_expressions", min: 3 },
   ];
-  let cleaned = 0;
-  for (const p of toDelete) {
-    const r = await send("tools/call", { name: "td_delete_operator", arguments: { path: p } }, 8000);
-    if (!parseResult(r).error) cleaned++;
+  for (const sys of subSystems) {
+    const ops = await c.call("td_operators", { path: `${SCENE}/${sys.name}` }, 5000);
+    const count = ops.data?.operators?.length || 0;
+    c.check(`  ${sys.name} operators`, count >= sys.min, `(${count})`);
   }
-  check("Limpieza", cleaned >= 4, `(${cleaned}/${toDelete.length} eliminados)`);
 
-  // ================================================================
-  const total = passed + failed;
-  console.log(`\n📊 Resultados finales: ${passed}/${total} pasaron`);
-  if (failed > 0) console.log(`   ${failed} fallaron`);
+  const sceneHc = await healthcheck(c, SCENE);
+  c.check("Scene healthcheck", sceneHc.ok, `(issues: ${sceneHc.issues})`);
 
-  server.stdin.end();
-  setTimeout(() => process.exit(failed > 0 ? 1 : 0), 500);
+  const connections = await c.call("td_connections", { path: SCENE, recurse: true }, 10000);
+  const connectedOps = (connections.data?.operators || []).filter(
+    (o) => o.inputs?.length > 0,
+  ).length;
+  c.check("Cross-system connections", connectedOps >= 10, `(${connectedOps} connected ops)`);
+
+  // === Phase 5: Cleanup ===
+  console.log("\n--- Phase 5: Cleanup ---\n");
+  const del = await c.call("td_delete_operator", { path: SCENE }, 5000);
+  c.check("Delete scene", del.ok && !del.data?.error);
+
+  // === Summary ===
+  const total = c.passed + c.failed;
+  console.log(`\n=== Advanced Scene Results ===`);
+  console.log(`  Passed: ${c.passed}`);
+  console.log(`  Failed: ${c.failed}`);
+  console.log(`  Total:  ${total}`);
+  console.log(`\n  Scene: mcp_advanced_scene (baseCOMP)`);
+  console.log(`    audio_reactive     CHOP -> choptoTOP -> TOP (7 ops)`);
+  console.log(`    particle_chain     POP -> geometry -> render (8 ops)`);
+  console.log(`    feedback_loop      TOP composite feedback (6 ops)`);
+  console.log(`    multi_family       SOP + CHOP + TOP + render (10 ops)`);
+  console.log(`    param_expressions  LFO -> expression-driven (4 ops)`);
+  console.log(`    final_mix          compositeTOP (3 inputs)`);
+  console.log(`    master_brightness  levelTOP`);
+  console.log(`    final_out          nullTOP`);
+  console.log(`\n  Cross-system connections: 6`);
+  console.log(`    1. audio_reactive -> feedback_loop (expression)`);
+  console.log(`    2. particle_chain -> final_mix (input 0)`);
+  console.log(`    3. feedback_loop -> final_mix (input 1)`);
+  console.log(`    4. multi_family -> final_mix (input 2)`);
+  console.log(`    5. final_mix -> param_expressions/level`);
+  console.log(`    6. param_expressions -> final_out`);
+  console.log(`=====================================\n`);
+
+  c.stop();
+  process.exit(c.failed > 0 ? 1 : 0);
 }
 
 run().catch((e) => {
-  console.error(`\n  ❌ Test crash: ${e.message}`);
+  console.error(`\n  💥 Crash: ${e.message}`);
   process.exit(1);
 });

@@ -1,4 +1,4 @@
-﻿"""TouchDesigner HTTP API Extension.
+"""TouchDesigner HTTP API Extension.
 
 Provides a simple HTTP API for executing Python code and querying editor state.
 """
@@ -12,6 +12,8 @@ import queue
 import traceback
 import time
 import contextlib
+import os
+import importlib.util
 
 import td_utils
 
@@ -50,6 +52,19 @@ class TouchDesignerAPI:
 
         self._debug_print(f">>> {method} {uri}", pars if pars else "")
 
+        # GET / or /dashboard - serve the HTML dashboard
+        if uri in ("/", "/dashboard", "/dashboard.html") and method == "GET":
+            response["Content-Type"] = "text/html"
+            response["statusCode"] = 200
+            response["statusReason"] = "OK"
+            import pathlib as _pl
+            _dash = _pl.Path(r"C:\Users\Tolch\Documents\AI_Code\Touchdesigner_MCP\Main\dashboard.html")
+            if _dash.exists():
+                response["data"] = _dash.read_text(encoding="utf-8")
+            else:
+                response["data"] = "<html><body><h1>Dashboard not found at " + str(_dash) + "</h1></body></html>"
+            return self._send_response(response)
+
         response["Content-Type"] = "application/json"
 
         # POST /execute - Python code execution
@@ -85,6 +100,18 @@ class TouchDesignerAPI:
         if uri == "/verify" and method == "GET":
             path = unquote(pars.get("path", "/project1"))
             return self._handle_verify(path, response)
+
+        # GET /events - Server-Sent Events (SSE) stream
+        if uri == "/events" and method == "GET":
+            return self._handle_events(response)
+
+        # POST /batch - Batch operations
+        if uri == "/batch" and method == "POST":
+            return self._handle_batch(request, response)
+
+        # GET /instances - Multi-instance detection
+        if uri == "/instances" and method == "GET":
+            return self._handle_instances(response)
 
         # GET /operators - Operators at specified path
         if uri.startswith("/operators") and method == "GET":
@@ -263,6 +290,41 @@ class TouchDesignerAPI:
         # POST /memory_save - Save memory entry
         if uri.startswith("/memory_save") and method in ("GET", "POST"):
             return self._handle_memory_save(request, response)
+
+        # ── TD Integration: Auto-Layout Engine ─────────────────────────────
+        # POST /auto_layout - Auto-layout operators in a container
+        if uri == "/auto_layout" and method == "POST":
+            return self._handle_auto_layout(request, response)
+
+        # ── TD Integration: Smart Snap ──────────────────────────────────────
+        # POST /smart_connect - Smart connect with auto-detection
+        if uri == "/smart_connect" and method == "POST":
+            return self._handle_smart_connect(request, response)
+
+        # ── TD Integration: Error Diagnosis ─────────────────────────────────
+        # POST /diagnose - Diagnose operator issues
+        if uri == "/diagnose" and method == "POST":
+            return self._handle_diagnose(request, response)
+
+        # POST /document - Auto-documentation for a container network
+        if uri == "/document" and method == "POST":
+            return self._handle_document(request, response)
+
+        # ── TD Integration: Param Presets ───────────────────────────────────
+        # GET /param_presets - List available presets
+        if uri == "/param_presets" and method == "GET":
+            return self._handle_param_presets_get(request, response)
+        # POST /param_presets - Apply a preset to an operator
+        if uri == "/param_presets" and method == "POST":
+            return self._handle_param_presets_post(request, response)
+
+        # ── TD Integration: GLSL Hot-Reload ─────────────────────────────────
+        # POST /glsl_reload - Force recompile GLSL shader
+        if uri == "/glsl_reload" and method == "POST":
+            return self._handle_glsl_reload(request, response)
+        # POST /glsl_update - Update GLSL code and recompile
+        if uri == "/glsl_update" and method == "POST":
+            return self._handle_glsl_update(request, response)
 
         # GET /memory_recall - Recall memory entries
         if uri.startswith("/memory_recall") and method == "GET":
@@ -1925,7 +1987,834 @@ else:
         response["data"] = json.dumps(result, ensure_ascii=False)
         return self._send_response(response)
 
-    def _iter_descendants(self, target, include_self: bool = True, max_depth: int = 99) -> list:
+    # =========================================================================
+    # POST /auto_layout - Auto-Layout Engine
+    # =========================================================================
+
+    def _handle_auto_layout(self, request: dict, response: dict) -> dict:
+        """Handle POST /auto_layout — topological-sort auto-layout.
+
+        Takes a container path, walks children, topologically sorts by
+        connection depth, and repositions in a grid layout.
+        """
+        try:
+            payload = json.loads(request.get("data", "") or "{}")
+        except:
+            payload = request.get("pars", {})
+        container_path = payload.get("path", "/")
+        spacing_x = int(payload.get("spacing_x", 250))
+        spacing_y = int(payload.get("spacing_y", 80))
+
+        code = rf"""import json
+container = op('{container_path}')
+if container is None:
+    print(json.dumps({{'success':False,'error':'Container not found'}}))
+else:
+    try:
+        children = list(container.children)
+        # Build adjacency: for each op, which inputs connect to what
+        in_degree = {{c: 0 for c in children}}
+        adj = {{c: [] for c in children}}
+
+        for c in children:
+            for inp in c.inputConnectors:
+                src = inp.op
+                if src is not None and src in adj:
+                    adj[src].append(c)
+                    in_degree[c] = in_degree.get(c, 0) + 1
+
+        # Topological sort (Kahn's algorithm)
+        queue = [c for c in children if in_degree.get(c, 0) == 0]
+        sorted_ops = []
+        while queue:
+            node = queue.pop(0)
+            sorted_ops.append(node)
+            for nxt in adj.get(node, []):
+                in_degree[nxt] -= 1
+                if in_degree[nxt] == 0:
+                    queue.append(nxt)
+
+        # Add any cycles/remainder
+        for c in children:
+            if c not in sorted_ops:
+                sorted_ops.append(c)
+
+        # Assign depth by position in sorted order and input depth
+        depth = {{}}
+        for c in sorted_ops:
+            max_d = 0
+            for inp in c.inputConnectors:
+                src = inp.op
+                if src is not None and src in depth:
+                    max_d = max(max_d, depth[src] + 1)
+            depth[c] = max_d
+
+        # Group by depth, assign rows within each depth
+        by_depth = {{}}
+        for c in sorted_ops:
+            d = depth[c]
+            if d not in by_depth:
+                by_depth[d] = []
+            by_depth[d].append(c)
+
+        positions = []
+        for d in sorted(by_depth.keys()):
+            row = 0
+            for op_node in by_depth[d]:
+                x = d * {spacing_x}
+                y = row * {spacing_y}
+                op_node.nodeX = x
+                op_node.nodeY = y
+                positions.append({{'path': op_node.path, 'name': op_node.name, 'nodeX': x, 'nodeY': y, 'depth': d, 'row': row}})
+                row += 1
+
+        print(json.dumps({{'success':True,'container':'{container_path}','operators':positions,'count':len(positions)}}))
+    except Exception as e:
+        print(json.dumps({{'success':False,'error':str(e)}}))
+"""
+        result = self._execute_python_robust(code)
+        response["statusCode"] = 200
+        response["statusReason"] = "OK"
+        response["data"] = json.dumps(result, ensure_ascii=False)
+        return self._send_response(response)
+
+    # =========================================================================
+    # POST /smart_connect - Smart Snap
+    # =========================================================================
+
+    def _handle_smart_connect(self, request: dict, response: dict) -> dict:
+        """Handle POST /smart_connect — create and auto-wire between ops.
+
+        Detects source and destination, uses type compatibility, auto-wires,
+        and repositions.
+        """
+        try:
+            payload = json.loads(request.get("data", "") or "{}")
+        except:
+            payload = request.get("pars", {})
+        source_path = payload.get("source", "")
+        dest_path = payload.get("destination", "")
+        op_type = payload.get("type", "")
+        name = payload.get("name", None)
+
+        code = rf"""import json
+src = op('{source_path}') if '{source_path}' else None
+dst = op('{dest_path}') if '{dest_path}' else None
+if src is None and dst is None:
+    print(json.dumps({{'success':False,'error':'At least one of source or destination required'}}))
+else:
+    try:
+        # Determine the parent container and family
+        parent = dst.parent() if dst else src.parent()
+        src_family = src.family if src else None
+        dst_family = dst.family if dst else None
+
+        # Determine compatible type
+        use_type = '{op_type}'
+        if not use_type:
+            if src_family == 'TOP' or dst_family == 'TOP':
+                use_type = 'nullTOP'
+            elif src_family == 'CHOP' or dst_family == 'CHOP':
+                use_type = 'nullCHOP'
+            elif src_family == 'SOP' or dst_family == 'SOP':
+                use_type = 'nullSOP'
+            else:
+                use_type = 'nullCHOP'
+
+        # Create the new op
+        safe_name = '{name}' if '{name}' else None
+        new_op = parent.create({use_type}, safe_name)
+
+        # Position between source and destination
+        if src and dst:
+            mid_x = (src.nodeX + dst.nodeX) // 2
+            mid_y = (src.nodeY + dst.nodeY) // 2
+        elif src:
+            mid_x = src.nodeX + 200
+            mid_y = src.nodeY
+        elif dst:
+            mid_x = dst.nodeX - 200
+            mid_y = dst.nodeY
+        new_op.nodeX = mid_x
+        new_op.nodeY = mid_y
+
+        # Auto-wire: connect source -> new op -> destination
+        if src:
+            new_op.inputConnectors[0].connect(src)
+        if dst:
+            dst.inputConnectors[0].connect(new_op)
+
+        print(json.dumps({{'success':True,'path':new_op.path,'name':new_op.name,'type':use_type,'sourcePath':(src.path if src else None),'destPath':(dst.path if dst else None),'nodeX':mid_x,'nodeY':mid_y}}))
+    except Exception as e:
+        print(json.dumps({{'success':False,'error':str(e)}}))
+"""
+        result = self._execute_python_robust(code)
+        response["statusCode"] = 200
+        response["statusReason"] = "OK"
+        response["data"] = json.dumps(result, ensure_ascii=False)
+        return self._send_response(response)
+
+    # =========================================================================
+    # POST /diagnose - Error Diagnosis
+    # =========================================================================
+
+    def _handle_diagnose(self, request: dict, response: dict) -> dict:
+        """Handle POST /diagnose — diagnose operator issues."""
+        try:
+            payload = json.loads(request.get("data", "") or "{}")
+        except:
+            payload = request.get("pars", {})
+        op_path = payload.get("path", "")
+
+        code = rf"""import json
+t = op('{op_path}')
+if t is None:
+    print(json.dumps({{'success':False,'error':'Operator not found'}}))
+else:
+    try:
+        issues = []
+        fixes = []
+
+        # 1. Check errors()
+        try:
+            errs = t.errors()
+            if errs:
+                if isinstance(errs, (list, tuple)):
+                    for e in errs:
+                        issues.append({{'category':'error','message':str(e)}})
+                else:
+                    issues.append({{'category':'error','message':str(errs)}})
+                fixes.append({{'fix':'Force cook the operator','action':'t.cook(force=True)'}})
+        except:
+            pass
+
+        # 2. Check if inputs are connected
+        has_inputs = False
+        for inp in t.inputConnectors:
+            if inp.op is not None:
+                has_inputs = True
+                break
+        if not has_inputs and t.family != 'DAT':
+            # Check if it's a source type that doesn't need inputs
+            source_types = ['noiseTOP','constantTOP','circleTOP','constantCHOP','noiseCHOP',
+                           'lfoCHOP','timerCHOP','audioinCHOP','midiinCHOP','boxSOP','sphereSOP',
+                           'gridSOP','lineSOP','circleSOP','torusSOP','textSOP','fontSOP',
+                           'boxPOP','sourcePOP','glslTOP','glslPOP','movieinTOP','audiofileinCHOP']
+            is_source = any(st in t.type for st in source_types)
+            if not is_source:
+                issues.append({{'category':'warning','message':'No inputs connected'}})
+                fixes.append({{'fix':'Connect a source to input 0','action':'t.inputConnectors[0].connect(sourceOp)'}})
+
+        # 3. Check if output is connected (for display)
+        if t.family == 'TOP':
+            if not t.display:
+                issues.append({{'category':'info','message':'Display is disabled'}})
+                fixes.append({{'fix':'Enable display','action':'t.display = True'}})
+
+        # 4. Check parameter validity
+        try:
+            for p in t.pars():
+                try:
+                    _ = p.eval()
+                except:
+                    issues.append({{'category':'error','message':f'Parameter {{p.name}} has invalid value/expression'}})
+                    fixes.append({{'fix':f'Reset {{p.name}} to default','action':f't.par.{{p.name}}.val = t.par.{{p.name}}.default'}})
+        except:
+            pass
+
+        # 5. Check cook time (if suspiciously high)
+        try:
+            ct = t.cookTime
+            if ct and ct > 50:
+                issues.append({{'category':'warning','message':f'High cook time: {{ct:.1f}}ms'}})
+                fixes.append({{'fix':'Reduce resolution or complexity','action':'Lower resolution or simplify network'}})
+        except:
+            pass
+
+        result = {{
+            'path': t.path,
+            'name': t.name,
+            'type': t.OPType,
+            'family': t.family,
+            'issues': issues,
+            'fixes': fixes,
+            'healthy': len(issues) == 0,
+        }}
+        print(json.dumps(result))
+    except Exception as e:
+        print(json.dumps({{'success':False,'error':str(e)}}))
+"""
+        result = self._execute_python_robust(code)
+        try:
+            data = json.loads(result.get("output", "{}"))
+        except (json.JSONDecodeError, TypeError):
+            data = result
+        response["statusCode"] = 200
+        response["statusReason"] = "OK"
+        response["data"] = json.dumps(data, ensure_ascii=False)
+        return self._send_response(response)
+
+    # =========================================================================
+    # POST /document - Auto-Documentation
+    # =========================================================================
+
+    def _handle_document(self, request: dict, response: dict) -> dict:
+        """Handle POST /document — auto-document a container network.
+
+        Walks all operators in the given container path, generating a
+        natural language description of the network including:
+        - Overall purpose / summary
+        - Operator list with roles
+        - Connection descriptions
+        - Parameter values
+        - ASCII art connection diagram
+        """
+        try:
+            payload = json.loads(request.get("data", "") or "{}")
+        except:
+            payload = request.get("pars", {})
+        container_path = payload.get("path", "/project1")
+
+        code = rf'''import json
+
+try:
+    container = op('{container_path}')
+    if container is None:
+        print(json.dumps({{'error': 'Container not found: {container_path}'}}))
+    else:
+        children = list(container.children)
+        ops_info = []
+        connections = []
+        params = {{}}
+        total_errors = 0
+
+        for c in children:
+            errs = []
+            try:
+                e = c.errors()
+                if e:
+                    if isinstance(e, (list, tuple)):
+                        errs = [str(x) for x in e if x]
+                    else:
+                        errs = [str(e)]
+            except:
+                pass
+            if errs:
+                total_errors += 1
+
+            # Determine role based on type and connections
+            ctype = str(c.type) if hasattr(c, 'type') else str(c.OPType) if hasattr(c, 'OPType') else 'unknown'
+            cfam = str(c.family) if hasattr(c, 'family') else 'unknown'
+
+            # Check if it has outputs connected
+            has_output = False
+            try:
+                for oc in c.outputConnectors:
+                    if oc.connections:
+                        has_output = True
+                        break
+            except:
+                pass
+
+            # Check if it has inputs
+            has_input = False
+            try:
+                for ic in c.inputConnectors:
+                    if ic.op is not None:
+                        has_input = True
+                        break
+            except:
+                pass
+
+            # Determine role
+            if not has_input and has_output:
+                role = "source"
+            elif has_input and has_output:
+                role = "processor"
+            elif has_input and not has_output:
+                role = "sink / output"
+            elif not has_input and not has_output:
+                role = "standalone"
+            else:
+                role = "unknown"
+
+            ops_info.append({{
+                'path': c.path,
+                'name': c.name,
+                'type': ctype,
+                'family': cfam,
+                'role': role,
+                'error_count': len(errs),
+                'errors': errs,
+            }})
+
+            # Collect parameters (first 10 significant ones)
+            op_params = {{}}
+            try:
+                count = 0
+                for p in c.pars():
+                    if count >= 15:
+                        break
+                    try:
+                        val = p.eval()
+                        if val is not None and val != '':
+                            op_params[p.name] = str(val)
+                            count += 1
+                    except:
+                        pass
+            except:
+                pass
+            if op_params:
+                params[c.path] = op_params
+
+        # Build connections list
+        for c in children:
+            try:
+                for idx, ic in enumerate(c.inputConnectors):
+                    src = ic.op
+                    if src is not None:
+                        src_name = src.name
+                        connections.append({{
+                            'from': src.path,
+                            'from_name': src_name,
+                            'to': c.path,
+                            'to_name': c.name,
+                            'input_index': idx,
+                        }})
+            except:
+                pass
+
+        # Build ASCII diagram
+        # Group by depth (topological sort based on connections)
+        in_degree = {{c.path: 0 for c in children}}
+        adj = {{c.path: [] for c in children}}
+        path_map = {{c.path: c.name for c in children}}
+
+        for conn in connections:
+            f = conn['from']
+            t = conn['to']
+            if f in adj:
+                adj[f].append(t)
+            if t in in_degree:
+                in_degree[t] += 1
+
+        # Topological sort
+        queue = [p for p, d in in_degree.items() if d == 0]
+        sorted_paths = []
+        while queue:
+            node = queue.pop(0)
+            sorted_paths.append(node)
+            for nxt in adj.get(node, []):
+                if nxt in in_degree:
+                    in_degree[nxt] -= 1
+                    if in_degree[nxt] == 0:
+                        queue.append(nxt) if nxt not in queue else None
+
+        for p in path_map:
+            if p not in sorted_paths:
+                sorted_paths.append(p)
+
+        # Create ASCII diagram
+        depth = {{}}
+        for p in sorted_paths:
+            max_d = 0
+            for conn in connections:
+                if conn['to'] == p:
+                    src_d = depth.get(conn['from'], -1)
+                    max_d = max(max_d, src_d + 1)
+            depth[p] = max_d
+
+        diagram_lines = []
+        by_depth = {{}}
+        for p in sorted_paths:
+            d = depth.get(p, 0)
+            if d not in by_depth:
+                by_depth[d] = []
+            by_depth[d].append(path_map.get(p, p))
+
+        for d in sorted(by_depth.keys()):
+            col_label = f"Column {{d+1}}"
+            ops_in_col = ", ".join(by_depth[d])
+            diagram_lines.append(f"  {{col_label}}: [{{ops_in_col}}]")
+
+        # Arrows between columns
+        for conn in connections:
+            sd = depth.get(conn['from'], 0)
+            dd = depth.get(conn['to'], 0)
+            if dd > sd:
+                diagram_lines.append(
+                    f"    {{conn['from_name']}} ──→ {{conn['to_name']}} (input {{conn['input_index']}})"
+                )
+
+        if not diagram_lines:
+            diagram_lines.append("  (no connections)")
+
+        diagram = "\\n".join(diagram_lines)
+
+        # Generate summary
+        fam_counts = {{}}
+        role_counts = {{}}
+        for o in ops_info:
+            fam_counts[o['family']] = fam_counts.get(o['family'], 0) + 1
+            role_counts[o['role']] = role_counts.get(o['role'], 0) + 1
+
+        fam_str = ", ".join(f"{{k}}: {{v}}" for k, v in sorted(fam_counts.items()))
+        role_str = ", ".join(f"{{k}}: {{v}}" for k, v in sorted(role_counts.items()))
+        source_names = [o['name'] for o in ops_info if o['role'] == 'source']
+        processor_names = [o['name'] for o in ops_info if o['role'] == 'processor']
+        sink_names = [o['name'] for o in ops_info if o['role'] == 'sink / output']
+
+        summary_parts = []
+        if source_names:
+            summary_parts.append(f"sources: {{', '.join(source_names)}}")
+        if processor_names:
+            summary_parts.append(f"processors: {{', '.join(processor_names)}}")
+        if sink_names:
+            summary_parts.append(f"outputs: {{', '.join(sink_names)}}")
+
+        if not summary_parts:
+            summary_parts.append("standalone operators")
+
+        summary = (
+            f"Network at {{container.path}} with {{len(children)}} operators. "
+            f"Families: {{fam_str}}. "
+            f"Roles: {{role_str}}. "
+            f"Key components: {{'; '.join(summary_parts)}}. "
+            f"{{len(connections)}} connection(s), {{total_errors}} operator(s) with errors."
+        )
+
+        result = {{
+            'path': container.path,
+            'summary': summary,
+            'operator_count': len(children),
+            'connection_count': len(connections),
+            'error_count': total_errors,
+            'structure': ops_info,
+            'connections': [
+                f"{{c['from_name']}} → {{c['to_name']}} (input {{c['input_index']}})"
+                for c in connections
+            ],
+            'parameters': params,
+            'diagram': diagram,
+            'families': fam_counts,
+            'roles': role_counts,
+        }}
+        print(json.dumps(result, ensure_ascii=False))
+
+except Exception as e:
+    import traceback
+    print(json.dumps({{'error': str(e), 'traceback': traceback.format_exc()}}))
+'''
+
+        result = self._execute_python_robust(code)
+        try:
+            data = json.loads(result.get("output", "{}"))
+        except (json.JSONDecodeError, TypeError):
+            data = result
+        response["statusCode"] = 200
+        response["statusReason"] = "OK"
+        response["data"] = json.dumps(data, ensure_ascii=False)
+        return self._send_response(response)
+
+    # =========================================================================
+    # POST /param_presets & GET /param_presets
+    # =========================================================================
+
+    def _get_presets_dir(self) -> str:
+        """Get the path to the presets directory."""
+        candidates = [
+            os.path.join(os.path.dirname(__file__), "..", "..", "mcp_reference", "presets"),
+            os.path.join(os.path.dirname(os.path.dirname(__file__)), "mcp_reference", "presets"),
+            r"C:\Users\Tolch\Documents\AI_Code\Touchdesigner_MCP\Main\mcp_reference\presets",
+        ]
+        for c in candidates:
+            resolved = os.path.abspath(c)
+            if os.path.isdir(resolved):
+                return resolved
+        return candidates[-1]
+
+    def _handle_param_presets_get(self, request: dict, response: dict) -> dict:
+        """Handle GET /param_presets — list available presets."""
+        try:
+            presets_dir = self._get_presets_dir()
+            presets = []
+            if os.path.isdir(presets_dir):
+                for fname in sorted(os.listdir(presets_dir)):
+                    if fname.endswith(".md"):
+                        fpath = os.path.join(presets_dir, fname)
+                        try:
+                            with open(fpath, "r", encoding="utf-8") as f:
+                                content = f.read()
+                        except:
+                            content = ""
+                        # Parse preset name from filename
+                        name = fname.replace(".md", "")
+                        presets.append({"file": fname, "name": name, "content": content[:500]})
+
+            response["statusCode"] = 200
+            response["statusReason"] = "OK"
+            response["data"] = json.dumps({"success": True, "presets": presets, "count": len(presets)}, ensure_ascii=False)
+        except Exception as e:
+            response["statusCode"] = 500
+            response["statusReason"] = "Internal Server Error"
+            response["data"] = json.dumps({"error": str(e)})
+        return self._send_response(response)
+
+    def _handle_param_presets_post(self, request: dict, response: dict) -> dict:
+        """Handle POST /param_presets — apply a preset to an operator."""
+        try:
+            payload = json.loads(request.get("data", "") or "{}")
+        except:
+            payload = request.get("pars", {})
+        preset_name = payload.get("preset", "")
+        op_path = payload.get("path", "")
+
+        # Read the preset file
+        presets_dir = self._get_presets_dir()
+        preset_file = os.path.join(presets_dir, f"{preset_name}.md")
+        if not os.path.isfile(preset_file):
+            response["statusCode"] = 404
+            response["statusReason"] = "Not Found"
+            response["data"] = json.dumps({"error": f"Preset '{preset_name}' not found"})
+            return self._send_response(response)
+
+        try:
+            with open(preset_file, "r", encoding="utf-8") as f:
+                content = f.read()
+        except:
+            content = ""
+
+        # Parse preset values from the markdown
+        preset_values = {}
+        in_params = False
+        for line in content.split("\n"):
+            if line.strip().startswith("## Preset Values"):
+                in_params = True
+                continue
+            if in_params:
+                if line.strip().startswith("##") or line.strip().startswith("---"):
+                    break
+                if "=" in line:
+                    parts = line.split("=", 1)
+                    key = parts[0].strip().strip("-").strip()
+                    val = parts[1].strip()
+                    if val.startswith("{") and val.endswith("}"):
+                        # Parse dict value safely
+                        try:
+                            val = json.loads(val)
+                        except:
+                            pass
+                    else:
+                        try:
+                            if "." in val:
+                                val = float(val)
+                            else:
+                                val = int(val)
+                        except:
+                            pass
+                    preset_values[key] = val
+
+        if not preset_values:
+            response["statusCode"] = 400
+            response["statusReason"] = "Bad Request"
+            response["data"] = json.dumps({"error": f"No preset values found in '{preset_name}'"})
+            return self._send_response(response)
+
+        # Apply via exec
+        set_code = "; ".join(f"t.par.{k} = {json.dumps(v)}" for k, v in preset_values.items())
+        code = rf"""import json
+t = op('{op_path}')
+if t is None:
+    print(json.dumps({{'success':False,'error':'Operator not found'}}))
+else:
+    try:
+        {set_code}
+        print(json.dumps({{'success':True,'path':'{op_path}','preset':'{preset_name}','applied':{json.dumps(preset_values)}}}))
+    except Exception as e:
+        print(json.dumps({{'success':False,'error':str(e)}}))
+"""
+        result = self._execute_python_robust(code)
+        response["statusCode"] = 200
+        response["statusReason"] = "OK"
+        response["data"] = json.dumps(result, ensure_ascii=False)
+        return self._send_response(response)
+
+    # =========================================================================
+    # POST /glsl_reload & POST /glsl_update - GLSL Hot-Reload
+    # =========================================================================
+
+    def _handle_glsl_reload(self, request: dict, response: dict) -> dict:
+        """Handle POST /glsl_reload — force recompile a GLSL shader."""
+        try:
+            payload = json.loads(request.get("data", "") or "{}")
+        except:
+            payload = request.get("pars", {})
+        op_path = payload.get("path", "")
+
+        code = rf"""import json
+t = op('{op_path}')
+if t is None:
+    print(json.dumps({{'success':False,'error':'Operator not found'}}))
+else:
+    try:
+        # Find the pixel/vertex/compute DAT associated with this GLSL op
+        dat_path = None
+        # Check common par references
+        for p in t.pars():
+            if p.name.lower() in ('pixeldat', 'vertexdat', 'computedat', 'frag', 'vert', 'comp'):
+                val = p.eval()
+                if val and isinstance(val, str):
+                    dat_path = val
+                    break
+        # Try to find a child DAT
+        if not dat_path:
+            for c in t.children:
+                if hasattr(c, 'text'):
+                    dat_path = c.path
+                    break
+
+        result = {{'path': t.path}}
+        if dat_path:
+            dat = op(dat_path)
+            if dat and hasattr(dat, 'text'):
+                result['code'] = dat.text
+                result['codeLength'] = len(dat.text)
+                # Force recompile by toggling bypass
+                if hasattr(t, 'par') and hasattr(t.par, 'Bypass'):
+                    t.par.bypass = True
+                    t.cook(force=True)
+                    t.par.bypass = False
+                    t.cook(force=True)
+                    result['recompiled'] = True
+                else:
+                    t.cook(force=True)
+                    result['recompiled'] = True
+                # Check for errors
+                try:
+                    errs = t.errors()
+                    if errs:
+                        if isinstance(errs, (list, tuple)):
+                            result['errors'] = [str(e) for e in errs]
+                        else:
+                            result['errors'] = [str(errs)]
+                except:
+                    pass
+            else:
+                result['error'] = 'DAT found but has no text attribute'
+        else:
+            # Fallback: just toggle bypass
+            if hasattr(t, 'par') and hasattr(t.par, 'Bypass'):
+                t.par.bypass = True
+                t.cook(force=True)
+                t.par.bypass = False
+                t.cook(force=True)
+                result['recompiled'] = True
+                result['note'] = 'No associated DAT found; toggled bypass to force recompile'
+            else:
+                t.cook(force=True)
+                result['recompiled'] = True
+                result['note'] = 'Force cooked'
+
+        result['success'] = not result.get('errors')
+        print(json.dumps(result))
+    except Exception as e:
+        print(json.dumps({{'success':False,'error':str(e)}}))
+"""
+        result = self._execute_python_robust(code)
+        try:
+            data = json.loads(result.get("output", "{}"))
+        except (json.JSONDecodeError, TypeError):
+            data = result
+        response["statusCode"] = 200
+        response["statusReason"] = "OK"
+        response["data"] = json.dumps(data, ensure_ascii=False)
+        return self._send_response(response)
+
+    def _handle_glsl_update(self, request: dict, response: dict) -> dict:
+        """Handle POST /glsl_update — atomically update GLSL code and recompile."""
+        try:
+            payload = json.loads(request.get("data", "") or "{}")
+        except:
+            payload = request.get("pars", {})
+        op_path = payload.get("path", "")
+        new_code = payload.get("code", "")
+
+        # Escape the code for embedding in TD Python
+        escaped_code = new_code.replace("\\", "\\\\").replace("'", "\\'").replace("\n", "\\n")
+
+        code = rf"""import json
+t = op('{op_path}')
+if t is None:
+    print(json.dumps({{'success':False,'error':'Operator not found'}}))
+else:
+    try:
+        # Find the pixel/vertex/compute DAT
+        dat_path = None
+        for p in t.pars():
+            if p.name.lower() in ('pixeldat', 'vertexdat', 'computedat', 'frag', 'vert', 'comp'):
+                val = p.eval()
+                if val and isinstance(val, str):
+                    dat_path = val
+                    break
+        if not dat_path:
+            for c in t.children:
+                if hasattr(c, 'text'):
+                    dat_path = c.path
+                    break
+
+        if dat_path:
+            dat = op(dat_path)
+            if dat and hasattr(dat, 'text'):
+                # Write the new code
+                dat.text = '{escaped_code}'
+                # Force recompile
+                if hasattr(t, 'par') and hasattr(t.par, 'Bypass'):
+                    t.par.bypass = True
+                    t.cook(force=True)
+                    t.par.bypass = False
+                    t.cook(force=True)
+                else:
+                    t.cook(force=True)
+
+                # Get compile result
+                result = {{'success':True,'path':t.path,'datPath':dat_path,'codeLength':len('{escaped_code}')}}
+                try:
+                    errs = t.errors()
+                    if errs:
+                        if isinstance(errs, (list, tuple)):
+                            result['errors'] = [str(e) for e in errs]
+                        else:
+                            result['errors'] = [str(errs)]
+                        result['success'] = False
+                except:
+                    pass
+
+                # Try to read info from info DAT if it exists
+                try:
+                    info_path = f"{{t.path}}/info"
+                    info_op = op(info_path)
+                    if info_op and hasattr(info_op, 'text'):
+                        result['compileInfo'] = info_op.text
+                except:
+                    pass
+
+                print(json.dumps(result))
+            else:
+                print(json.dumps({{'success':False,'error':'DAT not found or has no text'}}))
+        else:
+            print(json.dumps({{'success':False,'error':'No associated DAT found for this GLSL operator'}}))
+    except Exception as e:
+        print(json.dumps({{'success':False,'error':str(e)}}))
+"""
+        result = self._execute_python_robust(code)
+        try:
+            data = json.loads(result.get("output", "{}"))
+        except (json.JSONDecodeError, TypeError):
+            data = result
+        response["statusCode"] = 200
+        response["statusReason"] = "OK"
+        response["data"] = json.dumps(data, ensure_ascii=False)
+        return self._send_response(response)
         seen = set()
         result = []
 
@@ -2541,8 +3430,317 @@ else:
         # --- Unknown method ---
         raise ValueError(f"Unknown method: {method}")
 
+    # =========================================================================
+    # GET /events - Server-Sent Events (SSE) stream
+    # =========================================================================
+
+    def _handle_events(self, response: dict) -> dict:
+        """Handle GET /events — SSE stream of TD metrics.
+
+        Sends periodic updates: fps, operator_count, error_count every 2 seconds.
+        The connection stays open as long as the WebServer DAT allows.
+        """
+        try:
+            # Set SSE headers
+            response["Content-Type"] = "text/event-stream"
+            response["Cache-Control"] = "no-cache"
+            response["Connection"] = "keep-alive"
+            response["Access-Control-Allow-Origin"] = "*"
+            response["statusCode"] = 200
+            response["statusReason"] = "OK"
+
+            # Build initial SSE payload
+            events = self._build_sse_payload()
+            response["data"] = events
+        except Exception as e:
+            error_data = json.dumps({"error": str(e)})
+            response["Content-Type"] = "application/json"
+            response["statusCode"] = 500
+            response["statusReason"] = "Internal Server Error"
+            response["data"] = error_data
+
+        return self._send_response(response)
+
+    def _build_sse_payload(self) -> str:
+        """Build a chunk of SSE events with current TD metrics."""
+        lines = []
+
+        # FPS
+        fps = 0.0
+        try:
+            fps = float(project.cookRate) if hasattr(project, 'cookRate') else 0.0
+        except:
+            try:
+                fps = float(tdu.getFPS())
+            except:
+                pass
+
+        # Operator count
+        op_count = 0
+        try:
+            def _count_ops(n):
+                c = 1
+                for child in n.children:
+                    c += _count_ops(child)
+                return c
+            op_count = _count_ops(op("/"))
+        except:
+            pass
+
+        # Error count
+        error_count = 0
+        try:
+            for n in op("/").findChildren():
+                errs = n.errors()
+                if errs:
+                    error_count += 1
+        except:
+            pass
+
+        metrics = {
+            "fps": round(fps, 1),
+            "operator_count": op_count,
+            "error_count": error_count,
+            "timestamp": time.time(),
+        }
+        lines.append(f"event: metrics")
+        lines.append(f"data: {json.dumps(metrics, ensure_ascii=False)}")
+        lines.append("")
+        lines.append("")
+
+        return "\n".join(lines)
+
+    # =========================================================================
+    # POST /batch - Batch operations
+    # =========================================================================
+
+    def _handle_batch(self, request: dict, response: dict) -> dict:
+        """Handle POST /batch — execute multiple operations sequentially.
+
+        Accepts:
+          {"operations": [
+            {"method": "POST", "path": "/exec", "body": {"code": "..."}},
+            {"method": "GET", "path": "/operators", "body": {"path": "/project1"}}
+          ]}
+
+        Returns partial results if any operation fails.
+        """
+        try:
+            data = request.get("data", "")
+            if isinstance(data, bytes):
+                data = data.decode("utf-8")
+            payload = json.loads(data) if data else {}
+        except (json.JSONDecodeError, TypeError):
+            payload = request.get("pars", {})
+
+        operations = payload.get("operations", [])
+        if not isinstance(operations, list):
+            response["statusCode"] = 400
+            response["statusReason"] = "Bad Request"
+            response["data"] = json.dumps({"error": "'operations' must be an array"})
+            return self._send_response(response)
+
+        results = []
+        has_error = False
+
+        for idx, op_spec in enumerate(operations):
+            method = op_spec.get("method", "GET").upper()
+            path = op_spec.get("path", "")
+            body = op_spec.get("body", {})
+
+            result_entry = {"index": idx, "method": method, "path": path}
+
+            # Build a fake request/response pair to dispatch through existing handlers
+            fake_resp = {}
+            fake_req = {"pars": body, "data": json.dumps(body) if body else ""}
+
+            try:
+                if method == "GET":
+                    # For GET, params come from body dict as query params
+                    uri_path = path
+                    if body:
+                        qs = "&".join(f"{k}={v}" for k, v in body.items())
+                        uri_path = f"{path}?{qs}"
+
+                    fake_req["uri"] = uri_path
+                    fake_req["method"] = "GET"
+                else:
+                    fake_req["uri"] = path
+                    fake_req["method"] = "POST"
+
+                # Dispatch through OnHTTPRequest
+                self.OnHTTPRequest(None, fake_req, fake_resp)
+                result_entry["result"] = json.loads(fake_resp.get("data", "{}"))
+                result_entry["status"] = fake_resp.get("statusCode", 200)
+
+            except Exception as e:
+                has_error = True
+                result_entry["status"] = 500
+                result_entry["error"] = str(e)
+                result_entry["result"] = {"error": str(e)}
+
+            results.append(result_entry)
+
+        response_summary = {
+            "total": len(operations),
+            "completed": len(results),
+            "hasError": has_error,
+            "results": results,
+        }
+
+        response["statusCode"] = 200
+        response["statusReason"] = "OK"
+        response["Content-Type"] = "application/json"
+        response["data"] = json.dumps(response_summary, ensure_ascii=False)
+        return self._send_response(response)
+
+    # =========================================================================
+    # GET /instances - Multi-instance detection
+    # =========================================================================
+
+    def _handle_instances(self, response: dict) -> dict:
+        """Handle GET /instances — detect running TD instances.
+
+        Scans ports 44444-44449 and checks a config file for known instances.
+        """
+        instances = []
+        current_port = 44444
+
+        # Determine current port from WebServer DAT if possible
+        try:
+            ws = op("..") if hasattr(op, "__call__") else None
+            if ws is not None:
+                # Try to read WebServer port
+                current_port = int(ws.par.Port.eval()) if hasattr(ws, "par") else 44444
+        except:
+            pass
+
+        # Always include the current instance
+        current_info = {"port": current_port, "active": True, "source": "current"}
+        try:
+            current_info["fps"] = float(project.cookRate) if hasattr(project, 'cookRate') else None
+        except:
+            pass
+        instances.append(current_info)
+
+        # Scan ports 44444-44449
+        import socket
+        for port in range(44444, 44450):
+            if port == current_port:
+                continue
+            try:
+                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                sock.settimeout(0.5)
+                result = sock.connect_ex(("127.0.0.1", port))
+                sock.close()
+                if result == 0:
+                    instances.append({
+                        "port": port,
+                        "active": True,
+                        "source": "port_scan",
+                        "note": f"Port {port} is open — possible TD instance",
+                    })
+            except:
+                pass
+
+        # Read from config file if it exists
+        config_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "instances.json")
+        try:
+            if os.path.exists(config_path):
+                with open(config_path, "r") as f:
+                    config_data = json.load(f)
+                for entry in config_data.get("instances", []):
+                    port = entry.get("port")
+                    if port and not any(i.get("port") == port for i in instances):
+                        instances.append({
+                            "port": port,
+                            "active": entry.get("active", False),
+                            "source": "config_file",
+                            "label": entry.get("label", ""),
+                        })
+        except:
+            pass
+
+        result = {"instances": instances, "count": len(instances)}
+
+        response["statusCode"] = 200
+        response["statusReason"] = "OK"
+        response["Content-Type"] = "application/json"
+        response["data"] = json.dumps(result, ensure_ascii=False)
+        return self._send_response(response)
+
+    # =========================================================================
+    # Plugin system
+    # =========================================================================
+
+    _plugins_loaded = False
+
+    def _load_plugins(self):
+        """Scan plugins/*.py for classes with 'register_endpoints' method and auto-load."""
+        if self._plugins_loaded:
+            return
+        self._plugins_loaded = True
+
+        # Determine plugins directory: same directory as this file's parent's parent
+        # TouchDesignerAPI.py is in toe/src/, so plugins would be at Main/plugins/
+        candidates = [
+            os.path.join(os.path.dirname(__file__), "..", "..", "plugins"),
+            os.path.join(os.path.dirname(__file__), "..", "plugins"),
+            os.path.join(os.path.dirname(os.path.dirname(__file__)), "plugins"),
+        ]
+
+        plugin_dir = None
+        for cand in candidates:
+            resolved = os.path.abspath(cand)
+            if os.path.isdir(resolved):
+                plugin_dir = resolved
+                break
+
+        if plugin_dir is None:
+            self._debug_print("No plugins directory found")
+            return
+
+        self._debug_print(f"Loading plugins from {plugin_dir}")
+
+        loaded = 0
+        for fname in sorted(os.listdir(plugin_dir)):
+            if not fname.endswith(".py") or fname.startswith("_"):
+                continue
+            module_path = os.path.join(plugin_dir, fname)
+            module_name = f"td_plugin_{fname[:-3]}"
+
+            try:
+                spec = importlib.util.spec_from_file_location(module_name, module_path)
+                if spec is None or spec.loader is None:
+                    continue
+                mod = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(mod)
+
+                # Look for classes with 'register_endpoints' method
+                registered = False
+                for attr_name in dir(mod):
+                    attr = getattr(mod, attr_name)
+                    if isinstance(attr, type) and hasattr(attr, "register_endpoints"):
+                        register_method = getattr(attr, "register_endpoints")
+                        if callable(register_method):
+                            try:
+                                register_method(self, self._debug_print)
+                                registered = True
+                                self._debug_print(f"  Loaded plugin: {attr_name} from {fname}")
+                                loaded += 1
+                            except Exception as e:
+                                self._debug_print(f"  Error loading {attr_name} from {fname}: {e}")
+                if not registered:
+                    self._debug_print(f"  No plugin class found in {fname}")
+            except Exception as e:
+                self._debug_print(f"  Error loading plugin {fname}: {e}")
+
+        self._debug_print(f"Loaded {loaded} plugin(s)")
+
     def OnServerStart(self, dat):
         print("Server started")
+        # Auto-load plugins on startup
+        self._load_plugins()
 
     def OnServerStop(self, dat):
         print("Server stopped")

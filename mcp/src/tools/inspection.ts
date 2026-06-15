@@ -390,4 +390,265 @@ export function registerInspectionTools(server: McpServer, client: TDClient) {
       }
     }
   );
+
+  // ---------------------------------------------------------------------------
+  // td_spatial_context
+  // ---------------------------------------------------------------------------
+  server.registerTool(
+    "td_spatial_context",
+    {
+      title: "Spatial Context",
+      description:
+        "Get the current spatial context in TouchDesigner for resolving *here and *this markers. " +
+        "Returns: the active network path (*here), current operator (*this), parent path, " +
+        "selected operators, sibling operators, and all open panes. " +
+        "Use this when the user says *here, *this, or refers to their current view/selection.",
+      inputSchema: {},
+    },
+    async () => {
+      try {
+        const result = await client.getSpatialContext();
+        return ok(result);
+      } catch (e: any) {
+        return err(e);
+      }
+    }
+  );
+
+  // ---------------------------------------------------------------------------
+  // td_explore_project
+  // ---------------------------------------------------------------------------
+  server.registerTool(
+    "td_explore_project",
+    {
+      title: "Explore Project",
+      description:
+        "Get a comprehensive guided tour of a TouchDesigner project: operator count, " +
+        "family breakdown, type distribution, errors, performance hotspots, GLSL shaders, " +
+        "extensions, and custom parameters. Use this to understand an unknown project " +
+        "before making changes. Equivalent to TWOZERO's 'Study this project'.",
+      inputSchema: {
+        path: z
+          .string()
+          .optional()
+          .default("/")
+          .describe("Root path to explore (default: '/')"),
+      },
+    },
+    async ({ path: opPath }) => {
+      try {
+        const result = await client.exploreProject(opPath ?? "/");
+        return ok(result);
+      } catch (e: any) {
+        return err(e);
+      }
+    }
+  );
+
+  // ---------------------------------------------------------------------------
+  // td_compare_networks
+  // ---------------------------------------------------------------------------
+  server.registerTool(
+    "td_compare_networks",
+    {
+      title: "Compare Two Networks",
+      description:
+        "Compare two container operators side-by-side: structure (operators present), " +
+        "parameters (non-default values), and connections. Returns a structured diff " +
+        "showing operators only in A, only in B, and shared operators with parameter " +
+        "or connection differences.",
+      inputSchema: {
+        path_a: z.string().describe("First container path (e.g. '/project1/compA')"),
+        path_b: z.string().describe("Second container path (e.g. '/project1/compB')"),
+      },
+    },
+    async ({ path_a, path_b }) => {
+      try {
+        const safeA = path_a.replace(/'/g, "\\\\'");
+        const safeB = path_b.replace(/'/g, "\\\\'");
+
+        const code = `import json
+try:
+    def introspect(container):
+        """Collect operators, params, and connections from a container."""
+        if container is None:
+            return None
+        ops = {}
+        for child in container.children:
+            if child is None:
+                continue
+            info = {
+                'name': child.name,
+                'type': child.OPType,
+                'path': child.path,
+                'pars': {},
+                'inputs': [],
+            }
+            # Collect non-default parameters
+            try:
+                for p in child.pars:
+                    try:
+                        val = p.val
+                        default = getattr(p, 'default', None)
+                        mode = str(p.mode)
+                        expr = p.expr if p.isExpression else None
+                        is_default = (mode == 'CONSTANT' and val == default)
+                        if not is_default or expr is not None:
+                            info['pars'][p.name] = {
+                                'val': val,
+                                'expr': expr,
+                                'mode': mode,
+                                'default': default,
+                            }
+                    except:
+                        pass
+            except:
+                pass
+            # Collect input connections
+            try:
+                for idx, conn in enumerate(child.inputConnectors):
+                    try:
+                        src = conn.op
+                        if src:
+                            info['inputs'].append({
+                                'index': idx,
+                                'source': src.name,
+                                'sourcePath': src.path,
+                            })
+                    except:
+                        pass
+            except:
+                pass
+            ops[child.name] = info
+        return ops
+
+    def compare_networks(a_path, b_path):
+        comp_a = op(a_path)
+        comp_b = op(b_path)
+
+        if comp_a is None:
+            return {'success': False, 'error': f'Container A not found: {a_path}'}
+        if comp_b is None:
+            return {'success': False, 'error': f'Container B not found: {b_path}'}
+
+        ops_a = introspect(comp_a)
+        ops_b = introspect(comp_b)
+
+        names_a = set(ops_a.keys())
+        names_b = set(ops_b.keys())
+
+        only_a = sorted(names_a - names_b)
+        only_b = sorted(names_b - names_a)
+        shared = sorted(names_a & names_b)
+
+        # Compare shared operators
+        param_diffs = []
+        connection_diffs = []
+
+        for name in shared:
+            a = ops_a[name]
+            b = ops_b[name]
+
+            # Type mismatch
+            if a['type'] != b['type']:
+                param_diffs.append({
+                    'operator': name,
+                    'kind': 'type_mismatch',
+                    'type_a': a['type'],
+                    'type_b': b['type'],
+                })
+
+            # Parameter diffs
+            all_pars = set(a['pars'].keys()) | set(b['pars'].keys())
+            for par_name in sorted(all_pars):
+                pa = a['pars'].get(par_name)
+                pb = b['pars'].get(par_name)
+                if pa is None:
+                    param_diffs.append({
+                        'operator': name,
+                        'parameter': par_name,
+                        'kind': 'only_in_b',
+                        'value_b': pb['val'] if pb else None,
+                    })
+                elif pb is None:
+                    param_diffs.append({
+                        'operator': name,
+                        'parameter': par_name,
+                        'kind': 'only_in_a',
+                        'value_a': pa['val'] if pa else None,
+                    })
+                else:
+                    # Both have the param — compare values
+                    a_val = pa.get('expr') or pa.get('val')
+                    b_val = pb.get('expr') or pb.get('val')
+                    if str(a_val) != str(b_val):
+                        param_diffs.append({
+                            'operator': name,
+                            'parameter': par_name,
+                            'kind': 'value_diff',
+                            'value_a': a_val,
+                            'value_b': b_val,
+                        })
+
+            # Connection diffs
+            inputs_a = {str(i['index']): i.get('source', '?') for i in a['inputs']}
+            inputs_b = {str(i['index']): i.get('source', '?') for i in b['inputs']}
+            all_inputs = sorted(set(inputs_a.keys()) | set(inputs_b.keys()))
+            for idx in all_inputs:
+                src_a = inputs_a.get(idx)
+                src_b = inputs_b.get(idx)
+                if src_a != src_b:
+                    connection_diffs.append({
+                        'operator': name,
+                        'input_index': int(idx),
+                        'source_a': src_a,
+                        'source_b': src_b,
+                    })
+
+        # Summary
+        total_diffs = len(only_a) + len(only_b) + len(param_diffs) + len(connection_diffs)
+        summary_lines = []
+        if only_a:
+            summary_lines.append(f'{len(only_a)} operator(s) only in A')
+        if only_b:
+            summary_lines.append(f'{len(only_b)} operator(s) only in B')
+        if param_diffs:
+            summary_lines.append(f'{len(param_diffs)} parameter difference(s)')
+        if connection_diffs:
+            summary_lines.append(f'{len(connection_diffs)} connection difference(s)')
+        if not summary_lines:
+            summary_lines.append('Networks are identical')
+
+        return {
+            'success': True,
+            'path_a': comp_a.path,
+            'path_b': comp_b.path,
+            'operators_a': len(ops_a),
+            'operators_b': len(ops_b),
+            'only_in_a': [{'name': n, 'type': ops_a[n]['type']} for n in only_a],
+            'only_in_b': [{'name': n, 'type': ops_b[n]['type']} for n in only_b],
+            'param_diffs': param_diffs,
+            'connection_diffs': connection_diffs,
+            'total_differences': total_diffs,
+            'summary': '; '.join(summary_lines),
+        }
+
+    result = compare_networks('${safeA}', '${safeB}')
+    print(json.dumps(result))
+except Exception as e:
+    print(json.dumps({'success': False, 'error': str(e)}))`;
+
+        const result = await client.execute(code, "/");
+        if (!result.success) {
+          const msg = result.error?.message ?? result.stderr ?? "Unknown error";
+          return err(msg);
+        }
+
+        const parsed = JSON.parse(result.stdout.trim());
+        return ok(parsed);
+      } catch (e: any) {
+        return err(e);
+      }
+    }
+  );
 }

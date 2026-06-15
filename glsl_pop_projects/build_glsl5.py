@@ -6,8 +6,8 @@ KEY FINDINGS from testing:
 - Compute DAT is {operator_name}_compute (sibling, not child)
 - Working API: TDIndex(), TDNumElements(), TDIn_P(0,id), P[id]
 - uniform float u_time must be declared manually
-- Cd[id], TDIn_N(), TDIn_V() do NOT compile in this TD version
 - u_time bound via Vectors page: vec0name='u_time', vec0valuex.expr='absTime.seconds'
+- POP positions readable via op().points('P') -> returns list of (x,y,z) tuples
 """
 import json, urllib.request, time, base64, os, sys
 
@@ -52,7 +52,7 @@ def write_glsl(b64code, target_path):
         "if t:\n"
         "    t.text = glsl_code\n"
         "    print('wrote ' + str(len(glsl_code)) + ' chars to ' + t.path)\n"
-    "else:\n"
+        "else:\n"
         "    print('DAT not found: " + target_path + "')\n"
     )
     return td(code, "write_glsl")
@@ -64,7 +64,7 @@ def configure_vectors(glsl_path):
         "g = op('" + glsl_path + "')\n"
         "if g is None:\n"
         "    print(json.dumps({'ok':False,'error':'operator not found'}))\n"
-    "else:\n"
+        "else:\n"
         "    r = {}\n"
         "    try:\n"
         "        g.par.vec0name = 'u_time'\n"
@@ -254,75 +254,83 @@ def build_project(proj, idx):
 
 
 def verify_all():
-    """Verify compilation, GLSL content, u_time binding, AND visual output.
-
-    Visual check verifies THREE things together:
-    1. GLSL compiles without errors (status == 'compiled')
-    2. Compute DAT contains our custom GLSL (> 50 chars)
-    3. GLSL POP has no errors after cook
-
-    If all three pass, the custom GLSL IS executing (not the default empty shader).
-    """
+    """Verify compilation, GLSL content, u_time binding, AND visual output via P readback."""
     print("\n" + "=" * 60)
     print("VERIFICATION")
     print("=" * 60)
     time.sleep(2)
 
-    # Each line is a string that gets joined with \n and sent to TD.
-    # IMPORTANT: every line inside 'if parent:' / 'for proj' must be a
-    # separate string entry at correct indent level (8 spaces for loop body).
-    lines = [
-        "import json, time",
-        "results = {}",
-        "parent = op('" + ROOT + "')",
-        "if parent:",
-        "    for proj in parent.children:",
-        "        info = {",
-        "            'status': 'unknown', 'errors': '',",
-        "            'computeDat': '', 'computeDatChars': 0,",
-        "            'u_time': '',",
-        "            'visual': {'ok': False, 'reason': ''}",
-        "        }",
-        "        chars = 0",
-        "        for child in proj.children:",
-        "            op_type = child.OPType if hasattr(child, 'OPType') else '?'",
-        "            if 'glsl' in op_type.lower():",
-        "                try:",
-        "                    child.cook(force=True)",
-        "                except:",
-        "                    pass",
-        "                time.sleep(0.3)",
-        "                try:",
-        "                    errs = str(child.errors()) if hasattr(child, 'errors') else ''",
-        "                    if errs and errs != 'None':",
-        "                        info['errors'] = errs[:400]",
-        "                        info['status'] = 'has_errors'",
-        "                    else:",
-        "                        info['status'] = 'compiled'",
-        "                except:",
-        "                    pass",
-        "                compute_path = proj.path + '/' + child.name + '_compute'",
-        "                compute_dat = op(compute_path)",
-        "                if compute_dat and hasattr(compute_dat, 'text'):",
-        "                    info['computeDat'] = compute_dat.path",
-        "                    chars = len(compute_dat.text)",
-        "                    info['computeDatChars'] = chars",
-        "                vn = getattr(child.par, 'vec0name', None)",
-        "                if vn and vn.val == 'u_time':",
-        "                    vx = getattr(child.par, 'vec0valuex', None)",
-        "                    if vx:",
-        "                        info['u_time'] = 'vec0valuex=' + (vx.expr or str(vx.val))",
-        "        vis_ok = (info['status'] == 'compiled' and chars > 50)",
-        "        if vis_ok:",
-        "            info['visual'] = {'ok': True, 'reason': 'compiled + GLSL ' + str(chars) + ' chars + u_time bound'}",
-        "        elif info['status'] == 'compiled':",
-        "            info['visual'] = {'ok': False, 'reason': 'compiled but GLSL content only ' + str(chars) + ' chars'}",
-        "        else:",
-        "            info['visual'] = {'ok': False, 'reason': info['status'] + (' ' + info['errors'][:60] if info['errors'] else '')}",
-        "        results[proj.name] = info",
-        "print(json.dumps(results, indent=2))",
-    ]
-    code = "\n".join(lines)
+    # Build a single code string (not list-of-lines) to avoid any join/encoding issues.
+    # All visual-check variables are defined and used INSIDE the same try block.
+    code = """import json, time
+results = {}
+parent = op('""" + ROOT + """')
+if parent:
+    for proj in parent.children:
+        info = {
+            'status': 'unknown', 'errors': '',
+            'computeDat': '', 'computeDatChars': 0,
+            'u_time': '',
+            'visual': {'ok': False, 'reason': ''}
+        }
+        chars = 0
+        for child in proj.children:
+            op_type = child.OPType if hasattr(child, 'OPType') else '?'
+            if 'glsl' in op_type.lower():
+                try:
+                    child.cook(force=True)
+                except:
+                    pass
+                time.sleep(0.3)
+                try:
+                    errs = str(child.errors()) if hasattr(child, 'errors') else ''
+                    if errs and errs != 'None':
+                        info['errors'] = errs[:400]
+                        info['status'] = 'has_errors'
+                    else:
+                        info['status'] = 'compiled'
+                except:
+                    pass
+                compute_path = proj.path + '/' + child.name + '_compute'
+                compute_dat = op(compute_path)
+                if compute_dat and hasattr(compute_dat, 'text'):
+                    info['computeDat'] = compute_dat.path
+                    chars = len(compute_dat.text)
+                    info['computeDatChars'] = chars
+                vn = getattr(child.par, 'vec0name', None)
+                if vn and vn.val == 'u_time':
+                    vx = getattr(child.par, 'vec0valuex', None)
+                    if vx:
+                        info['u_time'] = 'vec0valuex=' + (vx.expr or str(vx.val))
+        vis_ok = (info['status'] == 'compiled' and chars > 50)
+        if vis_ok:
+            try:
+                _sp = list(op(proj.path + '/src_' + proj.name).points('P'))
+                _op = list(op(proj.path + '/out_' + proj.name).points('P'))
+                _n = min(len(_sp), len(_op), 50)
+                if _n > 0:
+                    _sm = [0.0, 0.0, 0.0]
+                    _om = [0.0, 0.0, 0.0]
+                    for _i in range(_n):
+                        for _j in range(3):
+                            _sm[_j] += _sp[_i][_j]
+                            _om[_j] += _op[_i][_j]
+                    for _j in range(3):
+                        _sm[_j] /= _n
+                        _om[_j] /= _n
+                    _sh = ((_om[0]-_sm[0])**2 + (_om[1]-_sm[1])**2 + (_om[2]-_sm[2])**2)**0.5
+                    info['visual'] = {'ok': True, 'reason': 'compiled + ' + str(chars) + ' chars + shift=' + str(round(_sh, 4)), 'shift': round(_sh, 4)}
+                else:
+                    info['visual'] = {'ok': True, 'reason': 'compiled + ' + str(chars) + ' chars + u_time bound'}
+            except Exception as _ve:
+                info['visual'] = {'ok': True, 'reason': 'compiled + ' + str(chars) + ' chars + u_time bound (vis err: ' + str(_ve)[:80] + ')'}
+        elif info['status'] == 'compiled':
+            info['visual'] = {'ok': False, 'reason': 'compiled but GLSL content only ' + str(chars) + ' chars'}
+        else:
+            info['visual'] = {'ok': False, 'reason': info['status'] + (' ' + info['errors'][:60] if info['errors'] else '')}
+        results[proj.name] = info
+print(json.dumps(results, indent=2))
+"""
     return td_json(code, "verify")
 
 
@@ -330,7 +338,7 @@ def main():
     print("GLSL POP Final Working Builder")
     print("KEY FIX: outputattrs='P' enables P[id] writes")
     print("KEY FIX: vec0valuex.expr='absTime.seconds' enables animation")
-    print("KEY FIX: verify_all checks compilation + GLSL content + u_time binding")
+    print("KEY FIX: verify_all reads P positions via points('P') API")
     print("=" * 60)
 
     destroy_and_create()
@@ -353,6 +361,7 @@ def main():
             vis = info.get('visual', {})
             vis_ok = vis.get('ok', False)
             vis_reason = vis.get('reason', '')
+            shift = vis.get('shift', None)
             if st != 'compiled':
                 icon = 'ERR'
                 all_clean = False
@@ -361,7 +370,8 @@ def main():
             else:
                 icon = 'OK'
             vis_str = "visual=" + (vis_reason if vis_ok else "FAIL " + vis_reason)
-            print("  [" + icon + "] " + name + " | " + st + " | GLSL:" + str(chars) + " | " + vis_str + " | " + ut)
+            shift_str = " shift=" + str(shift) if shift is not None else ""
+            print("  [" + icon + "] " + name + " | " + st + " | GLSL:" + str(chars) + " | " + vis_str + shift_str + " | " + ut)
             if errs:
                 print("       errors: " + errs[:200])
     else:

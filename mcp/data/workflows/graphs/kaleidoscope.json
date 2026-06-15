@@ -1,0 +1,49 @@
+{
+  "name": "kaleidoscope",
+  "description": "Kaleidoscope: source \u2192 transform \u2192 mirror \u2192 kaleidoscope \u2192 output",
+  "tags": [
+    "effects",
+    "kaleidoscope",
+    "mirror",
+    "transform"
+  ],
+  "nodes": [
+    {
+      "id": "source",
+      "opType": "noiseTOP",
+      "label": "Source"
+    },
+    {
+      "id": "transform",
+      "opType": "transformTOP",
+      "label": "Rotate/Scale"
+    },
+    {
+      "id": "kaleido",
+      "opType": "kaleidoscopeTOP",
+      "label": "Kaleidoscope"
+    },
+    {
+      "id": "output",
+      "opType": "nullTOP",
+      "label": "Output"
+    }
+  ],
+  "connections": [
+    {
+      "from": "source",
+      "to": "transform",
+      "inputIndex": 0
+    },
+    {
+      "from": "transform",
+      "to": "kaleido",
+      "inputIndex": 0
+    },
+    {
+      "from": "kaleido",
+      "to": "output",
+      "inputIndex": 0
+    }
+  ]
+}

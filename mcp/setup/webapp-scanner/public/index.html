@@ -1,41 +1,112 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TouchDesigner Auto-Expand</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TD Project Browser</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>TouchDesigner Batch Auto-Expand</h1>
-        <p>Esta herramienta descomprime múltiples archivos <code>.toe</code> automáticamente, genera un <code>README.md</code> y crea un Trae Skill para cada uno de ellos.</p>
-        
-        <div class="card">
-            <div class="input-group">
-                <label for="dirPath">Ruta de la carpeta con archivos .toe:</label>
-                <input type="text" id="dirPath" placeholder="Ej: C:\Users\Tolch\Documents\AI_Code\Touchdesigner_MCP\claude-touchdesigner\toe" value="C:\Users\User\Documents\TouchDesigner\Projects">
-                <button id="scanBtn">Escanear</button>
-            </div>
-            
-            <div class="input-group">
-                <label for="outPath">Carpeta de destino (Opcional, dejar en blanco para usar la misma):</label>
-                <input type="text" id="outPath" placeholder="Ej: C:\Users\Tolch\Documents\AI_Code\Touchdesigner_MCP\claude-touchdesigner\Toe_Expand" value="C:\Users\User\Documents\TouchDesigner\Toe_Expand">
-            </div>
-        </div>
+  <div id="app">
+    <!-- Header -->
+    <header>
+      <div class="header-top">
+        <h1><span class="logo">🎛️</span> TD Project Browser</h1>
+        <span class="header-subtitle">TouchDesigner Library — <span id="statsTotal">—</span> proyectos</span>
+      </div>
+      <div id="statsBar" class="stats-bar">
+        <div class="stat"><span class="stat-icon">📦</span><span class="stat-label">.toe</span><span id="statToe" class="stat-value">—</span></div>
+        <div class="stat"><span class="stat-icon">🧩</span><span class="stat-label">.tox</span><span id="statTox" class="stat-value">—</span></div>
+        <div class="stat"><span class="stat-icon">💾</span><span class="stat-label">Original</span><span id="statSize" class="stat-value">—</span></div>
+        <div class="stat"><span class="stat-icon">📂</span><span class="stat-label">Expandido</span><span id="statExpanded" class="stat-value">—</span></div>
+        <div class="stat"><span class="stat-icon">🏷️</span><span class="stat-label">Tags</span><span id="statTags" class="stat-value">—</span></div>
+      </div>
+    </header>
 
-        <div id="fileListContainer" class="hidden">
-            <h3>Archivos encontrados:</h3>
-            <ul id="fileList"></ul>
-            <button id="processBtn" class="primary-btn">Descomprimir Seleccionados</button>
+    <!-- Search Controls -->
+    <section id="searchSection" class="card">
+      <div class="search-row">
+        <div class="search-input-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="Buscar proyectos por nombre o ruta..." autofocus>
+          <button id="clearBtn" class="btn-icon" title="Limpiar">✕</button>
         </div>
+        <div class="search-right">
+          <select id="typeFilter">
+            <option value="">Todos</option>
+            <option value="toe">.toe</option>
+            <option value="tox">.tox</option>
+          </select>
+          <button id="statsBtn" class="btn-secondary" title="Ver estadísticas">📊 Stats</button>
+        </div>
+      </div>
 
-        <div id="statusContainer" class="hidden">
-            <h3>Estado del proceso:</h3>
-            <div id="statusLogs"></div>
+      <!-- Tags -->
+      <div id="tagsContainer" class="tags-wrap">
+        <span class="tags-label">Tags:</span>
+        <div id="tagsList" class="tags-list"></div>
+      </div>
+
+      <!-- Advanced filters -->
+      <div id="advancedFilters" class="filters-row">
+        <label class="filter-chip"><input type="checkbox" id="filterGlsl"> GLSL</label>
+        <label class="filter-chip"><input type="checkbox" id="filterPython"> Python</label>
+        <label class="filter-chip"><input type="checkbox" id="filterBig"> Grandes</label>
+        <label class="filter-chip"><input type="checkbox" id="filterToc"> Con .toc</label>
+        <div class="filter-group">
+          <input type="number" id="minNetworks" placeholder="Min redes" min="0" class="filter-num">
+          <input type="number" id="minScripts" placeholder="Min scripts" min="0" class="filter-num">
         </div>
+      </div>
+
+      <div class="search-meta">
+        <span id="resultCount" class="result-count"></span>
+        <span id="resultTime" class="result-time"></span>
+      </div>
+    </section>
+
+    <!-- Tags Distribution -->
+    <section id="tagDistSection" class="card hidden">
+      <div class="section-title">🏷️ Tags en resultados</div>
+      <div id="tagDistList" class="tags-list"></div>
+    </section>
+
+    <!-- Results -->
+    <section id="resultsSection" class="card hidden">
+      <div id="resultsHeader" class="results-header">
+        <div class="results-title"></div>
+        <div class="results-view-options">
+          <button id="viewGrid" class="btn-icon active" title="Grid">⊞</button>
+          <button id="viewList" class="btn-icon" title="Lista">☰</button>
+        </div>
+      </div>
+      <div id="resultsList" class="results-grid"></div>
+      <div id="loadMore" class="load-more hidden">
+        <button id="loadMoreBtn" class="btn-secondary">Cargar más...</button>
+      </div>
+    </section>
+
+    <!-- Detail Panel -->
+    <section id="detailPanel" class="card hidden">
+      <div id="detailContent"></div>
+    </section>
+
+    <!-- Stats Modal -->
+    <div id="statsModal" class="modal hidden">
+      <div class="modal-content">
+        <button id="closeStats" class="btn-icon modal-close">✕</button>
+        <h2>📊 Estadísticas</h2>
+        <div id="statsBody"></div>
+      </div>
     </div>
-    
-    <script src="script.js"></script>
+
+    <!-- Loading -->
+    <div id="loading" class="loading hidden">
+      <div class="spinner"></div>
+      <span>Cargando...</span>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>

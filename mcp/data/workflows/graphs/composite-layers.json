@@ -1,0 +1,62 @@
+{
+  "name": "composite-layers",
+  "description": "Multi-layer composite: N sources \u2192 composite TOP (multi-input) \u2192 output",
+  "tags": [
+    "composite",
+    "layers",
+    "blend",
+    "over"
+  ],
+  "nodes": [
+    {
+      "id": "layer1",
+      "opType": "noiseTOP",
+      "label": "Layer 1"
+    },
+    {
+      "id": "layer2",
+      "opType": "rampTOP",
+      "label": "Layer 2"
+    },
+    {
+      "id": "layer3",
+      "opType": "textTOP",
+      "label": "Layer 3"
+    },
+    {
+      "id": "composite",
+      "opType": "compositeTOP",
+      "label": "Composite",
+      "parameters": {
+        "operand": "over"
+      }
+    },
+    {
+      "id": "output",
+      "opType": "nullTOP",
+      "label": "Output"
+    }
+  ],
+  "connections": [
+    {
+      "from": "layer1",
+      "to": "composite",
+      "inputIndex": 0
+    },
+    {
+      "from": "layer2",
+      "to": "composite",
+      "inputIndex": 1
+    },
+    {
+      "from": "layer3",
+      "to": "composite",
+      "inputIndex": 2
+    },
+    {
+      "from": "composite",
+      "to": "output",
+      "inputIndex": 0
+    }
+  ]
+}

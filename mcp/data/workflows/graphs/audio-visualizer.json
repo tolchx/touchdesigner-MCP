@@ -1,0 +1,72 @@
+{
+  "name": "audio-visualizer",
+  "description": "Audio-reactive spectrum visualizer: audio \u2192 FFT \u2192 Math \u2192 CHOP to TOP \u2192 output",
+  "tags": [
+    "audio",
+    "reactive",
+    "spectrum",
+    "visualizer"
+  ],
+  "nodes": [
+    {
+      "id": "audio_in",
+      "opType": "audiofileinCHOP",
+      "label": "Audio Source"
+    },
+    {
+      "id": "spectrum",
+      "opType": "audiospectrumCHOP",
+      "label": "FFT Spectrum",
+      "parameters": {
+        "fftsize": 512,
+        "outputmenu": "setmanually",
+        "outlength": 256,
+        "timeslice": true
+      }
+    },
+    {
+      "id": "math",
+      "opType": "mathCHOP",
+      "label": "Gain",
+      "parameters": {
+        "gain": 10
+      }
+    },
+    {
+      "id": "chop_to_top",
+      "opType": "choptoTOP",
+      "label": "Spectrum Texture",
+      "parameters": {
+        "dataformat": "r",
+        "layout": "rowscropped"
+      }
+    },
+    {
+      "id": "output",
+      "opType": "nullTOP",
+      "label": "Output"
+    }
+  ],
+  "connections": [
+    {
+      "from": "audio_in",
+      "to": "spectrum",
+      "inputIndex": 0
+    },
+    {
+      "from": "spectrum",
+      "to": "math",
+      "inputIndex": 0
+    },
+    {
+      "from": "math",
+      "to": "chop_to_top",
+      "inputIndex": 0
+    },
+    {
+      "from": "chop_to_top",
+      "to": "output",
+      "inputIndex": 0
+    }
+  ]
+}

@@ -2,7 +2,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { TDClient } from "td-api";
 import { z } from "zod";
 import { ok, err } from "../helpers.js";
-import { createNetworkPlan } from "../networkPlanner.js";
+import { planNetworkGraph } from "../networkPlannerGraph.js";
 
 export function registerExecutionTools(server: McpServer, client: TDClient) {
   // ---------------------------------------------------------------------------
@@ -33,14 +33,16 @@ export function registerExecutionTools(server: McpServer, client: TDClient) {
   );
 
   // ---------------------------------------------------------------------------
-  // td_network_plan
+  // td_network_plan — now uses topology-aware graph planner (Level 1)
   // ---------------------------------------------------------------------------
   server.registerTool(
     "td_network_plan",
     {
-      title: "Plan Or Apply Network",
+      title: "Plan Or Apply Network (Graph-based)",
       description:
-        "Create a dry-run network plan from a prompt using operator databases and semantic aliases, or apply the generated skeleton inside TouchDesigner.",
+        "Create a topology-aware network plan from a prompt. Understands multi-input nodes, branching, and feedback loops. " +
+        "Uses LLM for complex planning with deterministic fallback. " +
+        "Connections include proper input indices (not just linear chains).",
       inputSchema: {
         prompt: z.string().describe("Natural language instruction"),
         target_path: z
@@ -55,15 +57,21 @@ export function registerExecutionTools(server: McpServer, client: TDClient) {
           .boolean()
           .optional()
           .describe("Apply the generated plan inside TouchDesigner"),
+        use_llm: z
+          .boolean()
+          .optional()
+          .default(true)
+          .describe("Use LLM for smarter planning (false = deterministic only)"),
       },
     },
-    async ({ prompt, target_path, container_name, apply }) => {
+    async ({ prompt, target_path, container_name, apply, use_llm }) => {
       try {
-        const result = await createNetworkPlan({
+        const result = await planNetworkGraph({
           td: client,
           prompt,
           targetPath: target_path,
           containerName: container_name,
+          useLlm: use_llm ?? true,
           apply: apply ?? false,
         });
         return ok(result);

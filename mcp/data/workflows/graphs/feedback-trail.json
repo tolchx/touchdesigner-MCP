@@ -1,0 +1,56 @@
+{
+  "name": "feedback-trail",
+  "description": "Feedback trail: source \u2192 feedback TOP \u2192 composite \u2192 delay \u2192 feedback loop",
+  "tags": [
+    "feedback",
+    "trail",
+    "delay",
+    "loop"
+  ],
+  "nodes": [
+    {
+      "id": "source",
+      "opType": "moviefileinTOP",
+      "label": "Source"
+    },
+    {
+      "id": "feedback",
+      "opType": "feedbackTOP",
+      "label": "Feedback Mix",
+      "parameters": {
+        "opacity": 0.85,
+        "composite": "add"
+      }
+    },
+    {
+      "id": "composite",
+      "opType": "compositeTOP",
+      "label": "Blend",
+      "parameters": {
+        "operand": "over"
+      }
+    },
+    {
+      "id": "output",
+      "opType": "nullTOP",
+      "label": "Output"
+    }
+  ],
+  "connections": [
+    {
+      "from": "source",
+      "to": "feedback",
+      "inputIndex": 0
+    },
+    {
+      "from": "feedback",
+      "to": "composite",
+      "inputIndex": 0
+    },
+    {
+      "from": "composite",
+      "to": "output",
+      "inputIndex": 0
+    }
+  ]
+}

@@ -1,0 +1,308 @@
+{
+  "generatedAt": "2026-06-10",
+  "source": "Toe_Expand (96 projects, 31,610 operators, 1,150+ connections analyzed)",
+  "version": "2.0",
+  "keyFindings": {
+    "totalConnections": 2244,
+    "totalOperatorsReferenced": 31610,
+    "mostCommonFamilies": [
+      "POP",
+      "TOP",
+      "CHOP",
+      "SOP",
+      "DAT",
+      "COMP"
+    ],
+    "note": "Multi-input operators are common in real projects (composite, merge, switch families)"
+  },
+  "connectionFlowPatterns": {
+    "description": "How operators typically connect based on real TD projects",
+    "patterns": [
+      {
+        "name": "Source \u2192 Filter/Transform \u2192 Composite/Blend \u2192 Output",
+        "families": [
+          "TOP"
+        ],
+        "exampleNodes": [
+          "noiseTOP",
+          "levelTOP",
+          "compositeTOP",
+          "nullTOP"
+        ],
+        "connections": [
+          {
+            "from": "noiseTOP",
+            "to": "levelTOP",
+            "inputIndex": 0
+          },
+          {
+            "from": "levelTOP",
+            "to": "compositeTOP",
+            "inputIndex": 0
+          },
+          {
+            "from": "compositeTOP",
+            "to": "nullTOP",
+            "inputIndex": 0
+          }
+        ]
+      },
+      {
+        "name": "Audio Source \u2192 FFT \u2192 Math \u2192 CHOP-to-TOP",
+        "families": [
+          "CHOP",
+          "TOP"
+        ],
+        "exampleNodes": [
+          "audiofileinCHOP",
+          "audiospectrumCHOP",
+          "mathCHOP",
+          "choptoTOP"
+        ],
+        "connections": [
+          {
+            "from": "audiofileinCHOP",
+            "to": "audiospectrumCHOP",
+            "inputIndex": 0
+          },
+          {
+            "from": "audiospectrumCHOP",
+            "to": "mathCHOP",
+            "inputIndex": 0
+          },
+          {
+            "from": "mathCHOP",
+            "to": "choptoTOP",
+            "inputIndex": 0
+          }
+        ]
+      },
+      {
+        "name": "Particles \u2192 Force/Noise \u2192 Trail \u2192 Render \u2192 Output",
+        "families": [
+          "POP",
+          "TOP"
+        ],
+        "exampleNodes": [
+          "particlePOP",
+          "noisePOP",
+          "trailPOP",
+          "renderPOP",
+          "nullTOP"
+        ],
+        "connections": [
+          {
+            "from": "particlePOP",
+            "to": "noisePOP",
+            "inputIndex": 0
+          },
+          {
+            "from": "noisePOP",
+            "to": "trailPOP",
+            "inputIndex": 0
+          },
+          {
+            "from": "trailPOP",
+            "to": "renderPOP",
+            "inputIndex": 0
+          },
+          {
+            "from": "renderPOP",
+            "to": "nullTOP",
+            "inputIndex": 0
+          }
+        ],
+        "note": "particlePOP needs Target Feedback Loop POP set to a downstream Null POP"
+      },
+      {
+        "name": "Multi-layer composite",
+        "families": [
+          "TOP"
+        ],
+        "exampleNodes": [
+          "source1",
+          "source2",
+          "compositeTOP",
+          "nullTOP"
+        ],
+        "connections": [
+          {
+            "from": "source1",
+            "to": "compositeTOP",
+            "inputIndex": 0
+          },
+          {
+            "from": "source2",
+            "to": "compositeTOP",
+            "inputIndex": 1
+          },
+          {
+            "from": "compositeTOP",
+            "to": "nullTOP",
+            "inputIndex": 0
+          }
+        ]
+      },
+      {
+        "name": "Feedback loop (TOP)",
+        "families": [
+          "TOP"
+        ],
+        "exampleNodes": [
+          "source",
+          "feedbackTOP",
+          "compositeTOP",
+          "nullTOP"
+        ],
+        "connections": [
+          {
+            "from": "source",
+            "to": "feedbackTOP",
+            "inputIndex": 0
+          },
+          {
+            "from": "feedbackTOP",
+            "to": "compositeTOP",
+            "inputIndex": 0
+          },
+          {
+            "from": "compositeTOP",
+            "to": "nullTOP",
+            "inputIndex": 0
+          }
+        ],
+        "note": "feedbackTOP top param should reference the target source"
+      },
+      {
+        "name": "GLSL shader with multiple inputs",
+        "families": [
+          "TOP"
+        ],
+        "exampleNodes": [
+          "constantTOP",
+          "noiseTOP",
+          "glslTOP",
+          "nullTOP"
+        ],
+        "connections": [
+          {
+            "from": "constantTOP",
+            "to": "glslTOP",
+            "inputIndex": 0
+          },
+          {
+            "from": "noiseTOP",
+            "to": "glslTOP",
+            "inputIndex": 1
+          },
+          {
+            "from": "glslTOP",
+            "to": "nullTOP",
+            "inputIndex": 0
+          }
+        ]
+      }
+    ]
+  },
+  "operatorTopologyHints": {
+    "description": "Topology hints for common operator families based on real project data",
+    "generators": {
+      "description": "No inputs \u2014 they produce data from scratch",
+      "ops": [
+        "noiseTOP",
+        "constantTOP",
+        "rampTOP",
+        "textTOP",
+        "constantCHOP",
+        "noiseCHOP",
+        "lfoCHOP",
+        "gridSOP",
+        "sphereSOP",
+        "gridPOP",
+        "spherePOP",
+        "sprinklePOP"
+      ]
+    },
+    "transformers": {
+      "description": "1 input \u2014 transform/filter data",
+      "ops": [
+        "levelTOP",
+        "blurTOP",
+        "transformTOP",
+        "lookupTOP",
+        "edgeTOP",
+        "displaceTOP",
+        "glslTOP",
+        "mathCHOP",
+        "lagCHOP",
+        "filterCHOP",
+        "noiseSOP",
+        "transformSOP"
+      ]
+    },
+    "compositors": {
+      "description": "2+ inputs \u2014 combine multiple sources",
+      "ops": [
+        "compositeTOP",
+        "overTOP",
+        "addTOP",
+        "multiplyTOP",
+        "subtractTOP",
+        "mergeCHOP",
+        "mathCHOP",
+        "mergeSOP",
+        "mergePOP"
+      ],
+      "wiringRule": "First source \u2192 input 0, second source \u2192 input 1, result \u2192 output"
+    },
+    "outputs": {
+      "description": "Terminal nodes \u2014 typically the end of a chain",
+      "ops": [
+        "nullTOP",
+        "outTOP",
+        "nullCHOP",
+        "outCHOP",
+        "nullSOP",
+        "nullPOP",
+        "outPOP",
+        "renderPOP"
+      ],
+      "wiringRule": "Always the last node in a chain"
+    },
+    "particleSystem": {
+      "description": "POP particle system special rules",
+      "ops": [
+        "particlePOP",
+        "noisePOP",
+        "forcePOP",
+        "forceRadialPOP",
+        "turbulencePOP",
+        "dragPOP",
+        "colorPOP",
+        "trailPOP",
+        "renderPOP",
+        "nullPOP",
+        "feedbackPOP"
+      ],
+      "rules": [
+        "particlePOP requires Target Feedback Loop POP pointing to downstream Null POP",
+        "Force/noise POPs connect TO particlePOP (not from it!)",
+        "Chain: Source \u2192 particlePOP \u2192 force/noise \u2192 trail \u2192 render",
+        "Null POP is used as feedback target AND output container"
+      ]
+    }
+  },
+  "wiringRules": {
+    "description": "Universal wiring rules inferred from real projects",
+    "rules": [
+      "Source nodes (generators) have NO inputs and produce data",
+      "Filter/transform nodes have 1 input and produce 1 output",
+      "Composite/mix nodes accept 2+ inputs and produce 1 output",
+      "Terminal nodes (null/out) are always the last node",
+      "Same-family chains stay within their family (TOP\u2192TOP, CHOP\u2192CHOP, POP\u2192POP)",
+      "Cross-family bridges: CHOP\u2192TOP (choptoTOP), POP\u2192TOP (renderPOP)",
+      "Feedback loops: feedbackTOP 'top' param references source, not direct wire",
+      "GLSL uniforms: time via constantTOP\u2192glslTOP (input 0), textures via input 1+"
+    ]
+  }
+}

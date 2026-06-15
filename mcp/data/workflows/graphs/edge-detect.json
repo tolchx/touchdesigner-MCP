@@ -1,0 +1,70 @@
+{
+  "name": "edge-detect",
+  "description": "Edge detection: source \u2192 edge TOP \u2192 composite blend with original \u2192 output",
+  "tags": [
+    "effects",
+    "edge",
+    "detection",
+    "composite"
+  ],
+  "nodes": [
+    {
+      "id": "source",
+      "opType": "noiseTOP",
+      "label": "Source"
+    },
+    {
+      "id": "edge",
+      "opType": "edgeTOP",
+      "label": "Edge Detect"
+    },
+    {
+      "id": "blur",
+      "opType": "blurTOP",
+      "label": "Smooth Edges",
+      "parameters": {
+        "size": 1
+      }
+    },
+    {
+      "id": "composite",
+      "opType": "compositeTOP",
+      "label": "Blend",
+      "parameters": {
+        "operand": "add"
+      }
+    },
+    {
+      "id": "output",
+      "opType": "nullTOP",
+      "label": "Output"
+    }
+  ],
+  "connections": [
+    {
+      "from": "source",
+      "to": "edge",
+      "inputIndex": 0
+    },
+    {
+      "from": "edge",
+      "to": "blur",
+      "inputIndex": 0
+    },
+    {
+      "from": "source",
+      "to": "composite",
+      "inputIndex": 0
+    },
+    {
+      "from": "blur",
+      "to": "composite",
+      "inputIndex": 1
+    },
+    {
+      "from": "composite",
+      "to": "output",
+      "inputIndex": 0
+    }
+  ]
+}

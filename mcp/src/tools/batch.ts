@@ -115,9 +115,7 @@ export function registerBatchTool(server: McpServer, client: TDClient) {
           }
 
           try {
-            // Spread the named args object as positional arguments
-            const args = Object.values(tool.args ?? {});
-            const result = await handler(...args);
+            const result = await handler(tool.args ?? {});
             results.push({ name: tool.name, success: true, result });
           } catch (e: any) {
             results.push({

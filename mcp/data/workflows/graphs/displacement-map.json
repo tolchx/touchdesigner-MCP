@@ -1,0 +1,48 @@
+{
+  "name": "displacement-map",
+  "description": "Displacement: source \u2192 displace TOP (driven by noise map) \u2192 output",
+  "tags": [
+    "effects",
+    "displacement",
+    "distortion"
+  ],
+  "nodes": [
+    {
+      "id": "source",
+      "opType": "moviefileinTOP",
+      "label": "Source"
+    },
+    {
+      "id": "noise_map",
+      "opType": "noiseTOP",
+      "label": "Noise Map"
+    },
+    {
+      "id": "displace",
+      "opType": "displaceTOP",
+      "label": "Displace"
+    },
+    {
+      "id": "output",
+      "opType": "nullTOP",
+      "label": "Output"
+    }
+  ],
+  "connections": [
+    {
+      "from": "source",
+      "to": "displace",
+      "inputIndex": 0
+    },
+    {
+      "from": "noise_map",
+      "to": "displace",
+      "inputIndex": 1
+    },
+    {
+      "from": "displace",
+      "to": "output",
+      "inputIndex": 0
+    }
+  ]
+}

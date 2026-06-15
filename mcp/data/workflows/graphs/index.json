@@ -1,0 +1,27 @@
+{
+  "generatedAt": "2026-06-10",
+  "workflows": [
+    "glow-bloom",
+    "audio-visualizer",
+    "feedback-trail",
+    "particle-system-basic",
+    "composite-layers",
+    "glsl-shader",
+    "chroma-key",
+    "edge-detect",
+    "kaleidoscope",
+    "displacement-map"
+  ],
+  "descriptions": {
+    "glow-bloom": "Glow/Bloom effect: source \u2192 high-pass level \u2192 blur \u2192 composite blend with original",
+    "audio-visualizer": "Audio-reactive spectrum visualizer: audio \u2192 FFT \u2192 Math \u2192 CHOP to TOP \u2192 output",
+    "feedback-trail": "Feedback trail: source \u2192 feedback TOP \u2192 composite \u2192 delay \u2192 feedback loop",
+    "particle-system-basic": "Basic POP particle system: sphere source \u2192 particle POP \u2192 noise force \u2192 trail \u2192 render",
+    "composite-layers": "Multi-layer composite: N sources \u2192 composite TOP (multi-input) \u2192 output",
+    "glsl-shader": "GLSL shader: constant time + texture inputs \u2192 GLSL TOP \u2192 output",
+    "chroma-key": "Chroma key: foreground + background \u2192 chromakey \u2192 composite \u2192 output",
+    "edge-detect": "Edge detection: source \u2192 edge TOP \u2192 composite blend with original \u2192 output",
+    "kaleidoscope": "Kaleidoscope: source \u2192 transform \u2192 mirror \u2192 kaleidoscope \u2192 output",
+    "displacement-map": "Displacement: source \u2192 displace TOP (driven by noise map) \u2192 output"
+  }
+}

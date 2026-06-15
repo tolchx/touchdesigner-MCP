@@ -1,0 +1,525 @@
+{
+  "templates": [
+    {
+      "name": "pop-basic-sphere-particle",
+      "description": "Basic particle system: spherePOP emits particles, particlePOP simulates, noisePOP adds turbulence, nullPOP serves as output and feedback target",
+      "tags": ["particle", "basic", "sphere", "simulation"],
+      "complexity": "simple",
+      "chain": ["spherePOP", "particlePOP", "noisePOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 1, "input": 0},
+        {"from": 1, "to": 2, "input": 0},
+        {"from": 2, "to": 3, "input": 0}
+      ],
+      "parameters": {
+        "particlePOP": {"birthrate": 100, "lifeexpect": 3, "particlesupdatepop": "null1"},
+        "noisePOP": {"amp0": 0.5, "freq0": 2.0}
+      }
+    },
+    {
+      "name": "pop-feedback-trail",
+      "description": "Feedback trail system: spherePOP → particlePOP → trailPOP → blendPOP(add) → nullPOP with feedback loop for persistent trails",
+      "tags": ["trail", "feedback", "blend", "persistent"],
+      "complexity": "medium",
+      "chain": ["spherePOP", "particlePOP", "trailPOP", "blendPOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 1, "input": 0},
+        {"from": 1, "to": 2, "input": 0},
+        {"from": 2, "to": 3, "input": 0},
+        {"from": 3, "to": 4, "input": 0}
+      ],
+      "parameters": {
+        "particlePOP": {"birthrate": 50, "lifeexpect": 5, "particlesupdatepop": "null1"},
+        "trailPOP": {"length": 20},
+        "blendPOP": {"mode": "add"}
+      }
+    },
+    {
+      "name": "pop-noise-warped",
+      "description": "Noise-warped particles: gridPOP creates uniform points, noisePOP warps positions, mathPOP scales, limitPOP constrains bounds",
+      "tags": ["noise", "warp", "grid", "deformation"],
+      "complexity": "medium",
+      "chain": ["gridPOP", "noisePOP", "mathPOP", "limitPOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 1, "input": 0},
+        {"from": 1, "to": 2, "input": 0},
+        {"from": 2, "to": 3, "input": 0},
+        {"from": 3, "to": 4, "input": 0}
+      ],
+      "parameters": {
+        "noisePOP": {"amp0": 1.0, "freq0": 3.0},
+        "mathPOP": {"multiply": 0.5},
+        "limitPOP": {"minx": -5, "maxx": 5, "miny": -5, "maxy": 5}
+      }
+    },
+    {
+      "name": "pop-copy-instancing",
+      "description": "Copy instancing: spherePOP provides positions, boxPOP provides template geometry, copyPOP instances geometry on points",
+      "tags": ["copy", "instancing", "geometry", "template"],
+      "complexity": "medium",
+      "chain": ["spherePOP", "boxPOP", "copyPOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 2, "input": 0},
+        {"from": 1, "to": 2, "input": 1},
+        {"from": 2, "to": 3, "input": 0}
+      ],
+      "parameters": {
+        "spherePOP": {"radius": 2.0},
+        "copyPOP": {"scale": 0.1}
+      }
+    },
+    {
+      "name": "pop-delete-age",
+      "description": "Age-based deletion: particle system with deletePOP that removes particles after a certain age",
+      "tags": ["delete", "age", "culling", "lifecycle"],
+      "complexity": "simple",
+      "chain": ["spherePOP", "particlePOP", "deletePOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 1, "input": 0},
+        {"from": 1, "to": 2, "input": 0},
+        {"from": 2, "to": 3, "input": 0}
+      ],
+      "parameters": {
+        "particlePOP": {"birthrate": 200, "lifeexpect": 4, "particlesupdatepop": "null1"},
+        "deletePOP": {"condition": "@age > 3"}
+      }
+    },
+    {
+      "name": "pop-sprinkle-scatter",
+      "description": "Scatter points on surface: spherePOP provides geometry, sprinklePOP distributes points randomly on surface",
+      "tags": ["sprinkle", "scatter", "surface", "distribution"],
+      "complexity": "simple",
+      "chain": ["spherePOP", "sprinklePOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 1, "input": 0},
+        {"from": 1, "to": 2, "input": 0}
+      ],
+      "parameters": {
+        "sprinklePOP": {"npoints": 1000}
+      }
+    },
+    {
+      "name": "pop-neighbor-proximity",
+      "description": "Neighbor-based interactions: spherePOP → particlePOP → neighborPOP for proximity queries, used for flocking/boids",
+      "tags": ["neighbor", "proximity", "boids", "flocking"],
+      "complexity": "advanced",
+      "chain": ["spherePOP", "particlePOP", "neighborPOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 1, "input": 0},
+        {"from": 1, "to": 2, "input": 0},
+        {"from": 2, "to": 3, "input": 0}
+      ],
+      "parameters": {
+        "particlePOP": {"birthrate": 100, "lifeexpect": 10, "particlesupdatepop": "null1"},
+        "neighborPOP": {"neighborcount": 5, "radius": 2.0}
+      }
+    },
+    {
+      "name": "pop-blend-additive",
+      "description": "Additive blending of two POP chains: two spherePOP sources merged via blendPOP with 'add' mode",
+      "tags": ["blend", "additive", "merge", "multiple-sources"],
+      "complexity": "medium",
+      "chain": ["spherePOP", "spherePOP", "blendPOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 2, "input": 0},
+        {"from": 1, "to": 2, "input": 1},
+        {"from": 2, "to": 3, "input": 0}
+      ],
+      "parameters": {
+        "blendPOP": {"mode": "add"}
+      }
+    },
+    {
+      "name": "pop-field-attractor",
+      "description": "Field-based attraction: particlePOP with fieldPOP creating a proximity attraction zone",
+      "tags": ["field", "attractor", "proximity", "force"],
+      "complexity": "medium",
+      "chain": ["spherePOP", "particlePOP", "fieldPOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 1, "input": 0},
+        {"from": 1, "to": 2, "input": 0},
+        {"from": 2, "to": 3, "input": 0}
+      ],
+      "parameters": {
+        "particlePOP": {"birthrate": 100, "lifeexpect": 5, "particlesupdatepop": "null1"},
+        "fieldPOP": {"radius": 3.0, "force": 1.0}
+      }
+    },
+    {
+      "name": "pop-color-by-speed",
+      "description": "Color particles by speed: attributePOP calculates speed, colorPOP maps speed to color ramp",
+      "tags": ["color", "speed", "attribute", "visualization"],
+      "complexity": "medium",
+      "chain": ["spherePOP", "particlePOP", "attributePOP", "colorPOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 1, "input": 0},
+        {"from": 1, "to": 2, "input": 0},
+        {"from": 2, "to": 3, "input": 0},
+        {"from": 3, "to": 4, "input": 0}
+      ],
+      "parameters": {
+        "particlePOP": {"birthrate": 100, "lifeexpect": 3, "particlesupdatepop": "null1"},
+        "attributePOP": {"attribute": "speed", "measure": "speed"},
+        "colorPOP": {"ramp": "rainbow"}
+      }
+    },
+    {
+      "name": "pop-glsl-compute",
+      "description": "GLSL compute particles: attributePOP initializes Vel, glslPOP runs custom physics shader, trailPOP draws trails",
+      "tags": ["glsl", "compute", "shader", "gpu"],
+      "complexity": "advanced",
+      "chain": ["spherePOP", "attributePOP", "glslPOP", "trailPOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 1, "input": 0},
+        {"from": 1, "to": 2, "input": 0},
+        {"from": 2, "to": 3, "input": 0},
+        {"from": 3, "to": 4, "input": 0}
+      ],
+      "parameters": {
+        "attributePOP": {"attribute": "Vel", "value": [0, 0, 0]},
+        "trailPOP": {"length": 10}
+      }
+    },
+    {
+      "name": "pop-sort-spiral",
+      "description": "Spiral formation: gridPOP → sortPOP (by spiral) → noisePOP for variation → nullPOP",
+      "tags": ["sort", "spiral", "formation", "pattern"],
+      "complexity": "simple",
+      "chain": ["gridPOP", "sortPOP", "noisePOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 1, "input": 0},
+        {"from": 1, "to": 2, "input": 0},
+        {"from": 2, "to": 3, "input": 0}
+      ],
+      "parameters": {
+        "sortPOP": {"sortby": "x"},
+        "noisePOP": {"amp0": 0.3}
+      }
+    },
+    {
+      "name": "pop-cache-feedback",
+      "description": "Cached feedback loop: particlePOP → cachePOP → blendPOP(add) → nullPOP with feedback for temporal accumulation",
+      "tags": ["cache", "feedback", "temporal", "accumulation"],
+      "complexity": "advanced",
+      "chain": ["spherePOP", "particlePOP", "cachePOP", "blendPOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 1, "input": 0},
+        {"from": 1, "to": 2, "input": 0},
+        {"from": 2, "to": 3, "input": 0},
+        {"from": 3, "to": 4, "input": 0}
+      ],
+      "parameters": {
+        "particlePOP": {"birthrate": 50, "lifeexpect": 5, "particlesupdatepop": "null1"},
+        "cachePOP": {"cache_length": 64},
+        "blendPOP": {"mode": "add"}
+      }
+    },
+    {
+      "name": "pop-limit-box",
+      "description": "Box-bounded particles: particlePOP with limitPOP constraining to a box region, forces keep particles inside",
+      "tags": ["limit", "box", "boundary", "constraint"],
+      "complexity": "simple",
+      "chain": ["spherePOP", "particlePOP", "noisePOP", "limitPOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 1, "input": 0},
+        {"from": 1, "to": 2, "input": 0},
+        {"from": 2, "to": 3, "input": 0},
+        {"from": 3, "to": 4, "input": 0}
+      ],
+      "parameters": {
+        "particlePOP": {"birthrate": 100, "lifeexpect": 3, "particlesupdatepop": "null1"},
+        "limitPOP": {"minx": -3, "maxx": 3, "miny": -3, "maxy": 3, "minz": -3, "maxz": 3}
+      }
+    },
+    {
+      "name": "pop-multi-force",
+      "description": "Multiple forces on particles: spherePOP → particlePOP → noisePOP(turbulence) → forcePOP(gravity) → dragPOP(damping) → nullPOP",
+      "tags": ["force", "gravity", "turbulence", "damping", "multi-force"],
+      "complexity": "medium",
+      "chain": ["spherePOP", "particlePOP", "noisePOP", "forcePOP", "dragPOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 1, "input": 0},
+        {"from": 1, "to": 2, "input": 0},
+        {"from": 2, "to": 3, "input": 0},
+        {"from": 3, "to": 4, "input": 0},
+        {"from": 4, "to": 5, "input": 0}
+      ],
+      "parameters": {
+        "particlePOP": {"birthrate": 100, "lifeexpect": 5, "particlesupdatepop": "null1"},
+        "noisePOP": {"amp0": 0.8, "freq0": 2.0},
+        "forcePOP": {"forcez": -9.8},
+        "dragPOP": {"drag": 0.1}
+      }
+    },
+    {
+      "name": "pop-curl-noise",
+      "description": "Curl noise particles: spherePOP → particlePOP → noisePOP(curl) → trailPOP for smooth organic motion",
+      "tags": ["curl", "noise", "organic", "smooth"],
+      "complexity": "medium",
+      "chain": ["spherePOP", "particlePOP", "noisePOP", "trailPOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 1, "input": 0},
+        {"from": 1, "to": 2, "input": 0},
+        {"from": 2, "to": 3, "input": 0},
+        {"from": 3, "to": 4, "input": 0}
+      ],
+      "parameters": {
+        "particlePOP": {"birthrate": 100, "lifeexpect": 4, "particlesupdatepop": "null1"},
+        "noisePOP": {"amp0": 1.5, "freq0": 1.5, "type": "curl"},
+        "trailPOP": {"length": 15}
+      }
+    },
+    {
+      "name": "pop-sprite-particles",
+      "description": "Sprite-based particles: particlePOP → spritePOP with texture mapping for billboard rendering",
+      "tags": ["sprite", "billboard", "texture", "rendering"],
+      "complexity": "medium",
+      "chain": ["spherePOP", "particlePOP", "spritePOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 1, "input": 0},
+        {"from": 1, "to": 2, "input": 0},
+        {"from": 2, "to": 3, "input": 0}
+      ],
+      "parameters": {
+        "particlePOP": {"birthrate": 200, "lifeexpect": 3, "particlesupdatepop": "null1"},
+        "spritePOP": {"texture": "circle", "pscale": 0.1}
+      }
+    },
+    {
+      "name": "pop-analyze-measure",
+      "description": "Measurement pipeline: particlePOP → analyzePOP computes statistics (centroid, bounds) → nullPOP",
+      "tags": ["analyze", "measure", "statistics", "centroid"],
+      "complexity": "simple",
+      "chain": ["spherePOP", "particlePOP", "analyzePOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 1, "input": 0},
+        {"from": 1, "to": 2, "input": 0},
+        {"from": 2, "to": 3, "input": 0}
+      ],
+      "parameters": {
+        "particlePOP": {"birthrate": 100, "lifeexpect": 3, "particlesupdatepop": "null1"},
+        "analyzePOP": {"measure": "centroid"}
+      }
+    },
+    {
+      "name": "pop-normalize-attrs",
+      "description": "Attribute normalization: particlePOP → normalizePOP scales attributes to 0-1 range → nullPOP",
+      "tags": ["normalize", "attribute", "scale", "remap"],
+      "complexity": "simple",
+      "chain": ["spherePOP", "particlePOP", "normalizePOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 1, "input": 0},
+        {"from": 1, "to": 2, "input": 0},
+        {"from": 2, "to": 3, "input": 0}
+      ],
+      "parameters": {
+        "particlePOP": {"birthrate": 100, "lifeexpect": 3, "particlesupdatepop": "null1"},
+        "normalizePOP": {"attribute": "P", "method": "minmax"}
+      }
+    },
+    {
+      "name": "pop-transform-pivot",
+      "description": "Transform particles around pivot: particlePOP → transformPOP rotates/scales around a custom pivot point → nullPOP",
+      "tags": ["transform", "pivot", "rotate", "scale"],
+      "complexity": "simple",
+      "chain": ["spherePOP", "particlePOP", "transformPOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 1, "input": 0},
+        {"from": 1, "to": 2, "input": 0},
+        {"from": 2, "to": 3, "input": 0}
+      ],
+      "parameters": {
+        "particlePOP": {"birthrate": 100, "lifeexpect": 3, "particlesupdatepop": "null1"},
+        "transformPOP": {"rx": 0, "ry": 0, "rz": 45, "sx": 1.0, "sy": 1.0, "sz": 1.0}
+      }
+    },
+    {
+      "name": "pop-select-range",
+      "description": "Select particles by range: particlePOP → selectPOP filters points within a range → nullPOP",
+      "tags": ["select", "filter", "range", "conditional"],
+      "complexity": "simple",
+      "chain": ["spherePOP", "particlePOP", "selectPOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 1, "input": 0},
+        {"from": 1, "to": 2, "input": 0},
+        {"from": 2, "to": 3, "input": 0}
+      ],
+      "parameters": {
+        "particlePOP": {"birthrate": 100, "lifeexpect": 3, "particlesupdatepop": "null1"},
+        "selectPOP": {"attribute": "P", "min": -1, "max": 1}
+      }
+    },
+    {
+      "name": "pop-lookup-texture",
+      "description": "Texture-driven particles: spherePOP → particlePOP → lookupPOP samples a texture for displacement → nullPOP",
+      "tags": ["lookup", "texture", "displacement", "sampling"],
+      "complexity": "medium",
+      "chain": ["spherePOP", "particlePOP", "lookupPOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 1, "input": 0},
+        {"from": 1, "to": 2, "input": 0},
+        {"from": 2, "to": 3, "input": 0}
+      ],
+      "parameters": {
+        "particlePOP": {"birthrate": 100, "lifeexpect": 3, "particlesupdatepop": "null1"},
+        "lookupPOP": {"texture": "noise", "scale": 0.5}
+      }
+    },
+    {
+      "name": "pop-circle-emitter",
+      "description": "Circle emitter: circlePOP emits particles from a ring, particlePOP simulates, noisePOP adds turbulence",
+      "tags": ["circle", "emitter", "ring", "source"],
+      "complexity": "simple",
+      "chain": ["circlePOP", "particlePOP", "noisePOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 1, "input": 0},
+        {"from": 1, "to": 2, "input": 0},
+        {"from": 2, "to": 3, "input": 0}
+      ],
+      "parameters": {
+        "circlePOP": {"radius": 2.0, "divisions": 64},
+        "particlePOP": {"birthrate": 150, "lifeexpect": 4, "particlesupdatepop": "null1"},
+        "noisePOP": {"amp0": 0.6}
+      }
+    },
+    {
+      "name": "pop-line-emitter",
+      "description": "Line emitter: linePOP emits particles from a line segment, particlePOP simulates with gravity",
+      "tags": ["line", "emitter", "segment", "gravity"],
+      "complexity": "simple",
+      "chain": ["linePOP", "particlePOP", "forcePOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 1, "input": 0},
+        {"from": 1, "to": 2, "input": 0},
+        {"from": 2, "to": 3, "input": 0}
+      ],
+      "parameters": {
+        "linePOP": {"start": [-2, 0, 0], "end": [2, 0, 0], "divisions": 20},
+        "particlePOP": {"birthrate": 100, "lifeexpect": 3, "particlesupdatepop": "null1"},
+        "forcePOP": {"forcez": -9.8}
+      }
+    },
+    {
+      "name": "pop-torus-emitter",
+      "description": "Torus emitter: torusPOP emits particles from a donut shape, particlePOP simulates, colorPOP adds variation",
+      "tags": ["torus", "emitter", "donut", "color"],
+      "complexity": "simple",
+      "chain": ["torusPOP", "particlePOP", "colorPOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 1, "input": 0},
+        {"from": 1, "to": 2, "input": 0},
+        {"from": 2, "to": 3, "input": 0}
+      ],
+      "parameters": {
+        "torusPOP": {"majorradius": 2.0, "minorradius": 0.5},
+        "particlePOP": {"birthrate": 100, "lifeexpect": 3, "particlesupdatepop": "null1"},
+        "colorPOP": {"ramp": "heat"}
+      }
+    },
+    {
+      "name": "pop-tube-emitter",
+      "description": "Tube emitter: tubePOP emits particles from a cylinder volume, particlePOP simulates with turbulence",
+      "tags": ["tube", "emitter", "cylinder", "volume"],
+      "complexity": "simple",
+      "chain": ["tubePOP", "particlePOP", "noisePOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 1, "input": 0},
+        {"from": 1, "to": 2, "input": 0},
+        {"from": 2, "to": 3, "input": 0}
+      ],
+      "parameters": {
+        "tubePOP": {"radius": 1.0, "height": 3.0},
+        "particlePOP": {"birthrate": 100, "lifeexpect": 3, "particlesupdatepop": "null1"},
+        "noisePOP": {"amp0": 0.4}
+      }
+    },
+    {
+      "name": "pop-box-emitter",
+      "description": "Box emitter: boxPOP emits particles from a box volume, particlePOP simulates with drag",
+      "tags": ["box", "emitter", "volume", "drag"],
+      "complexity": "simple",
+      "chain": ["boxPOP", "particlePOP", "dragPOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 1, "input": 0},
+        {"from": 1, "to": 2, "input": 0},
+        {"from": 2, "to": 3, "input": 0}
+      ],
+      "parameters": {
+        "boxPOP": {"size": [2, 2, 2]},
+        "particlePOP": {"birthrate": 100, "lifeexpect": 3, "particlesupdatepop": "null1"},
+        "dragPOP": {"drag": 0.05}
+      }
+    },
+    {
+      "name": "pop-point-emitter",
+      "description": "Single point emitter: pointPOP emits from a single point, particlePOP simulates radial explosion",
+      "tags": ["point", "emitter", "explosion", "radial"],
+      "complexity": "simple",
+      "chain": ["pointPOP", "particlePOP", "noisePOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 1, "input": 0},
+        {"from": 1, "to": 2, "input": 0},
+        {"from": 2, "to": 3, "input": 0}
+      ],
+      "parameters": {
+        "pointPOP": {"position": [0, 0, 0]},
+        "particlePOP": {"birthrate": 500, "lifeexpect": 2, "particlesupdatepop": "null1"},
+        "noisePOP": {"amp0": 2.0}
+      }
+    },
+    {
+      "name": "pop-switch-sources",
+      "description": "Switch between particle sources: switchPOP selects between two source POPs based on a parameter",
+      "tags": ["switch", "source", "select", "toggle"],
+      "complexity": "medium",
+      "chain": ["spherePOP", "gridPOP", "switchPOP", "particlePOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 2, "input": 0},
+        {"from": 1, "to": 2, "input": 1},
+        {"from": 2, "to": 3, "input": 0},
+        {"from": 3, "to": 4, "input": 0}
+      ],
+      "parameters": {
+        "switchPOP": {"index": 0},
+        "particlePOP": {"birthrate": 100, "lifeexpect": 3, "particlesupdatepop": "null1"}
+      }
+    },
+    {
+      "name": "pop-merge-chains",
+      "description": "Merge two POP chains: two independent particle systems merged via mergePOP → nullPOP",
+      "tags": ["merge", "combine", "multiple-chains", "aggregate"],
+      "complexity": "medium",
+      "chain": ["spherePOP", "particlePOP", "gridPOP", "particlePOP", "mergePOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 1, "input": 0},
+        {"from": 2, "to": 3, "input": 0},
+        {"from": 1, "to": 4, "input": 0},
+        {"from": 3, "to": 4, "input": 1},
+        {"from": 4, "to": 5, "input": 0}
+      ],
+      "parameters": {
+        "particlePOP": {"birthrate": 50, "lifeexpect": 3}
+      }
+    },
+    {
+      "name": "pop-expert-feedback-sim",
+      "description": "Expert feedback simulation: spherePOP → particlePOP → deletePOP(age) → noisePOP → transformPOP → nullPOP with full feedback loop for persistent simulation",
+      "tags": ["expert", "feedback", "simulation", "persistent", "complex"],
+      "complexity": "advanced",
+      "chain": ["spherePOP", "particlePOP", "deletePOP", "noisePOP", "transformPOP", "nullPOP"],
+      "connections": [
+        {"from": 0, "to": 1, "input": 0},
+        {"from": 1, "to": 2, "input": 0},
+        {"from": 2, "to": 3, "input": 0},
+        {"from": 3, "to": 4, "input": 0},
+        {"from": 4, "to": 5, "input": 0}
+      ],
+      "parameters": {
+        "particlePOP": {"birthrate": 100, "lifeexpect": 4, "particlesupdatepop": "null1"},
+        "deletePOP": {"condition": "@age > 3"},
+        "noisePOP": {"amp0": 0.3, "freq0": 1.5},
+        "transformPOP": {"ry": 1}
+      }
+    }
+  ]
+}

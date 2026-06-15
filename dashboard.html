@@ -749,6 +749,169 @@ body::after {
   flex: 1;
   accent-color: var(--accent);
 }
+/* ─── SVG Node Graph ─── */
+.network-svg {
+  width: 100%;
+  height: 400px;
+  background: var(--bg);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  cursor: grab;
+  display: block;
+  overflow: hidden;
+}
+.network-svg:active { cursor: grabbing; }
+.network-svg .node-group { cursor: pointer; }
+.network-svg .node-group:hover .node-circle { filter: brightness(1.4); }
+.network-svg .node-circle { transition: filter .15s; }
+.network-svg .node-label { font-family: 'Inter', sans-serif; font-size: 9px; fill: var(--text2); pointer-events: none; }
+.network-svg .node-label-glow { font-family: 'Inter', sans-serif; font-size: 9px; fill: var(--accent2); font-weight: 600; pointer-events: none; }
+.network-svg .wire-line { stroke: rgba(108,92,231,.12); stroke-width: 1.5; fill: none; transition: stroke .2s; }
+.network-svg .wire-line:hover { stroke: rgba(108,92,231,.4); }
+.network-svg .wire-line.active { stroke: var(--accent); stroke-width: 2; }
+.network-svg .node-highlight { stroke: var(--accent); stroke-width: 2; }
+.network-svg .node-selected { stroke: var(--neon); stroke-width: 2.5; }
+
+/* ─── Timeline / Animation ─── */
+.anim-entry {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  transition: border-color .2s;
+}
+.anim-entry:hover { border-color: var(--border2); }
+.anim-entry-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.anim-entry-op { font-size: 10px; color: var(--accent2); font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+.anim-entry-param { font-size: 10px; color: var(--text2); }
+.anim-entry-values { font-size: 9px; color: var(--text3); font-family: 'JetBrains Mono', monospace; }
+.anim-progress-wrap {
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 6px 0;
+}
+.anim-progress-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--neon));
+  transition: width .1s linear;
+}
+.anim-entry-actions { display: flex; gap: 6px; margin-top: 4px; }
+.anim-entry-btn {
+  padding: 3px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text2);
+  font: 600 9px 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all .15s;
+}
+.anim-entry-btn:hover { border-color: var(--accent); background: rgba(108,92,231,.08); }
+.anim-entry-btn.stop { border-color: var(--red); color: var(--red); }
+.anim-entry-btn.stop:hover { background: rgba(255,23,68,.1); }
+.anim-entry-btn.stop-all { border-color: var(--red); color: var(--red); background: rgba(255,23,68,.08); }
+.anim-entry-btn.stop-all:hover { background: rgba(255,23,68,.15); }
+
+/* ─── 3D Viewport ─── */
+.three-viewport {
+  width: 100%;
+  height: 400px;
+  background: var(--bg);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  position: relative;
+}
+.three-viewport canvas { display: block; width: 100% !important; height: 100% !important; }
+.three-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text3);
+  font-size: 12px;
+  background: var(--bg);
+}
+.three-info {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  font-size: 9px;
+  color: var(--text3);
+  background: rgba(7,7,13,.7);
+  padding: 4px 10px;
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+/* ─── PWA Install Banner ─── */
+.pwa-banner {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10000;
+  background: var(--card2);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 14px 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.4);
+  display: none;
+  align-items: center;
+  gap: 12px;
+  max-width: 320px;
+  backdrop-filter: blur(10px);
+}
+.pwa-banner.show { display: flex; }
+.pwa-banner-text { font-size: 11px; color: var(--text); flex: 1; }
+.pwa-banner-btn {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font: 600 10px 'Inter', sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.pwa-banner-btn:hover { background: var(--accent2); }
+.pwa-banner-close {
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: none;
+  background: transparent;
+  color: var(--text3);
+  cursor: pointer;
+  font-size: 14px;
+}
+.pwa-banner-close:hover { color: var(--text); }
+
+/* ─── Offline Overlay ─── */
+.offline-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: var(--bg);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+}
+.offline-overlay.show { display: flex; }
+.offline-overlay .offline-icon { font-size: 48px; }
+.offline-overlay .offline-title { font-size: 20px; font-weight: 700; color: var(--text); }
+.offline-overlay .offline-msg { font-size: 12px; color: var(--text3); max-width: 300px; text-align: center; }
+
 .anim-param-row input[type="number"] {
   width: 60px;
   padding: 4px 6px;
@@ -814,6 +977,168 @@ body::after {
   transition: transform .2s;
 }
 .toggle-track.on .toggle-knob { transform: translateX(14px); }
+
+/* ─── Command Palette ─── */
+.cmd-palette-overlay {
+  position: fixed; inset: 0; z-index: 99999;
+  background: rgba(0,0,0,.6); backdrop-filter: blur(8px);
+  display: none; align-items: flex-start; justify-content: center; padding-top: 15vh;
+}
+.cmd-palette-overlay.show { display: flex; }
+.cmd-palette {
+  width: 560px; max-width: 90vw; background: var(--card2); border: 1px solid var(--border2);
+  border-radius: 12px; box-shadow: 0 16px 64px rgba(0,0,0,.5); overflow: hidden;
+}
+.cmd-palette input {
+  width: 100%; padding: 14px 18px; background: transparent; border: none; border-bottom: 1px solid var(--border);
+  color: var(--text); font: 600 14px 'Inter', sans-serif; outline: none;
+}
+.cmd-palette input::placeholder { color: var(--text3); }
+.cmd-palette-results { max-height: 320px; overflow-y: auto; padding: 4px; }
+.cmd-palette-item {
+  display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 8px;
+  cursor: pointer; transition: background .1s; font-size: 12px;
+}
+.cmd-palette-item:hover, .cmd-palette-item.active { background: rgba(108,92,231,.12); }
+.cmd-palette-item .cmd-icon { font-size: 16px; width: 24px; text-align: center; }
+.cmd-palette-item .cmd-label { flex: 1; color: var(--text); }
+.cmd-palette-item .cmd-shortcut { font: 11px 'JetBrains Mono', monospace; color: var(--text3); }
+.cmd-palette-item .cmd-category { font-size: 9px; color: var(--text3); text-transform: uppercase; letter-spacing: .5px; }
+
+/* ─── Notification Toast ─── */
+.toast-container {
+  position: fixed; top: 16px; right: 16px; z-index: 99998;
+  display: flex; flex-direction: column; gap: 8px; pointer-events: none;
+}
+.toast {
+  pointer-events: all; padding: 12px 18px; border-radius: 10px; font-size: 12px; font-weight: 500;
+  background: var(--card2); border: 1px solid var(--border2); color: var(--text);
+  box-shadow: 0 8px 32px rgba(0,0,0,.3); min-width: 280px; max-width: 400px;
+  display: flex; align-items: center; gap: 10px; animation: toastIn .3s ease;
+  backdrop-filter: blur(12px);
+}
+.toast.success { border-left: 3px solid var(--green); }
+.toast.error { border-left: 3px solid var(--red); }
+.toast.warning { border-left: 3px solid var(--yellow); }
+.toast.info { border-left: 3px solid var(--accent); }
+.toast-icon { font-size: 16px; }
+.toast-msg { flex: 1; }
+.toast-close { cursor: pointer; color: var(--text3); font-size: 14px; padding: 2px 6px; border-radius: 4px; }
+.toast-close:hover { background: rgba(255,255,255,.1); }
+@keyframes toastIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes toastOut { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(30px); } }
+
+/* ─── Health Score Ring ─── */
+.health-ring { position: relative; display: inline-block; width: 56px; height: 56px; }
+.health-ring svg { transform: rotate(-90deg); }
+.health-ring-text {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  font: 700 14px 'Inter', sans-serif; color: var(--text);
+}
+
+/* ─── Audit Panel ─── */
+.audit-check {
+  display: flex; align-items: center; gap: 10px; padding: 10px 14px;
+  border-bottom: 1px solid rgba(26,26,58,.3); transition: background .15s;
+}
+.audit-check:hover { background: rgba(108,92,231,.04); }
+.audit-icon { font-size: 16px; width: 24px; text-align: center; }
+.audit-label { flex: 1; font-size: 12px; color: var(--text); }
+.audit-severity {
+  font: 600 9px 'Inter', sans-serif; padding: 2px 8px; border-radius: 4px; text-transform: uppercase;
+}
+.audit-severity.pass { background: rgba(0,230,118,.1); color: var(--green); }
+.audit-severity.warn { background: rgba(255,214,0,.1); color: var(--yellow); }
+.audit-severity.fail { background: rgba(255,23,68,.1); color: var(--red); }
+.audit-fix {
+  font-size: 10px; color: var(--accent2); cursor: pointer; padding: 3px 8px;
+  border: 1px solid var(--accent); border-radius: 4px; background: rgba(108,92,231,.08);
+  transition: all .15s;
+}
+.audit-fix:hover { background: rgba(108,92,231,.2); }
+
+/* ─── Debug Panel ─── */
+.debug-error-card {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 8px;
+  padding: 12px; margin-bottom: 8px; transition: border-color .2s; cursor: pointer;
+}
+.debug-error-card:hover { border-color: var(--accent); }
+.debug-error-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.debug-error-op { font: 600 11px 'JetBrains Mono', monospace; color: var(--accent2); }
+.debug-error-type { font-size: 9px; color: var(--red); background: rgba(255,23,68,.1); padding: 1px 6px; border-radius: 3px; }
+.debug-error-msg { font-size: 11px; color: var(--text2); margin-bottom: 8px; }
+.debug-diagnosis {
+  background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
+  padding: 10px; font-size: 11px; color: var(--text); line-height: 1.5;
+}
+.debug-fix-btn {
+  margin-top: 8px; padding: 6px 14px; border-radius: 6px; border: 1px solid var(--green);
+  background: rgba(0,230,118,.08); color: var(--green); font: 600 10px 'Inter', sans-serif;
+  cursor: pointer; transition: all .15s;
+}
+.debug-fix-btn:hover { background: rgba(0,230,118,.2); }
+
+/* ─── Progress Timeline ─── */
+.progress-timeline { position: relative; padding-left: 20px; }
+.progress-timeline::before {
+  content: ''; position: absolute; left: 8px; top: 0; bottom: 0;
+  width: 2px; background: var(--border);
+}
+.progress-entry {
+  position: relative; padding: 8px 0 16px 16px; font-size: 11px;
+}
+.progress-entry::before {
+  content: ''; position: absolute; left: -16px; top: 12px;
+  width: 10px; height: 10px; border-radius: 50%; background: var(--accent);
+  border: 2px solid var(--bg);
+}
+.progress-entry.add::before { background: var(--green); }
+.progress-entry.del::before { background: var(--red); }
+.progress-entry.mod::before { background: var(--yellow); }
+.progress-time { font-size: 9px; color: var(--text3); }
+.progress-msg { color: var(--text2); margin-top: 2px; }
+
+/* ─── AI Assistant Chat ─── */
+.ai-chat {
+  display: flex; flex-direction: column; height: 340px;
+  background: var(--bg); border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+}
+.ai-chat-messages {
+  flex: 1; overflow-y: auto; padding: 12px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.ai-msg {
+  max-width: 85%; padding: 8px 12px; border-radius: 10px; font-size: 11px; line-height: 1.5;
+}
+.ai-msg.user {
+  align-self: flex-end; background: var(--accent); color: #fff; border-bottom-right-radius: 4px;
+}
+.ai-msg.assistant {
+  align-self: flex-start; background: var(--card2); color: var(--text); border-bottom-left-radius: 4px;
+  border: 1px solid var(--border);
+}
+.ai-msg code {
+  background: rgba(0,0,0,.3); padding: 1px 4px; border-radius: 3px;
+  font: 10px 'JetBrains Mono', monospace;
+}
+.ai-chat-input {
+  display: flex; border-top: 1px solid var(--border);
+}
+.ai-chat-input input {
+  flex: 1; padding: 10px 14px; background: transparent; border: none;
+  color: var(--text); font: 12px 'Inter', sans-serif; outline: none;
+}
+.ai-chat-input button {
+  padding: 10px 16px; background: var(--accent); border: none; color: #fff;
+  font: 600 11px 'Inter', sans-serif; cursor: pointer;
+}
+.ai-chat-input button:hover { background: var(--accent2); }
+
+/* ─── Responsive overrides ─── */
+@media (max-width: 900px) {
+  .cmd-palette { width: 95vw; }
+  .toast-container { left: 8px; right: 8px; }
+}
 </style>
 </head>
 <body>
@@ -843,6 +1168,7 @@ body::after {
     <button class="header-btn glow" onclick="toggleTheme()" id="themeBtn" title="Toggle Dark/Light">🌙 Theme</button>
     <button class="header-btn glow" onclick="refreshAll()">⟳ Refresh</button>
     <button class="header-btn glow" onclick="toggleAutoRefresh()" id="autoBtn">⏱ Auto: ON</button>
+    <button class="header-btn glow" onclick="openProjectWizard()" style="border-color:var(--neon);color:var(--neon);background:rgba(0,245,255,.08)">✨ Generate from Description</button>
   </div>
 </div>
 
@@ -878,6 +1204,9 @@ body::after {
       <div class="tab" data-tab="terminal">⌨️ Terminal</div>
       <div class="tab" data-tab="palette">🎨 Palette</div>
       <div class="tab" data-tab="anim">⏳ Animate</div>
+      <div class="tab" data-tab="audit">🔍 Audit</div>
+      <div class="tab" data-tab="debug">🐛 Debug</div>
+      <div class="tab" data-tab="progress">📈 Progress</div>
     </div>
 
     <!-- Network tab -->
@@ -941,15 +1270,17 @@ body::after {
         <select id="glslOpSelect" onchange="glslOpChanged()">
           <option value="">— Select a GLSL OP —</option>
         </select>
-        <button class="param-btn" onclick="glslLoad()">⬇ Load from TD</button>
-        <button class="param-btn" onclick="glslApply()" style="border-color:var(--green);color:var(--green);background:rgba(0,230,118,.08)">⬆ Apply to TD</button>
-        <button class="param-btn" onclick="glslFormat()" style="border-color:var(--neon);color:var(--neon);background:rgba(0,245,255,.08)">Format</button>
+        <button class="param-btn" onclick="glslLoad()">Load from TD</button>
+        <button class="param-btn" onclick="glslApply()" style="border-color:var(--green);color:var(--green)">Apply to TD</button>
+        <button class="param-btn" onclick="glslReload()" style="border-color:var(--neon);color:var(--neon);background:rgba(0,245,255,.08)">Hot-Reload</button>
+        <button class="param-btn" onclick="glslFormat()" style="border-color:var(--yellow);color:var(--yellow)">Format</button>
       </div>
       <div class="glsl-editor-wrap">
         <div class="glsl-line-numbers" id="glslLineNums">1</div>
-        <textarea id="glslEditor" placeholder="// GLSL shader code&#10;// Select a GLSL OP and click 'Load from TD'&#10;void main() {&#10;  vec3 color = vec3(1.0);&#10;  gl_FragColor = TDOutputSwizzle(vec4(color, 1.0));&#10;}"></textarea>
+        <textarea id="glslEditor" placeholder="// GLSL shader code\n// Select a GLSL OP and click 'Load from TD'\nvoid main() {\n  vec3 color = vec3(1.0);\n  gl_FragColor = TDOutputSwizzle(vec4(color, 1.0));\n}"></textarea>
       </div>
       <div id="glslStatus" style="font-size:10px;color:var(--text3);margin-top:4px"></div>
+      <div id="glslCompileResult" style="font-size:10px;color:var(--green);margin-top:2px;max-height:80px;overflow-y:auto;display:none"></div>
     </div>
 
     <!-- Terminal tab -->
@@ -991,6 +1322,73 @@ body::after {
       </div>
       <div id="animRunningList" style="max-height:150px;overflow-y:auto;font-size:10px"></div>
     </div>
+
+    <!-- Audit tab -->
+    <div class="tab-content" id="tab-audit">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px">
+        <div style="font-size:11px;color:var(--text2);font-weight:600">🔍 Project Audit & Best Practices</div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <div id="auditHealthRing" class="health-ring" style="display:none">
+            <svg width="56" height="56" viewBox="0 0 56 56">
+              <circle cx="28" cy="28" r="24" fill="none" stroke="var(--border)" stroke-width="4"/>
+              <circle cx="28" cy="28" r="24" fill="none" stroke="var(--green)" stroke-width="4" stroke-dasharray="150.8" stroke-dashoffset="150.8" stroke-linecap="round" id="healthArc"/>
+            </svg>
+            <div class="health-ring-text" id="healthScoreText">—</div>
+          </div>
+          <button class="param-btn glow" onclick="runFullAudit()" style="border-color:var(--accent);color:var(--accent2)">▶ Run Audit</button>
+          <button class="param-btn glow" onclick="autoFixAllAudit()" style="border-color:var(--green);color:var(--green);background:rgba(0,230,118,.08)">🛠 Auto-Fix All</button>
+        </div>
+      </div>
+      <div id="auditResults" style="max-height:400px;overflow-y:auto">
+        <div style="color:var(--text3);padding:20px;text-align:center;font-size:11px">Click "Run Audit" to analyze your TouchDesigner project</div>
+      </div>
+      <div id="auditSummary" style="margin-top:8px;padding:8px 12px;border-radius:8px;background:var(--bg2);border:1px solid var(--border);display:none">
+        <div style="display:flex;gap:16px;font-size:11px;flex-wrap:wrap" id="auditSummaryInner"></div>
+      </div>
+    </div>
+
+    <!-- Debug tab -->
+    <div class="tab-content" id="tab-debug">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px">
+        <div style="font-size:11px;color:var(--text2);font-weight:600">🐛 Error Investigation & Diagnostics</div>
+        <div style="display:flex;gap:6px">
+          <button class="param-btn glow" onclick="scanForErrors()" style="border-color:var(--red);color:var(--red)">🔍 Scan Errors</button>
+          <button class="param-btn glow" onclick="clearDebugLog()">🗑 Clear</button>
+        </div>
+      </div>
+      <div id="debugErrorList" style="max-height:350px;overflow-y:auto">
+        <div style="color:var(--text3);padding:20px;text-align:center;font-size:11px">Click "Scan Errors" to detect and investigate errors</div>
+      </div>
+      <div id="debugDiagnosis" style="margin-top:8px;display:none">
+        <div style="font-size:11px;color:var(--accent2);font-weight:600;margin-bottom:6px">📋 Diagnosis Report</div>
+        <div id="debugDiagnosisContent" class="debug-diagnosis"></div>
+      </div>
+    </div>
+
+    <!-- Progress tab -->
+    <div class="tab-content" id="tab-progress">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px">
+        <div style="font-size:11px;color:var(--text2);font-weight:600">📈 Development Progress & Quality</div>
+        <div style="display:flex;gap:6px">
+          <button class="param-btn glow" onclick="captureProgressSnapshot()">📸 Snapshot</button>
+          <button class="param-btn glow" onclick="showRecommendations()" style="border-color:var(--accent);color:var(--accent2)">💡 Recommendations</button>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center">
+          <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Total Operators</div>
+          <div style="font-size:24px;font-weight:800;color:var(--accent2)" id="progressTotalOps">—</div>
+        </div>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center">
+          <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Quality Score</div>
+          <div style="font-size:24px;font-weight:800;color:var(--green)" id="progressQuality">—</div>
+        </div>
+      </div>
+      <div id="progressTimeline" class="progress-timeline" style="max-height:300px;overflow-y:auto">
+        <div style="color:var(--text3);padding:20px;text-align:center;font-size:11px">Click "Snapshot" to capture current project state</div>
+      </div>
+      <div id="progressRecommendations" style="display:none;margin-top:8px;padding:10px;border-radius:8px;background:var(--bg2);border:1px solid var(--border);max-height:200px;overflow-y:auto"></div>
+    </div>
   </div>
 
   <!-- Col 2: Performance + Logs + Tools -->
@@ -1002,6 +1400,8 @@ body::after {
       <div class="tab" data-tab="tools">🔧 Tools</div>
       <div class="tab" data-tab="snapshot">📸 Snap</div>
       <div class="tab" data-tab="audio">🎵 Audio</div>
+      <div class="tab" data-tab="three3d">🔄 3D</div>
+      <div class="tab" data-tab="aichat">🤖 AI Chat</div>
     </div>
 
     <!-- Perf tab -->
@@ -1104,6 +1504,54 @@ body::after {
       <canvas class="audio-vis" id="audioVisCanvas2" style="height:120px"></canvas>
       <div id="audioStatus" style="font-size:10px;color:var(--text3);margin-top:4px"></div>
     </div>
+
+    <!-- 3D Scene Preview tab -->
+    <div class="tab-content" id="tab-three3d">
+      <div style="font-size:11px;color:var(--text2);margin-bottom:8px">🔄 3D Scene Preview (Three.js)</div>
+      <div class="three-viewport" id="threeContainer">
+        <div class="three-loading" id="threeLoading">🌐 Loading Three.js...</div>
+        <div class="three-info" id="threeInfo">Wireframe Sphere • Drag to orbit</div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+        <select class="op-search" id="threeGlslSelect" style="flex:1;font-size:10px" onchange="threeUpdateSource()">
+          <option value="">— GLSL particle source (auto) —</option>
+        </select>
+        <button class="param-btn" onclick="threeResetView()" style="font-size:10px">Reset View</button>
+      </div>
+    </div>
+
+    <!-- AI Chat tab -->
+    <div class="tab-content" id="tab-aichat">
+      <div style="font-size:11px;color:var(--text2);margin-bottom:8px;font-weight:600">🤖 AI Command Center</div>
+      <div style="font-size:10px;color:var(--text3);margin-bottom:8px">Type natural language commands to control TouchDesigner. Try "help" for available commands.</div>
+      <div class="ai-chat" style="height:360px">
+        <div class="ai-chat-messages" id="aiChatMessages">
+          <div class="ai-msg assistant" style="max-width:95%">
+            <strong>🤖 TD AI Assistant</strong><br>
+            I can help you control TouchDesigner with natural language.<br><br>
+            <strong>Available commands:</strong><br>
+            • <code>create [type] [name]</code> — Create operator<br>
+            • <code>connect [src] to [dst]</code> — Wire operators<br>
+            • <code>set [param] to [value] on [op]</code> — Set parameter<br>
+            • <code>delete [name]</code> — Delete operator<br>
+            • <code>list operators</code> — Show all operators<br>
+            • <code>show errors</code> — Check errors<br>
+            • <code>layout</code> — Auto-layout network<br>
+            • <code>diagnose [op]</code> — Diagnose operator<br>
+            • <code>generate [description]</code> — Build from template<br>
+            • <code>help</code> — Show this help<br><br>
+            <em style="color:var(--text3)">Tip: Use the 🎤 button for voice commands!</em>
+          </div>
+        </div>
+        <div class="ai-chat-input" style="border-top:1px solid var(--border);display:flex">
+          <input type="text" id="aiChatInput" placeholder="Type a command..." style="flex:1;padding:10px 14px;background:transparent;border:none;color:var(--text);font:12px 'Inter',sans-serif;outline:none" onkeydown="if(event.key==='Enter') aiSendMessage()">
+          <button id="aiMicBtn" onclick="aiToggleVoice()" style="padding:10px 12px;background:transparent;border:none;color:var(--text3);cursor:pointer;font-size:16px;transition:all .2s" title="Voice input">🎤</button>
+          <button onclick="aiSendMessage()" style="padding:10px 16px;background:var(--accent);border:none;color:#fff;font:600 11px 'Inter',sans-serif;cursor:pointer">Send</button>
+        </div>
+        <div id="aiListeningIndicator" style="display:none;padding:6px 14px;background:rgba(255,23,68,.1);color:var(--red);font-size:10px;text-align:center;font-weight:600">🎤 Listening... Speak now</div>
+      </div>
+      <div id="aiChatResult" style="margin-top:6px;font-size:10px;color:var(--text3);max-height:80px;overflow-y:auto"></div>
+    </div>
   </div>
 
   <!-- Network Graph -->
@@ -1115,7 +1563,7 @@ body::after {
       </div>
     </div>
     <div class="section-body" style="padding:8px">
-      <canvas class="network-canvas" id="netCanvas"></canvas>
+      <svg class="network-svg" id="netCanvas" xmlns="http://www.w3.org/2000/svg"></svg>
       <div class="graph-legend" id="graphLegend">
         <span class="legend-item"><span class="legend-dot" style="background:#7c3aed"></span> GLSL</span>
         <span class="legend-item"><span class="legend-dot" style="background:#00e676"></span> TOP</span>
@@ -1148,6 +1596,35 @@ body::after {
 
 <!-- Drop zone overlay -->
 <div class="drop-zone" id="dropZone">📁 Drop image to set as texture</div>
+
+<!-- Project Wizard Modal -->
+<div class="cmd-palette-overlay" id="projectWizardOverlay">
+  <div class="cmd-palette" style="width:620px">
+    <div style="padding:14px 18px;border-bottom:1px solid var(--border)">
+      <div style="font-size:14px;font-weight:700;color:var(--neon);margin-bottom:4px">✨ Generate Project from Description</div>
+      <div style="font-size:10px;color:var(--text3)">Describe what you want in natural language. The system will match templates and build the network.</div>
+    </div>
+    <div style="padding:14px 18px">
+      <textarea id="projectDescInput" placeholder="Describe your project...&#10;&#10;Examples:&#10;- 'a particle system with noise deformation and color'&#10;- 'noise blurred with edge detection'&#10;- 'sphere with geometry instancing and render'&#10;- 'audio reactive spectrum visualization'&#10;- 'GLSL pixel shader aurora effect'" style="width:100%;min-height:120px;padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font:12px 'Inter',sans-serif;outline:none;resize:vertical"></textarea>
+      <div style="margin-top:10px;display:flex;gap:8px;justify-content:flex-end">
+        <button class="param-btn" onclick="closeProjectWizard()" style="border-color:var(--border);color:var(--text3)">Cancel</button>
+        <button class="param-btn glow" onclick="runProjectWizard()" style="border-color:var(--neon);color:var(--neon);background:rgba(0,245,255,.08);font-weight:700">🚀 Generate</button>
+      </div>
+      <div id="projectWizardStatus" style="margin-top:8px;font-size:11px;color:var(--text3);max-height:150px;overflow-y:auto"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Command Palette (Ctrl+K) -->
+<div class="cmd-palette-overlay" id="cmdPalette">
+  <div class="cmd-palette">
+    <input id="cmdInput" placeholder="Type a command... (e.g. audit, screenshot, glsl, errors)" autocomplete="off" spellcheck="false">
+    <div class="cmd-palette-results" id="cmdResults"></div>
+  </div>
+</div>
+
+<!-- Toast Notifications -->
+<div class="toast-container" id="toastContainer"></div>
 
 <script>
 // ─── State ───
@@ -1420,9 +1897,60 @@ async function glslApply() {
   const path = document.getElementById('glslOpSelect').value
   if (!path) { document.getElementById('glslStatus').textContent = 'Please select a GLSL OP first'; return }
   const code = document.getElementById('glslEditor').value
-  document.getElementById('glslStatus').textContent = 'Applying...'
-  const r = await api('POST', '/exec', { code: `try:\n  d = op('${path.replace(/'/g,"\\'")}')\n  if hasattr(d, 'text'):\n    d.text = '''${code.replace(/'/g,"\\'").replace(/\n/g,'\\n')}'''\n    print('Code applied to text')\n  elif hasattr(d, 'par'):\n    for p in d.pars('str'):\n      if 'code' in p.name.lower() or 'shader' in p.name.lower() or 'frag' in p.name.lower():\n        p.val = '''${code.replace(/'/g,"\\'").replace(/\n/g,'\\n')}'''\n        print(f'Applied to {p.name}')\n        break\n    else:\n      print('No code par found')\n  else:\n    print('Cannot apply')\nexcept Exception as e:\n  print(f'Error: {e}')` })
-  document.getElementById('glslStatus').textContent = r.output || r.error || 'Applied!'
+  document.getElementById('glslStatus').textContent = 'Applying and compiling...'
+  // Use the new /glsl_update endpoint for atomic update + compile
+  const r = await api('POST', '/glsl_update', { path, code })
+  const result = r.output || r.error || JSON.stringify(r)
+  document.getElementById('glslStatus').textContent = result
+  // Show compile result
+  const compileDiv = document.getElementById('glslCompileResult')
+  try {
+    const parsed = typeof r === 'object' && r.output ? JSON.parse(r.output) : (typeof r === 'string' ? JSON.parse(r) : r)
+    if (parsed.errors && parsed.errors.length > 0) {
+      compileDiv.style.display = 'block'
+      compileDiv.style.color = 'var(--red)'
+      compileDiv.innerHTML = '<strong>Compile Errors:</strong><br>' + parsed.errors.join('<br>')
+    } else if (parsed.success) {
+      compileDiv.style.display = 'block'
+      compileDiv.style.color = 'var(--green)'
+      compileDiv.innerHTML = '<strong>Compile OK</strong> (code length: ' + (parsed.codeLength || '?') + ')'
+      if (parsed.compileInfo) {
+        compileDiv.innerHTML += '<br><span style="color:var(--text3)">' + parsed.compileInfo.replace(/\n/g, '<br>') + '</span>'
+      }
+    }
+  } catch(e) {
+    // If parsing fails, just show raw result
+    compileDiv.style.display = 'block'
+    compileDiv.style.color = 'var(--text3)'
+    compileDiv.innerHTML = result
+  }
+}
+
+async function glslReload() {
+  const path = document.getElementById('glslOpSelect').value
+  if (!path) { document.getElementById('glslStatus').textContent = 'Please select a GLSL OP first'; return }
+  document.getElementById('glslStatus').textContent = 'Hot-reloading...'
+  const r = await api('POST', '/glsl_reload', { path })
+  const result = r.output || r.error || JSON.stringify(r)
+  document.getElementById('glslStatus').textContent = result
+  // Show compile result
+  const compileDiv = document.getElementById('glslCompileResult')
+  try {
+    const parsed = typeof r === 'object' && r.output ? JSON.parse(r.output) : (typeof r === 'string' ? JSON.parse(r) : r)
+    if (parsed.errors && parsed.errors.length > 0) {
+      compileDiv.style.display = 'block'
+      compileDiv.style.color = 'var(--red)'
+      compileDiv.innerHTML = '<strong>Compile Errors:</strong><br>' + parsed.errors.join('<br>')
+    } else if (parsed.success) {
+      compileDiv.style.display = 'block'
+      compileDiv.style.color = 'var(--green)'
+      compileDiv.innerHTML = '<strong>Hot-Reload OK</strong>' + (parsed.codeLength ? ' (code length: ' + parsed.codeLength + ')' : '')
+    }
+  } catch(e) {
+    compileDiv.style.display = 'block'
+    compileDiv.style.color = 'var(--text3)'
+    compileDiv.innerHTML = result
+  }
 }
 
 function glslFormat() {
@@ -1475,7 +2003,13 @@ async function captureScreenshot() {
   }
 }
 
-// ─── Interactive Network Graph ───
+// ─── Interactive SVG Network Graph ───
+let svgSelectedNodes = new Set()
+let svgDragNode = null
+let svgDragOffset = { x: 0, y: 0 }
+let svgMouseDown = false
+let svgDragWireStart = null
+
 function getNodeColor(type) {
   const t = (type || '').toLowerCase()
   if (t.includes('glsl')) return '#7c3aed'
@@ -1487,32 +2021,22 @@ function getNodeColor(type) {
 }
 
 function drawNetwork(operators) {
-  const canvas = document.getElementById('netCanvas')
-  const ctx = canvas.getContext('2d')
-  const dpr = Math.min(devicePixelRatio || 1, 2)
-  const rect = canvas.getBoundingClientRect()
-  canvas.width = rect.width * dpr
-  canvas.height = rect.height * dpr
-  ctx.scale(dpr, dpr)
+  const svg = document.getElementById('netCanvas')
+  if (!svg) return
+  const rect = svg.getBoundingClientRect()
   const W = rect.width, H = rect.height
 
-  ctx.clearRect(0, 0, W, H)
-
   if (!operators || operators.length === 0) {
-    ctx.fillStyle = '#55557a'
-    ctx.font = '12px Inter, sans-serif'
-    ctx.textAlign = 'center'
-    ctx.fillText('No network data', W/2, H/2)
+    svg.innerHTML = `<text x="${W/2}" y="${H/2}" fill="#55557a" font-family="Inter,sans-serif" font-size="12" text-anchor="middle">No network data</text>`
     document.getElementById('graphCount').textContent = '0 nodes'
     return
   }
 
-  // Layout: circular
   const cx = W/2, cy = H/2
   const radius = Math.min(W, H) * 0.35
   const nodes = operators.slice(0, 80)
-  
-  // Use stored positions or compute new ones
+
+  // Store positions
   if (networkNodePositions.length !== nodes.length || networkNodePositions.length === 0) {
     networkNodePositions = nodes.map((n, i) => {
       const a = (i / nodes.length) * Math.PI * 2 - Math.PI/2
@@ -1527,19 +2051,18 @@ function drawNetwork(operators) {
       }
     })
   }
-
   const positions = networkNodePositions
 
-  // Draw connections
-  ctx.strokeStyle = 'rgba(108,92,231,.08)'
-  ctx.lineWidth = .5
+  // Build SVG content
+  let wiresSvg = ''
+  let nodesSvg = ''
+
+  // Draw wires between nearby nodes (simulate connections)
   for (let i = 0; i < positions.length; i++) {
     const neighbors = [(i+1)%positions.length, (i+2)%positions.length]
     for (const j of neighbors) {
-      ctx.beginPath()
-      ctx.moveTo(positions[i].x, positions[i].y)
-      ctx.lineTo(positions[j].x, positions[j].y)
-      ctx.stroke()
+      const isConnected = svgSelectedNodes.has(i) || svgSelectedNodes.has(j)
+      wiresSvg += `<line class="wire-line${isConnected ? ' active' : ''}" x1="${positions[i].x}" y1="${positions[i].y}" x2="${positions[j].x}" y2="${positions[j].y}"/>`
     }
   }
 
@@ -1547,54 +2070,55 @@ function drawNetwork(operators) {
   positions.forEach((p, i) => {
     const color = getNodeColor(p.type)
     const isGlsl = p.type.toLowerCase().includes('glsl')
-    const size = isGlsl ? 5 : 3.5
-
-    // Glow for GLSL nodes
-    ctx.shadowColor = isGlsl ? '#7c3aed' : color
-    ctx.shadowBlur = isGlsl ? 14 : 4
-
-    ctx.beginPath()
-    ctx.arc(p.x, p.y, size, 0, Math.PI * 2)
-    ctx.fillStyle = color
-    ctx.fill()
-    ctx.shadowBlur = 0
-
-    // Label
-    if (i % 3 === 0 || isGlsl) {
-      ctx.fillStyle = '#8888aa'
-      ctx.font = '8px Inter, sans-serif'
-      ctx.textAlign = 'center'
-      ctx.fillText(p.name, p.x, p.y + size + 10)
-    }
+    const r = isGlsl ? 6 : 4
+    const isSelected = svgSelectedNodes.has(i)
+    nodesSvg += `<g class="node-group" data-index="${i}">
+      <circle class="node-circle${isSelected ? ' node-selected' : ''}" cx="${p.x}" cy="${p.y}" r="${r}" fill="${color}" 
+        stroke="${isSelected ? 'var(--neon)' : color}" stroke-width="${isSelected ? 2.5 : 0.5}"
+        filter="${isGlsl ? 'url(#glslGlow)' : ''}" opacity="${isGlsl ? 1 : 0.85}"/>
+      <text class="${isGlsl ? 'node-label-glow' : 'node-label'}" x="${p.x}" y="${p.y + r + 11}" text-anchor="middle">${p.name.length > 12 ? p.name.slice(0,12)+'…' : p.name}</text>
+    </g>`
   })
 
+  // Glow filter
+  const defs = `<defs><filter id="glslGlow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`
+
+  svg.innerHTML = defs + wiresSvg + nodesSvg
   document.getElementById('graphCount').textContent = nodes.length + ' nodes'
 }
 
-// ─── Network Graph Mouse Events ───
-const netCanvas = document.getElementById('netCanvas')
+// ─── SVG Mouse Events ───
+const netSvg = document.getElementById('netCanvas')
 
-netCanvas.addEventListener('mousedown', function(e) {
-  const rect = this.getBoundingClientRect()
-  const mx = e.clientX - rect.left
-  const my = e.clientY - rect.top
-  
-  // Check if clicking on a node
-  for (let i = 0; i < networkNodePositions.length; i++) {
-    const p = networkNodePositions[i]
-    const dist = Math.sqrt((mx - p.x) ** 2 + (my - p.y) ** 2)
-    const hitRadius = p.type.toLowerCase().includes('glsl') ? 8 : 6
-    if (dist < hitRadius) {
-      networkDragging = i
-      networkDragOffset.x = p.x - mx
-      networkDragOffset.y = p.y - my
-      this.style.cursor = 'grabbing'
+netSvg.addEventListener('mousedown', function(e) {
+  svgMouseDown = true
+  const target = e.target.closest('.node-group')
+  if (target) {
+    const idx = parseInt(target.dataset.index)
+    if (e.shiftKey) {
+      // Multi-select with Shift
+      if (svgSelectedNodes.has(idx)) svgSelectedNodes.delete(idx)
+      else svgSelectedNodes.add(idx)
+      drawNetwork(allOperators)
       return
+    }
+    // Start dragging
+    svgDragNode = idx
+    const p = networkNodePositions[idx]
+    const rect = this.getBoundingClientRect()
+    svgDragOffset.x = e.clientX - rect.left - p.x
+    svgDragOffset.y = e.clientY - rect.top - p.y
+    this.style.cursor = 'grabbing'
+  } else {
+    // Click on background — deselect all
+    if (!e.shiftKey) {
+      svgSelectedNodes.clear()
+      drawNetwork(allOperators)
     }
   }
 })
 
-netCanvas.addEventListener('mousemove', function(e) {
+netSvg.addEventListener('mousemove', function(e) {
   const rect = this.getBoundingClientRect()
   const mx = e.clientX - rect.left
   const my = e.clientY - rect.top
@@ -1606,9 +2130,8 @@ netCanvas.addEventListener('mousemove', function(e) {
     const dist = Math.sqrt((mx - p.x) ** 2 + (my - p.y) ** 2)
     if (dist < 8) { found = i; break }
   }
-
   const tooltip = document.getElementById('netTooltip')
-  if (found >= 0) {
+  if (found >= 0 && svgDragNode === null) {
     const p = networkNodePositions[found]
     tooltip.innerHTML = `<div class="tt-label">Node</div><div style="font-weight:600;color:var(--accent2)">${p.name}</div><div class="tt-label">Type</div><div>${p.type}</div><div class="tt-label">Path</div><div style="font-size:10px">${p.path}</div>${p.cookTime ? `<div class="tt-label">Cook Time</div><div>${p.cookTime}ms</div>` : ''}`
     tooltip.style.display = 'block'
@@ -1619,29 +2142,44 @@ netCanvas.addEventListener('mousemove', function(e) {
   }
 
   // Drag
-  if (networkDragging !== null) {
-    const p = networkNodePositions[networkDragging]
-    p.x = mx + networkDragOffset.x
-    p.y = my + networkDragOffset.y
-    p.x = Math.max(5, Math.min(rect.width - 5, p.x))
-    p.y = Math.max(5, Math.min(rect.height - 5, p.y))
+  if (svgDragNode !== null) {
+    const p = networkNodePositions[svgDragNode]
+    p.x = Math.max(5, Math.min(rect.width - 5, mx - svgDragOffset.x))
+    p.y = Math.max(5, Math.min(rect.height - 5, my - svgDragOffset.y))
     drawNetwork(allOperators)
   }
 })
 
-netCanvas.addEventListener('mouseup', function() {
-  networkDragging = null
+netSvg.addEventListener('mouseup', async function() {
+  if (svgDragNode !== null) {
+    // Send new position to TD
+    const p = networkNodePositions[svgDragNode]
+    await api('POST', '/exec', { code: `try:\n  op('${p.path.replace(/'/g,"\\'")}').nodeX = ${Math.round(p.x)}\n  op('${p.path.replace(/'/g,"\\'")}').nodeY = ${Math.round(p.y)}\nexcept: pass` })
+  }
+  svgDragNode = null
   this.style.cursor = 'grab'
 })
 
-netCanvas.addEventListener('mouseleave', function() {
-  networkDragging = null
+netSvg.addEventListener('mouseleave', function() {
+  svgDragNode = null
   this.style.cursor = 'grab'
   document.getElementById('netTooltip').style.display = 'none'
 })
 
+// Double-click to open params
+netSvg.addEventListener('dblclick', function(e) {
+  const target = e.target.closest('.node-group')
+  if (target) {
+    const idx = parseInt(target.dataset.index)
+    const p = networkNodePositions[idx]
+    if (p && p.path) {
+      viewOpParams(p.path)
+    }
+  }
+})
+
 // Right-click context menu
-netCanvas.addEventListener('contextmenu', function(e) {
+netSvg.addEventListener('contextmenu', function(e) {
   e.preventDefault()
   const rect = this.getBoundingClientRect()
   const mx = e.clientX - rect.left
@@ -1661,7 +2199,7 @@ netCanvas.addEventListener('contextmenu', function(e) {
       <div class="context-menu-item" onclick="closeContextMenu(); selectInTD('${escapeAttr(p.path)}')">Select in TD</div>
       <div class="context-menu-item" onclick="closeContextMenu(); toggleOpDisplay('${escapeAttr(p.path)}')">Toggle Display</div>
       <div class="context-menu-item" onclick="closeContextMenu(); viewOpParams('${escapeAttr(p.path)}')">View Params</div>
-      <div class="context-menu-item danger" onclick="closeContextMenu(); selectedAction('delete'); selectedOps.clear(); selectedOps.add('${escapeAttr(p.path)}'); selectedAction('delete')">Delete</div>
+      <div class="context-menu-item danger" onclick="closeContextMenu(); selectedOps.clear(); selectedOps.add('${escapeAttr(p.path)}'); selectedAction('delete')">Delete</div>
     `
     menu.style.display = 'block'
     menu.style.left = e.clientX + 'px'
@@ -2130,8 +2668,9 @@ async function autoFixErrors() {
   setTimeout(refreshAll, 1000)
 }
 
-// ─── Animated Parameters ───
+// ─── Enhanced Timeline / Parameter Animation ───
 let animCounter = 0
+let animMeta = {} // { id: { opPath, paramName, startVal, endVal, duration, startTime, progress, running } }
 
 function animStartRamp() {
   const opPath = document.getElementById('animOpPath').value.trim()
@@ -2139,29 +2678,45 @@ function animStartRamp() {
   const startVal = parseFloat(document.getElementById('animStartVal').value) || 0
   const endVal = parseFloat(document.getElementById('animEndVal').value) || 1
   const duration = parseFloat(document.getElementById('animDuration').value) || 5
-  
+
   if (!opPath || !paramName) { alert('Enter op path and param name'); return }
-  
+
   const id = ++animCounter
   const startTime = Date.now()
   const range = endVal - startVal
-  
+
+  animMeta[id] = { opPath, paramName, startVal, endVal, duration, startTime, progress: 0, running: true }
+
   animTimers[id] = setInterval(async () => {
     const elapsed = (Date.now() - startTime) / 1000
     const progress = Math.min(elapsed / duration, 1)
     const val = startVal + range * progress
-    
+
     await api('POST', '/parameters/set', { path: opPath, params: { [paramName]: val } })
-    
+
+    if (animMeta[id]) {
+      animMeta[id].progress = progress
+    }
+
     updateAnimList()
-    
+
     if (progress >= 1) {
       clearInterval(animTimers[id])
       delete animTimers[id]
+      if (animMeta[id]) animMeta[id].running = false
       updateAnimList()
     }
   }, 50)
-  
+
+  updateAnimList()
+}
+
+function animStop(id) {
+  if (animTimers[id]) {
+    clearInterval(animTimers[id])
+    delete animTimers[id]
+  }
+  if (animMeta[id]) animMeta[id].running = false
   updateAnimList()
 }
 
@@ -2170,17 +2725,41 @@ function animStopAll() {
     clearInterval(animTimers[id])
     delete animTimers[id]
   }
+  for (const id in animMeta) {
+    animMeta[id].running = false
+  }
   updateAnimList()
 }
 
 function updateAnimList() {
   const el = document.getElementById('animRunningList')
-  const entries = Object.keys(animTimers)
-  if (entries.length === 0) {
-    el.innerHTML = '<div style="color:var(--text3)">No active animations</div>'
-  } else {
-    el.innerHTML = entries.map(id => `<div class="anim-param-row">⏳ Animation #${id} running...</div>`).join('')
+  const ids = Object.keys(animMeta).filter(id => animMeta[id].running || animTimers[id])
+  if (ids.length === 0) {
+    el.innerHTML = '<div style="color:var(--text3);padding:8px;text-align:center">No active animations. Configure a path, param, start/end values and duration above, then click Start Ramp.</div>'
+    return
   }
+  el.innerHTML = ids.map(id => {
+    const m = animMeta[id]
+    const pct = Math.round((m.progress || 0) * 100)
+    const running = m.running && animTimers[id] ? true : false
+    return `<div class="anim-entry">
+      <div class="anim-entry-header">
+        <div>
+          <span class="anim-entry-op">#${id} ${m.opPath.split('/').pop()}</span>
+          <span class="anim-entry-param">· ${m.paramName}</span>
+        </div>
+        <span style="font-size:9px;color:${running ? 'var(--green)' : 'var(--text3)'}">${running ? '▶ Running' : '✓ Done'}</span>
+      </div>
+      <div class="anim-entry-values">${m.startVal} → ${m.endVal} · ${m.duration}s</div>
+      <div class="anim-progress-wrap"><div class="anim-progress-fill" style="width:${pct}%"></div></div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:9px;color:var(--text3)">${pct}%</span>
+        <div class="anim-entry-actions">
+          ${running ? `<button class="anim-entry-btn stop" onclick="animStop(${id})">■ Stop</button>` : ''}
+        </div>
+      </div>
+    </div>`
+  }).join('')
 }
 
 // ─── Save/Load Layout ───
@@ -2425,6 +3004,216 @@ function startAutoRefresh() {
   setInterval(updateLastRefresh, 1000)
 }
 
+// ─── 3D Scene Preview (Three.js) ───
+let threeScene = null, threeCamera = null, threeRenderer = null
+let threeSphere = null, threeParticles = null, threeControls = null
+let threeAnimId = null, threeInitialized = false
+
+function initThreeJS() {
+  const container = document.getElementById('threeContainer')
+  if (!container || threeInitialized) return
+  const loading = document.getElementById('threeLoading')
+  loading.textContent = 'Loading Three.js from CDN...'
+
+  // Load Three.js from CDN
+  const script = document.createElement('script')
+  script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js'
+  script.onload = () => {
+    loading.textContent = 'Loading OrbitControls...'
+    // Load OrbitControls
+    const controlsScript = document.createElement('script')
+    controlsScript.src = 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js'
+    controlsScript.onload = () => {
+      loading.style.display = 'none'
+      setupThreeScene()
+    }
+    controlsScript.onerror = () => {
+      // Fallback: manual orbit controls
+      loading.style.display = 'none'
+      setupThreeScene()
+    }
+    document.head.appendChild(controlsScript)
+  }
+  script.onerror = () => {
+    loading.textContent = 'Failed to load Three.js'
+    loading.style.color = 'var(--red)'
+  }
+  document.head.appendChild(script)
+}
+
+function setupThreeScene() {
+  const container = document.getElementById('threeContainer')
+  if (!container || threeInitialized) return
+
+  threeInitialized = true
+  const W = container.clientWidth, H = container.clientHeight
+
+  // Scene
+  threeScene = new THREE.Scene()
+  threeScene.background = new THREE.Color(0x07070d)
+
+  // Camera
+  threeCamera = new THREE.PerspectiveCamera(60, W / H, 0.1, 1000)
+  threeCamera.position.set(3, 1, 5)
+
+  // Renderer
+  threeRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: false })
+  threeRenderer.setSize(W, H)
+  threeRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+  container.appendChild(threeRenderer.domElement)
+
+  // OrbitControls (if available)
+  if (typeof THREE.OrbitControls !== 'undefined') {
+    threeControls = new THREE.OrbitControls(threeCamera, threeRenderer.domElement)
+    threeControls.enableDamping = true
+    threeControls.dampingFactor = 0.08
+    threeControls.autoRotate = true
+    threeControls.autoRotateSpeed = 1.5
+    threeControls.minDistance = 2
+    threeControls.maxDistance = 20
+  }
+
+  // Lights
+  const ambient = new THREE.AmbientLight(0x404060, 0.5)
+  threeScene.add(ambient)
+  const dirLight = new THREE.DirectionalLight(0xffffff, 0.8)
+  dirLight.position.set(1, 2, 3)
+  threeScene.add(dirLight)
+  const dirLight2 = new THREE.DirectionalLight(0x6c5ce7, 0.3)
+  dirLight2.position.set(-2, -1, -2)
+  threeScene.add(dirLight2)
+
+  // Background grid
+  const gridHelper = new THREE.GridHelper(8, 12, 0x6c5ce7, 0x2a2a5a)
+  gridHelper.position.y = -1.5
+  threeScene.add(gridHelper)
+
+  // Create default wireframe sphere
+  createDefaultSphere()
+
+  // Start render loop
+  animateThree()
+
+  // Resize handler
+  threeResizeHandler = () => {
+    const w = container.clientWidth, h = container.clientHeight
+    if (threeCamera && threeRenderer) {
+      threeCamera.aspect = w / h
+      threeCamera.updateProjectionMatrix()
+      threeRenderer.setSize(w, h)
+    }
+  }
+  window.addEventListener('resize', threeResizeHandler)
+}
+
+function createDefaultSphere() {
+  if (threeSphere) {
+    threeScene.remove(threeSphere)
+    threeSphere = null
+  }
+
+  const geo = new THREE.SphereGeometry(1.5, 24, 18)
+  const mat = new THREE.MeshPhongMaterial({
+    color: 0x6c5ce7,
+    wireframe: true,
+    emissive: 0x2a1a5a,
+    emissiveIntensity: 0.3,
+    transparent: true,
+    opacity: 0.8
+  })
+  threeSphere = new THREE.Mesh(geo, mat)
+  threeSphere.position.y = 0.3
+  threeScene.add(threeSphere)
+
+  // Add inner glow points
+  const pointGeo = new THREE.BufferGeometry()
+  const pointCount = 200
+  const positions = new Float32Array(pointCount * 3)
+  for (let i = 0; i < pointCount; i++) {
+    const theta = Math.random() * Math.PI * 2
+    const phi = Math.acos(2 * Math.random() - 1)
+    const r = 1.5
+    positions[i*3] = r * Math.sin(phi) * Math.cos(theta)
+    positions[i*3+1] = r * Math.sin(phi) * Math.sin(theta) + 0.3
+    positions[i*3+2] = r * Math.cos(phi)
+  }
+  pointGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+  const pointMat = new THREE.PointsMaterial({
+    color: 0xa29bfe,
+    size: 0.03,
+    transparent: true,
+    opacity: 0.6
+  })
+  threeParticles = new THREE.Points(pointGeo, pointMat)
+  threeScene.add(threeParticles)
+}
+
+function animateThree() {
+  threeAnimId = requestAnimationFrame(animateThree)
+
+  if (threeSphere) {
+    threeSphere.rotation.x += 0.003
+    threeSphere.rotation.y += 0.007
+  }
+  if (threeParticles) {
+    threeParticles.rotation.x = threeSphere ? threeSphere.rotation.x : 0
+    threeParticles.rotation.y = threeSphere ? threeSphere.rotation.y : 0
+  }
+  if (threeControls) {
+    threeControls.update()
+  }
+  if (threeRenderer && threeScene && threeCamera) {
+    threeRenderer.render(threeScene, threeCamera)
+  }
+}
+
+function threeResetView() {
+  if (threeCamera && threeControls) {
+    threeCamera.position.set(3, 1, 5)
+    threeControls.target.set(0, 0, 0)
+    threeControls.update()
+  }
+}
+
+function threeUpdateSource() {
+  const sel = document.getElementById('threeGlslSelect').value
+  const info = document.getElementById('threeInfo')
+  if (sel) {
+    info.textContent = `Selected: ${sel.split('/').pop()} • Particle preview`
+  } else {
+    info.textContent = 'Wireframe Sphere • Drag to orbit'
+  }
+}
+
+let threeResizeHandler = null
+
+// Populate the 3D GLSL select too
+const origUpdateGlsl = updateGlslSelect
+updateGlslSelect = function() {
+  origUpdateGlsl()
+  // Also populate 3D select
+  const sel = document.getElementById('threeGlslSelect')
+  if (!sel) return
+  const current = sel.value
+  const glslOps = allOperators.filter(o => (o.type || '').toLowerCase().includes('glsl'))
+  sel.innerHTML = '<option value="">— GLSL particle source (auto) —</option>' +
+    glslOps.map(o => `<option value="${escapeAttr(o.path)}" ${o.path === current ? 'selected' : ''}>${o.name || o.path}</option>`).join('')
+}
+
+// Init 3D when tab is clicked
+document.addEventListener('DOMContentLoaded', () => {
+  // Lazy init: set up observer for 3D tab
+  const check3DTab = setInterval(() => {
+    const tab = document.querySelector('[data-tab="three3d"]')
+    if (tab) {
+      tab.addEventListener('click', () => {
+        setTimeout(initThreeJS, 100)
+      })
+      clearInterval(check3DTab)
+    }
+  }, 200)
+})
+
 // ─── Init ───
 loadFpsHistory()
 parseUrlParams()
@@ -2433,8 +3222,615 @@ startAutoRefresh()
 refreshAll()
 updateAnimList()
 
+// ─── AI Chat Command Parser ────────────────────────────────────────────────
+
+const AI_TEMPLATES = {
+  'noise blur': { path: 'top/noise_blur', name: 'Noise → Blur', ops: [{type:'noiseTOP',name:'noise1'},{type:'blurTOP',name:'blur1'}], conns:[['noise1','blur1']], params:[{op:'noise1',key:'amp',val:0.5},{op:'noise1',key:'freq',val:0.1},{op:'blur1',key:'radius',val:10}] },
+  'particle': { path: 'pop/box_glsl_noise', name: 'Box → GLSL POP Noise', ops: [{type:'boxPOP',name:'box1'},{type:'glslPOP',name:'glsl1'}], conns:[['box1','glsl1']], params:[{op:'box1',key:'num',val:1000},{op:'glsl1',key:'amp',val:0.5},{op:'glsl1',key:'freq',val:1.0}] },
+  'glsl noise': { path: 'pop/box_glsl_noise', name: 'Box → GLSL POP Noise', ops: [{type:'boxPOP',name:'box1'},{type:'glslPOP',name:'glsl1'}], conns:[['box1','glsl1']], params:[{op:'box1',key:'num',val:1000},{op:'glsl1',key:'amp',val:0.5},{op:'glsl1',key:'freq',val:1.0}] },
+  'fountain': { path: 'pop/fountain_particles', name: 'Fountain Particles', ops: [{type:'sourcePOP',name:'fountain1'},{type:'nullPOP',name:'null1'}], conns:[['fountain1','null1']], params:[] },
+  'explosion': { path: 'pop/explosion', name: 'Explosion', ops: [{type:'pointCloudPOP',name:'explosion1'},{type:'nullPOP',name:'null1'}], conns:[['explosion1','null1']], params:[] },
+  'color by position': { path: 'pop/color_by_pos', name: 'Color By Position', ops:[{type:'boxPOP',name:'box1'},{type:'glslPOP',name:'color1'}], conns:[['box1','color1']], params:[] },
+  'wave deform': { path: 'pop/wave_deform', name: 'Wave Deform', ops:[{type:'boxPOP',name:'box1'},{type:'glslPOP',name:'wave1'}], conns:[['box1','wave1']], params:[] },
+  'sphere': { path: 'sop/sphere_transform_render', name: 'Sphere → Transform → Render', ops:[{type:'sphereSOP',name:'sphere1'},{type:'transformSOP',name:'xform1'},{type:'renderTOP',name:'render1'}], conns:[['sphere1','xform1'],['xform1','render1']], params:[] },
+  'torus': { path: 'sop/torus_noise_deform', name: 'Torus → Noise Deform', ops:[{type:'torusSOP',name:'torus1'},{type:'noiseSOP',name:'deform1'}], conns:[['torus1','deform1']], params:[] },
+  'instancing': { path: 'sop/geometry_instancing', name: 'Geometry Instancing', ops:[{type:'sphereSOP',name:'src1'},{type:'instanceSOP',name:'inst1'}], conns:[['src1','inst1']], params:[] },
+  'edge detect': { path: 'top/edge_detect', name: 'Edge Detect', ops:[{type:'noiseTOP',name:'src1'},{type:'edgeTOP',name:'edge1'}], conns:[['src1','edge1']], params:[] },
+  'feedback': { path: 'top/feedback_loop', name: 'Feedback Loop', ops:[{type:'constantTOP',name:'src_fb'},{type:'feedbackTOP',name:'fb1'},{type:'compositeTOP',name:'comp1'}], conns:[['src_fb','comp1'],['comp1','fb1'],['fb1','comp1']], params:[] },
+  'kaleidoscope': { path: 'top/kaleido', name: 'Kaleidoscope', ops:[{type:'noiseTOP',name:'src1'},{type:'kaleidoTOP',name:'kale1'}], conns:[['src1','kale1']], params:[] },
+  'glsl shader': { path: 'glsl/pixel_shader_aurora', name: 'GLSL Aurora', ops:[{type:'glslTOP',name:'aurora1'}], conns:[], params:[] },
+  'aurora': { path: 'glsl/pixel_shader_aurora', name: 'GLSL Aurora', ops:[{type:'glslTOP',name:'aurora1'}], conns:[], params:[] },
+  'fire': { path: 'glsl/pixel_shader_fire', name: 'GLSL Fire', ops:[{type:'glslTOP',name:'fire1'}], conns:[], params:[] },
+  'mandala': { path: 'glsl/glsl_mandala', name: 'GLSL Mandala', ops:[{type:'glslTOP',name:'mandala1'}], conns:[], params:[] },
+  'audio reactive': { path: 'chop/audio_reactive_spectrum', name: 'Audio Reactive Spectrum', ops:[{type:'audioinCHOP',name:'audio_in'},{type:'spectrumCHOP',name:'spec1'}], conns:[['audio_in','spec1']], params:[] },
+  'envelope': { path: 'chop/envelope_follower', name: 'Envelope Follower', ops:[{type:'audioinCHOP',name:'audio_in'},{type:'envelopeCHOP',name:'env1'}], conns:[['audio_in','env1']], params:[] },
+  'rgb split': { path: 'top/rgb_split_glitch', name: 'RGB Split Glitch', ops:[{type:'noiseTOP',name:'src_glitch'},{type:'levelTOP',name:'r_ch'},{type:'levelTOP',name:'g_ch'},{type:'levelTOP',name:'b_ch'},{type:'compositeTOP',name:'merge_glitch'}], conns:[['src_glitch','r_ch'],['src_glitch','g_ch'],['src_glitch','b_ch'],['r_ch','merge_glitch'],['g_ch','merge_glitch'],['b_ch','merge_glitch']], params:[] },
+  'composite': { path: 'top/composite_blend', name: 'Composite Blend', ops:[{type:'constantTOP',name:'bg1'},{type:'constantTOP',name:'fg1'},{type:'compositeTOP',name:'comp1'}], conns:[['bg1','comp1'],['fg1','comp1']], params:[] },
+  'level': { path: 'top/level_adjust', name: 'Level Adjust', ops:[{type:'noiseTOP',name:'src_lvl'},{type:'levelTOP',name:'lvl1'}], conns:[['src_lvl','lvl1']], params:[] },
+  'displace': { path: 'top/noise_displace', name: 'Noise Displace', ops:[{type:'noiseTOP',name:'disp_src'},{type:'displaceTOP',name:'disp1'}], conns:[['disp_src','disp1']], params:[] },
+  'glow': { path: 'top/multi_blur_glow', name: 'Multi-Blur Glow', ops:[{type:'noiseTOP',name:'src_glow'},{type:'blurTOP',name:'glow_blur'},{type:'compositeTOP',name:'glow_comp'}], conns:[['src_glow','glow_blur'],['src_glow','glow_comp'],['glow_blur','glow_comp']], params:[] },
+  'rotate': { path: 'top/transform_rotate', name: 'Transform Rotate', ops:[{type:'noiseTOP',name:'src_rot'},{type:'transformTOP',name:'xform_rot'}], conns:[['src_rot','xform_rot']], params:[] },
+  'lfo': { path: 'chop/lfo_null', name: 'LFO → Null', ops:[{type:'lfoCHOP',name:'lfo1'},{type:'nullCHOP',name:'null_chop'}], conns:[['lfo1','null_chop']], params:[] },
+  'midi': { path: 'chop/midi_in', name: 'MIDI In', ops:[{type:'midiinCHOP',name:'midi1'},{type:'nullCHOP',name:'midi_out'}], conns:[['midi1','midi_out']], params:[] },
+};
+
+function aiAddMessage(text, role) {
+  const container = document.getElementById('aiChatMessages');
+  const msg = document.createElement('div');
+  msg.className = `ai-msg ${role}`;
+  msg.style.maxWidth = '95%';
+  msg.innerHTML = text.replace(/\n/g, '<br>');
+  container.appendChild(msg);
+  container.scrollTop = container.scrollHeight;
+}
+
+function aiSendMessage() {
+  const input = document.getElementById('aiChatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  aiAddMessage(`🧑 ${text}`, 'user');
+  aiProcessCommand(text);
+}
+
+// ─── Voice Input (Web Speech API) ───
+let aiVoiceRecognition = null;
+let aiVoiceListening = false;
+
+function aiToggleVoice() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    showToast('error', 'Voice recognition not supported in this browser. Try Chrome.');
+    return;
+  }
+
+  if (aiVoiceListening) {
+    if (aiVoiceRecognition) aiVoiceRecognition.stop();
+    aiVoiceListening = false;
+    document.getElementById('aiListeningIndicator').style.display = 'none';
+    document.getElementById('aiMicBtn').style.color = 'var(--text3)';
+    document.getElementById('aiMicBtn').textContent = '🎤';
+    return;
+  }
+
+  if (!aiVoiceRecognition) {
+    aiVoiceRecognition = new SpeechRecognition();
+    aiVoiceRecognition.lang = 'en-US';
+    aiVoiceRecognition.continuous = false;
+    aiVoiceRecognition.interimResults = false;
+
+    aiVoiceRecognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      document.getElementById('aiChatInput').value = transcript;
+      aiVoiceListening = false;
+      document.getElementById('aiListeningIndicator').style.display = 'none';
+      document.getElementById('aiMicBtn').style.color = 'var(--green)';
+      document.getElementById('aiMicBtn').textContent = '✓';
+      setTimeout(() => {
+        document.getElementById('aiMicBtn').textContent = '🎤';
+        document.getElementById('aiMicBtn').style.color = 'var(--text3)';
+      }, 1500);
+      aiSendMessage();
+    };
+
+    aiVoiceRecognition.onerror = (event) => {
+      aiVoiceListening = false;
+      document.getElementById('aiListeningIndicator').style.display = 'none';
+      document.getElementById('aiMicBtn').style.color = 'var(--red)';
+      document.getElementById('aiMicBtn').textContent = '✕';
+      setTimeout(() => {
+        document.getElementById('aiMicBtn').textContent = '🎤';
+        document.getElementById('aiMicBtn').style.color = 'var(--text3)';
+      }, 2000);
+      if (event.error !== 'no-speech' && event.error !== 'aborted') {
+        showToast('error', `Voice error: ${event.error}`);
+      }
+    };
+
+    aiVoiceRecognition.onend = () => {
+      aiVoiceListening = false;
+      document.getElementById('aiListeningIndicator').style.display = 'none';
+      document.getElementById('aiMicBtn').style.color = 'var(--text3)';
+      document.getElementById('aiMicBtn').textContent = '🎤';
+    };
+  }
+
+  aiVoiceListening = true;
+  document.getElementById('aiListeningIndicator').style.display = 'block';
+  document.getElementById('aiMicBtn').style.color = 'var(--red)';
+  document.getElementById('aiMicBtn').textContent = '🔴';
+  try {
+    aiVoiceRecognition.start();
+  } catch(e) {
+    showToast('error', 'Voice recognition error. Try again.');
+    aiVoiceListening = false;
+    document.getElementById('aiListeningIndicator').style.display = 'none';
+    document.getElementById('aiMicBtn').textContent = '🎤';
+    document.getElementById('aiMicBtn').style.color = 'var(--text3)';
+  }
+}
+
+// ─── Command Parser ───
+function aiFindOperator(nameHint) {
+  const lower = nameHint.toLowerCase();
+  // Direct name match
+  const exact = allOperators.find(o => (o.name || '').toLowerCase() === lower);
+  if (exact) return exact;
+  // Fuzzy match
+  const fuzzy = allOperators.find(o => (o.name || '').toLowerCase().includes(lower));
+  if (fuzzy) return fuzzy;
+  return null;
+}
+
+async function aiProcessCommand(text) {
+  const lower = text.toLowerCase().trim();
+  const resultEl = document.getElementById('aiChatResult');
+
+  try {
+    // HELP
+    if (lower === 'help' || lower === '?') {
+      aiAddMessage(
+        '📋 <b>Available Commands:</b><br>' +
+        '• <code>create [type] [name]</code> — e.g. "create noiseTOP mynoise"<br>' +
+        '• <code>connect [src] to [dst]</code> — e.g. "connect noise1 to blur1"<br>' +
+        '• <code>set [param] to [value] on [op]</code> — e.g. "set amp to 0.5 on noise1"<br>' +
+        '• <code>delete [name]</code> — Delete operator<br>' +
+        '• <code>list operators</code> — Show all operators<br>' +
+        '• <code>show errors</code> — Check errors<br>' +
+        '• <code>layout</code> — Auto-layout network<br>' +
+        '• <code>diagnose [op]</code> — Diagnose operator<br>' +
+        '• <code>generate [description]</code> — Build from template<br>' +
+        '• <code>help</code> — Show this help',
+        'assistant'
+      );
+      return;
+    }
+
+    // LIST OPERATORS
+    if (lower.includes('list') && (lower.includes('operator') || lower.includes('ops') || lower.includes('nodes'))) {
+      await refreshAll();
+      const ops = allOperators;
+      if (ops.length === 0) {
+        aiAddMessage('No operators found.', 'assistant');
+      } else {
+        const list = ops.slice(0, 30).map(o => `• ${o.path || o.name || '?'} (${o.type || '?'})`).join('<br>');
+        aiAddMessage(`📊 Found ${ops.length} operators:<br>${list}${ops.length > 30 ? '<br>... and ' + (ops.length - 30) + ' more' : ''}`, 'assistant');
+      }
+      return;
+    }
+
+    // SHOW ERRORS
+    if (lower.includes('show errors') || lower.includes('check errors') || lower.includes('verify')) {
+      const data = await api('GET', '/verify?path=/project1');
+      if (data && data.error) {
+        aiAddMessage(`❌ Error checking: ${data.error}`, 'assistant');
+      } else if (data) {
+        const errs = data.errors || [];
+        if (errs.length === 0) {
+          aiAddMessage('✅ Network is healthy! No errors found.', 'assistant');
+        } else {
+          const list = errs.slice(0, 10).map(e => `• ${e.path}: ${e.error}`).join('<br>');
+          aiAddMessage(`❌ Found ${errs.length} error(s):<br>${list}${errs.length > 10 ? '<br>... and ' + (errs.length - 10) + ' more' : ''}`, 'assistant');
+        }
+      }
+      return;
+    }
+
+    // LAYOUT
+    if (lower === 'layout' || lower === 'auto layout' || lower === 'auto-layout' || lower === 'auto_layout') {
+      aiAddMessage('🔄 Running auto-layout...', 'assistant');
+      const resp = await api('POST', '/auto_layout', { path: '/project1' });
+      if (resp && resp.output) {
+        try {
+          const parsed = JSON.parse(resp.output);
+          if (parsed.success) {
+            aiAddMessage(`✅ Auto-layout complete! ${parsed.count || 0} operators positioned.`, 'assistant');
+            await refreshAll();
+          } else {
+            aiAddMessage(`❌ Layout error: ${parsed.error || 'unknown'}`, 'assistant');
+          }
+        } catch {
+          aiAddMessage(`✅ Layout command sent. Refresh to see changes.`, 'assistant');
+        }
+      } else {
+        aiAddMessage(`✅ Layout command sent. Refresh to see changes.`, 'assistant');
+      }
+      return;
+    }
+
+    // GENERATE from description (template matching)
+    if (lower.startsWith('generate ') || lower.startsWith('create project ') || lower.startsWith('make ')) {
+      await runProjectWizardInternal(text);
+      return;
+    }
+
+    // DIAGNOSE
+    const diagMatch = lower.match(/^(?:diagnose|inspect|check)\s+(.+)$/);
+    if (diagMatch) {
+      const opName = diagMatch[1].trim();
+      const op = aiFindOperator(opName);
+      if (!op) {
+        aiAddMessage(`❌ Operator "${opName}" not found. Available operators: ${allOperators.map(o => o.name || o.path).join(', ')}`, 'assistant');
+        return;
+      }
+      aiAddMessage(`🔍 Diagnosing ${op.name || op.path}...`, 'assistant');
+      const resp = await api('POST', '/diagnose', { path: op.path });
+      if (resp && resp.output) {
+        try {
+          const parsed = JSON.parse(resp.output);
+          if (parsed.healthy) {
+            aiAddMessage(`✅ ${parsed.name} is healthy! No issues found.`, 'assistant');
+          } else {
+            let msg = `🔍 Diagnosis for ${parsed.name}:<br>`;
+            if (parsed.issues && parsed.issues.length) {
+              msg += `<b>Issues:</b><br>`;
+              parsed.issues.forEach(i => msg += `• [${i.category}] ${i.message}<br>`);
+            }
+            if (parsed.fixes && parsed.fixes.length) {
+              msg += `<b>Suggested fixes:</b><br>`;
+              parsed.fixes.forEach(f => msg += `• ${f.fix}<br>`);
+            }
+            aiAddMessage(msg, 'assistant');
+          }
+        } catch {
+          aiAddMessage(`✅ Diagnose command sent for ${op.name}.`, 'assistant');
+        }
+      } else {
+        aiAddMessage(`✅ Diagnose command sent for ${op.name}.`, 'assistant');
+      }
+      return;
+    }
+
+    // CREATE operator
+    const createMatch = lower.match(/^(?:create|add|make|new)\s+(\w+)(?:\s+(\w+))?$/);
+    if (createMatch) {
+      const opType = createMatch[1];
+      const opName = createMatch[2] || opType;
+      aiAddMessage(`🔧 Creating ${opType} "${opName}"...`, 'assistant');
+      const resp = await api('POST', '/exec', {
+        code: `import json\nme = op('/project1')\no = me.create(td.${opType}, '${opName}')\no.nodeX = 0; o.nodeY = 0\nprint(json.dumps({'success':True,'path':o.path,'name':o.name}))`
+      });
+      if (resp && resp.output) {
+        try {
+          const parsed = JSON.parse(resp.output);
+          if (parsed.success) {
+            aiAddMessage(`✅ Created ${opType} "${parsed.name}" at ${parsed.path}`, 'assistant');
+            await refreshAll();
+          } else {
+            aiAddMessage(`❌ Failed: ${parsed.error || resp.output}`, 'assistant');
+          }
+        } catch {
+          aiAddMessage(`✅ Create command sent. Check the network tab.`, 'assistant');
+        }
+      } else if (resp && resp.error) {
+        aiAddMessage(`❌ Error: ${resp.error}`, 'assistant');
+      } else {
+        aiAddMessage(`✅ Create command sent.`, 'assistant');
+      }
+      return;
+    }
+
+    // DELETE operator
+    const delMatch = lower.match(/^(?:delete|remove|kill)\s+(.+)$/);
+    if (delMatch) {
+      const opName = delMatch[1].trim();
+      const op = aiFindOperator(opName);
+      if (!op) {
+        aiAddMessage(`❌ Operator "${opName}" not found.`, 'assistant');
+        return;
+      }
+      aiAddMessage(`🗑️ Deleting ${op.name || op.path}...`, 'assistant');
+      const resp = await api('POST', '/delete_operator', { path: op.path });
+      if (resp && resp.success === false) {
+        aiAddMessage(`❌ Delete failed: ${resp.error || 'unknown error'}`, 'assistant');
+      } else {
+        aiAddMessage(`✅ Deleted ${op.name || op.path}`, 'assistant');
+        await refreshAll();
+      }
+      return;
+    }
+
+    // CONNECT
+    const connMatch = lower.match(/^(?:connect|wire|link)\s+(.+?)\s+(?:to|->|→)\s+(.+)$/);
+    if (connMatch) {
+      const srcName = connMatch[1].trim();
+      const dstName = connMatch[2].trim();
+      const srcOp = aiFindOperator(srcName);
+      const dstOp = aiFindOperator(dstName);
+      if (!srcOp) { aiAddMessage(`❌ Source "${srcName}" not found.`, 'assistant'); return; }
+      if (!dstOp) { aiAddMessage(`❌ Destination "${dstName}" not found.`, 'assistant'); return; }
+      aiAddMessage(`🔗 Connecting ${srcOp.name} → ${dstOp.name}...`, 'assistant');
+      const resp = await api('POST', '/connect_nodes', { from_path: srcOp.path, to_path: dstOp.path });
+      if (resp && resp.success === false) {
+        aiAddMessage(`❌ Connect failed: ${resp.error || 'unknown error'}`, 'assistant');
+      } else {
+        aiAddMessage(`✅ Connected ${srcOp.name} → ${dstOp.name}`, 'assistant');
+        await refreshAll();
+      }
+      return;
+    }
+
+    // SET parameter
+    const setMatch = lower.match(/^set\s+(.+?)\s+(?:to|as|=)\s+(.+?)(?:\s+(?:on|for|of)\s+(.+))?$/);
+    if (setMatch) {
+      const paramName = setMatch[1].trim();
+      const paramVal = setMatch[2].trim();
+      const opName = (setMatch[3] || '').trim();
+      if (!opName) {
+        // Try "set amp of noise1 to 0.5" pattern
+        const altMatch = lower.match(/^set\s+(.+?)\s+(?:on|for|of)\s+(.+?)\s+(?:to|as|=)\s+(.+)$/);
+        if (altMatch) {
+          const r = await aiHandleSetParam(altMatch[1].trim(), altMatch[2].trim(), altMatch[3].trim());
+          return;
+        }
+        aiAddMessage('❌ Please specify an operator. Try: "set amp to 0.5 on noise1"', 'assistant');
+        return;
+      }
+      const r = await aiHandleSetParam(paramName, opName, paramVal);
+      return;
+    }
+
+    // Try alternate: "set [param] on [op] to [value]"
+    const setAltMatch = lower.match(/^set\s+(.+?)\s+(?:on|for|of)\s+(.+?)\s+(?:to|as|=)\s+(.+)$/);
+    if (setAltMatch) {
+      const r = await aiHandleSetParam(setAltMatch[1].trim(), setAltMatch[2].trim(), setAltMatch[3].trim());
+      return;
+    }
+
+    // Default: try generate/project wizard with the text
+    aiAddMessage(`🤔 I don't understand that command. Trying to build a project from your description...`, 'assistant');
+    await runProjectWizardInternal(text);
+
+  } catch (e) {
+    aiAddMessage(`❌ Error: ${e.message}`, 'assistant');
+  }
+}
+
+async function aiHandleSetParam(paramName, opName, paramVal) {
+  const op = aiFindOperator(opName);
+  if (!op) {
+    aiAddMessage(`❌ Operator "${opName}" not found.`, 'assistant');
+    return;
+  }
+  // Convert value
+  let numVal = parseFloat(paramVal);
+  let setVal = isNaN(numVal) ? paramVal : numVal;
+  aiAddMessage(`🎛️ Setting ${paramName} = ${setVal} on ${op.name}...`, 'assistant');
+  const params = {};
+  params[paramName] = setVal;
+  const resp = await api('POST', '/parameters/set', { path: op.path, params });
+  if (resp && resp.success === false) {
+    aiAddMessage(`❌ Set param failed: ${resp.error || 'unknown error'}`, 'assistant');
+  } else if (resp && resp.error) {
+    aiAddMessage(`❌ Error: ${resp.error}`, 'assistant');
+  } else {
+    aiAddMessage(`✅ Set ${paramName} = ${setVal} on ${op.name}`, 'assistant');
+  }
+}
+
+// ─── Project Wizard ────────────────────────────────────────────────────────
+
+function openProjectWizard() {
+  document.getElementById('projectWizardOverlay').classList.add('show');
+  document.getElementById('projectDescInput').value = '';
+  document.getElementById('projectWizardStatus').innerHTML = '';
+  setTimeout(() => document.getElementById('projectDescInput').focus(), 100);
+}
+
+function closeProjectWizard() {
+  document.getElementById('projectWizardOverlay').classList.remove('show');
+}
+
+// Close modal on overlay click
+document.addEventListener('DOMContentLoaded', () => {
+  const overlay = document.getElementById('projectWizardOverlay');
+  if (overlay) {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeProjectWizard();
+    });
+  }
+});
+
+async function runProjectWizard() {
+  const desc = document.getElementById('projectDescInput').value.trim();
+  if (!desc) {
+    showToast('warning', 'Please enter a description of what you want to build.');
+    return;
+  }
+  await runProjectWizardInternal(desc);
+  closeProjectWizard();
+}
+
+async function runProjectWizardInternal(desc) {
+  const statusEl = document.getElementById('projectWizardStatus');
+  const lower = desc.toLowerCase();
+
+  // Match templates by keywords
+  let bestMatch = null;
+  let bestScore = 0;
+
+  for (const [keyword, template] of Object.entries(AI_TEMPLATES)) {
+    let score = 0;
+    const kwParts = keyword.split(' ');
+    for (const part of kwParts) {
+      if (lower.includes(part)) score += 10;
+    }
+    // Bonus for matching multiple keywords
+    if (kwParts.length > 1 && kwParts.every(p => lower.includes(p))) score += 20;
+    if (score > bestScore) {
+      bestScore = score;
+      bestMatch = template;
+    }
+  }
+
+  if (!bestMatch || bestScore < 5) {
+    // Fallback: try to extract operator type from description
+    const typeMatch = lower.match(/\b(noise|blur|glsl|sphere|box|torus|particle|font|text|edge|kaleido|composite|level|transform|feedback|displace|glow|rotate|audio|lfo|midi)\b/i);
+    if (typeMatch) {
+      const fallbackKw = typeMatch[1].toLowerCase();
+      for (const [keyword, template] of Object.entries(AI_TEMPLATES)) {
+        if (keyword.includes(fallbackKw)) {
+          bestMatch = template;
+          bestScore = 5;
+          break;
+        }
+      }
+    }
+  }
+
+  if (!bestMatch) {
+    const msg = '❌ No matching template found. Try being more specific, e.g.:\n' +
+      Object.keys(AI_TEMPLATES).sort().slice(0, 20).map(k => `• "${k}"`).join('\n');
+    if (statusEl) statusEl.innerHTML = msg.replace(/\n/g, '<br>');
+    else aiAddMessage(msg, 'assistant');
+    return;
+  }
+
+  if (statusEl) {
+    statusEl.innerHTML = `🎯 Matched template: <b>${bestMatch.name}</b><br>⚙️ Creating ${bestMatch.ops.length} operators...<br>`;
+  } else {
+    aiAddMessage(`🎯 Matched template: ${bestMatch.name}. Building...`, 'assistant');
+  }
+
+  // Execute the template via /batch
+  const operations = [];
+
+  for (const opSpec of bestMatch.ops) {
+    const code = `me = op('/project1')\no = me.create(td.${opSpec.type}, '${opSpec.name}')\no.nodeX = ${Math.random() * 400 - 200|0}; o.nodeY = ${Math.random() * 300 - 150|0}\nprint(o.path)`;
+    operations.push({ method: 'POST', path: '/exec', body: { code } });
+  }
+
+  for (const [src, dst] of bestMatch.conns) {
+    const code = `src = op('/project1/${src}')\ndst = op('/project1/${dst}')\nif src and dst:\n  src.outputConnectors[0].connect(dst)\n  print('connected')`;
+    operations.push({ method: 'POST', path: '/exec', body: { code } });
+  }
+
+  for (const p of bestMatch.params) {
+    operations.push({ method: 'POST', path: '/parameters/set', body: { path: `/project1/${p.op}`, params: { [p.key]: p.val } } });
+  }
+
+  // Run auto-layout
+  operations.push({ method: 'POST', path: '/auto_layout', body: { path: '/project1' } });
+
+  const resp = await api('POST', '/batch', { operations });
+
+  if (resp && resp.hasError) {
+    const errCount = (resp.results || []).filter(r => r.error).length;
+    if (statusEl) {
+      statusEl.innerHTML += `⚠️ ${errCount} operation(s) had errors.<br>✅ ${bestMatch.name} built (with some issues).`;
+    } else {
+      aiAddMessage(`⚠️ ${errCount} operation(s) had errors. Template mostly applied.`, 'assistant');
+    }
+  } else {
+    if (statusEl) {
+      statusEl.innerHTML += `✅ <b>${bestMatch.name}</b> built successfully!<br>🔄 Refreshing...`;
+    } else {
+      aiAddMessage(`✅ ${bestMatch.name} built successfully!`, 'assistant');
+    }
+  }
+
+  await refreshAll();
+}
+
 // ─── Resize handler ───
 window.addEventListener('resize', () => { drawNetwork(allOperators); drawFpsChart() })
 </script>
-</body>
-</html>
+
+<!-- PWA Install Banner -->
+<div class="pwa-banner" id="pwaBanner">
+  <span class="pwa-banner-text">📦 Install TD-MCP Nexus for offline access</span>
+  <button class="pwa-banner-btn" id="pwaInstallBtn">Install</button>
+  <button class="pwa-banner-close" onclick="document.getElementById('pwaBanner').classList.remove('show')">✕</button>
+</div>
+
+<!-- Offline overlay -->
+<div class="offline-overlay" id="offlineOverlay">
+  <div class="offline-icon">📡</div>
+  <div class="offline-title">No Connection</div>
+  <div class="offline-msg">TD-MCP Nexus requires a connection to the TouchDesigner server. Please check your server and try again.</div>
+</div>
+
+<script>
+// ─── PWA / Service Worker ───
+if ('serviceWorker' in navigator) {
+  const swCode = `
+const CACHE_NAME = 'tdmcp-nexus-v1';
+const OFFLINE_URL = '/offline';
+self.addEventListener('install', (e) => {
+  e.waitUntil(
+    caches.open(CACHE_NAME).then(cache => {
+      return cache.addAll(['/']);
+    }).then(() => self.skipWaiting())
+  );
+});
+self.addEventListener('activate', (e) => {
+  e.waitUntil(clients.claim());
+});
+self.addEventListener('fetch', (e) => {
+  if (e.request.mode === 'navigate') {
+    e.respondWith(
+      fetch(e.request).catch(() => caches.match(e.request).then(r => r || new Response(
+        '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>TD-MCP Offline</title><style>body{background:#07070d;color:#c8c8e0;font-family:Inter,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;flex-direction:column;gap:16px;text-align:center;padding:20px}h1{font-size:24px;color:#6c5ce7}p{color:#8888aa;max-width:400px}</style></head><body><h1>📡 TD-MCP Nexus</h1><h2>Offline</h2><p>The TouchDesigner MCP server is not reachable. Please restart the server and reload this page.</p></body></html>',
+        { headers: { 'Content-Type': 'text/html' } }
+      )))
+    );
+    return;
+  }
+  e.respondWith(
+    caches.match(e.request).then(r => r || fetch(e.request).catch(() => new Response('Offline', { status: 503 })))
+  );
+});
+`;
+  const blob = new Blob([swCode], { type: 'application/javascript' });
+  const swUrl = URL.createObjectURL(blob);
+  navigator.serviceWorker.register(swUrl, { scope: '/' }).catch(() => {});
+}
+
+// PWA install prompt
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('pwaBanner').classList.add('show');
+});
+document.getElementById('pwaInstallBtn').addEventListener('click', async () => {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    const result = await deferredPrompt.userChoice;
+    if (result.outcome === 'accepted') {
+      document.getElementById('pwaBanner').classList.remove('show');
+    }
+    deferredPrompt = null;
+  }
+});
+
+// Web app manifest (inline JSON served as data URI)
+const manifestData = {
+  name: "TD-MCP Nexus",
+  short_name: "TD-MCP",
+  description: "TouchDesigner MCP Control Dashboard",
+  start_url: "/",
+  display: "standalone",
+  background_color: "#07070d",
+  theme_color: "#6c5ce7",
+  icons: [
+    { src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='32' fill='%236c5ce7'/%3E%3Ctext x='96' y='128' font-size='96' text-anchor='middle' fill='white' font-family='sans-serif'%3E⬡%3C/text%3E%3C/svg%3E", sizes: "192x192", type: "image/svg+xml" },
+    { src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='64' fill='%236c5ce7'/%3E%3Ctext x='256' y='340' font-size='200' text-anchor='middle' fill='white' font-family='sans-serif'%3E⬡%3C/text%3E%3C/svg%3E", sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" }
+  ]
+};
+const manifestBlob = new Blob([JSON.stringify(manifestData)], { type: 'application/json' });
+const manifestUrl = URL.createObjectURL(manifestBlob);
+const manifestLink = document.createElement('link');
+manifestLink.rel = 'manifest';
+manifestLink.href = manifestUrl;
+document.head.appendChild(manifestLink);
+
+// Online/offline detection
+window.addEventListener('offline', () => {
+  document.getElementById('offlineOverlay').classList.add('show');
+});
+window.addEventListener('online', () => {
+  document.getElementById('offlineOverlay').classList.remove('show');
+});
+</script>
+</body></html>

@@ -1,0 +1,36 @@
+{
+  "name": "td-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP (Model Context Protocol) server for TouchDesigner. Provides tools and resources to create, read, update, and delete TouchDesigner operators, parameters, and connections via the MCP stdio protocol.",
+  "main": "mcp_server_stdio.py",
+  "bin": {
+    "td-mcp-server": "./mcp_server_stdio.py"
+  },
+  "scripts": {
+    "start": "python mcp_server_stdio.py",
+    "test": "python -c \"import mcp_server_stdio; print('MCP server module loaded successfully')\""
+  },
+  "keywords": [
+    "touchdesigner",
+    "mcp",
+    "model-context-protocol",
+    "td",
+    "node-based",
+    "vfx",
+    "realtime-graphics"
+  ],
+  "author": "Nous Research",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nousresearch/touchdesigner-mcp"
+  },
+  "engines": {
+    "python": ">=3.9"
+  },
+  "files": [
+    "mcp_server_stdio.py",
+    "plugins/",
+    "README.md"
+  ]
+}

@@ -179,6 +179,8 @@ export interface ProjectLifecycleResult {
   error?: string;
 }
 
+export type TDTransport = "http" | "websocket" | "auto";
+
 export interface TDClientOptions {
   host?: string;
   port?: number;
@@ -186,6 +188,8 @@ export interface TDClientOptions {
   connectionTimeout?: number;
   /** Default timeout in ms for individual API calls (default 30000). */
   requestTimeout?: number;
+  /** Transport mode: 'http' (default), 'websocket' (persistent connection), or 'auto' (try WS first, fallback HTTP). */
+  transport?: TDTransport;
 }
 
 // -----------------------------------------------------------------------------
@@ -202,8 +206,19 @@ function isAbortError(e: unknown): boolean {
 
 export class TDClient {
   private baseUrl: string;
+  private host: string;
+  private port: number;
   private connectionTimeout: number;
   private requestTimeout: number;
+  private transport: TDTransport;
+
+  // ---------------------------------------------------------------------------
+  // WebSocket transport (lazy-initialized)
+  // ---------------------------------------------------------------------------
+  private _ws: import("./tdWebSocket.js").TDWebSocketClient | null = null;
+  private _wsConnecting = false;
+  private _wsFailed = false;
+  private _wsFailedAt: number | undefined;
 
   // ---------------------------------------------------------------------------
   // Connection cache (TTL 2s) & watchdog
@@ -229,20 +244,140 @@ export class TDClient {
     const host = options.host ?? process.env.TDAPI_HOST ?? "localhost";
     const port =
       options.port ?? parseInt(process.env.TDAPI_PORT ?? "44444", 10);
+    this.host = host;
+    this.port = port;
     this.baseUrl = `http://${host}:${port}`;
     this.connectionTimeout = options.connectionTimeout ?? 3000;
     this.requestTimeout = options.requestTimeout ?? 30000;
+    this.transport = options.transport ?? "auto";
   }
 
   // ---------------------------------------------------------------------------
-  // Shared request helper — handles timeouts, error bodies, JSON parsing
+  // WebSocket transport (lazy connect)
   // ---------------------------------------------------------------------------
+
+  private async _ensureWebSocket(): Promise<import("./tdWebSocket.js").TDWebSocketClient> {
+    if (this._ws && this._ws.connected) return this._ws;
+    // Reset failed flag after 30s cooldown so WebSocket can retry
+    if (this._wsFailed && this._wsFailedAt && Date.now() - this._wsFailedAt > 30000) {
+      this._wsFailed = false;
+      this._wsFailedAt = undefined;
+    }
+    if (this._wsFailed) throw new Error("WebSocket transport previously failed");
+    if (this._wsConnecting) {
+      // Wait for in-flight connection attempt
+      await new Promise((r) => setTimeout(r, 100));
+      if (this._ws && this._ws.connected) return this._ws;
+      throw new Error("WebSocket connection in progress");
+    }
+
+    // Dynamic import — ws is an optional dependency
+    const { TDWebSocketClient } = await import("./tdWebSocket.js");
+    const wsClient = new TDWebSocketClient({
+      host: this.host,
+      port: this.port,
+      requestTimeout: this.requestTimeout,
+    });
+    wsClient.onConnectionChange = (connected) => {
+      this._lastKnownConnected = connected;
+      if (this.onConnectionChange) this.onConnectionChange(connected);
+    };
+
+    this._wsConnecting = true;
+    try {
+      await wsClient.connect();
+      this._ws = wsClient;
+      this._wsFailed = false;
+      this._lastKnownConnected = true;
+      return wsClient;
+    } catch (e) {
+      this._wsFailed = true;
+      this._wsFailedAt = Date.now();
+      throw e;
+    } finally {
+      this._wsConnecting = false;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Shared request helper — handles WebSocket, HTTP fallback, timeouts
+  // ---------------------------------------------------------------------------
+
+  /**
+   * Execute a request against the TD API. Routes through WebSocket when
+   * transport is 'websocket' or 'auto' (trying WebSocket first with HTTP
+   * fallback). Falls back to HTTP when transport is 'http' or when the
+   * WebSocket is unavailable.
+   */
+  private async _request(
+    url: string,
+    options: {
+      method?: string;
+      body?: string;
+      headers?: Record<string, string>;
+      timeout?: number;
+    } = {},
+  ): Promise<any> {
+    // --- Try WebSocket first for 'auto' or 'websocket' modes ---
+    if (this.transport !== "http") {
+      try {
+        return await this._requestViaWebSocket(url, options);
+      } catch (wsErr) {
+        // For 'websocket' mode, don't fallback to HTTP
+        if (this.transport === "websocket") throw wsErr;
+        // For 'auto', fallback to HTTP silently
+      }
+    }
+
+    // --- HTTP fallback ---
+    return this._requestViaHttp(url, options);
+  }
+
+  /**
+   * Route an HTTP-style request through the WebSocket JSON-RPC protocol.
+   * Maps URL path + method to a WebSocket method name and params.
+   */
+  private async _requestViaWebSocket(
+    url: string,
+    options: {
+      method?: string;
+      body?: string;
+      timeout?: number;
+    } = {},
+  ): Promise<any> {
+    const ws = await this._ensureWebSocket();
+
+    // Parse the URL to extract method and params
+    const parsed = new URL(url);
+    const path = parsed.pathname;
+    const httpMethod = options.method ?? "GET";
+
+    // Map URL path to WebSocket method name
+    let wsMethod = path.replace(/^\//, ""); // strip leading /
+    if (!wsMethod) wsMethod = "info";
+
+    // Build params from query string and/or body
+    const params: Record<string, unknown> = {};
+    for (const [k, v] of parsed.searchParams) {
+      params[k] = v;
+    }
+    if (options.body) {
+      try {
+        const body = JSON.parse(options.body);
+        Object.assign(params, body);
+      } catch {
+        // body isn't JSON — pass as-is
+      }
+    }
+
+    return ws.request(wsMethod, params, options.timeout);
+  }
 
   /**
    * Execute an HTTP request against the TD API with timeout and standardised
    * error handling.  Throws on non-2xx responses including the body text.
    */
-  private async _request(
+  private async _requestViaHttp(
     url: string,
     options: {
       method?: string;
@@ -531,21 +666,22 @@ export class TDClient {
     }
     return this._request(url.toString());
   }
-
   async setParameters(
     path: string,
     updates: ParameterUpdate[],
     transactional: boolean = true,
   ): Promise<ParameterSetResult> {
     const safePath = path.replace(/'/g, "\\'");
-    const updatesJson = JSON.stringify(updates).replace(/'/g, "\\'");
-    const code = `import json
+    const updatesJson = JSON.stringify(updates);
+    const updatesB64 = Buffer.from(updatesJson).toString("base64");
+    const pyTransactional = transactional ? "True" : "False";
+    const code = `import json,base64
 try:
     t = op('${safePath}')
     if t is None:
         print(json.dumps({'success':False,'error':'Not found'}))
     else:
-        updates = json.loads('${updatesJson}')
+        updates = json.loads(base64.b64decode('${updatesB64}').decode('utf-8'))
         updated = []
         missing = []
         for u in updates:
@@ -643,13 +779,14 @@ except Exception as e:
   }
 
   async deleteOperator(path: string): Promise<DeleteOperatorResult> {
-    const code = `import json
-try:
-    t = op('${path.replace(/'/g, "\\'")}')
-    if t is None: print(json.dumps({'success':False,'path':'${path.replace(/'/g, "\\'")}'}))
-    else: t.destroy(); print(json.dumps({'success':True,'path':'${path.replace(/'/g, "\\'")}'}))
-except Exception as e:
-    print(json.dumps({'success':False,'path':'${path.replace(/'/g, "\\'")}','error':str(e)}))`;
+    const sp = Py.esc(path);
+    const code = new Py()
+      .import_("json")
+      .tryBody(`t = op('${sp}')`)
+      .tryBody(`if t is None: print(json.dumps({'success':False,'path':'${sp}'}))`)
+      .tryBody(`else: t.destroy(); print(json.dumps({'success':True,'path':'${sp}'}))`)
+      .exceptBody(`print(json.dumps({'success':False,'path':'${sp}','error':str(e)}))`)
+      .build();
     return this.executeJson<DeleteOperatorResult>(code);
   }
 
@@ -658,14 +795,16 @@ except Exception as e:
     targetPath: string,
     targetInput: number = 0,
   ): Promise<ConnectNodesResult> {
-    const code = `import json
-try:
-    src = op('${sourcePath.replace(/'/g, "\\'")}'); tgt = op('${targetPath.replace(/'/g, "\\'")}')
-    if src is None: print(json.dumps({'success':False,'sourcePath':'${sourcePath.replace(/'/g, "\\'")}','targetPath':'${targetPath.replace(/'/g, "\\'")}','sourceOutput':'output','targetInput':${targetInput},'error':'Source not found'}))
-    elif tgt is None: print(json.dumps({'success':False,'sourcePath':'${sourcePath.replace(/'/g, "\\'")}','targetPath':'${targetPath.replace(/'/g, "\\'")}','sourceOutput':'output','targetInput':${targetInput},'error':'Target not found'}))
-    else: tgt.inputConnectors[${targetInput}].connect(src); print(json.dumps({'success':True,'sourcePath':src.path,'targetPath':tgt.path,'sourceOutput':'output','targetInput':${targetInput}}))
-except Exception as e:
-    print(json.dumps({'success':False,'sourcePath':'${sourcePath.replace(/'/g, "\\'")}','targetPath':'${targetPath.replace(/'/g, "\\'")}','sourceOutput':'output','targetInput':${targetInput},'error':str(e)}))`;
+    const sSrc = Py.esc(sourcePath);
+    const sTgt = Py.esc(targetPath);
+    const code = new Py()
+      .import_("json")
+      .tryBody(`src = op('${sSrc}'); tgt = op('${sTgt}')`)
+      .tryBody(`if src is None: print(json.dumps({'success':False,'sourcePath':'${sSrc}','targetPath':'${sTgt}','sourceOutput':'output','targetInput':${targetInput},'error':'Source not found'}))`)
+      .tryBody(`elif tgt is None: print(json.dumps({'success':False,'sourcePath':'${sSrc}','targetPath':'${sTgt}','sourceOutput':'output','targetInput':${targetInput},'error':'Target not found'}))`)
+      .tryBody(`else: tgt.inputConnectors[${targetInput}].connect(src); print(json.dumps({'success':True,'sourcePath':src.path,'targetPath':tgt.path,'sourceOutput':'output','targetInput':${targetInput}}))`)
+      .exceptBody(`print(json.dumps({'success':False,'sourcePath':'${sSrc}','targetPath':'${sTgt}','sourceOutput':'output','targetInput':${targetInput},'error':str(e)}))`)
+      .build();
     return this.executeJson<ConnectNodesResult>(code);
   }
 
@@ -673,10 +812,12 @@ except Exception as e:
     path: string,
     recurse: boolean = true,
   ): Promise<GetErrorsResult> {
+    const safePath = path.replace(/'/g, "\\'");
+    const pyRecurse = recurse ? "True" : "False";
     const code = `import json
 try:
-    t = op('${path.replace(/'/g, "\\'")}')
-    if t is None: print(json.dumps({"path":"${path.replace(/'/g, "\\'")}","recurse":${recurse},"operators":[],"issueCount":0}))
+    t = op('${safePath}')
+    if t is None: print(json.dumps({"path":"${safePath}","recurse":${pyRecurse},"operators":[],"issueCount":0}))
     else:
         def collect(n):
             try: n.cook(force=True)
@@ -696,9 +837,9 @@ try:
             except: pass
         if ${recurse ? 'True' : 'False'}: walk(t)
         else: items.append(collect(t))
-        print(json.dumps({"path":t.path,"recurse":${recurse},"operators":items,"issueCount":len([i for i in items if i["hasIssues"]])}))
+        print(json.dumps({"path":t.path,"recurse":${pyRecurse},"operators":items,"issueCount":len([i for i in items if i["hasIssues"]])}))
 except Exception as e:
-    print(json.dumps({"path":"${path.replace(/'/g, "\\'")}","recurse":${recurse},"operators":[],"issueCount":0,"error":str(e)}))`;
+    print(json.dumps({"path":"${safePath}","recurse":${pyRecurse},"operators":[],"issueCount":0,"error":str(e)}))`;
     return this.executeJson<GetErrorsResult>(code);
   }
 
@@ -889,15 +1030,20 @@ except Exception as e:
     newText?: string,
     replaceAll?: boolean,
   ): Promise<any> {
+    const safePath = path.replace(/'/g, "\\'");
+    const safeOld = oldText ? oldText.replace(/'/g, "\\'") : "";
+    const safeNew = newText ? newText.replace(/'/g, "\\'") : "";
+    const safeText = text ? text.replace(/'/g, "\\'") : "";
+    const pyReplaceAll = replaceAll === true ? "True" : "False";
     const code = `import json
 try:
-    t = op('${path.replace(/'/g, "\\'")}')
+    t = op('${safePath}')
     if t is None: print(json.dumps({'success':False,"error":"DAT not found"}))
     else:
-        if '${oldText ? oldText.replace(/'/g, "\\'") : ""}':
-            old = '${oldText ? oldText.replace(/'/g, "\\'") : ""}'
-            new = '${newText ? newText.replace(/'/g, "\\'") : ""}'
-            if ${replaceAll ?? false}:
+        if '${safeOld}':
+            old = '${safeOld}'
+            new = '${safeNew}'
+            if ${pyReplaceAll}:
                 t.text = t.text.replace(old, new)
             else:
                 idx = t.text.find(old)
@@ -922,7 +1068,7 @@ except Exception as e:
     end?: number,
   ): Promise<any> {
     const safePath = path.replace(/'/g, "\\'");
-    const chansJson = JSON.stringify(channels);
+    const chansJson = channels === undefined ? "null" : JSON.stringify(channels);
     const code = `import json
 try:
     t = op('${safePath}')
@@ -933,7 +1079,7 @@ try:
     else:
         chans = ${chansJson === "null" ? "None" : chansJson}
         s = ${start ?? 0}; e = ${end ?? "t.numSamples"}
-        result = {"path":t.path,"numSamples":t.numSamples,"numChannels":t.numChannels,"channels":{}}
+        result = {"path":t.path,"numSamples":t.numSamples,"numChannels":t.numChannels if hasattr(t, 'numChannels') else 0,"channels":{}}
         if chans:
             for name in chans:
                 try:
@@ -942,9 +1088,22 @@ try:
                     result["channels"][name] = vals
                 except: pass
         else:
-            for c in t.channels():
-                vals = [c[i] for i in range(max(0,s), min(e,t.numSamples))]
-                result["channels"][c.name] = vals
+            # Iterar canales de forma segura
+            try:
+                ch_names = [ch.name for ch in t.chans()]
+            except:
+                try:
+                    ch_names = [ch.name for ch in t]
+                except:
+                    ch_names = []
+            for name in ch_names:
+                try:
+                    c = t.channel(name) if hasattr(t, 'channel') else None
+                    if c is not None:
+                        vals = [c[j] for j in range(max(0,s), min(e,t.numSamples))]
+                        result["channels"][name] = vals
+                except:
+                    pass
         print(json.dumps({'success':True,"data":result}))
 except Exception as e:
     print(json.dumps({'success':False,"error":str(e)}))`;
@@ -963,16 +1122,21 @@ except Exception as e:
     maxResults?: number,
     countOnly?: boolean,
   ): Promise<any> {
+    const safeRoot = root ? root.replace(/'/g, "\\'") : "/project1";
+    const safeQuery = query.replace(/'/g, "\\'");
+    const safeScope = scope ?? "all";
+    const pyCaseSensitive = caseSensitive === true ? "True" : "False";
+    const pyCountOnly = countOnly === true ? "True" : "False";
     const code = `import json
 try:
     import re
-    root_op = op('${root ? root.replace(/'/g, "\\'") : "/project1"}')
-    q = '${query.replace(/'/g, "\\'")}'
-    cs = ${caseSensitive ?? false}
+    root_op = op('${safeRoot}')
+    q = '${safeQuery}'
+    cs = ${pyCaseSensitive}
     flags = 0 if cs else re.IGNORECASE
-    scope_flag = '${scope ?? "all"}'
+    scope_flag = '${safeScope}'
     max_r = ${maxResults ?? 50}
-    count_only = ${countOnly ?? false}
+    count_only = ${pyCountOnly}
     results = []
     def search_node(n, depth=0):
         if n is None or depth > 20: return
@@ -1124,6 +1288,172 @@ except Exception as e:
     return this.executeJson<any>(code);
   }
 
+  /**
+   * Get comprehensive spatial context: current network, selected operators,
+   * focused operator, parent path, siblings, and pane state.
+   * Designed for *here and *this spatial markers.
+   */
+  async getSpatialContext(): Promise<any> {
+    const code = `import json
+try:
+    ctx = {}
+    
+    # --- Pane state ---
+    pane = ui.panes.current if hasattr(ui, 'panes') else None
+    if pane is None and ui.panes:
+        pane = ui.panes[0]
+    
+    network_path = '/'
+    pane_info = {}
+    if pane is not None:
+        try:
+            owner = pane.owner
+            if owner is not None:
+                network_path = owner.path
+                pane_info = {
+                    'networkPath': owner.path,
+                    'networkName': owner.name,
+                    'networkType': owner.OPType,
+                    'x': pane.x if hasattr(pane, 'x') else 0,
+                    'y': pane.y if hasattr(pane, 'y') else 0,
+                    'zoom': pane.zoom if hasattr(pane, 'zoom') else 1.0,
+                }
+        except: pass
+    ctx['pane'] = pane_info
+    ctx['networkPath'] = network_path
+    
+    # --- Parent path (one level up) ---
+    parent_path = '/'
+    try:
+        current_op = op(network_path)
+        if current_op is not None and current_op.parent() is not None:
+            parent_path = current_op.parent().path
+    except: pass
+    ctx['parentPath'] = parent_path
+    
+    # --- Viewed network info (the COMP you're looking inside) ---
+    viewed_network = None
+    try:
+        current_op = op(network_path)
+        if current_op is not None:
+            viewed_network = {
+                'path': current_op.path,
+                'name': current_op.name,
+                'opType': current_op.OPType,
+                'family': getattr(current_op, 'family', None),
+            }
+    except: pass
+    ctx['viewedNetwork'] = viewed_network
+    
+    # --- Focused operator (the one with blue highlight: child.current == True) ---
+    focused = None
+    try:
+        if pane is not None and pane.owner is not None:
+            for child in pane.owner.children:
+                if child.current:
+                    pars = []
+                    try:
+                        for p in child.pars():
+                            pars.append({
+                                'name': p.name,
+                                'label': getattr(p, 'label', p.name),
+                                'value': p.val,
+                                'mode': str(p.mode),
+                                'expr': p.expr if p.isExpression else None,
+                            })
+                    except: pass
+                    focused = {
+                        'path': child.path,
+                        'name': child.name,
+                        'opType': child.OPType,
+                        'family': getattr(child, 'family', None),
+                        'parameters': pars[:20],
+                    }
+                    break
+    except: pass
+    ctx['focusedOperator'] = focused
+    
+    # --- Selected operators (multi-select) ---
+    selected = []
+    try:
+        if pane is not None and pane.owner is not None:
+            for child in pane.owner.children:
+                if child.selected or child.current:
+                    info = {
+                        'path': child.path,
+                        'name': child.name,
+                        'opType': child.OPType,
+                        'family': getattr(child, 'family', None),
+                    }
+                    try:
+                        inputs = []
+                        for idx, conn in enumerate(child.inputConnectors):
+                            if conn.op is not None:
+                                inputs.append({
+                                    'index': idx,
+                                    'source': conn.op.name,
+                                    'sourcePath': conn.op.path,
+                                })
+                        info['inputs'] = inputs
+                    except: pass
+                    selected.append(info)
+    except: pass
+    ctx['selected'] = selected
+    ctx['numSelected'] = len(selected)
+    
+    # --- Siblings (limit 30 for token efficiency) ---
+    siblings = []
+    total_siblings = 0
+    try:
+        parent_op = op(network_path)
+        if parent_op is not None:
+            total_siblings = len(list(parent_op.children))
+            for child in parent_op.children:
+                if len(siblings) >= 30: break
+                siblings.append({
+                    'path': child.path,
+                    'name': child.name,
+                    'opType': child.OPType,
+                    'family': getattr(child, 'family', None),
+                })
+    except: pass
+    ctx['siblings'] = siblings
+    ctx['numSiblings'] = total_siblings
+    
+    # --- All open panes ---
+    panes = []
+    try:
+        for p in ui.panes:
+            try:
+                panes.append({
+                    'networkPath': p.owner.path if p.owner else '/',
+                    'type': str(p.type) if hasattr(p, 'type') else 'unknown',
+                })
+            except: pass
+    except: pass
+    ctx['allPanes'] = panes
+    
+    # --- Spatial marker resolution hints ---
+    resolved_this = None
+    if focused is not None:
+        resolved_this = focused['path']
+    elif len(selected) > 0:
+        resolved_this = selected[0]['path']
+    else:
+        resolved_this = network_path
+    ctx['spatialMarkers'] = {
+        '*here': network_path,
+        '*this': resolved_this,
+        '*parent': parent_path,
+        '*selected': [s['path'] for s in selected],
+    }
+    
+    print(json.dumps({'success': True, 'context': ctx}))
+except Exception as e:
+    print(json.dumps({'success': False, 'error': str(e)}))`;
+    return this.executeJson<any>(code);
+  }
+
   async getPerf(path?: string, top?: number): Promise<any> {
     const safePath = path ? path.replace(/'/g, "\\'") : "/";
     const code = `import json
@@ -1200,18 +1530,19 @@ except Exception as e:
   // ---------------------------------------------------------------------------
 
   async navigateTo(path: string): Promise<any> {
+    const sp = Py.esc(path);
     const code = `import json
 try:
-    t = op('${path.replace(/'/g, "\\'")}')
-    if t is None: print(json.dumps({'success':False,"error":"Operator not found"}))
+    t = op('${sp}')
+    if t is None: print(json.dumps({'success':False,'error':'Operator not found'}))
     else:
         p = ui.panes[0] if ui.panes else None
         if p:
             p.owner = t.parent() if t.parent() else t
             p.home()
-        print(json.dumps({'success':True,"path":t.path,"parent":t.parent().path if t.parent() else None}))
+        print(json.dumps({'success':True,'path':t.path,'parent':t.parent().path if t.parent() else None}))
 except Exception as e:
-    print(json.dumps({'success':False,"error":str(e)}))`;
+    print(json.dumps({'success':False,'error':str(e)}))`;
     return this.executeJson<any>(code);
   }
 
@@ -1220,15 +1551,16 @@ except Exception as e:
   // ---------------------------------------------------------------------------
 
   async reinitExtension(path: string): Promise<any> {
-    const code = `import json
-try:
-    t = op('${path.replace(/'/g, "\\'")}')
-    if t is None: print(json.dumps({'success':False,"error":"COMP not found"}))
-    else:
-        t.reinitExtension()
-        print(json.dumps({'success':True,"path":t.path,"message":"Extension reinitialized"}))
-except Exception as e:
-    print(json.dumps({'success':False,"error":str(e)}))`;
+    const sp = Py.esc(path);
+    const code = new Py()
+      .import_("json")
+      .tryBody(`t = op('${sp}')`)
+      .tryBody(`if t is None: print(json.dumps({'success':False,'error':'COMP not found'}))`)
+      .tryBody(`else:`)
+      .tryBody(`    t.reinitExtension()`)
+      .tryBody(`    print(json.dumps({'success':True,'path':t.path,'message':'Extension reinitialized'}))`)
+      .exceptBody(`print(json.dumps({'success':False,'error':str(e)}))`)
+      .build();
     return this.executeJson<any>(code);
   }
 
@@ -1316,29 +1648,29 @@ except Exception as e:
   // ---------------------------------------------------------------------------
 
   async pulseParam(path: string, name: string): Promise<any> {
-    const safePath = path.replace(/'/g, "\\'");
-    const safeName = name.replace(/'/g, "\\'");
+    const sp = Py.esc(path);
+    const sn = Py.esc(name);
     const code = `import json
 try:
-    t = op('${safePath}')
+    t = op('${sp}')
     if t is None: print(json.dumps({'success':False,'error':'Not found'}))
     else:
         found = False
         for p in t.pars('*'):
-            if p.name.lower() == '${safeName}'.lower():
+            if p.name.lower() == '${sn}'.lower():
                 p.pulse()
                 found = True
                 print(json.dumps({'success':True,'path':t.path,'par':p.name}))
                 break
         if not found:
             for p in t.pars('*'):
-                if '${safeName}'.lower() in p.name.lower():
+                if '${sn}'.lower() in p.name.lower():
                     p.pulse()
                     found = True
                     print(json.dumps({'success':True,'path':t.path,'par':p.name,'matched':'fuzzy'}))
                     break
         if not found:
-            print(json.dumps({'success':False,'error':f'Parameter \\"${safeName}\\" not found', 'available':[p.name for p in t.pars('*')[:10]]}))
+            print(json.dumps({'success':False,'error':f'Parameter \\"${sn}\\" not found', 'available':[p.name for p in t.pars('*')[:10]]}))
 except Exception as e:
     print(json.dumps({'success':False,'error':str(e)}))`;
     return this.executeJson<any>(code);
@@ -1383,12 +1715,14 @@ except Exception as e:
   // ---------------------------------------------------------------------------
 
   async disconnect(path: string, inputIndex?: number): Promise<any> {
+    const sp = Py.esc(path);
+    const idx = inputIndex ?? 0;
     const code = `import json
 try:
-    t = op('${path.replace(/'/g, "\\'")}')
+    t = op('${sp}')
     if t is None: print(json.dumps({'success':False,'error':'Not found'}))
     else:
-        idx = ${inputIndex ?? 0}
+        idx = ${idx}
         if idx < len(t.inputConnectors):
             t.inputConnectors[idx].disconnect()
             print(json.dumps({'success':True,'path':t.path,'input':idx}))
@@ -1473,6 +1807,137 @@ except Exception as e:
       }
     }
     return { success: true, results };
+  }
+
+  // ---------------------------------------------------------------------------
+  // td_explore_project — guided tour of the entire project
+  // ---------------------------------------------------------------------------
+
+  async exploreProject(path: string = "/"): Promise<any> {
+    const safePath = path.replace(/'/g, "\\'");
+    const code = `import json
+try:
+    MAX_DEPTH = 5
+    
+    project_info = {
+        'root': '${safePath}',
+        'tdBuild': None,
+        'fps': None,
+        'playing': None,
+    }
+    try: project_info['tdBuild'] = str(tdu.Build)
+    except: pass
+    try: project_info['fps'] = round(1.0 / absTime.stepSeconds, 1) if absTime.stepSeconds > 0 else 0
+    except: pass
+    try: project_info['playing'] = op('/').time.play if hasattr(op('/').time, 'play') else None
+    except: pass
+    
+    state = {'total_ops': 0}
+    family_counts = {}
+    op_type_counts = {}
+    errors_found = []
+    perf_hotspots = []
+    custom_par_comps = []
+    extensions = []
+    glsl_shaders = []
+    
+    def walk(node, depth=0):
+        if node is None or depth > MAX_DEPTH:
+            return
+        try:
+            for child in node.children:
+                if state['total_ops'] > 200:
+                    break
+                state['total_ops'] += 1
+                
+                fam = getattr(child, 'family', 'Unknown') or 'Unknown'
+                family_counts[fam] = family_counts.get(fam, 0) + 1
+                
+                op_type = child.OPType
+                op_type_counts[op_type] = op_type_counts.get(op_type, 0) + 1
+                
+                try:
+                    child.cook(force=True)
+                except: pass
+                try:
+                    e = child.errors(recurse=False)
+                    if e:
+                        errors_found.append({'path': child.path, 'name': child.name, 'opType': op_type, 'error': str(e)[:200]})
+                except: pass
+                
+                try:
+                    ct = getattr(child, 'cookTime', None)
+                    if ct is not None and ct > 0.001:
+                        perf_hotspots.append({'path': child.path, 'name': child.name, 'opType': op_type, 'cpu_ms': round(ct * 1000, 2)})
+                except: pass
+                
+                try:
+                    if hasattr(child, 'customPages') and child.customPages:
+                        pages = [p.name for p in child.customPages]
+                        if len(custom_par_comps) < 20:
+                            custom_par_comps.append({'path': child.path, 'name': child.name, 'opType': op_type, 'pages': pages})
+                except: pass
+                
+                try:
+                    ext = getattr(child, 'extensionNames', [])
+                    if ext:
+                        if len(extensions) < 20:
+                            extensions.append({'path': child.path, 'name': child.name, 'extensions': list(ext)})
+                except: pass
+                
+                try:
+                    if 'glsl' in op_type.lower() or (hasattr(child, 'text') and 'gl_Position' in getattr(child, 'text', '')):
+                        glsl_shaders.append({'path': child.path, 'name': child.name, 'opType': op_type})
+                except: pass
+                
+                if hasattr(child, 'children'):
+                    walk(child, depth + 1)
+        except: pass
+    
+    root_op = op('${safePath}')
+    if root_op is None:
+        print(json.dumps({'success': False, 'error': f'Path not found: ${safePath}'}))
+    else:
+        walk(root_op)
+        
+        perf_hotspots.sort(key=lambda x: x.get('cpu_ms', 0), reverse=True)
+        perf_hotspots = perf_hotspots[:15]
+        errors_found = errors_found[:20]
+        top_types = sorted(op_type_counts.items(), key=lambda x: -x[1])[:15]
+        
+        summary_parts = []
+        summary_parts.append(f'{state["total_ops"]} operators found')
+        if family_counts:
+            fam_str = ', '.join(f'{k}: {v}' for k, v in sorted(family_counts.items(), key=lambda x: -x[1])[:5])
+            summary_parts.append(f'Families: {fam_str}')
+        if errors_found:
+            summary_parts.append(f'{len(errors_found)} errors detected')
+        if perf_hotspots:
+            summary_parts.append(f'{len(perf_hotspots)} slow operators (>1ms)')
+        if glsl_shaders:
+            summary_parts.append(f'{len(glsl_shaders)} GLSL shaders')
+        if extensions:
+            summary_parts.append(f'{len(extensions)} operators with extensions')
+        if custom_par_comps:
+            summary_parts.append(f'{len(custom_par_comps)} operators with custom parameters')
+        
+        result = {
+            'success': True,
+            'projectInfo': project_info,
+            'summary': '; '.join(summary_parts),
+            'totalOperators': state['total_ops'],
+            'familyBreakdown': family_counts,
+            'topOperatorTypes': [{'opType': t, 'count': c} for t, c in top_types],
+            'errors': errors_found,
+            'performanceHotspots': perf_hotspots,
+            'glslShaders': glsl_shaders,
+            'extensions': extensions,
+            'customParameters': custom_par_comps,
+        }
+        print(json.dumps(result))
+except Exception as e:
+    print(json.dumps({'success': False, 'error': str(e)}))`;
+    return this.executeJson<any>(code, path);
   }
 
   // ---------------------------------------------------------------------------

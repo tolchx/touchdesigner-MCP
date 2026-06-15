@@ -1,0 +1,85 @@
+{
+  "name": "particle-system-basic",
+  "description": "Basic POP particle system: sphere source \u2192 particle POP \u2192 noise force \u2192 trail \u2192 render",
+  "tags": [
+    "particles",
+    "pop",
+    "simulation",
+    "noise"
+  ],
+  "nodes": [
+    {
+      "id": "sphere",
+      "opType": "spherePOP",
+      "label": "Source Points"
+    },
+    {
+      "id": "particle",
+      "opType": "particlePOP",
+      "label": "Particle Sim",
+      "parameters": {
+        "birthrate": 100,
+        "lifeexpect": 3,
+        "enabletimeintegration": true
+      }
+    },
+    {
+      "id": "noise_force",
+      "opType": "noisePOP",
+      "label": "Noise Force",
+      "parameters": {
+        "amp0": 0.5
+      }
+    },
+    {
+      "id": "trail",
+      "opType": "trailPOP",
+      "label": "Trails",
+      "parameters": {
+        "length": 10
+      }
+    },
+    {
+      "id": "render",
+      "opType": "renderPOP",
+      "label": "Render"
+    },
+    {
+      "id": "null_fb",
+      "opType": "nullPOP",
+      "label": "Feedback Target"
+    },
+    {
+      "id": "output",
+      "opType": "nullTOP",
+      "label": "Output"
+    }
+  ],
+  "connections": [
+    {
+      "from": "sphere",
+      "to": "particle",
+      "inputIndex": 0
+    },
+    {
+      "from": "particle",
+      "to": "noise_force",
+      "inputIndex": 0
+    },
+    {
+      "from": "noise_force",
+      "to": "trail",
+      "inputIndex": 0
+    },
+    {
+      "from": "trail",
+      "to": "render",
+      "inputIndex": 0
+    },
+    {
+      "from": "render",
+      "to": "output",
+      "inputIndex": 0
+    }
+  ]
+}

@@ -1,0 +1,679 @@
+{
+  "generatedAt": "2026-06-11T00:00:00.000Z",
+  "app": "webtoe",
+  "version": 1,
+  "family": "TOP",
+  "description": "WebToe TOP OpSpecs -- 15 missing TOPs with GLSL+WGSL",
+  "total": 15,
+  "operators": [
+    {
+      "type": "top:blur",
+      "family": "TOP",
+      "label": "Blur TOP",
+      "inputs": {
+        "min": 1,
+        "max": 1
+      },
+      "inputLabels": [
+        "Input"
+      ],
+      "params": [
+        {
+          "key": "size",
+          "label": "Size",
+          "type": "float",
+          "default": 1,
+          "min": 0,
+          "max": 100
+        },
+        {
+          "key": "quality",
+          "label": "Quality",
+          "type": "int",
+          "default": 3,
+          "min": 1,
+          "max": 10
+        },
+        {
+          "key": "rotate",
+          "label": "Rotate",
+          "type": "toggle",
+          "default": false
+        }
+      ],
+      "shaders": {
+        "glsl": "// Blur TOP -- GPU convolution blur\nuniform float u_size;uniform int u_quality;uniform bool u_rotate;\nin vec2 v_uv;out vec4 fragColor;\nvec4 gs(sampler2D tex,vec2 uv,vec2 off){vec4 c=vec4(0);float t=0;int r=u_quality;for(int x=-r;x<=r;x++)for(int y=-r;y<=r;y++){float w=exp(-float(x*x+y*y)/(2.*u_size*u_size));c+=texture(tex,uv+vec2(x,y)*off)*w;t+=w;}return c/t;}\nvoid main(){vec2 off=u_rotate?vec2(0,dFdy(v_uv.y)):vec2(dFdx(v_uv.x),dFdy(v_uv.y));fragColor=gs(sTD2DInputs[0],v_uv,off*u_size*.001);}",
+        "wgsl": "// Blur TOP -- WebGPU\n@group(1)@binding(0)var u_res:vec4f;@group(1)@binding(1)var u_size:f32;@group(1)@binding(2)var u_quality:i32;\n@group(2)@binding(0)var inputTex:texture_2d<f32>;\nfn gs(uv:vec2f,off:vec2f)->vec4f{var c=vec4f(0);var t=0.;let r=u_quality;for(var x=-r;x<=r;x++)for(var y=-r;y<=r;y++){let w=exp(-f32(x*x+y*y)/(2.*u_size*u_size));c+=textureSample(inputTex,ts,uv+vec2f(f32(x),f32(y))*off)*w;t+=w;}return c/t;}\nfn frag(v_uv:vec2f)->vec4f{return gs(v_uv,vec2f(ddx(v_uv.x),ddy(v_uv.y))*u_size*.001);}"
+      },
+      "backends": [
+        "webgl2",
+        "webgpu"
+      ],
+      "isStub": false,
+      "description": "Blur TOP -- auto-generated from TD research data"
+    },
+    {
+      "type": "top:edge",
+      "family": "TOP",
+      "label": "Edge TOP",
+      "inputs": {
+        "min": 1,
+        "max": 1
+      },
+      "inputLabels": [
+        "Input"
+      ],
+      "params": [
+        {
+          "key": "strength",
+          "label": "Strength",
+          "type": "float",
+          "default": 1,
+          "min": 0,
+          "max": 5
+        },
+        {
+          "key": "threshold",
+          "label": "Threshold",
+          "type": "float",
+          "default": 0.1,
+          "min": 0,
+          "max": 1
+        }
+      ],
+      "shaders": {
+        "glsl": "// Edge TOP -- Sobel\nuniform float u_strength;uniform float u_threshold;\nin vec2 v_uv;out vec4 fragColor;\nvoid main(){vec2 o=vec2(dFdx(v_uv.x),dFdy(v_uv.y));\nvec4 c00=texture(sTD2DInputs[0],v_uv+vec2(-o.x,-o.y)),c10=texture(sTD2DInputs[0],v_uv+vec2(0,-o.y)),c20=texture(sTD2DInputs[0],v_uv+vec2(o.x,-o.y));\nvec4 c01=texture(sTD2DInputs[0],v_uv+vec2(-o.x,0)),c21=texture(sTD2DInputs[0],v_uv+vec2(o.x,0));\nvec4 c02=texture(sTD2DInputs[0],v_uv+vec2(-o.x,o.y)),c12=texture(sTD2DInputs[0],v_uv+vec2(0,o.y)),c22=texture(sTD2DInputs[0],v_uv+vec2(o.x,o.y));\nvec4 gx=(c20+2*c21+c22)-(c00+2*c01+c02),gy=(c02+2*c12+c22)-(c00+2*c10+c20);\nfloat e=smoothstep(u_threshold,u_threshold+.1,length(gx)+length(gy))*u_strength;fragColor=vec4(vec3(e),1);}",
+        "wgsl": "// Edge TOP -- WebGPU\n@group(1)@binding(0)var u_res:vec4f;@group(1)@binding(1)var u_strength:f32;@group(1)@binding(2)var u_threshold:f32;\n@group(2)@binding(0)var inputTex:texture_2d<f32>;\nfn frag(v_uv:vec2f)->vec4f{let o=vec2f(ddx(v_uv.x),ddy(v_uv.y));\nlet c00=textureSample(inputTex,ts,v_uv+vec2f(-o.x,-o.y)),c10=textureSample(inputTex,ts,v_uv+vec2f(0,-o.y)),c20=textureSample(inputTex,ts,v_uv+vec2f(o.x,-o.y));\nlet c01=textureSample(inputTex,ts,v_uv+vec2f(-o.x,0)),c21=textureSample(inputTex,ts,v_uv+vec2f(o.x,0));\nlet c02=textureSample(inputTex,ts,v_uv+vec2f(-o.x,o.y)),c12=textureSample(inputTex,ts,v_uv+vec2f(0,o.y)),c22=textureSample(inputTex,ts,v_uv+vec2f(o.x,o.y));\nlet gx=(c20+2*c21+c22)-(c00+2*c01+c02),gy=(c02+2*c12+c22)-(c00+2*c10+c20);\nlet e=smoothstep(u_threshold,u_threshold+.1,length(gx)+length(gy))*u_strength;return vec4f(vec3f(e),1);}"
+      },
+      "backends": [
+        "webgl2",
+        "webgpu"
+      ],
+      "isStub": false,
+      "description": "Edge TOP -- auto-generated from TD research data"
+    },
+    {
+      "type": "top:chromakey",
+      "family": "TOP",
+      "label": "Chroma Key TOP",
+      "inputs": {
+        "min": 1,
+        "max": 1
+      },
+      "inputLabels": [
+        "Input"
+      ],
+      "params": [
+        {
+          "key": "keyColor",
+          "label": "Key Color",
+          "type": "color",
+          "default": [
+            0,
+            1,
+            0,
+            1
+          ]
+        },
+        {
+          "key": "tolerance",
+          "label": "Tolerance",
+          "type": "float",
+          "default": 0.3,
+          "min": 0,
+          "max": 1
+        },
+        {
+          "key": "softness",
+          "label": "Softness",
+          "type": "float",
+          "default": 0.1,
+          "min": 0,
+          "max": 1
+        },
+        {
+          "key": "despill",
+          "label": "Despill",
+          "type": "float",
+          "default": 0.5,
+          "min": 0,
+          "max": 1
+        }
+      ],
+      "shaders": {
+        "glsl": "// Chroma Key TOP\nuniform vec3 u_keyColor;uniform float u_tolerance;uniform float u_softness;uniform float u_despill;\nin vec2 v_uv;out vec4 fragColor;\nvoid main(){vec4 c=texture(sTD2DInputs[0],v_uv);float d=length(c.rgb-u_keyColor);float a=smoothstep(u_tolerance,u_tolerance+u_softness,d);vec3 ds=c.rgb-u_keyColor*u_despill*(1-a);fragColor=vec4(mix(ds,c.rgb,a),a);}",
+        "wgsl": "// Chroma Key TOP -- WebGPU\n@group(1)@binding(0)var u_res:vec4f;@group(1)@binding(1)var u_keyColor:vec3f;@group(1)@binding(2)var u_tolerance:f32;@group(1)@binding(3)var u_softness:f32;@group(1)@binding(4)var u_despill:f32;\n@group(2)@binding(0)var inputTex:texture_2d<f32>;\nfn frag(v_uv:vec2f)->vec4f{let c=textureSample(inputTex,ts,v_uv);let d=length(c.rgb-u_keyColor);let a=smoothstep(u_tolerance,u_tolerance+u_softness,d);let ds=c.rgb-u_keyColor*u_despill*(1-a);return vec4f(mix(ds,c.rgb,a),a);}"
+      },
+      "backends": [
+        "webgl2",
+        "webgpu"
+      ],
+      "isStub": false,
+      "description": "Chroma Key TOP -- auto-generated from TD research data"
+    },
+    {
+      "type": "top:lumakeyer",
+      "family": "TOP",
+      "label": "Luma Keyer TOP",
+      "inputs": {
+        "min": 1,
+        "max": 1
+      },
+      "inputLabels": [
+        "Input"
+      ],
+      "params": [
+        {
+          "key": "low",
+          "label": "Low",
+          "type": "float",
+          "default": 0,
+          "min": 0,
+          "max": 1
+        },
+        {
+          "key": "high",
+          "label": "High",
+          "type": "float",
+          "default": 1,
+          "min": 0,
+          "max": 1
+        },
+        {
+          "key": "softness",
+          "label": "Softness",
+          "type": "float",
+          "default": 0.1,
+          "min": 0,
+          "max": 1
+        }
+      ],
+      "shaders": {
+        "glsl": "// Luma Keyer TOP\nuniform float u_low;uniform float u_high;uniform float u_softness;\nin vec2 v_uv;out vec4 fragColor;\nvoid main(){vec4 c=texture(sTD2DInputs[0],v_uv);float l=dot(c.rgb,vec3(.299,.587,.114));float a=smoothstep(u_low-u_softness,u_low+u_softness,l)-smoothstep(u_high-u_softness,u_high+u_softness,l);fragColor=vec4(c.rgb,a);}",
+        "wgsl": "// Luma Keyer TOP -- WebGPU\n@group(1)@binding(0)var u_res:vec4f;@group(1)@binding(1)var u_low:f32;@group(1)@binding(2)var u_high:f32;@group(1)@binding(3)var u_softness:f32;\n@group(2)@binding(0)var inputTex:texture_2d<f32>;\nfn frag(v_uv:vec2f)->vec4f{let c=textureSample(inputTex,ts,v_uv);let l=dot(c.rgb,vec3f(.299,.587,.114));let a=smoothstep(u_low-u_softness,u_low+u_softness,l)-smoothstep(u_high-u_softness,u_high+u_softness,l);return vec4f(c.rgb,a);}"
+      },
+      "backends": [
+        "webgl2",
+        "webgpu"
+      ],
+      "isStub": false,
+      "description": "Luma Keyer TOP -- auto-generated from TD research data"
+    },
+    {
+      "type": "top:threshold",
+      "family": "TOP",
+      "label": "Threshold TOP",
+      "inputs": {
+        "min": 1,
+        "max": 1
+      },
+      "inputLabels": [
+        "Input"
+      ],
+      "params": [
+        {
+          "key": "threshold",
+          "label": "Threshold",
+          "type": "float",
+          "default": 0.5,
+          "min": 0,
+          "max": 1
+        },
+        {
+          "key": "softness",
+          "label": "Softness",
+          "type": "float",
+          "default": 0.05,
+          "min": 0,
+          "max": 1
+        },
+        {
+          "key": "channelWeights",
+          "label": "Channel Weights",
+          "type": "xy",
+          "default": [
+            0.333,
+            0.333,
+            0.333
+          ]
+        }
+      ],
+      "shaders": {
+        "glsl": "// Threshold TOP\nuniform float u_threshold;uniform float u_softness;uniform vec3 u_channelWeights;\nin vec2 v_uv;out vec4 fragColor;\nvoid main(){vec4 c=texture(sTD2DInputs[0],v_uv);float v=dot(c.rgb,u_channelWeights);float t=smoothstep(u_threshold-u_softness,u_threshold+u_softness,v);fragColor=vec4(vec3(t),c.a);}",
+        "wgsl": "// Threshold TOP -- WebGPU\n@group(1)@binding(0)var u_res:vec4f;@group(1)@binding(1)var u_threshold:f32;@group(1)@binding(2)var u_softness:f32;@group(1)@binding(3)var u_channelWeights:vec3f;\n@group(2)@binding(0)var inputTex:texture_2d<f32>;\nfn frag(v_uv:vec2f)->vec4f{let c=textureSample(inputTex,ts,v_uv);let v=dot(c.rgb,u_channelWeights);let t=smoothstep(u_threshold-u_softness,u_threshold+u_softness,v);return vec4f(vec3f(t),c.a);}"
+      },
+      "backends": [
+        "webgl2",
+        "webgpu"
+      ],
+      "isStub": false,
+      "description": "Threshold TOP -- auto-generated from TD research data"
+    },
+    {
+      "type": "top:hsvadjust",
+      "family": "TOP",
+      "label": "HSV Adjust TOP",
+      "inputs": {
+        "min": 1,
+        "max": 1
+      },
+      "inputLabels": [
+        "Input"
+      ],
+      "params": [
+        {
+          "key": "hsvOffset",
+          "label": "HSV Offset",
+          "type": "xy",
+          "default": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "key": "hsvMultiply",
+          "label": "HSV Multiply",
+          "type": "xy",
+          "default": [
+            1,
+            1,
+            1
+          ]
+        }
+      ],
+      "shaders": {
+        "glsl": "// HSV Adjust TOP\nuniform vec3 u_hsvOffset;uniform vec3 u_hsvMultiply;\nin vec2 v_uv;out vec4 fragColor;\nvec3 h2r(vec3 c){vec4 K=vec4(1,2./3.,1./3.,3);vec3 p=abs(fract(c.xxx+K.xyz)*6-K.www);return c.z*mix(K.xxx,clamp(p-K.xxx,0,1),c.y);}\nvec3 r2h(vec3 c){vec4 K=vec4(0,-1./3.,2./3.,-1);vec4 p=c.g<c.b?vec4(c.bg,K.wz):vec4(c.gb,K.xy);vec4 q=c.r<p.x?vec4(p.xyw,c.r):vec4(c.r,p.yzx);\nfloat d=q.x-min(q.w,q.y),e=1e-10;return vec3(abs(q.z+(q.w-q.y)/(6*d+e)),d/(q.x+e),q.x);}\nvoid main(){vec4 c=texture(sTD2DInputs[0],v_uv);vec3 h=r2h(c.rgb);h=(h+u_hsvOffset)*u_hsvMultiply;h=clamp(fract(h),0,1);fragColor=vec4(h2r(h),c.a);}",
+        "wgsl": "// HSV Adjust TOP -- WebGPU\n@group(1)@binding(0)var u_res:vec4f;@group(1)@binding(1)var u_hsvOffset:vec3f;@group(1)@binding(2)var u_hsvMultiply:vec3f;\n@group(2)@binding(0)var inputTex:texture_2d<f32>;\nfn r2h(c:vec3f)->vec3f{let v=max(max(c.r,c.g),c.b);let d=v-min(min(c.r,c.g),c.b);var h:f32;if(d<.0001){h=0;}else if(v==c.r){h=(c.g-c.b)/d;}else if(v==c.g){h=2+(c.b-c.r)/d;}else{h=4+(c.r-c.g)/d;}h=h/6;if(h<0){h+=1;}return vec3f(h,v>0?d/v:0,v);}\nfn h2r(c:vec3f)->vec3f{let h=c.x*6;let s=c.y;let v=c.z;let i=floor(h);let f=h-i;let p=v*(1-s);let q=v*(1-f*s);let t=v*(1-(1-f)*s);if(i==0){return vec3f(v,t,p);}if(i==1){return vec3f(q,v,p);}if(i==2){return vec3f(p,v,t);}if(i==3){return vec3f(p,q,v);}if(i==4){return vec3f(t,p,v);}return vec3f(v,p,q);}\nfn frag(v_uv:vec2f)->vec4f{let c=textureSample(inputTex,ts,v_uv);var h=r2h(c.rgb);h=(h+u_hsvOffset)*u_hsvMultiply;h=clamp(fract(h),vec3f(0),vec3f(1));return vec4f(h2r(h),c.a);}"
+      },
+      "backends": [
+        "webgl2",
+        "webgpu"
+      ],
+      "isStub": false,
+      "description": "HSV Adjust TOP -- auto-generated from TD research data"
+    },
+    {
+      "type": "top:lookup",
+      "family": "TOP",
+      "label": "Lookup TOP",
+      "inputs": {
+        "min": 2,
+        "max": 2
+      },
+      "inputLabels": [
+        "Input",
+        "Secondary"
+      ],
+      "params": [
+        {
+          "key": "amount",
+          "label": "Amount",
+          "type": "float",
+          "default": 1,
+          "min": 0,
+          "max": 1
+        }
+      ],
+      "shaders": {
+        "glsl": "// Lookup TOP\nuniform float u_amount;\nin vec2 v_uv;out vec4 fragColor;\nvoid main(){vec4 c=texture(sTD2DInputs[0],v_uv);vec3 l=texture(sTD2DInputs[1],c.rg).rgb;fragColor=vec4(mix(c.rgb,l,u_amount),c.a);}",
+        "wgsl": "// Lookup TOP -- WebGPU\n@group(1)@binding(0)var u_res:vec4f;@group(1)@binding(1)var u_amount:f32;\n@group(2)@binding(0)var inputTex:texture_2d<f32>;@group(2)@binding(1)var lutTex:texture_2d<f32>;\nfn frag(v_uv:vec2f)->vec4f{let c=textureSample(inputTex,ts,v_uv);let l=textureSample(lutTex,ts,c.rg).rgb;return vec4f(mix(c.rgb,l,u_amount),c.a);}"
+      },
+      "backends": [
+        "webgl2",
+        "webgpu"
+      ],
+      "isStub": false,
+      "description": "Lookup TOP -- auto-generated from TD research data"
+    },
+    {
+      "type": "top:crop",
+      "family": "TOP",
+      "label": "Crop TOP",
+      "inputs": {
+        "min": 1,
+        "max": 1
+      },
+      "inputLabels": [
+        "Input"
+      ],
+      "params": [
+        {
+          "key": "crop",
+          "label": "Crop",
+          "type": "color",
+          "default": [
+            0,
+            0,
+            1,
+            1
+          ]
+        },
+        {
+          "key": "originTop",
+          "label": "Origin Top",
+          "type": "toggle",
+          "default": true
+        }
+      ],
+      "shaders": {
+        "glsl": "// Crop TOP\nuniform vec4 u_crop;uniform bool u_originTop;\nin vec2 v_uv;out vec4 fragColor;\nvoid main(){vec2 u=u_originTop?vec2(v_uv.x,1-v_uv.y):v_uv;vec2 c=clamp(u_crop.xy+u*u_crop.zw,0,1);fragColor=texture(sTD2DInputs[0],c);}",
+        "wgsl": "// Crop TOP -- WebGPU\n@group(1)@binding(0)var u_res:vec4f;@group(1)@binding(1)var u_crop:vec4f;@group(1)@binding(2)var u_originTop:bool;\n@group(2)@binding(0)var inputTex:texture_2d<f32>;\nfn frag(v_uv:vec2f)->vec4f{let u=select(v_uv,vec2f(v_uv.x,1-v_uv.y),u_originTop);return textureSample(inputTex,ts,clamp(u_crop.xy+u*u_crop.zw,vec2f(0),vec2f(1)));}"
+      },
+      "backends": [
+        "webgl2",
+        "webgpu"
+      ],
+      "isStub": false,
+      "description": "Crop TOP -- auto-generated from TD research data"
+    },
+    {
+      "type": "top:tile",
+      "family": "TOP",
+      "label": "Tile TOP",
+      "inputs": {
+        "min": 1,
+        "max": 1
+      },
+      "inputLabels": [
+        "Input"
+      ],
+      "params": [
+        {
+          "key": "tiles",
+          "label": "Tiles",
+          "type": "xy",
+          "default": [
+            2,
+            2,
+            0
+          ]
+        },
+        {
+          "key": "offset",
+          "label": "Offset",
+          "type": "xy",
+          "default": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "shaders": {
+        "glsl": "// Tile TOP\nuniform vec2 u_tiles;uniform vec2 u_offset;\nin vec2 v_uv;out vec4 fragColor;\nvoid main(){fragColor=texture(sTD2DInputs[0],fract(v_uv*u_tiles+u_offset));}",
+        "wgsl": "// Tile TOP -- WebGPU\n@group(1)@binding(0)var u_res:vec4f;@group(1)@binding(1)var u_tiles:vec2f;@group(1)@binding(2)var u_offset:vec2f;\n@group(2)@binding(0)var inputTex:texture_2d<f32>;\nfn frag(v_uv:vec2f)->vec4f{return textureSample(inputTex,ts,fract(v_uv*u_tiles+u_offset));}"
+      },
+      "backends": [
+        "webgl2",
+        "webgpu"
+      ],
+      "isStub": false,
+      "description": "Tile TOP -- auto-generated from TD research data"
+    },
+    {
+      "type": "top:mirror",
+      "family": "TOP",
+      "label": "Mirror TOP",
+      "inputs": {
+        "min": 1,
+        "max": 1
+      },
+      "inputLabels": [
+        "Input"
+      ],
+      "params": [
+        {
+          "key": "center",
+          "label": "Center",
+          "type": "xy",
+          "default": [
+            0.5,
+            0.5,
+            0
+          ]
+        },
+        {
+          "key": "angle",
+          "label": "Angle",
+          "type": "float",
+          "default": 0,
+          "min": 0,
+          "max": 360
+        },
+        {
+          "key": "vertical",
+          "label": "Vertical",
+          "type": "toggle",
+          "default": false
+        }
+      ],
+      "shaders": {
+        "glsl": "// Mirror TOP\nuniform vec2 u_center;uniform float u_angle;uniform bool u_vertical;\nin vec2 v_uv;out vec4 fragColor;\nvoid main(){vec2 u=v_uv-u_center;if(u_vertical){u.x=abs(u.x);}else{u.y=abs(u.y);}\nfloat c=cos(u_angle),s=sin(u_angle);u=vec2(u.x*c-u.y*s,u.x*s+u.y*c);fragColor=texture(sTD2DInputs[0],clamp(u+u_center,0,1));}",
+        "wgsl": "// Mirror TOP -- WebGPU\n@group(1)@binding(0)var u_res:vec4f;@group(1)@binding(1)var u_center:vec2f;@group(1)@binding(2)var u_angle:f32;@group(1)@binding(3)var u_vertical:bool;\n@group(2)@binding(0)var inputTex:texture_2d<f32>;\nfn frag(v_uv:vec2f)->vec4f{var u=v_uv-u_center;if(u_vertical){u.x=abs(u.x);}else{u.y=abs(u.y);}\nlet c=cos(u_angle),s=sin(u_angle);u=vec2f(u.x*c-u.y*s,u.x*s+u.y*c);return textureSample(inputTex,ts,clamp(u+u_center,vec2f(0),vec2f(1)));}"
+      },
+      "backends": [
+        "webgl2",
+        "webgpu"
+      ],
+      "isStub": false,
+      "description": "Mirror TOP -- auto-generated from TD research data"
+    },
+    {
+      "type": "top:remap",
+      "family": "TOP",
+      "label": "Remap TOP",
+      "inputs": {
+        "min": 1,
+        "max": 1
+      },
+      "inputLabels": [
+        "Input"
+      ],
+      "params": [
+        {
+          "key": "fromRange",
+          "label": "From Range",
+          "type": "color",
+          "default": [
+            0,
+            1,
+            0,
+            1
+          ]
+        },
+        {
+          "key": "toRange",
+          "label": "To Range",
+          "type": "color",
+          "default": [
+            0,
+            1,
+            0,
+            1
+          ]
+        }
+      ],
+      "shaders": {
+        "glsl": "// Remap TOP\nuniform vec4 u_fromRange;uniform vec4 u_toRange;\nin vec2 v_uv;out vec4 fragColor;\nvoid main(){vec4 c=texture(sTD2DInputs[0],v_uv);vec4 r=(c-u_fromRange)/(u_fromRange.gba-u_fromRange.rgb);fragColor=u_toRange.rgb+r*(u_toRange.gba-u_toRange.rgb);}",
+        "wgsl": "// Remap TOP -- WebGPU\n@group(1)@binding(0)var u_res:vec4f;@group(1)@binding(1)var u_fromRange:vec4f;@group(1)@binding(2)var u_toRange:vec4f;\n@group(2)@binding(0)var inputTex:texture_2d<f32>;\nfn frag(v_uv:vec2f)->vec4f{let c=textureSample(inputTex,ts,v_uv);let r=(c-u_fromRange)/(u_fromRange.gba-u_fromRange.rgb);return u_toRange.rgb+r*(u_toRange.gba-u_toRange.rgb);}"
+      },
+      "backends": [
+        "webgl2",
+        "webgpu"
+      ],
+      "isStub": false,
+      "description": "Remap TOP -- auto-generated from TD research data"
+    },
+    {
+      "type": "top:slope",
+      "family": "TOP",
+      "label": "Slope TOP",
+      "inputs": {
+        "min": 1,
+        "max": 1
+      },
+      "inputLabels": [
+        "Input"
+      ],
+      "params": [
+        {
+          "key": "strength",
+          "label": "Strength",
+          "type": "float",
+          "default": 1,
+          "min": 0,
+          "max": 10
+        },
+        {
+          "key": "blur",
+          "label": "Blur",
+          "type": "float",
+          "default": 0,
+          "min": 0,
+          "max": 5
+        }
+      ],
+      "shaders": {
+        "glsl": "// Slope TOP\nuniform float u_strength;uniform float u_blur;\nin vec2 v_uv;out vec4 fragColor;\nvoid main(){vec2 o=vec2(dFdx(v_uv.x),dFdy(v_uv.y))*(1+u_blur);vec4 c=texture(sTD2DInputs[0],v_uv);\nvec4 rx=texture(sTD2DInputs[0],v_uv+vec2(o.x,0)),ry=texture(sTD2DInputs[0],v_uv+vec2(0,o.y));\nfragColor=vec4(length(rx-c)*u_strength,length(ry-c)*u_strength,0,1);}",
+        "wgsl": "// Slope TOP -- WebGPU\n@group(1)@binding(0)var u_res:vec4f;@group(1)@binding(1)var u_strength:f32;@group(1)@binding(2)var u_blur:f32;\n@group(2)@binding(0)var inputTex:texture_2d<f32>;\nfn frag(v_uv:vec2f)->vec4f{let o=vec2f(ddx(v_uv.x),ddy(v_uv.y))*(1+u_blur);let c=textureSample(inputTex,ts,v_uv);\nlet rx=textureSample(inputTex,ts,v_uv+vec2f(o.x,0));let ry=textureSample(inputTex,ts,v_uv+vec2f(0,o.y));\nreturn vec4f(length(rx-c)*u_strength,length(ry-c)*u_strength,0,1);}"
+      },
+      "backends": [
+        "webgl2",
+        "webgpu"
+      ],
+      "isStub": false,
+      "description": "Slope TOP -- auto-generated from TD research data"
+    },
+    {
+      "type": "top:lumalevel",
+      "family": "TOP",
+      "label": "Luma Level TOP",
+      "inputs": {
+        "min": 1,
+        "max": 1
+      },
+      "inputLabels": [
+        "Input"
+      ],
+      "params": [
+        {
+          "key": "low",
+          "label": "Low",
+          "type": "float",
+          "default": 0,
+          "min": 0,
+          "max": 1
+        },
+        {
+          "key": "high",
+          "label": "High",
+          "type": "float",
+          "default": 1,
+          "min": 0,
+          "max": 1
+        },
+        {
+          "key": "gamma",
+          "label": "Gamma",
+          "type": "float",
+          "default": 1,
+          "min": 0.1,
+          "max": 10
+        },
+        {
+          "key": "outputLow",
+          "label": "Output Low",
+          "type": "float",
+          "default": 0,
+          "min": 0,
+          "max": 1
+        },
+        {
+          "key": "outputHigh",
+          "label": "Output High",
+          "type": "float",
+          "default": 1,
+          "min": 0,
+          "max": 1
+        }
+      ],
+      "shaders": {
+        "glsl": "// Luma Level TOP\nuniform float u_low;uniform float u_high;uniform float u_gamma;uniform float u_outputLow;uniform float u_outputHigh;\nin vec2 v_uv;out vec4 fragColor;\nvoid main(){vec4 c=texture(sTD2DInputs[0],v_uv);float l=dot(c.rgb,vec3(.299,.587,.114));\nfloat m=(l-u_low)/(u_high-u_low);m=pow(max(m,0),u_gamma);m=u_outputLow+m*(u_outputHigh-u_outputLow);\nfragColor=vec4(c.rgb*(m/max(l,.001)),c.a);}",
+        "wgsl": "// Luma Level TOP -- WebGPU\n@group(1)@binding(0)var u_res:vec4f;@group(1)@binding(1)var u_low:f32;@group(1)@binding(2)var u_high:f32;@group(1)@binding(3)var u_gamma:f32;@group(1)@binding(4)var u_outputLow:f32;@group(1)@binding(5)var u_outputHigh:f32;\n@group(2)@binding(0)var inputTex:texture_2d<f32>;\nfn frag(v_uv:vec2f)->vec4f{let c=textureSample(inputTex,ts,v_uv);let l=dot(c.rgb,vec3f(.299,.587,.114));\nvar m=(l-u_low)/(u_high-u_low);m=pow(max(m,0),u_gamma);m=u_outputLow+m*(u_outputHigh-u_outputLow);\nreturn vec4f(c.rgb*(m/max(l,.001)),c.a);}"
+      },
+      "backends": [
+        "webgl2",
+        "webgpu"
+      ],
+      "isStub": false,
+      "description": "Luma Level TOP -- auto-generated from TD research data"
+    },
+    {
+      "type": "top:add",
+      "family": "TOP",
+      "label": "Add TOP",
+      "inputs": {
+        "min": 2,
+        "max": 2
+      },
+      "inputLabels": [
+        "Input",
+        "Secondary"
+      ],
+      "params": [
+        {
+          "key": "opacity",
+          "label": "Opacity",
+          "type": "float",
+          "default": 1,
+          "min": 0,
+          "max": 1
+        }
+      ],
+      "shaders": {
+        "glsl": "// Add TOP -- additive blend\nuniform float u_opacity;\nin vec2 v_uv;out vec4 fragColor;\nvoid main(){vec4 a=texture(sTD2DInputs[0],v_uv),b=texture(sTD2DInputs[1],v_uv);fragColor=a+b*u_opacity;}",
+        "wgsl": "// Add TOP -- WebGPU\n@group(1)@binding(0)var u_res:vec4f;@group(1)@binding(1)var u_opacity:f32;\n@group(2)@binding(0)var inputTex:texture_2d<f32>;@group(2)@binding(1)var inputTex2:texture_2d<f32>;\nfn frag(v_uv:vec2f)->vec4f{let a=textureSample(inputTex,ts,v_uv);let b=textureSample(inputTex2,ts,v_uv);return a+b*u_opacity;}"
+      },
+      "backends": [
+        "webgl2",
+        "webgpu"
+      ],
+      "isStub": false,
+      "description": "Add TOP -- auto-generated from TD research data"
+    },
+    {
+      "type": "top:over",
+      "family": "TOP",
+      "label": "Over TOP",
+      "inputs": {
+        "min": 2,
+        "max": 2
+      },
+      "inputLabels": [
+        "Input",
+        "Secondary"
+      ],
+      "params": [
+        {
+          "key": "opacity",
+          "label": "Opacity",
+          "type": "float",
+          "default": 1,
+          "min": 0,
+          "max": 1
+        }
+      ],
+      "shaders": {
+        "glsl": "// Over TOP -- alpha composite\nuniform float u_opacity;\nin vec2 v_uv;out vec4 fragColor;\nvoid main(){vec4 a=texture(sTD2DInputs[0],v_uv),b=texture(sTD2DInputs[1],v_uv);\nfloat oa=a.a+b.a*(1-a.a)*u_opacity;vec3 or=(a.rgb*a.a+b.rgb*b.a*u_opacity*(1-a.a))/max(oa,.001);fragColor=vec4(or,oa);}",
+        "wgsl": "// Over TOP -- WebGPU\n@group(1)@binding(0)var u_res:vec4f;@group(1)@binding(1)var u_opacity:f32;\n@group(2)@binding(0)var inputTex:texture_2d<f32>;@group(2)@binding(1)var inputTex2:texture_2d<f32>;\nfn frag(v_uv:vec2f)->vec4f{let a=textureSample(inputTex,ts,v_uv);let b=textureSample(inputTex2,ts,v_uv);\nlet oa=a.a+b.a*(1-a.a)*u_opacity;let or=(a.rgb*a.a+b.rgb*b.a*u_opacity*(1-a.a))/max(oa,.001);return vec4f(or,oa);}"
+      },
+      "backends": [
+        "webgl2",
+        "webgpu"
+      ],
+      "isStub": false,
+      "description": "Over TOP -- auto-generated from TD research data"
+    }
+  ]
+}

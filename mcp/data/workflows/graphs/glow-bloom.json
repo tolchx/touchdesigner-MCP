@@ -1,0 +1,76 @@
+{
+  "name": "glow-bloom",
+  "description": "Glow/Bloom effect: source \u2192 high-pass level \u2192 blur \u2192 composite blend with original",
+  "tags": [
+    "effects",
+    "postfx",
+    "glow",
+    "bloom",
+    "blur",
+    "composite"
+  ],
+  "nodes": [
+    {
+      "id": "source",
+      "opType": "moviefileinTOP",
+      "label": "Source"
+    },
+    {
+      "id": "level",
+      "opType": "levelTOP",
+      "label": "High Pass",
+      "parameters": {
+        "blacklevel": 0.6
+      }
+    },
+    {
+      "id": "blur",
+      "opType": "blurTOP",
+      "label": "Glow Blur",
+      "parameters": {
+        "filtertype": "gaussian",
+        "size": 3
+      }
+    },
+    {
+      "id": "composite",
+      "opType": "compositeTOP",
+      "label": "Blend",
+      "parameters": {
+        "operand": "add"
+      }
+    },
+    {
+      "id": "output",
+      "opType": "nullTOP",
+      "label": "Output"
+    }
+  ],
+  "connections": [
+    {
+      "from": "source",
+      "to": "level",
+      "inputIndex": 0
+    },
+    {
+      "from": "level",
+      "to": "blur",
+      "inputIndex": 0
+    },
+    {
+      "from": "source",
+      "to": "composite",
+      "inputIndex": 0
+    },
+    {
+      "from": "blur",
+      "to": "composite",
+      "inputIndex": 1
+    },
+    {
+      "from": "composite",
+      "to": "output",
+      "inputIndex": 0
+    }
+  ]
+}

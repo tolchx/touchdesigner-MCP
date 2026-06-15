@@ -1,0 +1,52 @@
+{
+  "name": "glsl-shader",
+  "description": "GLSL shader: constant time + texture inputs \u2192 GLSL TOP \u2192 output",
+  "tags": [
+    "glsl",
+    "shader",
+    "gpu"
+  ],
+  "nodes": [
+    {
+      "id": "time",
+      "opType": "constantTOP",
+      "label": "Time Uniform",
+      "parameters": {
+        "format": "rgba32float"
+      }
+    },
+    {
+      "id": "tex_input",
+      "opType": "noiseTOP",
+      "label": "Texture Input"
+    },
+    {
+      "id": "glsl",
+      "opType": "glslTOP",
+      "label": "GLSL Shader",
+      "parameters": {}
+    },
+    {
+      "id": "output",
+      "opType": "nullTOP",
+      "label": "Output"
+    }
+  ],
+  "connections": [
+    {
+      "from": "time",
+      "to": "glsl",
+      "inputIndex": 0
+    },
+    {
+      "from": "tex_input",
+      "to": "glsl",
+      "inputIndex": 1
+    },
+    {
+      "from": "glsl",
+      "to": "output",
+      "inputIndex": 0
+    }
+  ]
+}

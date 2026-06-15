@@ -15,6 +15,14 @@ import { registerKnowledgeQueryTool } from "./tools/knowledgeQuery.js";
 import { registerHistoryTools } from "./tools/history.js";
 import { registerWatchdogTools } from "./tools/watchdog.js";
 import { registerRunnerTool } from "./tools/runner.js";
+import { registerValidateTools } from "./tools/validate.js";
+import { registerSmokeTestTools } from "./tools/smokeTest.js";
+import { registerSyntacticCheckTools } from "./tools/syntacticCheck.js";
+import { registerTdnTools } from "./tools/tdn.js";
+import { registerSafeModeTools } from "./tools/safeMode.js";
+import { registerEnhancedTools } from "./tools/enhanced.js";
+import { registerWebtoeTools } from "./tools/webtoe.js";
+import { registerPopValidationTools } from "./tools/popValidation.js";
 
 /**
  * Pre-load the operator knowledge base on startup (non-blocking).
@@ -56,6 +64,14 @@ export function createTouchDesignerMcpServer(
   registerHistoryTools(server, client);
   registerWatchdogTools(server, client);
   registerRunnerTool(server, client);
+  registerValidateTools(server, client);
+  registerSmokeTestTools(server, client);
+  registerSyntacticCheckTools(server, client);
+  registerTdnTools(server, client);
+  registerSafeModeTools(server, client);
+  registerEnhancedTools(server, client);
+  registerWebtoeTools(server, client);
+  registerPopValidationTools(server, client);
 
   return server;
 }
@@ -117,6 +133,14 @@ export async function createTouchDesignerMcpServerWithStatus(
   registerHistoryTools(server, client);
   registerWatchdogTools(server, client);
   registerRunnerTool(server, client);
+  registerValidateTools(server, client);
+  registerSmokeTestTools(server, client);
+  registerSyntacticCheckTools(server, client);
+  registerTdnTools(server, client);
+  registerSafeModeTools(server, client);
+  registerEnhancedTools(server, client);
+  registerWebtoeTools(server, client);
+  registerPopValidationTools(server, client);
 
   return server;
 }
