@@ -1031,6 +1031,7 @@ body::after {
 /* ─── Health Score Ring ─── */
 .health-ring { position: relative; display: inline-block; width: 56px; height: 56px; }
 .health-ring svg { transform: rotate(-90deg); }
+.health-ring circle:last-child { transition: stroke-dashoffset 0.6s ease, stroke 0.3s; }
 .health-ring-text {
   position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
   font: 700 14px 'Inter', sans-serif; color: var(--text);
@@ -1168,6 +1169,7 @@ body::after {
     <button class="header-btn glow" onclick="toggleTheme()" id="themeBtn" title="Toggle Dark/Light">🌙 Theme</button>
     <button class="header-btn glow" onclick="refreshAll()">⟳ Refresh</button>
     <button class="header-btn glow" onclick="toggleAutoRefresh()" id="autoBtn">⏱ Auto: ON</button>
+    <button class="header-btn glow" onclick="showSettings()">⚙ Settings</button>
     <button class="header-btn glow" onclick="openProjectWizard()" style="border-color:var(--neon);color:var(--neon);background:rgba(0,245,255,.08)">✨ Generate from Description</button>
   </div>
 </div>
@@ -1187,7 +1189,7 @@ body::after {
         <div class="stat-card"><div class="stat-icon">⚡</div><div class="stat-value" id="statFps">—</div><div class="stat-label">FPS</div></div>
         <div class="stat-card"><div class="stat-icon">⏱</div><div class="stat-value" id="statCook">—</div><div class="stat-label">Cook Time</div></div>
         <div class="stat-card"><div class="stat-icon">⚠️</div><div class="stat-value" id="statErrs" style="font-size:22px">—</div><div class="stat-label">Errors</div></div>
-        <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-value" id="statHealth" style="font-size:22px">—</div><div class="stat-label">Health</div></div>
+        <div class="stat-card" style="position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center"><div class="stat-icon">✅</div><div class="health-ring" style="margin:4px auto 0"><svg width="48" height="48" viewBox="0 0 56 56"><circle cx="28" cy="28" r="24" fill="none" stroke="var(--border)" stroke-width="4"/><circle cx="28" cy="28" r="24" fill="none" stroke="var(--green)" stroke-width="4" stroke-dasharray="150.8" stroke-dashoffset="150.8" stroke-linecap="round" id="healthArcSmall"/></svg><div class="health-ring-text" id="statHealth" style="font-size:13px">—</div></div><div class="stat-label">Health</div></div>
         <div class="stat-card"><div class="stat-icon">📈</div><div class="stat-value" id="statAvgFps" style="font-size:22px">—</div><div class="stat-label">Avg FPS</div></div>
         <div class="stat-card"><div class="stat-icon">📊</div><div class="stat-value" id="statMinMaxFps" style="font-size:16px">—</div><div class="stat-label">Min/Max</div></div>
       </div>
@@ -1357,7 +1359,7 @@ body::after {
         </div>
       </div>
       <div id="debugErrorList" style="max-height:350px;overflow-y:auto">
-        <div style="color:var(--text3);padding:20px;text-align:center;font-size:11px">Click "Scan Errors" to detect and investigate errors</div>
+        <div style="color:var(--text3);padding:20px;text-align:center;font-size:11px">Click Scan Errors to detect and investigate errors</div>
       </div>
       <div id="debugDiagnosis" style="margin-top:8px;display:none">
         <div style="font-size:11px;color:var(--accent2);font-weight:600;margin-bottom:6px">📋 Diagnosis Report</div>
@@ -1645,6 +1647,7 @@ let connQualitySamples = []
 let recording = false
 let recordedData = []
 let animTimers = {}
+let _pendingAiCode = null
 let audioVisInterval = null
 let currentFpsRange = 300 // 5 min default
 let snapshotA = null
@@ -3214,6 +3217,625 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 200)
 })
 
+// ─── Toast Notification System ───
+let toastCounter = 0;
+function showToast(message, type = 'info', duration = 4000) {
+  const container = document.getElementById('toastContainer');
+  const id = 'toast-' + (++toastCounter);
+  const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
+  const toast = document.createElement('div');
+  toast.className = 'toast ' + type;
+  toast.id = id;
+  toast.innerHTML = `<span class="toast-icon">${icons[type] || icons.info}</span><span class="toast-msg">${message}</span><span class="toast-close" onclick="dismissToast('${id}')">✕</span>`;
+  container.appendChild(toast);
+  setTimeout(() => dismissToast(id), duration);
+}
+function dismissToast(id) {
+  const t = document.getElementById(id);
+  if (!t) return;
+  t.style.animation = 'toastOut .3s ease forwards';
+  setTimeout(() => t.remove(), 300);
+}
+
+// ─── Command Palette (Ctrl+K) ───
+const CMD_COMMANDS = [
+  { label: 'Run Audit', icon: '🔍', action: () => { switchTab('audit'); runFullAudit(); }, category: 'Audit', shortcut: '' },
+  { label: 'Scan Errors', icon: '🐛', action: () => { switchTab('debug'); scanForErrors(); }, category: 'Debug', shortcut: '' },
+  { label: 'Capture Screenshot', icon: '📷', action: () => { switchTab('screenshot'); captureScreenshot(); }, category: 'Tools', shortcut: '' },
+  { label: 'Refresh All', icon: '⟳', action: () => refreshAll(), category: 'System', shortcut: 'Ctrl+R' },
+  { label: 'Toggle Theme', icon: '🌙', action: () => toggleTheme(), category: 'UI', shortcut: '' },
+  { label: 'Toggle Auto-Refresh', icon: '⏱', action: () => toggleAutoRefresh(), category: 'System', shortcut: '' },
+  { label: 'Open Terminal', icon: '⌨️', action: () => switchTab('terminal'), category: 'Navigation', shortcut: '' },
+  { label: 'Open GLSL Editor', icon: '🔮', action: () => switchTab('glsl'), category: 'Navigation', shortcut: '' },
+  { label: 'Open Operator Browser', icon: '🔧', action: () => switchTab('network'), category: 'Navigation', shortcut: '' },
+  { label: 'Open Parameter Editor', icon: '🎛', action: () => switchTab('params'), category: 'Navigation', shortcut: '' },
+  { label: 'Progress Snapshot', icon: '📸', action: () => { switchTab('progress'); captureProgressSnapshot(); }, category: 'Progress', shortcut: '' },
+  { label: 'Show Recommendations', icon: '💡', action: () => { switchTab('progress'); showRecommendations(); }, category: 'Progress', shortcut: '' },
+  { label: 'Save Layout', icon: '💾', action: () => saveLayout(), category: 'Tools', shortcut: '' },
+  { label: 'Load Layout', icon: '📂', action: () => loadLayout(), category: 'Tools', shortcut: '' },
+  { label: 'Export CSV', icon: '⬇', action: () => exportCSV(), category: 'Tools', shortcut: '' },
+  { label: 'Save Snapshot A', icon: '📸', action: () => saveSnapshot(), category: 'Tools', shortcut: '' },
+  { label: 'Save Snapshot B', icon: '📸', action: () => saveSnapshotB(), category: 'Tools', shortcut: '' },
+  { label: 'Compare Snapshots', icon: '↔', action: () => compareSnapshots(), category: 'Tools', shortcut: '' },
+  { label: 'Start Audio Visualizer', icon: '🎵', action: () => startAudioVis(), category: 'Tools', shortcut: '' },
+  { label: 'Stop Audio Visualizer', icon: '■', action: () => stopAudioVis(), category: 'Tools', shortcut: '' },
+  { label: '3D Viewport', icon: '🔄', action: () => { switchTab('three3d'); initThreeJS(); }, category: 'Navigation', shortcut: '' },
+  { label: 'Create nullTOP', icon: '⬜', action: () => createFromPalette('nullTOP'), category: 'Create', shortcut: '' },
+  { label: 'Create noiseTOP', icon: '🌀', action: () => createFromPalette('noiseTOP'), category: 'Create', shortcut: '' },
+  { label: 'Create glslTOP', icon: '🔮', action: () => createFromPalette('glslTOP'), category: 'Create', shortcut: '' },
+  { label: 'Create constantCHOP', icon: '📊', action: () => createFromPalette('constantCHOP'), category: 'Create', shortcut: '' },
+  { label: 'Create containerCOMP', icon: '📦', action: () => createFromPalette('containerCOMP'), category: 'Create', shortcut: '' },
+  { label: 'Search Params', icon: '🔍', action: () => { switchTab('network'); globalParamSearch(); }, category: 'Debug', shortcut: '' },
+  { label: 'Auto-Fix Errors', icon: '🛠', action: () => { switchTab('network'); autoFixErrors(); }, category: 'Debug', shortcut: '' },
+  { label: 'Network Graph', icon: '🌐', action: () => switchTab('network'), category: 'Navigation', shortcut: '' },
+  { label: 'Performance View', icon: '⚡', action: () => { document.querySelector('[data-tab=\"perf\"]')?.click(); }, category: 'Navigation', shortcut: '' },
+];
+
+let cmdPaletteActive = false;
+let cmdSelectedIndex = 0;
+
+function openCommandPalette() {
+  const overlay = document.getElementById('cmdPalette');
+  overlay.classList.add('show');
+  cmdPaletteActive = true;
+  cmdSelectedIndex = 0;
+  const input = document.getElementById('cmdInput');
+  input.value = '';
+  input.focus();
+  renderCmdResults('');
+}
+
+function closeCommandPalette() {
+  document.getElementById('cmdPalette').classList.remove('show');
+  cmdPaletteActive = false;
+}
+
+function renderCmdResults(query) {
+  const container = document.getElementById('cmdResults');
+  const q = query.toLowerCase();
+  const filtered = CMD_COMMANDS.filter(c => c.label.toLowerCase().includes(q) || c.category.toLowerCase().includes(q));
+  container.innerHTML = filtered.map((c, i) =>
+    `<div class="cmd-palette-item${i === cmdSelectedIndex ? ' active' : ''}" onclick="executeCmdCommand(${CMD_COMMANDS.indexOf(c)})" data-idx="${i}">
+      <span class="cmd-icon">${c.icon}</span>
+      <span class="cmd-label">${c.label}</span>
+      <span class="cmd-category">${c.category}</span>
+      ${c.shortcut ? `<span class="cmd-shortcut">${c.shortcut}</span>` : ''}
+    </div>`
+  ).join('');
+}
+
+function executeCmdCommand(idx) {
+  closeCommandPalette();
+  CMD_COMMANDS[idx].action();
+}
+
+document.getElementById('cmdInput').addEventListener('input', function() {
+  cmdSelectedIndex = 0;
+  renderCmdResults(this.value);
+});
+
+document.getElementById('cmdInput').addEventListener('keydown', function(e) {
+  const items = document.querySelectorAll('.cmd-palette-item');
+  if (e.key === 'ArrowDown') { e.preventDefault(); cmdSelectedIndex = Math.min(cmdSelectedIndex + 1, items.length - 1); renderCmdResults(this.value); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); cmdSelectedIndex = Math.max(cmdSelectedIndex - 1, 0); renderCmdResults(this.value); }
+  else if (e.key === 'Enter') { if (items[cmdSelectedIndex]) items[cmdSelectedIndex].click(); }
+  else if (e.key === 'Escape') { closeCommandPalette(); }
+});
+
+document.getElementById('cmdPalette').addEventListener('click', function(e) {
+  if (e.target === this) closeCommandPalette();
+});
+
+// Ctrl+K shortcut
+document.addEventListener('keydown', function(e) {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+    e.preventDefault();
+    if (cmdPaletteActive) closeCommandPalette();
+    else openCommandPalette();
+  }
+});
+
+function switchTab(tabName) {
+  document.querySelectorAll('.tabs').forEach(tabs => {
+    tabs.querySelectorAll('.tab').forEach(tab => {
+      if (tab.dataset.tab === tabName) {
+        const container = tab.closest('.section');
+        container.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        container.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+        tab.classList.add('active');
+        const target = container.querySelector('#tab-' + tabName);
+        if (target) target.classList.add('active');
+      }
+    });
+  });
+}
+
+// ─── Audit Engine ───
+async function runFullAudit() {
+  const container = document.getElementById('auditResults');
+  container.innerHTML = '<div style="text-align:center;padding:20px"><div class="spinner" style="margin:0 auto"></div><span style="color:var(--text2);font-size:11px">Running audit...</span></div>';
+  document.getElementById('auditHealthRing').style.display = 'inline-block';
+  document.getElementById('auditSummary').style.display = 'none';
+
+  const checks = [];
+  let pass = 0, warn = 0, fail = 0;
+
+  // Check 1: Operator errors
+  try {
+    const errResult = await api('POST', '/exec', { code: `import json
+count = 0
+ops_with_errors = []
+try:
+    for child in op('/project1').children:
+        try:
+            child.cook(force=True)
+        except: pass
+        if hasattr(child, 'errors') and child.errors:
+            count += 1
+            ops_with_errors.append(child.path)
+        elif hasattr(child, 'cookErrors') and child.cookErrors:
+            count += 1
+            ops_with_errors.append(child.path)
+except Exception as e:
+    pass
+print(json.dumps({'count': count, 'ops': ops_with_errors[:20]}))` });
+    const errData = JSON.parse(errResult.output || '{"count":0,"ops":[]}');
+    if (errData.count === 0) { checks.push({ label: 'No operator errors', severity: 'pass', detail: 'All operators are cooking without errors' }); pass++; }
+    else { checks.push({ label: `${errData.count} operator(s) with errors`, severity: 'fail', detail: errData.ops.slice(0,5).join(', '), fix: 'Review and fix each operator\'s parameters or connections' }); fail++; }
+  } catch { checks.push({ label: 'Error check failed', severity: 'warn', detail: 'Could not verify operator errors' }); warn++; }
+
+  // Check 2: FPS performance
+  try {
+    const perfResult = await api('POST', '/exec', { code: `import json
+fps = absTime.frameRate if hasattr(absTime, 'frameRate') else 0
+cook = absTime.cookRate if hasattr(absTime, 'cookRate') else 0
+print(json.dumps({'fps': round(fps,1), 'cookRate': round(cook,1)}))` });
+    const perfData = JSON.parse(perfResult.output || '{"fps":0}');
+    if (perfData.fps >= 30) { checks.push({ label: `FPS: ${perfData.fps} (good)`, severity: 'pass', detail: `Running at ${perfData.fps} FPS` }); pass++; }
+    else if (perfData.fps >= 15) { checks.push({ label: `FPS: ${perfData.fps} (low)`, severity: 'warn', detail: `Performance could be improved. Consider reducing complexity.` }); warn++; }
+    else { checks.push({ label: `FPS: ${perfData.fps} (critical)`, severity: 'fail', detail: `Very low FPS. Check for expensive operations or missing performance optimization.` }); fail++; }
+  } catch { checks.push({ label: 'FPS check failed', severity: 'warn', detail: 'Could not measure FPS' }); warn++; }
+
+  // Check 3: Network complexity
+  try {
+    const netResult = await api('POST', '/exec', { code: `import json
+count = 0
+families = {}
+try:
+    for child in op('/project1').children:
+        count += 1
+        fam = str(getattr(child, 'family', 'unknown'))
+        families[fam] = families.get(fam, 0) + 1
+except: pass
+print(json.dumps({'count': count, 'families': families}))` });
+    const netData = JSON.parse(netResult.output || '{"count":0,"families":{}}');
+    if (netData.count <= 50) { checks.push({ label: `Network size: ${netData.count} operators`, severity: 'pass', detail: 'Network is a manageable size' }); pass++; }
+    else if (netData.count <= 150) { checks.push({ label: `Network size: ${netData.count} operators (large)`, severity: 'warn', detail: 'Consider organizing into sub-networks for maintainability' }); warn++; }
+    else { checks.push({ label: `Network size: ${netData.count} operators (very large)`, severity: 'fail', detail: 'Network is very complex. Break into modular sub-networks.' }); fail++; }
+  } catch { checks.push({ label: 'Network size check failed', severity: 'warn', detail: 'Could not count operators' }); warn++; }
+
+  // Check 4: Unused operators (no connections)
+  try {
+    const unusedResult = await api('POST', '/exec', { code: `import json
+unused = []
+try:
+    for child in op('/project1').children:
+        has_input = len(child.inputConnectors) > 0 and any(c.op is not None for c in child.inputConnectors)
+        has_output = len(child.outputConnectors) > 0 and any(c.op is not None for c in child.outputConnectors)
+        is_null = 'null' in child.OPType.lower()
+        is_end = child.family == 'TOP' and not has_output
+        if not has_input and not has_output and not is_null:
+            unused.append(child.path)
+except: pass
+print(json.dumps({'count': len(unused), 'ops': unused[:20]}))` });
+    const unusedData = JSON.parse(unusedResult.output || '{"count":0}');
+    if (unusedData.count === 0) { checks.push({ label: 'No orphan operators', severity: 'pass', detail: 'All operators are connected' }); pass++; }
+    else { checks.push({ label: `${unusedData.count} orphan operator(s)`, severity: 'warn', detail: unusedData.ops.slice(0,5).join(', '), fix: 'Connect or remove unused operators' }); warn++; }
+  } catch { checks.push({ label: 'Orphan check failed', severity: 'warn', detail: 'Could not check for orphan operators' }); warn++; }
+
+  // Check 5: GLSL shader health
+  try {
+    const glslResult = await api('POST', '/exec', { code: `import json
+glsl_ops = []
+try:
+    for child in op('/project1').children:
+        t = str(child.OPType).lower()
+        if 'glsl' in t:
+            glsl_ops.append({'path': child.path, 'type': child.OPType})
+except: pass
+print(json.dumps({'count': len(glsl_ops), 'ops': glsl_ops[:20]}))` });
+    const glslData = JSON.parse(glslResult.output || '{"count":0}');
+    if (glslData.count === 0) { checks.push({ label: 'No GLSL operators', severity: 'pass', detail: 'No GLSL shaders to validate' }); pass++; }
+    else { checks.push({ label: `${glslData.count} GLSL operator(s) found`, severity: 'info', detail: glslData.ops.slice(0,5).map(o => o.path).join(', ') }); pass++; }
+  } catch { checks.push({ label: 'GLSL check failed', severity: 'warn', detail: 'Could not scan GLSL operators' }); warn++; }
+
+  // Check 6: Feedback loops
+  try {
+    const fbResult = await api('POST', '/exec', { code: `import json
+feedback_ops = []
+try:
+    for child in op('/project1').children:
+        t = str(child.OPType).lower()
+        if 'feedback' in t:
+            feedback_ops.append(child.path)
+except: pass
+print(json.dumps({'count': len(feedback_ops), 'ops': feedback_ops[:10]}))` });
+    const fbData = JSON.parse(fbResult.output || '{"count":0}');
+    if (fbData.count > 0) { checks.push({ label: `${fbData.count} feedback loop(s) active`, severity: 'pass', detail: fbData.ops.join(', '), fix: 'Ensure feedback loops have proper null targets' }); pass++; }
+  } catch {}
+
+  // Check 7: Parameter expressions
+  try {
+    const exprResult = await api('POST', '/exec', { code: `import json
+expr_count = 0
+try:
+    for child in op('/project1').children:
+        if hasattr(child, 'pars'):
+            for p in child.pars:
+                if hasattr(p, 'expr') and p.expr:
+                    expr_count += 1
+except: pass
+print(json.dumps({'expressions': expr_count}))` });
+    const exprData = JSON.parse(exprResult.output || '{"expressions":0}');
+    if (exprData.expressions > 0) { checks.push({ label: `${exprData.expressions} parameter expression(s)`, severity: 'info', detail: 'Expressions found — verify they update as expected' }); pass++; }
+  } catch {}
+
+  // Render results
+  const severityIcons = { pass: '✅', warn: '⚠️', fail: '❌', info: 'ℹ️' };
+  container.innerHTML = checks.map(c =>
+    `<div class="audit-check">
+      <span class="audit-icon">${severityIcons[c.severity] || 'ℹ️'}</span>
+      <span class="audit-label">${c.label}${c.detail ? '<br><span style="font-size:10px;color:var(--text3)">' + c.detail + '</span>' : ''}</span>
+      <span class="audit-severity ${c.severity}">${c.severity}</span>
+      ${c.fix ? `<button class="audit-fix" onclick="showToast('${c.fix.replace(/'/g,"\\'")}', 'info')">💡 Fix</button>` : ''}
+    </div>`
+  ).join('');
+
+  // Update health score
+  const total = pass + warn + fail;
+  const score = total > 0 ? Math.round((pass / total) * 100) : 0;
+  updateHealthScore(score);
+
+  // Show summary
+  document.getElementById('auditSummary').style.display = 'block';
+  document.getElementById('auditSummaryInner').innerHTML = `
+    <span style="color:var(--green)">✅ ${pass} passed</span>
+    <span style="color:var(--yellow)">⚠️ ${warn} warnings</span>
+    <span style="color:var(--red)">❌ ${fail} failed</span>
+    <span style="color:var(--text2)">Score: <strong>${score}%</strong></span>
+  `;
+}
+
+async function autoFixAllAudit() {
+  showToast('Running auto-fix on all detected issues...', 'info');
+  await autoFixErrors();
+  showToast('Auto-fix complete. Re-run audit to verify.', 'success');
+  setTimeout(runFullAudit, 2000);
+}
+
+function updateHealthScore(score) {
+  const arc = document.getElementById('healthArcSmall');
+  const arcLarge = document.getElementById('healthArc');
+  const textSmall = document.getElementById('statHealth');
+  const textLarge = document.getElementById('healthScoreText');
+  const circumference = 150.8;
+  const offset = circumference - (score / 100) * circumference;
+  const color = score >= 80 ? 'var(--green)' : score >= 50 ? 'var(--yellow)' : 'var(--red)';
+  if (arc) { arc.style.strokeDashoffset = offset; arc.style.stroke = color; }
+  if (arcLarge) { arcLarge.style.strokeDashoffset = offset; arcLarge.style.stroke = color; }
+  if (textSmall) textSmall.textContent = score + '%';
+  if (textLarge) textLarge.textContent = score + '%';
+}
+
+// ─── Debug / Error Investigation ───
+async function scanForErrors() {
+  const container = document.getElementById('debugErrorList');
+  container.innerHTML = '<div style="text-align:center;padding:20px"><div class="spinner" style="margin:0 auto"></div><span style="color:var(--text2);font-size:11px">Scanning for errors...</span></div>';
+
+  try {
+    const result = await api('POST', '/exec', { code: `import json
+errors = []
+try:
+    root = op('/project1')
+    if root:
+        for child in root.children:
+            try:
+                child.cook(force=True)
+            except: pass
+            err_list = []
+            if hasattr(child, 'errors') and child.errors:
+                err_list = child.errors if isinstance(child.errors, list) else [str(child.errors)]
+            elif hasattr(child, 'cookErrors') and child.cookErrors:
+                err_list = child.cookErrors if isinstance(child.cookErrors, list) else [str(child.cookErrors)]
+            if err_list:
+                errors.append({
+                    'path': child.path,
+                    'name': child.name,
+                    'type': child.OPType,
+                    'errors': [str(e)[:200] for e in err_list[:3]]
+                })
+except Exception as e:
+    errors.append({'path': '/', 'name': 'scan', 'type': 'system', 'errors': [str(e)]})
+print(json.dumps({'errors': errors[:30], 'total': len(errors)}))` });
+
+    const data = JSON.parse(result.output || '{"errors":[],"total":0}');
+
+    if (data.errors.length === 0) {
+      container.innerHTML = '<div style="color:var(--green);padding:20px;text-align:center;font-size:12px">✅ No errors found!</div>';
+      document.getElementById('debugDiagnosis').style.display = 'none';
+      showToast('No errors found in the network', 'success');
+      return;
+    }
+
+    container.innerHTML = data.errors.map((e, i) =>
+      `<div class="debug-error-card" onclick="investigateError(${i}, '${e.path.replace(/'/g,"\\'")}', '${e.type.replace(/'/g,"\\'")}')">
+        <div class="debug-error-header">
+          <span class="debug-error-op">${e.name}</span>
+          <span class="debug-error-type">${e.type}</span>
+        </div>
+        <div class="debug-error-msg">${e.errors[0]}</div>
+        <div style="font-size:9px;color:var(--text3)">Click to investigate →</div>
+      </div>`
+    ).join('');
+
+    showToast(`Found ${data.total} operator(s) with errors`, 'error');
+    document.getElementById('debugDiagnosis').style.display = 'none';
+  } catch (e) {
+    container.innerHTML = `<div style="color:var(--red);padding:16px;text-align:center">Scan failed: ${e.message}</div>`;
+  }
+}
+
+async function investigateError(idx, opPath, opType) {
+  const diagnosisDiv = document.getElementById('debugDiagnosis');
+  const contentDiv = document.getElementById('debugDiagnosisContent');
+  diagnosisDiv.style.display = 'block';
+  contentDiv.innerHTML = '<div class="spinner" style="margin:0 auto"></div>';
+
+  try {
+    // Gather diagnostic info
+    const result = await api('POST', '/exec', { code: `import json
+d = op('${opPath.replace(/'/g,"\\'")}')
+if d is None:
+    print(json.dumps({'error': 'Operator not found'}))
+else:
+    info = {'path': d.path, 'type': d.OPType, 'name': d.name}
+    # Check inputs
+    inputs = []
+    for i, conn in enumerate(d.inputConnectors):
+        if conn.op is not None:
+            inputs.append({'index': i, 'source': conn.op.path, 'sourceType': conn.op.OPType})
+        else:
+            inputs.append({'index': i, 'source': None})
+    info['inputs'] = inputs
+    # Check outputs
+    outputs = []
+    for i, conn in enumerate(d.outputConnectors):
+        for c in conn:
+            if hasattr(c, 'op') and c.op is not None:
+                outputs.append({'index': i, 'target': c.op.path, 'targetType': c.op.OPType})
+    info['outputs'] = outputs
+    # Errors
+    if hasattr(d, 'errors') and d.errors:
+        info['errors'] = [str(e)[:300] for e in (d.errors if isinstance(d.errors, list) else [d.errors])]
+    # Family info
+    info['family'] = str(getattr(d, 'family', 'unknown'))
+    info['readOnly'] = getattr(d, 'readOnly', False)
+    print(json.dumps(info))` });
+
+    const diag = JSON.parse(result.output || '{}');
+
+    let diagnosis = `<strong>Operator:</strong> ${diag.path} (${diag.type})<br>`;
+    diagnosis += `<strong>Family:</strong> ${diag.family || 'unknown'}<br>`;
+    diagnosis += `<strong>Inputs:</strong> ${diag.inputs ? diag.inputs.length : 0}<br>`;
+    diagnosis += `<strong>Outputs:</strong> ${diag.outputs ? diag.outputs.length : 0}<br><br>`;
+
+    if (diag.inputs) {
+      const connected = diag.inputs.filter(i => i.source);
+      const disconnected = diag.inputs.filter(i => !i.source);
+      if (disconnected.length > 0) {
+        diagnosis += `<span style="color:var(--yellow)">⚠ ${disconnected.length} input(s) not connected</span><br>`;
+      }
+    }
+
+    if (diag.errors && diag.errors.length > 0) {
+      diagnosis += `<br><strong style="color:var(--red)">Errors:</strong><br>`;
+      diag.errors.forEach(e => { diagnosis += `<span style="color:var(--text2)">${e}</span><br>`; });
+    }
+
+    // Suggest fixes based on common patterns
+    diagnosis += `<br><strong style="color:var(--accent2)">Suggested Actions:</strong><br>`;
+    diagnosis += `• Re-cook: <code>d = op('${opPath.replace(/'/g,"\\'")}'); d.cook(force=True)</code><br>`;
+    if (diag.inputs && diag.inputs.some(i => !i.source)) {
+      diagnosis += `• Connect missing input operators<br>`;
+    }
+    diagnosis += `• Check parameter values in the Params tab<br>`;
+    diagnosis += `• Try: <code>op('${opPath.replace(/'/g,"\\'")}').par.reset()</code>`;
+
+    contentDiv.innerHTML = diagnosis;
+  } catch (e) {
+    contentDiv.innerHTML = `<span style="color:var(--red)">Investigation failed: ${e.message}</span>`;
+  }
+}
+
+function clearDebugLog() {
+  document.getElementById('debugErrorList').innerHTML = '<div style="color:var(--text3);padding:20px;text-align:center;font-size:11px">Click \"Scan Errors\" to detect and investigate errors</div>';
+  document.getElementById('debugDiagnosis').style.display = 'none';
+}
+
+// ─── Progress Tracking ───
+let progressSnapshots = [];
+
+async function captureProgressSnapshot() {
+  try {
+    const result = await api('POST', '/exec', { code: `import json
+snapshot = {}
+try:
+    root = op('/project1')
+    if root:
+        ops = []
+        families = {}
+        total_cook = 0
+        cook_count = 0
+        for child in root.children:
+            fam = str(getattr(child, 'family', 'unknown'))
+            families[fam] = families.get(fam, 0) + 1
+            cook_t = getattr(child, 'cookTime', 0) or 0
+            total_cook += cook_t
+            cook_count += 1
+            ops.append({'path': child.path, 'type': child.OPType, 'family': fam, 'cookTime': round(cook_t, 2)})
+        snapshot['totalOps'] = len(ops)
+        snapshot['families'] = families
+        snapshot['avgCookTime'] = round(total_cook / max(cook_count, 1), 2)
+        snapshot['operators'] = sorted(ops, key=lambda x: x.get('cookTime', 0), reverse=True)[:20]
+except Exception as e:
+    snapshot['error'] = str(e)
+print(json.dumps(snapshot))` });
+
+    const data = JSON.parse(result.output || '{}');
+    const timestamp = new Date().toLocaleTimeString();
+
+    progressSnapshots.push({ timestamp, data });
+    if (progressSnapshots.length > 10) progressSnapshots.shift();
+
+    // Update stats
+    document.getElementById('progressTotalOps').textContent = data.totalOps || 0;
+
+    // Quality score: based on avg cook time and family diversity
+    const avgCook = data.avgCookTime || 0;
+    const familyCount = data.families ? Object.keys(data.families).length : 0;
+    let quality = 100;
+    if (avgCook > 10) quality -= 20;
+    else if (avgCook > 5) quality -= 10;
+    if (familyCount < 2) quality -= 10;
+    quality = Math.max(0, Math.min(100, quality));
+    document.getElementById('progressQuality').textContent = quality + '%';
+
+    // Render timeline
+    const timeline = document.getElementById('progressTimeline');
+    timeline.innerHTML = progressSnapshots.slice().reverse().map(s =>
+      `<div class="progress-entry mod">
+        <div class="progress-time">${s.timestamp}</div>
+        <div class="progress-msg">
+          <strong>${s.data.totalOps || 0} ops</strong> · 
+          ${Object.entries(s.data.families || {}).map(([f, c]) => `${f}: ${c}`).join(', ') || 'N/A'}
+          · Avg cook: ${s.data.avgCookTime || 0}ms
+        </div>
+      </div>`
+    ).join('');
+
+    showToast(`Progress snapshot captured (${data.totalOps || 0} operators)`, 'success');
+  } catch (e) {
+    showToast('Failed to capture snapshot: ' + e.message, 'error');
+  }
+}
+
+async function showRecommendations() {
+  const container = document.getElementById('progressRecommendations');
+  container.style.display = 'block';
+
+  const recs = [];
+  try {
+    // Check for performance issues
+    const perfResult = await api('POST', '/exec', { code: `import json
+slow = []
+try:
+    for child in op('/project1').children:
+        ct = getattr(child, 'cookTime', 0) or 0
+        if ct > 5:
+            slow.append({'path': child.path, 'cookTime': round(ct,2)})
+except: pass
+slow.sort(key=lambda x: x['cookTime'], reverse=True)
+print(json.dumps({'slow': slow[:10]}))` });
+    const perfData = JSON.parse(perfResult.output || '{"slow":[]}');
+    if (perfData.slow.length > 0) {
+      recs.push(`⚠️ <strong>Performance:</strong> ${perfData.slow.length} operator(s) have cook times > 5ms. Consider optimizing ${perfData.slow[0].path} (${perfData.slow[0].cookTime}ms).`);
+    }
+
+    // Check for missing null operators (good practice)
+    const nullResult = await api('POST', '/exec', { code: `import json
+tops = []
+nulls = []
+try:
+    for child in op('/project1').children:
+        fam = str(getattr(child, 'family', '')).lower()
+        if 'top' in fam:
+            tops.append(child.path)
+        if 'null' in child.OPType.lower():
+            nulls.append(child.path)
+except: pass
+print(json.dumps({'tops': len(tops), 'nulls': len(nulls)}))` });
+    const nullData = JSON.parse(nullResult.output || '{"tops":0,"nulls":0}');
+    if (nullData.tops > 2 && nullData.nulls === 0) {
+      recs.push('💡 <strong>Best Practice:</strong> Consider adding Null TOPs at the end of chains for cleaner organization and easier debugging.');
+    }
+
+    // Check for large networks
+    const sizeResult = await api('POST', '/exec', { code: `import json
+try:
+    count = len(list(op('/project1').children))
+except:
+    count = 0
+print(json.dumps({'count': count}))` });
+    const sizeData = JSON.parse(sizeResult.output || '{"count":0}');
+    if (sizeData.count > 50) {
+      recs.push('📦 <strong>Organization:</strong> Your network has ' + sizeData.count + ' operators. Consider using Container COMPs to organize related operators into modules.');
+    }
+
+    // General recommendations
+    recs.push('🔄 <strong>Workflow:</strong> Regularly use the Audit tab to check project health.');
+    recs.push('📸 <strong>Versioning:</strong> Take progress snapshots to track your development over time.');
+
+  } catch (e) {
+    recs.push('ℹ️ Could not generate recommendations: ' + e.message);
+  }
+
+  container.innerHTML = recs.map(r => `<div style="padding:6px 0;border-bottom:1px solid rgba(26,26,58,.3);font-size:11px;color:var(--text);line-height:1.5">${r}</div>`).join('');
+}
+
+// ─── Health Score Auto-Update ───
+async function autoUpdateHealthScore() {
+  try {
+    const result = await api('POST', '/exec', { code: `import json
+issues = 0
+total = 0
+try:
+    root = op('/project1')
+    if root:
+        for child in root.children:
+            total += 1
+            pass
+            if hasattr(child, 'errors') and child.errors:
+                issues += 1
+            elif hasattr(child, 'cookErrors') and child.cookErrors:
+                issues += 1
+except: pass
+score = max(0, round((1 - issues / max(total, 1)) * 100))
+print(json.dumps({'score': score, 'total': total, 'issues': issues}))` });
+    const data = JSON.parse(result.output || '{"score":0}');
+    updateHealthScore(data.score || 0);
+    // Update errors stat
+    const errStat = document.getElementById('statErrs');
+    if (errStat) errStat.textContent = data.issues || 0;
+  } catch {}
+}
+
+// ─── Override refreshAll to include health score ───
+const _origRefreshAll = typeof refreshAll === 'function' ? refreshAll : null;
+const _origRefreshAllImpl = refreshAll;
+refreshAll = async function() {
+  if (_origRefreshAllImpl) await _origRefreshAllImpl();
+  autoUpdateHealthScore();
+};
+
+// ─── Init new features ───
+// Auto-audit on first load after a delay
+setTimeout(() => {
+  if (typeof allOperators !== 'undefined' && allOperators.length > 0) {
+    autoUpdateHealthScore();
+  }
+}, 5000);
+
+
 // ─── Init ───
 loadFpsHistory()
 parseUrlParams()
@@ -3575,6 +4197,345 @@ async function aiProcessCommand(text) {
     if (setAltMatch) {
       const r = await aiHandleSetParam(setAltMatch[1].trim(), setAltMatch[2].trim(), setAltMatch[3].trim());
       return;
+    // ─── ANALYZE — Full project analysis ───
+    const analyzeMatch = lower.match(/^(?:analyze|analysis|stats|project stats|overview)$/);
+    if (analyzeMatch) {
+      aiAddMessage('🔍 Analyzing your project...', 'assistant');
+      try {
+        // Gather comprehensive project data
+        const [opsResult, errResult, perfResult] = await Promise.all([
+          api('POST', '/exec', { code: `import json
+ops = []
+families = {}
+total_cook = 0
+cook_count = 0
+try:
+    root = op('/project1')
+    if root:
+        for child in root.children:
+            fam = str(getattr(child, 'family', 'unknown'))
+            families[fam] = families.get(fam, 0) + 1
+            ct = getattr(child, 'cookTime', 0) or 0
+            total_cook += ct
+            cook_count += 1
+            ops.append({'path': child.path, 'type': child.OPType, 'family': fam, 'cookTime': round(ct, 2)})
+except Exception as e:
+    pass
+result = {
+    'totalOps': len(ops),
+    'families': families,
+    'avgCookTime': round(total_cook / max(cook_count, 1), 2),
+    'topSlow': sorted(ops, key=lambda x: x.get('cookTime', 0), reverse=True)[:5],
+    'hasFeedback': any('feedback' in o['type'].lower() for o in ops),
+    'hasGlsl': any('glsl' in o['type'].lower() for o in ops),
+    'hasPop': any('pop' in o['type'].lower() for o in ops),
+}
+print(json.dumps(result))` }),
+          api('POST', '/exec', { code: `import json
+errors = []
+try:
+    root = op('/project1')
+    if root:
+        for child in root.children:
+            try: child.cook(force=True)
+            except: pass
+            if hasattr(child, 'errors') and child.errors:
+                errors.append(child.path)
+except: pass
+print(json.dumps({'count': len(errors), 'ops': errors[:10]}))` }),
+          api('POST', '/exec', { code: `import json
+fps = absTime.frameRate if hasattr(absTime, 'frameRate') else 0
+cook = absTime.cookRate if hasattr(absTime, 'cookRate') else 0
+print(json.dumps({'fps': round(fps,1), 'cookRate': round(cook,1)}))` }),
+        ]);
+
+        const ops = JSON.parse(opsResult.output || '{"totalOps":0,"families":{}}');
+        const errs = JSON.parse(errResult.output || '{"count":0}');
+        const perf = JSON.parse(perfResult.output || '{"fps":0}');
+
+        let report = `📊 **Project Analysis**\\n\\n`;
+        report += `**Operators:** ${ops.totalOps}\\n`;
+        if (Object.keys(ops.families).length > 0) {
+          report += `**Families:** ${Object.entries(ops.families).map(([f, c]) => `${f}: ${c}`).join(', ')}\\n`;
+        }
+        report += `**Performance:** ${perf.fps} FPS, ${perf.cookRate} cook/s\\n`;
+        report += `**Avg Cook Time:** ${ops.avgCookTime}ms\\n`;
+        report += `**Errors:** ${errs.count}\\n`;
+
+        if (ops.hasFeedback) report += `\\n🔄 Feedback loops detected\\n`;
+        if (ops.hasGlsl) report += `🔮 GLSL shaders in use\\n`;
+        if (ops.hasPop) report += `⚡ POP operators in use\\n`;
+
+        if (ops.topSlow && ops.topSlow.length > 0) {
+          report += `\\n**Slowest operators:**\\n`;
+          ops.topSlow.forEach(o => {
+            report += `• ${o.path.split('/').pop()} (${o.type}): ${o.cookTime}ms\\n`;
+          });
+        }
+
+        if (errs.count > 0) {
+          report += `\\n⚠️ **${errs.count} error(s)** found. Try \`show errors\` for details.`;
+        } else {
+          report += `\\n✅ No errors detected.`;
+        }
+
+        // Quality score
+        let quality = 100;
+        if (ops.avgCookTime > 10) quality -= 20;
+        else if (ops.avgCookTime > 5) quality -= 10;
+        if (errs.count > 0) quality -= errs.count * 5;
+        if (perf.fps < 30 && perf.fps > 0) quality -= 15;
+        quality = Math.max(0, Math.min(100, quality));
+        const qEmoji = quality >= 80 ? '🟢' : quality >= 50 ? '🟡' : '🔴';
+        report += `\\n\\n${qEmoji} **Quality Score: ${quality}%**`;
+
+        aiAddMessage(report, 'assistant');
+      } catch (e) {
+        aiAddMessage(`❌ Analysis failed: ${e.message}. Make sure TD is connected.`, 'assistant');
+      }
+      return;
+    }
+
+    // ─── EXPLAIN — Explain what an operator does ───
+    const explainMatch = lower.match(/^(?:explain|what is|what does|describe|info)\s+(?:op(?:erator)?\s+)?(.+)$/);
+    if (explainMatch) {
+      const opName = explainMatch[1].trim();
+      const op = aiFindOperator(opName);
+      if (!op) {
+        aiAddMessage(`❌ Operator "${opName}" not found. Use \`list operators\` to see available operators.`, 'assistant');
+        return;
+      }
+      aiAddMessage(`🔍 Analyzing ${op.name}...`, 'assistant');
+      try {
+        const result = await api('POST', '/exec', { code: `import json
+d = op('${op.path.replace(/'/g,"\\'")}')
+if d is None:
+    print(json.dumps({'error': 'Not found'}))
+else:
+    info = {'path': d.path, 'type': d.OPType, 'name': d.name}
+    info['family'] = str(getattr(d, 'family', 'unknown'))
+    # Inputs
+    inputs = []
+    for i, conn in enumerate(d.inputConnectors):
+        if conn.op is not None:
+            inputs.append({'index': i, 'source': conn.op.path, 'sourceType': conn.op.OPType})
+    info['inputs'] = inputs
+    # Outputs
+    outputs = []
+    for i, conn in enumerate(d.outputConnectors):
+        for c in conn:
+            if hasattr(c, 'op') and c.op is not None:
+                outputs.append({'index': i, 'target': c.op.path, 'targetType': c.op.OPType})
+    info['outputs'] = outputs
+    # Parameters
+    pars = []
+    if hasattr(d, 'pars'):
+        for p in d.pars:
+            if hasattr(p, 'mode') and str(p.mode) == 'ParMode.CONSTANT':
+                pars.append({'name': p.name, 'label': p.label, 'value': p.val, 'default': p.default})
+    info['parameters'] = pars[:20]
+    # Errors
+    if hasattr(d, 'errors') and d.errors:
+        info['errors'] = [str(e)[:200] for e in (d.errors if isinstance(d.errors, list) else [d.errors])]
+    print(json.dumps(info))` });
+
+        const diag = JSON.parse(result.output || '{}');
+        if (diag.error) {
+          aiAddMessage(`❌ ${diag.error}`, 'assistant');
+          return;
+        }
+
+        let explain = `📋 **${diag.name}** (${diag.type})\\n\\n`;
+        explain += `**Path:** \`${diag.path}\`\\n`;
+        explain += `**Family:** ${diag.family}\\n`;
+
+        if (diag.inputs && diag.inputs.length > 0) {
+          explain += `\\n**Inputs (${diag.inputs.length}):**\\n`;
+          diag.inputs.forEach(inp => {
+            explain += `• [${inp.index}] ${inp.source ? inp.source.split('/').pop() + ' (' + inp.sourceType + ')' : 'empty'}\\n`;
+          });
+        }
+        if (diag.outputs && diag.outputs.length > 0) {
+          explain += `\\n**Outputs (${diag.outputs.length}):**\\n`;
+          diag.outputs.forEach(out => {
+            explain += `• [${out.index}] ${out.target.split('/').pop()} (${out.targetType})\\n`;
+          });
+        }
+        if (diag.parameters && diag.parameters.length > 0) {
+          explain += `\\n**Key Parameters:**\\n`;
+          diag.parameters.slice(0, 10).forEach(p => {
+            explain += `• ${p.label || p.name}: ${p.value}\\n`;
+          });
+        }
+        if (diag.errors && diag.errors.length > 0) {
+          explain += `\\n⚠️ **Errors:**\\n`;
+          diag.errors.forEach(e => { explain += `• ${e}\\n`; });
+        }
+
+        aiAddMessage(explain, 'assistant');
+      } catch (e) {
+        aiAddMessage(`❌ Explain failed: ${e.message}`, 'assistant');
+      }
+      return;
+    }
+
+    // ─── CODE — Generate Python code for common patterns ───
+    const codeMatch = lower.match(/^(?:code|generate code|python|snippet|script)\s+(.+)$/);
+    if (codeMatch) {
+      const description = codeMatch[1].trim();
+      aiAddMessage(`💻 Generating code for: "${description}"...`, 'assistant');
+
+      // Pattern-based code generation
+      const patterns = {
+        'feedback': `# Feedback loop TOP\\nnull1 = op('/project1').create(td.nullTOP, 'null_fb_src')\\nfb = op('/project1').create(td.feedbackTOP, 'feedback1')\\nnull2 = op('/project1').create(td.nullTOP, 'null_fb_tgt')\\nnull2.inputConnectors[0].connect(null1)\\nfb.inputConnectors[0].connect(null1)\\nfb.parm('targetop').val = null2.path\\nprint(f'Created feedback loop: {null1.path} → {fb.path} → {null2.path}')`,
+        'noise': `# Noise deformation chain\\nnull_in = op('/project1').create(td.nullTOP, 'null_in')\\nnoise = op('/project1').create(td.noiseTOP, 'noise1')\\nnull_out = op('/project1').create(td.nullTOP, 'null_out')\\nnoise.inputConnectors[0].connect(null_in)\\nnull_out.inputConnectors[0].connect(noise)\\nnoise.parm('type').val = 'perlin'\\nnoise.parm('amp').val = 0.5\\nnoise.parm('period').val = 2.0\\nprint(f'Created noise chain: {null_in.path} → {noise.path} → {null_out.path}')`,
+        'particle': `# Basic particle system\\ninPOP = op('/project1').create(td.inPOP, 'in1')\\nparticle = op('/project1').create(td.particlePOP, 'particle1')\\nnull_out = op('/project1').create(td.nullTOP, 'null_out')\\nnull_out.inputConnectors[0].connect(particle)\\nprint(f'Created particle system: {particle.path}')`,
+        'glsl': `# Custom GLSL TOP\\nglsl = op('/project1').create(td.glslTOP, 'glsl_custom')\\nnull_out = op('/project1').create(td.nullTOP, 'null_out')\\nnull_out.inputConnectors[0].connect(glsl)\\n# Set default shader\\nshader = '''\\n// Custom shader\\nin vec2 v_uv;\\nout vec4 fragColor;\\nuniform float u_time;\\n\\nvoid main() {\\n    float r = sin(v_uv.x * 3.14159 + u_time) * 0.5 + 0.5;\\n    float g = sin(v_uv.y * 3.14159 + u_time * 1.3) * 0.5 + 0.5;\\n    fragColor = vec4(r, g, 0.5, 1.0);\\n}\\n'''\\nprint(f'Created GLSL TOP: {glsl.path}\\nPaste the shader code into the GLSL editor.')`,
+        'blur': `# Blur chain\\nnull_in = op('/project1').create(td.nullTOP, 'null_in')\\nblur = op('/project1').create(td.blurTOP, 'blur1')\\nnull_out = op('/project1').create(td.nullTOP, 'null_out')\\nblur.inputConnectors[0].connect(null_in)\\nnull_out.inputConnectors[0].connect(blur)\\nblur.parm('filtertype').val = 'gaussian'\\nblur.parm('size').val = 10\\nprint(f'Created blur chain: {null_in.path} → {blur.path} → {null_out.path}')`,
+        'level': `# Level/color correction\\nnull_in = op('/project1').create(td.nullTOP, 'null_in')\\nlevel = op('/project1').create(td.levelTOP, 'level1')\\nnull_out = op('/project1').create(td.nullTOP, 'null_out')\\nlevel.inputConnectors[0].connect(null_in)\\nnull_out.inputConnectors[0].connect(level)\\nlevel.parm('opacity').val = 1.0\\nlevel.parm('gamma').val = 1.0\\nprint(f'Created level chain: {null_in.path} → {level.path} → {null_out.path}')`,
+        'audio': `# Audio reactive setup\\naudio = op('/project1').create(td.audioCHOP, 'audio1')\\nmath = op('/project1').create(td.mathCHOP, 'math1')\\nnull_out = op('/project1').create(td.nullCHOP, 'null_out')\\nmath.inputConnectors[0].connect(audio)\\nnull_out.inputConnectors[0].connect(math)\\nprint(f'Created audio chain: {audio.path} → {math.path} → {null_out.path}')`,
+        'render': `# 3D render scene\\ngeo = op('/project1').create(td.geometryCOMP, 'geo1')\\ncam = op('/project1').create(td.cameraCOMP, 'cam1')\\nlight = op('/project1').create(td.lightCOMP, 'light1')\\nrender = op('/project1').create(td.renderTOP, 'render1')\\nrender.parm('camera').val = cam.path\\nnull_out = op('/project1').create(td.nullTOP, 'null_out')\\nnull_out.inputConnectors[0].connect(render)\\nprint(f'Created render scene: {geo.path} → {render.path} → {null_out.path}')`,
+      };
+
+      // Find matching pattern
+      let matchedCode = null;
+      for (const [key, code] of Object.entries(patterns)) {
+        if (description.includes(key)) {
+          matchedCode = code;
+          break;
+        }
+      }
+
+      if (matchedCode) {
+        aiAddMessage(`📝 **Generated code:**\\n\\n\`\`\`python\\n${matchedCode}\\n\`\`\`\\n\\nClick **Execute** to run this code, or copy it to the Terminal tab.`, 'assistant');
+        // Store the code in the result area for easy execution
+        const resultDiv = document.getElementById('aiChatResult');
+        if (resultDiv) {
+          resultDiv.innerHTML = `<div style="margin-top:8px"><button class="param-btn" onclick="aiExecuteGenerated()" style="border-color:var(--green);color:var(--green);background:rgba(0,230,118,.08)">▶ Execute Code</button><button class="param-btn" onclick="aiCopyGenerated()" style="border-color:var(--accent);color:var(--accent2);margin-left:6px">📋 Copy</button></div>`;
+          _pendingAiCode = matchedCode;
+        }
+      } else {
+        // Generate a generic response
+        aiAddMessage(`💡 I can generate code for these patterns:\\n\\n• **feedback** — Feedback loop chain\\n• **noise** — Noise deformation\\n• **particle** — Particle system\\n• **glsl** — Custom GLSL shader\\n• **blur** — Blur/glow chain\\n• **level** — Color correction\\n• **audio** — Audio reactive setup\\n• **render** — 3D render scene\\n\\nTry: \`code feedback\` or \`code noise deformation\``, 'assistant');
+      }
+      return;
+    }
+
+    // ─── SMART FALLBACK — Context-aware responses ───
+    // CLEAR command
+    const clearMatch = lower.match(/^(?:clear|reset|wipe)$/);
+    if (clearMatch) {
+      const msgDiv = document.getElementById('aiChatMessages');
+      if (msgDiv) msgDiv.innerHTML = '';
+      aiAddMessage('Chat cleared. Type help to see commands.', 'assistant');
+      return;
+    }
+
+    // If no command matched, try to understand intent
+    if (lower.length > 2) {
+      // Check for question patterns
+      const isQuestion = lower.startsWith('how') || lower.startsWith('what') || lower.startsWith('why')
+        || lower.startsWith('where') || lower.startsWith('when') || lower.startsWith('can')
+        || lower.includes('?') || lower.startsWith('is there') || lower.startsWith('do you');
+
+      if (isQuestion) {
+        // Try to provide a helpful response based on keywords
+        if (lower.includes('error') || lower.includes('problem') || lower.includes('issue')) {
+          aiAddMessage('🔍 Let me check for errors in your project...', 'assistant');
+          try {
+            const errResult = await api('POST', '/exec', { code: `import json
+errors = []
+try:
+    root = op('/project1')
+    if root:
+        for child in root.children:
+            try: child.cook(force=True)
+            except: pass
+            if hasattr(child, 'errors') and child.errors:
+                errors.append({'path': child.path, 'type': child.OPType, 'errors': [str(e)[:100] for e in (child.errors if isinstance(child.errors, list) else [child.errors])]})
+except: pass
+print(json.dumps({'errors': errors[:10]}))` });
+            const data = JSON.parse(errResult.output || '{"errors":[]}');
+            if (data.errors.length === 0) {
+              aiAddMessage('✅ No errors found in your project! Everything looks clean.', 'assistant');
+            } else {
+              let msg = `⚠️ Found ${data.errors.length} operator(s) with errors:\\n\\n`;
+              data.errors.forEach(e => {
+                msg += `• **${e.path.split('/').pop()}** (${e.type}): ${e.errors[0]}\\n`;
+              });
+              msg += `\\nTry \`diagnose [operator]\` for more details, or \`show errors\` for the full list.`;
+              aiAddMessage(msg, 'assistant');
+            }
+          } catch (e) {
+            aiAddMessage(`❌ Could not check errors: ${e.message}`, 'assistant');
+          }
+          return;
+        }
+
+        if (lower.includes('performance') || lower.includes('slow') || lower.includes('fps') || lower.includes('speed')) {
+          aiAddMessage('⚡ Checking performance...', 'assistant');
+          try {
+            const perfResult = await api('POST', '/exec', { code: `import json
+fps = absTime.frameRate if hasattr(absTime, 'frameRate') else 0
+slow = []
+try:
+    for child in op('/project1').children:
+        ct = getattr(child, 'cookTime', 0) or 0
+        if ct > 2:
+            slow.append({'path': child.path, 'cookTime': round(ct, 2)})
+except: pass
+slow.sort(key=lambda x: x['cookTime'], reverse=True)
+print(json.dumps({'fps': round(fps,1), 'slow': slow[:5]}))` });
+            const data = JSON.parse(perfResult.output || '{"fps":0,"slow":[]}');
+            let msg = `⚡ **Performance Report**\\n\\n`;
+            msg += `**FPS:** ${data.fps}\\n`;
+            if (data.slow.length > 0) {
+              msg += `\\n**Slow operators (>2ms):**\\n`;
+              data.slow.forEach(o => {
+                msg += `• ${o.path.split('/').pop()}: ${o.cookTime}ms\\n`;
+              });
+              msg += `\\n💡 Try reducing complexity or using GPU-based operators for better performance.`;
+            } else {
+              msg += `\\n✅ All operators are performing well.`;
+            }
+            aiAddMessage(msg, 'assistant');
+          } catch (e) {
+            aiAddMessage(`❌ Could not check performance: ${e.message}`, 'assistant');
+          }
+          return;
+        }
+
+        if (lower.includes('help') || lower.includes('what can') || lower.includes('how do')) {
+          // Redirect to help
+          const helpCmd = 'help';
+          // Just show help
+          aiAddMessage(`🤖 **TD-MCP AI Assistant**\\n\\nType \`help\` to see all available commands.\\n\\nYou can also ask me questions like:\\n• "How many operators are in my project?"\\n• "Why is my project slow?"\\n• "What errors are there?"\\n• "How do I create a feedback loop?"`, 'assistant');
+          return;
+        }
+
+        // Generic question response
+        aiAddMessage(`🤔 I can help with that! Try these commands:\\n\\n• \`analyze\` — Get a full project overview\\n• \`explain [operator]\` — Learn about a specific operator\\n• \`code [description]\` — Generate Python code\\n• \`diagnose [operator]\` — Check an operator's health\\n• Or ask about errors, performance, or specific operators!`, 'assistant');
+        return;
+      }
+
+      // If it looks like a request (not a question), suggest the right command
+      if (lower.includes('create') || lower.includes('add') || lower.includes('make') || lower.includes('new')) {
+        aiAddMessage(`💡 Try: \`create [type] [name]\`\\nExample: \`create noiseTOP my_noise\`\\nOr: \`code [pattern]\` for template-based creation.`, 'assistant');
+        return;
+      }
+
+      if (lower.includes('delete') || lower.includes('remove') || lower.includes('destroy')) {
+        aiAddMessage(`💡 Try: \`delete [operator]\`\\nExample: \`delete noise1\``, 'assistant');
+        return;
+      }
+
+      if (lower.includes('connect') || lower.includes('wire') || lower.includes('link')) {
+        aiAddMessage(`💡 Try: \`connect [source] to [destination]\`\\nExample: \`connect noise1 to null1\``, 'assistant');
+        return;
+      }
+    }
+
+
     }
 
     // Default: try generate/project wizard with the text
@@ -3607,6 +4568,48 @@ async function aiHandleSetParam(paramName, opName, paramVal) {
     aiAddMessage(`✅ Set ${paramName} = ${setVal} on ${op.name}`, 'assistant');
   }
 }
+// ─── Execute generated code from CODE command ───
+async function aiExecuteGenerated() {
+  const resultDiv = document.getElementById('aiChatResult');
+  const code = _pendingAiCode;
+  if (!code) {
+    aiAddMessage('❌ No code to execute. Generate code first with `code [pattern]`.', 'assistant');
+    return;
+  }
+  aiAddMessage('▶ Executing generated code...', 'assistant');
+  try {
+    const r = await api('POST', '/exec', { code });
+    const output = r.output || r.error || 'OK';
+    aiAddMessage(`✅ **Result:**\n${output}`, 'assistant');
+    setTimeout(refreshAll, 500);
+  } catch (e) {
+    aiAddMessage(`❌ Execution failed: ${e.message}`, 'assistant');
+  }
+}
+
+// ─── Copy generated code to clipboard ───
+async function aiCopyGenerated() {
+  const resultDiv = document.getElementById('aiChatResult');
+  const code = _pendingAiCode;
+  if (!code) {
+    aiAddMessage('❌ No code to copy.', 'assistant');
+    return;
+  }
+  try {
+    await navigator.clipboard.writeText(code);
+    aiAddMessage('📋 Code copied to clipboard!', 'assistant');
+  } catch {
+    // Fallback for older browsers
+    const ta = document.createElement('textarea');
+    ta.value = code;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    aiAddMessage('📋 Code copied to clipboard!', 'assistant');
+  }
+}
+
 
 // ─── Project Wizard ────────────────────────────────────────────────────────
 
@@ -3832,5 +4835,123 @@ window.addEventListener('offline', () => {
 window.addEventListener('online', () => {
   document.getElementById('offlineOverlay').classList.remove('show');
 });
+
+// ─── Settings / LLM Integration ───
+let llmEnabled = false
+let llmApiKey = ''
+let llmProvider = ''
+
+function loadLLMSettings() {
+  try {
+    llmApiKey = localStorage.getItem('tdmcp_llm_key') || ''
+    llmProvider = localStorage.getItem('tdmcp_llm_provider') || ''
+    llmEnabled = localStorage.getItem('tdmcp_llm_enabled') === 'true'
+    const model = localStorage.getItem('tdmcp_llm_model') || 'gpt-4o-mini'
+    document.getElementById('llmApiKey').value = llmApiKey
+    document.getElementById('llmProvider').value = llmProvider
+    document.getElementById('llmModel').value = model
+    document.getElementById('enableLLMToggle').classList.toggle('on', llmEnabled)
+    updateLLMStatus()
+  } catch(e) {}
+}
+
+function showSettings() {
+  loadLLMSettings()
+  document.getElementById('settingsModal').style.display = 'flex'
+}
+
+function closeSettings() {
+  document.getElementById('settingsModal').style.display = 'none'
+}
+
+function saveLLMSettings() {
+  const key = document.getElementById('llmApiKey').value.trim()
+  const prov = document.getElementById('llmProvider').value
+  const model = document.getElementById('llmModel').value
+  const enabled = document.getElementById('enableLLMToggle').classList.contains('on')
+  if (enabled && prov && !key) {
+    document.getElementById('llmSaveStatus').textContent = '❌ API key required when provider is selected'
+    document.getElementById('llmSaveStatus').style.color = 'var(--red)'
+    return
+  }
+  localStorage.setItem('tdmcp_llm_key', key)
+  localStorage.setItem('tdmcp_llm_provider', prov)
+  localStorage.setItem('tdmcp_llm_model', model)
+  localStorage.setItem('tdmcp_llm_enabled', enabled ? 'true' : 'false')
+  llmApiKey = key; llmProvider = prov; llmEnabled = enabled
+  document.getElementById('llmSaveStatus').textContent = '✅ Settings saved!'
+  document.getElementById('llmSaveStatus').style.color = 'var(--green)'
+  updateLLMStatus()
+  setTimeout(() => document.getElementById('llmSaveStatus').textContent = '', 2000)
+}
+
+function updateLLMStatus() {
+  const el = document.getElementById('llmStatus')
+  if (!llmEnabled || !llmProvider) {
+    el.textContent = '⏸ LLM integration disabled'
+    el.style.color = 'var(--text3)'
+  } else if (llmApiKey) {
+    el.textContent = `✅ ${llmProvider} ready (key: ${llmApiKey.slice(0,8)}...)`
+    el.style.color = 'var(--green)'
+  } else {
+    el.textContent = '⚠️ No API key configured'
+    el.style.color = 'var(--yellow)'
+  }
+}
+
+async function aiCallLLM(prompt) {
+  if (!llmEnabled || !llmProvider || !llmApiKey) return null
+  try {
+    let url, headers, body
+    if (llmProvider === 'openai') {
+      url = 'https://api.openai.com/v1/chat/completions'
+      headers = { 'Authorization': 'Bearer ' + llmApiKey, 'Content-Type': 'application/json' }
+      body = { model: document.getElementById('llmModel').value || 'gpt-4o-mini', messages: [{role:'user',content:prompt}], max_tokens: 500 }
+    } else if (llmProvider === 'openrouter') {
+      url = 'https://openrouter.ai/api/v1/chat/completions'
+      headers = { 'Authorization': 'Bearer ' + llmApiKey, 'Content-Type': 'application/json', 'HTTP-Referer': window.location.origin }
+      body = { model: document.getElementById('llmModel').value || 'gpt-4o-mini', messages: [{role:'user',content:prompt}], max_tokens: 500 }
+    } else if (llmProvider === 'anthropic') {
+      url = 'https://api.anthropic.com/v1/messages'
+      headers = { 'x-api-key': llmApiKey, 'Content-Type': 'application/json', 'anthropic-version': '2023-06-01' }
+      body = { model: document.getElementById('llmModel').value || 'claude-sonnet-4', max_tokens: 500, messages: [{role:'user',content:prompt}] }
+    } else return null
+
+    const r = await fetch(url, { method: 'POST', headers, body: JSON.stringify(body) })
+    const data = await r.json()
+    if (data.error) return '❌ API error: ' + (data.error.message || JSON.stringify(data.error))
+    const text = data.choices?.[0]?.message?.content || data.content?.[0]?.text || JSON.stringify(data)
+    return text
+  } catch(e) {
+    return '❌ LLM request failed: ' + e.message
+  }
+}
+
+// Override the fallback in aiProcessCommand to use LLM
+// We'll add this by modifying the end of aiProcessCommand
+const _origProcessCommand = aiProcessCommand
+aiProcessCommand = async function(text) {
+  await _origProcessCommand(text)
+  // If the command wasn't handled, try LLM
+  const resultEl = document.getElementById('aiChatResult')
+  const lower = text.toLowerCase().trim()
+  // Check if the command was handled by checking if result has content
+  const lastMsg = document.querySelector('#aiChatMessages .ai-msg:last-child')
+  if (lastMsg && lastMsg.textContent.includes('🤖')) return // already handled
+  if (lower === 'help' || lower === '?' || lower.startsWith('create ') || lower.startsWith('connect ') || lower.startsWith('set ') || lower.startsWith('delete ') || lower.startsWith('list ') || lower.startsWith('show ') || lower.startsWith('layout') || lower.startsWith('diagnose ') || lower.startsWith('generate ')) return
+
+  // Unrecognized command - try LLM
+  if (llmEnabled && llmProvider && llmApiKey) {
+    aiAddMessage('🤔 Consulting AI...', 'assistant')
+    const sysPrompt = 'You are a TouchDesigner assistant controlling an MCP server. The user said: "' + text + '". Interpret what they want to do in TouchDesigner and respond helpfully. Available operations: create operators, connect them, set parameters, run layout, check errors. Keep responses concise (under 100 words).'
+    const reply = await aiCallLLM(sysPrompt)
+    // Remove the "Consulting AI..." message
+    const msgs = document.querySelectorAll('#aiChatMessages .ai-msg')
+    if (msgs.length > 0) msgs[msgs.length-1].remove()
+    aiAddMessage(reply || '❌ No response from AI', 'assistant')
+  }
+}
+
+loadLLMSettings()
 </script>
 </body></html>
