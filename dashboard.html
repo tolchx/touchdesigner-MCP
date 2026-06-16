@@ -1524,35 +1524,62 @@ body::after {
 
     <!-- AI Chat tab -->
     <div class="tab-content" id="tab-aichat">
-      <div style="font-size:11px;color:var(--text2);margin-bottom:8px;font-weight:600">🤖 AI Command Center</div>
-      <div style="font-size:10px;color:var(--text3);margin-bottom:8px">Type natural language commands to control TouchDesigner. Try "help" for available commands.</div>
-      <div class="ai-chat" style="height:360px">
-        <div class="ai-chat-messages" id="aiChatMessages">
-          <div class="ai-msg assistant" style="max-width:95%">
+      <div style="font-size:11px;color:var(--text2);margin-bottom:6px;font-weight:600">🤖 AI Command Center</div>
+      
+      <!-- Suggested prompts row -->
+      <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px" id="suggestedPrompts">
+        <button class="param-btn" style="font-size:9px;padding:3px 8px" onclick="aiUseSuggestion('create noiseTOP noise1')">➕ noise</button>
+        <button class="param-btn" style="font-size:9px;padding:3px 8px" onclick="aiUseSuggestion('connect noise1 to blur1')">🔗 connect</button>
+        <button class="param-btn" style="font-size:9px;padding:3px 8px" onclick="aiUseSuggestion('show errors')">🔍 errors</button>
+        <button class="param-btn" style="font-size:9px;padding:3px 8px" onclick="aiUseSuggestion('layout')">📐 layout</button>
+        <button class="param-btn" style="font-size:9px;padding:3px 8px" onclick="aiUseSuggestion('diagnose')">🩺 diagnose</button>
+        <button class="param-btn" style="font-size:9px;padding:3px 8px" onclick="aiUseSuggestion('list operators')">📋 list</button>
+        <button class="param-btn" style="font-size:9px;padding:3px 8px" onclick="aiUseSuggestion('generate a particle system with noise and color')">✨ particle</button>
+        <button class="param-btn" style="font-size:9px;padding:3px 8px" onclick="aiUseSuggestion('create glslTOP aurora')">🌀 glsl</button>
+      </div>
+      
+      <div class="ai-chat" style="height:280px;display:flex;flex-direction:column">
+        <div class="ai-chat-messages" id="aiChatMessages" style="flex:1;overflow-y:auto;padding:8px;background:var(--bg);border:1px solid var(--border);border-radius:8px 8px 0 0">
+          <div class="ai-msg assistant" style="max-width:95%;margin-bottom:6px">
             <strong>🤖 TD AI Assistant</strong><br>
-            I can help you control TouchDesigner with natural language.<br><br>
-            <strong>Available commands:</strong><br>
-            • <code>create [type] [name]</code> — Create operator<br>
-            • <code>connect [src] to [dst]</code> — Wire operators<br>
-            • <code>set [param] to [value] on [op]</code> — Set parameter<br>
-            • <code>delete [name]</code> — Delete operator<br>
-            • <code>list operators</code> — Show all operators<br>
-            • <code>show errors</code> — Check errors<br>
-            • <code>layout</code> — Auto-layout network<br>
-            • <code>diagnose [op]</code> — Diagnose operator<br>
-            • <code>generate [description]</code> — Build from template<br>
-            • <code>help</code> — Show this help<br><br>
-            <em style="color:var(--text3)">Tip: Use the 🎤 button for voice commands!</em>
+            I can help you control TouchDesigner.<br><br>
+            <strong>Try:</strong> click a suggestion above, type a command, or speak 🎤<br>
+            <em style="color:var(--text3)">Tips: "create blurTOP b1" · "set amp to 0.5 on noise1" · "connect noise to blur"</em>
           </div>
         </div>
-        <div class="ai-chat-input" style="border-top:1px solid var(--border);display:flex">
-          <input type="text" id="aiChatInput" placeholder="Type a command..." style="flex:1;padding:10px 14px;background:transparent;border:none;color:var(--text);font:12px 'Inter',sans-serif;outline:none" onkeydown="if(event.key==='Enter') aiSendMessage()">
-          <button id="aiMicBtn" onclick="aiToggleVoice()" style="padding:10px 12px;background:transparent;border:none;color:var(--text3);cursor:pointer;font-size:16px;transition:all .2s" title="Voice input">🎤</button>
-          <button onclick="aiSendMessage()" style="padding:10px 16px;background:var(--accent);border:none;color:#fff;font:600 11px 'Inter',sans-serif;cursor:pointer">Send</button>
+        
+        <!-- Autocomplete dropdown -->
+        <div id="aiAutocomplete" style="display:none;position:relative">
+          <div style="position:absolute;bottom:100%;left:0;right:0;background:var(--card);border:1px solid var(--border);border-radius:6px;max-height:150px;overflow-y:auto;z-index:10" id="aiAutocompleteList"></div>
         </div>
-        <div id="aiListeningIndicator" style="display:none;padding:6px 14px;background:rgba(255,23,68,.1);color:var(--red);font-size:10px;text-align:center;font-weight:600">🎤 Listening... Speak now</div>
+        
+        <div class="ai-chat-input" style="border-top:none;display:flex;background:var(--bg);border:1px solid var(--border);border-radius:0 0 8px 8px">
+          <input type="text" id="aiChatInput" placeholder="Type a command or natural language..." style="flex:1;padding:8px 12px;background:transparent;border:none;color:var(--text);font:12px 'Inter',sans-serif;outline:none" onkeydown="onChatKeydown(event)" oninput="onChatInput()" autocomplete="off">
+          <button id="aiMicBtn" onclick="aiToggleVoice()" style="padding:8px 10px;background:transparent;border:none;color:var(--text3);cursor:pointer;font-size:15px;transition:all .2s" title="Voice input">🎤</button>
+          <button onclick="aiSendMessage()" style="padding:8px 14px;background:var(--accent);border:none;color:#fff;font:600 11px 'Inter',sans-serif;cursor:pointer;border-radius:0 8px 8px 0">Send</button>
+        </div>
+        <div id="aiListeningIndicator" style="display:none;padding:4px 10px;background:rgba(255,23,68,.1);color:var(--red);font-size:10px;text-align:center;font-weight:600">🎤 Listening... Speak now</div>
       </div>
-      <div id="aiChatResult" style="margin-top:6px;font-size:10px;color:var(--text3);max-height:80px;overflow-y:auto"></div>
+      
+      <!-- History toolbar -->
+      <div style="display:flex;gap:4px;margin-top:4px;flex-wrap:wrap">
+        <button class="param-btn" style="font-size:9px;padding:2px 8px" onclick="aiCopyLog()">📋 Copy log</button>
+        <button class="param-btn" style="font-size:9px;padding:2px 8px" onclick="aiClearLog()">🗑 Clear</button>
+        <button class="param-btn" style="font-size:9px;padding:2px 8px" onclick="aiExportLog()">📥 Export</button>
+        <span style="font-size:9px;color:var(--text3);margin-left:auto" id="aiLogCount">0 messages</span>
+      </div>
+      
+      <!-- Error analysis panel -->
+      <div id="aiErrorPanel" style="display:none;margin-top:4px;padding:8px;background:rgba(255,23,68,.05);border:1px solid rgba(255,23,68,.2);border-radius:6px">
+        <div style="font-size:10px;color:var(--red);font-weight:600;margin-bottom:4px">⚠️ Error Analysis</div>
+        <div id="aiErrorContent" style="font-size:10px;color:var(--text2);max-height:100px;overflow-y:auto;white-space:pre-wrap;font-family:monospace"></div>
+        <div style="display:flex;gap:4px;margin-top:4px">
+          <button class="param-btn" style="font-size:9px;padding:2px 8px;border-color:var(--red);color:var(--red)" onclick="aiAnalyzeErrors()">🔍 Analyze with AI</button>
+          <button class="param-btn" style="font-size:9px;padding:2px 8px" onclick="aiCopyErrors()">📋 Copy errors</button>
+        </div>
+      </div>
+      
+      <div id="aiChatResult" style="margin-top:4px;font-size:10px;color:var(--text3);max-height:60px;overflow-y:auto"></div>
     </div>
   </div>
 
@@ -4928,28 +4955,132 @@ async function aiCallLLM(prompt) {
 }
 
 // Override the fallback in aiProcessCommand to use LLM
-// We'll add this by modifying the end of aiProcessCommand
 const _origProcessCommand = aiProcessCommand
 aiProcessCommand = async function(text) {
   await _origProcessCommand(text)
-  // If the command wasn't handled, try LLM
-  const resultEl = document.getElementById('aiChatResult')
   const lower = text.toLowerCase().trim()
-  // Check if the command was handled by checking if result has content
   const lastMsg = document.querySelector('#aiChatMessages .ai-msg:last-child')
-  if (lastMsg && lastMsg.textContent.includes('🤖')) return // already handled
-  if (lower === 'help' || lower === '?' || lower.startsWith('create ') || lower.startsWith('connect ') || lower.startsWith('set ') || lower.startsWith('delete ') || lower.startsWith('list ') || lower.startsWith('show ') || lower.startsWith('layout') || lower.startsWith('diagnose ') || lower.startsWith('generate ')) return
+  if (lastMsg && lastMsg.textContent.includes('🤖')) return
+  if (['help', '?', 'clear'].includes(lower)) return
+  if (lower.startsWith('create ') || lower.startsWith('connect ') || lower.startsWith('set ') || lower.startsWith('delete ') || lower.startsWith('list ') || lower.startsWith('show ') || lower.startsWith('layout') || lower.startsWith('diagnose ') || lower.startsWith('generate ')) return
 
-  // Unrecognized command - try LLM
   if (llmEnabled && llmProvider && llmApiKey) {
     aiAddMessage('🤔 Consulting AI...', 'assistant')
-    const sysPrompt = 'You are a TouchDesigner assistant controlling an MCP server. The user said: "' + text + '". Interpret what they want to do in TouchDesigner and respond helpfully. Available operations: create operators, connect them, set parameters, run layout, check errors. Keep responses concise (under 100 words).'
+    const sysPrompt = 'You are a TouchDesigner assistant. The user said: "' + text + '". Interpret what they want and respond helpfully. Available: create/connect/set/delete operators, layout, diagnose, check errors. Respond with the actual command you would run if possible. Keep under 100 words.'
     const reply = await aiCallLLM(sysPrompt)
-    // Remove the "Consulting AI..." message
     const msgs = document.querySelectorAll('#aiChatMessages .ai-msg')
     if (msgs.length > 0) msgs[msgs.length-1].remove()
     aiAddMessage(reply || '❌ No response from AI', 'assistant')
   }
+}
+
+// ─── Autocomplete ───
+const AI_SUGGESTIONS = [
+  'create noiseTOP ', 'create blurTOP ', 'create glslTOP ', 'create levelTOP ',
+  'create compositeTOP ', 'create constantTOP ', 'create nullTOP ', 'create outTOP ',
+  'create boxPOP ', 'create glslPOP ', 'create sphereSOP ', 'create torusSOP ',
+  'create audioinCHOP ', 'create lfoCHOP ', 'create movieinTOP ',
+  'connect ', 'set ', 'delete ', 'diagnose ',
+  'show errors', 'layout', 'list operators', 'help', 'generate '
+]
+
+function onChatInput() {
+  const input = document.getElementById('aiChatInput')
+  const val = input.value
+  if (val.length < 1) { document.getElementById('aiAutocomplete').style.display = 'none'; return }
+  const matches = AI_SUGGESTIONS.filter(s => s.startsWith(val) && s !== val).slice(0, 6)
+  const list = document.getElementById('aiAutocompleteList')
+  if (matches.length === 0) { document.getElementById('aiAutocomplete').style.display = 'none'; return }
+  list.innerHTML = matches.map(m => `<div style="padding:5px 10px;cursor:pointer;font-size:11px;color:var(--text2);border-bottom:1px solid var(--border);transition:background .1s" onmouseover="this.style.background='rgba(108,92,231,.1)'" onmouseout="this.style.background=''" onclick="aiSelectAutocomplete('${m.replace(/'/g, "\\'")}')">${m}</div>`).join('')
+  document.getElementById('aiAutocomplete').style.display = 'block'
+}
+
+function aiSelectAutocomplete(val) {
+  document.getElementById('aiChatInput').value = val
+  document.getElementById('aiAutocomplete').style.display = 'none'
+  document.getElementById('aiChatInput').focus()
+}
+
+function onChatKeydown(e) {
+  if (e.key === 'Enter') {
+    document.getElementById('aiAutocomplete').style.display = 'none'
+    aiSendMessage()
+  }
+  if (e.key === 'Escape') document.getElementById('aiAutocomplete').style.display = 'none'
+  if (e.key === 'Tab' && document.getElementById('aiAutocomplete').style.display === 'block') {
+    e.preventDefault()
+    const first = document.querySelector('#aiAutocompleteList div:first-child')
+    if (first) first.click()
+  }
+}
+
+// ─── Suggested Prompts ───
+function aiUseSuggestion(text) {
+  document.getElementById('aiChatInput').value = text
+  aiSendMessage()
+}
+
+// ─── Chat Log ───
+const _origAiAddMessage = aiAddMessage
+let chatLog = []
+
+function aiAddMessage(text, role) {
+  _origAiAddMessage(text, role)
+  chatLog.push({ role, text, time: new Date().toISOString() })
+  // Detect errors in the message
+  if (role === 'assistant' && (text.includes('❌') || text.includes('Error') || text.includes('error'))) {
+    showErrorPanel(text)
+  }
+  document.getElementById('aiLogCount').textContent = chatLog.length + ' messages'
+}
+
+function aiCopyLog() {
+  const txt = chatLog.map(e => `[${e.role}] ${e.text}`).join('\n---\n')
+  navigator.clipboard.writeText(txt).then(() => showToast('success', 'Log copied!'))
+}
+
+function aiClearLog() {
+  chatLog = []
+  document.getElementById('aiChatMessages').innerHTML = '<div class="ai-msg assistant" style="max-width:95%;margin-bottom:6px"><strong>🤖</strong> Chat cleared. Start fresh!</div>'
+  document.getElementById('aiLogCount').textContent = '0 messages'
+  document.getElementById('aiErrorPanel').style.display = 'none'
+}
+
+function aiExportLog() {
+  const txt = chatLog.map(e => `[${new Date(e.time).toLocaleTimeString()}] [${e.role.toUpperCase()}] ${e.text}`).join('\n')
+  const blob = new Blob([txt], { type: 'text/plain' })
+  const a = document.createElement('a')
+  a.href = URL.createObjectURL(blob)
+  a.download = 'tdmcp-chat-log-' + new Date().toISOString().slice(0, 19) + '.txt'
+  a.click()
+  URL.revokeObjectURL(a.href)
+}
+
+// ─── Error Analysis ───
+function showErrorPanel(msg) {
+  const panel = document.getElementById('aiErrorPanel')
+  panel.style.display = 'block'
+  document.getElementById('aiErrorContent').textContent += (document.getElementById('aiErrorContent').textContent ? '\n' : '') + msg
+}
+
+async function aiAnalyzeErrors() {
+  const errText = document.getElementById('aiErrorContent').textContent
+  if (!errText) return
+  if (!llmEnabled || !llmProvider || !llmApiKey) {
+    aiAddMessage('⚠️ Configure an LLM API key in ⚙ Settings first to analyze errors.', 'assistant')
+    return
+  }
+  aiAddMessage('🔍 Analyzing errors with AI...', 'assistant')
+  const prompt = 'You are a TouchDesigner error analyst. Analyze these errors and suggest fixes:\n' + errText + '\n\nList each error, the likely cause, and the fix. Be concise.'
+  const reply = await aiCallLLM(prompt)
+  const msgs = document.querySelectorAll('#aiChatMessages .ai-msg')
+  if (msgs.length > 0) msgs[msgs.length-1].remove()
+  aiAddMessage(reply || '❌ Analysis failed', 'assistant')
+}
+
+function aiCopyErrors() {
+  const txt = document.getElementById('aiErrorContent').textContent
+  if (txt) navigator.clipboard.writeText(txt).then(() => showToast('success', 'Errors copied!'))
 }
 
 loadLLMSettings()
