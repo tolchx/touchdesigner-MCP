@@ -327,7 +327,7 @@ export function registerSmokeTestTools(server: McpServer, client: TDClient) {
           const execResult = await client.execute(code, "/");
           try {
             const opResults: OperatorExistsCheck[] = JSON.parse(
-              (execResult as any)?.output || "[]",
+              execResult.stdout || "[]",
             );
             result.tiers.operatorExists.total = opResults.length;
             result.tiers.operatorExists.details = opResults;
@@ -360,7 +360,7 @@ export function registerSmokeTestTools(server: McpServer, client: TDClient) {
           const execResult = await client.execute(code, "/");
           try {
             const connResults: ConnectionCheck[] = JSON.parse(
-              (execResult as any)?.output || "[]",
+              execResult.stdout || "[]",
             );
             result.tiers.connections.total = connResults.length;
             result.tiers.connections.details = connResults;
@@ -388,7 +388,7 @@ export function registerSmokeTestTools(server: McpServer, client: TDClient) {
           const execResult = await client.execute(code, "/");
           try {
             const loopResults: FeedbackLoopCheck[] = JSON.parse(
-              (execResult as any)?.output || "[]",
+              execResult.stdout || "[]",
             );
             result.tiers.feedbackLoops.total = loopResults.length;
             result.tiers.feedbackLoops.details = loopResults;
@@ -418,7 +418,7 @@ export function registerSmokeTestTools(server: McpServer, client: TDClient) {
           const execResult = await client.execute(code, "/");
           try {
             const attrResults: AttributeCheck[] = JSON.parse(
-              (execResult as any)?.output || "[]",
+              execResult.stdout || "[]",
             );
             result.tiers.attributes.total = attrResults.length;
             result.tiers.attributes.details = attrResults;
@@ -483,7 +483,7 @@ if target:
 print(json.dumps(result))
 `;
             const scanResult = await client.execute(scanCode, "/");
-            const pops: Array<{ path: string; opType: string }> = JSON.parse((scanResult as any)?.output || "[]");
+            const pops: Array<{ path: string; opType: string }> = JSON.parse(scanResult.stdout || "[]");
             const autoAttrs: Array<{ path: string; attributeName: string }> = [];
             for (const pop of pops) {
               const required = POP_ATTRIBUTE_RULES[pop.opType] || [];
@@ -495,7 +495,7 @@ print(json.dumps(result))
               const autoCode = buildAttributeCheckCode(autoAttrs);
               const autoResult = await client.execute(autoCode, "/");
               try {
-                const autoResults: AttributeCheck[] = JSON.parse((autoResult as any)?.output || "[]");
+                const autoResults: AttributeCheck[] = JSON.parse(autoResult.stdout || "[]");
                 result.tiers.attributes.total += autoResults.length;
                 result.tiers.attributes.details.push(...autoResults);
                 for (const r of autoResults) {

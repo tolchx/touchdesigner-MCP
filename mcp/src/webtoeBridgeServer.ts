@@ -123,7 +123,7 @@ function buildWebtoeJson(prompt: string, title?: string): Record<string, unknown
     if (x > 1000) { x = 80; y += 180; }
   }
 
-  if (nodes.length > 0) (nodes[nodes.length - 1] as any).flags = { display: true };
+  if (nodes.length > 0) (nodes[nodes.length - 1] as Record<string, unknown>).flags = { display: true };
 
   return {
     app: "webtoe",
@@ -147,13 +147,13 @@ function handleChat(req: ChatRequest): Record<string, unknown> {
   return {
     graph,
     summary: {
-      nodes: (graph.root as any).nodes.length,
-      wires: (graph.root as any).wires.length,
-      operators: resolved.allOperatorTypes.map((o: any) => o.opType || o.type),
-      templates: templates.slice(0, 3).map((t: any) => t.name).filter(Boolean),
-      recipes: recipes.slice(0, 3).map((r: any) => r.name).filter(Boolean),
+      nodes: (graph.root as { nodes: unknown[]; wires: unknown[] }).nodes.length,
+      wires: (graph.root as { nodes: unknown[]; wires: unknown[] }).wires.length,
+      operators: resolved.allOperatorTypes.map((o: { opType?: string; type?: string }) => o.opType || o.type),
+      templates: templates.slice(0, 3).map((t: { name?: string }) => t.name).filter(Boolean),
+      recipes: recipes.slice(0, 3).map((r: { name?: string }) => r.name).filter(Boolean),
     },
-    message: `Created ${(graph.root as any).nodes.length} node network with ${(graph.root as any).wires.length} connections.`,
+    message: `Created ${(graph.root as { nodes: unknown[]; wires: unknown[] }).nodes.length} node network with ${(graph.root as { nodes: unknown[]; wires: unknown[] }).wires.length} connections.`,
   };
 }
 

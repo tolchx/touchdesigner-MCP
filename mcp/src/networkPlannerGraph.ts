@@ -340,7 +340,7 @@ function buildTopologyCatalog(): Map<string, OpTopology> {
 
   if (topologyJson) {
     for (const [opType, topoData] of Object.entries(topologyJson)) {
-      const td = topoData as any;
+      const td = topoData as { opType?: string; family?: string; label?: string; inputCount?: number; inputs?: Array<{ index: number; description: string; accepts?: string }>; outputs?: Array<{ name: string; type: string }>; connectsTo?: string[]; isMultiInput?: boolean; warnings?: string[]; commonCombinations?: Array<{ operators: string[]; description: string }> };
       catalog.set(opType, {
         opType: td.opType || opType,
         family: td.family || "unknown",
@@ -754,7 +754,7 @@ async function applyNetworkGraph(
         node.x,
         node.y,
       );
-      const tdPath = (result as any)?.path || `${node.parentPath}/${node.label}`;
+      const tdPath = result.path || `${node.parentPath}/${node.label}`;
       pathMap.set(node.id, tdPath);
       created++;
 

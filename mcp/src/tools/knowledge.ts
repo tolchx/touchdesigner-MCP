@@ -1205,7 +1205,7 @@ except Exception as e:
         for (const cat of categories) {
           const row: string[] = [cat.label];
           for (const srv of filtered) {
-            row.push((srv as any)[cat.key] ? "✅" : "❌");
+            row.push((srv as unknown as Record<string, boolean>)[cat.key] ? "✅" : "❌");
           }
           rows.push(row);
         }
@@ -1241,7 +1241,7 @@ except Exception as e:
           servers: filtered.map((s) => s.server),
           comparison: filtered.map((s) => ({
             server: s.server,
-            ...Object.fromEntries(categories.map((c) => [c.label, (s as any)[c.key]])),
+            ...Object.fromEntries(categories.map((c) => [c.label, (s as unknown as Record<string, unknown>)[c.key]])),
             notes: s.notes,
           })),
           table,

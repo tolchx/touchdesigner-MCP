@@ -1,5 +1,5 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import type { TDClient } from "td-api";
+import type { TDClient, CreateOperatorResult } from "td-api";
 import { z } from "zod";
 import { ok, err } from "../helpers.js";
 import { postModifyValidate, getParentPath } from "./postValidate.js";
@@ -70,7 +70,7 @@ export function registerCrudTools(server: McpServer, client: TDClient) {
         // Auto-set outputattrs + numelems for GLSL POPs
         const isGlslPop = GLSL_POP_TYPES.has(type);
         if (isGlslPop) {
-          const createdPath = (result as any)?.path;
+          const createdPath = result.path;
           if (createdPath) {
             const updates: { name: string; value: unknown }[] = [];
             if (outputattrs !== "") {
@@ -82,10 +82,11 @@ export function registerCrudTools(server: McpServer, client: TDClient) {
             if (updates.length > 0) {
               try {
                 await client.setParameters(createdPath, updates, false);
-                if (outputattrs !== "") (result as any).outputattrs = outputattrs ?? "P";
-                if (numelems !== 0) (result as any).numelems = numelems ?? 100;
+                const resultExt = result as CreateOperatorResult & Record<string, unknown>;
+                if (outputattrs !== "") resultExt.outputattrs = outputattrs ?? "P";
+                if (numelems !== 0) resultExt.numelems = numelems ?? 100;
               } catch {
-                (result as any).glslConfigWarning =
+                (result as CreateOperatorResult & Record<string, unknown>).glslConfigWarning =
                   `Operator created but failed to set GLSL params`;
               }
             }
@@ -94,7 +95,7 @@ export function registerCrudTools(server: McpServer, client: TDClient) {
 
         // Post-modification validation
         const parentPath = opPath || "/";
-        const createdPath = (result as any)?.path || `${parentPath}/${name || type}`;
+        const createdPath = result.path || `${parentPath}/${name || type}`;
         const validation = await postModifyValidate(client, createdPath, parentPath);
         return ok({ ...result, validation });
       } catch (e: any) {

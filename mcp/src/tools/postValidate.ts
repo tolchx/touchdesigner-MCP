@@ -54,7 +54,7 @@ export async function postModifyValidate(
     const health = await client.healthcheck(checkPath, false);
 
     const hasIssues =
-      health && !(health as any).ok && (health as any).issueCount > 0;
+      health && !health.ok && health.issueCount > 0;
 
     if (!hasIssues) {
       return {
@@ -66,8 +66,8 @@ export async function postModifyValidate(
       };
     }
 
-    const issues = (health as any).operators?.filter(
-      (o: any) => o.hasIssues
+    const issues = health.operators?.filter(
+      (o) => o.hasIssues
     ) || [];
 
     // Step 2: Auto-fix expression errors if enabled
@@ -81,7 +81,7 @@ export async function postModifyValidate(
     if (fixesApplied > 0) {
       const recheck = await client.healthcheck(checkPath, false);
       const stillHasIssues =
-        recheck && !(recheck as any).ok && (recheck as any).issueCount > 0;
+        recheck && !recheck.ok && recheck.issueCount > 0;
 
       if (!stillHasIssues) {
         return {
@@ -93,8 +93,8 @@ export async function postModifyValidate(
         };
       }
 
-      const remaining = (recheck as any).operators?.filter(
-        (o: any) => o.hasIssues
+      const remaining = recheck.operators?.filter(
+        (o) => o.hasIssues
       ) || [];
       return {
         ok: false,
@@ -205,7 +205,7 @@ else:
 
   try {
     const result = await client.execute(fixCode, "/");
-    const parsed = JSON.parse((result as any)?.output || '{"fixed":0}');
+    const parsed = JSON.parse(result.stdout || '{"fixed":0}');
     return parsed.fixed || 0;
   } catch {
     return 0;

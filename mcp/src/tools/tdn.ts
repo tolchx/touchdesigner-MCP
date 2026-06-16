@@ -857,9 +857,9 @@ export function registerTdnTools(server: McpServer, client: TDClient) {
         const result = await client.execute(code, "/");
         let parsed: any;
         try {
-          parsed = JSON.parse((result as any)?.output || "{}");
+          parsed = JSON.parse(result.stdout || "{}");
         } catch {
-          parsed = { success: false, error: (result as any)?.output || "Parse error" };
+          parsed = { success: false, error: result.stdout || "Parse error" };
         }
         return parsed.success ? ok(parsed) : err(parsed.error || "Export failed");
       } catch (e: any) {
@@ -895,9 +895,9 @@ export function registerTdnTools(server: McpServer, client: TDClient) {
         const result = await client.execute(code, "/");
         let parsed: any;
         try {
-          parsed = JSON.parse((result as any)?.output || "{}");
+          parsed = JSON.parse(result.stdout || "{}");
         } catch {
-          parsed = { success: false, error: (result as any)?.output || "Parse error" };
+          parsed = { success: false, error: result.stdout || "Parse error" };
         }
         return parsed.success ? ok(parsed) : err(parsed.error || "Import failed");
       } catch (e: any) {
@@ -933,9 +933,9 @@ export function registerTdnTools(server: McpServer, client: TDClient) {
         const result = await client.execute(code, "/");
         let parsed: any;
         try {
-          parsed = JSON.parse((result as any)?.output || "{}");
+          parsed = JSON.parse(result.stdout || "{}");
         } catch {
-          parsed = { success: false, error: (result as any)?.output || "Parse error" };
+          parsed = { success: false, error: result.stdout || "Parse error" };
         }
         return parsed.success ? ok(parsed) : err(parsed.error || "Diff failed");
       } catch (e: any) {

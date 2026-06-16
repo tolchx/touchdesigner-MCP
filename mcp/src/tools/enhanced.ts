@@ -63,7 +63,7 @@ import {
 
 // ─── Registration ─────────────────────────────────────────────────────────
 
-export function registerEnhancedTools(server: McpServer, client: TDClient) {
+export async function registerEnhancedTools(server: McpServer, client: TDClient) {
   // ---------------------------------------------------------------------------
   // td_resolve_operator — Natural Language → TD Operator Type
   // ---------------------------------------------------------------------------
@@ -82,7 +82,7 @@ export function registerEnhancedTools(server: McpServer, client: TDClient) {
     },
     async ({ prompt, limit }) => {
       try {
-        const result = resolvePrompt(prompt, limit ?? 3);
+        const result = resolvePrompt(prompt);
         return ok(result);
       } catch (e: any) {
         return err(e);
@@ -212,10 +212,10 @@ export function registerEnhancedTools(server: McpServer, client: TDClient) {
     },
     async ({ query, family, limit }) => {
       try {
-        const results = family
+        const data = family
           ? await searchByFamily(query, family, limit ?? 5)
           : await searchKnowledge(query, limit ?? 5);
-        return ok({ query, family: family || "all", results, count: results.length });
+        return ok({ query, family: family || "all", results: data.results, count: data.total });
       } catch (e: any) {
         return err(e);
       }
@@ -289,10 +289,10 @@ export function registerEnhancedTools(server: McpServer, client: TDClient) {
           bestFamily,
           familyInfo: familyInfo ? {
             family: familyInfo.family,
-            description: familyInfo.description,
-            exampleOps: familyInfo.exampleOps,
+            specificity: familyInfo.specificity,
+            aliases: familyInfo.aliases,
           } : null,
-          allFamilies: FAMILY_HINTS.map(f => ({ family: f.family, description: f.description, score: 0 })),
+          allFamilies: FAMILY_HINTS.map(f => ({ family: f.family, specificity: f.specificity, aliases: f.aliases, score: 0 })),
         });
       } catch (e: any) {
         return err(e);
@@ -305,6 +305,7 @@ export function registerEnhancedTools(server: McpServer, client: TDClient) {
   // ═══════════════════════════════════════════════════════════════════════════
 
   // Import patch engine lazily to avoid circular deps
+  const patchEngine = await import("../patchEngine.js");
   const {
     runPatchWorkflow,
     detectComplexityTier,
@@ -313,7 +314,7 @@ export function registerEnhancedTools(server: McpServer, client: TDClient) {
     applyPatch,
     generateVariations,
     planPatch,
-  } = require("./patchEngine.js");
+  } = patchEngine;
 
   // ---------------------------------------------------------------------------
   // td_patch_plan — Plan a complex network patch
@@ -437,7 +438,7 @@ export function registerEnhancedTools(server: McpServer, client: TDClient) {
         const variations = generateVariations(plan, count ?? 3);
         return ok({
           basePatchId: plan.patchId,
-          variations: variations.map(v => ({
+          variations: variations.map((v: any) => ({
             patchId: v.patchId,
             description: v.description,
             differences: v.differences,
@@ -470,7 +471,7 @@ export function registerEnhancedTools(server: McpServer, client: TDClient) {
       try {
         const tier = detectComplexityTier(prompt);
         const score = scoreComplexity(prompt);
-        const preCtx = await require("./patchEngine.js").gatherPreTurnContext(prompt);
+        const preCtx = await patchEngine.gatherPreTurnContext(prompt);
 
         let recommendation = "";
         if (tier === "pro") {
@@ -489,7 +490,7 @@ export function registerEnhancedTools(server: McpServer, client: TDClient) {
           preContext: {
             matchingTemplates: preCtx.templates,
             matchingRecipes: preCtx.recipes,
-            resolvedOps: preCtx.resolvedOps.map(o => o.opType),
+            resolvedOps: preCtx.resolvedOps.map((o: { opType: string }) => o.opType),
           },
         });
       } catch (e: any) {

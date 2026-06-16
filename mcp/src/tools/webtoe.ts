@@ -19,7 +19,7 @@ import { ok, err } from "../helpers.js";
 // ─── Knowledge sources ────────────────────────────────────────────────────
 
 import { searchKnowledge, searchByFamily } from "../knowledgeBrain.js";
-import { searchCatalog, getCatalogEntry, listByFamily, getCatalogCountsByFamily, getCreationDefaults } from "../catalogManager.js";
+import { searchCatalog, getCatalogEntry, listByFamily, getCatalogCountsByFamily, getCreationDefaults, type TdFamily } from "../catalogManager.js";
 import { resolvePrompt, getBestFamily, searchTemplates } from "../networkTemplates.js";
 import { searchRecipes } from "../builderRecipes.js";
 
@@ -165,11 +165,11 @@ async function generateOpSpec(
   const defaults = getCatalogEntry(opType);
   
   if (defaults && "parameters" in defaults) {
-    const pd = (defaults as any).parameters || [];
+    const pd = (defaults as { parameters?: Array<Record<string, unknown>> }).parameters || [];
     for (const p of pd) {
-      const wtType = p.type ? (TD_TO_WEBTOE_TYPE[p.type] || "float") : "float";
+      const wtType = (p.type as string) ? (TD_TO_WEBTOE_TYPE[p.type as string] || "float") : "float";
       params.push({
-        key: p.name || p.label?.toLowerCase().replace(/\s+/g, ""),
+        key: (p.name as string) || (p.label as string)?.toLowerCase().replace(/\s+/g, ""),
         label: p.label,
         type: wtType,
         default: p.default ?? 0,
@@ -255,7 +255,7 @@ function buildWebtoeJson(
   prompt: string,
   options: { title?: string; comment?: string } = {},
 ): Record<string, unknown> {
-  const resolved = resolvePrompt(prompt, 15);
+  const resolved = resolvePrompt(prompt);
 
   // Build nodes
   const nodes: Array<Record<string, unknown>> = [];
@@ -264,10 +264,10 @@ function buildWebtoeJson(
   let x = 40;
   let y = 40;
 
-  for (let i = 0; i < resolved.operators.length; i++) {
-    const op = resolved.operators[i];
+  for (let i = 0; i < resolved.allOperatorTypes.length; i++) {
+    const op = resolved.allOperatorTypes[i];
     const wtType = op.opType.replace(/TOP|CHOP|SOP|DAT|POP$/i, "").toLowerCase();
-    const family = (op as any).family || getBestFamily(op.opType);
+    const family = getBestFamily(op.opType);
 
     const node: Record<string, unknown> = {
       name: `${wtType}${i + 1}`,
@@ -360,8 +360,8 @@ export function registerWebtoeTools(server: McpServer, client: TDClient) {
           shaders: with_shaders ? result.shaders : undefined,
           raw_data: !webtoe_format ? result.spec : undefined,
           confidence: result.confidence,
-          is_implementable: !(result.spec as any).isStub,
-          note: (result.spec as any).isStub
+          is_implementable: !(result.spec as { isStub?: boolean }).isStub,
+          note: (result.spec as { isStub?: boolean }).isStub
             ? `${result.spec.family} family not yet implemented in WebToe engine (see R5 roadmap)`
             : "Can be implemented with standard WebToe cook pattern",
         });
@@ -400,12 +400,12 @@ export function registerWebtoeTools(server: McpServer, client: TDClient) {
         return ok({
           graph,
           size: {
-            nodes: (graph.root as any).nodes.length,
-            wires: (graph.root as any).wires.length,
+            nodes: (graph.root as { nodes: unknown[]; wires: unknown[] }).nodes.length,
+            wires: (graph.root as { nodes: unknown[]; wires: unknown[] }).wires.length,
           },
-          meta_templates: templates.slice(0, 3).map(t => (t as any).name).filter(Boolean),
+          meta_templates: templates.slice(0, 3).map((t: { name?: string }) => t.name).filter(Boolean),
           meta_recipes: recipes.slice(0, 3).map(r => r.name).filter(Boolean),
-          resolved_operators: resolvePrompt(prompt, 10).operators.map(o => o.opType),
+          resolved_operators: resolvePrompt(prompt).allOperatorTypes.map((o: { opType: string }) => o.opType),
           download: output_format === "download"
             ? { filename: `${title || "webtoe-network"}.webtoe.json` }
             : undefined,
@@ -438,7 +438,7 @@ export function registerWebtoeTools(server: McpServer, client: TDClient) {
     async ({ family, implementable_only, limit }) => {
       try {
         const catalogGaps: Record<string, Array<Record<string, unknown>>> = {};
-        const families = family ? [family] : ["TOP", "CHOP", "SOP", "DAT", "POP", "COMP", "MAT"];
+        const families: TdFamily[] = family ? [family] : ["TOP", "CHOP", "SOP", "DAT", "POP", "COMP", "MAT"];
 
         for (const fam of families) {
           const ops = listByFamily(fam);

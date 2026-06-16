@@ -135,7 +135,7 @@ async function checkDependencies(
 
   try {
     const info = await client.getInfo();
-    const infoAny = info as any;
+    const infoAny = info as { version?: string; buildVersion?: string; error?: string };
 
     // Check TD version
     const version = infoAny?.version || infoAny?.buildVersion || "";

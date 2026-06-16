@@ -369,7 +369,7 @@ export async function applyPatch(
   let errorsBefore = 0;
   try {
     const healthBefore = await client.healthcheck(plan.graph.targetPath, true);
-    errorsBefore = (healthBefore as any)?.issueCount ?? 0;
+    errorsBefore = healthBefore?.issueCount ?? 0;
   } catch {
     // Healthcheck might fail if path doesn't exist yet
   }
@@ -429,8 +429,7 @@ export async function applyPatch(
   // Step 6: Snapshot errors after
   let errorsAfter = 0;
   try {
-    const healthAfter = await client.healthcheck(plan.graph.targetPath, true);
-    errorsAfter = (healthAfter as any)?.issueCount ?? 0;
+    const healthAfter = await client.healthcheck(plan.graph.targetPath, true);      errorsAfter = healthAfter?.issueCount ?? 0;
   } catch {
     // Healthcheck might fail
   }

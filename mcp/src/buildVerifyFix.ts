@@ -121,7 +121,7 @@ else:
 
   try {
     const result = await client.execute(fixCode, "/");
-    const parsed = JSON.parse((result as any)?.output || '{"fixed":0}');
+    const parsed = JSON.parse(result.stdout || '{"fixed":0}');
     return parsed.fixed || 0;
   } catch {
     return 0;
@@ -156,7 +156,7 @@ else:
         print('NOT_CONNECTED')
 `;
     const result = await client.execute(code, "/");
-    const output = ((result as any)?.output || "").trim();
+    const output = (result.stdout || "").trim();
     return output === sourcePath || output.includes(sourcePath);
   } catch {
     return false;

@@ -407,7 +407,7 @@ export function registerPopValidationTools(server: McpServer, client: TDClient) 
         const scanResult = await client.execute(scanCode, "/");
         let scanData: any;
         try {
-          scanData = JSON.parse((scanResult as any)?.output || "{}");
+          scanData = JSON.parse(scanResult.stdout || "{}");
         } catch {
           scanData = { pops: [], count: 0 };
         }
@@ -536,7 +536,7 @@ export function registerPopValidationTools(server: McpServer, client: TDClient) 
           const cfResult = await client.execute(cfCode, "/");
           let cfData: any;
           try {
-            cfData = JSON.parse((cfResult as any)?.output || "{}");
+            cfData = JSON.parse(cfResult.stdout || "{}");
           } catch {
             cfData = { violations: [], count: 0 };
           }
@@ -618,7 +618,7 @@ print(json.dumps(results))
             const attrResult = await client.execute(attrCode, "/");
             let attrData: any[];
             try {
-              attrData = JSON.parse((attrResult as any)?.output || "[]");
+              attrData = JSON.parse(attrResult.stdout || "[]");
             } catch {
               attrData = [];
             }

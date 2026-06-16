@@ -84,12 +84,12 @@ export function registerSafeModeTools(server: McpServer, client: TDClient) {
 
         const hasIssues =
           health &&
-          !(health as any).ok &&
-          (health as any).issueCount > 0;
+          !health.ok &&
+          health.issueCount > 0;
         result.issues = {
           hasIssues,
-          issueCount: (health as any)?.issueCount ?? 0,
-          operators: (health as any)?.operators ?? [],
+          issueCount: health?.issueCount ?? 0,
+          operators: health?.operators ?? [],
         };
 
         // ── Step 3: Classify issues (using shared classifier) ──
@@ -100,7 +100,7 @@ export function registerSafeModeTools(server: McpServer, client: TDClient) {
             const classifyResult = await client.execute(classifyCode, "/");
             try {
               result.classification = JSON.parse(
-                (classifyResult as any)?.output || "{}"
+                classifyResult.stdout || "{}"
               );
             } catch {
               result.classification = {};

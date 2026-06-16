@@ -65,9 +65,12 @@ function resolveDataDir(): string {
 const DATA_DIR = resolveDataDir();
 const DB_PATH = resolve(DATA_DIR, "knowledge_brain.db");
 
+import { TdFamily } from "./knowledgeCache.js";
+
 // ─── Types ──────────────────────────────────────────────────────────────────
 
-export type TdFamily = "TOP" | "CHOP" | "SOP" | "DAT" | "COMP" | "POP" | "unknown";
+/** Knowledge brain extends the base TdFamily with "unknown" for unclassified operators. */
+type BrainFamily = TdFamily | "unknown";
 export type TrustTier = "official" | "bundled" | "community";
 export type SourceType = "ops" | "pops";
 
@@ -76,8 +79,8 @@ export interface KnowledgeBrainEntry {
   rowid: number;
   /** Canonical operator type name (e.g. "noiseTOP", "noisePOP") */
   name: string;
-  /** Operator family */
-  family: TdFamily;
+  /** Operator family (includes 'unknown' for unclassified operators) */
+  family: BrainFamily;
   /** Human-readable page title */
   pageTitle: string;
   /** URL slug */
@@ -248,7 +251,7 @@ export function getBrainError(): Error | null {
 
 interface IngestCandidate {
   name: string;
-  family: TdFamily;
+  family: BrainFamily;
   pageTitle: string;
   pageSlug: string;
   url: string;
@@ -371,7 +374,7 @@ function inferTrustTier(doc: any, sourceType: SourceType): TrustTier {
 }
 
 /** Determine family from doc data. */
-function inferFamily(doc: any, filePath: string): TdFamily {
+function inferFamily(doc: any, filePath: string): BrainFamily {
   // Explicit family field
   if (doc.family) return doc.family;
 
@@ -381,7 +384,7 @@ function inferFamily(doc: any, filePath: string): TdFamily {
   if (idx >= 0 && idx + 1 < parts.length) {
     const famDir = parts[idx + 1].toUpperCase();
     if (["TOP", "CHOP", "SOP", "DAT", "COMP", "POP"].includes(famDir)) {
-      return famDir as TdFamily;
+      return famDir as BrainFamily;
     }
   }
 
@@ -843,7 +846,7 @@ export function brainStats(): {
   const db = getDb();
 
   const total =
-    (db.prepare("SELECT COUNT(*) AS c FROM docs").get() as any)?.c ?? 0;
+    (db.prepare("SELECT COUNT(*) AS c FROM docs").get() as { c: number })?.c ?? 0;
 
   const byFamily = rowsToMap(
     db.prepare("SELECT family, COUNT(*) AS c FROM docs GROUP BY family").all()

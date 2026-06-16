@@ -632,7 +632,7 @@ export function registerValidateTools(server: McpServer, client: TDClient) {
         result.steps.push({ step: "healthcheck", result: health });
 
         const hasErrors =
-          health && !(health as any).ok && (health as any).issueCount > 0;
+          health && !health.ok && health.issueCount > 0;
 
         // ── Step 2: Auto-fix if enabled and errors found ──
         if ((auto_fix ?? true) && hasErrors) {
@@ -642,16 +642,16 @@ export function registerValidateTools(server: McpServer, client: TDClient) {
 
           try {
             result.errors_fixed = JSON.parse(
-              (fixResult as any)?.output || "{}",
+              fixResult.stdout || "{}",
             );
           } catch {
-            result.errors_fixed = { raw: (fixResult as any)?.output };
+            result.errors_fixed = { raw: fixResult.stdout };
           }
 
           // ── Step 3: Re-validate after fix ──
           const recheck = await client.healthcheck(opPath, recurse ?? true);
           result.steps.push({ step: "recheck", result: recheck });
-          result.final_status = (recheck as any)?.ok ? "healthy" : "has_issues";
+          result.final_status = recheck.ok ? "healthy" : "has_issues";
         } else {
           result.final_status = hasErrors ? "has_issues" : "healthy";
         }
@@ -664,7 +664,7 @@ export function registerValidateTools(server: McpServer, client: TDClient) {
 
         let glslResults: any[] = [];
         try {
-          glslResults = JSON.parse((glslCheck as any)?.output || "[]");
+          glslResults = JSON.parse(glslCheck.stdout || "[]");
         } catch {
           glslResults = [];
         }
@@ -684,7 +684,7 @@ export function registerValidateTools(server: McpServer, client: TDClient) {
           const classifyResult = await client.execute(classifyCode, "/");
           try {
             classifyResults = JSON.parse(
-              (classifyResult as any)?.output || "{}",
+              classifyResult.stdout || "{}",
             );
           } catch {
             classifyResults = {};
@@ -708,7 +708,7 @@ export function registerValidateTools(server: McpServer, client: TDClient) {
             const reportResult = await client.execute(reportCode, "/");
           try {
             structuredReports = JSON.parse(
-              (reportResult as any)?.output || "{}",
+              reportResult.stdout || "{}",
             );
           } catch {
             structuredReports = {};
@@ -727,7 +727,7 @@ export function registerValidateTools(server: McpServer, client: TDClient) {
         }
 
         result.summary = {
-          total_issues_before: (health as any)?.issueCount ?? 0,
+          total_issues_before: health?.issueCount ?? 0,
           fixes_applied: result.errors_fixed?.count ?? 0,
           glsl_shaders_checked: glslResults.length,
           glsl_errors: glslErrors.length,
@@ -799,7 +799,7 @@ export function registerValidateTools(server: McpServer, client: TDClient) {
         const execResult = await client.execute(code, "/");
         let perfResult: any;
         try {
-          perfResult = JSON.parse((execResult as any)?.output || "{}");
+          perfResult = JSON.parse(execResult.stdout || "{}");
         } catch {
           perfResult = { error: "Failed to parse performance data" };
         }

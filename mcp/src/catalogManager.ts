@@ -18,13 +18,12 @@ import {
   getPopsIndex,
   type OpsIndex,
   type PopsIndex,
+  type TdFamily,
 } from "./knowledgeCache.js";
-import type { TdFamily as OpsTdFamily } from "./opsDb.js";
+
+export type { TdFamily };
 
 // ─── Types ──────────────────────────────────────────────────────────────────
-
-/** All 7 TouchDesigner operator families. */
-export type TdFamily = "TOP" | "CHOP" | "SOP" | "DAT" | "POP" | "COMP" | "MAT";
 
 /** Palette browser category for each family. */
 export type PaletteType =

@@ -549,21 +549,21 @@ function formatAsBulletList<T extends Record<string, unknown>>(
 // ─── Quick convenience exports ──────────────────────────────────────────────
 
 /** Minimal JSON — machine-friendly summary, least tokens. */
-export function minimalJson(data: unknown, shape?: string): string {
-  return formatResponse(data, { detailLevel: "minimal", responseFormat: "json" }, shape as any);
+export function minimalJson(data: unknown, shape?: "operatorList" | "parameterList" | "errorList" | "connectionList" | "graph"): string {
+  return formatResponse(data, { detailLevel: "minimal", responseFormat: "json" }, shape);
 }
 
 /** Summary Markdown — human-friendly tables, moderate tokens. */
-export function summaryMarkdown(data: unknown, shape?: string): string {
-  return formatResponse(data, { detailLevel: "summary", responseFormat: "markdown" }, shape as any);
+export function summaryMarkdown(data: unknown, shape?: "operatorList" | "parameterList" | "errorList" | "connectionList" | "graph"): string {
+  return formatResponse(data, { detailLevel: "summary", responseFormat: "markdown" }, shape);
 }
 
 /** Detailed JSON — full fidelity, inspect everything. */
-export function detailedJson(data: unknown, shape?: string): string {
-  return formatResponse(data, { detailLevel: "detailed", responseFormat: "json" }, shape as any);
+export function detailedJson(data: unknown, shape?: "operatorList" | "parameterList" | "errorList" | "connectionList" | "graph"): string {
+  return formatResponse(data, { detailLevel: "detailed", responseFormat: "json" }, shape);
 }
 
 /** Detailed Text — bullet-point dump, good for logs. */
-export function detailedText(data: unknown, shape?: string): string {
-  return formatResponse(data, { detailLevel: "detailed", responseFormat: "text" }, shape as any);
+export function detailedText(data: unknown, shape?: "operatorList" | "parameterList" | "errorList" | "connectionList" | "graph"): string {
+  return formatResponse(data, { detailLevel: "detailed", responseFormat: "text" }, shape);
 }
