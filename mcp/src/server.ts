@@ -39,9 +39,9 @@ function preloadKnowledge(): void {
 /**
  * Create a fully configured TouchDesigner MCP server with all tools registered.
  */
-export function createTouchDesignerMcpServer(
+export async function createTouchDesignerMcpServer(
   client: TDClient = new TDClient()
-): McpServer {
+): Promise<McpServer> {
   // Pre-load knowledge base asynchronously (non-blocking)
   preloadKnowledge();
 
@@ -69,7 +69,7 @@ export function createTouchDesignerMcpServer(
   registerSyntacticCheckTools(server, client);
   registerTdnTools(server, client);
   registerSafeModeTools(server, client);
-  registerEnhancedTools(server, client);
+  await registerEnhancedTools(server, client);
   registerWebtoeTools(server, client);
   registerPopValidationTools(server, client);
 
@@ -138,7 +138,7 @@ export async function createTouchDesignerMcpServerWithStatus(
   registerSyntacticCheckTools(server, client);
   registerTdnTools(server, client);
   registerSafeModeTools(server, client);
-  registerEnhancedTools(server, client);
+  await registerEnhancedTools(server, client);
   registerWebtoeTools(server, client);
   registerPopValidationTools(server, client);
 

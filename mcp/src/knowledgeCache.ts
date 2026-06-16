@@ -21,7 +21,7 @@ const __dirname = dirname(__filename);
 
 // ─── Schemas (re-exported so consumers don't need zod at load time) ─────────
 
-export const TdFamilySchema = z.enum(["TOP", "CHOP", "SOP", "DAT"]);
+export const TdFamilySchema = z.enum(["TOP", "CHOP", "SOP", "DAT", "POP", "COMP", "MAT"]);
 
 export const OpsOperatorIndexItemSchema = z.object({
   family: TdFamilySchema,

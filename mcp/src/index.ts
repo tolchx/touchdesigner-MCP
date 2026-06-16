@@ -5,7 +5,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { createTouchDesignerMcpServer } from "./server.js";
 
 export async function runStdioMcpServer() {
-  const server = createTouchDesignerMcpServer();
+  const server = await createTouchDesignerMcpServer();
   const transport = new StdioServerTransport();
   await server.connect(transport);
 }
