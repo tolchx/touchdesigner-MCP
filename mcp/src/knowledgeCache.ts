@@ -326,8 +326,10 @@ export function ensureKnowledgeLoaded(): void {
 /**
  * Build a raw operator map from either array or Record format index data.
  * Handles legacy Record<string, path> format by loading individual files.
+ *
+ * Exported for unit testing (pure function — no module-level state).
  */
-function buildRawMap(
+export function buildRawMap(
   parsed: any,
   family: string,
   dataDir: string
@@ -416,7 +418,7 @@ export function getKnowledgeLoadError(): Error | null {
 
 // ─── Search index builder ───────────────────────────────────────────────────
 
-function buildSearchIndex(
+export function buildSearchIndex(
   opsMap: Record<string, any>,
   popsMap: Record<string, any>
 ): Map<string, { name: string; label: string; family: string; operator: any }> {
