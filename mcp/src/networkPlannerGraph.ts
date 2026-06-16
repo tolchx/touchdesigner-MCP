@@ -920,6 +920,7 @@ export async function planNetworkGraph(options: GraphPlanOptions): Promise<PlanR
 
 export {
   buildTopologyCatalog,
+  deterministicPlan,
   inferOpTopology,
   type OpTopology,
 };
