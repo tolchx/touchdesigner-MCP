@@ -4812,7 +4812,7 @@ const manifestData = {
   name: "TD-MCP Nexus",
   short_name: "TD-MCP",
   description: "TouchDesigner MCP Control Dashboard",
-  start_url: "/",
+  start_url: window.location.href || "/",
   display: "standalone",
   background_color: "#07070d",
   theme_color: "#6c5ce7",
@@ -4844,9 +4844,9 @@ let llmProvider = ''
 function loadLLMSettings() {
   try {
     llmApiKey = localStorage.getItem('tdmcp_llm_key') || ''
-    llmProvider = localStorage.getItem('tdmcp_llm_provider') || ''
+    llmProvider = localStorage.getItem('tdmcp_llm_provider') || 'openrouter'
     llmEnabled = localStorage.getItem('tdmcp_llm_enabled') === 'true'
-    const model = localStorage.getItem('tdmcp_llm_model') || 'gpt-4o-mini'
+    const model = localStorage.getItem('tdmcp_llm_model') || 'deepseek-chat'
     document.getElementById('llmApiKey').value = llmApiKey
     document.getElementById('llmProvider').value = llmProvider
     document.getElementById('llmModel').value = model
@@ -4954,4 +4954,44 @@ aiProcessCommand = async function(text) {
 
 loadLLMSettings()
 </script>
+
+<!-- Settings Modal -->
+<div id="settingsModal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);align-items:center;justify-content:center" onclick="if(event.target===this)closeSettings()">
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;width:90%;max-width:480px;max-height:80vh;overflow-y:auto">
+    <div class="section-header"><span class="section-title">⚙ Settings</span><button class="header-btn glow" onclick="closeSettings()">✕</button></div>
+    <div style="padding:20px">
+      <div style="margin-bottom:20px">
+        <div style="font-size:11px;color:var(--text2);font-weight:600;margin-bottom:8px">🤖 LLM Integration</div>
+        <div style="font-size:10px;color:var(--text3);margin-bottom:12px">Configure a provider & API key to let the AI Chat use an LLM for unrecognized commands.</div>
+        <div style="margin-bottom:8px">
+          <label style="font-size:10px;color:var(--text3);display:block;margin-bottom:4px">Provider</label>
+          <select id="llmProvider" style="width:100%;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font:12px monospace;outline:none">
+            <option value="">Disabled</option>
+            <option value="openai">OpenAI</option>
+            <option value="openrouter" selected>OpenRouter</option>
+            <option value="anthropic">Anthropic</option>
+          </select>
+        </div>
+        <div style="margin-bottom:8px">
+          <label style="font-size:10px;color:var(--text3);display:block;margin-bottom:4px">API Key</label>
+          <input type="password" id="llmApiKey" style="width:100%;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font:12px monospace;outline:none" placeholder="sk-... or or-...">
+        </div>
+        <div style="margin-bottom:8px">
+          <label style="font-size:10px;color:var(--text3);display:block;margin-bottom:4px">Model</label>
+          <select id="llmModel" style="width:100%;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font:12px monospace;outline:none">
+            <option value="deepseek-chat" selected>DeepSeek V4</option>
+            <option value="gpt-4o-mini">GPT-4o Mini</option>
+            <option value="gpt-4o">GPT-4o</option>
+            <option value="deepseek-v3">DeepSeek V3</option>
+            <option value="deepseek-r1">DeepSeek R1</option>
+          </select>
+        </div>
+        <div id="llmStatus" style="font-size:10px;color:var(--text3);margin-top:6px"></div>
+      </div>
+      <button class="param-btn glow" onclick="saveLLMSettings()" style="width:100%;padding:10px">💾 Save Settings</button>
+      <div id="llmSaveStatus" style="text-align:center;margin-top:8px;font-size:10px"></div>
+    </div>
+  </div>
+</div>
+
 </body></html>
