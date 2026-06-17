@@ -334,3 +334,36 @@ Log of discoveries and lessons learned during development.
 
 ### Total test count
 - 803+ offline unit tests (19 test files) + 4 live TD test files (~245 checks) = ~1048 total checks
+
+## 2026-06-17 (Tick 10)
+
+### New Unit Tests: postValidate.ts
+
+**Task**: Add offline unit tests for `mcp/src/tools/postValidate.ts` — the post-modification validation module used by crud.ts tools.
+
+**File created**: `mcp/test/postValidate.test.js` — 28 tests across 2 suites
+
+**Coverage**:
+
+| Suite | Tests | What it proves |
+|-------|-------|---------------|
+| `getParentPath` | 10 | Pure function: normal 2-segment → `/project1`, deep paths, root passthrough, empty-string edge case, trailing-slash handling, no-leading-slash, double-slash |
+| `postModifyValidate` | 18 | Healthy path, issue detection, `hasIssues=true` filtering, field mapping (path/name/opType/errors/warnings), auto-fix success flow, re-check call count verification (exactly 2 calls when fixes applied, exactly 1 when 0 fixes), partial-fix remaining-issues flow, `autoFix=false` prevents execute call, healthcheck exception → graceful `{ok:false, issueCount:-1}`, execute exception swallowed gracefully, `parentPath` used for both initial and re-check, large issue count (50 ops), PostValidationResult shape validation on success and failure |
+
+**Key findings**:
+- Import path correction: `mcp/src/tools/postValidate.ts` is under `src/tools/` so the compiled dist path is `../dist/tools/postValidate.js`, NOT `../dist/postValidate.js`. This matters for any future tests importing from this module — always check the source file location relative to `src/`.
+- The `mockClient` pattern from `buildVerifyFix.test.js` was reused successfully: `createMockClient(overrides)` with configurable `healthcheck()` and `execute()`.
+- `autoFixExpressions()` is module-private (not exported) — it's tested indirectly via `postModifyValidate()` through the mock's `execute()`.
+- Call-count verification using a simple counter closure in the mock is an effective pattern for testing the auto-fix execution flow:
+  ```js
+  let healthcheckCalls = 0;
+  const healthcheck = async () => {
+    healthcheckCalls++;
+    return {...};
+  };
+  ```
+
+### Updated Test Count
+- Unit tests: 840 (21 suites, 0 failures) — was 812 (+28 postValidate.test.js)
+- Live TD tests: 9 files (~574 checks)
+- Grand total: ~1414 checks
