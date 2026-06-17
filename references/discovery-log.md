@@ -1,5 +1,35 @@
 # Discovery Log
 
+## 2026-06-17 (Tick 5)
+
+### New Live TD Test: glslPOP, glsladvancedPOP, Parallel POP Chains, Custom Attrs
+
+**New file**: `toe/src/test_live_td_pop_advanced2.py` — 130 checks, all pass.
+
+**Purpose**: Exercises POP capabilities NOT covered by any existing test:
+- **Chain 1**: glslPOP (original standard compute POP, NOT glslcopyPOP) with `computedat` / `outputattrs` (non-prefixed params)
+- **Chain 2**: 3 independent parallel source→modifier→output chains (boxPOP×3 → noisePOP×3 → nullPOP×3), each with distinct params, verified for independent wiring
+- **Chain 3**: glsladvancedPOP (vertex compute variant) with `ptoutputattrs` (NOT `outputattrs`, NOT `vertoutputattrs`)
+- **Chain 4**: pointPOP custom particle attributes via `attr0name='custom'` (Menu) + `attr0customname='customVel'` (custom string)
+- **/document endpoint**: Validated on a POP-heavy network — correctly identifies POP family (18 POP + 6 DAT), mirrors full `/verify` output
+
+**Discovery — glsladvancedPOP uses `computedat`, NOT `vertcomputedat`**:
+Despite the name suggesting vertex-specific params, `glsladvancedPOP` uses the same `computedat` parameter as `glslPOP`. There is NO `vertcomputedat` parameter on `glsladvancedPOP`. The param list shows `computedat` along with `ptoutputattrs`, `primoutputattrs`, and `vertoutputattrs` for output selection (all Menu `['*']`). The `vertcomputedat` name from earlier `/glsl_reload` bugfix analysis referred to `glslcopyPOP`'s `ptcomputedat`, which is a different parameter family for a different operator. This naming confusion cost one delegation cycle to fix.
+
+**Discovery — pointPOP `attr0name` is a Menu, not a String**:
+`pointPOP.par.attr0name` is a **Menu** parameter with exactly 6 options: `['custom', 'n', 'color', 'tex', 'pointscale', 'linewidth']`. Setting it to arbitrary text silently falls back to the default `'custom'`. To set a custom attribute name, you must set BOTH:
+1. `attr0name = 'custom'` (select the "custom" menu entry)
+2. `attr0customname = 'myAttrName'` (set the actual custom string)
+This pattern applies to all 8 attr slots (`attr0customname` through `attr7customname`).
+
+**Discovery — `attr0type` on pointPOP is also a Menu**:
+Options: `['float', 'double', 'int', 'uint', 'color', 'dcolor', 'dir', 'ddir']`
+Default: `'float'`
+
+**Verification**: 130/130 checks pass with glslPOP compilation, glsladvancedPOP compilation, pointPOP attr read-back, parallel-chain independence, grid collision avoidance, and `/document` role detection all verified.
+
+**New live tests**: 1 file, 130 checks. Total live TD tests: 6 files (~420 checks). Total unit tests: 848+ (20 files). Grand total: ~1268 checks.
+
 ## 2026-06-17 (Tick 4)
 
 ### POP Parameter Read-Back Test + noisePOP Parameter Correction
