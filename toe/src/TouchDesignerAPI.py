@@ -2661,11 +2661,15 @@ else:
         dat_path = None
         # Check common par references
         for p in t.pars():
-            if p.name.lower() in ('pixeldat', 'vertexdat', 'computedat', 'frag', 'vert', 'comp'):
+            if p.name.lower() in ('pixeldat', 'vertexdat', 'computedat', 'ptcomputedat', 'vertcomputedat', 'primcomputedat', 'frag', 'vert', 'comp'):
                 val = p.eval()
-                if val and isinstance(val, str):
-                    dat_path = val
-                    break
+                if val is not None:
+                    if isinstance(val, str):
+                        dat_path = val
+                        break
+                    elif hasattr(val, 'path'):
+                        dat_path = val.path
+                        break
         # Try to find a child DAT
         if not dat_path:
             for c in t.children:
@@ -2751,11 +2755,15 @@ else:
         # Find the pixel/vertex/compute DAT
         dat_path = None
         for p in t.pars():
-            if p.name.lower() in ('pixeldat', 'vertexdat', 'computedat', 'frag', 'vert', 'comp'):
+            if p.name.lower() in ('pixeldat', 'vertexdat', 'computedat', 'ptcomputedat', 'vertcomputedat', 'primcomputedat', 'frag', 'vert', 'comp'):
                 val = p.eval()
-                if val and isinstance(val, str):
-                    dat_path = val
-                    break
+                if val is not None:
+                    if isinstance(val, str):
+                        dat_path = val
+                        break
+                    elif hasattr(val, 'path'):
+                        dat_path = val.path
+                        break
         if not dat_path:
             for c in t.children:
                 if hasattr(c, 'text'):
