@@ -1,7 +1,7 @@
 # MCP TouchDesigner
 
 **El servidor MCP más completo para TouchDesigner.**  
-63 herramientas, modo offline, tutoriales integrados, workflows reutilizables, y más.
+92 herramientas, modo offline, tutoriales integrados, workflows reutilizables, dashboard Nexus, y más.
 
 Conecta Inteligencia Artificial con TouchDesigner usando el Model Context Protocol. Controla operadores, ejecuta scripts y construye redes completas con lenguaje natural.
 
@@ -11,7 +11,7 @@ Conecta Inteligencia Artificial con TouchDesigner usando el Model Context Protoc
 
 | Característica | Este MCP | iflow-mcp | 8beeeaaat | twozero |
 |---|---|---|---|---|
-| **Tools** | **63** | 21 | 12 | 36 |
+|| **Tools** | **92** | 21 | 12 | 36 |
 | **Modo offline** (sin TD) | ✅ | ❌ | ❌ | ❌ |
 | **Tutoriales** | **15** | 14 | ❌ | Sí |
 | **Workflows** | **32** | 32 | ❌ | Sí |
@@ -262,7 +262,7 @@ git diff networks/mySystem.tdn
 
 ---
 
-## 📋 Tools disponibles (63)
+## 📋 Tools disponibles (92)
 
 ### 🔌 Requiere conexión TD (modo online)
 
