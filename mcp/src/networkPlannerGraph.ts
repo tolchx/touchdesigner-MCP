@@ -589,6 +589,27 @@ Generate the network graph JSON.`;
   }
 }
 
+// ─── Cross-Family Compatibility ────────────────────────────────────────────
+
+/**
+ * Returns true only if a connection between two operator families is valid
+ * WITHOUT an explicit adapter operator (toPOP, toTOP, choptoTOP, etc.).
+ *
+ * In TouchDesigner, a connection between two operators of the same family
+ * (TOP→TOP, CHOP→CHOP, POP→POP, SOP→SOP, DAT→DAT) is always valid. Cross-
+ * family connections (POP→TOP, CHOP→POP, TOP→CHOP, etc.) are NOT valid
+ * unless an adapter operator is used; the deterministic planner does not
+ * insert adapters, so such connections would silently fail in TD.
+ *
+ * Exported so the rule can be unit-tested and reused by callers.
+ */
+export function isFamilyCompatible(
+  sourceFamily: string,
+  targetFamily: string,
+): boolean {
+  return sourceFamily === targetFamily;
+}
+
 // ─── Deterministic Fallback Planner ────────────────────────────────────────
 
 /**
@@ -700,11 +721,19 @@ function deterministicPlan(
       });
     }
 
-    // If this is multi-input, also connect from other families
+    // If this is multi-input, also connect from other families — but ONLY
+    // when the families are compatible. Cross-family connections (POP→TOP,
+    // CHOP→POP, etc.) are invalid in TD without explicit adapter operators
+    // (toPOP, toTOP, choptoTOP) which the deterministic planner does not
+    // insert. See isFamilyCompatible().
     if (topo?.isMultiInput && lastInFamily.size > 1) {
       let inputIdx = 1;
       lastInFamily.forEach((otherId: string, otherFamily: string) => {
-        if (otherFamily !== family && inputIdx <= 3) {
+        if (
+          otherFamily !== family
+          && inputIdx <= 3
+          && isFamilyCompatible(otherFamily, family)
+        ) {
           connections.push({
             from: otherId,
             to: node.id,
