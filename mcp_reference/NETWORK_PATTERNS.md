@@ -64,6 +64,22 @@ Discovered via live TD HTTP API integration tests — documented names differ fr
 | lifetime | life | particlePOP | Same par, different docs |
 | rate | birthrate | particlePOP | Particles born per second |
 | maxCount | maxparticles | particlePOP | Maximum particle count |
+| gravity | *(not found)* | particlePOP | Does NOT exist. Use `initvelocityx/y/z` or `damping` for physics |
+| turbulence | *(not found)* | particlePOP | Does NOT exist as a parameter |
+| radius | radx/rady | circlePOP | `circlePOP.par.radius` fails. Use `radx`/`rady` |
+| divisions | divs | circlePOP | Circle subdivision count |
+| count | createp | pointPOP | `pointPOP.par.count` fails. `createp` is a toggle |
+| outputattrs | ptoutputattrs | glslcopyPOP | glslPOP uses `outputattrs`, glslcopyPOP uses `ptoutputattrs` |
+| computedat | ptcomputedat | glslcopyPOP | glslPOP uses `computedat`, glslcopyPOP uses `ptcomputedat` |
+| gain | inputmul | feedbackPOP | `feedbackPOP.par.gain` fails. Use `inputmul` |
+| feedback | *(not found)* | feedbackPOP | Does NOT exist as a parameter toggle |
+
+### Cross-Family Connection Limitations
+- POP→CHOP direct connections fail: `particlePOP.outputConnectors[0].connect(noiseCHOP)` → "Invalid number or type of arguments"
+- POP→TOP and CHOP→TOP same issue
+- Cross-family bridging requires `toCHOP`/`toTOP` bridge operators which may not be accessible as `td.PascalCase` constants
+- `noisePOP` has only ONE input connector — connecting multiple sources overwrites previous connections
+- `glslcopyPOP` requires `ptcomputedat` + `ptoutputattrs` set AFTER creation (not in creation params)
 
 ## Common Patterns
 
