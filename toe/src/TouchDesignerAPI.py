@@ -2193,8 +2193,11 @@ else:
         # 2. Check if inputs are connected
         has_inputs = False
         for inp in t.inputConnectors:
-            if inp.op is not None:
-                has_inputs = True
+            for conn in inp.connections:
+                if conn.owner is not None:
+                    has_inputs = True
+                    break
+            if has_inputs:
                 break
         if not has_inputs and t.family != 'DAT':
             # Check if it's a source type that doesn't need inputs

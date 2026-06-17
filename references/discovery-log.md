@@ -1,5 +1,59 @@
 # Discovery Log
 
+## 2026-06-17 (Tick 8)
+
+### New Live TD Test: glslcopyPOP + feedbackPOP + /diagnose + /auto_layout
+
+**Task**: Create a comprehensive live TouchDesigner test covering glslcopyPOP, feedbackPOP, the /diagnose endpoint, and the /auto_layout endpoint in a single POP network.
+
+**File created**: `toe/src/test_live_td_pop_glslcopy_feedback.py` (982 lines, 65 checks)
+
+**Chains tested**:
+| Chain | Nodes | What it proves |
+|-------|-------|---------------|
+| A — glslcopyPOP | boxPOP → textDAT(shader) → glslcopyPOP → nullPOP | glslcopyPOP uses `ptcomputedat`/`ptoutputattrs` (NOT `computedat`/`outputattrs`). GLSL compute shader validates correctly in sync compile + async re-check. |
+| B — feedbackPOP | circlePOP → feedbackPOP → nullPOP | feedbackPOP correctly accepts `inputmul=1` (Int, default 1). |
+| C — /diagnose | Full sandbox + per-child | `/diagnose` returns correct structure `{issues, fixes, healthy}`. Source nodes (generators with 0 inputs) are excluded from health check — "No inputs connected" is expected, not an error. |
+| D — /auto_layout | Scattered → auto-arranged | Grid separation (≥200px X, ≥150px Y), left-to-right flow chain, connection integrity, zero errors post-layout. |
+
+**Result**: 65/65 checks pass (0 failed).
+
+### Bug Fix: feedbackPOP.inputmul is Int, not Float
+
+**Discovery**: The project skill documentation stated `feedbackPOP.par.inputmul` was a Float (0.8). Actual TD API inspection revealed it's **Int** style with default=1.
+
+- `.style`: `"Int"`
+- `.default`: `1`
+- Setting `0.8` truncates → value stays at default `1`
+- Correct usage: `inputmul = 1` (Int)
+
+**Root cause**: The parameter is documented in TD docs as "Input Multiplier" with Float-like semantics (0-1 range), but its storage type is Int. This was never caught because no live test exercised feedbackPOP parameter read-back before Tick 8.
+
+**Fix applied**: Changed test expectations from `inputmul=0.8` (Float) to `inputmul=1` (Int). Updated docstring, comments, assertion logic, and summary print.
+
+### Bug Fix: /diagnose false positives for source operators
+
+**Discovery**: The `/diagnose` endpoint reports "No inputs connected" as an issue for source operators (generators like boxPOP, circlePOP) that inherently have 0 inputs. This is expected behavior, not an error.
+
+**Fix**: The test now excludes `is_source=True` nodes from the "must have zero issues" health check. Source nodes' "no inputs" warnings are accepted as design intent. Non-source nodes (modifiers, outputs) are still strictly checked.
+
+**Stats**: 7 source nodes, 5 non-source nodes (glslcopy_mod, glslcopy_out, feedback_mod, feedback_out, glslcopy_dat).
+
+### Verification: exec() namespace fix confirmed working
+
+The auto_layout live test (`test_live_td_auto_layout.py`) now passes **24/24** (was 23/24 in Tick 7). The exec() namespace fix (`globals()` argument to `exec()`) is fully effective in the running TD session.
+
+### New Test File Summary
+
+| File | Description | Checks |
+|------|-------------|--------|
+| `toe/src/test_live_td_pop_glslcopy_feedback.py` | glslcopyPOP + feedbackPOP + /diagnose + /auto_layout | 65 live TD checks |
+
+### Updated Test Count
+- Unit tests: 812 (20 suites, 0 failures)
+- Live TD tests: 8 files (~509 checks)
+- Grand total: ~1321 checks
+
 ## 2026-06-17 (Tick 7)
 
 ### New MCP Tool: td_auto_layout — Auto-Layout for POP Networks

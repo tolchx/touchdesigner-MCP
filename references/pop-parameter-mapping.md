@@ -56,7 +56,9 @@ This file documents the actual TD parameter names for POP operators, verified ag
 
 | Doc name | Actual TD name | Type | Notes |
 |----------|---------------|------|-------|
-| gain | inputmul | Float | Feedback amount (0-1 range) |
+| gain | inputmul | **Int** | NOT Float! Default=1, range 0-1 (but stored as Int). Setting 0.8 truncates — only integer values work. Verified via live TD parameter read-back. |
+| (other params) | preroll | Float | 0.0 default |
+| (other params) | bypass | Toggle | Bypass the feedback loop |
 
 ## Full parameter list sources
 
