@@ -1,5 +1,39 @@
 # Discovery Log
 
+## 2026-06-17 (Tick 6)
+
+### Cross-Family Connection Validation in deterministicPlan
+
+**Task**: Add `isFamilyCompatible()` to prevent the deterministic planner from proposing invalid cross-family connections (POP→TOP, CHOP→POP, etc.) that silently fail in TouchDesigner.
+
+**File**: `mcp/src/networkPlannerGraph.ts`
+
+**Files changed**: 2 commits this tick:
+1. `toe/src/test_live_td_pop_advanced2.py` — finish `--keep` pattern, `ptoutputattrs='P'` fix (was `'*'` → "Compile failed"), async GLSL check (RULE 2), explicit rules header
+2. `mcp/src/networkPlannerGraph.ts` — add `isFamilyCompatible()`, gate multi-input cross-family connection block
+
+**Change**: The multi-input cross-family block (previously lines 703–716) tried to connect from ANY other family's last node to multi-input operators. For example, a `compositeTOP` would get connected from whatever CHOP or POP happened to be in `lastInFamily`. Now gated by:
+```typescript
+&& isFamilyCompatible(otherFamily, family)
+```
+
+Where `isFamilyCompatible` returns `true` only when `sourceFamily === targetFamily`. Cross-family connections require explicit adapter operators (toPOP, toTOP, choptoTOP) which the deterministic planner does not insert.
+
+**Verification**: 50/50 tests pass (no test changes needed). Full suite: 14 suites, 0 failures. Compilation clean. Function is exported for future unit testing.
+
+**Discovery — The multi-input block was always broken for mixed-family prompts**: The old code connected unrelated families (POP→TOP, CHOP→POP) via the multi-input block. The only reason tests didn't catch this is that the existing multi-input test (#20) uses all-TOP-family operators. No mixed-family test existed. The fix disables cross-family connections entirely — they should go through explicit adapter operators or be handled by the LLM planner which has POP-specific rules.
+
+### test_live_td_pop_advanced2.py — Final Polish
+
+**Changes applied** (from previous tick's pending work):
+- RULE 2 async GLSL check: force-cook, 2s wait, re-scan all operators for async GLSL compilation errors
+- `ptoutputattrs='P'` fix: glsladvancedPOP output attrs changed from `'*'` (causes "Compile failed") to `'P'` (position only, the correct value)
+- GLSL code fix: glsladvancedPOP now uses `TDIn_P(0, id)` / `P[id]` pattern (same as glslPOP), not `TDIn_P()` / `TDOut_P()` which don't exist
+- `--keep` pattern: auto-offset Y +700px for existing containers at same X to prevent overlap
+- Explicit rules header (RULE 1/2/3) documented in test file
+
+**Total test count**: 587 offline unit tests (14 suites) + 6 live TD test files (~420 checks) = ~1007 checks.
+
 ## 2026-06-17 (Tick 5)
 
 ### New Live TD Test: glslPOP, glsladvancedPOP, Parallel POP Chains, Custom Attrs
