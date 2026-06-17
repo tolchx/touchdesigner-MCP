@@ -11,3 +11,12 @@ mcp/setup/webapp-scanner/node_modules/
 *.toe.toc/
 mcp/tests/legacy_test_*.mjs
 mcp/data/reference/python-api-classes.json
+
+# Temporary files and debug scripts
+UsersTolchAppDataLocalTemp*
+edu_debug*
+
+# Webapp-scanner logs and state
+mcp/setup/webapp-scanner/.batch-expand-log.txt
+mcp/setup/webapp-scanner/.batch-expand-state.json
+mcp/setup/webapp-scanner/.remaining-files.json
