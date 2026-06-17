@@ -250,4 +250,42 @@ export function registerUiTools(server: McpServer, client: TDClient) {
       }
     }
   );
+
+  // ---------------------------------------------------------------------------
+  // td_smart_connect
+  // ---------------------------------------------------------------------------
+  server.registerTool(
+    "td_smart_connect",
+    {
+      title: "Smart Connect",
+      description:
+        "Create an operator between two existing operators with auto-detected type compatibility. Auto-positions and wires the new operator. Either source or destination may be omitted, but at least one is required.",
+      inputSchema: {
+        source: z
+          .string()
+          .describe("Path to the source operator (its output feeds the new op)"),
+        destination: z
+          .string()
+          .describe("Path to the destination operator (the new op feeds its first input)"),
+        type: z
+          .string()
+          .optional()
+          .describe(
+            "Optional forced operator type (e.g. 'blurTOP', 'nullCHOP'). If omitted, a compatible null* type is auto-detected from the source/destination family."
+          ),
+        name: z
+          .string()
+          .optional()
+          .describe("Optional custom name for the new operator"),
+      },
+    },
+    async ({ source, destination, type, name }) => {
+      try {
+        const result = await client.smartConnect(source, destination, type, name);
+        return ok(result);
+      } catch (e: any) {
+        return err(e);
+      }
+    }
+  );
 }

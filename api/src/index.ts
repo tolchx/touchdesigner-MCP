@@ -513,6 +513,32 @@ export class TDClient {
     return data;
   }
 
+  /**
+   * Create an operator between two existing operators with auto-detected
+   * type compatibility. Auto-positions and wires the new operator.
+   *
+   * The TD handler accepts both `source/destination/type` and
+   * `src/dst/target_type` parameter names; this method sends the
+   * `source/destination/type` form.
+   */
+  async smartConnect(
+    source: string,
+    destination: string,
+    opType?: string,
+    name?: string,
+  ): Promise<any> {
+    const data = await this._request(`${this.baseUrl}/smart_connect`, {
+      method: "POST",
+      body: JSON.stringify({
+        source,
+        destination,
+        type: opType,
+        name,
+      }),
+    });
+    return data;
+  }
+
   // ---------------------------------------------------------------------------
   // Connection health
   // ---------------------------------------------------------------------------

@@ -2094,9 +2094,11 @@ else:
             payload = json.loads(request.get("data", "") or "{}")
         except:
             payload = request.get("pars", {})
-        source_path = payload.get("source", "")
-        dest_path = payload.get("destination", "")
-        op_type = payload.get("type", "")
+        # Accept both documented param sets: source/destination/type (handler native)
+        # and src/dst/target_type (as published in API_ENDPOINTS.md).
+        source_path = payload.get("source", "") or payload.get("src", "")
+        dest_path = payload.get("destination", "") or payload.get("dst", "")
+        op_type = payload.get("type", "") or payload.get("target_type", "")
         name = payload.get("name", None)
 
         code = rf"""import json
@@ -2125,7 +2127,9 @@ else:
 
         # Create the new op
         safe_name = '{name}' if '{name}' else None
-        new_op = parent.create({use_type}, safe_name)
+        # NOTE: getattr(td, use_type) resolves e.g. td.nullTOP from the string "nullTOP".
+        # Passing use_type as a bare identifier raised NameError at runtime.
+        new_op = parent.create(getattr(td, use_type), safe_name)
 
         # Position between source and destination
         if src and dst:

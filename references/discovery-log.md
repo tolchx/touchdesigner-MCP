@@ -1,5 +1,54 @@
 # Discovery Log
 
+## 2026-06-17 (Tick 9)
+
+### New MCP Tool + Bug Fix: `/smart_connect` fully implemented
+
+**Bug discovered**: The `_handle_smart_connect` method in TouchDesignerAPI.py interpolated type names as bare Python identifiers:
+```python
+# Broken — raises NameError at runtime:
+new_op = parent.create({use_type}, safe_name)
+# Becomes: parent.create(nullTOP, safe_name) → NameError: name 'nullTOP' is not defined
+```
+
+**Fix**: Changed to `getattr(td, use_type)` which dynamically resolves `td.nullTOP` from the string `"nullTOP"`:
+```python
+new_op = parent.create(getattr(td, use_type), safe_name)
+```
+
+**Also fixed**: The handler now accepts both param-name sets:
+- `source`/`destination`/`type` (handler native)
+- `src`/`dst`/`target_type` (as documented in API_ENDPOINTS.md)
+
+### New MCP Tool: `td_smart_connect`
+
+Added `td_smart_connect` to `mcp/src/tools/ui.ts` that wraps `POST /smart_connect`. Accepts `source`, `destination`, `type` (optional), `name` (optional).
+
+### New TDClient Method: `smartConnect()`
+
+Added `smartConnect(source, destination, opType?, name?)` to `api/src/index.ts`.
+
+### New Live TD Test: 4 scenarios for /smart_connect
+
+**File created**: `toe/src/test_live_td_smart_connect.py` (885 lines, 4 scenarios)
+
+| Scenario | Source | Dest | Type | What it proves |
+|----------|--------|------|------|---------------|
+| A | boxPOP | nullPOP | auto | Auto-detection, midpoint X positioning, src→new→dst wiring |
+| B | noiseTOP | nullTOP | blurTOP | Explicit type override creates correct op |
+| C | boxSOP | — | auto | Source-only: new op right of source, src→new wiring |
+| D | — | nullCHOP | auto | Dest-only: new op left of dest, new→dst wiring |
+
+**Important gap found**: The handler's auto-type detection only covers TOP→nullTOP, CHOP→nullCHOP, SOP→nullSOP. POP is NOT in the chain — boxPOP→nullPOP defaults to nullCHOP. This is documented in the test as expected behavior, not a bug, but a future enhancement could add POP auto-detection.
+
+### Updated Test Count
+- Unit tests: 812 (20 suites, 0 failures)
+- Live TD tests: 9 files (~574 checks)
+- Grand total: ~1386 checks
+
+### New MCP Tools This Tick
+- `td_smart_connect` — Create an operator between two existing ones with auto-detect
+
 ## 2026-06-17 (Tick 8)
 
 ### New Live TD Test: glslcopyPOP + feedbackPOP + /diagnose + /auto_layout

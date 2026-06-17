@@ -451,23 +451,37 @@ Topologically sort and auto-layout operators in a container. Sources on the left
 ```
 
 ### POST /smart_connect
-Create an operator between two existing ones, auto-detecting compatible type.
+Create an operator between two existing operators, auto-detecting a compatible type, then position and wire it.
 
-**Body**:
+**Status:** ✅ Fully implemented (POST handler `_handle_smart_connect` in `TouchDesignerAPI.py`; exposed via the `td_smart_connect` MCP tool and `TDClient.smartConnect`).
+
+**Body** (the handler accepts both parameter-name sets interchangeably):
 ```json
 {
-  "src": "/project1/noise1",
-  "dst": "/project1/null1",
-  "target_type": "blurTOP"
+  "source": "/project1/noise1",
+  "destination": "/project1/null1",
+  "type": "blurTOP",
+  "name": "myblur"
 }
 ```
+Aliases (also accepted, as documented in earlier revisions):
+- `src` → `source`
+- `dst` → `destination`
+- `target_type` → `type`
 
-**Response**:
+At least one of `source`/`src` or `destination`/`dst` must be provided. If `type`/`target_type` is omitted, the server auto-selects a `null*` type based on the source/destination family (`nullTOP` for TOP, `nullCHOP` for CHOP, `nullSOP` for SOP; defaults to `nullCHOP`).
+
+**Response:**
 ```json
 {
-  "result": "created",
-  "path": "/project1/blur1",
-  "opType": "blurTOP"
+  "success": true,
+  "path": "/project1/myblur1",
+  "name": "myblur1",
+  "type": "blurTOP",
+  "sourcePath": "/project1/noise1",
+  "destPath": "/project1/null1",
+  "nodeX": 100,
+  "nodeY": 0
 }
 ```
 
