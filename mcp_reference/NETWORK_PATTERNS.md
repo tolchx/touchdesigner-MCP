@@ -41,6 +41,30 @@ Then bind lfoCHOP channel to a TOP parameter via export.
 sphereSOP → transformSOP → blendSOP → renderTOP
 ```
 
+## POP Chains (Particle Operators)
+
+### Basic POP pipeline
+```
+boxPOP → noisePOP → particlePOP → nullPOP
+```
+Create: `boxPOP`, `noisePOP`, `particlePOP`, `nullPOP`
+Wire: box out → noise in, noise out → particle in, particle out → null in
+Position: nodes at 300px spacing (nodeX: -300, 0, 300, 600; nodeY: 0 for all)
+
+### Empirically Verified POP Parameter Names
+Discovered via live TD HTTP API integration tests — documented names differ from actual par names:
+
+| Documented | Actual Par | Operator | Notes |
+|---|---|---|---|
+| size | sizex | boxPOP | `boxPOP.par.size` fails, `sizex` works |
+| divsx/res | depth | boxPOP | Subdivisions on X axis |
+| freq0 | noisesize | noisePOP | Noise frequency/scale |
+| rough | harmon | noisePOP | Noise roughness/harmonics |
+| lifeexpect | life | particlePOP | Particle lifetime in seconds |
+| lifetime | life | particlePOP | Same par, different docs |
+| rate | birthrate | particlePOP | Particles born per second |
+| maxCount | maxparticles | particlePOP | Maximum particle count |
+
 ## Common Patterns
 
 ### Row of generators feeding a single filter
