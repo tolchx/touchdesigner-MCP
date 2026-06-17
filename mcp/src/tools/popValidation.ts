@@ -17,7 +17,7 @@ interface PopRule {
 }
 
 /** Rules indexed by POP opType */
-const POP_RULES: Record<string, PopRule[]> = {
+export const POP_RULES: Record<string, PopRule[]> = {
   particlePOP: [
     {
       name: "feedback_target",
@@ -167,7 +167,7 @@ const POP_RULES: Record<string, PopRule[]> = {
 
 // ─── Cross-Family Connection Rules ────────────────────────────────────────
 
-const INVALID_CROSS_FAMILY: Record<string, string[]> = {
+export const INVALID_CROSS_FAMILY: Record<string, string[]> = {
   POP: ["SOP", "TOP", "CHOP", "DAT"],
   SOP: ["POP"],
   TOP: ["POP"],
@@ -175,7 +175,7 @@ const INVALID_CROSS_FAMILY: Record<string, string[]> = {
   DAT: ["POP"],
 };
 
-const VALID_BRIDGES: Record<string, string> = {
+export const VALID_BRIDGES: Record<string, string> = {
   POP_to_SOP: "renderPOP or geometryCOMP",
   SOP_to_POP: "attributePOP or geometryCOMP",
   POP_to_TOP: "renderPOP → nullTOP",
@@ -188,7 +188,7 @@ const VALID_BRIDGES: Record<string, string> = {
 
 // ─── POP Attribute Requirements ──────────────────────────────────────────
 
-const ATTRIBUTE_RULES: Record<string, string[]> = {
+export const ATTRIBUTE_RULES: Record<string, string[]> = {
   particlePOP: ["P"],
   noisePOP: ["P"],
   forcePOP: ["P"],
@@ -217,7 +217,7 @@ const ATTRIBUTE_RULES: Record<string, string[]> = {
  * Build Python code to detect all POP operators in a network and return
  * their types, connections, and parameter states.
  */
-function buildPopScanCode(rootPath: string): string {
+export function buildPopScanCode(rootPath: string): string {
   const safePath = rootPath.replace(/'/g, "\\'");
   return `
 import json
@@ -291,7 +291,7 @@ print(json.dumps(result))
 /**
  * Build Python code to validate cross-family connections.
  */
-function buildCrossFamilyCheckCode(rootPath: string): string {
+export function buildCrossFamilyCheckCode(rootPath: string): string {
   const safePath = rootPath.replace(/'/g, "\\'");
   return `
 import json

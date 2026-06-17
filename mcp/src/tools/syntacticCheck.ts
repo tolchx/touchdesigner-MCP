@@ -23,7 +23,7 @@ interface SyntacticCheckResult {
  * Validate Python code for common TD issues before sending to TD.
  * Checks: bare math functions, missing imports, common NameErrors, path safety.
  */
-function validatePythonSyntax(code: string): { passed: boolean; errors: string[]; warnings: string[] } {
+export function validatePythonSyntax(code: string): { passed: boolean; errors: string[]; warnings: string[] } {
   const errors: string[] = [];
   const warnings: string[] = [];
 
@@ -83,7 +83,7 @@ function validatePythonSyntax(code: string): { passed: boolean; errors: string[]
 /**
  * Validate TD operator paths for safety and correctness.
  */
-function validatePathSafety(
+export function validatePathSafety(
   paths: string[],
 ): { passed: boolean; errors: string[]; warnings: string[] } {
   const errors: string[] = [];
@@ -170,7 +170,7 @@ async function checkDependencies(
 /**
  * Validate JSON strings for structural integrity before parsing.
  */
-function validateJsonIntegrity(
+export function validateJsonIntegrity(
   jsonStrings: string[],
 ): { passed: boolean; errors: string[]; warnings: string[] } {
   const errors: string[] = [];
@@ -234,14 +234,14 @@ const VALID_BRIDGES: Record<string, string> = {
  * Looks for operator.create() or .inputConnectors patterns that suggest
  * cross-family wiring.
  */
-function validateCrossFamilyConnections(
+export function validateCrossFamilyConnections(
   code: string,
 ): { passed: boolean; errors: string[]; warnings: string[] } {
   const errors: string[] = [];
   const warnings: string[] = [];
 
   // Detect operator creation patterns and their types
-  const createPattern = /\.(create|Create)\((\w+)(TOP|CHOP|SOP|DAT|POP|COMP)/g;
+  const createPattern = /\.(create|Create)\((?:td\.)?(\w+)(TOP|CHOP|SOP|DAT|POP|COMP)/g;
   const createdTypes: string[] = [];
   let match: RegExpExecArray | null;
   while ((match = createPattern.exec(code)) !== null) {
@@ -270,7 +270,7 @@ function validateCrossFamilyConnections(
   }
 
   // Check for POP-specific patterns
-  const popCreatePattern = /\.(create|Create)\((\w+POP)/g;
+  const popCreatePattern = /\.(create|Create)\((?:td\.)?(\w+POP)/g;
   let popMatch: RegExpExecArray | null;
   while ((popMatch = popCreatePattern.exec(code)) !== null) {
     const popType = popMatch[2];
