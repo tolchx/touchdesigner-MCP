@@ -1,5 +1,48 @@
 # Discovery Log
 
+## 2026-06-17 (Tick 7)
+
+### New MCP Tool: td_auto_layout — Auto-Layout for POP Networks
+
+**Task**: Add `td_auto_layout` MCP tool wrapping the existing POST /auto_layout TD endpoint, enabling AI agents to auto-arrange operator networks into clean topological-sort grids.
+
+**Files changed** (4 files):
+1. `api/src/index.ts` — Added `autoLayout(path, spacingX, spacingY)` method to TDClient making POST /auto_layout HTTP call
+2. `mcp/src/tools/ui.ts` — Added `td_auto_layout` tool registration with `path`, `spacingX`, `spacingY` parameters
+3. `mcp/test/ui.test.js` — 7 unit tests: argument passing, defaults, error propagation, left-to-right validation
+4. `toe/src/test_live_td_auto_layout.py` — 24 live TD checks: POP chain creation, deliberate scatter, /auto_layout call, grid verification (≥200px X, ≥150px Y), zero errors, connection integrity, /verify cross-check
+
+**Live test result**: 23/24 checks pass. See Bug Fix below for the 1 failure.
+
+### Bug Fix: exec() namespace scoping in _execute_python_robust
+
+**Root cause**: `_execute_python_robust()` in `TouchDesignerAPI.py` called `exec(compile(code, "...", "exec"))` WITHOUT passing a namespace dict. Python's exec() without namespace has a known scoping issue where dict/set comprehensions (`{k: v for ...}`, `{x for x in ...}`) fail to assign variables back to the local scope, raising `NameError: name 'var_name' is not defined`.
+
+**Impact**: The POST /auto_layout handler used dict comprehensions (`in_degree = {c: 0 for c in children}`, `adj = {c: [] for c in children}`, `by_depth = {}`) which silently failed inside exec(). The handler returned `{"success": false, "error": "name 'in_degree' is not defined"}`, meaning auto_layout never actually repositioned nodes — the test's position checks read the ORIGINAL scattered positions.
+
+**Fix**: Changed line 492 in `TouchDesignerAPI.py`:
+```python
+# Before (broken):
+exec(compile(exec_code, "<mcp>", "exec"))
+# After (fixed):
+exec(compile(exec_code, "<mcp>", "exec"), globals())
+```
+
+**Note**: The fix is applied to the source file. The running TD process still has the old version in memory. After TD reloads the WebServer DAT Python module, the fix takes effect. This will be verified in the next cron tick.
+
+**Discovery — Other exec() callers may also be affected**: The `_execute_python_robust` function is used by `/auto_layout`, `/diagnose`, `/screenshot`, and possibly other handlers. If any of these use dict/set comprehensions, they'll also fail silently. The globals() fix addresses all of them at once.
+
+### New Files
+| File | Description |
+|------|-------------|
+| `mcp/test/ui.test.js` | 7 unit tests for UI tools (td_auto_layout) |
+| `toe/src/test_live_td_auto_layout.py` | 24 live TD checks for /auto_layout |
+
+### Test Count
+- Unit tests: 805 → 812 (+7 ui.test.js)
+- Live TD tests: 6 files (~420 checks) → 7 files (~444 checks)
+- Grand total: ~1256 checks
+
 ## 2026-06-17 (Tick 6)
 
 ### Cross-Family Connection Validation in deterministicPlan

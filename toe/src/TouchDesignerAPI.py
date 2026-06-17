@@ -489,7 +489,7 @@ class TouchDesignerAPI:
 
         try:
             with contextlib.redirect_stdout(buf), contextlib.redirect_stderr(buf):
-                exec(compile(exec_code, "<mcp>", "exec"))
+                exec(compile(exec_code, "<mcp>", "exec"), globals())
         except Exception:
             output = buf.getvalue()
             err = traceback.format_exc()
@@ -2018,10 +2018,11 @@ else:
 
         for c in children:
             for inp in c.inputConnectors:
-                src = inp.op
-                if src is not None and src in adj:
-                    adj[src].append(c)
-                    in_degree[c] = in_degree.get(c, 0) + 1
+                for conn in inp.connections:
+                    src = conn.owner
+                    if src is not None and src in adj:
+                        adj[src].append(c)
+                        in_degree[c] = in_degree.get(c, 0) + 1
 
         # Topological sort (Kahn's algorithm)
         queue = [c for c in children if in_degree.get(c, 0) == 0]
@@ -2044,9 +2045,10 @@ else:
         for c in sorted_ops:
             max_d = 0
             for inp in c.inputConnectors:
-                src = inp.op
-                if src is not None and src in depth:
-                    max_d = max(max_d, depth[src] + 1)
+                for conn in inp.connections:
+                    src = conn.owner
+                    if src is not None and src in depth:
+                        max_d = max(max_d, depth[src] + 1)
             depth[c] = max_d
 
         # Group by depth, assign rows within each depth

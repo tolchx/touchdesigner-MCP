@@ -491,6 +491,29 @@ export class TDClient {
   }
 
   // ---------------------------------------------------------------------------
+  // Auto-layout (POST /auto_layout)
+  // ---------------------------------------------------------------------------
+
+  /**
+   * Auto-arrange operators in a container using a topological-sort layout.
+   * Sources end up on the left, outputs on the right, organized as a clean
+   * grid.  Works for all operator families including POPs.
+   *
+   * Wraps the TD HTTP `POST /auto_layout` endpoint.
+   */
+  async autoLayout(
+    path: string = "/",
+    spacingX: number = 250,
+    spacingY: number = 80,
+  ): Promise<any> {
+    const data = await this._request(`${this.baseUrl}/auto_layout`, {
+      method: "POST",
+      body: JSON.stringify({ path, spacing_x: spacingX, spacing_y: spacingY }),
+    });
+    return data;
+  }
+
+  // ---------------------------------------------------------------------------
   // Connection health
   // ---------------------------------------------------------------------------
 

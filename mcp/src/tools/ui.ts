@@ -212,4 +212,42 @@ export function registerUiTools(server: McpServer, client: TDClient) {
       }
     }
   );
+
+  // ---------------------------------------------------------------------------
+  // td_auto_layout
+  // ---------------------------------------------------------------------------
+  server.registerTool(
+    "td_auto_layout",
+    {
+      title: "Auto-Layout Network",
+      description:
+        "Auto-arrange operators in a container using topological-sort layout. Sources on the left, outputs on the right, organized as a clean grid. Supports all operator families including POPs.",
+      inputSchema: {
+        path: z
+          .string()
+          .default("/project1")
+          .describe("Path to the container to auto-layout"),
+        spacingX: z
+          .number()
+          .default(250)
+          .describe("Horizontal spacing between nodes in pixels"),
+        spacingY: z
+          .number()
+          .default(80)
+          .describe("Vertical spacing between nodes in pixels"),
+      },
+    },
+    async ({ path, spacingX, spacingY }) => {
+      try {
+        const result = await client.autoLayout(
+          path ?? "/project1",
+          spacingX ?? 250,
+          spacingY ?? 80,
+        );
+        return ok(result);
+      } catch (e: any) {
+        return err(e);
+      }
+    }
+  );
 }
