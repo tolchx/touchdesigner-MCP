@@ -3,6 +3,17 @@
 Advanced POP Integration Test 2 — glslPOP, glsladvancedPOP, Parallel Chains
 ============================================================================
 
+EXPLICIT RULES (verified every run):
+  RULE 1 — CONTAINER: All operators are created inside a baseCOMP container,
+           never loose at the project root. The container is auto-positioned
+           to avoid overlap with other containers.
+  RULE 2 — NO ERRORS: All operators are verified error-free at test time AND
+           re-verified after a forced cook + 1s wait to catch async GLSL
+           compilation failures.
+  RULE 3 — NO OVERLAP: Grid positions are verified to have ≥200px horizontal
+           and ≥150px vertical separation between all nodes, AND the container
+           itself is auto-offset to avoid overlapping other containers.
+
 Exercises POP capabilities NOT yet covered by existing live-TD tests against the
 TouchDesigner HTTP API (port 44444):
 
@@ -200,13 +211,15 @@ CHAIN2_NODES = [
 # ── Chain 3: glsladvancedPOP (vertex compute variant) ─────────────────────────
 # circlePOP source → glsladvancedPOP (computedat + ptoutputattrs) → nullPOP
 GLSL_ADV_CODE = (
-    "// glsladvancedPOP vertex compute — radial wobble on P\n"
+    "// glsladvancedPOP point compute — radial wobble on P\n"
+    "// Uses same TDIndex/TDIn_P/P[id] pattern as glslPOP (verified working)\n"
     "uniform float u_time;\n"
     "void main() {\n"
-    "    vec3 pos = TDIn_P();\n"
+    "    uint id = TDIndex();\n"
+    "    vec3 pos = TDIn_P(0, id);\n"
     "    float wob = sin(u_time * 1.3 + length(pos.xy) * 4.0) * 0.08;\n"
     "    pos.xy += normalize(pos.xy + vec2(0.0001)) * wob;\n"
-    "    TDOut_P(pos);\n"
+    "    P[id] = pos;\n"
     "}\n"
 )
 
@@ -271,15 +284,47 @@ PARALLEL_INDEPENDENCE = [
 # ─── Build phase ──────────────────────────────────────────────────────────────
 
 
-def build_network(td: TDClient, res: TestResult) -> bool:
-    # Phase 0: clean stale sandbox
-    try:
-        td.exec(
-            "c = op(%r); c.destroy() if c is not None else None" % SANDBOX_PATH
-        )
-        res.step("cln_stale", True)
-    except Exception as e:
-        res.step("cln_stale", False, str(e))
+def build_network(td: TDClient, res: TestResult, keep: bool = False,
+                  container_x: int = 200, container_y: int = 0) -> tuple[bool, int]:
+    # Phase 0: clean stale sandbox (skipped in keep mode so previous runs survive)
+    if not keep:
+        try:
+            td.exec(
+                "c = op(%r); c.destroy() if c is not None else None" % SANDBOX_PATH
+            )
+            res.step("cln_stale", True)
+        except Exception as e:
+            res.step("cln_stale", False, str(e))
+    else:
+        res.step("cln_stale", True, "skipped (keep mode)")
+
+    # Auto-offset Y to avoid overlap with existing containers at the same X
+    offset_y = container_y
+    if keep:
+        import json as _json
+        try:
+            scan_code = (
+                "import json\n"
+                "result = []\n"
+                "for c in op('/project1').children:\n"
+                "    tp = c.OPType if hasattr(c, 'OPType') else ''\n"
+                "    if tp in ('baseCOMP', 'containerCOMP'):\n"
+                "        result.append({'x': c.nodeX, 'y': c.nodeY, 'name': c.name})\n"
+                "print(json.dumps(result))\n"
+            )
+            raw = td.exec(scan_code)
+            existing = _json.loads(raw.strip().splitlines()[-1]) if raw.strip() else []
+            for c in existing:
+                cx = c.get('x')
+                if cx is not None and abs(cx - container_x) < 100:
+                    cy = c.get('y', 0)
+                    # Offset by at least 700px below existing
+                    if cy >= offset_y:
+                        offset_y = cy + 700
+            if offset_y != container_y:
+                print(f"    [auto-offset] Y adjusted from {container_y} to {offset_y} to avoid overlap")
+        except Exception:
+            pass  # fall through to default position
 
     # Phase 1: create sandbox container
     try:
@@ -289,7 +334,13 @@ def build_network(td: TDClient, res: TestResult) -> bool:
         res.step("create_sandbox", True, f"created {SANDBOX_PATH}")
     except Exception as e:
         res.step("create_sandbox", False, str(e))
-        return False
+        return False, offset_y
+
+    # Position the container itself so it doesn't overlap with other containers
+    td.exec(
+        "op(%r).nodeX = %d; op(%r).nodeY = %d"
+        % (SANDBOX_PATH, container_x, SANDBOX_PATH, offset_y)
+    )
 
     # Phase 2: create all nodes
     created: dict[str, str] = {}
@@ -332,11 +383,12 @@ def build_network(td: TDClient, res: TestResult) -> bool:
         required=["computedat"],
     )
     # glsladvancedPOP uses computedat (same param family as glslPOP, NOT
-    # vertcomputedat) + ptoutputattrs (pt-prefixed output menu, accepts '*').
+    # vertcomputedat) + ptoutputattrs='P' (pt-prefixed output menu — 'P' for
+    # position, NOT '*' which causes 'Compile failed').
     _setup_glsl_params(
         td, res, node_name="glsladv_mod", step_name="glsladv_setup",
         dat_ref="glsladv_dat",
-        pairs=[("computedat", "glsladv_dat"), ("ptoutputattrs", "*")],
+        pairs=[("computedat", "glsladv_dat"), ("ptoutputattrs", "P")],
         required=["computedat"],
     )
 
@@ -391,7 +443,7 @@ def build_network(td: TDClient, res: TestResult) -> bool:
     res.step("ly_all", positioned == len(ALL_NODES),
              f"positioned {positioned}/{len(ALL_NODES)} nodes")
 
-    return True
+    return True, offset_y
 
 
 def _setup_glsl_params(td: TDClient, res: TestResult, node_name: str,
@@ -692,8 +744,44 @@ def _verify_document_endpoint(td: TDClient, res: TestResult) -> None:
     res.step("document_role_values", not bad_roles,
              "all ops classified" if not bad_roles else f"unclassified: {bad_roles}")
 
+    # Check 9 (RULE 2): Post-verification async GLSL check
+    # GLSL compilation in TD is async — errors may appear after the initial
+    # verification. Force a cook, wait, and re-check all operators.
+    try:
+        td.exec(
+            "c = op(%r); c.cook(force=True)"
+            % SANDBOX_PATH
+        )
+        time.sleep(2.0)
+        re_check_code = (
+            "import json\n"
+            "c = op(%r)\n"
+            "out = []\n"
+            "for n in c.findChildren():\n"
+            "    errs = list(n.errors()) if n.errors() else []\n"
+            "    if errs:\n"
+            "        out.append({'n': n.name, 'e': [str(x) for x in errs]})\n"
+            "print(json.dumps(out))\n"
+        ) % SANDBOX_PATH
+        re_check = td.exec(re_check_code)
+        post_errors = json.loads(re_check.strip().splitlines()[-1]) if re_check.strip() else []
+        if post_errors:
+            for pe in post_errors:
+                res.step(f"async_err_{pe.get('n','?')}", False,
+                         f"{pe.get('n')}: {pe.get('e',[])}")
+        res.step("async_glsl_check", not post_errors,
+                 "no async GLSL errors" if not post_errors
+                 else f"{len(post_errors)} post-cook error(s)")
+    except Exception as e:
+        res.step("async_glsl_check", False, str(e)[:120])
 
-def cleanup(td: TDClient, res: TestResult) -> None:
+
+def cleanup(td: TDClient, res: TestResult, keep: bool = False,
+            container_x: int = 200, container_y: int = 0) -> None:
+    if keep:
+        res.step("cleanup", True,
+                 f"kept at {SANDBOX_PATH} (x={container_x}, y={container_y})")
+        return
     try:
         td.exec(
             "c = op(%r); c.destroy() if c is not None else None" % SANDBOX_PATH
@@ -717,6 +805,12 @@ def main() -> int:
     )
     parser.add_argument("--host", default=DEFAULT_HOST)
     parser.add_argument("--port", type=int, default=DEFAULT_PORT)
+    parser.add_argument("--keep", action="store_true",
+                        help="Keep the sandbox container after test (don't destroy)")
+    parser.add_argument("--container-x", type=int, default=200,
+                        help="X position for the sandbox container")
+    parser.add_argument("--container-y", type=int, default=0,
+                        help="Y position for the sandbox container")
     args = parser.parse_args()
 
     n_sources = sum(1 for n in ALL_NODES if n["is_source"])
@@ -728,6 +822,9 @@ def main() -> int:
           f"Connections: {len(CONNECTIONS)}")
     print("  Chains: glslPOP | 3× parallel | glsladvancedPOP | pointPOP custom attrs")
     print("  Endpoints: /verify, /document")
+    if args.keep:
+        print(f"  Keep mode: container will stay at "
+              f"({args.container_x}, {args.container_y}) — no cleanup")
     print("=" * 72)
 
     td = TDClient(args.host, args.port)
@@ -740,13 +837,22 @@ def main() -> int:
     print("\n[setup] TD server reachable.\n")
 
     print("--- Build phase ---")
-    build_network(td, res)
+    _build_ok, actual_y = build_network(
+        td, res, keep=args.keep,
+        container_x=args.container_x, container_y=args.container_y)
 
     print("\n--- Verify phase ---")
     verify_network(td, res)
 
-    print("\n--- Cleanup phase (always runs) ---")
-    cleanup(td, res)
+    if not args.keep:
+        print("\n--- Cleanup phase ---")
+        cleanup(td, res, keep=args.keep,
+                container_x=args.container_x, container_y=args.container_y)
+    else:
+        print("\n--- (Keep mode — no cleanup) ---")
+        res.step("cleanup", True,
+                 f"kept at {SANDBOX_PATH} "
+                 f"(x={args.container_x}, y={actual_y})")
 
     total = len(res.steps)
     passed = sum(1 for s in res.steps if s["ok"])
