@@ -1,6 +1,6 @@
 {
   "name": "particle-system-basic",
-  "description": "Basic POP particle system: sphere source \u2192 particle POP \u2192 noise force \u2192 trail \u2192 render",
+  "description": "Basic POP particle system: sphere source → particle POP → noise force → trail → render",
   "tags": [
     "particles",
     "pop",
@@ -19,7 +19,7 @@
       "label": "Particle Sim",
       "parameters": {
         "birthrate": 100,
-        "lifeexpect": 3,
+        "life": 3,
         "enabletimeintegration": true
       }
     },

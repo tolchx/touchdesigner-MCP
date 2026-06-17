@@ -1,5 +1,39 @@
 # Discovery Log
 
+## 2026-06-17 (Tick 4)
+
+### POP Parameter Read-Back Test + noisePOP Parameter Correction
+
+**New live TD test**: `toe/src/test_live_td_pop_params.py` — 45 checks, all pass.
+
+**Purpose**: Closes a critical gap in live TD testing: existing tests set POP parameters but never read them back to confirm they took effect. This test creates a POP chain (boxPOP → noisePOP → particlePOP → nullPOP), sets parameters via `/exec`, then reads them back through **two independent channels**:
+  - Method A: direct Python inspection via `/exec` (`op.par[name].val`)
+  - Method B: `GET /parameters?path=<op>` endpoint
+
+Verifies 6 critical parameters survive the round trip on both methods, checks cross-method agreement, zero errors, correct wiring, grid layout (no overlaps), and `/verify` endpoint health.
+
+**Discovery — noisePOP parameter names differ from documented mapping**:
+- `noisesize` is a **Menu** parameter (value is a menu index string like `'3'`), NOT a float — setting `noisesize=2.0` cannot round-trip a float
+- `harmon` is an **Int** parameter — setting `harmon=0.3` truncates to `0`
+- The actual float noise-size control is **`period`** (default ~3.0)
+- This means the skill documentation's parameter mapping for noisePOP was wrong
+
+**Fix applied**: Corrected `particle-system-basic.json` — replaced `lifeexpect` (doesn't exist) with `life` (actual param name). Created `references/pop-parameter-mapping.md` with the full empirically-verified parameter mapping table.
+
+**Total test count**: 848+ offline unit tests (19 files) + 5 live TD tests (~290 checks) = ~1138 total checks.
+
+**Critical-param read-back flow** (new pattern):
+```python
+# Set
+td.exec("op(path).par.sizex = 3.0")
+# Read back via Method A
+vals = json.loads(td.exec("import json; o=op(path); print(json.dumps({p.name: o.par[p.name].val for p in o.pars()}))"))
+# Read back via Method B
+param_data = td.get_json(f"/parameters?path={path}")
+assert vals['sizex'] == 3.0
+assert param_data['parameters']['sizex'] == 3.0
+```
+
 Log of discoveries and lessons learned during development.
 
 ## 2026-06-17 (Tick 3)
