@@ -20,7 +20,7 @@ const DATA_ROOT = path.resolve(__dirname, "..", "data");
 
 // ─── Family detection ──────────────────────────────────────────────────────
 
-function detectFamily(name: string, opData?: any): string {
+export function detectFamily(name: string, opData?: any): string {
   if (opData?.family) return opData.family;
   const upper = name.toUpperCase();
   if (upper.endsWith("TOP")) return "TOP";
@@ -35,26 +35,26 @@ function detectFamily(name: string, opData?: any): string {
 
 // ─── Input count inference ─────────────────────────────────────────────────
 
-interface InputInfo {
+export interface InputInfo {
   index: number;
   name: string;
   accepts: string;
   description: string;
 }
 
-interface OutputInfo {
+export interface OutputInfo {
   name: string;
   type: string;
 }
 
-interface ConnectionPattern {
+export interface ConnectionPattern {
   operators: string[];
   description: string;
   frequency?: number; // how common this pattern is
 }
 
 // Multi-input operators (accepts 2+ connections)
-const MULTI_INPUT: Record<string, number> = {
+export const MULTI_INPUT: Record<string, number> = {
   compositeTOP: -1, addTOP: -1, overTOP: -1, multiplyTOP: -1,
   subtractTOP: -1, differenceTOP: -1, matteTOP: -1, insideTOP: -1,
   outsideTOP: -1, switchTOP: -1, layoutTOP: -1, panelTOP: -1,
@@ -65,20 +65,20 @@ const MULTI_INPUT: Record<string, number> = {
 };
 
 // Operators with 0 inputs (generators/sources)
-const ZERO_INPUT: Set<string> = new Set([
-  "constantTOP", "noiseTOP", "rampTOP", "textTOP",
-  "moviefileinTOP", "moviefileoutTOP",
-  "constantCHOP", "noiseCHOP", "lfoCHOP",
-  "audiofileinCHOP", "audioDeviceInCHOP", "oscCHOP",
-  "gridSOP", "sphereSOP", "boxSOP", "circleSOP", "tubeSOP", "textSOP",
-  "textDAT", "tableDAT",
-  "gridPOP", "spherePOP", "sprinklePOP",
+export const ZERO_INPUT: Set<string> = new Set([
+  "constanttop", "noisetop", "ramptop", "texttop",
+  "moviefileintop", "moviefileouttop",
+  "constantchop", "noisechop", "lfochop",
+  "audiofileinchop", "audiodeviceinchop", "oscchop",
+  "gridsop", "spheresop", "boxsop", "circlesop", "tubesop", "textsop",
+  "textdat", "tabledat",
+  "gridpop", "spherepop", "sprinklepop",
 ]);
 
 // Operators with 1 input (most filters/transforms)
 // Everything not in MULTI_INPUT or ZERO_INPUT defaults to 1
 
-function getInputCount(opType: string, opData?: any): number {
+export function getInputCount(opType: string, opData?: any): number {
   const key = opType.toLowerCase();
   if (ZERO_INPUT.has(key)) return 0;
 
@@ -98,10 +98,10 @@ function getInputCount(opType: string, opData?: any): number {
   return 1; // Default: single input
 }
 
-function isMultiInput(opType: string): boolean {
+export function isMultiInput(opType: string): boolean {
   const key = opType.toLowerCase();
   for (const [pattern, count] of Object.entries(MULTI_INPUT)) {
-    if (key.includes(pattern.toLowerCase()) && Math.abs(count) > 1) return true;
+    if (key.includes(pattern.toLowerCase()) && count < 0) return true;
   }
   return false;
 }
@@ -112,7 +112,7 @@ function isMultiInput(opType: string): boolean {
  * Known common connection patterns from real TD projects.
  * Format: sourceFamily → targetFamily (typical flow direction)
  */
-const FAMILY_FLOW: Record<string, string[]> = {
+export const FAMILY_FLOW: Record<string, string[]> = {
   TOP: ["TOP", "CHOP"],    // TOP → TOP or TOP → CHOP (CHOP to TOP)
   CHOP: ["CHOP", "TOP"],   // CHOP → CHOP or CHOP → TOP
   SOP: ["SOP", "POP"],     // SOP → SOP or SOP → POP
@@ -122,7 +122,7 @@ const FAMILY_FLOW: Record<string, string[]> = {
   MAT: ["MAT"],
 };
 
-function inferConnectsTo(
+export function inferConnectsTo(
   opType: string,
   family: string,
   opData?: any,
@@ -211,7 +211,7 @@ function inferConnectsTo(
   return [...results].slice(0, 10);
 }
 
-function inferCommonCombinations(
+export function inferCommonCombinations(
   opType: string,
   family: string,
   connectsTo: string[],
@@ -251,7 +251,7 @@ function inferCommonCombinations(
 
 // ─── Main ───────────────────────────────────────────────────────────────────
 
-interface TopologyEntry {
+export interface TopologyEntry {
   opType: string;
   family: string;
   label: string;
@@ -266,7 +266,7 @@ interface TopologyEntry {
   pageSlug?: string;
 }
 
-function buildTopologyForOperator(
+export function buildTopologyForOperator(
   opType: string,
   opData: any,
 ): TopologyEntry {
@@ -341,7 +341,7 @@ function buildTopologyForOperator(
   };
 }
 
-async function main() {
+export async function main() {
   console.log("[topologyBuild] Building operator topology database...");
 
   const topology: Record<string, TopologyEntry> = {};
@@ -460,7 +460,13 @@ async function main() {
   }
 }
 
-main().catch((error) => {
-  console.error("[topologyBuild] Fatal error:", error);
-  process.exitCode = 1;
-});
+// Only run main() when executed directly, not when imported as a module
+const isMainModule =
+  import.meta.url === `file://${process.argv[1]}` ||
+  process.argv[1]?.endsWith("topologyBuild.js");
+if (isMainModule) {
+  main().catch((error) => {
+    console.error("[topologyBuild] Fatal error:", error);
+    process.exitCode = 1;
+  });
+}

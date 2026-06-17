@@ -1,19 +1,25 @@
 {
-  "generatedAt": "2026-06-11T16:35:01.822Z",
+  "generatedAt": "2026-06-17T02:25:51.582Z",
   "totalOperators": 625,
   "operators": {
     "addTOP": {
       "opType": "addTOP",
       "family": "TOP",
       "label": "Add TOP",
-      "inputCount": 1,
-      "isMultiInput": false,
+      "inputCount": -1,
+      "isMultiInput": true,
       "inputs": [
         {
           "index": 0,
           "name": "input",
           "accepts": "TOP",
           "description": "Primary input"
+        },
+        {
+          "index": 1,
+          "name": "additional",
+          "accepts": "TOP",
+          "description": "Additional inputs supported (multi-input operator)"
         }
       ],
       "outputs": [
@@ -321,14 +327,20 @@
       "opType": "compositeTOP",
       "family": "TOP",
       "label": "Composite TOP",
-      "inputCount": 1,
-      "isMultiInput": false,
+      "inputCount": -1,
+      "isMultiInput": true,
       "inputs": [
         {
           "index": 0,
           "name": "input",
           "accepts": "TOP",
           "description": "Primary input"
+        },
+        {
+          "index": 1,
+          "name": "additional",
+          "accepts": "TOP",
+          "description": "Additional inputs supported (multi-input operator)"
         }
       ],
       "outputs": [
@@ -350,14 +362,14 @@
       "opType": "constantTOP",
       "family": "TOP",
       "label": "Constant TOP",
-      "inputCount": 1,
+      "inputCount": 0,
       "isMultiInput": false,
       "inputs": [
         {
-          "index": 0,
-          "name": "input",
-          "accepts": "TOP",
-          "description": "Primary input"
+          "index": -1,
+          "name": "none",
+          "accepts": "none",
+          "description": "Generator — no inputs"
         }
       ],
       "outputs": [
@@ -566,14 +578,20 @@
       "opType": "differenceTOP",
       "family": "TOP",
       "label": "Difference TOP",
-      "inputCount": 1,
-      "isMultiInput": false,
+      "inputCount": -1,
+      "isMultiInput": true,
       "inputs": [
         {
           "index": 0,
           "name": "input",
           "accepts": "TOP",
           "description": "Primary input"
+        },
+        {
+          "index": 1,
+          "name": "additional",
+          "accepts": "TOP",
+          "description": "Additional inputs supported (multi-input operator)"
         }
       ],
       "outputs": [
@@ -591,14 +609,20 @@
       "opType": "directDisplayOutTOP",
       "family": "TOP",
       "label": "Direct Display Out TOP",
-      "inputCount": 1,
-      "isMultiInput": false,
+      "inputCount": -1,
+      "isMultiInput": true,
       "inputs": [
         {
           "index": 0,
           "name": "input",
           "accepts": "TOP",
           "description": "Primary input"
+        },
+        {
+          "index": 1,
+          "name": "additional",
+          "accepts": "TOP",
+          "description": "Additional inputs supported (multi-input operator)"
         }
       ],
       "outputs": [
@@ -993,14 +1017,20 @@
       "opType": "insideTOP",
       "family": "TOP",
       "label": "Inside TOP",
-      "inputCount": 1,
-      "isMultiInput": false,
+      "inputCount": -1,
+      "isMultiInput": true,
       "inputs": [
         {
           "index": 0,
           "name": "input",
           "accepts": "TOP",
           "description": "Primary input"
+        },
+        {
+          "index": 1,
+          "name": "additional",
+          "accepts": "TOP",
+          "description": "Additional inputs supported (multi-input operator)"
         }
       ],
       "outputs": [
@@ -1168,14 +1198,20 @@
       "opType": "layoutTOP",
       "family": "TOP",
       "label": "Layout TOP",
-      "inputCount": 1,
-      "isMultiInput": false,
+      "inputCount": -1,
+      "isMultiInput": true,
       "inputs": [
         {
           "index": 0,
           "name": "input",
           "accepts": "TOP",
           "description": "Primary input"
+        },
+        {
+          "index": 1,
+          "name": "additional",
+          "accepts": "TOP",
+          "description": "Additional inputs supported (multi-input operator)"
         }
       ],
       "outputs": [
@@ -1396,14 +1432,20 @@
       "opType": "matteTOP",
       "family": "TOP",
       "label": "Matte TOP",
-      "inputCount": 1,
-      "isMultiInput": false,
+      "inputCount": -1,
+      "isMultiInput": true,
       "inputs": [
         {
           "index": 0,
           "name": "input",
           "accepts": "TOP",
           "description": "Primary input"
+        },
+        {
+          "index": 1,
+          "name": "additional",
+          "accepts": "TOP",
+          "description": "Additional inputs supported (multi-input operator)"
         }
       ],
       "outputs": [
@@ -1496,14 +1538,14 @@
       "opType": "movieFileInTOP",
       "family": "TOP",
       "label": "Movie File In TOP",
-      "inputCount": 1,
+      "inputCount": 0,
       "isMultiInput": false,
       "inputs": [
         {
-          "index": 0,
-          "name": "input",
-          "accepts": "TOP",
-          "description": "Primary input"
+          "index": -1,
+          "name": "none",
+          "accepts": "none",
+          "description": "Generator — no inputs"
         }
       ],
       "outputs": [
@@ -1521,14 +1563,14 @@
       "opType": "movieFileOutTOP",
       "family": "TOP",
       "label": "Movie File Out TOP",
-      "inputCount": 1,
+      "inputCount": 0,
       "isMultiInput": false,
       "inputs": [
         {
-          "index": 0,
-          "name": "input",
-          "accepts": "TOP",
-          "description": "Primary input"
+          "index": -1,
+          "name": "none",
+          "accepts": "none",
+          "description": "Generator — no inputs"
         }
       ],
       "outputs": [
@@ -1571,14 +1613,20 @@
       "opType": "multiplyTOP",
       "family": "TOP",
       "label": "Multiply TOP",
-      "inputCount": 1,
-      "isMultiInput": false,
+      "inputCount": -1,
+      "isMultiInput": true,
       "inputs": [
         {
           "index": 0,
           "name": "input",
           "accepts": "TOP",
           "description": "Primary input"
+        },
+        {
+          "index": 1,
+          "name": "additional",
+          "accepts": "TOP",
+          "description": "Additional inputs supported (multi-input operator)"
         }
       ],
       "outputs": [
@@ -1671,14 +1719,14 @@
       "opType": "noiseTOP",
       "family": "TOP",
       "label": "Noise TOP",
-      "inputCount": 1,
+      "inputCount": 0,
       "isMultiInput": false,
       "inputs": [
         {
-          "index": 0,
-          "name": "input",
-          "accepts": "TOP",
-          "description": "Primary input"
+          "index": -1,
+          "name": "none",
+          "accepts": "none",
+          "description": "Generator — no inputs"
         }
       ],
       "outputs": [
@@ -2206,14 +2254,20 @@
       "opType": "outsideTOP",
       "family": "TOP",
       "label": "Outside TOP",
-      "inputCount": 1,
-      "isMultiInput": false,
+      "inputCount": -1,
+      "isMultiInput": true,
       "inputs": [
         {
           "index": 0,
           "name": "input",
           "accepts": "TOP",
           "description": "Primary input"
+        },
+        {
+          "index": 1,
+          "name": "additional",
+          "accepts": "TOP",
+          "description": "Additional inputs supported (multi-input operator)"
         }
       ],
       "outputs": [
@@ -2234,14 +2288,20 @@
       "opType": "overTOP",
       "family": "TOP",
       "label": "Over TOP",
-      "inputCount": 1,
-      "isMultiInput": false,
+      "inputCount": -1,
+      "isMultiInput": true,
       "inputs": [
         {
           "index": 0,
           "name": "input",
           "accepts": "TOP",
           "description": "Primary input"
+        },
+        {
+          "index": 1,
+          "name": "additional",
+          "accepts": "TOP",
+          "description": "Additional inputs supported (multi-input operator)"
         }
       ],
       "outputs": [
@@ -2463,14 +2523,14 @@
       "opType": "rampTOP",
       "family": "TOP",
       "label": "Ramp TOP",
-      "inputCount": 1,
+      "inputCount": 0,
       "isMultiInput": false,
       "inputs": [
         {
-          "index": 0,
-          "name": "input",
-          "accepts": "TOP",
-          "description": "Primary input"
+          "index": -1,
+          "name": "none",
+          "accepts": "none",
+          "description": "Generator — no inputs"
         }
       ],
       "outputs": [
@@ -3241,14 +3301,20 @@
       "opType": "subtractTOP",
       "family": "TOP",
       "label": "Subtract TOP",
-      "inputCount": 1,
-      "isMultiInput": false,
+      "inputCount": -1,
+      "isMultiInput": true,
       "inputs": [
         {
           "index": 0,
           "name": "input",
           "accepts": "TOP",
           "description": "Primary input"
+        },
+        {
+          "index": 1,
+          "name": "additional",
+          "accepts": "TOP",
+          "description": "Additional inputs supported (multi-input operator)"
         }
       ],
       "outputs": [
@@ -3291,14 +3357,20 @@
       "opType": "switchTOP",
       "family": "TOP",
       "label": "Switch TOP",
-      "inputCount": 1,
-      "isMultiInput": false,
+      "inputCount": -1,
+      "isMultiInput": true,
       "inputs": [
         {
           "index": 0,
           "name": "input",
           "accepts": "TOP",
           "description": "Primary input"
+        },
+        {
+          "index": 1,
+          "name": "additional",
+          "accepts": "TOP",
+          "description": "Additional inputs supported (multi-input operator)"
         }
       ],
       "outputs": [
@@ -3372,14 +3444,14 @@
       "opType": "textTOP",
       "family": "TOP",
       "label": "Text TOP",
-      "inputCount": 1,
+      "inputCount": 0,
       "isMultiInput": false,
       "inputs": [
         {
-          "index": 0,
-          "name": "input",
-          "accepts": "TOP",
-          "description": "Primary input"
+          "index": -1,
+          "name": "none",
+          "accepts": "none",
+          "description": "Generator — no inputs"
         }
       ],
       "outputs": [
@@ -3982,14 +4054,14 @@
       "opType": "audioDeviceInCHOP",
       "family": "CHOP",
       "label": "Audio Device In CHOP",
-      "inputCount": 1,
+      "inputCount": 0,
       "isMultiInput": false,
       "inputs": [
         {
-          "index": 0,
-          "name": "input",
-          "accepts": "CHOP",
-          "description": "Primary input"
+          "index": -1,
+          "name": "none",
+          "accepts": "none",
+          "description": "Generator — no inputs"
         }
       ],
       "outputs": [
@@ -4072,14 +4144,14 @@
       "opType": "audioFileInCHOP",
       "family": "CHOP",
       "label": "Audio File In CHOP",
-      "inputCount": 1,
+      "inputCount": 0,
       "isMultiInput": false,
       "inputs": [
         {
-          "index": 0,
-          "name": "input",
-          "accepts": "CHOP",
-          "description": "Primary input"
+          "index": -1,
+          "name": "none",
+          "accepts": "none",
+          "description": "Generator — no inputs"
         }
       ],
       "outputs": [
@@ -4767,14 +4839,14 @@
       "opType": "constantCHOP",
       "family": "CHOP",
       "label": "Constant CHOP",
-      "inputCount": 1,
+      "inputCount": 0,
       "isMultiInput": false,
       "inputs": [
         {
-          "index": 0,
-          "name": "input",
-          "accepts": "CHOP",
-          "description": "Primary input"
+          "index": -1,
+          "name": "none",
+          "accepts": "none",
+          "description": "Generator — no inputs"
         }
       ],
       "outputs": [
@@ -5721,14 +5793,20 @@
       "opType": "joinCHOP",
       "family": "CHOP",
       "label": "Join CHOP",
-      "inputCount": 1,
-      "isMultiInput": false,
+      "inputCount": -1,
+      "isMultiInput": true,
       "inputs": [
         {
           "index": 0,
           "name": "input",
           "accepts": "CHOP",
           "description": "Primary input"
+        },
+        {
+          "index": 1,
+          "name": "additional",
+          "accepts": "CHOP",
+          "description": "Additional inputs supported (multi-input operator)"
         }
       ],
       "outputs": [
@@ -5996,14 +6074,14 @@
       "opType": "lFOCHOP",
       "family": "CHOP",
       "label": "LFO CHOP",
-      "inputCount": 1,
+      "inputCount": 0,
       "isMultiInput": false,
       "inputs": [
         {
-          "index": 0,
-          "name": "input",
-          "accepts": "CHOP",
-          "description": "Primary input"
+          "index": -1,
+          "name": "none",
+          "accepts": "none",
+          "description": "Generator — no inputs"
         }
       ],
       "outputs": [
@@ -6146,14 +6224,20 @@
       "opType": "mathCHOP",
       "family": "CHOP",
       "label": "Math CHOP",
-      "inputCount": 1,
-      "isMultiInput": false,
+      "inputCount": -1,
+      "isMultiInput": true,
       "inputs": [
         {
           "index": 0,
           "name": "input",
           "accepts": "CHOP",
           "description": "Primary input"
+        },
+        {
+          "index": 1,
+          "name": "additional",
+          "accepts": "CHOP",
+          "description": "Additional inputs supported (multi-input operator)"
         }
       ],
       "outputs": [
@@ -6175,14 +6259,20 @@
       "opType": "mergeCHOP",
       "family": "CHOP",
       "label": "Merge CHOP",
-      "inputCount": 1,
-      "isMultiInput": false,
+      "inputCount": -1,
+      "isMultiInput": true,
       "inputs": [
         {
           "index": 0,
           "name": "input",
           "accepts": "CHOP",
           "description": "Primary input"
+        },
+        {
+          "index": 1,
+          "name": "additional",
+          "accepts": "CHOP",
+          "description": "Additional inputs supported (multi-input operator)"
         }
       ],
       "outputs": [
@@ -6378,14 +6468,14 @@
       "opType": "noiseCHOP",
       "family": "CHOP",
       "label": "Noise CHOP",
-      "inputCount": 1,
+      "inputCount": 0,
       "isMultiInput": false,
       "inputs": [
         {
-          "index": 0,
-          "name": "input",
-          "accepts": "CHOP",
-          "description": "Primary input"
+          "index": -1,
+          "name": "none",
+          "accepts": "none",
+          "description": "Generator — no inputs"
         }
       ],
       "outputs": [
@@ -7703,14 +7793,20 @@
       "opType": "switchCHOP",
       "family": "CHOP",
       "label": "Switch CHOP",
-      "inputCount": 1,
-      "isMultiInput": false,
+      "inputCount": -1,
+      "isMultiInput": true,
       "inputs": [
         {
           "index": 0,
           "name": "input",
           "accepts": "CHOP",
           "description": "Primary input"
+        },
+        {
+          "index": 1,
+          "name": "additional",
+          "accepts": "CHOP",
+          "description": "Additional inputs supported (multi-input operator)"
         }
       ],
       "outputs": [
@@ -8453,14 +8549,14 @@
       "opType": "boxSOP",
       "family": "SOP",
       "label": "Box SOP",
-      "inputCount": 1,
+      "inputCount": 0,
       "isMultiInput": false,
       "inputs": [
         {
-          "index": 0,
-          "name": "input",
-          "accepts": "SOP",
-          "description": "Primary input"
+          "index": -1,
+          "name": "none",
+          "accepts": "none",
+          "description": "Generator — no inputs"
         }
       ],
       "outputs": [
@@ -8653,14 +8749,14 @@
       "opType": "circleSOP",
       "family": "SOP",
       "label": "Circle SOP",
-      "inputCount": 1,
+      "inputCount": 0,
       "isMultiInput": false,
       "inputs": [
         {
-          "index": 0,
-          "name": "input",
-          "accepts": "SOP",
-          "description": "Primary input"
+          "index": -1,
+          "name": "none",
+          "accepts": "none",
+          "description": "Generator — no inputs"
         }
       ],
       "outputs": [
@@ -9207,14 +9303,14 @@
       "opType": "gridSOP",
       "family": "SOP",
       "label": "Grid SOP",
-      "inputCount": 1,
+      "inputCount": 0,
       "isMultiInput": false,
       "inputs": [
         {
-          "index": 0,
-          "name": "input",
-          "accepts": "SOP",
-          "description": "Primary input"
+          "index": -1,
+          "name": "none",
+          "accepts": "none",
+          "description": "Generator — no inputs"
         }
       ],
       "outputs": [
@@ -9686,14 +9782,20 @@
       "opType": "mergeSOP",
       "family": "SOP",
       "label": "Merge SOP",
-      "inputCount": 1,
-      "isMultiInput": false,
+      "inputCount": -1,
+      "isMultiInput": true,
       "inputs": [
         {
           "index": 0,
           "name": "input",
           "accepts": "SOP",
           "description": "Primary input"
+        },
+        {
+          "index": 1,
+          "name": "additional",
+          "accepts": "SOP",
+          "description": "Additional inputs supported (multi-input operator)"
         }
       ],
       "outputs": [
@@ -9811,14 +9913,20 @@
       "opType": "objectMergeSOP",
       "family": "SOP",
       "label": "Object Merge SOP",
-      "inputCount": 1,
-      "isMultiInput": false,
+      "inputCount": -1,
+      "isMultiInput": true,
       "inputs": [
         {
           "index": 0,
           "name": "input",
           "accepts": "SOP",
           "description": "Primary input"
+        },
+        {
+          "index": 1,
+          "name": "additional",
+          "accepts": "SOP",
+          "description": "Additional inputs supported (multi-input operator)"
         }
       ],
       "outputs": [
@@ -10486,14 +10594,14 @@
       "opType": "sphereSOP",
       "family": "SOP",
       "label": "Sphere SOP",
-      "inputCount": 1,
+      "inputCount": 0,
       "isMultiInput": false,
       "inputs": [
         {
-          "index": 0,
-          "name": "input",
-          "accepts": "SOP",
-          "description": "Primary input"
+          "index": -1,
+          "name": "none",
+          "accepts": "none",
+          "description": "Generator — no inputs"
         }
       ],
       "outputs": [
@@ -10715,14 +10823,20 @@
       "opType": "switchSOP",
       "family": "SOP",
       "label": "Switch SOP",
-      "inputCount": 1,
-      "isMultiInput": false,
+      "inputCount": -1,
+      "isMultiInput": true,
       "inputs": [
         {
           "index": 0,
           "name": "input",
           "accepts": "SOP",
           "description": "Primary input"
+        },
+        {
+          "index": 1,
+          "name": "additional",
+          "accepts": "SOP",
+          "description": "Additional inputs supported (multi-input operator)"
         }
       ],
       "outputs": [
@@ -10740,14 +10854,14 @@
       "opType": "textSOP",
       "family": "SOP",
       "label": "Text SOP",
-      "inputCount": 1,
+      "inputCount": 0,
       "isMultiInput": false,
       "inputs": [
         {
-          "index": 0,
-          "name": "input",
-          "accepts": "SOP",
-          "description": "Primary input"
+          "index": -1,
+          "name": "none",
+          "accepts": "none",
+          "description": "Generator — no inputs"
         }
       ],
       "outputs": [
@@ -10940,14 +11054,14 @@
       "opType": "tubeSOP",
       "family": "SOP",
       "label": "Tube SOP",
-      "inputCount": 1,
+      "inputCount": 0,
       "isMultiInput": false,
       "inputs": [
         {
-          "index": 0,
-          "name": "input",
-          "accepts": "SOP",
-          "description": "Primary input"
+          "index": -1,
+          "name": "none",
+          "accepts": "none",
+          "description": "Generator — no inputs"
         }
       ],
       "outputs": [
@@ -11690,14 +11804,20 @@
       "opType": "mergeDAT",
       "family": "DAT",
       "label": "Merge DAT",
-      "inputCount": 1,
-      "isMultiInput": false,
+      "inputCount": -1,
+      "isMultiInput": true,
       "inputs": [
         {
           "index": 0,
           "name": "input",
           "accepts": "DAT",
           "description": "Primary input"
+        },
+        {
+          "index": 1,
+          "name": "additional",
+          "accepts": "DAT",
+          "description": "Additional inputs supported (multi-input operator)"
         }
       ],
       "outputs": [
@@ -12440,14 +12560,20 @@
       "opType": "switchDAT",
       "family": "DAT",
       "label": "Switch DAT",
-      "inputCount": 1,
-      "isMultiInput": false,
+      "inputCount": -1,
+      "isMultiInput": true,
       "inputs": [
         {
           "index": 0,
           "name": "input",
           "accepts": "DAT",
           "description": "Primary input"
+        },
+        {
+          "index": 1,
+          "name": "additional",
+          "accepts": "DAT",
+          "description": "Additional inputs supported (multi-input operator)"
         }
       ],
       "outputs": [
@@ -12465,14 +12591,14 @@
       "opType": "tableDAT",
       "family": "DAT",
       "label": "Table DAT",
-      "inputCount": 1,
+      "inputCount": 0,
       "isMultiInput": false,
       "inputs": [
         {
-          "index": 0,
-          "name": "input",
-          "accepts": "DAT",
-          "description": "Primary input"
+          "index": -1,
+          "name": "none",
+          "accepts": "none",
+          "description": "Generator — no inputs"
         }
       ],
       "outputs": [
@@ -12515,14 +12641,14 @@
       "opType": "textDAT",
       "family": "DAT",
       "label": "Text DAT",
-      "inputCount": 1,
+      "inputCount": 0,
       "isMultiInput": false,
       "inputs": [
         {
-          "index": 0,
-          "name": "input",
-          "accepts": "DAT",
-          "description": "Primary input"
+          "index": -1,
+          "name": "none",
+          "accepts": "none",
+          "description": "Generator — no inputs"
         }
       ],
       "outputs": [
@@ -14487,14 +14613,14 @@
       "opType": "gridPOP",
       "family": "POP",
       "label": "Grid POP",
-      "inputCount": 1,
+      "inputCount": 0,
       "isMultiInput": false,
       "inputs": [
         {
-          "index": 0,
-          "name": "input",
-          "accepts": "POP",
-          "description": "Primary input"
+          "index": -1,
+          "name": "none",
+          "accepts": "none",
+          "description": "Generator — no inputs"
         }
       ],
       "outputs": [
@@ -15254,14 +15380,20 @@
       "opType": "mergePOP",
       "family": "POP",
       "label": "Merge POP",
-      "inputCount": 1,
-      "isMultiInput": false,
+      "inputCount": -1,
+      "isMultiInput": true,
       "inputs": [
         {
           "index": 0,
           "name": "input",
           "accepts": "POP",
           "description": "Primary input"
+        },
+        {
+          "index": 1,
+          "name": "additional",
+          "accepts": "POP",
+          "description": "Additional inputs supported (multi-input operator)"
         }
       ],
       "outputs": [
@@ -16672,14 +16804,14 @@
       "opType": "spherePOP",
       "family": "POP",
       "label": "Sphere POP",
-      "inputCount": 1,
+      "inputCount": 0,
       "isMultiInput": false,
       "inputs": [
         {
-          "index": 0,
-          "name": "input",
-          "accepts": "POP",
-          "description": "Primary input"
+          "index": -1,
+          "name": "none",
+          "accepts": "none",
+          "description": "Generator — no inputs"
         }
       ],
       "outputs": [
@@ -16732,14 +16864,14 @@
       "opType": "sprinklePOP",
       "family": "POP",
       "label": "Sprinkle POP",
-      "inputCount": 1,
+      "inputCount": 0,
       "isMultiInput": false,
       "inputs": [
         {
-          "index": 0,
-          "name": "input",
-          "accepts": "POP",
-          "description": "Primary input"
+          "index": -1,
+          "name": "none",
+          "accepts": "none",
+          "description": "Generator — no inputs"
         }
       ],
       "outputs": [
@@ -16819,14 +16951,20 @@
       "opType": "switchPOP",
       "family": "POP",
       "label": "Switch POP",
-      "inputCount": 1,
-      "isMultiInput": false,
+      "inputCount": -1,
+      "isMultiInput": true,
       "inputs": [
         {
           "index": 0,
           "name": "input",
           "accepts": "POP",
           "description": "Primary input"
+        },
+        {
+          "index": 1,
+          "name": "additional",
+          "accepts": "POP",
+          "description": "Additional inputs supported (multi-input operator)"
         }
       ],
       "outputs": [
@@ -17544,14 +17682,14 @@
       "opType": "moviefileinTOP",
       "family": "TOP",
       "label": "moviefileinTOP",
-      "inputCount": 1,
+      "inputCount": 0,
       "isMultiInput": false,
       "inputs": [
         {
-          "index": 0,
-          "name": "input",
-          "accepts": "TOP",
-          "description": "Primary input"
+          "index": -1,
+          "name": "none",
+          "accepts": "none",
+          "description": "Generator — no inputs"
         }
       ],
       "outputs": [
@@ -17568,14 +17706,14 @@
       "opType": "moviefileoutTOP",
       "family": "TOP",
       "label": "moviefileoutTOP",
-      "inputCount": 1,
+      "inputCount": 0,
       "isMultiInput": false,
       "inputs": [
         {
-          "index": 0,
-          "name": "input",
-          "accepts": "TOP",
-          "description": "Primary input"
+          "index": -1,
+          "name": "none",
+          "accepts": "none",
+          "description": "Generator — no inputs"
         }
       ],
       "outputs": [
@@ -17595,14 +17733,14 @@
       "opType": "lfoCHOP",
       "family": "CHOP",
       "label": "lfoCHOP",
-      "inputCount": 1,
+      "inputCount": 0,
       "isMultiInput": false,
       "inputs": [
         {
-          "index": 0,
-          "name": "input",
-          "accepts": "CHOP",
-          "description": "Primary input"
+          "index": -1,
+          "name": "none",
+          "accepts": "none",
+          "description": "Generator — no inputs"
         }
       ],
       "outputs": [
@@ -17619,14 +17757,14 @@
       "opType": "audiofileinCHOP",
       "family": "CHOP",
       "label": "audiofileinCHOP",
-      "inputCount": 1,
+      "inputCount": 0,
       "isMultiInput": false,
       "inputs": [
         {
-          "index": 0,
-          "name": "input",
-          "accepts": "CHOP",
-          "description": "Primary input"
+          "index": -1,
+          "name": "none",
+          "accepts": "none",
+          "description": "Generator — no inputs"
         }
       ],
       "outputs": [
