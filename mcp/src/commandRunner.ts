@@ -38,7 +38,7 @@ export interface CommandResult {
 // ─── Tool Name → Method Name Mapping ────────────────────────────────────────
 // Maps MCP tool names to TDClient method names for direct invocation.
 
-const TOOL_METHOD_MAP: Record<string, string> = {
+export const TOOL_METHOD_MAP: Record<string, string> = {
   td_execute: "execute",
   td_pane: "getPaneState",
   td_selection: "getSelection",
@@ -83,7 +83,7 @@ const TOOL_METHOD_MAP: Record<string, string> = {
   td_search_official_docs: "searchOfficialDocs",
 };
 
-const SUPPORTED_TOOLS = Object.keys(TOOL_METHOD_MAP).concat([
+export const SUPPORTED_TOOLS = Object.keys(TOOL_METHOD_MAP).concat([
   "td_pops_query",
   "td_ops_query",
   "td_alias_resolve",
@@ -124,7 +124,7 @@ Respond with ONLY valid JSON. No explanation.`;
  * Parse LLM output to extract the first valid JSON tool call.
  * Handles extra text around the JSON (common with some models).
  */
-function parseToolCall(text: string): ToolCall | null {
+export function parseToolCall(text: string): ToolCall | null {
   // Try direct parse first
   try {
     const parsed = JSON.parse(text.trim());
