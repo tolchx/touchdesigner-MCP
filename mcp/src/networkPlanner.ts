@@ -21,7 +21,7 @@ export type { NetworkGraph, GraphNode, GraphConnection, PlanResult } from "./net
 // ── Fuzzy Search ─────────────────────────────────────────────────────
 
 /** Levenshtein distance for fuzzy search scoring */
-function levenshteinDistance(a: string, b: string): number {
+export function levenshteinDistance(a: string, b: string): number {
   const an = a.length;
   const bn = b.length;
   if (an === 0) return bn;
