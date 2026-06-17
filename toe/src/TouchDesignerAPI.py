@@ -2320,7 +2320,7 @@ try:
             has_input = False
             try:
                 for ic in c.inputConnectors:
-                    if ic.op is not None:
+                    if ic.connections:
                         has_input = True
                         break
             except:
@@ -2371,8 +2371,8 @@ try:
         for c in children:
             try:
                 for idx, ic in enumerate(c.inputConnectors):
-                    src = ic.op
-                    if src is not None:
+                    if ic.connections:
+                        src = ic.connections[0].owner
                         src_name = src.name
                         connections.append({{
                             'from': src.path,

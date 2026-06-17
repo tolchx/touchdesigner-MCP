@@ -2,6 +2,26 @@
 
 Log of discoveries and lessons learned during development.
 
+## 2026-06-17 (Tick 3)
+
+### Bug Fix: `/document` connection detection — `td.Connector` API quirk
+
+**Root cause**: `td.Connector` objects in this TD version do NOT have an `op` attribute. Both `outOP` and `inOP` return `None`. Previous code used `ic.op` (for source operator) which silently returned `None`, wrapped in try/except, causing all connection detection to fail.
+
+**Correct API**:
+- `ic.connections` — returns list of connected Connectors (truthy if connected)
+- `ic.connections[0].owner` — the operator on the OTHER end of the connection
+- For input connectors: `blur.inputConnectors[0].connections[0].owner` → `src` (the source operator)
+- For output connectors: `src.outputConnectors[0].connections[0].owner` → `blur` (the target operator)
+
+**Fix applied** to `_handle_document` in `TouchDesignerAPI.py`:
+- `ic.op is not None` → `ic.connections` (line 2323, has_input detection)
+- `src = ic.op` → `ic.connections[0].owner` via `if ic.connections:` guard (lines 2374-2375)
+
+**Verification**: `test_live_td_glsl_endpoints.py` 30/30 pass. `doc_conn_count` now reports `connection_count=3` (was 0). `doc_role_blur` now correctly reports `role=processor` (was `source`).
+
+**Implication**: Any code that uses `Connector.op` attribute is broken in this TD version. The entire `_handle_document` function was affected. The `_serialize_operator` function (used by `/connections`) is NOT affected because it uses `operator.inputs` and `operator.outputs` directly (not `inputConnectors[idx].op`).
+
 ## 2026-06-17
 
 ### networkPlanner.ts — fuzzySearchOperators + levenshteinDistance
@@ -55,9 +75,9 @@ Log of discoveries and lessons learned during development.
 
 **Fix**: Added `'ptcomputedat', 'vertcomputedat', 'primcomputedat'` to the tuple in both handlers. The `/glsl_reload` endpoint now correctly detects and reads POP compute shader code.
 
-### Known Issues (not fixed in this tick)
+### Known Issues (not fixed in previous ticks)
 
-1. **`/document` connection detection broken**: Despite connections existing in TD (verified by direct `/exec` probe), `/document` reports 0 connections and marks wired operators as "source" instead of "processor". The handler iterates `container.children` and checks `inputConnectors[i].op` — this may not traverse connection state correctly within `/exec` context. Needs investigation.
+1. **~~`/document` connection detection broken~~ [FIXED in Tick 2026-06-17]**: Root cause was that `td.Connector` in this TD version does NOT have an `op` attribute (both `outOP` and `inOP` return `None`). The correct API is `ic.connections[0].owner` — `connections` returns the list of connected Connectors, and each connected connector's `owner` gives the operator on the other end. Fix: replaced `ic.op is not None` with `ic.connections` for `has_input` detection, and `src = ic.op` with `src = ic.connections[0].owner` for connections list building. Now `/document` correctly reports connections and roles.
 
 2. **`/verify` returns HTTP 500 on individual operator paths**: The `/verify` endpoint is designed for container paths. Passing `/project1/.../glsl_top` returns 500. Workaround: use `/exec` to call `op(path).errors()` directly.
 
