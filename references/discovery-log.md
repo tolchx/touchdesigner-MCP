@@ -616,3 +616,47 @@ Tests that `/smart_connect` with source=boxPOP + destination=nullPOP (no explici
 - Unit tests: 840 (21 suites, 0 failures) — unchanged
 - Live TD tests: 9 files (~574+ checks) — Scenario E adds ~15-20 checks
 - Grand total: ~1434 checks
+
+## 2026-06-18 (Tick 17 — Offline tests: inspection.ts, 96 tests)
+
+### New Unit Tests: inspection.ts — 96 tests
+
+**New file**: `mcp/test/inspection.test.js` — 96 tests across 19 suites, all passing.
+
+**Coverage**: All 18 MCP tool handlers in inspection.ts now have offline unit tests:
+
+| Tool | Tests | Key assertions |
+|------|-------|---------------|
+| td_pane | 3 | returns pane state, calls getPaneState, error path |
+| td_selection | 3 | returns selection, calls getSelection, error path |
+| td_operators | 4 | returns ops, defaults path to '/', forwards path, error path |
+| td_find | 4 | returns results, passes full args object, empty args, error path |
+| td_connections | 4 | returns connections, defaults recurse to false, forwards true, error path |
+| td_get_errors | 4 | returns healthy, defaults recurse to true, forwards false, error path |
+| td_healthcheck | 3 | returns healthy, defaults recurse to false, error path |
+| td_get_node_detail | 3 | returns node detail, defaults recurse to false, error path |
+| td_get_hints | 3 | returns hints, forwards node_type, error path |
+| td_get_info | 3 | returns build info, calls getInfo, error path |
+| td_get_focus | 3 | returns focus state, calls getFocus, error path |
+| td_get_perf | 3 | returns perf data, defaults path '/' and top 20, error path |
+| td_pop_inspect | 3 | returns POP data, calls popInspect, error path |
+| td_get_build_compatibility | 3 | returns exists=true, forwards op_type, error path |
+| td_get_release_delta | 3 | returns delta, handles missing build_to, error path |
+| td_spatial_context | 3 | returns spatial context, calls getSpatialContext, error path |
+| td_explore_project | 3 | returns exploration, defaults path to '/', error path |
+| td_compare_networks | 5 | returns comparison, calls execute with real Python code, execute failure, JSON parse failure, client error |
+| response shape contract | 36 | ok() shape for all 18 tools, err() shape for all 18 tools |
+
+**Pattern**: Follows the exact MockTDClient + handler mirror pattern from crud.test.js. Uses REAL `ok`/`err` from helpers.js. Handler mirrors reproduce the exact closure logic from inspection.ts including argument defaults (?? operators).
+
+**Key discovery — err() returns `{ error: message }` not `{ message: message }`**: The helpers.js `err()` function wraps errors as `{ error: message }` (key is "error" not "message"). This differs from some error-path tests that check `data.message.includes(...)`. Fixed by using `data.error.includes(...)` instead.
+
+**Delegation note**: GLM 5.2 was rate limited (HTTP 429) again, so the test file was implemented directly by the orchestrator following the established pattern. The task was well-defined and small enough for direct implementation.
+
+### Updated Test Count
+- Unit tests: 1019 (25 test files, 0 failures) — +96 tests
+- Live TD tests: 10 files (~576+ checks) — unchanged
+- Grand total: ~1595 checks
+
+### TD Server Status
+Still blocked — TouchDesigner has a stale cached version of TouchDesignerAPI.py. Port 44444 responds with 404 for all endpoints including /info. User needs to re-evaluate the WebServer DAT in TD (or restart TD).
