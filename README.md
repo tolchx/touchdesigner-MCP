@@ -30,35 +30,44 @@ Conecta Inteligencia Artificial con TouchDesigner usando el Model Context Protoc
 ## ✨ Características
 
 ### 🔌 Conexión con TouchDesigner
-- Ejecuta Python en TD vía HTTP
-- Crea, elimina, conecta y copia operadores
-- Lee y escribe parámetros (incluyendo custom pages)
-- Inspecciona redes, errores, rendimiento
-- Navegación del editor, screenshots
+- Ejecuta Python en TD vía HTTP.
+- Crea, elimina, conecta y copia operadores (incluyendo soporte completo para POPs, COMPs y MATs).
+- Lee y escribe parámetros (con auto-mapeo para Particle Operators y páginas personalizadas en COMPs).
+- Validación de conexiones cruzadas (cross-family validation) para evitar bugs de conexión incompatibles.
+- Generación de redes multicapa y autolayout determinista (`td_auto_layout`).
+- Inspecciona redes, errores en tiempo real y rendimiento de operadores.
+- Navegación del editor de red de TD y captura de screenshots automáticas.
 
 ### 📚 Base de conocimiento local (sin TD)
-- 630+ operadores TOP, CHOP, SOP, DAT, POP documentados
-- Búsqueda fuzzy con scoring (exacto, prefijo, substring, levenshtein)
-- Referencia de parámetros POP verificados contra TD real
-- 609 clases Python API documentadas
+- **630+ operadores** TOP, CHOP, SOP, DAT, POP documentados localmente.
+- Búsqueda fuzzy con scoring inteligente (exacto, prefijo, substring, levenshtein) para sugerir operadores.
+- Mapeo preciso y referencia de parámetros POP validados contra TD real.
+- **609 clases de la API de Python** documentadas offline.
+- **1000+ unit tests offline** nativos de Node.js que garantizan que el MCP se ejecute de forma robusta e independiente de TD.
 
 ### 🎓 Contenido educativo
-- **15 tutoriales** — desde beginner hasta expert
-- **32 workflows reutilizables** — effects, transform, composite
-- **Prompts maestros** parametrizables con variables
+- **15 tutoriales interactivos** — desde beginner hasta nivel experto.
+- **32 workflows reutilizables** — efectos, transformaciones, composites y redes de partículas (POPs).
+- **Prompts maestros** parametrizables con variables para agilizar el desarrollo.
 
 ### 🛠️ Tools avanzados
-- `td_watch` — monitoreo de performance en tiempo real
-- `td_export_network` — exporta redes a Python, diff o JSON
-- `td_history_list/undo/clear` — historial de cambios con snapshots
-- `td_run_test` — ejecuta tests legacy desde el MCP
-- `td_compare_mcps` — compara servidores MCP TouchDesigner
-- `td_run_prompt` — ejecuta prompts maestros con variables
+- `td_watch` — monitoreo de performance en tiempo real y detección de cuellos de botella.
+- `td_export_network` — exporta redes a código Python compatible, diff o JSON (TDN).
+- `td_history_list/undo/clear` — historial de cambios local con snapshots para control de cambios e historial tipo Git.
+- `td_run_test` — ejecuta tests legacy y suites de integración directamente.
+- `td_compare_mcps` — compara la funcionalidad de distintos servidores MCP de TouchDesigner.
+- `td_run_prompt` — ejecuta prompts maestros avanzados.
 
 ### 🌐 Interfaces
-- **CLI** — servidor MCP stdio (compatible con Claude Desktop, VS Code, Cursor)
-- **VS Code Extension** — 5 comandos integrados en el editor
-- **Web UI** — dashboard con WebSocket en tiempo real (puerto 3333)
+- **CLI** — servidor MCP stdio listo para usar en Claude Desktop, VS Code, Cursor, Codebuff, etc.
+- **VS Code Extension** — comandos integrados para administrar y debuggear el servidor directamente desde tu editor.
+- **Web UI Dashboard (Nexus v3)**:
+  - WebSocket en tiempo real en puerto 3333.
+  - Editor GLSL integrado con bindings automáticos y recarga instantánea.
+  - Inspector interactivo del árbol de operadores y editor de parámetros en vivo.
+  - Gráficos de rendimiento en tiempo real y visualizador gráfico de la red de nodos.
+  - Chat inteligente con IA equipado con autocompletado de comandos, sugerencias y análisis de errores guiado por IA.
+
 
 ---
 
@@ -370,6 +379,9 @@ node server.js
 ## 🧪 Tests
 
 ```bash
+# Suite de unit/integration tests offline (1000+ tests nativos)
+node --test mcp/test/*.test.js
+
 # Smoke test offline (tools locales)
 node mcp/test_smoke.mjs
 
