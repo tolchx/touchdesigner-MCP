@@ -1,6 +1,36 @@
 # Discovery Log
 
-## 2026-06-18 (Tick 15)
+## 2026-06-18 (Tick 15 — Recovery: TD status & GLM rate limiting)
+
+### Estado de TouchDesigner (Puerto 44444)
+
+**Problema**: Todos los endpoints devuelven HTTP 404 — incluso `/info` y `/dashboard` que siempre han existido.
+
+**Causa raíz**: TouchDesigner tiene una VERSION CACHEADA de `TouchDesignerAPI.py` cargada en memoria. Aunque el archivo `.py` en disco tiene el código correcto, TD no lo recarga automáticamente porque usa `importlib` / `op.TDResources`. El módulo Python permanece en memoria con el código viejo.
+
+**Descubrimiento adicional**: Hay un segundo WebServer DAT en el puerto **44445** que responde con `"TouchDesigner: webserver1"` — es el comportamiento por defecto de un WebServer DAT sin callback personalizado. No es nuestra API.
+
+**Solución**: El usuario debe:
+1. En TouchDesigner, localizar el Text DAT nombrado `TouchDesignerAPI` o `mcp_server`
+2. Click derecho → **Execute** (o botón Execute en el editor del DAT)
+3. Verificar: `curl http://localhost:44444/info` debe devolver JSON con FPS
+
+O alternativamente: **Reiniciar TouchDesigner** completamente.
+
+**Bloqueado desde CLI**: No hay forma de forzar la recarga desde fuera de TD. Ni siquiera `POST /exec` funciona porque el código cacheado no tiene el handler.
+
+### Massive Orchestrator (Paso 2) — Bloqueado
+
+El orchestrator masivo requiere TD funcional en puerto 44444. No se puede ejecutar hasta que se recargue el módulo.
+
+### GLM 5.2 Rate Limiting — Recuperado
+
+Se delegó una tarea mínima (leer 5 líneas de un archivo) a GLM 5.2:
+- ✅ Completada exitosamente (52s, 2 API calls, 349 tokens output)
+- El rate limiting de HTTP 429 fue **temporal** — la cuenta ya se recuperó
+- La tarea grande de Tick 15 (escribir 34 tests + mock) falló porque consumió ~336K tokens de input antes de ser cortada
+
+**Lección**: Para tareas grandes con GLM 5.2, dividir en subtareas de max ~100K tokens de contexto cada una. La tarea de Tick 15 (escribir batch.test.js completo con todo el contexto de patrones de mock) era demasiado grande.
 
 ### New Unit Tests: batch.ts — 34 tests (+12 key discovery)
 
