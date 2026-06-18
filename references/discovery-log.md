@@ -1,5 +1,32 @@
 # Discovery Log
 
+## 2026-06-18 (Tick 15)
+
+### New Unit Tests: batch.ts — 34 tests (+12 key discovery)
+
+**New file**: `mcp/test/batch.test.js` — 34 tests across 8 suites, all passing.
+
+**Coverage**: The batch tool module now has comprehensive offline tests:
+- **Registry building (5 tests)**: all ~40 keys present, correct count, each is a function, caching works
+- **Tool registration (3 tests)**: name "tool_batch", async handler, metadata present
+- **Single tool dispatch (5 tests)**: execute with code, getInfo no args, createOperator with type/name/path, result payload, args omitted
+- **Multiple tool dispatch (5 tests)**: 3 results, 0 tools, sequential order, mixed types, order preservation
+- **Error handling (6 tests)**: unknown tool, available list, Error thrown, string thrown, continue after failure, mix valid+invalid
+- **Edge cases (5 tests)**: empty args, payload delivery, parameter types, real import, ok() shape
+- **Response shape (3 tests)**: top-level success, item shape, MCP content format
+- **Session isolation (2 tests)**: sequential calls, bound client methods
+
+**Key discovery — batch.ts passes args as a single positional argument**: The batch tool's handler calls `handler(tool.args ?? {})` where `handler` is `client.method.bind(client)`. This means ALL args are bundled into one object. When testing, the mock's first positional parameter receives the entire args object. This is the CORRECT batch tool behavior — it mirrors how MCP tools receive their arguments (as a single structured object). Test assertions had to be adjusted from `client.calls[0].code === "print(...)"` to `client.calls[0].code.code === "print(...)"`.
+
+**Key pitfall — Real module's `cachedRegistry` persists across tests**: The compiled `dist/tools/batch.js` has a module-level `cachedRegistry` variable. Once populated by the first `registerBatchTool()` call, all subsequent calls reuse the same Map with bindings pointing to the FIRST client instance. This cross-contaminates tests. The fix was to use the test file's own `getToolRegistry()` mirror (with its own isolated `cachedRegistry`) for the dispatch tests, and only use the real module's `registerBatchTool` for registration/shape tests.
+
+**Key pitfall — Error-throwing mocks must record before throwing**: When a mock method is supposed to both throw and be verifiable via call recording, the `push` to `calls[]` must happen BEFORE the `throw`. The original pattern (`async () => { throw new Error(...) }`) never reached the mock's call-recording code. The fix records the intent first, then throws.
+
+**Updated Test Count**:
+- Unit tests: 916 (24 test files, 0 failures) — +34 tests
+- Live TD tests: 10 files (~576+ checks) — unchanged
+- Grand total: ~1492 checks
+
 ## 2026-06-18 (Tick 14)
 
 ### New Unit Tests: crud.ts — 42 tests
