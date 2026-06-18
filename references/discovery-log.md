@@ -367,3 +367,43 @@ Log of discoveries and lessons learned during development.
 - Unit tests: 840 (21 suites, 0 failures) — was 812 (+28 postValidate.test.js)
 - Live TD tests: 9 files (~574 checks)
 - Grand total: ~1414 checks
+
+## 2026-06-17 (Tick 11)
+
+### Bug Fix: POP auto-detection in `/smart_connect`
+
+**Root cause**: The `_handle_smart_connect` auto-type detection chain only covered `TOP→nullTOP`, `CHOP→nullCHOP`, `SOP→nullSOP`. POP and MAT families were missing — passing `boxPOP + nullPOP` fell through to the default `nullCHOP`, creating a cross-family connection that failed at runtime.
+
+**Fix**: Added POP and MAT branches to the auto-detection chain in `TouchDesignerAPI.py`:
+```python
+elif src_family == 'POP' or dst_family == 'POP':
+    use_type = 'nullPOP'
+elif src_family == 'MAT' or dst_family == 'MAT':
+    use_type = 'nullMAT'
+```
+
+**Files changed**:
+1. `toe/src/TouchDesignerAPI.py` — +4 lines (POP + MAT auto-detection)
+2. `toe/src/test_live_td_smart_connect.py` — +90 lines / -25 lines (Scenario E: POP auto-detect test, updated docstring + summary)
+
+### New Live Test Scenario: POP auto-detect (Scenario E)
+
+**File**: `test_live_td_smart_connect.py` — Scenario E added (boxPOP → [auto] → nullPOP)
+
+Tests that `/smart_connect` with source=boxPOP + destination=nullPOP (no explicit type) correctly:
+- Auto-detects POP family → creates a nullPOP bridge operator
+- Positions it at the midpoint between source and destination
+- Wires boxPOP → newNullPOP → nullPOP correctly
+- Passes RULE 2 (async GLSL check) and RULE 3 (no grid overlap)
+- Returns `type: "nullPOP"` in the response
+
+### Verification
+- TypeScript compilation: clean (no TS changes)
+- Python syntax: both files compile clean
+- Unit tests: 840 (21 suites, 0 failures) — no regressions
+- Layout engine: 29/29 pass
+
+### Updated Test Count
+- Unit tests: 840 (21 suites, 0 failures) — unchanged
+- Live TD tests: 9 files (~574+ checks) — Scenario E adds ~15-20 checks
+- Grand total: ~1434 checks

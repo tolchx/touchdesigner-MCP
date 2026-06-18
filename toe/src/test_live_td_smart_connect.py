@@ -5,12 +5,12 @@ Live TD Integration Test — POST /smart_connect endpoint
 
 Tests the recently-fixed POST /smart_connect endpoint (the handler now uses
 ``getattr(td, use_type)`` instead of a bare identifier that raised NameError
-at runtime). Four scenarios exercise every code path:
+at runtime). Five scenarios exercise every code path:
 
-  Scenario A — source + destination, AUTO type:
-       boxPOP + nullPOP -> /smart_connect auto-detects a bridging op placed
-       at the midpoint. Verifies success, midpoint X, wiring
-       source -> new -> destination, zero errors.
+  Scenario A — source + destination, AUTO type (TOP):
+       circleTOP + nullTOP -> /smart_connect auto-detects a bridging
+       nullTOP placed at the midpoint. Verifies success, midpoint X,
+       wiring source -> new -> destination, zero errors.
   Scenario B — source + destination, EXPLICIT type:
        noiseTOP + nullTOP -> /smart_connect with type="blurTOP".
        Verifies the new op is a blurTOP and is correctly wired.
@@ -20,6 +20,12 @@ at runtime). Four scenarios exercise every code path:
   Scenario D — destination only (no source):
        nullCHOP -> /smart_connect creates a new op to the LEFT of
        destination. Verifies positioning (dst.x - 200) and new->dst wiring.
+  Scenario E — source + destination, AUTO type (POP):
+       boxPOP + nullPOP -> /smart_connect auto-detects a bridging nullPOP
+       (POP family). Exercises the POP branch of the auto-type chain;
+       without it the handler fell through to the default nullCHOP and
+       cross-family wiring failed. Verifies success, type == nullPOP,
+       midpoint X, wiring source -> new -> destination, zero errors.
 
 The test runs OUTSIDE TouchDesigner as a normal Python script, calling the
 TD HTTP API on port 44444 via the ``requests`` library.
@@ -82,10 +88,11 @@ MIN_SEP_Y = 150
 
 # Per-scenario Y offsets — ensures cross-scenario pairs always have
 # dy >= 300 > MIN_SEP_Y, so only within-row pairs need X-checking.
-ROW_A = 0    # POP scenario
-ROW_B = 300  # TOP scenario
-ROW_C = 600  # SOP scenario
-ROW_D = 900  # CHOP scenario
+ROW_A = 0     # TOP scenario (auto-type)
+ROW_B = 300   # TOP scenario (explicit type)
+ROW_C = 600   # SOP scenario
+ROW_D = 900   # CHOP scenario
+ROW_E = 1200  # POP scenario (auto-type)
 
 
 # ─── HTTP client ──────────────────────────────────────────────────────────────
@@ -491,26 +498,21 @@ def _verify_no_errors(td: TDClient, res: SafeCheck, step: str,
               else "{} error(s): {}".format(len(relevant), " | ".join(relevant)))
 
 
-# ─── Scenario A: source + destination, auto type ─────────────────────────────
+# ─── Scenario A: source + destination, auto type (TOP) ───────────────────────
 
 def scenario_a(td: TDClient, res: SafeCheck) -> None:
-    """Scenario A — source + destination, auto type detection.
+    """Scenario A — source + destination, auto type detection (TOP family).
 
-    Creates boxPOP (source) + nullPOP (destination) at 400 px horizontal
+    Creates circleTOP (source) + nullTOP (destination) at 400 px horizontal
     separation.  Calls /smart_connect WITHOUT a type.  The handler
-    auto-detects a bridging op, places it at the midpoint, and wires
-    source -> new -> destination.
-
-    NOTE: the handler's auto-type chain checks TOP / CHOP / SOP families.
-    POP is not in the if/elif chain, so the default (nullCHOP) is selected.
-    This scenario validates the actual handler behavior — if POP
-    auto-detection is missing, the wiring/no-errors checks surface the gap.
+    auto-detects a bridging nullTOP (TOP branch of the auto-type chain),
+    places it at the midpoint, and wires source -> new -> destination.
     """
-    print("\n--- Scenario A: source + destination, auto type ---")
-    print("    boxPOP -> [auto] -> nullPOP")
+    print("\n--- Scenario A: source + destination, auto type (TOP) ---")
+    print("    circleTOP -> [auto] -> nullTOP")
 
-    src_path = _create_op(td, res, "boxPOP", "sc_a_src", x=0, y=ROW_A)
-    dst_path = _create_op(td, res, "nullPOP", "sc_a_dst", x=400, y=ROW_A)
+    src_path = _create_op(td, res, "circleTOP", "sc_a_src", x=0, y=ROW_A)
+    dst_path = _create_op(td, res, "nullTOP", "sc_a_dst", x=400, y=ROW_A)
     if not src_path or not dst_path:
         res.check("sc_a_call", False, "prerequisite ops missing")
         return
@@ -525,6 +527,12 @@ def scenario_a(td: TDClient, res: SafeCheck) -> None:
     new_path = result.get("path")
     new_type = result.get("type", "?")
     print("    result: type={}, path={}".format(new_type, new_path))
+
+    # Auto-detection must pick the TOP family bridging op.
+    type_ok = success and new_type == "nullTOP"
+    res.check("sc_a_type_nullTOP", type_ok,
+              "type={!r}".format(new_type)
+              + ("" if type_ok else " (expected 'nullTOP')"))
 
     _verify_op_exists(td, res, "sc_a_exists", new_path)
     if success and new_path:
@@ -644,6 +652,57 @@ def scenario_d(td: TDClient, res: SafeCheck) -> None:
     if success:
         _verify_wiring(td, res, "sc_d_wiring", None, new_path, dst_path)
     _verify_no_errors(td, res, "sc_d_errors", [new_path, dst_path])
+
+
+# ─── Scenario E: source + destination, auto type (POP) ───────────────────────
+
+def scenario_e(td: TDClient, res: SafeCheck) -> None:
+    """Scenario E — source + destination, auto type detection (POP family).
+
+    Creates boxPOP (source) + nullPOP (destination) at 400 px horizontal
+    separation.  Calls /smart_connect WITHOUT a type.  The handler must
+    auto-detect a bridging nullPOP via the POP branch of its auto-type
+    chain.  This scenario is the regression test for the POP auto-detection
+    fix: previously POP was missing from the if/elif chain, so the handler
+    fell through to the default nullCHOP and cross-family wiring
+    (CHOP <-> POP) failed.
+
+    Verifies success, type == "nullPOP", midpoint X, wiring
+    source -> new -> destination, and zero errors.
+    """
+    print("\n--- Scenario E: source + destination, auto type (POP) ---")
+    print("    boxPOP -> [auto] -> nullPOP")
+
+    src_path = _create_op(td, res, "boxPOP", "sc_e_src", x=0, y=ROW_E)
+    dst_path = _create_op(td, res, "nullPOP", "sc_e_dst", x=400, y=ROW_E)
+    if not src_path or not dst_path:
+        res.check("sc_e_call", False, "prerequisite ops missing")
+        return
+
+    result = td.smart_connect(source=src_path, destination=dst_path,
+                              name="sc_e_new")
+    success = bool(result.get("success", False))
+    res.check("sc_e_success", success,
+              "success={}".format(success)
+              + ("" if success else " error={}".format(result.get("error", "?"))))
+
+    new_path = result.get("path")
+    new_type = result.get("type", "?")
+    print("    result: type={}, path={}".format(new_type, new_path))
+
+    # KEY regression assertion: auto-detection must resolve to nullPOP,
+    # NOT the default nullCHOP.  A nullCHOP bridge would break POP wiring.
+    type_ok = success and new_type == "nullPOP"
+    res.check("sc_e_type_nullPOP", type_ok,
+              "type={!r}".format(new_type)
+              + ("" if type_ok else " (expected 'nullPOP')"))
+
+    _verify_op_exists(td, res, "sc_e_exists", new_path)
+    if success and new_path:
+        _verify_midpoint(td, res, "sc_e_midpoint", new_path, src_path, dst_path)
+    if success:
+        _verify_wiring(td, res, "sc_e_wiring", src_path, new_path, dst_path)
+    _verify_no_errors(td, res, "sc_e_errors", [src_path, dst_path, new_path])
 
 
 # ─── Global checks ───────────────────────────────────────────────────────────
@@ -810,10 +869,11 @@ def main() -> int:
     print("  smart_connect Integration Test — POST /smart_connect endpoint")
     print("  Target:  http://{}:{}".format(args.host, args.port))
     print("  Sandbox: {}".format(SANDBOX_PATH))
-    print("  Scenario A: source + dest, auto type   (boxPOP + nullPOP)")
+    print("  Scenario A: source + dest, auto type   (circleTOP + nullTOP)")
     print('  Scenario B: source + dest, type=blurTOP (noiseTOP + nullTOP)')
     print("  Scenario C: source only                 (boxSOP)")
     print("  Scenario D: destination only            (nullCHOP)")
+    print("  Scenario E: source + dest, auto type   (boxPOP + nullPOP)")
     print("  Endpoints: /smart_connect /operators /connections /verify /exec")
     if args.keep:
         print("  Keep mode: container stays at ({}, {})".format(
@@ -841,6 +901,7 @@ def main() -> int:
         scenario_b(td, res)
         scenario_c(td, res)
         scenario_d(td, res)
+        scenario_e(td, res)
 
         # ── Global checks ──────────────────────────────────────────────
         verify_operators_listing(td, res)
@@ -867,7 +928,7 @@ def main() -> int:
     print("\n" + "=" * 72)
     print("RESULT: {}/{} checks passed ({} failed)".format(passed, total, failed))
     if res.all_passed:
-        print("\nOVERALL: PASS — all 4 smart_connect scenarios passed, "
+        print("\nOVERALL: PASS — all 5 smart_connect scenarios passed, "
               "grid separation clean, zero errors, cleaned up.")
         return 0
     else:

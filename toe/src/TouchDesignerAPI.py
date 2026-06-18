@@ -2122,6 +2122,10 @@ else:
                 use_type = 'nullCHOP'
             elif src_family == 'SOP' or dst_family == 'SOP':
                 use_type = 'nullSOP'
+            elif src_family == 'POP' or dst_family == 'POP':
+                use_type = 'nullPOP'
+            elif src_family == 'MAT' or dst_family == 'MAT':
+                use_type = 'nullMAT'
             else:
                 use_type = 'nullCHOP'
 
