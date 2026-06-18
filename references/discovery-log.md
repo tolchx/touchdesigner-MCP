@@ -1,5 +1,52 @@
 # Discovery Log
 
+## 2026-06-17 (Tick 12)
+
+### New Live TD Test: spherePOP + transformPOP + trailPOP — 49 checks
+
+**New file**: `toe/src/test_live_td_sphere_transform_trail.py` — 49/49 live TD checks, all pass.
+
+**Purpose**: Exercises two POP operator families NOT covered by any existing test:
+- **spherePOP** (generator) — new source type with sphere geometry
+- **transformPOP** (modifier) — new modifier for translating/rotating/scaling particles
+- **trailPOP** (modifier) — new modifier for creating motion trails
+
+**Chains tested**:
+
+| Chain | Nodes | What it proves |
+|-------|-------|---------------|
+| A — spherePOP + transformPOP | spherePOP(radx=2,rady=2,freq=4) → transformPOP(ty=0.5) → nullPOP | spherePOP spherePOP params survive set/read-back. transformPOP.ty=0.5 translates particles up. Both Method A (exec) and Method B (/parameters) verified. |
+| B — boxPOP + trailPOP | boxPOP(sizex=2,depth=4) → trailPOP(length=60) → nullPOP | trailPOP.length=60 set/verified. boxPOP params survive set. Independent wiring verified. |
+
+**Verification**:
+- 6 critical params verified via Method A (direct Python exec)
+- Same 6 verified via Method B (/parameters endpoint)
+- Cross-method agreement on all values
+- Grid separation: ≥180px horizontal, ≥130px vertical between all node pairs — 15 checks pass
+- Zero errors in immediate check + async post-cook re-check (RULE 2)
+- 4 connections verified via direct wiring inspection (Phase 7)
+- `/verify` returns healthy=True, error_count=0, operator_count≥6
+
+**Discovery — Phase 0 cleanup must use \\n not semicolons**:
+The test's Phase 0 cleanup code originally used a one-liner with `;` between statements:
+```python
+"if c.name.startswith('sph_tr_tl_test'): out.append(c.name); c.destroy();"
+```
+This is syntactically invalid in Python — compound statements (`if`) cannot follow a semicolon. In TD's `exec()` context, this silently failed, so stale sandboxes accumulated across test runs, producing duplicates like `box_src1`, `box_src2`, etc. Fixed by using `\n` for line separation instead of `;`.
+
+**Discovery — `/parameters` returns a list, not a dict**:
+The /parameters endpoint returns parameters as a list of `{name, label, value, ...}` objects, NOT a dict keyed by parameter name. Test needed a `get_param_val()` helper to find a specific param by name in the array.
+
+**New POP param names empirically verified**:
+- spherePOP: `radx` (Float, default=1), `rady` (Float, default=1), `radz` (Float, default=1), `freq` (Int, default=3), `fuse` (Toggle, default=True), `type` (Menu: Geodesic/Grid/Tetrahedron/Shared Points at Poles), `orient` (Menu: X/Y/Z Axis), `cols` (Int, default=12), `rows` (Int, default=8)
+- transformPOP: `mode` (Menu: Transform Geometry/Attribute/Attribute Scope as Position/Attribute Scope as Vector), `tx`/`ty`/`tz` (Float, translate), `rx`/`ry`/`rz` (Float, rotate), `sx`/`sy`/`sz` (Float, scale), `scale` (Float, uniform), `xord` (Menu: SRT/STR/RST/RTS/TSR/TRS), `rord` (Menu: XYZ/XZY/YXZ/YZX/ZXY/ZYX)
+- trailPOP: `active` (Toggle), `alwayscook` (Toggle), `length` (Int, default=30), `inc` (Float, default=0.01), `surftype` (Menu), `closed` (Toggle), `tx`/`ty`/`tz` (Float), `rx`/`ry`/`rz` (Float), `sx`/`sy`/`sz` (Float)
+
+### Updated Test Count
+- Unit tests: 840 (21 suites, 0 failures) — unchanged
+- Live TD tests: 10 files (~623+ checks) — +1 file, +49 checks
+- Grand total: ~1463 checks
+
 ## 2026-06-17 (Tick 9)
 
 ### New MCP Tool + Bug Fix: `/smart_connect` fully implemented

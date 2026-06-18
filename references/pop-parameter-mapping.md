@@ -70,3 +70,57 @@ To inspect all parameters on any operator:
 # As dict:
 {p.name: op.par[p.name].val for p in op('/project1/container/opname').pars()}
 ```
+
+## spherePOP (Empirically verified 2026-06-17)
+
+| Doc name | Actual TD name | Type | Notes |
+|----------|---------------|------|-------|
+| Type | type | Menu | Geodesic/Grid/Tetrahedron/Shared Points at Poles |
+| Orientation | orient | Menu | X Axis/Y Axis/Z Axis |
+| Radius X | radx | Float | Default 1.0 |
+| Radius Y | rady | Float | Default 1.0 |
+| Radius Z | radz | Float | Default 1.0 |
+| Frequency | freq | Int | Geodesic subdivision level. Default 3 |
+| Fuse | fuse | Toggle | Default True |
+| Columns | cols | Int | Grid mode longitude. Default 12 |
+| Rows | rows | Int | Grid mode latitude. Default 8 |
+| Normal | normal | Menu | None/Point/Vertex |
+| Texture | texture | Menu | None/Point/Vertex |
+
+## transformPOP (Empirically verified 2026-06-17)
+
+| Doc name | Actual TD name | Type | Notes |
+|----------|---------------|------|-------|
+| Mode | mode | Menu | Transform Geometry/Attribute/Attribute Scope as Position/Attribute Scope as Vector |
+| Transform Order | xord | Menu | SRT/STR/RST/RTS/TSR/TRS |
+| Rotate Order | rord | Menu | XYZ/XZY/YXZ/YZX/ZXY/ZYX |
+| Translate X | tx | Float | Default 0 |
+| Translate Y | ty | Float | Default 0 |
+| Translate Z | tz | Float | Default 0 |
+| Rotate X | rx | Float | Default 0 |
+| Rotate Y | ry | Float | Default 0 |
+| Rotate Z | rz | Float | Default 0 |
+| Scale X | sx | Float | Default 1 |
+| Scale Y | sy | Float | Default 1 |
+| Scale Z | sz | Float | Default 1 |
+| Uniform Scale | scale | Float | Default 1 |
+
+## trailPOP (Empirically verified 2026-06-17)
+
+| Doc name | Actual TD name | Type | Notes |
+|----------|---------------|------|-------|
+| Active | active | Toggle | Default True |
+| Always Cook | alwayscook | Toggle | Default False |
+| Length | length | Int | Trail history length. Default 30 |
+| Increment | inc | Float | Default 0.01 |
+| Surface Type | surftype | Menu | Options vary |
+| Closed | closed | Toggle | Default False |
+| Translate X | tx | Float | Default 0 |
+| Translate Y | ty | Float | Default 0 |
+| Translate Z | tz | Float | Default 0 |
+| Rotate X | rx | Float | Default 0 |
+| Rotate Y | ry | Float | Default 0 |
+| Rotate Z | rz | Float | Default 0 |
+| Scale X | sx | Float | Default 1 |
+| Scale Y | sy | Float | Default 1 |
+| Scale Z | sz | Float | Default 1 |
