@@ -1,5 +1,30 @@
 # Discovery Log
 
+## 2026-06-18 (Tick 16 — Offline tests: parameters.ts, 36 tests)
+
+### New Unit Tests: parameters.ts — 36 tests
+
+**New file**: `mcp/test/parameters.test.js` — 36 tests across 6 suites, all passing.
+
+**Coverage**: The 5 parameter tool handlers now have offline unit tests:
+- **td_pars_get (7 tests)**: basic get, with names filter, without names, empty names, no healthcheck call, path forwarding, error path
+- **td_pars_set (9 tests)**: basic set, multiple updates, transactional default (true), transactional=false, transactional=true, expr forwarding, validation included, call order (setParameters before healthcheck), error path
+- **td_set_operator_pars (8 tests)**: basic set, mapping strips expr (only name/value in apiUpdates), multiple updates, transactional defaults, transactional=false, validation included, call order, error path
+- **td_pulse_param (4 tests)**: basic pulse, path+name forwarding, no healthcheck call, error path
+- **td_custom_parameters (6 tests)**: basic creation, multiple params, min/max bounds, validation included, call order, error path
+- **response shape contract (2 tests)**: ok() shape for all 5 success paths, err() shape for all 5 error paths
+
+**Pattern**: Follows the exact MockTDClient + handler-mirror pattern from crud.test.js. Uses REAL `ok`/`err` from helpers.js and REAL `postModifyValidate` from tools/postValidate.js.
+
+**Delegation note**: GLM 5.2 was rate limited (HTTP 429), so the test file was implemented directly by the orchestrator following the established pattern.
+
+**Status**: TD server still unreachable (port 44444 timeout). The Python module in TouchDesigner has NOT been reloaded since Tick 15. User needs to re-evaluate the WebServer DAT in TD to pick up changes to TouchDesignerAPI.py.
+
+### Updated Test Count
+- Unit tests: 952 (25 test files, 0 failures) — +36 tests
+- Live TD tests: 10 files (~576+ checks) — unchanged
+- Grand total: ~1528 checks
+
 ## 2026-06-18 (Tick 15 — Recovery: TD status & GLM rate limiting)
 
 ### Estado de TouchDesigner (Puerto 44444)
