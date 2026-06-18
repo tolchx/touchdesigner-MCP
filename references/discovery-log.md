@@ -1,5 +1,27 @@
 # Discovery Log
 
+## 2026-06-18 (Tick 14)
+
+### New Unit Tests: crud.ts — 42 tests
+
+**New file**: `mcp/test/crud.test.js` — 42 tests across 8 suites, all passing.
+
+**Coverage**: The 5 core CRUD MCP tools now have offline unit tests:
+- **td_create_operator (16 tests)**: basic creation, default path, explicit name, position forwarding, GLSL POP auto-config (`outputattrs='P'`, `numelems=100`), custom outputattrs/numelems overrides, skip (`''`/`0`), variants (`glslCreatePOP`, `glslCopyPOP`), error path (`glslConfigWarning` on setParameters failure), non-GLSL no-config, client-throws → `err()`, validation included
+- **td_delete_operator (3 tests)**: basic delete, no postModifyValidate call, error handling
+- **td_connect_nodes (5 tests)**: basic connect, default input 0, custom input, validation included, error handling
+- **td_disconnect (5 tests)**: basic disconnect, default input 0, custom input, no postModifyValidate, error handling
+- **td_copy_node (5 tests)**: basic copy, with destination, with name, validation, error handling
+- **Edge cases (5 tests)**: empty type, 500-char name, negative positions, deep path, dest+name combo
+- **Response shape contract (3 tests)**: ok()/err() shape, getParent helper
+
+**Key design**: Follows the established `MockTDClient` pattern from `ui.test.js`. Handler mirror functions reproduce the exact closure logic from crud.ts — including the nuanced `glslConfigWarning` catch path and the `createdPath || `${parentPath}/${name||type}`` fallback for validation. Uses the REAL `ok`/`err` and REAL `postModifyValidate` from `dist/` (not mocked) for genuine integration coverage.
+
+**Updated Test Count**:
+- Unit tests: 882 (22 test files, 23 suites, 0 failures) — +42 tests
+- Live TD tests: 10 files (~576+ checks) — unchanged
+- Grand total: ~1458 checks
+
 ## 2026-06-18 (Tick 13)
 
 ### New Live TD Test: POST /document with POP Network — ~53 checks
