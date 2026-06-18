@@ -34,6 +34,30 @@
 - Live TD tests: 10 files (~576+ checks) — +1 file, +53 checks
 - Grand total: ~1416 checks
 
+### Live TD Execution Results (Tick 13 continuation)
+Run ALL 8 live TD tests against port 44444:
+
+| Test | Result | Checks |
+|------|--------|--------|
+| test_pop_integration.py | ✅ PASS | 35/35 |
+| test_live_td_comprehensive.py | ✅ PASS | 104/104 |
+| test_live_td_pop_params.py | ✅ PASS | 45/45 |
+| test_live_td_sphere_transform_trail.py | ✅ PASS | 49/49 |
+| test_live_td_auto_layout.py | ✅ PASS | 24/24 |
+| test_live_td_batch_simple.py | ✅ PASS | 8/8 |
+| test_live_td_smart_connect.py | ❌ 404 /smart_connect | TD needs reload |
+| test_live_td_pop_glslcopy_feedback.py | ❌ API unreachable | Server crashed |
+
+Critical finding: The `/smart_connect` fix and `exec()` namespace fix exist in the `.py` source but TouchDesigner has NOT reloaded the Python module. The WebServer DAT must be re-evaluated (or TD restarted) to pick up changes to TouchDesignerAPI.py. TD does NOT auto-reload .py files imported via TDResources.
+
+### New File: Massive Test Orchestrator
+Created `toe/src/test_orchestrator_massive.py` — a runner that executes ALL 10 live TD tests with `--keep`, leaving persistent baseCOMP containers visible in the TouchDesigner network editor. Each test creates a documented container with /document validation.
+
+### Key Finding: Need TD restart to apply source changes
+- `/smart_connect` endpoint exists in source (line 301) but returns 404 at runtime
+- The `globals()` namespace fix for exec() also not loaded
+- User needs to re-evaluate the TouchDesignerAPI Text DAT in TD
+
 ## 2026-06-17 (Tick 12)
 
 ### New Live TD Test: spherePOP + transformPOP + trailPOP — 49 checks
