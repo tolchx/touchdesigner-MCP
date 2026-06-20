@@ -11,3 +11,6 @@ node_modules/
 *.zip
 *.7z
 .env
+
+# SQLite databases (runtime artifacts)
+*.db
