@@ -11,7 +11,6 @@ import {
   NETWORK_TEMPLATES,
   TYPE_SYNONYMS,
   FAMILY_HINTS,
-  ALL_NETWORK_TEMPLATES,
   resolveOperatorType,
   resolveAllOperatorTypes,
   getBestFamily,
@@ -30,11 +29,6 @@ import {
 describe("NETWORK_TEMPLATES — Static Data", () => {
   it("should have exactly 8 built-in templates", () => {
     assert.equal(NETWORK_TEMPLATES.length, 8);
-  });
-
-  it("should have ALL_NETWORK_TEMPLATES include all built-in templates", () => {
-    // ALL_NETWORK_TEMPLATES = built-in + pop chain templates from JSON
-    assert.ok(ALL_NETWORK_TEMPLATES.length >= NETWORK_TEMPLATES.length);
   });
 
   it("should have unique names across all templates", () => {

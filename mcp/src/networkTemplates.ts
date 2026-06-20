@@ -106,24 +106,28 @@ export function resolvePrompt(prompt: string): PromptResolution {
  * Load builtin templates from the JSON file.
  */
 function loadBuiltinTemplates(): NetworkTemplate[] {
+  // Use import.meta.url for reliable path resolution in both ESM and CJS contexts
+  const thisDir = typeof __dirname !== "undefined"
+    ? __dirname
+    : dirname(fileURLToPath(import.meta.url));
+  const candidates = [
+    resolve(thisDir, "../data/templates/builtin-templates.json"),
+    resolve(thisDir, "../../data/templates/builtin-templates.json"),
+    resolve(process.cwd(), "data/templates/builtin-templates.json"),
+  ];
   try {
-    // Use import.meta.url for reliable path resolution in both ESM and CJS contexts
-    const thisDir = typeof __dirname !== "undefined"
-      ? __dirname
-      : dirname(fileURLToPath(import.meta.url));
-    const candidates = [
-      resolve(thisDir, "../data/templates/builtin-templates.json"),
-      resolve(thisDir, "../../data/templates/builtin-templates.json"),
-      resolve(process.cwd(), "data/templates/builtin-templates.json"),
-    ];
     for (const p of candidates) {
       if (fs.existsSync(p)) {
         const raw = JSON.parse(fs.readFileSync(p, "utf-8"));
         return (raw.templates || []) as NetworkTemplate[];
       }
     }
-  } catch { /* JSON not found or invalid */ }
-  return [];
+    console.warn("[networkTemplates] No builtin templates found — tried:", candidates.join(", "));
+    return [];
+  } catch (err) {
+    console.warn("[networkTemplates] Failed to load builtin templates:", err instanceof Error ? err.message : err);
+    return [];
+  }
 }
 
 // ─── All Network Templates ────────────────────────────────────────────────
@@ -137,7 +141,6 @@ export const NETWORK_TEMPLATES: NetworkTemplate[] = loadBuiltinTemplates();
  * All network templates. Currently identical to NETWORK_TEMPLATES
  * (POP chain templates removed in Fix #5 simplification).
  */
-export const ALL_NETWORK_TEMPLATES: NetworkTemplate[] = NETWORK_TEMPLATES;
 
 // ─── Template Lookup ────────────────────────────────────────────────────────
 

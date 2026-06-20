@@ -5,6 +5,9 @@
  */
 
 import { ensureKnowledgeLoaded, getOpsMap, getPopsMap } from "./knowledgeCache.js";
+import { existsSync, readFileSync } from "node:fs";
+import { resolve, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -81,20 +84,20 @@ export interface OpTopology {
 
 // ─── Topology data path resolution ─────────────────────────────────────────
 
+const thisDir = typeof __dirname !== "undefined"
+  ? __dirname
+  : dirname(fileURLToPath(import.meta.url));
+
 function getTopologyDataDir(): string {
-  try {
-    const { resolve, dirname } = require("node:path") as typeof import("node:path");
-    const candidates = [
-      resolve(__dirname ?? ".", "../data"),
-      resolve(__dirname ?? ".", "../../data"),
-      resolve(process.cwd(), "data"),
-    ];
-    const fs = require("node:fs") as typeof import("node:fs");
-    for (const p of candidates) {
-      if (fs.existsSync(p)) return p;
-    }
-  } catch { /* fallthrough */ }
-  return "./data";
+  const candidates = [
+    resolve(thisDir, "../data"),
+    resolve(thisDir, "../../data"),
+    resolve(process.cwd(), "data"),
+  ];
+  for (const p of candidates) {
+    if (existsSync(p)) return p;
+  }
+  return resolve(thisDir, "../data");
 }
 
 // ─── Topology inference ────────────────────────────────────────────────────
@@ -312,10 +315,8 @@ export function buildTopologyCatalog(): Map<string, OpTopology> {
   try {
     const dataDir = getTopologyDataDir();
     const topoPath = `${dataDir}/topology.json`;
-    // @ts-ignore — dynamic require for runtime resolution
-    const nodeFs: any = require("node:fs");
-    if (nodeFs.existsSync(topoPath)) {
-      topologyJson = JSON.parse(nodeFs.readFileSync(topoPath, "utf-8"))?.operators || null;
+    if (existsSync(topoPath)) {
+      topologyJson = JSON.parse(readFileSync(topoPath, "utf-8"))?.operators || null;
     }
   } catch { /* topology.json doesn't exist yet */ }
 

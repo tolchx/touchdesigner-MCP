@@ -6,6 +6,9 @@
  * lives in semantic.ts — this module re-exports them for backward compatibility.
  */
 // ─── Re-export semantic resolution from semantic.ts (single source) ─────────
+import fs from "node:fs";
+import { resolve, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import { TYPE_SYNONYMS, FAMILY_HINTS, resolveOperatorType, resolveAllOperatorTypes, getBestFamily, getAllFamilies, resolveSemanticTerms, } from "./semantic.js";
 // Re-export all semantic resolution for backward compatibility
 export { TYPE_SYNONYMS, FAMILY_HINTS, resolveOperatorType, resolveAllOperatorTypes, getBestFamily, getAllFamilies, resolveSemanticTerms, };
@@ -31,23 +34,29 @@ export function resolvePrompt(prompt) {
  * Load builtin templates from the JSON file.
  */
 function loadBuiltinTemplates() {
+    // Use import.meta.url for reliable path resolution in both ESM and CJS contexts
+    const thisDir = typeof __dirname !== "undefined"
+        ? __dirname
+        : dirname(fileURLToPath(import.meta.url));
+    const candidates = [
+        resolve(thisDir, "../data/templates/builtin-templates.json"),
+        resolve(thisDir, "../../data/templates/builtin-templates.json"),
+        resolve(process.cwd(), "data/templates/builtin-templates.json"),
+    ];
     try {
-        const { resolve } = require("node:path");
-        const fs = require("node:fs");
-        const candidates = [
-            resolve(__dirname ?? ".", "../data/templates/builtin-templates.json"),
-            resolve(__dirname ?? ".", "../../data/templates/builtin-templates.json"),
-            resolve(process.cwd(), "data/templates/builtin-templates.json"),
-        ];
         for (const p of candidates) {
             if (fs.existsSync(p)) {
                 const raw = JSON.parse(fs.readFileSync(p, "utf-8"));
                 return (raw.templates || []);
             }
         }
+        console.warn("[networkTemplates] No builtin templates found — tried:", candidates.join(", "));
+        return [];
     }
-    catch { /* JSON not found or invalid */ }
-    return [];
+    catch (err) {
+        console.warn("[networkTemplates] Failed to load builtin templates:", err instanceof Error ? err.message : err);
+        return [];
+    }
 }
 // ─── All Network Templates ────────────────────────────────────────────────
 /**
@@ -58,7 +67,6 @@ export const NETWORK_TEMPLATES = loadBuiltinTemplates();
  * All network templates. Currently identical to NETWORK_TEMPLATES
  * (POP chain templates removed in Fix #5 simplification).
  */
-export const ALL_NETWORK_TEMPLATES = NETWORK_TEMPLATES;
 // ─── Template Lookup ────────────────────────────────────────────────────────
 /**
  * Find a network template by name (exact match).
