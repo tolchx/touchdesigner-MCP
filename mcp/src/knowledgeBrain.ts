@@ -183,7 +183,6 @@ function invalidateCache(): void {
 
 let _db: any = null;
 let _dbReady = false;
-let _dbError: Error | null = null;
 
 /**
  * Return the open SQLite database handle.  Creates / migrates the DB on
@@ -223,7 +222,6 @@ function getDb(): any {
     `);
 
     _dbReady = true;
-    _dbError = null;
 
     // Auto-build on first use
     if (needsBuild) {
@@ -232,7 +230,6 @@ function getDb(): any {
 
     return _db;
   } catch (e: any) {
-    _dbError = e;
     throw e;
   }
 }

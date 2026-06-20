@@ -99,7 +99,6 @@ function invalidateCache() {
 // ─── Database singleton ─────────────────────────────────────────────────────
 let _db = null;
 let _dbReady = false;
-let _dbError = null;
 /**
  * Return the open SQLite database handle.  Creates / migrates the DB on
  * first call if it doesn't exist or was opened before schema init.
@@ -133,7 +132,6 @@ function getDb() {
       );
     `);
         _dbReady = true;
-        _dbError = null;
         // Auto-build on first use
         if (needsBuild) {
             buildBrain();
@@ -141,7 +139,6 @@ function getDb() {
         return _db;
     }
     catch (e) {
-        _dbError = e;
         throw e;
     }
 }
