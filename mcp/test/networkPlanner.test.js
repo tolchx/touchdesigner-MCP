@@ -1,5 +1,5 @@
 /**
- * Unit tests for networkPlanner.ts — fuzzy search + levenshtein distance.
+ * Unit tests for networkPlannerGraph.ts — fuzzy search + levenshtein distance.
  *
  * - levenshteinDistance: pure function (no module deps), exhaustive edge cases.
  * - fuzzySearchOperators: integration against the real on-disk knowledge base
