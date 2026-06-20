@@ -218,7 +218,7 @@ export function inferCommonCombinations(opType, family, connectsTo, opData) {
     }
     return patterns;
 }
-export function buildTopologyForOperator(opType, opData) {
+function buildTopologyForOperator(opType, opData) {
     const family = detectFamily(opType, opData);
     const inputCount = getInputCount(opType, opData);
     const multi = isMultiInput(opType);

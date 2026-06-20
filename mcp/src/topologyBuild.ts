@@ -266,7 +266,7 @@ export interface TopologyEntry {
   pageSlug?: string;
 }
 
-export function buildTopologyForOperator(
+function buildTopologyForOperator(
   opType: string,
   opData: any,
 ): TopologyEntry {

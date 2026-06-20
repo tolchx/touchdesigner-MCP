@@ -51,5 +51,4 @@ export interface TopologyEntry {
     /** The pageSlug from the operator doc for cross-referencing */
     pageSlug?: string;
 }
-export declare function buildTopologyForOperator(opType: string, opData: any): TopologyEntry;
 export declare function main(): Promise<void>;
