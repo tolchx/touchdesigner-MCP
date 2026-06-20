@@ -33,4 +33,3 @@ interface PlanResult {
  * and feedback loops. Falls back to deterministic matching if LLM unavailable.
  */
 export declare function createNetworkPlan(options: PlanOptions): Promise<PlanResult>;
-export declare const generateNetworkPlan: typeof createNetworkPlan;

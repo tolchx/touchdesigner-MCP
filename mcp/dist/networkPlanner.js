@@ -94,4 +94,3 @@ export async function createNetworkPlan(options) {
         error: result.error,
     };
 }
-export const generateNetworkPlan = createNetworkPlan;

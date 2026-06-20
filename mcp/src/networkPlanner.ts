@@ -125,4 +125,3 @@ export async function createNetworkPlan(options: PlanOptions): Promise<PlanResul
   };
 }
 
-export const generateNetworkPlan = createNetworkPlan;
