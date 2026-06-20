@@ -1,28 +1,6 @@
 import { z } from "zod";
 export declare const TdFamilySchema: z.ZodEnum<["TOP", "CHOP", "SOP", "DAT", "POP", "COMP", "MAT"]>;
-export declare const OpsOperatorIndexItemSchema: z.ZodObject<{
-    family: z.ZodEnum<["TOP", "CHOP", "SOP", "DAT", "POP", "COMP", "MAT"]>;
-    pageTitle: z.ZodString;
-    pageSlug: z.ZodString;
-    url: z.ZodString;
-    tdOpTypeGuess: z.ZodOptional<z.ZodString>;
-    summary: z.ZodOptional<z.ZodString>;
-}, "strip", z.ZodTypeAny, {
-    family: "TOP" | "POP" | "CHOP" | "COMP" | "SOP" | "DAT" | "MAT";
-    pageTitle: string;
-    pageSlug: string;
-    url: string;
-    summary?: string | undefined;
-    tdOpTypeGuess?: string | undefined;
-}, {
-    family: "TOP" | "POP" | "CHOP" | "COMP" | "SOP" | "DAT" | "MAT";
-    pageTitle: string;
-    pageSlug: string;
-    url: string;
-    summary?: string | undefined;
-    tdOpTypeGuess?: string | undefined;
-}>;
-export declare const OpsIndexSchema: z.ZodObject<{
+declare const OpsIndexSchema: z.ZodObject<{
     generatedAt: z.ZodString;
     source: z.ZodObject<{
         categories: z.ZodRecord<z.ZodEnum<["TOP", "CHOP", "SOP", "DAT", "POP", "COMP", "MAT"]>, z.ZodString>;
@@ -80,7 +58,7 @@ export declare const OpsIndexSchema: z.ZodObject<{
         categories: Partial<Record<"TOP" | "POP" | "CHOP" | "COMP" | "SOP" | "DAT" | "MAT", string>>;
     };
 }>;
-export declare const OpsOperatorDocSchema: z.ZodObject<{
+declare const OpsOperatorDocSchema: z.ZodObject<{
     family: z.ZodEnum<["TOP", "CHOP", "SOP", "DAT", "POP", "COMP", "MAT"]>;
     pageTitle: z.ZodString;
     pageSlug: z.ZodString;
@@ -256,29 +234,7 @@ export declare const OpsOperatorDocSchema: z.ZodObject<{
         fix?: string | undefined;
     }[] | undefined;
 }>;
-export declare const PopsOperatorIndexItemSchema: z.ZodObject<{
-    pageTitle: z.ZodString;
-    pageSlug: z.ZodString;
-    url: z.ZodString;
-    experimental: z.ZodDefault<z.ZodBoolean>;
-    tdOpTypeGuess: z.ZodOptional<z.ZodString>;
-    summary: z.ZodOptional<z.ZodString>;
-}, "strip", z.ZodTypeAny, {
-    pageTitle: string;
-    pageSlug: string;
-    url: string;
-    experimental: boolean;
-    summary?: string | undefined;
-    tdOpTypeGuess?: string | undefined;
-}, {
-    pageTitle: string;
-    pageSlug: string;
-    url: string;
-    summary?: string | undefined;
-    tdOpTypeGuess?: string | undefined;
-    experimental?: boolean | undefined;
-}>;
-export declare const PopsIndexSchema: z.ZodObject<{
+declare const PopsIndexSchema: z.ZodObject<{
     generatedAt: z.ZodString;
     source: z.ZodObject<{
         categoryUrl: z.ZodString;
@@ -336,7 +292,7 @@ export declare const PopsIndexSchema: z.ZodObject<{
         categoryUrl: string;
     };
 }>;
-export declare const PopsOperatorDocSchema: z.ZodObject<{
+declare const PopsOperatorDocSchema: z.ZodObject<{
     pageTitle: z.ZodString;
     pageSlug: z.ZodString;
     url: z.ZodString;
@@ -564,3 +520,4 @@ export declare function buildSearchIndex(opsMap: Record<string, any>, popsMap: R
 export declare function loadOpsOperatorDoc(family: TdFamily, pageSlug: string): Promise<OpsOperatorDoc>;
 /** Load a single pops operator doc by pageSlug. */
 export declare function loadPopsOperatorDoc(pageSlug: string): Promise<PopsOperatorDoc>;
+export {};

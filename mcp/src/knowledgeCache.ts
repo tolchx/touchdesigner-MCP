@@ -20,11 +20,11 @@ import { z } from "zod";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// ─── Schemas (re-exported so consumers don't need zod at load time) ─────────
+// ─── Schemas (TdFamilySchema exported; others private, used for z.infer types) ─
 
 export const TdFamilySchema = z.enum(["TOP", "CHOP", "SOP", "DAT", "POP", "COMP", "MAT"]);
 
-export const OpsOperatorIndexItemSchema = z.object({
+const OpsOperatorIndexItemSchema = z.object({
   family: TdFamilySchema,
   pageTitle: z.string(),
   pageSlug: z.string(),
@@ -33,7 +33,7 @@ export const OpsOperatorIndexItemSchema = z.object({
   summary: z.string().optional(),
 });
 
-export const OpsIndexSchema = z.object({
+const OpsIndexSchema = z.object({
   generatedAt: z.string(),
   source: z.object({
     categories: z.record(TdFamilySchema, z.string().url()),
@@ -41,7 +41,7 @@ export const OpsIndexSchema = z.object({
   operators: z.array(OpsOperatorIndexItemSchema),
 });
 
-export const OpsOperatorDocSchema = z.object({
+const OpsOperatorDocSchema = z.object({
   family: TdFamilySchema,
   pageTitle: z.string(),
   pageSlug: z.string(),
@@ -112,7 +112,7 @@ export const OpsOperatorDocSchema = z.object({
     .default([]),
 });
 
-export const PopsOperatorIndexItemSchema = z.object({
+const PopsOperatorIndexItemSchema = z.object({
   pageTitle: z.string(),
   pageSlug: z.string(),
   url: z.string().url(),
@@ -121,7 +121,7 @@ export const PopsOperatorIndexItemSchema = z.object({
   summary: z.string().optional(),
 });
 
-export const PopsIndexSchema = z.object({
+const PopsIndexSchema = z.object({
   generatedAt: z.string(),
   source: z.object({
     categoryUrl: z.string().url(),
@@ -129,7 +129,7 @@ export const PopsIndexSchema = z.object({
   operators: z.array(PopsOperatorIndexItemSchema),
 });
 
-export const PopsOperatorDocSchema = z.object({
+const PopsOperatorDocSchema = z.object({
   pageTitle: z.string(),
   pageSlug: z.string(),
   url: z.string().url(),
