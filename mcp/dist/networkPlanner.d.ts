@@ -1,35 +1,7 @@
 /**
- * @deprecated Use networkPlannerGraph.ts instead (topology-aware graph planner).
- * This module now delegates to the graph planner for backward compatibility.
+ * @deprecated Use networkPlannerGraph.ts instead.
+ * This module is a thin re-export wrapper for backward compatibility.
+ * All logic has been moved to networkPlannerGraph.ts.
  */
-import type { TDClient } from "td-api";
-export { ensureKnowledgeLoaded } from "./knowledgeCache.js";
-export type { NetworkGraph, GraphNode, GraphConnection, PlanResult } from "./networkPlannerGraph.js";
-/** Levenshtein distance for fuzzy search scoring */
-export declare function levenshteinDistance(a: string, b: string): number;
-export interface FuzzySearchResult {
-    name: string;
-    label: string;
-    score: number;
-    family: string;
-}
-export declare function fuzzySearchOperators(query: string, limit?: number): FuzzySearchResult[];
-interface PlanOptions {
-    td: TDClient;
-    prompt: string;
-    targetPath?: string;
-    containerName?: string;
-    apply: boolean;
-}
-interface PlanResult {
-    success: boolean;
-    plan?: any;
-    message?: string;
-    error?: string;
-}
-/**
- * @deprecated Use planNetworkGraph() from networkPlannerGraph.ts instead.
- * Delegate to the graph-based planner which handles multi-input, branching,
- * and feedback loops. Falls back to deterministic matching if LLM unavailable.
- */
-export declare function createNetworkPlan(options: PlanOptions): Promise<PlanResult>;
+export { ensureKnowledgeLoaded, planNetworkGraph, levenshteinDistance, fuzzySearchOperators, type GraphPlanOptions, type NetworkGraph, type GraphNode, type GraphConnection, type PlanResult, type OpTopology, isFamilyCompatible, deterministicPlan, buildTopologyCatalog, inferOpTopology, } from "./networkPlannerGraph.js";
+export type { FuzzySearchResult } from "./networkPlannerGraph.js";

@@ -10,7 +10,7 @@
  */
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { levenshteinDistance, fuzzySearchOperators } from "../dist/networkPlanner.js";
+import { levenshteinDistance, fuzzySearchOperators } from "../dist/networkPlannerGraph.js";
 
 // levenshteinDistance tests (pure function, no deps)
 await describe("levenshteinDistance", async () => {

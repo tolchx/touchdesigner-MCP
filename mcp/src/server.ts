@@ -1,7 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { TDClient } from "td-api";
 
-import { ensureKnowledgeLoaded } from "./networkPlanner.js";
+import { ensureKnowledgeLoaded } from "./knowledgeCache.js";
 import { registerKnowledgeTools } from "./tools/knowledge.js";
 import { registerCrudTools } from "./tools/crud.js";
 import { registerParameterTools } from "./tools/parameters.js";

@@ -28,6 +28,72 @@ import type { NetworkGraph, PlanResult } from "./topologyData.js";
 import { buildTopologyCatalog } from "./topologyData.js";
 import { llmPlanNetwork } from "./plannerLlm.js";
 import { deterministicPlan } from "./plannerDeterministic.js";
+import { ensureKnowledgeLoaded, getSearchIndex } from "./knowledgeCache.js";
+
+// ─── Fuzzy Search (moved from networkPlanner.ts) ──────────────────────────
+
+/** Levenshtein distance for fuzzy search scoring */
+export function levenshteinDistance(a: string, b: string): number {
+  const an = a.length;
+  const bn = b.length;
+  if (an === 0) return bn;
+  if (bn === 0) return an;
+  const matrix: number[] = [];
+  for (let i = 0; i <= bn; i++) matrix[i] = i;
+  for (let i = 1; i <= an; i++) {
+    let prev = i;
+    for (let j = 1; j <= bn; j++) {
+      const temp = matrix[j - 1];
+      matrix[j - 1] = prev;
+      prev =
+        a[i - 1] === b[j - 1]
+          ? temp
+          : Math.min(temp, matrix[j], prev) + 1;
+    }
+    matrix[bn] = prev;
+  }
+  return matrix[bn];
+}
+
+export interface FuzzySearchResult {
+  name: string;
+  label: string;
+  score: number;
+  family: string;
+}
+
+export function fuzzySearchOperators(query: string, limit: number = 10): FuzzySearchResult[] {
+  ensureKnowledgeLoaded();
+  const searchIndex = getSearchIndex();
+  if (searchIndex.size === 0) return [];
+  const q = query.toLowerCase().trim();
+  if (!q) return [];
+  const results: FuzzySearchResult[] = [];
+  const seen = new Set<string>();
+  for (const [, entry] of searchIndex) {
+    if (seen.has(entry.name)) continue;
+    seen.add(entry.name);
+    const nameLower = entry.name.toLowerCase();
+    const labelLower = entry.label.toLowerCase();
+    const searchText = nameLower + " " + labelLower;
+    let score = 0;
+    if (nameLower === q || labelLower === q) score = 100;
+    else if (nameLower.startsWith(q) || labelLower.startsWith(q)) score = 80;
+    else if (searchText.includes(q)) score = 60;
+    else {
+      const ld = levenshteinDistance(q, nameLower.substring(0, Math.min(nameLower.length, q.length + 3)));
+      if (ld < 3) score = 40;
+    }
+    if (score > 0) {
+      results.push({ name: entry.name, label: entry.label, score, family: entry.family });
+    }
+  }
+  results.sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score;
+    return a.label.localeCompare(b.label);
+  });
+  return results.slice(0, limit);
+}
 
 // ─── Apply Network Graph to TouchDesigner ──────────────────────────────────
 

@@ -11,6 +11,15 @@ export { ensureKnowledgeLoaded } from "./knowledgeCache.js";
 export { isFamilyCompatible, deterministicPlan } from "./plannerDeterministic.js";
 export { buildTopologyCatalog, inferOpTopology, type GraphNode, type GraphConnection, type NetworkGraph, type OpTopology, type PlanResult, } from "./topologyData.js";
 import type { PlanResult } from "./topologyData.js";
+/** Levenshtein distance for fuzzy search scoring */
+export declare function levenshteinDistance(a: string, b: string): number;
+export interface FuzzySearchResult {
+    name: string;
+    label: string;
+    score: number;
+    family: string;
+}
+export declare function fuzzySearchOperators(query: string, limit?: number): FuzzySearchResult[];
 export interface GraphPlanOptions {
     td: TDClient;
     prompt: string;
