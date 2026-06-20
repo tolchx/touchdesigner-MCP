@@ -1,9 +1,10 @@
 /**
  * POPs Knowledge Database
  *
- * Loads and queries the local POP operator index and detailed operator docs.
- * Uses the unified knowledgeCache for index data to avoid redundant disk loads.
+ * Thin wrapper around the generic knowledgeDb.queryPops.
+ * Re-exports types for backward compatibility.
  */
+import { queryPops as _queryPops } from "./knowledgeDb.js";
 import {
   getPopsIndex,
   loadPopsOperatorDoc as _loadPopsOperatorDoc,
@@ -37,7 +38,7 @@ export interface QueryPopsResult {
   total?: number;
 }
 
-// ─── Public API ─────────────────────────────────────────────────────────────
+// ─── Public API (delegates to generic knowledgeDb) ──────────────────────────
 
 /** Get the pops index from the unified cache. */
 export async function loadPopsIndex(): Promise<PopsIndex> {
@@ -55,38 +56,5 @@ export async function loadPopsOperatorDoc(
 export async function queryPops(
   options: QueryPopsOptions
 ): Promise<QueryPopsResult> {
-  const limit = Math.max(1, Math.min(50, options.limit ?? 10));
-
-  // Direct operator lookup by slug
-  if (options.pageSlug) {
-    const operator = await loadPopsOperatorDoc(options.pageSlug);
-    return { kind: "operator", operator };
-  }
-
-  // Search across the index (uses unified cache)
-  const index = await loadPopsIndex();
-  const q = (options.search ?? "").trim().toLowerCase();
-  if (!q) {
-    return {
-      kind: "search",
-      results: index.operators.slice(0, limit),
-      total: index.operators.length,
-    };
-  }
-
-  const scored = index.operators
-    .map((op) => {
-      const hay =
-        `${op.pageTitle} ${op.pageSlug} ${op.tdOpTypeGuess ?? ""} ${op.summary ?? ""}`
-          .toLowerCase()
-          .trim();
-      const idx = hay.indexOf(q);
-      const score = idx === -1 ? -1 : 1000 - idx;
-      return { op, score };
-    })
-    .filter((x): x is { op: PopsIndexItem; score: number } => x.score >= 0)
-    .sort((a, b) => b.score - a.score)
-    .map((x) => x.op);
-
-  return { kind: "search", results: scored.slice(0, limit), total: scored.length };
+  return _queryPops(options) as Promise<QueryPopsResult>;
 }

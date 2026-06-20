@@ -37,20 +37,13 @@ function preloadKnowledge(): void {
 }
 
 /**
- * Create a fully configured TouchDesigner MCP server with all tools registered.
+ * Register all tool domains on the server.
+ * Shared by createTouchDesignerMcpServer and createTouchDesignerMcpServerWithStatus.
  */
-export async function createTouchDesignerMcpServer(
-  client: TDClient = new TDClient()
-): Promise<McpServer> {
-  // Pre-load knowledge base asynchronously (non-blocking)
-  preloadKnowledge();
-
-  const server = new McpServer({
-    name: "touchdesigner",
-    version: "3.0.0",
-  });
-
-  // Register all tool domains
+async function registerAllTools(
+  server: McpServer,
+  client: TDClient,
+): Promise<void> {
   registerKnowledgeTools(server, client);
   registerCrudTools(server, client);
   registerParameterTools(server, client);
@@ -72,6 +65,23 @@ export async function createTouchDesignerMcpServer(
   await registerEnhancedTools(server, client);
   registerWebtoeTools(server, client);
   registerPopValidationTools(server, client);
+}
+
+/**
+ * Create a fully configured TouchDesigner MCP server with all tools registered.
+ */
+export async function createTouchDesignerMcpServer(
+  client: TDClient = new TDClient()
+): Promise<McpServer> {
+  // Pre-load knowledge base asynchronously (non-blocking)
+  preloadKnowledge();
+
+  const server = new McpServer({
+    name: "touchdesigner",
+    version: "3.0.0",
+  });
+
+  await registerAllTools(server, client);
 
   return server;
 }
@@ -119,28 +129,7 @@ export async function createTouchDesignerMcpServerWithStatus(
     })
   );
 
-  // Register all tool domains
-  registerKnowledgeTools(server, client);
-  registerCrudTools(server, client);
-  registerParameterTools(server, client);
-  registerInspectionTools(server, client);
-  registerExecutionTools(server, client);
-  registerUiTools(server, client);
-  registerDataTools(server, client);
-  registerLifecycleTools(server, client);
-  registerBatchTool(server, client);
-  registerKnowledgeQueryTool(server, client);
-  registerHistoryTools(server, client);
-  registerWatchdogTools(server, client);
-  registerRunnerTool(server, client);
-  registerValidateTools(server, client);
-  registerSmokeTestTools(server, client);
-  registerSyntacticCheckTools(server, client);
-  registerTdnTools(server, client);
-  registerSafeModeTools(server, client);
-  await registerEnhancedTools(server, client);
-  registerWebtoeTools(server, client);
-  registerPopValidationTools(server, client);
+  await registerAllTools(server, client);
 
   return server;
 }

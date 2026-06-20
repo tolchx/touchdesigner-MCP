@@ -92,57 +92,6 @@ export interface NetworkGraph {
   [key: string]: unknown;
 }
 
-// ─── Field selectors ────────────────────────────────────────────────────────
-
-/** Fields included at each detail level. */
-const DETAILED_OP_FIELDS: (keyof OperatorInfo)[] = [
-  "name", "path", "type", "opType", "family", "flags",
-];
-
-const SUMMARY_OP_FIELDS: (keyof OperatorInfo)[] = [
-  "name", "path", "type", "family",
-];
-
-const MINIMAL_OP_FIELDS: (keyof OperatorInfo)[] = [
-  "name", "path",
-];
-
-const DETAILED_PARAM_FIELDS: (keyof ParameterInfo)[] = [
-  "name", "label", "val", "expr", "mode", "style", "default", "page",
-];
-
-const SUMMARY_PARAM_FIELDS: (keyof ParameterInfo)[] = [
-  "name", "val", "expr",
-];
-
-const MINIMAL_PARAM_FIELDS: (keyof ParameterInfo)[] = [
-  "name",
-];
-
-const DETAILED_ERROR_FIELDS: (keyof ErrorInfo)[] = [
-  "path", "severity", "message", "source",
-];
-
-const SUMMARY_ERROR_FIELDS: (keyof ErrorInfo)[] = [
-  "path", "severity", "message",
-];
-
-const MINIMAL_ERROR_FIELDS: (keyof ErrorInfo)[] = [
-  "path", "severity",
-];
-
-const DETAILED_CONN_FIELDS: (keyof ConnectionInfo)[] = [
-  "fromOp", "fromOutput", "toOp", "toInput",
-];
-
-const SUMMARY_CONN_FIELDS: (keyof ConnectionInfo)[] = [
-  "fromOp", "toOp",
-];
-
-const MINIMAL_CONN_FIELDS: (keyof ConnectionInfo)[] = [
-  "fromOp", "toOp",
-];
-
 // ─── Pick helper ────────────────────────────────────────────────────────────
 
 function pick<T extends Record<string, unknown>>(
@@ -157,6 +106,103 @@ function pick<T extends Record<string, unknown>>(
   }
   return result;
 }
+
+// ─── Generic list formatter ─────────────────────────────────────────────────
+
+interface ShapeConfig<T> {
+  minimalFields: (keyof T)[];
+  summaryFields: (keyof T)[];
+  detailedFields: (keyof T)[];
+  emptyMessage: string;
+  headingFn?: (item: Partial<T>, detailLevel: DetailLevel) => string;
+}
+
+/**
+ * Generic list formatter that eliminates the repeated switch/case
+ * across operatorList, parameterList, errorList, and connectionList.
+ */
+function formatListByType<T extends Record<string, unknown>>(
+  items: T[],
+  options: PresenterOptions,
+  config: ShapeConfig<T>,
+): string {
+  const { detailLevel, responseFormat } = options;
+
+  if (!Array.isArray(items) || items.length === 0) {
+    return responseFormat === "json"
+      ? "[]"
+      : responseFormat === "markdown"
+        ? `*(${config.emptyMessage})*`
+        : `(${config.emptyMessage})`;
+  }
+
+  const fields: (keyof T)[] =
+    detailLevel === "minimal"
+      ? config.minimalFields
+      : detailLevel === "summary"
+        ? config.summaryFields
+        : config.detailedFields;
+
+  const rows = items.map((item) => pick(item, fields));
+
+  switch (responseFormat) {
+    case "json":
+      return JSON.stringify(rows, null, 2);
+
+    case "markdown":
+      return formatAsMarkdownTable(rows, fields as string[]);
+
+    case "text":
+      if (config.headingFn) {
+        return formatAsBulletList(rows, fields as string[], (item) =>
+          config.headingFn!(item, detailLevel),
+        );
+      }
+      return formatAsBulletList(rows, fields as string[], (item) =>
+        String((item as Record<string, unknown>).name ?? "?"),
+      );
+
+    default:
+      return JSON.stringify(rows, null, 2);
+  }
+}
+
+// ─── Shape configs (field selectors) ────────────────────────────────────────
+
+const OPERATOR_SHAPE: ShapeConfig<OperatorInfo> = {
+  minimalFields: ["name", "path"],
+  summaryFields: ["name", "path", "type", "family"],
+  detailedFields: ["name", "path", "type", "opType", "family", "flags"],
+  emptyMessage: "no operators",
+  headingFn: (item) =>
+    item.name ? `${item.name} (${item.path ?? "?"})` : String(item.path ?? "?"),
+};
+
+const PARAMETER_SHAPE: ShapeConfig<ParameterInfo> = {
+  minimalFields: ["name"],
+  summaryFields: ["name", "val", "expr"],
+  detailedFields: ["name", "label", "val", "expr", "mode", "style", "default", "page"],
+  emptyMessage: "no parameters",
+  headingFn: (item) => {
+    const parts: string[] = [String(item.name ?? "?")];
+    if (item.val !== undefined) parts.push(`= ${item.val}`);
+    if (item.expr) parts.push(`[expr: ${item.expr}]`);
+    return parts.join(" ");
+  },
+};
+
+const CONNECTION_SHAPE: ShapeConfig<ConnectionInfo> = {
+  minimalFields: ["fromOp", "toOp"],
+  summaryFields: ["fromOp", "toOp"],
+  detailedFields: ["fromOp", "fromOutput", "toOp", "toInput"],
+  emptyMessage: "no connections",
+  headingFn: (item, detailLevel) => {
+    if (detailLevel === "detailed") {
+      return `${item.fromOp ?? "?"}:${item.fromOutput ?? "?"} → ${item.toOp ?? "?"}:${item.toInput ?? "?"}`;
+    }
+    return `${item.fromOp ?? "?"} → ${item.toOp ?? "?"}`;
+  },
+};
 
 // ─── Main formatter ─────────────────────────────────────────────────────────
 
@@ -173,7 +219,7 @@ export function formatResponse(
   options: PresenterOptions,
   shape?: "operatorList" | "parameterList" | "errorList" | "connectionList" | "graph",
 ): string {
-  const { detailLevel, responseFormat } = options;
+  const { responseFormat } = options;
 
   // If data is already a string (e.g. a pre-formatted message), return as-is
   if (typeof data === "string") {
@@ -186,13 +232,13 @@ export function formatResponse(
   // Dispatch to specialised formatters
   switch (shape) {
     case "operatorList":
-      return formatOperatorList(data as OperatorInfo[], options);
+      return formatListByType(data as OperatorInfo[], options, OPERATOR_SHAPE);
     case "parameterList":
-      return formatParameterList(data as ParameterInfo[], options);
+      return formatListByType(data as ParameterInfo[], options, PARAMETER_SHAPE);
     case "errorList":
       return formatErrorList(data as ErrorInfo[], options);
     case "connectionList":
-      return formatConnectionList(data as ConnectionInfo[], options);
+      return formatListByType(data as ConnectionInfo[], options, CONNECTION_SHAPE);
     case "graph":
       return formatNetworkGraph(data as NetworkGraph, options);
     default:
@@ -215,107 +261,30 @@ function formatGeneric(data: unknown, options: PresenterOptions): string {
   }
 }
 
-// ─── Operator list formatter ────────────────────────────────────────────────
+// ─── Operator list formatter (kept for direct callers) ──────────────────────
 
-/**
- * Format a list of TD operators.
- * Minimal: name + path only.  Summary: + type + family.  Detailed: + flags + all fields.
- */
 export function formatOperatorList(
   ops: OperatorInfo[],
   options: PresenterOptions,
 ): string {
-  const { detailLevel, responseFormat } = options;
-
-  if (!Array.isArray(ops) || ops.length === 0) {
-    return responseFormat === "json"
-      ? "[]"
-      : responseFormat === "markdown"
-        ? "*(no operators)*"
-        : "(no operators)";
-  }
-
-  // Select fields per level
-  const fields: (keyof OperatorInfo)[] =
-    detailLevel === "minimal"
-      ? MINIMAL_OP_FIELDS
-      : detailLevel === "summary"
-        ? SUMMARY_OP_FIELDS
-        : DETAILED_OP_FIELDS;
-
-  const rows = ops.map((op) => pick(op, fields));
-
-  switch (responseFormat) {
-    case "json":
-      return JSON.stringify(rows, null, 2);
-
-    case "markdown":
-      return formatAsMarkdownTable(rows, fields as string[]);
-
-    case "text":
-      return formatAsBulletList(rows, fields as string[], (item) =>
-        item.name ? `${item.name} (${item.path ?? "?"})` : item.path ?? "?",
-      );
-
-    default:
-      return JSON.stringify(rows, null, 2);
-  }
+  return formatListByType(ops, options, OPERATOR_SHAPE);
 }
 
-// ─── Parameter list formatter ───────────────────────────────────────────────
+// ─── Parameter list formatter (kept for direct callers) ─────────────────────
 
-/**
- * Format a list of parameters.
- * Minimal: name only.  Summary: + val + expr.  Detailed: + label, mode, style, etc.
- */
 export function formatParameterList(
   params: ParameterInfo[],
   options: PresenterOptions,
 ): string {
-  const { detailLevel, responseFormat } = options;
-
-  if (!Array.isArray(params) || params.length === 0) {
-    return responseFormat === "json"
-      ? "[]"
-      : responseFormat === "markdown"
-        ? "*(no parameters)*"
-        : "(no parameters)";
-  }
-
-  const fields: (keyof ParameterInfo)[] =
-    detailLevel === "minimal"
-      ? MINIMAL_PARAM_FIELDS
-      : detailLevel === "summary"
-        ? SUMMARY_PARAM_FIELDS
-        : DETAILED_PARAM_FIELDS;
-
-  const rows = params.map((p) => pick(p, fields));
-
-  switch (responseFormat) {
-    case "json":
-      return JSON.stringify(rows, null, 2);
-
-    case "markdown":
-      return formatAsMarkdownTable(rows, fields as string[]);
-
-    case "text":
-      return formatAsBulletList(rows, fields as string[], (item) => {
-        const parts: string[] = [String(item.name ?? "?")];
-        if (item.val !== undefined) parts.push(`= ${item.val}`);
-        if (item.expr) parts.push(`[expr: ${item.expr}]`);
-        return parts.join(" ");
-      });
-
-    default:
-      return JSON.stringify(rows, null, 2);
-  }
+  return formatListByType(params, options, PARAMETER_SHAPE);
 }
 
-// ─── Error list formatter ───────────────────────────────────────────────────
+// ─── Error list formatter (custom text format) ──────────────────────────────
 
 /**
  * Format a list of TD errors/warnings.
  * Minimal: path + severity.  Summary: + message.  Detailed: + source.
+ * Uses a custom text format with severity badges.
  */
 export function formatErrorList(
   errors: ErrorInfo[],
@@ -333,10 +302,10 @@ export function formatErrorList(
 
   const fields: (keyof ErrorInfo)[] =
     detailLevel === "minimal"
-      ? MINIMAL_ERROR_FIELDS
+      ? ["path", "severity"]
       : detailLevel === "summary"
-        ? SUMMARY_ERROR_FIELDS
-        : DETAILED_ERROR_FIELDS;
+        ? ["path", "severity", "message"]
+        : ["path", "severity", "message", "source"];
 
   const rows = errors.map((e) => pick(e, fields));
 
@@ -361,51 +330,13 @@ export function formatErrorList(
   }
 }
 
-// ─── Connection list formatter ──────────────────────────────────────────────
+// ─── Connection list formatter (kept for direct callers) ────────────────────
 
-/**
- * Format a list of connections (wires).
- * Minimal/Summary: fromOp → toOp.  Detailed: + fromOutput, toInput.
- */
 export function formatConnectionList(
   connections: ConnectionInfo[],
   options: PresenterOptions,
 ): string {
-  const { detailLevel, responseFormat } = options;
-
-  if (!Array.isArray(connections) || connections.length === 0) {
-    return responseFormat === "json"
-      ? "[]"
-      : responseFormat === "markdown"
-        ? "*(no connections)*"
-        : "(no connections)";
-  }
-
-  const fields: (keyof ConnectionInfo)[] =
-    detailLevel === "minimal" || detailLevel === "summary"
-      ? MINIMAL_CONN_FIELDS
-      : DETAILED_CONN_FIELDS;
-
-  const rows = connections.map((c) => pick(c, fields));
-
-  switch (responseFormat) {
-    case "json":
-      return JSON.stringify(rows, null, 2);
-
-    case "markdown":
-      return formatAsMarkdownTable(rows, fields as string[]);
-
-    case "text":
-      return formatAsBulletList(rows, fields as string[], (item) => {
-        if (detailLevel === "detailed") {
-          return `${item.fromOp ?? "?"}:${item.fromOutput ?? "?"} → ${item.toOp ?? "?"}:${item.toInput ?? "?"}`;
-        }
-        return `${item.fromOp ?? "?"} → ${item.toOp ?? "?"}`;
-      });
-
-    default:
-      return JSON.stringify(rows, null, 2);
-  }
+  return formatListByType(connections, options, CONNECTION_SHAPE);
 }
 
 // ─── Network graph formatter ────────────────────────────────────────────────

@@ -1,0 +1,235 @@
+{
+  "templates": [
+    {
+      "name": "generative-art-feedback",
+      "description": "Generative art feedback loop: noiseTOP seeds a feedback system. The feedbackTOP accumulates frames, transformTOP warps the output, and compositeTOP blends the original noise with the warped feedback. Fans out: noiseTOP drives BOTH feedbackTOP (input 0) AND compositeTOP (input 1).",
+      "tags": ["feedback", "generative", "art", "loop", "transform", "composite", "noise"],
+      "complexity": "advanced",
+      "operators": [
+        { "id": "noise_src", "opType": "noiseTOP", "label": "Noise Source", "purpose": "Generates the initial noise texture that seeds the feedback loop" },
+        { "id": "feedback", "opType": "feedbackTOP", "label": "Feedback Accumulator", "purpose": "Accumulates frames from the transform chain, creating temporal smearing." },
+        { "id": "transform", "opType": "transformTOP", "label": "Warp Transform", "purpose": "Rotates, scales, and translates the feedback output each frame" },
+        { "id": "composite", "opType": "compositeTOP", "label": "Mix Blend", "purpose": "Blends the original noise (input 0) with the warped feedback (input 1)" },
+        { "id": "output", "opType": "nullTOP", "label": "OUT", "purpose": "Rendered output for display or downstream processing" }
+      ],
+      "connections": [
+        { "from": "noise_src", "to": "feedback", "inputIndex": 0, "note": "noiseTOP output → feedbackTOP input 0: seeds the feedback accumulator" },
+        { "from": "feedback", "to": "transform", "inputIndex": 0, "note": "feedbackTOP → transformTOP input 0: accumulated frames get warped each tick" },
+        { "from": "transform", "to": "composite", "inputIndex": 0, "note": "transformTOP → compositeTOP input 0: warped feedback is the main input" },
+        { "from": "noise_src", "to": "composite", "inputIndex": 1, "note": "noiseTOP → compositeTOP input 1: original noise mixed with feedback (fan-out)" },
+        { "from": "composite", "to": "output", "inputIndex": 0, "note": "compositeTOP → nullTOP input 0: final blended output" }
+      ],
+      "parameters": [
+        { "opId": "noise_src", "paramName": "type", "value": "simplex", "note": "Simplex noise gives organic, flowing shapes for feedback art" },
+        { "opId": "noise_src", "paramName": "resolution", "value": [512, 512], "note": "Square resolution for symmetry" },
+        { "opId": "feedback", "paramName": "reset", "value": "resetnone", "note": "Never reset — continuous accumulation" },
+        { "opId": "feedback", "paramName": "targettop", "value": "transform", "note": "Target TOP set to transform so loop picks up warped output" },
+        { "opId": "transform", "paramName": "rotate", "value": 1.0, "note": "Subtle 1° rotation per frame creates spiral motion" },
+        { "opId": "transform", "paramName": "scale", "value": [0.99, 0.99], "note": "Slight zoom-in each frame compresses the feedback" },
+        { "opId": "composite", "paramName": "operand", "value": "add", "note": "Additive blend brightens overlapping regions" },
+        { "opId": "composite", "paramName": "scale1", "value": 0.85, "note": "Feedback at 85% opacity to avoid runaway brightness" },
+        { "opId": "composite", "paramName": "scale2", "value": 0.25, "note": "Original noise at 25% as subtle texture" }
+      ],
+      "pythonBuilder": "# generative-art-feedback\n# Builds: noiseTOP → feedbackTOP → transformTOP → compositeTOP → nullTOP\ndef build_generative_art_feedback(parent):\n    parent = op(parent)\n    noise = parent.create(noiseTOP, 'noise_src')\n    noise.par.type = 'simplex'\n    noise.par.resolutionw = 512\n    noise.par.resolutionh = 512\n    feedback = parent.create(feedbackTOP, 'feedback')\n    feedback.inputConnectors[0].connect(noise)\n    feedback.par.reset = 'resetnone'\n    transform = parent.create(transformTOP, 'transform')\n    transform.inputConnectors[0].connect(feedback)\n    transform.par.rotate = 1.0\n    transform.par.scale1 = 0.99\n    transform.par.scale2 = 0.99\n    feedback.par.targettop = transform.name\n    composite = parent.create(compositeTOP, 'composite')\n    composite.inputConnectors[0].connect(transform)\n    composite.inputConnectors[1].connect(noise)\n    composite.par.operand = 'add'\n    composite.par.scale1 = 0.85\n    composite.par.scale2 = 0.25\n    output = parent.create(nullTOP, 'OUT')\n    output.inputConnectors[0].connect(composite)\n    noise.nodeX = -300; noise.nodeY = 0\n    feedback.nodeX = 0;   feedback.nodeY = 0\n    transform.nodeX = 300;  transform.nodeY = 0\n    composite.nodeX = 600;  composite.nodeY = 0\n    output.nodeX = 900;    output.nodeY = 0\n    return output\nbuild_generative_art_feedback('/project1')"
+    },
+    {
+      "name": "audio-reactive-spectrum",
+      "description": "Audio-reactive spectrum visualizer: audiofileinCHOP feeds an FFT audiospectrumCHOP, mathCHOP applies gain, and choptoTOP converts the spectrum to a texture for rendering.",
+      "tags": ["audio", "reactive", "spectrum", "FFT", "visualizer", "CHOP", "TOP"],
+      "complexity": "medium",
+      "operators": [
+        { "id": "audio_in", "opType": "audiofileinCHOP", "label": "Audio Source", "purpose": "Loads and plays an audio file as a CHOP channel stream" },
+        { "id": "spectrum", "opType": "audiospectrumCHOP", "label": "FFT Spectrum", "purpose": "Performs real-time FFT analysis, outputting frequency magnitude channels" },
+        { "id": "math", "opType": "mathCHOP", "label": "Gain + Post-Process", "purpose": "Amplifies and optionally smooths the spectrum channels" },
+        { "id": "chop_to_top", "opType": "choptoTOP", "label": "Spectrum Texture", "purpose": "Converts CHOP channels to a 1D texture (one row per channel sample)" },
+        { "id": "output", "opType": "nullTOP", "label": "OUT", "purpose": "Final spectrum texture for display or GLSL sampling" }
+      ],
+      "connections": [
+        { "from": "audio_in", "to": "spectrum", "inputIndex": 0, "note": "audiofileinCHOP → audiospectrumCHOP input 0: audio channels fed to FFT" },
+        { "from": "spectrum", "to": "math", "inputIndex": 0, "note": "audiospectrumCHOP → mathCHOP input 0: frequency magnitudes post-processed" },
+        { "from": "math", "to": "chop_to_top", "inputIndex": 0, "note": "mathCHOP → choptoTOP input 0: processed channels mapped to pixel rows" },
+        { "from": "chop_to_top", "to": "output", "inputIndex": 0, "note": "choptoTOP → nullTOP input 0: final spectrum texture" }
+      ],
+      "parameters": [
+        { "opId": "audio_in", "paramName": "file", "value": "<audio_file_path>", "note": "Set to a .wav/.mp3 path" },
+        { "opId": "audio_in", "paramName": "play", "value": 1, "note": "Auto-play on load" },
+        { "opId": "spectrum", "paramName": "fftsize", "value": 512, "note": "512-sample FFT window balances frequency resolution and latency" },
+        { "opId": "spectrum", "paramName": "outlength", "value": 256, "note": "256 frequency bins → 256px wide texture" },
+        { "opId": "spectrum", "paramName": "timeslice", "value": true, "note": "Enable time-sliced output" },
+        { "opId": "math", "paramName": "gain", "value": 10, "note": "10× gain to make quiet frequencies visible" },
+        { "opId": "chop_to_top", "paramName": "dataformat", "value": "r", "note": "Single-channel red texture" },
+        { "opId": "chop_to_top", "paramName": "layout", "value": "rowscropped", "note": "Rows layout: each CHOP channel becomes a texture row" }
+      ],
+      "pythonBuilder": "# audio-reactive-spectrum\n# Builds: audiofileinCHOP → audiospectrumCHOP → mathCHOP → choptoTOP → nullTOP\ndef build_audio_spectrum(parent, audio_path=''):\n    parent = op(parent)\n    audio_in = parent.create(audiofileinCHOP, 'audio_in')\n    if audio_path:\n        audio_in.par.file = audio_path\n    audio_in.par.play = 1\n    spectrum = parent.create(audiospectrumCHOP, 'spectrum')\n    spectrum.inputConnectors[0].connect(audio_in)\n    spectrum.par.fftsize = 512\n    spectrum.par.outputmenu = 'setmanually'\n    spectrum.par.outlength = 256\n    spectrum.par.timeslice = True\n    math = parent.create(mathCHOP, 'math')\n    math.inputConnectors[0].connect(spectrum)\n    math.par.gain = 10\n    chop_to_top = parent.create(choptoTOP, 'chop_to_top')\n    chop_to_top.inputConnectors[0].connect(math)\n    chop_to_top.par.dataformat = 'r'\n    chop_to_top.par.layout = 'rowscropped'\n    output = parent.create(nullTOP, 'OUT')\n    output.inputConnectors[0].connect(chop_to_top)\n    audio_in.nodeX = -600; audio_in.nodeY = 0\n    spectrum.nodeX = -300; spectrum.nodeY = 0\n    math.nodeX = 0; math.nodeY = 0\n    chop_to_top.nodeX = 300; chop_to_top.nodeY = 0\n    output.nodeX = 600; output.nodeY = 0\n    return output\nbuild_audio_spectrum('/project1', '/path/to/audio.wav')"
+    },
+    {
+      "name": "particle-system-basic",
+      "description": "Basic POP particle system with feedback loop: spherePOP emits particles, particlePOP simulates them, noisePOP adds turbulence, trailPOP draws trails, renderPOP converts to texture, and a nullPOP serves as the feedback target.",
+      "tags": ["particles", "POP", "simulation", "noise", "trail", "feedback", "GPU"],
+      "complexity": "advanced",
+      "operators": [
+        { "id": "sphere", "opType": "spherePOP", "label": "Source Points", "purpose": "Generates initial particle positions on a sphere surface" },
+        { "id": "particle", "opType": "particlePOP", "label": "Particle Sim", "purpose": "Core particle solver: simulates physics, births particles, manages lifecycle." },
+        { "id": "noise_force", "opType": "noisePOP", "label": "Turbulence Force", "purpose": "Applies curl/random noise force to particles for organic motion" },
+        { "id": "trail", "opType": "trailPOP", "label": "Trails", "purpose": "Records particle history as connected trail segments" },
+        { "id": "render", "opType": "renderPOP", "label": "Render to TOP", "purpose": "Converts the POP point cloud into a rendered texture" },
+        { "id": "null_fb", "opType": "nullPOP", "label": "Feedback Target", "purpose": "Stores the previous frame's particle state for the solver feedback loop." },
+        { "id": "output", "opType": "nullTOP", "label": "OUT", "purpose": "Final rendered texture for display or compositing" }
+      ],
+      "connections": [
+        { "from": "sphere", "to": "particle", "inputIndex": 0, "note": "spherePOP → particlePOP input 0: initial point positions seed the solver" },
+        { "from": "particle", "to": "noise_force", "inputIndex": 0, "note": "particlePOP → noisePOP input 0: solved positions get turbulence applied" },
+        { "from": "noise_force", "to": "trail", "inputIndex": 0, "note": "noisePOP → trailPOP input 0: jittered points generate trails" },
+        { "from": "trail", "to": "null_fb", "inputIndex": 0, "note": "trailPOP → nullPOP input 0: trail output becomes the feedback target." },
+        { "from": "trail", "to": "render", "inputIndex": 0, "note": "trailPOP → renderPOP input 0: trail geometry rendered to texture" },
+        { "from": "render", "to": "output", "inputIndex": 0, "note": "renderPOP → nullTOP input 0: final rendered texture" }
+      ],
+      "parameters": [
+        { "opId": "sphere", "paramName": "radius", "value": [1.0, 1.0, 1.0], "note": "Unit sphere as birth surface" },
+        { "opId": "particle", "paramName": "birthrate", "value": 100, "note": "100 particles born per second" },
+        { "opId": "particle", "paramName": "lifeexpect", "value": 3, "note": "Particles live 3 seconds before dying" },
+        { "opId": "particle", "paramName": "enabletimeintegration", "value": true, "note": "Enable time-stepped physics simulation" },
+        { "opId": "particle", "paramName": "particlesupdatepop", "value": "null_fb", "note": "Points to null_fb — this closes the solver feedback loop." },
+        { "opId": "noise_force", "paramName": "amp0", "value": 0.5, "note": "Noise amplitude — controls how chaotic the motion is" },
+        { "opId": "noise_force", "paramName": "freq0", "value": 2.0, "note": "Noise frequency — spatial scale of turbulence" },
+        { "opId": "trail", "paramName": "length", "value": 10, "note": "Each particle leaves a 10-segment trail" }
+      ],
+      "pythonBuilder": "# particle-system-basic\n# Builds: spherePOP → particlePOP → noisePOP → trailPOP → (nullPOP + renderPOP) → nullTOP\ndef build_particle_system(parent):\n    parent = op(parent)\n    sphere = parent.create(spherePOP, 'sphere')\n    sphere.par.radx = 1.0\n    sphere.par.rady = 1.0\n    sphere.par.radz = 1.0\n    particle = parent.create(particlePOP, 'particle')\n    particle.inputConnectors[0].connect(sphere)\n    particle.par.birthrate = 100\n    particle.par.lifeexpect = 3\n    particle.par.enabletimeintegration = True\n    noise_force = parent.create(noisePOP, 'noise_force')\n    noise_force.inputConnectors[0].connect(particle)\n    noise_force.par.amp0 = 0.5\n    noise_force.par.freq0 = 2.0\n    trail = parent.create(trailPOP, 'trail')\n    trail.inputConnectors[0].connect(noise_force)\n    trail.par.length = 10\n    null_fb = parent.create(nullPOP, 'null_fb')\n    null_fb.inputConnectors[0].connect(trail)\n    particle.par.particlesupdatepop = null_fb.name\n    render = parent.create(renderPOP, 'render')\n    render.inputConnectors[0].connect(trail)\n    output = parent.create(nullTOP, 'OUT')\n    output.inputConnectors[0].connect(render)\n    sphere.nodeX = -900; sphere.nodeY = 0\n    particle.nodeX = -600; particle.nodeY = 0\n    noise_force.nodeX = -300; noise_force.nodeY = 0\n    trail.nodeX = 0; trail.nodeY = 0\n    null_fb.nodeX = 0; null_fb.nodeY = -150\n    render.nodeX = 300; render.nodeY = 0\n    output.nodeX = 600; output.nodeY = 0\n    return output\nbuild_particle_system('/project1')"
+    },
+    {
+      "name": "glow-bloom",
+      "description": "Classic glow/bloom post-processing effect: source TOP feeds a levelTOP (thresholds highlights), blurTOP spreads the bright areas, and compositeTOP additively blends the blurred glow back over the original.",
+      "tags": ["effects", "postfx", "glow", "bloom", "blur", "composite"],
+      "complexity": "medium",
+      "operators": [
+        { "id": "source", "opType": "moviefileinTOP", "label": "Source", "purpose": "Input video or image that will receive the glow effect" },
+        { "id": "level", "opType": "levelTOP", "label": "High-Pass Threshold", "purpose": "Crush blacks so only bright highlight areas pass through" },
+        { "id": "blur", "opType": "blurTOP", "label": "Glow Blur", "purpose": "Gaussian blur spreads the isolated highlights into a soft glow" },
+        { "id": "composite", "opType": "compositeTOP", "label": "Add Blend", "purpose": "Additively composites the blurred glow (input 1) over the original source (input 0)" },
+        { "id": "output", "opType": "nullTOP", "label": "OUT", "purpose": "Final glow-enhanced output" }
+      ],
+      "connections": [
+        { "from": "source", "to": "level", "inputIndex": 0, "note": "source → levelTOP input 0: original image enters high-pass chain" },
+        { "from": "level", "to": "blur", "inputIndex": 0, "note": "levelTOP → blurTOP input 0: isolated highlights get blurred" },
+        { "from": "source", "to": "composite", "inputIndex": 0, "note": "source → compositeTOP input 0: original image is the base layer (fan-out)" },
+        { "from": "blur", "to": "composite", "inputIndex": 1, "note": "blurTOP → compositeTOP input 1: blurred glow overlaid on base layer" },
+        { "from": "composite", "to": "output", "inputIndex": 0, "note": "compositeTOP → nullTOP input 0: final blended output" }
+      ],
+      "parameters": [
+        { "opId": "level", "paramName": "blacklevel", "value": 0.6, "note": "Crush pixels below 60% luminance" },
+        { "opId": "level", "paramName": "luminance", "value": 1, "note": "Operate on luminance not individual RGB channels" },
+        { "opId": "blur", "paramName": "filtertype", "value": "gaussian", "note": "Gaussian blur for smooth glow" },
+        { "opId": "blur", "paramName": "size", "value": 3, "note": "Blur radius in pixels" },
+        { "opId": "composite", "paramName": "operand", "value": "add", "note": "Additive blend" }
+      ],
+      "pythonBuilder": "# glow-bloom\n# Builds: source → levelTOP → blurTOP → compositeTOP (blend with original) → nullTOP\ndef build_glow_bloom(parent, source_path=''):\n    parent = op(parent)\n    source = parent.create(moviefileinTOP, 'source')\n    if source_path:\n        source.par.file = source_path\n    level = parent.create(levelTOP, 'level')\n    level.inputConnectors[0].connect(source)\n    level.par.blacklevel = 0.6\n    level.par.luminance = True\n    blur = parent.create(blurTOP, 'blur')\n    blur.inputConnectors[0].connect(level)\n    blur.par.filtertype = 'gaussian'\n    blur.par.size = 3\n    composite = parent.create(compositeTOP, 'composite')\n    composite.inputConnectors[0].connect(source)\n    composite.inputConnectors[1].connect(blur)\n    composite.par.operand = 'add'\n    output = parent.create(nullTOP, 'OUT')\n    output.inputConnectors[0].connect(composite)\n    source.nodeX = -600; source.nodeY = 0\n    level.nodeX = -600; level.nodeY = -150\n    blur.nodeX = -300; blur.nodeY = -150\n    composite.nodeX = 0; composite.nodeY = 0\n    output.nodeX = 300; output.nodeY = 0\n    return output\nbuild_glow_bloom('/project1')"
+    },
+    {
+      "name": "glsl-shader-pipeline",
+      "description": "GLSL shader with multi-input uniforms: constantTOP provides a time uniform (input 0), noiseTOP provides a procedural texture (input 1), and glslTOP applies a custom fragment shader combining both.",
+      "tags": ["glsl", "shader", "GPU", "procedural", "feedback"],
+      "complexity": "medium",
+      "operators": [
+        { "id": "time_uniform", "opType": "constantTOP", "label": "Time Uniform", "purpose": "Provides a time-varying RGBA float uniform for use as u_Time in the GLSL shader." },
+        { "id": "texture_input", "opType": "noiseTOP", "label": "Procedural Texture", "purpose": "Generates a procedural noise texture used as a shader input sampler" },
+        { "id": "glsl", "opType": "glslTOP", "label": "GLSL Fragment Shader", "purpose": "Runs a custom fragment shader with two inputs" },
+        { "id": "output", "opType": "nullTOP", "label": "OUT", "purpose": "Final shader output for display" }
+      ],
+      "connections": [
+        { "from": "time_uniform", "to": "glsl", "inputIndex": 0, "note": "constantTOP → glslTOP input 0: time uniform accessible as uInput1" },
+        { "from": "texture_input", "to": "glsl", "inputIndex": 1, "note": "noiseTOP → glslTOP input 1: procedural texture accessible as sTD2DInputs[1]" },
+        { "from": "glsl", "to": "output", "inputIndex": 0, "note": "glslTOP → nullTOP input 0: rendered shader output" }
+      ],
+      "parameters": [
+        { "opId": "time_uniform", "paramName": "format", "value": "rgba32float", "note": "RGBA 32-bit float for precise time channels" },
+        { "opId": "time_uniform", "paramName": "resolution", "value": [1, 1], "note": "Single pixel is enough" },
+        { "opId": "texture_input", "paramName": "type", "value": "simplex", "note": "Simplex noise gives smooth, organic patterns" },
+        { "opId": "texture_input", "paramName": "resolution", "value": [512, 512], "note": "Standard texture resolution" },
+        { "opId": "glsl", "paramName": "refreshpulse", "value": 1, "note": "Force shader recompile when parameters change" },
+        { "opId": "glsl", "paramName": "resx", "value": 512, "note": "Output resolution" },
+        { "opId": "glsl", "paramName": "resy", "value": 512, "note": "Output resolution" }
+      ],
+      "pythonBuilder": "# glsl-shader-pipeline\n# Builds: constantTOP(time) → glslTOP(input 0) + noiseTOP → glslTOP(input 1) → nullTOP\ndef build_glsl_shader(parent):\n    parent = op(parent)\n    time_uniform = parent.create(constantTOP, 'time_uniform')\n    time_uniform.par.format = 'rgba32float'\n    time_uniform.par.resolutionw = 1\n    time_uniform.par.resolutionh = 1\n    time_uniform.par.value0r.expr = 'absTime.frame'\n    texture_input = parent.create(noiseTOP, 'texture_input')\n    texture_input.par.type = 'simplex'\n    texture_input.par.resolutionw = 512\n    texture_input.par.resolutionh = 512\n    glsl = parent.create(glslTOP, 'glsl')\n    glsl.inputConnectors[0].connect(time_uniform)\n    glsl.inputConnectors[1].connect(texture_input)\n    glsl.par.refreshpulse = 1\n    glsl.par.resx = 512\n    glsl.par.resy = 512\n    output = parent.create(nullTOP, 'OUT')\n    output.inputConnectors[0].connect(glsl)\n    time_uniform.nodeX = -600; time_uniform.nodeY = -150\n    texture_input.nodeX = -600; texture_input.nodeY = 150\n    glsl.nodeX = 0; glsl.nodeY = 0\n    output.nodeX = 300; output.nodeY = 0\n    return output\nbuild_glsl_shader('/project1')"
+    },
+    {
+      "name": "chroma-key-composite",
+      "description": "Chroma-key compositing pipeline: foreground source → chromakeyTOP removes a color, then overTOP composites the keyed foreground (input 1) over a background source (input 0).",
+      "tags": ["chromakey", "composite", "keying", "greenscreen", "bluescreen", "over"],
+      "complexity": "medium",
+      "operators": [
+        { "id": "fg_source", "opType": "moviefileinTOP", "label": "Foreground (Greenscreen)", "purpose": "Foreground video footage shot against a green or blue screen" },
+        { "id": "bg_source", "opType": "rampTOP", "label": "Background", "purpose": "Background image/video that replaces the keyed-out color" },
+        { "id": "chromakey", "opType": "chromakeyTOP", "label": "Chroma Key", "purpose": "Removes the specified chroma color from the foreground" },
+        { "id": "over", "opType": "overTOP", "label": "Over Composite", "purpose": "Composites the keyed foreground (input 1) over the background (input 0)" },
+        { "id": "output", "opType": "nullTOP", "label": "OUT", "purpose": "Final composited output" }
+      ],
+      "connections": [
+        { "from": "fg_source", "to": "chromakey", "inputIndex": 0, "note": "foreground → chromakeyTOP input 0: video to be keyed" },
+        { "from": "bg_source", "to": "over", "inputIndex": 0, "note": "background → overTOP input 0: base/background layer" },
+        { "from": "chromakey", "to": "over", "inputIndex": 1, "note": "chromakeyTOP → overTOP input 1: keyed foreground overlaid on background" },
+        { "from": "over", "to": "output", "inputIndex": 0, "note": "overTOP → nullTOP input 0: final composite" }
+      ],
+      "parameters": [
+        { "opId": "chromakey", "paramName": "keycolor", "value": [0.0, 1.0, 0.0], "note": "Key out pure green" },
+        { "opId": "chromakey", "paramName": "threshold", "value": [0.4, 0.4, 0.4], "note": "Tolerance per channel" },
+        { "opId": "chromakey", "paramName": "spillthreshold", "value": 0.2, "note": "Desaturates green spill on edges" },
+        { "opId": "over", "paramName": "outputresolution", "value": "input1", "note": "Use foreground resolution as output" }
+      ],
+      "pythonBuilder": "# chroma-key-composite\n# Builds: fg → chromakeyTOP, bg → overTOP(input 0), chromakey → overTOP(input 1) → nullTOP\ndef build_chromakey(parent, fg_path='', bg_path=''):\n    parent = op(parent)\n    fg_source = parent.create(moviefileinTOP, 'fg_source')\n    if fg_path:\n        fg_source.par.file = fg_path\n    bg_source = parent.create(rampTOP, 'bg_source')\n    bg_source.par.phaser.expr = 'absTime.frame * 0.01'\n    chromakey = parent.create(chromakeyTOP, 'chromakey')\n    chromakey.inputConnectors[0].connect(fg_source)\n    chromakey.par.keycolorr = 0.0\n    chromakey.par.keycolorg = 1.0\n    chromakey.par.keycolorb = 0.0\n    chromakey.par.thresholdr = 0.4\n    chromakey.par.thresholdg = 0.4\n    chromakey.par.thresholdb = 0.4\n    chromakey.par.spillthreshold = 0.2\n    over = parent.create(overTOP, 'over')\n    over.inputConnectors[0].connect(bg_source)\n    over.inputConnectors[1].connect(chromakey)\n    over.par.outputresolution = 'input1'\n    output = parent.create(nullTOP, 'OUT')\n    output.inputConnectors[0].connect(over)\n    bg_source.nodeX = -600; bg_source.nodeY = -150\n    fg_source.nodeX = -600; fg_source.nodeY = 150\n    chromakey.nodeX = -300; chromakey.nodeY = 150\n    over.nodeX = 0; over.nodeY = 0\n    output.nodeX = 300; output.nodeY = 0\n    return output\nbuild_chromakey('/project1')"
+    },
+    {
+      "name": "kaleidoscope",
+      "description": "Kaleidoscope effect chain: noiseTOP generates a source pattern, transformTOP rotates/scales the input, and kaleidoscopeTOP applies radial mirroring.",
+      "tags": ["effects", "kaleidoscope", "mirror", "transform", "geometric"],
+      "complexity": "simple",
+      "operators": [
+        { "id": "source", "opType": "noiseTOP", "label": "Source Pattern", "purpose": "Generates a procedural noise texture as the kaleidoscope seed" },
+        { "id": "transform", "opType": "transformTOP", "label": "Rotate & Scale", "purpose": "Animates rotation and scale to create dynamic kaleidoscope motion" },
+        { "id": "kaleido", "opType": "kaleidoscopeTOP", "label": "Kaleidoscope", "purpose": "Applies radial segment mirroring with configurable segment count" },
+        { "id": "output", "opType": "nullTOP", "label": "OUT", "purpose": "Final kaleidoscopic output" }
+      ],
+      "connections": [
+        { "from": "source", "to": "transform", "inputIndex": 0, "note": "noiseTOP → transformTOP input 0: source pattern enters the transform" },
+        { "from": "transform", "to": "kaleido", "inputIndex": 0, "note": "transformTOP → kaleidoscopeTOP input 0: transformed image enters the kaleidoscope" },
+        { "from": "kaleido", "to": "output", "inputIndex": 0, "note": "kaleidoscopeTOP → nullTOP input 0: final mirrored output" }
+      ],
+      "parameters": [
+        { "opId": "source", "paramName": "type", "value": "simplex", "note": "Simplex noise produces smooth, organic patterns" },
+        { "opId": "source", "paramName": "resolution", "value": [512, 512], "note": "Square resolution ensures symmetric kaleidoscope segments" },
+        { "opId": "transform", "paramName": "rotate", "value": 1.5, "note": "Animated rotation per frame" },
+        { "opId": "transform", "paramName": "scale", "value": [1.01, 1.01], "note": "Subtle zoom-in per frame" },
+        { "opId": "kaleido", "paramName": "segments", "value": 8, "note": "8 radial segments — powers of two give clean symmetry" }
+      ],
+      "pythonBuilder": "# kaleidoscope\n# Builds: noiseTOP → transformTOP → kaleidoscopeTOP → nullTOP\ndef build_kaleidoscope(parent):\n    parent = op(parent)\n    source = parent.create(noiseTOP, 'source')\n    source.par.type = 'simplex'\n    source.par.resolutionw = 512\n    source.par.resolutionh = 512\n    transform = parent.create(transformTOP, 'transform')\n    transform.inputConnectors[0].connect(source)\n    transform.par.rotate.expr = 'absTime.frame * 1.5'\n    transform.par.scale1 = 1.01\n    transform.par.scale2 = 1.01\n    kaleido = parent.create(kaleidoscopeTOP, 'kaleido')\n    kaleido.inputConnectors[0].connect(transform)\n    kaleido.par.segments = 8\n    output = parent.create(nullTOP, 'OUT')\n    output.inputConnectors[0].connect(kaleido)\n    source.nodeX = -600; source.nodeY = 0\n    transform.nodeX = -300; transform.nodeY = 0\n    kaleido.nodeX = 0; kaleido.nodeY = 0\n    output.nodeX = 300; output.nodeY = 0\n    return output\nbuild_kaleidoscope('/project1')"
+    },
+    {
+      "name": "edge-detect",
+      "description": "Edge detection with composite blending: source TOP → edgeTOP extracts edges, blurTOP softens the edge lines, and compositeTOP blends the softened edges (input 1) over the original source (input 0).",
+      "tags": ["effects", "edge", "detection", "composite", "blur", "sobel"],
+      "complexity": "medium",
+      "operators": [
+        { "id": "source", "opType": "noiseTOP", "label": "Source", "purpose": "Input texture for edge detection" },
+        { "id": "edge", "opType": "edgeTOP", "label": "Edge Detect", "purpose": "Sobel-based edge detection — outputs a grayscale edge map" },
+        { "id": "blur", "opType": "blurTOP", "label": "Soften Edges", "purpose": "Softens the raw edge map so the composite blend looks painterly" },
+        { "id": "composite", "opType": "compositeTOP", "label": "Edge Blend", "purpose": "Composites softened edges (input 1) additively over original source (input 0)" },
+        { "id": "output", "opType": "nullTOP", "label": "OUT", "purpose": "Final edge-enhanced output" }
+      ],
+      "connections": [
+        { "from": "source", "to": "edge", "inputIndex": 0, "note": "source → edgeTOP input 0: original image enters edge detection" },
+        { "from": "edge", "to": "blur", "inputIndex": 0, "note": "edgeTOP → blurTOP input 0: raw edges get softened" },
+        { "from": "source", "to": "composite", "inputIndex": 0, "note": "source → compositeTOP input 0: original image as base layer (fan-out)" },
+        { "from": "blur", "to": "composite", "inputIndex": 1, "note": "blurTOP → compositeTOP input 1: softened edges overlaid" },
+        { "from": "composite", "to": "output", "inputIndex": 0, "note": "compositeTOP → nullTOP input 0: final edge-enhanced result" }
+      ],
+      "parameters": [
+        { "opId": "edge", "paramName": "type", "value": "sobel", "note": "Sobel edge detection gives clean, directional edges" },
+        { "opId": "edge", "paramName": "strength", "value": 0.5, "note": "50% edge strength — moderate sensitivity" },
+        { "opId": "blur", "paramName": "filtertype", "value": "gaussian", "note": "Gaussian blur for even edge softening" },
+        { "opId": "blur", "paramName": "size", "value": 1, "note": "1-pixel blur — just enough to soften harsh edges" },
+        { "opId": "composite", "paramName": "operand", "value": "add", "note": "Additive blend so edges brighten the source" },
+        { "opId": "composite", "paramName": "scale2", "value": 0.5, "note": "Edges at 50% opacity for subtle illustrative effect" }
+      ],
+      "pythonBuilder": "# edge-detect\n# Builds: source → edgeTOP → blurTOP → compositeTOP (blend with original) → nullTOP\ndef build_edge_detect(parent):\n    parent = op(parent)\n    source = parent.create(noiseTOP, 'source')\n    source.par.type = 'simplex'\n    source.par.resolutionw = 512\n    source.par.resolutionh = 512\n    edge = parent.create(edgeTOP, 'edge')\n    edge.inputConnectors[0].connect(source)\n    edge.par.type = 'sobel'\n    edge.par.strength = 0.5\n    blur = parent.create(blurTOP, 'blur')\n    blur.inputConnectors[0].connect(edge)\n    blur.par.filtertype = 'gaussian'\n    blur.par.size = 1\n    composite = parent.create(compositeTOP, 'composite')\n    composite.inputConnectors[0].connect(source)\n    composite.inputConnectors[1].connect(blur)\n    composite.par.operand = 'add'\n    composite.par.scale2 = 0.5\n    output = parent.create(nullTOP, 'OUT')\n    output.inputConnectors[0].connect(composite)\n    source.nodeX = -600; source.nodeY = 0\n    edge.nodeX = -600; edge.nodeY = -150\n    blur.nodeX = -300; blur.nodeY = -150\n    composite.nodeX = 0; composite.nodeY = 0\n    output.nodeX = 300; output.nodeY = 0\n    return output\nbuild_edge_detect('/project1')"
+    }
+  ]
+}

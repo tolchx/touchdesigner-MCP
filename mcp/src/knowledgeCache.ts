@@ -16,6 +16,7 @@ import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { z } from "zod";
 
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -206,6 +207,20 @@ export type OpsIndex = z.infer<typeof OpsIndexSchema>;
 export type OpsOperatorDoc = z.infer<typeof OpsOperatorDocSchema>;
 export type PopsIndex = z.infer<typeof PopsIndexSchema>;
 export type PopsOperatorDoc = z.infer<typeof PopsOperatorDocSchema>;
+
+// ─── Family detection (lightweight, avoids importing topologyBuild.ts) ─────
+
+function detectFamilyFromKey(key: string): string {
+  const upper = key.toUpperCase();
+  if (upper.endsWith("TOP")) return "TOP";
+  if (upper.endsWith("CHOP")) return "CHOP";
+  if (upper.endsWith("SOP")) return "SOP";
+  if (upper.endsWith("DAT")) return "DAT";
+  if (upper.endsWith("POP")) return "POP";
+  if (upper.endsWith("COMP")) return "COMP";
+  if (upper.endsWith("MAT")) return "MAT";
+  return "unknown";
+}
 
 // ─── Directory resolution ───────────────────────────────────────────────────
 
@@ -430,21 +445,7 @@ export function buildSearchIndex(
   const allMaps = [opsMap, popsMap];
   for (const map of allMaps) {
     for (const [key, op] of Object.entries(map)) {
-      const family =
-        op.family ||
-        (key.endsWith("POP")
-          ? "POP"
-          : key.endsWith("TOP")
-            ? "TOP"
-            : key.endsWith("CHOP")
-              ? "CHOP"
-              : key.endsWith("SOP")
-                ? "SOP"
-                : key.endsWith("DAT")
-                  ? "DAT"
-                  : key.endsWith("COMP")
-                    ? "COMP"
-                    : "unknown");
+      const family = op.family || detectFamilyFromKey(key);
       const label = op.label || op.pageTitle || key;
       const name = op.pageSlug || key;
       const entry = { name, label, family, operator: op };
