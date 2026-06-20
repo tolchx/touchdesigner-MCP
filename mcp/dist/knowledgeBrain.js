@@ -92,8 +92,8 @@ function cacheGet(key, ttlMs = DEFAULT_CACHE_TTL_MS) {
 function cacheSet(key, value) {
     resultCache.set(key, { data: value, ts: Date.now() });
 }
-/** Public API: invalidate the entire cache. */
-export function invalidateCache() {
+/** Invalidate the entire cache (called after rebuild). */
+function invalidateCache() {
     resultCache.clear();
 }
 // ─── Database singleton ─────────────────────────────────────────────────────
@@ -144,14 +144,6 @@ function getDb() {
         _dbError = e;
         throw e;
     }
-}
-/** Check whether the search engine is ready. */
-export function isBrainReady() {
-    return _dbReady && !_dbError;
-}
-/** Get the last init error, if any. */
-export function getBrainError() {
-    return _dbError;
 }
 /**
  * Construct the full-text body from all searchable fields of a JSON operator
@@ -360,9 +352,8 @@ function* ingestOperators(rootDir, sourceType) {
  *
  * Deletes all existing rows before ingest so this is idempotent.
  * Called automatically on first use when the DB does not exist.
- * Can be called manually to refresh the index after data changes.
  */
-export function buildBrain() {
+function buildBrain() {
     const db = getDb();
     let ingested = 0;
     let errors = 0;
@@ -405,14 +396,6 @@ export function buildBrain() {
     invalidateCache();
     console.log(`[knowledgeBrain] Built FTS5 index: ${ingested} operators ingested, ${errors} errors`);
     return { ingested, errors };
-}
-/**
- * Force a full rebuild of the brain (teardown + create + ingest).
- */
-export function rebuildBrain() {
-    const db = getDb();
-    db.exec("DELETE FROM docs");
-    return buildBrain();
 }
 // ─── BM25 scoring ───────────────────────────────────────────────────────────
 /**

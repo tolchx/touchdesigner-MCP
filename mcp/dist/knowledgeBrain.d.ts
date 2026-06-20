@@ -60,30 +60,6 @@ export interface SearchOptions {
     /** Source filter */
     sourceType?: SourceType;
 }
-/** Public API: invalidate the entire cache. */
-export declare function invalidateCache(): void;
-/** Check whether the search engine is ready. */
-export declare function isBrainReady(): boolean;
-/** Get the last init error, if any. */
-export declare function getBrainError(): Error | null;
-/**
- * (Re)build the FTS5 search index from raw operator JSON files on disk.
- *
- * Deletes all existing rows before ingest so this is idempotent.
- * Called automatically on first use when the DB does not exist.
- * Can be called manually to refresh the index after data changes.
- */
-export declare function buildBrain(): {
-    ingested: number;
-    errors: number;
-};
-/**
- * Force a full rebuild of the brain (teardown + create + ingest).
- */
-export declare function rebuildBrain(): {
-    ingested: number;
-    errors: number;
-};
 /**
  * Search the knowledge brain with FTS5 + BM25 scoring.
  *

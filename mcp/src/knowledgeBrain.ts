@@ -174,8 +174,8 @@ function cacheSet(
   resultCache.set(key, { data: value, ts: Date.now() });
 }
 
-/** Public API: invalidate the entire cache. */
-export function invalidateCache(): void {
+/** Invalidate the entire cache (called after rebuild). */
+function invalidateCache(): void {
   resultCache.clear();
 }
 
@@ -235,16 +235,6 @@ function getDb(): any {
     _dbError = e;
     throw e;
   }
-}
-
-/** Check whether the search engine is ready. */
-export function isBrainReady(): boolean {
-  return _dbReady && !_dbError;
-}
-
-/** Get the last init error, if any. */
-export function getBrainError(): Error | null {
-  return _dbError;
 }
 
 // ─── Ingest helpers ─────────────────────────────────────────────────────────
@@ -487,9 +477,8 @@ function* ingestOperators(
  *
  * Deletes all existing rows before ingest so this is idempotent.
  * Called automatically on first use when the DB does not exist.
- * Can be called manually to refresh the index after data changes.
  */
-export function buildBrain(): { ingested: number; errors: number } {
+function buildBrain(): { ingested: number; errors: number } {
   const db = getDb();
   let ingested = 0;
   let errors = 0;
@@ -539,15 +528,6 @@ export function buildBrain(): { ingested: number; errors: number } {
   );
 
   return { ingested, errors };
-}
-
-/**
- * Force a full rebuild of the brain (teardown + create + ingest).
- */
-export function rebuildBrain(): { ingested: number; errors: number } {
-  const db = getDb();
-  db.exec("DELETE FROM docs");
-  return buildBrain();
 }
 
 // ─── BM25 scoring ───────────────────────────────────────────────────────────
