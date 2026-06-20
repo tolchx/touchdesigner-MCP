@@ -28,7 +28,7 @@ export const SemanticResolutionSchema = z.object({
       note: z.string().optional(),
     })
   ),
-  familyHints: z.array(z.enum(["POP", "TOP", "CHOP", "SOP", "DAT"])),
+  familyHints: z.array(z.enum(["POP", "TOP", "CHOP", "SOP", "DAT", "COMP", "MAT"])),
   parameterHints: z.array(
     z.object({
       requested: z.string(),
@@ -830,7 +830,7 @@ export const FAMILY_HINTS: FamilyHintEntry[] = [
       "lag", "slew", "dc offset", "osc", "count",
       "timer", "speed chop", "merge chop", "math chop",
       "noise chop", "constant chop", "null chop",
-      "chop to top", "chop to pop",
+      "chop to top", "chop to pop", "analisis",
     ],
   },
   {

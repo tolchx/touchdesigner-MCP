@@ -207,8 +207,10 @@ class TouchDesignerAPI:
             path = unquote(pars.get("path", ""))
             return self._handle_pop_inspect(path, response)
 
-        # POST /create_operator - Create operator
+        # POST /create_operator - Create operator (also /create for convenience)
         if uri.startswith("/create_operator") and method in ("GET", "POST"):
+            return self._handle_create_operator(request, response)
+        if uri == "/create" and method == "POST":
             return self._handle_create_operator(request, response)
 
         # POST /delete_operator - Delete operator
@@ -216,11 +218,13 @@ class TouchDesignerAPI:
             path = unquote(pars.get("path", ""))
             return self._handle_delete_operator(path, response)
 
-        # POST /connect_nodes - Connect operators
+        # POST /connect_nodes - Connect operators (also /connect for convenience)
         if uri.startswith("/connect_nodes") and method in ("GET", "POST"):
             return self._handle_connect_nodes(request, response)
+        if uri == "/connect" and method == "POST":
+            return self._handle_connect_nodes(request, response)
 
-        # POST /disconnect - Disconnect input
+        # POST /disconnect - Disconnect input (also /disconnect_node for consistency)
         if uri.startswith("/disconnect") and method in ("GET", "POST"):
             path = unquote(pars.get("path", ""))
             input_index = int(pars.get("input_index", "0"))
@@ -592,6 +596,27 @@ class TouchDesignerAPI:
         response["data"] = json.dumps({"taskId": task_id, "status": "queued"})
         return self._send_response(response)
 
+    # =========================================================================
+    # General helpers
+    # =========================================================================
+
+    def _iter_descendants(self, target, include_self=False):
+        """Iterate over all descendants of a COMP operator."""
+        nodes = []
+        try:
+            if include_self:
+                nodes.append(target)
+            for child in target.children:
+                nodes.append(child)
+                try:
+                    if child.isCOMP:
+                        nodes.extend(self._iter_descendants(child, include_self=False))
+                except:
+                    pass
+        except:
+            pass
+        return nodes
+
     @staticmethod
     def _async_worker(ext, data):
         """Worker thread function (Phase 1)."""
@@ -908,7 +933,7 @@ print(json.dumps({{'success':True,'opType':'{op_type}','available':exists}}))
     # GET /release_delta
     # =========================================================================
 
-    def _handle_release_delta(self, build_from: str, build_to: str | None, response: dict) -> dict:
+    def _handle_release_delta(self, build_from, build_to, response):
         """Return build version info."""
         try:
             current_build = str(tdu.Build) if hasattr(tdu, 'Build') else "unknown"
@@ -1502,7 +1527,7 @@ else:
     # GET /screenshot
     # =========================================================================
 
-    def _handle_screenshot(self, path: str, max_size: str | None, response: dict) -> dict:
+    def _handle_screenshot(self, path, max_size, response):
         """Screenshot of an operator's output."""
         target = f"op('{path}')" if path else "me"
         resize_code = ""
@@ -1534,8 +1559,7 @@ else:
                 pass
 
         if not resize_code:
-            resize_code = """
-        b64 = base64.b64encode(open(tf, 'rb').read()).decode()"""
+            resize_code = "b64 = base64.b64encode(open(tf, 'rb').read()).decode()"
 
         code = f"""import json,tempfile,base64,os
 try:
@@ -1730,7 +1754,7 @@ except Exception as e:
     # GET /read_dat
     # =========================================================================
 
-    def _handle_read_dat(self, path: str, start_line: str | None, end_line: str | None, response: dict) -> dict:
+    def _handle_read_dat(self, path, start_line, end_line, response):
         """Read text content from a DAT operator."""
         s = int(start_line) if start_line else None
         e = int(end_line) if end_line else None
@@ -1816,7 +1840,7 @@ else:
     # GET /read_chop
     # =========================================================================
 
-    def _handle_read_chop(self, path: str, channels: str | None, start: str | None, end: str | None, response: dict) -> dict:
+    def _handle_read_chop(self, path, channels, start, end, response):
         """Read CHOP channel data."""
         chan_filter = f"['{channels}']" if channels else "None"
         s = str(start) if start else "None"

@@ -1,7 +1,7 @@
 /**
  * Network Templates — Template storage, retrieval, and search
  *
- * Templates are loaded from data/templates/builtin-templates.json + pop-chains.json.
+ * Templates are loaded from data/templates/builtin-templates.json.
  * NL→TD resolution (TYPE_SYNONYMS, FAMILY_HINTS, resolveOperatorType, getBestFamily)
  * lives in semantic.ts — this module re-exports them for backward compatibility.
  */
@@ -41,6 +41,10 @@ export interface NetworkTemplate {
 }
 
 // ─── Re-export semantic resolution from semantic.ts (single source) ─────────
+
+import fs from "node:fs";
+import { resolve, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 
 import {
   TYPE_SYNONYMS,
@@ -100,15 +104,16 @@ export function resolvePrompt(prompt: string): PromptResolution {
 
 /**
  * Load builtin templates from the JSON file.
- * Templates include operators, connections, parameters, and pythonBuilder code.
  */
 function loadBuiltinTemplates(): NetworkTemplate[] {
   try {
-    const { resolve } = require("node:path") as typeof import("node:path");
-    const fs = require("node:fs") as typeof import("node:fs");
+    // Use import.meta.url for reliable path resolution in both ESM and CJS contexts
+    const thisDir = typeof __dirname !== "undefined"
+      ? __dirname
+      : dirname(fileURLToPath(import.meta.url));
     const candidates = [
-      resolve(__dirname ?? ".", "../data/templates/builtin-templates.json"),
-      resolve(__dirname ?? ".", "../../data/templates/builtin-templates.json"),
+      resolve(thisDir, "../data/templates/builtin-templates.json"),
+      resolve(thisDir, "../../data/templates/builtin-templates.json"),
       resolve(process.cwd(), "data/templates/builtin-templates.json"),
     ];
     for (const p of candidates) {
@@ -124,9 +129,15 @@ function loadBuiltinTemplates(): NetworkTemplate[] {
 // ─── All Network Templates ────────────────────────────────────────────────
 
 /**
- * Get the built-in (non-POP-chain) templates.
+ * The built-in (non-POP-chain) templates.
  */
 export const NETWORK_TEMPLATES: NetworkTemplate[] = loadBuiltinTemplates();
+
+/**
+ * All network templates. Currently identical to NETWORK_TEMPLATES
+ * (POP chain templates removed in Fix #5 simplification).
+ */
+export const ALL_NETWORK_TEMPLATES: NetworkTemplate[] = NETWORK_TEMPLATES;
 
 // ─── Template Lookup ────────────────────────────────────────────────────────
 

@@ -1,0 +1,11 @@
+cron: new live TD test — glslcopyPOP + feedbackPOP + /diagnose + /auto_layout (Tick 8)
+
+65/65 checks pass on live TD (port 44444):
+- Chain A: glslcopyPOP with ptcomputedat/ptoutputattrs
+- Chain B: feedbackPOP with inputmul=1 (Int, not Float)
+- Chain C: /diagnose endpoint validation
+- Chain D: /auto_layout with grid separation
+
+Bug fixes: feedbackPOP.inputmul is Int (not Float);
+/diagnose sources with 0 inputs is expected for generators.
+Updated skill doc (feedbackPOP inputmul Int) and param mapping.
