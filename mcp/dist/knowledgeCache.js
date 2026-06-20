@@ -3,11 +3,11 @@
  *
  * Single source of truth for ops and pops knowledge base data.
  * Loads from disk once (idempotent), then serves cached data to all consumers:
- *   - networkPlanner.ts  (fuzzy search, network planning)
+ *   - networkPlannerGraph.ts  (fuzzy search, network planning)
  *   - opsDb.ts           (typed ops index, operator docs)
  *   - popsDb.ts          (typed pops index, operator docs)
  *
- * Replaces the separate caches in networkPlanner.ts (opsCache/popsCache)
+ * Replaces the separate caches in networkPlannerGraph.ts (opsCache/popsCache)
  * and the uncached loads in opsDb.ts/popsDb.ts (loadOpsIndex/loadPopsIndex).
  */
 import { readFileSync, existsSync } from "node:fs";
