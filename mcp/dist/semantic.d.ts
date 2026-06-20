@@ -31,7 +31,7 @@ export declare const SemanticResolutionSchema: z.ZodObject<{
         aliases: string[];
         note?: string | undefined;
     }>, "many">;
-    familyHints: z.ZodArray<z.ZodEnum<["POP", "TOP", "CHOP", "SOP", "DAT", "COMP", "MAT"]>, "many">;
+    familyHints: z.ZodArray<z.ZodString, "many">;
     parameterHints: z.ZodArray<z.ZodObject<{
         requested: z.ZodString;
         canonical: z.ZodString;
@@ -83,7 +83,7 @@ export declare const SemanticResolutionSchema: z.ZodObject<{
         aliases: string[];
         note?: string | undefined;
     }[];
-    familyHints: ("TOP" | "POP" | "CHOP" | "COMP" | "SOP" | "DAT" | "MAT")[];
+    familyHints: string[];
     parameterHints: {
         canonical: string;
         requested: string;
@@ -109,7 +109,7 @@ export declare const SemanticResolutionSchema: z.ZodObject<{
         aliases: string[];
         note?: string | undefined;
     }[];
-    familyHints: ("TOP" | "POP" | "CHOP" | "COMP" | "SOP" | "DAT" | "MAT")[];
+    familyHints: string[];
     parameterHints: {
         canonical: string;
         requested: string;

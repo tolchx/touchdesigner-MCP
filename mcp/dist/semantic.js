@@ -24,7 +24,7 @@ export const SemanticResolutionSchema = z.object({
         aliases: z.array(z.string()),
         note: z.string().optional(),
     })),
-    familyHints: z.array(z.enum(["POP", "TOP", "CHOP", "SOP", "DAT", "COMP", "MAT"])),
+    familyHints: z.array(z.string()),
     parameterHints: z.array(z.object({
         requested: z.string(),
         canonical: z.string(),

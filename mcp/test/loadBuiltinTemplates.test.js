@@ -5,6 +5,14 @@
  * we test the warning code path by spawning child processes that mock
  * fs via CJS require() (which gives a mutable exports object) before
  * importing the ESM networkTemplates module.
+ *
+ * FRAGILITY NOTE: This approach relies on an implementation detail of
+ * Node.js CJS-to-ESM interop — that patching properties on the CJS
+ * exports object (obtained via createRequire) is visible to ESM named
+ * imports (e.g. `import { existsSync } from "node:fs"`). This works
+ * because ESM named imports from CJS modules are implemented as getters
+ * on the module namespace that read from the cached CJS exports object.
+ * If Node.js changes this behavior, these tests will break silently.
  */
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
