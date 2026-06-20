@@ -223,6 +223,101 @@ describe("applyPatch", () => {
     assert.equal(result.created.length, 2, "should create 2 of 3 nodes");
     assert.ok(result.errors.some(e => e.includes("Create")), "should report creation error");
   });
+
+  it("handles empty graph (no nodes, no connections)", async () => {
+    const client = makeMockClient();
+    const plan = makePlan({
+      graph: {
+        description: "empty",
+        nodes: [],
+        connections: [],
+        targetPath: "/project1",
+      },
+    });
+    const result = await applyPatch(client, plan);
+
+    assert.equal(result.success, true, "empty graph should succeed");
+    assert.equal(result.created.length, 0);
+    assert.equal(result.connected.length, 0);
+    assert.equal(result.errors.length, 0);
+  });
+
+  it("handles partial connection failures", async () => {
+    let connectcallCount = 0;
+    const client = makeMockClient({
+      connectNodes: mock.fn(async (from, to, inputIndex) => {
+        connectcallCount++;
+        if (connectcallCount === 1) throw new Error("connection refused");
+      }),
+    });
+
+    const plan = makePlan();
+    const result = await applyPatch(client, plan);
+
+    // All 3 nodes should still be created
+    assert.equal(result.created.length, 3, "should create all 3 nodes");
+    // Only 1 of 2 connections should succeed
+    assert.equal(result.connected.length, 1, "should wire 1 of 2 connections");
+    assert.ok(result.errors.some(e => e.includes("Wire")), "should report wire error");
+    // Success depends on whether errors array is empty (it won't be)
+    assert.equal(result.success, false, "should not be success with connection error");
+  });
+
+  it("skips connections when source or target path is missing (failed node creation)", async () => {
+    let createcallCount = 0;
+    const client = makeMockClient({
+      createOperator: mock.fn(async (opType, label, parentPath) => {
+        createcallCount++;
+        if (createcallCount === 1) throw new Error("first node fails");
+        return { path: `${parentPath}/${label}` };
+      }),
+    });
+
+    const plan = makePlan();
+    const result = await applyPatch(client, plan);
+
+    // Only 2 nodes created (n1, n2)
+    assert.equal(result.created.length, 2);
+    // Connection from n0→n1 should be skipped (n0 not in pathMap)
+    assert.equal(result.connected.length, 1, "should wire only n1→n2");
+  });
+
+  it("handles healthcheck failure gracefully", async () => {
+    const client = makeMockClient({
+      healthcheck: mock.fn(async () => { throw new Error("TD not running"); }),
+    });
+    const plan = makePlan();
+    const result = await applyPatch(client, plan);
+
+    assert.equal(result.success, true, "healthcheck failure should not block success");
+    assert.equal(result.created.length, 3);
+  });
+
+  it("handles undo block start failure gracefully", async () => {
+    const client = makeMockClient({
+      execute: mock.fn(async (code) => {
+        if (code.includes("startBlock")) throw new Error("undo blocked");
+      }),
+    });
+    const plan = makePlan();
+    const result = await applyPatch(client, plan);
+
+    // Should still attempt to create nodes even if undo block fails
+    assert.ok(result.errors.some(e => e.includes("Undo block")), "should report undo error");
+  });
+
+  it("all node creation failures results in empty created list", async () => {
+    const client = makeMockClient({
+      createOperator: mock.fn(async () => { throw new Error("always fails"); }),
+    });
+    const plan = makePlan();
+    const result = await applyPatch(client, plan);
+
+    assert.equal(result.created.length, 0, "no nodes should be created");
+    assert.equal(result.connected.length, 0, "no connections should be wired");
+    assert.equal(result.errors.length, 3, "should have 3 creation errors");
+    assert.equal(result.success, false);
+  });
 });
 
 // ─── runPatchWorkflow (dry-run) ─────────────────────────────────────────────
