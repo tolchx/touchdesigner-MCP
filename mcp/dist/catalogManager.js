@@ -322,7 +322,7 @@ let _catalogByFamily = new Map();
 let _catalogByType = new Map();
 // ─── Initialization ─────────────────────────────────────────────────────────
 /** Load and build the unified catalog from knowledge bases. Idempotent. */
-export function ensureCatalogLoaded() {
+function ensureCatalogLoaded() {
     if (_catalogLoaded)
         return;
     ensureKnowledgeLoaded();
@@ -554,13 +554,6 @@ export function searchCatalog(query, options = {}) {
 export function getCatalogEntry(opType) {
     ensureCatalogLoaded();
     return _catalogByType.get(opType.toLowerCase());
-}
-/**
- * Get the full catalog as an array.
- */
-export function getAllCatalogEntries() {
-    ensureCatalogLoaded();
-    return _catalogEntries;
 }
 /**
  * Get the total number of operators in the catalog.

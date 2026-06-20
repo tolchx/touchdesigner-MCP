@@ -138,8 +138,6 @@ export declare const POP_PARAMETER_STYLE: {
  * Each entry is a map of parameter name → value.
  */
 export declare const CREATION_DEFAULTS: Record<string, Record<string, unknown>>;
-/** Load and build the unified catalog from knowledge bases. Idempotent. */
-export declare function ensureCatalogLoaded(): void;
 /**
  * Get creation defaults for a specific operator type.
  * Returns sensible default parameter values, or undefined if the type isn't known.
@@ -179,10 +177,6 @@ export declare function searchCatalog(query: string, options?: CatalogSearchOpti
  * Returns undefined if not found.
  */
 export declare function getCatalogEntry(opType: string): CatalogEntry | undefined;
-/**
- * Get the full catalog as an array.
- */
-export declare function getAllCatalogEntries(): CatalogEntry[];
 /**
  * Get the total number of operators in the catalog.
  */

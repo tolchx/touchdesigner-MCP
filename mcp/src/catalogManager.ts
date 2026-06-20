@@ -435,7 +435,7 @@ let _catalogByType: Map<string, CatalogEntry> = new Map();
 // ─── Initialization ─────────────────────────────────────────────────────────
 
 /** Load and build the unified catalog from knowledge bases. Idempotent. */
-export function ensureCatalogLoaded(): void {
+function ensureCatalogLoaded(): void {
   if (_catalogLoaded) return;
 
   ensureKnowledgeLoaded();
@@ -693,13 +693,6 @@ export function getCatalogEntry(opType: string): CatalogEntry | undefined {
   return _catalogByType.get(opType.toLowerCase());
 }
 
-/**
- * Get the full catalog as an array.
- */
-export function getAllCatalogEntries(): CatalogEntry[] {
-  ensureCatalogLoaded();
-  return _catalogEntries;
-}
 
 /**
  * Get the total number of operators in the catalog.
