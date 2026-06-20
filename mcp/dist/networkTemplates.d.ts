@@ -59,10 +59,6 @@ export declare function resolvePrompt(prompt: string): PromptResolution;
  */
 export declare const NETWORK_TEMPLATES: NetworkTemplate[];
 /**
- * All network templates. Currently identical to NETWORK_TEMPLATES
- * (POP chain templates removed in Fix #5 simplification).
- */
-/**
  * Find a network template by name (exact match).
  */
 export declare function getTemplateByName(name: string): NetworkTemplate | undefined;

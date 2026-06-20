@@ -63,10 +63,6 @@ function loadBuiltinTemplates() {
  * The built-in (non-POP-chain) templates.
  */
 export const NETWORK_TEMPLATES = loadBuiltinTemplates();
-/**
- * All network templates. Currently identical to NETWORK_TEMPLATES
- * (POP chain templates removed in Fix #5 simplification).
- */
 // ─── Template Lookup ────────────────────────────────────────────────────────
 /**
  * Find a network template by name (exact match).
