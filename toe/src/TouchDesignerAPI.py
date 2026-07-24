@@ -39,7 +39,15 @@ class TouchDesignerAPI:
 
     def _send_response(self, response: dict) -> dict:
         """Log and return response."""
-        self._debug_print(
+        self._debug_print(f">>> {method} {uri}", pars if pars else "")
+
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+        response["Access-Control-Allow-Headers"] = "Content-Type"
+        if method == "OPTIONS":
+            response["statusCode"] = 204
+            response["statusReason"] = "No Content"
+            return self._send_response(response)
             f"<<< {response.get('statusCode')} {response.get('data', '')[:200]}"
         )
         return response
@@ -52,13 +60,25 @@ class TouchDesignerAPI:
 
         self._debug_print(f">>> {method} {uri}", pars if pars else "")
 
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+        response["Access-Control-Allow-Headers"] = "Content-Type"
+        if method == "OPTIONS":
+            response["statusCode"] = 204
+            response["statusReason"] = "No Content"
+            return self._send_response(response)
+
         # GET / or /dashboard - serve the HTML dashboard
-        if uri in ("/", "/dashboard", "/dashboard.html") and method == "GET":
+        if uri in ("/", "/dashboard", "/dashboard.html", "/neonctrl", "/neonctrl.html") and method == "GET":
             response["Content-Type"] = "text/html"
             response["statusCode"] = 200
             response["statusReason"] = "OK"
             import pathlib as _pl
-            _dash = _pl.Path(r"C:\Users\Tolch\Documents\AI_Code\Touchdesigner_MCP\Main\dashboard.html")
+            
+            if uri.startswith("/neonctrl"):
+                _dash = _pl.Path(r"C:\Users\Tolch\Documents\AI_Code\WebApp_ui_osc\index.html")
+            else:
+                _dash = _pl.Path(r"C:\Users\Tolch\Documents\AI_Code\Touchdesigner_MCP\Main\dashboard.html")
             if _dash.exists():
                 response["data"] = _dash.read_text(encoding="utf-8")
             else:
@@ -3332,12 +3352,28 @@ else:
     def OnWebSocketOpen(self, dat, client, uri):
         """Track new WebSocket client connections."""
         self._ws_clients.add(client)
-        self._debug_print(f"WebSocket client connected: {client.id}")
+        self._debug_print(f">>> {method} {uri}", pars if pars else "")
+
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+        response["Access-Control-Allow-Headers"] = "Content-Type"
+        if method == "OPTIONS":
+            response["statusCode"] = 204
+            response["statusReason"] = "No Content"
+            return self._send_response(response)
 
     def OnWebSocketClose(self, dat, client):
         """Remove disconnected WebSocket clients."""
         self._ws_clients.discard(client)
-        self._debug_print(f"WebSocket client disconnected: {client.id}")
+        self._debug_print(f">>> {method} {uri}", pars if pars else "")
+
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+        response["Access-Control-Allow-Headers"] = "Content-Type"
+        if method == "OPTIONS":
+            response["statusCode"] = 204
+            response["statusReason"] = "No Content"
+            return self._send_response(response)
 
     def OnWebSocketReceiveText(self, dat, client, data):
         """Handle incoming JSON-RPC messages over WebSocket.
@@ -3377,7 +3413,15 @@ else:
         try:
             dat.sendText(client, json.dumps(resp, ensure_ascii=False))
         except Exception as e:
-            self._debug_print(f"WebSocket send error: {e}")
+            self._debug_print(f">>> {method} {uri}", pars if pars else "")
+
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+        response["Access-Control-Allow-Headers"] = "Content-Type"
+        if method == "OPTIONS":
+            response["statusCode"] = 204
+            response["statusReason"] = "No Content"
+            return self._send_response(response)
 
     def _ws_dispatch(self, method: str, params: dict) -> dict:
         """Route a JSON-RPC method to the corresponding HTTP handler logic.
@@ -3742,10 +3786,26 @@ else:
                 break
 
         if plugin_dir is None:
-            self._debug_print("No plugins directory found")
+            self._debug_print(f">>> {method} {uri}", pars if pars else "")
+
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+        response["Access-Control-Allow-Headers"] = "Content-Type"
+        if method == "OPTIONS":
+            response["statusCode"] = 204
+            response["statusReason"] = "No Content"
+            return self._send_response(response)
             return
 
-        self._debug_print(f"Loading plugins from {plugin_dir}")
+        self._debug_print(f">>> {method} {uri}", pars if pars else "")
+
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+        response["Access-Control-Allow-Headers"] = "Content-Type"
+        if method == "OPTIONS":
+            response["statusCode"] = 204
+            response["statusReason"] = "No Content"
+            return self._send_response(response)
 
         loaded = 0
         for fname in sorted(os.listdir(plugin_dir)):
@@ -3769,18 +3829,66 @@ else:
                         register_method = getattr(attr, "register_endpoints")
                         if callable(register_method):
                             try:
-                                register_method(self, self._debug_print)
+                                register_method(self, self._debug_print(f">>> {method} {uri}", pars if pars else "")
+
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+        response["Access-Control-Allow-Headers"] = "Content-Type"
+        if method == "OPTIONS":
+            response["statusCode"] = 204
+            response["statusReason"] = "No Content"
+            return self._send_response(response)
                                 registered = True
-                                self._debug_print(f"  Loaded plugin: {attr_name} from {fname}")
+                                self._debug_print(f">>> {method} {uri}", pars if pars else "")
+
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+        response["Access-Control-Allow-Headers"] = "Content-Type"
+        if method == "OPTIONS":
+            response["statusCode"] = 204
+            response["statusReason"] = "No Content"
+            return self._send_response(response)
                                 loaded += 1
                             except Exception as e:
-                                self._debug_print(f"  Error loading {attr_name} from {fname}: {e}")
-                if not registered:
-                    self._debug_print(f"  No plugin class found in {fname}")
-            except Exception as e:
-                self._debug_print(f"  Error loading plugin {fname}: {e}")
+                                self._debug_print(f">>> {method} {uri}", pars if pars else "")
 
-        self._debug_print(f"Loaded {loaded} plugin(s)")
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+        response["Access-Control-Allow-Headers"] = "Content-Type"
+        if method == "OPTIONS":
+            response["statusCode"] = 204
+            response["statusReason"] = "No Content"
+            return self._send_response(response)
+                if not registered:
+                    self._debug_print(f">>> {method} {uri}", pars if pars else "")
+
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+        response["Access-Control-Allow-Headers"] = "Content-Type"
+        if method == "OPTIONS":
+            response["statusCode"] = 204
+            response["statusReason"] = "No Content"
+            return self._send_response(response)
+            except Exception as e:
+                self._debug_print(f">>> {method} {uri}", pars if pars else "")
+
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+        response["Access-Control-Allow-Headers"] = "Content-Type"
+        if method == "OPTIONS":
+            response["statusCode"] = 204
+            response["statusReason"] = "No Content"
+            return self._send_response(response)
+
+        self._debug_print(f">>> {method} {uri}", pars if pars else "")
+
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+        response["Access-Control-Allow-Headers"] = "Content-Type"
+        if method == "OPTIONS":
+            response["statusCode"] = 204
+            response["statusReason"] = "No Content"
+            return self._send_response(response)
 
     def OnServerStart(self, dat):
         print("Server started")
