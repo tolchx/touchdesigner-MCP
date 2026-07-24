@@ -5,7 +5,9 @@
       "TOP": "https://docs.derivative.ca/Category:TOPs",
       "CHOP": "https://docs.derivative.ca/Category:CHOPs",
       "SOP": "https://docs.derivative.ca/Category:SOPs",
-      "DAT": "https://docs.derivative.ca/Category:DATs"
+      "DAT": "https://docs.derivative.ca/Category:DATs",
+      "COMP": "https://docs.derivative.ca/Category:COMPs",
+      "MAT": "https://docs.derivative.ca/Category:MATs"
     }
   },
   "operators": [
@@ -4061,6 +4063,398 @@
       "url": "https://docs.derivative.ca/XML_DAT",
       "tdOpTypeGuess": "xMLDAT",
       "summary": "[  edit  ]\nThe XML  DAT  can be used to parse arbitrary XML and SGML/HTML formatted data. Once formatted, selected sections of the text can be output for further processing.\nOne approach to parsing with the XML  DAT  is to read the XML with a Text  DAT  or a Web  DAT , and pass that to a default XML  DAT . Then you start to refine your selection by changing the match-all pattern (the \"*\"), to strings that reduce the elements that are in the output.\nXML and HTML Background\nXML and HTML data consists of a tree like structure consisting of elements. Each element can be either tagged or contain arbitrary text. Elements may be nested. Tagged elements begin with an opening section and usually are terminated with a closing section.\nExample:\n<greeting a=\"1\" b=\"2\" c=\"3\"> Hello there. </greeting>\nIn the example above are two elements. The first is a  tag  element named  greeting  with attributes  a, b  and  c . The second element is a  text  element consisting of \" Hello there. \"\nXML  DAT  Operation\nThe XML  DAT  begins by parsing its input, creating an internal tree of elements.\nThe  Element  Scope   parameters are then used to filter out unwanted elements. The remaining elements are then used to create the output. The format of the output is determined by the  Format  parameters. The  Output  parameters can then be used to futher limit the information displayed for each scoped element.\nEach parsed element contains a number of details:\nLabel  - Each element is given an arbitrary label named n0, n1, n2 etc. All elements are children of the reserved element labelled 'root'.\nType  - Elements are mainly of type 'tag' or 'text', though tag types can be further classified into 'doctype', 'declaration', 'comment' or 'entity'.\nText  - The text of an element refers to the tag attribute of an element, or the arbitrary text contents. In the above example, the first element would be of type 'tag' and contain text of 'greeting'. The second element would be of type 'text' and contain text of 'Hello there.'\nLevel  - This describes how deeply nested an element is. For example the single root element always has a level of 0.\nParent   - Each element contains one parent. The root element does not have a parent.\nChildren  - Each element can have an arbitrary number of children elements."
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Actor COMP",
+      "pageSlug": "Actor_COMP",
+      "url": "https://docs.derivative.ca/Actor_COMP",
+      "tdOpTypeGuess": "actorCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Ambient Light COMP",
+      "pageSlug": "Ambient_Light_COMP",
+      "url": "https://docs.derivative.ca/Ambient_Light_COMP",
+      "tdOpTypeGuess": "ambientLightCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Animation COMP",
+      "pageSlug": "Animation_COMP",
+      "url": "https://docs.derivative.ca/Animation_COMP",
+      "tdOpTypeGuess": "animationCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Annotate COMP",
+      "pageSlug": "Annotate_COMP",
+      "url": "https://docs.derivative.ca/Annotate_COMP",
+      "tdOpTypeGuess": "annotateCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Base COMP",
+      "pageSlug": "Base_COMP",
+      "url": "https://docs.derivative.ca/Base_COMP",
+      "tdOpTypeGuess": "baseCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Blend COMP",
+      "pageSlug": "Blend_COMP",
+      "url": "https://docs.derivative.ca/Blend_COMP",
+      "tdOpTypeGuess": "blendCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Bone COMP",
+      "pageSlug": "Bone_COMP",
+      "url": "https://docs.derivative.ca/Bone_COMP",
+      "tdOpTypeGuess": "boneCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Bullet Solver COMP",
+      "pageSlug": "Bullet_Solver_COMP",
+      "url": "https://docs.derivative.ca/Bullet_Solver_COMP",
+      "tdOpTypeGuess": "bulletSolverCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Button COMP",
+      "pageSlug": "Button_COMP",
+      "url": "https://docs.derivative.ca/Button_COMP",
+      "tdOpTypeGuess": "buttonCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Camera Blend COMP",
+      "pageSlug": "Camera_Blend_COMP",
+      "url": "https://docs.derivative.ca/Camera_Blend_COMP",
+      "tdOpTypeGuess": "cameraBlendCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Camera COMP",
+      "pageSlug": "Camera_COMP",
+      "url": "https://docs.derivative.ca/Camera_COMP",
+      "tdOpTypeGuess": "cameraCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Constraint COMP",
+      "pageSlug": "Constraint_COMP",
+      "url": "https://docs.derivative.ca/Constraint_COMP",
+      "tdOpTypeGuess": "constraintCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Container COMP",
+      "pageSlug": "Container_COMP",
+      "url": "https://docs.derivative.ca/Container_COMP",
+      "tdOpTypeGuess": "containerCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Engine COMP",
+      "pageSlug": "Engine_COMP",
+      "url": "https://docs.derivative.ca/Engine_COMP",
+      "tdOpTypeGuess": "engineCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Environment Light COMP",
+      "pageSlug": "Environment_Light_COMP",
+      "url": "https://docs.derivative.ca/Environment_Light_COMP",
+      "tdOpTypeGuess": "environmentLightCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "FBX COMP",
+      "pageSlug": "FBX_COMP",
+      "url": "https://docs.derivative.ca/FBX_COMP",
+      "tdOpTypeGuess": "fbxCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Field COMP",
+      "pageSlug": "Field_COMP",
+      "url": "https://docs.derivative.ca/Field_COMP",
+      "tdOpTypeGuess": "fieldCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Force COMP",
+      "pageSlug": "Force_COMP",
+      "url": "https://docs.derivative.ca/Force_COMP",
+      "tdOpTypeGuess": "forceCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Geo Text COMP",
+      "pageSlug": "Geo_Text_COMP",
+      "url": "https://docs.derivative.ca/Geo_Text_COMP",
+      "tdOpTypeGuess": "geoTextCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Geometry COMP",
+      "pageSlug": "Geometry_COMP",
+      "url": "https://docs.derivative.ca/Geometry_COMP",
+      "tdOpTypeGuess": "geometryCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "GLSL COMP",
+      "pageSlug": "GLSL_COMP",
+      "url": "https://docs.derivative.ca/GLSL_COMP",
+      "tdOpTypeGuess": "glslCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "GlTF In COMP",
+      "pageSlug": "GlTF_In_COMP",
+      "url": "https://docs.derivative.ca/GlTF_In_COMP",
+      "tdOpTypeGuess": "gltfInCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "GlTF Out COMP",
+      "pageSlug": "GlTF_Out_COMP",
+      "url": "https://docs.derivative.ca/GlTF_Out_COMP",
+      "tdOpTypeGuess": "gltfOutCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Handle COMP",
+      "pageSlug": "Handle_COMP",
+      "url": "https://docs.derivative.ca/Handle_COMP",
+      "tdOpTypeGuess": "handleCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Impulse Force COMP",
+      "pageSlug": "Impulse_Force_COMP",
+      "url": "https://docs.derivative.ca/Impulse_Force_COMP",
+      "tdOpTypeGuess": "impulseForceCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Light COMP",
+      "pageSlug": "Light_COMP",
+      "url": "https://docs.derivative.ca/Light_COMP",
+      "tdOpTypeGuess": "lightCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "List COMP",
+      "pageSlug": "List_COMP",
+      "url": "https://docs.derivative.ca/List_COMP",
+      "tdOpTypeGuess": "listCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Null COMP",
+      "pageSlug": "Null_COMP",
+      "url": "https://docs.derivative.ca/Null_COMP",
+      "tdOpTypeGuess": "nullCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "NVIDIA Flex Solver COMP",
+      "pageSlug": "NVIDIA_Flex_Solver_COMP",
+      "url": "https://docs.derivative.ca/NVIDIA_Flex_Solver_COMP",
+      "tdOpTypeGuess": "nVIDIAFlexSolverCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "NVIDIA Flow Emitter COMP",
+      "pageSlug": "NVIDIA_Flow_Emitter_COMP",
+      "url": "https://docs.derivative.ca/NVIDIA_Flow_Emitter_COMP",
+      "tdOpTypeGuess": "nVIDIAFlowEmitterCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "OP Viewer COMP",
+      "pageSlug": "OP_Viewer_COMP",
+      "url": "https://docs.derivative.ca/OP_Viewer_COMP",
+      "tdOpTypeGuess": "oPViewerCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Parameter COMP",
+      "pageSlug": "Parameter_COMP",
+      "url": "https://docs.derivative.ca/Parameter_COMP",
+      "tdOpTypeGuess": "parameterCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Replicator COMP",
+      "pageSlug": "Replicator_COMP",
+      "url": "https://docs.derivative.ca/Replicator_COMP",
+      "tdOpTypeGuess": "replicatorCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Select COMP",
+      "pageSlug": "Select_COMP",
+      "url": "https://docs.derivative.ca/Select_COMP",
+      "tdOpTypeGuess": "selectCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Shared Mem In COMP",
+      "pageSlug": "Shared_Mem_In_COMP",
+      "url": "https://docs.derivative.ca/Shared_Mem_In_COMP",
+      "tdOpTypeGuess": "sharedMemInCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Shared Mem Out COMP",
+      "pageSlug": "Shared_Mem_Out_COMP",
+      "url": "https://docs.derivative.ca/Shared_Mem_Out_COMP",
+      "tdOpTypeGuess": "sharedMemOutCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Slider COMP",
+      "pageSlug": "Slider_COMP",
+      "url": "https://docs.derivative.ca/Slider_COMP",
+      "tdOpTypeGuess": "sliderCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Table COMP",
+      "pageSlug": "Table_COMP",
+      "url": "https://docs.derivative.ca/Table_COMP",
+      "tdOpTypeGuess": "tableCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Text COMP",
+      "pageSlug": "Text_COMP",
+      "url": "https://docs.derivative.ca/Text_COMP",
+      "tdOpTypeGuess": "textCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Time COMP",
+      "pageSlug": "Time_COMP",
+      "url": "https://docs.derivative.ca/Time_COMP",
+      "tdOpTypeGuess": "timeCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "USD COMP",
+      "pageSlug": "USD_COMP",
+      "url": "https://docs.derivative.ca/USD_COMP",
+      "tdOpTypeGuess": "usdCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Widget COMP",
+      "pageSlug": "Widget_COMP",
+      "url": "https://docs.derivative.ca/Widget_COMP",
+      "tdOpTypeGuess": "widgetCOMP"
+    },
+    {
+      "family": "COMP",
+      "pageTitle": "Window COMP",
+      "pageSlug": "Window_COMP",
+      "url": "https://docs.derivative.ca/Window_COMP",
+      "tdOpTypeGuess": "windowCOMP"
+    },
+    {
+      "family": "MAT",
+      "pageTitle": "Constant MAT",
+      "pageSlug": "Constant_MAT",
+      "url": "https://docs.derivative.ca/Constant_MAT",
+      "tdOpTypeGuess": "constantMAT"
+    },
+    {
+      "family": "MAT",
+      "pageTitle": "Depth MAT",
+      "pageSlug": "Depth_MAT",
+      "url": "https://docs.derivative.ca/Depth_MAT",
+      "tdOpTypeGuess": "depthMAT"
+    },
+    {
+      "family": "MAT",
+      "pageTitle": "GLSL MAT",
+      "pageSlug": "GLSL_MAT",
+      "url": "https://docs.derivative.ca/GLSL_MAT",
+      "tdOpTypeGuess": "glslMAT"
+    },
+    {
+      "family": "MAT",
+      "pageTitle": "In MAT",
+      "pageSlug": "In_MAT",
+      "url": "https://docs.derivative.ca/In_MAT",
+      "tdOpTypeGuess": "inMAT"
+    },
+    {
+      "family": "MAT",
+      "pageTitle": "Line MAT",
+      "pageSlug": "Line_MAT",
+      "url": "https://docs.derivative.ca/Line_MAT",
+      "tdOpTypeGuess": "lineMAT"
+    },
+    {
+      "family": "MAT",
+      "pageTitle": "Null MAT",
+      "pageSlug": "Null_MAT",
+      "url": "https://docs.derivative.ca/Null_MAT",
+      "tdOpTypeGuess": "nullMAT"
+    },
+    {
+      "family": "MAT",
+      "pageTitle": "Out MAT",
+      "pageSlug": "Out_MAT",
+      "url": "https://docs.derivative.ca/Out_MAT",
+      "tdOpTypeGuess": "outMAT"
+    },
+    {
+      "family": "MAT",
+      "pageTitle": "PBR MAT",
+      "pageSlug": "PBR_MAT",
+      "url": "https://docs.derivative.ca/PBR_MAT",
+      "tdOpTypeGuess": "pbrMAT"
+    },
+    {
+      "family": "MAT",
+      "pageTitle": "Phong MAT",
+      "pageSlug": "Phong_MAT",
+      "url": "https://docs.derivative.ca/Phong_MAT",
+      "tdOpTypeGuess": "phongMAT"
+    },
+    {
+      "family": "MAT",
+      "pageTitle": "Point Sprite MAT",
+      "pageSlug": "Point_Sprite_MAT",
+      "url": "https://docs.derivative.ca/Point_Sprite_MAT",
+      "tdOpTypeGuess": "pointSpriteMAT"
+    },
+    {
+      "family": "MAT",
+      "pageTitle": "Select MAT",
+      "pageSlug": "Select_MAT",
+      "url": "https://docs.derivative.ca/Select_MAT",
+      "tdOpTypeGuess": "selectMAT"
+    },
+    {
+      "family": "MAT",
+      "pageTitle": "Switch MAT",
+      "pageSlug": "Switch_MAT",
+      "url": "https://docs.derivative.ca/Switch_MAT",
+      "tdOpTypeGuess": "switchMAT"
+    },
+    {
+      "family": "MAT",
+      "pageTitle": "Wireframe MAT",
+      "pageSlug": "Wireframe_MAT",
+      "url": "https://docs.derivative.ca/Wireframe_MAT",
+      "tdOpTypeGuess": "wireframeMAT"
     }
   ]
 }

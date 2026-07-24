@@ -1,0 +1,120 @@
+================================================================================
+TD-MCP Cron Test Report
+================================================================================
+Date: $(date "+%Y-%m-%d %H:%M:%S")
+Server: http://127.0.0.1:44444
+
+================================================================================
+1. HEALTH CHECK
+================================================================================
+
+/info:
+  FPS: 60.0
+  Build info: all null (no official build metadata)
+  Project Path: null
+
+/verify (global):
+  operator_count: 59
+  errors: []
+  error_count: 0
+  total_connections: 12
+  healthy: true
+
+/verify?path=/project1:
+  Same as global (59 operators, 0 errors, 12 connections, healthy)
+
+HEALTH: PASS
+
+================================================================================
+2. EXISTING OPERATORS
+================================================================================
+
+Path: /project1
+Total operators listed: 27 (of 59 total)
+Types breakdown:
+  - textDAT:      6
+  - glslTOP:      3
+  - baseCOMP:     3
+  - infoDAT:      3
+  - blurTOP:      2
+  - nullTOP:      1
+  - nullCHOP:     1
+  - noiseTOP:     2
+  - constantTOP:  1
+  - compositeTOP: 1
+  - mathCHOP:     1
+  - levelTOP:     1
+  - filterCHOP:   1
+  - lfoCHOP:      1
+  - comp:         1
+
+No cron test operators from previous runs found (first run or auto-cleared).
+
+================================================================================
+3. OPERATOR CREATION (/exec endpoint)
+================================================================================
+
+Action: POST /exec with Python code to create noiseTOP, blurTOP, nullTOP + connections
+Result: Server returned "(ok)" but operators were NOT created.
+  - operator_count remained at 59 (unchanged)
+  - No 'cron_test_noise', 'cron_test_blur', or 'cron_test_out' in operator list
+  - /exec returns "(ok)" for ALL Python inputs including trivial ones like print(42)
+  - Stdout from print() is NOT captured in the response
+
+ISSUE: /exec endpoint appears non-functional or decoupled from live TD.
+  - It always returns "(ok)" regardless of what Python is sent
+  - No side effects visible in TD (operators unchanged)
+  - This is a CRITICAL defect if operator creation is an expected feature
+
+================================================================================
+4. VERIFY AFTER ATTEMPTED CREATION
+================================================================================
+
+/verify?path=/project1: Still 59 operators, 0 errors, 12 connections, healthy
+No error_count increase — either exec doesn't run, or operators were created
+outside /project1 scope.
+
+================================================================================
+5. DASHBOARD
+================================================================================
+
+GET / → HTTP 200 ✅
+Dashboard is accessible and responding.
+
+================================================================================
+6. ENDPOINT SUMMARY
+================================================================================
+
+Available endpoints tested:
+  GET  /             → 200 ✅ (Dashboard)
+  GET  /info         → 200 ✅ (Server info)
+  GET  /verify       → 200 ✅ (Global health)
+  GET  /verify?path= → 200 ✅ (Per-path health)
+  GET  /operators    → 200 ✅ (Operator listing)
+  POST /exec         → 200 ⚠️ (Returns (ok) but no actual execution)
+  GET  /help         → 200 ✅ (Module help system)
+
+Not available (404):
+  /routes, /modules, /api, /td, /status, /health
+
+================================================================================
+7. ANOMALIES
+================================================================================
+
+1. /EXEC NON-FUNCTIONAL: POST /exec returns "(ok)" for all inputs but
+   produces no visible side effects in TD. Stdout isn't captured. This is
+   the most significant issue — the cron test network cannot be created.
+
+2. OPERATOR COUNT DISPARITY: /verify reports 59 total operators but
+   /operators?path=/project1 only lists 27. The remaining 32 operators are
+   in other paths/containers not exposed by the operator listing endpoint.
+
+3. MINIMAL METADATA: /info returns null for build, version, commercial,
+   platform, release, and projectPath — only FPS is populated (60.0).
+
+4. MODULE HELP: /help?module=project1 exists but has "(no help available)"
+   — the module documentation system is not populated.
+
+================================================================================
+END OF REPORT
+================================================================================

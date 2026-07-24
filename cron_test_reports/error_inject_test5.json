@@ -1,0 +1,1 @@
+{"code": "R=\"/project1/glsl_test_5\"\ncdat=op(R+\"/shader_code\")\ncdat.text=\"void main(){INVALID_SYNTAX_HERE;P[TDIndex()]=vec3(1.0);}\"\nop(R+\"/glsl_pop\").cook(force=True)\ninfo=op(R+\"/glsl_pop_info\")\nprint(str(info.text))\n"}

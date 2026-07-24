@@ -1,0 +1,157 @@
+================================================================================
+TD-MCP Cron Test Report
+================================================================================
+Date: 2026-06-20 00:07:09
+Server: http://127.0.0.1:44444
+
+================================================================================
+1. HEALTH CHECK
+================================================================================
+
+/info:
+  FPS: 60.0
+  Build info: all null (no official build metadata)
+  Project Path: null
+
+/verify (global):
+  operator_count: 62
+  errors: []
+  error_count: 0
+  total_connections: 14
+  healthy: true
+
+/verify?path=/project1:
+  operator_count: 30 (of 62 total)
+  error_count: 0
+  total_connections: 14
+  healthy: true
+
+HEALTH: PASS ✅
+
+================================================================================
+2. EXISTING OPERATORS
+================================================================================
+
+Path: /project1
+Total operators: 30
+Includes cron_test_noise, cron_test_blur, cron_test_out (from this run)
+Types breakdown:
+  - textDAT:      6
+  - glslTOP:      3
+  - baseCOMP:     3
+  - infoDAT:      3
+  - blurTOP:      3  (1 new)
+  - noiseTOP:     3  (1 new)
+  - nullCHOP:     1
+  - nullTOP:      2  (1 new)
+  - constantTOP:  1
+  - compositeTOP: 1
+  - mathCHOP:     1
+  - levelTOP:     1
+  - filterCHOP:   1
+  - lfoCHOP:      1
+  - comp:         1
+
+Cron test ops from previous runs: NOT FOUND (first run or auto-cleared)
+
+================================================================================
+3. OPERATOR CREATION (/exec endpoint)
+================================================================================
+
+Request format: POST /exec with {"code":"<python>"} (NOT {"python":"..."})
+RESULT: SUCCESS ✅
+
+Operators created:
+  - cron_test_noise (noiseTOP) — amp=0.5 ✅
+  - cron_test_blur (blurTOP) ✅
+  - cron_test_out (nullTOP) ✅
+
+Connections made:
+  - cron_test_noise → cron_test_blur → cron_test_out ✅
+
+NOTE: Initial attempt with {"python":"..."} (wrong key) always returned
+"(ok)" with no side effects. The correct key is {"code":"python code here"}.
+
+Parameter setting via /exec had issues with .par.radius and .par.display
+— these are not valid Python attributes. Correct approach is to use
+/parameters/set or access via .par.Radius_val (TD ParCollection accessor).
+
+================================================================================
+4. VERIFY AFTER CREATION
+================================================================================
+
+/verify?path=/project1:
+  - operator_count: 62 (+3 from 59)
+  - error_count: 0 (unchanged — no errors)
+  - total_connections: 14 (+2 from 12)
+  - healthy: true
+
+No errors generated. Network is healthy.
+
+================================================================================
+5. PARAMETER ENDPOINTS
+================================================================================
+
+GET /parameters?path=... → 200 ✅ (Read operator parameters)
+  - blurTOP has 'size' (Int), NOT 'radius' — different naming
+
+POST /parameters/set → 200 ⚠️
+  - Returns {"updated": []} for blur size=3 — parameter was NOT set
+  - May need investigation: could be read-only param, wrong access pattern,
+    or endpoint issue
+
+================================================================================
+6. DASHBOARD
+================================================================================
+
+GET / → HTTP 200 ✅
+Dashboard is accessible and responding.
+
+================================================================================
+7. ENDPOINT SUMMARY
+================================================================================
+
+Available endpoints (from testing + AGENTS.md):
+  GET  /                    → 200 ✅  Dashboard
+  GET  /info                → 200 ✅  Server info
+  GET  /verify              → 200 ✅  Global health
+  GET  /verify?path=        → 200 ✅  Per-path health
+  GET  /operators           → 200 ✅  Operator listing
+  GET  /parameters?path=    → 200 ✅  Parameter reading
+  POST /exec                → 200 ✅  Execute Python (use {"code":...})
+  POST /parameters/set      → 200 ⚠️  Set params (empty update?)
+  POST /create (alias)      → untested
+  POST /connect (alias)     → untested
+  GET  /connections?path=   → untested
+  GET  /editor/selection    → untested
+  GET  /spatial_context     → untested
+  GET  /audit/performance   → untested
+  POST /screenshot          → untested
+  GET  /help?module=        → 200 ✅  Module docs (mostly empty)
+  GET  /help                → 200 ✅  Shows module parameter hints
+
+Not available (404):
+  /routes, /modules, /api, /td, /status, /health
+
+================================================================================
+8. ANOMALIES
+================================================================================
+
+1. OPERATOR COUNT DISPARITY: /verify reports 62 total but /project1 only
+   has 30. ~32 operators in other containers not shown.
+
+2. /PARAMETERS/SET EMPTY UPDATE: Setting blur.size=3 returned
+   {"updated": []} — the value was not actually changed. Needs investigation.
+
+3. PARAMETER NAME MISMATCH: blurTOP uses 'size' (Int) not 'radius' for
+   filter size. nullTOP has no 'display' parameter — it's not a viewer
+   toggle parameter on that operator type.
+
+4. MINIMAL METADATA: /info only provides FPS (60.0), everything else null.
+
+5. MODULE DOCS EMPTY: /help?module=... returns "(no help available)" for
+   all modules.
+
+================================================================================
+END OF REPORT
+================================================================================

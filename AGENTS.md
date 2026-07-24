@@ -43,6 +43,8 @@ GET http://localhost:44444/verify?path=/project1
 10. **GLSL POP requires**: `boxPOP` source (NOT SOP), `outputattrs='P'`, `uniform float u_time;` declared manually
 11. **Parameter names**: use `.eval()` names (e.g. `amp` not "Amplitude") — read with `/parameters` first
 12. **Connections after multi-output**: compositeTOP has inputs [0]=top A, [1]=top B, [2]=top C — use `connect(dst, input_index)`
+13. **7 operator families**: COMP (🔵), TOP (🟢), CHOP (🟡), SOP (🟠), POP (🔴), DAT (🟣), MAT (⚪) — see `mcp_reference/OPERATOR_FAMILIES.md`
+14. **COMP and MAT exist!**: COMPs (baseCOMP, geometryCOMP, etc.) son contenedores de redes; MATs (phongMAT, pbrMAT, glslMAT, etc.) son materiales asignados a geometryCOMP
 
 ## Example: Create a GLSL POP
 ```python

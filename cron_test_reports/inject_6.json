@@ -1,0 +1,1 @@
+{"code": "import json\nR='/project1/glsl_test_6'\nR2='/project1/glsl_test_6/shader_code'\nop(R2).text='void main(){INVALID_SYNTAX_HERE;P[TDIndex()]=vec3(1.0);}'\nop(R+'/glsl_metaball').cook(force=True)\nprint(json.dumps({'injected':str(op(R+'/glsl_metaball_info').text[:500])}))"}
