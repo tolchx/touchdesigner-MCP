@@ -378,6 +378,7 @@ node server.js
 
 ## 🧪 Tests
 
+### Node.js — Offline tests
 ```bash
 # Suite de unit/integration tests offline (1000+ tests nativos)
 node --test mcp/test/*.test.js
@@ -397,6 +398,127 @@ npm run compat
 # CI completo
 npm run ci
 ```
+
+### Python — Unit tests + Integration tests
+```bash
+# Ejecutar TODOS los tests Python unitarios + integración
+python -m unittest discover tests -v
+
+# Solo tests unitarios MCP
+python -m unittest tests.test_mcp_server_stdio -v
+
+# Solo tests integración MCP
+python -m unittest tests.test_mcp_server_stdio_integration -v
+
+# Solo tests unitarios W2T (WebSocket server)
+python -m unittest tests.test_w2t_server_unit -v
+
+# Solo tests integración W2T
+python -m unittest tests.test_w2t_server_integration -v
+```
+
+---
+
+## 📊 Code Coverage
+
+![mcp_server_stdio](https://img.shields.io/badge/mcp_server_stdio-99%25-brightgreen?style=flat-square)
+![w2t_server](https://img.shields.io/badge/w2t_server-48%25-red?style=flat-square)
+
+Cobertura combinada de los servidores Python del proyecto, medida con [`coverage.py`](https://coverage.readthedocs.io/).
+
+### Requisitos
+```bash
+pip install coverage
+```
+
+### Ejecutar coverage completo (218 tests)
+
+1. **Limpiar datos anteriores**
+   ```bash
+   del .coverage*
+   ```
+
+2. **Ejecutar cada suite con `COVERAGE_RUN=1`**  
+   (Las suites deben ejecutarse por separado para evitar conflictos de puerto entre servidores)
+
+   ```bash
+   set COVERAGE_RUN=1
+
+   REM Suite MCP (unit + integración)
+   python -m coverage run --parallel-mode --rcfile=.coveragerc ^
+       -m unittest tests.test_mcp_server_stdio
+   python -m coverage run --parallel-mode --rcfile=.coveragerc ^
+       -m unittest tests.test_mcp_server_stdio_integration.TestMcpStdioIntegration
+
+   REM Suite W2T (unit + integración)
+   python -m coverage run --parallel-mode --rcfile=.coveragerc ^
+       -m unittest tests.test_w2t_server_unit
+   python -m coverage run --parallel-mode --rcfile=.coveragerc ^
+       -m unittest tests.test_w2t_server_integration
+   ```
+
+3. **Combinar y generar reportes**
+   ```bash
+   python -m coverage combine --rcfile=.coveragerc
+   python -m coverage report -m --rcfile=.coveragerc
+   python -m coverage html --rcfile=.coveragerc -d coverage_html
+   ```
+
+4. **Ver el reporte HTML**  
+   Abre `coverage_html/index.html` en tu navegador.
+
+> **Nota:** Los porcentajes del badge son estáticos. Ejecuta `run_coverage.ps1` para regenerarlos localmente.
+
+### Script de ejecución rápida (PowerShell)
+También puedes usar el script `run_coverage.ps1`:
+
+```powershell
+# run_coverage.ps1
+$env:COVERAGE_RUN = "1"
+$env:PYTHONIOENCODING = "utf-8"
+
+Write-Host "=== MCP Unit Tests ==="
+python -m coverage run --parallel-mode --rcfile=.coveragerc -m unittest tests.test_mcp_server_stdio
+
+Write-Host "=== MCP Integration Tests ==="
+python -m coverage run --parallel-mode --rcfile=.coveragerc -m unittest tests.test_mcp_server_stdio_integration.TestMcpStdioIntegration
+
+Start-Sleep -Seconds 3
+
+Write-Host "=== W2T Unit Tests ==="
+python -m coverage run --parallel-mode --rcfile=.coveragerc -m unittest tests.test_w2t_server_unit
+
+Start-Sleep -Seconds 3
+
+Write-Host "=== W2T Integration Tests ==="
+python -m coverage run --parallel-mode --rcfile=.coveragerc -m unittest tests.test_w2t_server_integration
+
+Write-Host "=== Combining & Reporting ==="
+python -m coverage combine --rcfile=.coveragerc
+python -m coverage report --rcfile=.coveragerc --include=mcp_server_stdio.py,w2t_server.py
+```
+
+### Arquitectura de coverage
+
+```
+Tests (unittest)
+  ├── tests/test_mcp_server_stdio.py          → mcp_server_stdio.py  (87 tests)
+  ├── tests/test_mcp_server_stdio_integration → mcp_server_stdio.py  (23 integ tests)
+  ├── tests/test_w2t_server_unit.py           → w2t_server.py        (92 tests)
+  └── tests/test_w2t_server_integration       → w2t_server.py        (16 integ tests)
+                                               ─────────────────────────────
+                                               Total: 218 tests
+
+COVERAGE_RUN=1 → coverage run --parallel-mode (by test_helpers.coverage_cmd)
+                      ↓
+          .coverage.* (parallel data files)
+                      ↓
+          coverage combine
+                      ↓
+          coverage report / coverage html
+```
+
+> **Nota:** La cobertura de `w2t_server.py` (48%) es menor porque los manejadores asyncio (`handle_ws`, `handle_client`, `main`) requieren una conexión TouchDesigner real para ser ejercitados. Las funciones puras (WS frame parsing, HTTP parsing, MCP code generation) tienen cobertura completa.
 
 ---
 

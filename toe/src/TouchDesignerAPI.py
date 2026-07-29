@@ -46,323 +46,342 @@ class TouchDesignerAPI:
 
     def OnHTTPRequest(self, dat, request: dict, response: dict) -> dict:
         """Handle incoming HTTP requests."""
-        uri = request.get("uri", "")
-        method = request.get("method", "")
-        pars = request.get("pars", {})
+        # ── CORS Headers — always set, even on errors ──
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS, PUT, DELETE"
+        response["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Requested-With"
 
-        self._debug_print(f">>> {method} {uri}", pars if pars else "")
-
-        # GET / or /dashboard or /neonctrl or /web2touch - serve HTML apps
-        if uri in ("/", "/dashboard", "/dashboard.html", "/neonctrl", "/neonctrl.html", "/web2touch", "/web2touch/") and method == "GET":
-            response["Content-Type"] = "text/html"
+        # OPTIONS preflight → fast 200 (no handler needed)
+        if request.get("method", "") == "OPTIONS":
             response["statusCode"] = 200
             response["statusReason"] = "OK"
-            import pathlib as _pl
-            if uri.startswith("/neonctrl"):
-                _dash = _pl.Path(r"C:\Users\Tolch\Documents\AI_Code\WebApp_ui_osc\index.html")
-            elif uri.startswith("/web2touch"):
-                _dash = _pl.Path(r"C:\Users\Tolch\Documents\AI_Code\Touchdesigner_MCP\Main\web2touch\index.html")
-            else:
-                _dash = _pl.Path(r"C:\Users\Tolch\Documents\AI_Code\Touchdesigner_MCP\Main\dashboard.html")
-            if _dash.exists():
-                response["data"] = _dash.read_text(encoding="utf-8")
-            else:
-                response["data"] = "<html><body><h1>Not found: " + str(_dash) + "</h1></body></html>"
             return self._send_response(response)
 
-        # Serve Web2Touch static assets (JS, CSS, PNG, SVG)
-        if uri.startswith("/assets/") and method == "GET":
-            import pathlib as _pl
-            _f = _pl.Path(r"C:\Users\Tolch\Documents\AI_Code\Touchdesigner_MCP\Main\web2touch") / uri.lstrip("/")
-            if _f.exists():
-                _ext = _f.suffix.lower()
-                _mimes = {".js": "application/javascript", ".css": "text/css", ".png": "image/png", ".svg": "image/svg+xml"}
-                response["Content-Type"] = _mimes.get(_ext, "application/octet-stream")
+        try:
+            uri = request.get("uri", "")
+            method = request.get("method", "")
+            pars = request.get("pars", {})
+
+            self._debug_print(f">>> {method} {uri}", pars if pars else "")
+
+            # GET / or /dashboard or /neonctrl or /web2touch - serve HTML apps
+            if uri in ("/", "/dashboard", "/dashboard.html", "/neonctrl", "/neonctrl.html", "/web2touch", "/web2touch/") and method == "GET":
+                response["Content-Type"] = "text/html"
                 response["statusCode"] = 200
                 response["statusReason"] = "OK"
-                response["data"] = _f.read_bytes()
+                import pathlib as _pl
+                if uri.startswith("/neonctrl"):
+                    _dash = _pl.Path(r"C:\Users\Tolch\Documents\AI_Code\WebApp_ui_osc\index.html")
+                elif uri.startswith("/web2touch"):
+                    _dash = _pl.Path(r"C:\Users\Tolch\Documents\AI_Code\Touchdesigner_MCP\Main\web2touch\index.html")
+                else:
+                    _dash = _pl.Path(r"C:\Users\Tolch\Documents\AI_Code\Touchdesigner_MCP\Main\dashboard.html")
+                if _dash.exists():
+                    response["data"] = _dash.read_text(encoding="utf-8")
+                else:
+                    response["data"] = "<html><body><h1>Not found: " + str(_dash) + "</h1></body></html>"
                 return self._send_response(response)
 
-        response["Content-Type"] = "application/json"
+            # Serve Web2Touch static assets (JS, CSS, PNG, SVG)
+            if uri.startswith("/assets/") and method == "GET":
+                import pathlib as _pl
+                _f = _pl.Path(r"C:\Users\Tolch\Documents\AI_Code\Touchdesigner_MCP\Main\web2touch") / uri.lstrip("/")
+                if _f.exists():
+                    _ext = _f.suffix.lower()
+                    _mimes = {".js": "application/javascript", ".css": "text/css", ".png": "image/png", ".svg": "image/svg+xml"}
+                    response["Content-Type"] = _mimes.get(_ext, "application/octet-stream")
+                    response["statusCode"] = 200
+                    response["statusReason"] = "OK"
+                    response["data"] = _f.read_bytes()
+                    return self._send_response(response)
 
-        # POST /execute - Python code execution
-        if uri.startswith("/execute") and method == "POST":
-            return self._handle_execute(request, response)
+            response["Content-Type"] = "application/json"
 
-        # POST /exec - Python code execution (twozero-compatible JSON API)
-        if uri.startswith("/exec") and method == "POST":
-            return self._handle_exec(request, response)
+            # POST /execute - Python code execution
+            if uri.startswith("/execute") and method == "POST":
+                return self._handle_execute(request, response)
 
-        # POST /execute_async - Asynchronous execution (Phase 1 & 2)
-        if uri.startswith("/execute_async") and method == "POST":
-            return self._handle_execute_async(request, response)
+            # POST /exec - Python code execution (twozero-compatible JSON API)
+            if uri.startswith("/exec") and method == "POST":
+                return self._handle_exec(request, response)
 
-        # GET /task_status - Poll async task status (Phase 1 & 2)
-        if uri.startswith("/task_status") and method == "GET":
-            task_id = pars.get("taskId", "")
-            return self._handle_task_status(task_id, response)
+            # POST /execute_async - Asynchronous execution (Phase 1 & 2)
+            if uri.startswith("/execute_async") and method == "POST":
+                return self._handle_execute_async(request, response)
 
-        # GET /editor/pane - Current pane state
-        if uri == "/editor/pane" and method == "GET":
-            return self._handle_editor_pane(response)
+            # GET /task_status - Poll async task status (Phase 1 & 2)
+            if uri.startswith("/task_status") and method == "GET":
+                task_id = pars.get("taskId", "")
+                return self._handle_task_status(task_id, response)
 
-        # GET /editor/selection - Selected operators
-        if uri == "/editor/selection" and method == "GET":
-            return self._handle_editor_selection(response)
+            # GET /editor/pane - Current pane state
+            if uri == "/editor/pane" and method == "GET":
+                return self._handle_editor_pane(response)
 
-        # GET /info - Get TouchDesigner build info
-        if uri == "/info" and method == "GET":
-            return self._handle_info(response)
+            # GET /editor/selection - Selected operators
+            if uri == "/editor/selection" and method == "GET":
+                return self._handle_editor_selection(response)
 
-        # GET /verify - Verify network: errors, connections, cook times
-        if uri == "/verify" and method == "GET":
-            path = unquote(pars.get("path", "/project1"))
-            return self._handle_verify(path, response)
+            # GET /info - Get TouchDesigner build info
+            if uri == "/info" and method == "GET":
+                return self._handle_info(response)
 
-        # GET /events - Server-Sent Events (SSE) stream
-        if uri == "/events" and method == "GET":
-            return self._handle_events(response)
+            # GET /verify - Verify network: errors, connections, cook times
+            if uri == "/verify" and method == "GET":
+                path = unquote(pars.get("path", "/project1"))
+                return self._handle_verify(path, response)
 
-        # POST /batch - Batch operations
-        if uri == "/batch" and method == "POST":
-            return self._handle_batch(request, response)
+            # GET /events - Server-Sent Events (SSE) stream
+            if uri == "/events" and method == "GET":
+                return self._handle_events(response)
 
-        # GET /instances - Multi-instance detection
-        if uri == "/instances" and method == "GET":
-            return self._handle_instances(response)
+            # POST /batch - Batch operations
+            if uri == "/batch" and method == "POST":
+                return self._handle_batch(request, response)
 
-        # GET /operators - Operators at specified path
-        if uri.startswith("/operators") and method == "GET":
-            path = unquote(pars.get("path", "/"))
-            return self._handle_operators(path, response)
+            # GET /instances - Multi-instance detection
+            if uri == "/instances" and method == "GET":
+                return self._handle_instances(response)
 
-        # GET /parameters - Parameters for operator
-        if uri.startswith("/parameters") and method == "GET":
-            path = unquote(pars.get("path", "/"))
-            names_raw = pars.get("names", "")
-            names = [n.strip() for n in names_raw.split(",") if n.strip()]
-            return self._handle_parameters_get(path, names, response)
+            # GET /operators - Operators at specified path
+            if uri.startswith("/operators") and method == "GET":
+                path = unquote(pars.get("path", "/"))
+                return self._handle_operators(path, response)
 
-        # POST /parameters/set - Set parameters transactionally
-        if uri.startswith("/parameters/set") and method == "POST":
-            return self._handle_parameters_set(request, response)
+            # GET /parameters - Parameters for operator
+            if uri.startswith("/parameters") and method == "GET":
+                path = unquote(pars.get("path", "/"))
+                names_raw = pars.get("names", "")
+                names = [n.strip() for n in names_raw.split(",") if n.strip()]
+                return self._handle_parameters_get(path, names, response)
 
-        # GET /connections - Connection graph for operator or children
-        if uri.startswith("/connections") and method == "GET":
-            path = unquote(pars.get("path", "/"))
-            recurse = pars.get("recurse", "0") in ("1", "true", "True")
-            return self._handle_connections(path, recurse, response)
+            # POST /parameters/set - Set parameters transactionally
+            if uri.startswith("/parameters/set") and method == "POST":
+                return self._handle_parameters_set(request, response)
 
-        # GET /find - Find operators by query/name/family/type
-        if uri.startswith("/find") and method == "GET":
-            return self._handle_find(request, response)
+            # GET /connections - Connection graph for operator or children
+            if uri.startswith("/connections") and method == "GET":
+                path = unquote(pars.get("path", "/"))
+                recurse = pars.get("recurse", "0") in ("1", "true", "True")
+                return self._handle_connections(path, recurse, response)
 
-        # GET /healthcheck - Validate cooks, warnings, errors
-        if uri.startswith("/healthcheck") and method == "GET":
-            path = unquote(pars.get("path", "/"))
-            recurse = pars.get("recurse", "1") in ("1", "true", "True")
-            return self._handle_healthcheck(path, recurse, response)
+            # GET /find - Find operators by query/name/family/type
+            if uri.startswith("/find") and method == "GET":
+                return self._handle_find(request, response)
 
-        # ── NEW ENDPOINTS ─────────────────────────────────────────────────────
+            # GET /healthcheck - Validate cooks, warnings, errors
+            if uri.startswith("/healthcheck") and method == "GET":
+                path = unquote(pars.get("path", "/"))
+                recurse = pars.get("recurse", "1") in ("1", "true", "True")
+                return self._handle_healthcheck(path, recurse, response)
 
-        # GET /get_errors - Errors and warnings (alias for healthcheck but always recursive)
-        if uri.startswith("/get_errors") and method == "GET":
-            path = unquote(pars.get("path", "/"))
-            recurse = pars.get("recurse", "1") in ("1", "true", "True")
-            return self._handle_get_errors(path, recurse, response)
+            # ── NEW ENDPOINTS ─────────────────────────────────────────────────────
 
-        # GET /get_node_detail - Detailed operator info
-        if uri.startswith("/get_node_detail") and method == "GET":
-            path = unquote(pars.get("path", "/"))
-            recurse = pars.get("recurse", "0") in ("1", "true", "True")
-            return self._handle_get_node_detail(path, recurse, response)
+            # GET /get_errors - Errors and warnings (alias for healthcheck but always recursive)
+            if uri.startswith("/get_errors") and method == "GET":
+                path = unquote(pars.get("path", "/"))
+                recurse = pars.get("recurse", "1") in ("1", "true", "True")
+                return self._handle_get_errors(path, recurse, response)
 
-        # GET /get_perf - Performance data
-        if uri.startswith("/get_perf") and method == "GET":
-            path = unquote(pars.get("path", "/"))
-            top = pars.get("top", "20")
-            return self._handle_get_perf(path, top, response)
+            # GET /get_node_detail - Detailed operator info
+            if uri.startswith("/get_node_detail") and method == "GET":
+                path = unquote(pars.get("path", "/"))
+                recurse = pars.get("recurse", "0") in ("1", "true", "True")
+                return self._handle_get_node_detail(path, recurse, response)
 
-        # GET /get_hints - Operator hints
-        if uri.startswith("/get_hints") and method == "GET":
-            node_type = pars.get("node_type", "")
-            return self._handle_get_hints(node_type, response)
+            # GET /get_perf - Performance data
+            if uri.startswith("/get_perf") and method == "GET":
+                path = unquote(pars.get("path", "/"))
+                top = pars.get("top", "20")
+                return self._handle_get_perf(path, top, response)
 
-        # GET /get_focus - Current user focus
-        if uri.startswith("/get_focus") and method == "GET":
-            return self._handle_get_focus(response)
+            # GET /get_hints - Operator hints
+            if uri.startswith("/get_hints") and method == "GET":
+                node_type = pars.get("node_type", "")
+                return self._handle_get_hints(node_type, response)
 
-        # GET /get_build_compatibility - Check op type exists
-        if uri.startswith("/build_compatibility") and method == "GET":
-            op_type = pars.get("op_type", "")
-            return self._handle_build_compatibility(op_type, response)
+            # GET /get_focus - Current user focus
+            if uri.startswith("/get_focus") and method == "GET":
+                return self._handle_get_focus(response)
 
-        # GET /release_delta - Build version changes
-        if uri.startswith("/release_delta") and method == "GET":
-            build_from = pars.get("build_from", "")
-            build_to = pars.get("build_to", None)
-            return self._handle_release_delta(build_from, build_to, response)
+            # GET /get_build_compatibility - Check op type exists
+            if uri.startswith("/build_compatibility") and method == "GET":
+                op_type = pars.get("op_type", "")
+                return self._handle_build_compatibility(op_type, response)
 
-        # GET /spatial_context - Spatial context (*here/*this/*selected)
-        if uri.startswith("/spatial_context") and method == "GET":
-            return self._handle_spatial_context(response)
+            # GET /release_delta - Build version changes
+            if uri.startswith("/release_delta") and method == "GET":
+                build_from = pars.get("build_from", "")
+                build_to = pars.get("build_to", None)
+                return self._handle_release_delta(build_from, build_to, response)
 
-        # GET /audit/performance - Slowest operators by cook time
-        if uri == "/audit/performance" and method == "GET":
-            return self._handle_audit_performance(response)
+            # GET /spatial_context - Spatial context (*here/*this/*selected)
+            if uri.startswith("/spatial_context") and method == "GET":
+                return self._handle_spatial_context(response)
 
-        # GET /help - Python help for a TD module/class
-        if uri.startswith("/help") and method == "GET":
-            module = pars.get("module", "")
-            return self._handle_help(module, response)
+            # GET /audit/performance - Slowest operators by cook time
+            if uri == "/audit/performance" and method == "GET":
+                return self._handle_audit_performance(response)
 
-        # POST /screenshot - Capture frame as base64
-        if uri == "/screenshot" and method == "POST":
-            return self._handle_screenshot_post(response)
+            # GET /help - Python help for a TD module/class
+            if uri.startswith("/help") and method == "GET":
+                module = pars.get("module", "")
+                return self._handle_help(module, response)
 
-        # GET /pop_inspect - POP operator data
-        if uri.startswith("/pop_inspect") and method == "GET":
-            path = unquote(pars.get("path", ""))
-            return self._handle_pop_inspect(path, response)
+            # POST /screenshot - Capture frame as base64
+            if uri == "/screenshot" and method == "POST":
+                return self._handle_screenshot_post(response)
 
-        # POST /create_operator - Create operator (also /create for convenience)
-        if uri.startswith("/create_operator") and method in ("GET", "POST"):
-            return self._handle_create_operator(request, response)
-        if uri == "/create" and method == "POST":
-            return self._handle_create_operator(request, response)
+            # GET /pop_inspect - POP operator data
+            if uri.startswith("/pop_inspect") and method == "GET":
+                path = unquote(pars.get("path", ""))
+                return self._handle_pop_inspect(path, response)
 
-        # POST /delete_operator - Delete operator
-        if uri.startswith("/delete_operator") and method in ("GET", "POST"):
-            path = unquote(pars.get("path", ""))
-            return self._handle_delete_operator(path, response)
+            # POST /create_operator - Create operator (also /create for convenience)
+            if uri.startswith("/create_operator") and method in ("GET", "POST"):
+                return self._handle_create_operator(request, response)
+            if uri == "/create" and method == "POST":
+                return self._handle_create_operator(request, response)
 
-        # POST /connect_nodes - Connect operators (also /connect for convenience)
-        if uri.startswith("/connect_nodes") and method in ("GET", "POST"):
-            return self._handle_connect_nodes(request, response)
-        if uri == "/connect" and method == "POST":
-            return self._handle_connect_nodes(request, response)
+            # POST /delete_operator - Delete operator
+            if uri.startswith("/delete_operator") and method in ("GET", "POST"):
+                path = unquote(pars.get("path", ""))
+                return self._handle_delete_operator(path, response)
 
-        # POST /disconnect - Disconnect input (also /disconnect_node for consistency)
-        if uri.startswith("/disconnect") and method in ("GET", "POST"):
-            path = unquote(pars.get("path", ""))
-            input_index = int(pars.get("input_index", "0"))
-            return self._handle_disconnect(path, input_index, response)
+            # POST /connect_nodes - Connect operators (also /connect for convenience)
+            if uri.startswith("/connect_nodes") and method in ("GET", "POST"):
+                return self._handle_connect_nodes(request, response)
+            if uri == "/connect" and method == "POST":
+                return self._handle_connect_nodes(request, response)
 
-        # POST /copy_node - Copy operator
-        if uri.startswith("/copy_node") and method in ("GET", "POST"):
-            return self._handle_copy_node(request, response)
+            # POST /disconnect - Disconnect input (also /disconnect_node for consistency)
+            if uri.startswith("/disconnect") and method in ("GET", "POST"):
+                path = unquote(pars.get("path", ""))
+                input_index = int(pars.get("input_index", "0"))
+                return self._handle_disconnect(path, input_index, response)
 
-        # GET /screenshot - Screenshot operator
-        if uri.startswith("/screenshot") and method == "GET":
-            path = unquote(pars.get("path", ""))
-            max_size = pars.get("max_size", None)
-            return self._handle_screenshot(path, max_size, response)
+            # POST /copy_node - Copy operator
+            if uri.startswith("/copy_node") and method in ("GET", "POST"):
+                return self._handle_copy_node(request, response)
 
-        # GET /navigate_to - Navigate to operator
-        if uri.startswith("/navigate_to") and method == "GET":
-            path = unquote(pars.get("path", "/"))
-            return self._handle_navigate_to(path, response)
+            # GET /screenshot - Screenshot operator
+            if uri.startswith("/screenshot") and method == "GET":
+                path = unquote(pars.get("path", ""))
+                max_size = pars.get("max_size", None)
+                return self._handle_screenshot(path, max_size, response)
 
-        # GET /read_textport - Read textport
-        if uri.startswith("/read_textport") and method == "GET":
-            lines = pars.get("lines", "20")
-            return self._handle_read_textport(lines, response)
+            # GET /navigate_to - Navigate to operator
+            if uri.startswith("/navigate_to") and method == "GET":
+                path = unquote(pars.get("path", "/"))
+                return self._handle_navigate_to(path, response)
 
-        # GET /clear_textport - Clear textport
-        if uri.startswith("/clear_textport") and method == "GET":
-            return self._handle_clear_textport(response)
+            # GET /read_textport - Read textport
+            if uri.startswith("/read_textport") and method == "GET":
+                lines = pars.get("lines", "20")
+                return self._handle_read_textport(lines, response)
 
-        # GET /search - Search inside TD
-        if uri.startswith("/search") and method == "GET":
-            return self._handle_search(request, response)
+            # GET /clear_textport - Clear textport
+            if uri.startswith("/clear_textport") and method == "GET":
+                return self._handle_clear_textport(response)
 
-        # GET /reinit_extension - Reinit extension
-        if uri.startswith("/reinit_extension") and method == "GET":
-            path = unquote(pars.get("path", ""))
-            return self._handle_reinit_extension(path, response)
+            # GET /search - Search inside TD
+            if uri.startswith("/search") and method == "GET":
+                return self._handle_search(request, response)
 
-        # GET /read_dat - Read DAT content
-        if uri.startswith("/read_dat") and method == "GET":
-            path = unquote(pars.get("path", ""))
-            start_line = pars.get("start_line", None)
-            end_line = pars.get("end_line", None)
-            return self._handle_read_dat(path, start_line, end_line, response)
+            # GET /reinit_extension - Reinit extension
+            if uri.startswith("/reinit_extension") and method == "GET":
+                path = unquote(pars.get("path", ""))
+                return self._handle_reinit_extension(path, response)
 
-        # POST /write_dat - Write DAT content
-        if uri.startswith("/write_dat") and method == "POST":
-            return self._handle_write_dat(request, response)
+            # GET /read_dat - Read DAT content
+            if uri.startswith("/read_dat") and method == "GET":
+                path = unquote(pars.get("path", ""))
+                start_line = pars.get("start_line", None)
+                end_line = pars.get("end_line", None)
+                return self._handle_read_dat(path, start_line, end_line, response)
 
-        # GET /read_chop - Read CHOP data
-        if uri.startswith("/read_chop") and method == "GET":
-            path = unquote(pars.get("path", ""))
-            channels = pars.get("channels", None)
-            start = pars.get("start", None)
-            end = pars.get("end", None)
-            return self._handle_read_chop(path, channels, start, end, response)
+            # POST /write_dat - Write DAT content
+            if uri.startswith("/write_dat") and method == "POST":
+                return self._handle_write_dat(request, response)
 
-        # POST /project_lifecycle - Save/load/undo/redo
-        if uri.startswith("/project_lifecycle") and method in ("GET", "POST"):
-            return self._handle_project_lifecycle(request, response)
+            # GET /read_chop - Read CHOP data
+            if uri.startswith("/read_chop") and method == "GET":
+                path = unquote(pars.get("path", ""))
+                channels = pars.get("channels", None)
+                start = pars.get("start", None)
+                end = pars.get("end", None)
+                return self._handle_read_chop(path, channels, start, end, response)
 
-        # GET /snapshot_scene - Snapshot state
-        if uri.startswith("/snapshot_scene") and method == "GET":
-            path = unquote(pars.get("path", "/"))
-            return self._handle_snapshot_scene(path, response)
+            # POST /project_lifecycle - Save/load/undo/redo
+            if uri.startswith("/project_lifecycle") and method in ("GET", "POST"):
+                return self._handle_project_lifecycle(request, response)
 
-        # POST /memory_save - Save memory entry
-        if uri.startswith("/memory_save") and method in ("GET", "POST"):
-            return self._handle_memory_save(request, response)
+            # GET /snapshot_scene - Snapshot state
+            if uri.startswith("/snapshot_scene") and method == "GET":
+                path = unquote(pars.get("path", "/"))
+                return self._handle_snapshot_scene(path, response)
 
-        # ── TD Integration: Auto-Layout Engine ─────────────────────────────
-        # POST /auto_layout - Auto-layout operators in a container
-        if uri == "/auto_layout" and method == "POST":
-            return self._handle_auto_layout(request, response)
+            # POST /memory_save - Save memory entry
+            if uri.startswith("/memory_save") and method in ("GET", "POST"):
+                return self._handle_memory_save(request, response)
 
-        # ── TD Integration: Smart Snap ──────────────────────────────────────
-        # POST /smart_connect - Smart connect with auto-detection
-        if uri == "/smart_connect" and method == "POST":
-            return self._handle_smart_connect(request, response)
+            # ── TD Integration: Auto-Layout Engine ─────────────────────────────
+            # POST /auto_layout - Auto-layout operators in a container
+            if uri == "/auto_layout" and method == "POST":
+                return self._handle_auto_layout(request, response)
 
-        # ── TD Integration: Error Diagnosis ─────────────────────────────────
-        # POST /diagnose - Diagnose operator issues
-        if uri == "/diagnose" and method == "POST":
-            return self._handle_diagnose(request, response)
+            # ── TD Integration: Smart Snap ──────────────────────────────────────
+            # POST /smart_connect - Smart connect with auto-detection
+            if uri == "/smart_connect" and method == "POST":
+                return self._handle_smart_connect(request, response)
 
-        # POST /document - Auto-documentation for a container network
-        if uri == "/document" and method == "POST":
-            return self._handle_document(request, response)
+            # ── TD Integration: Error Diagnosis ─────────────────────────────────
+            # POST /diagnose - Diagnose operator issues
+            if uri == "/diagnose" and method == "POST":
+                return self._handle_diagnose(request, response)
 
-        # ── TD Integration: Param Presets ───────────────────────────────────
-        # GET /param_presets - List available presets
-        if uri == "/param_presets" and method == "GET":
-            return self._handle_param_presets_get(request, response)
-        # POST /param_presets - Apply a preset to an operator
-        if uri == "/param_presets" and method == "POST":
-            return self._handle_param_presets_post(request, response)
+            # POST /document - Auto-documentation for a container network
+            if uri == "/document" and method == "POST":
+                return self._handle_document(request, response)
 
-        # ── TD Integration: GLSL Hot-Reload ─────────────────────────────────
-        # POST /glsl_reload - Force recompile GLSL shader
-        if uri == "/glsl_reload" and method == "POST":
-            return self._handle_glsl_reload(request, response)
-        # POST /glsl_update - Update GLSL code and recompile
-        if uri == "/glsl_update" and method == "POST":
-            return self._handle_glsl_update(request, response)
+            # ── TD Integration: Param Presets ───────────────────────────────────
+            # GET /param_presets - List available presets
+            if uri == "/param_presets" and method == "GET":
+                return self._handle_param_presets_get(request, response)
+            # POST /param_presets - Apply a preset to an operator
+            if uri == "/param_presets" and method == "POST":
+                return self._handle_param_presets_post(request, response)
 
-        # GET /memory_recall - Recall memory entries
-        if uri.startswith("/memory_recall") and method == "GET":
-            query = pars.get("query", "")
-            limit = pars.get("limit", "5")
-            return self._handle_memory_recall(query, limit, response)
+            # ── TD Integration: GLSL Hot-Reload ─────────────────────────────────
+            # POST /glsl_reload - Force recompile GLSL shader
+            if uri == "/glsl_reload" and method == "POST":
+                return self._handle_glsl_reload(request, response)
+            # POST /glsl_update - Update GLSL code and recompile
+            if uri == "/glsl_update" and method == "POST":
+                return self._handle_glsl_update(request, response)
 
-        # 404 for other endpoints
-        response["statusCode"] = 404
-        response["statusReason"] = "Not Found"
-        response["data"] = json.dumps({"error": "Not Found"})
-        return self._send_response(response)
+            # GET /memory_recall - Recall memory entries
+            if uri.startswith("/memory_recall") and method == "GET":
+                query = pars.get("query", "")
+                limit = pars.get("limit", "5")
+                return self._handle_memory_recall(query, limit, response)
 
-    # -------------------------------------------------------------------------
-    # GET /verify - Network verification
-    # -------------------------------------------------------------------------
+            # 404 for other endpoints
+            response["statusCode"] = 404
+            response["statusReason"] = "Not Found"
+            response["data"] = json.dumps({"error": "Not Found"})
+            return self._send_response(response)
+
+        # -------------------------------------------------------------------------
+        # GET /verify - Network verification
+        # -------------------------------------------------------------------------
+        except Exception as e:
+            self._debug_print(f"[TDAPI] OnHTTPRequest ERROR: {e}")
+            response["statusCode"] = 500
+            response["statusReason"] = "Internal Server Error"
+            response["data"] = json.dumps({"error": str(e), "traceback": traceback.format_exc()})
+            return self._send_response(response)
+
 
     def _handle_verify(self, path: str, response: dict) -> dict:
         """Verify network: check errors, connections, report summary."""
@@ -509,18 +528,17 @@ class TouchDesignerAPI:
         if is_expr:
             exec_code = f"__val = ({code})\nif __val is not None: print(__val)"
 
+        # Use a shallow copy of globals to prevent generated code from
+        # corrupting module-level globals (e.g. overwriting 'queue' import).
+        # The copy still has access to TD globals (op, td, tdu, etc.).
+        _ns = globals().copy()
         try:
             with contextlib.redirect_stdout(buf), contextlib.redirect_stderr(buf):
-                exec(compile(exec_code, "<mcp>", "exec"), globals())
+                exec(compile(exec_code, "<mcp>", "exec"), _ns)
         except Exception:
             output = buf.getvalue()
             err = traceback.format_exc()
             return {"output": output, "error": err} if output else {"error": err}
-        finally:
-            try:
-                del globals()["__val"]
-            except:
-                pass
 
         out = buf.getvalue() or "(ok)"
         return {"output": out}
@@ -2568,7 +2586,13 @@ except Exception as e:
             data = result
         response["statusCode"] = 200
         response["statusReason"] = "OK"
-        response["data"] = json.dumps(data, ensure_ascii=False)
+        try:
+            response["data"] = json.dumps(data, ensure_ascii=False)
+        except TypeError:
+            try:
+                response["data"] = json.dumps({"error": "Non-serializable", "raw": str(data)[:2000]}, ensure_ascii=False)
+            except Exception:
+                response["data"] = json.dumps({"error": "Response serialization failed"})
         return self._send_response(response)
 
     # =========================================================================
