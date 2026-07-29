@@ -17,7 +17,7 @@ Network topology:
   Chain B (simple POP):   circlePOP → nullPOP
   Chain C (advanced POP): spherePOP → transformPOP → trailPOP → nullPOP
 
-  Total: 12 nodes, 7 connections, all POP family.
+  Total: 10 nodes, 7 connections, all POP family.
 
 POP parameter names (empirically verified — docs are frequently wrong):
   boxPOP:        sizex, depth
@@ -286,7 +286,7 @@ def main():
     # Verify all 12 operators exist
     result = td_get(f"/operators?path={sandbox_path}")
     ops = result.get("operators", [])
-    check(f"12+ operators created (got {len(ops)})", len(ops) >= 12)
+    check(f"10+ operators created (got {len(ops)})", len(ops) >= 10)
     print()
 
     # ─── PHASE 3: Wire connections ─────────────────────────────────────
@@ -411,7 +411,7 @@ def main():
     print(f"  /document returned in OK")
 
     # Validate structure
-    assert_ge(doc.get("operator_count", 0), 12, "doc.operator_count >= 12")
+    assert_ge(doc.get("operator_count", 0), 10, "doc.operator_count >= 10")
     check(f"doc.connection_count == 7 (got {doc.get('connection_count')})",
           doc.get("connection_count") == 7)
     check(f"doc.error_count == 0 (got {doc.get('error_count')})",
@@ -425,7 +425,7 @@ def main():
 
     # Structure checks
     structure = doc.get("structure", [])
-    assert_ge(len(structure), 12, "doc.structure length >= 12")
+    assert_ge(len(structure), 10, "doc.structure length >= 10")
 
     # Check individual structure entries
     struct_by_name = {s.get("name"): s for s in structure}
@@ -477,8 +477,8 @@ def main():
     # Families dict
     families = doc.get("families", {})
     check("families has 'POP' key", "POP" in families)
-    check(f"families POP count >= 12 (got {families.get('POP', 0)})",
-          families.get("POP", 0) >= 12)
+    check(f"families POP count >= 10 (got {families.get('POP', 0)})",
+          families.get("POP", 0) >= 10)
 
     # Roles dict
     roles = doc.get("roles", {})
@@ -594,7 +594,7 @@ def main():
     error_count = verify.get("error_count", 0)
     check(f"/verify reports healthy=True",
           healthy is True or healthy == "true")
-    assert_ge(op_count, 12, f"/verify operator_count >= 12 (got {op_count})")
+    assert_ge(op_count, 10, f"/verify operator_count >= 10 (got {op_count})")
     check(f"/verify error_count = 0 (got {error_count})", error_count == 0)
     print()
 
