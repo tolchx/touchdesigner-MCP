@@ -886,6 +886,13 @@ def cleanup(td: TDClient, res: TestResult) -> None:
 
 
 def main() -> int:
+    # Fallback encoding: reconfigure stdout to handle UTF-8 even
+    # on Windows cp1252 terminals (prevents UnicodeEncodeError).
+    try:
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+    except Exception:
+        pass
+
     parser = argparse.ArgumentParser(description="Comprehensive live TD integration test.")
     parser.add_argument("--host", default=DEFAULT_HOST)
     parser.add_argument("--port", type=int, default=DEFAULT_PORT)

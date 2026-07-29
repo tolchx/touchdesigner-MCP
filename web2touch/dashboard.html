@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Web2Touch">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Web2Touch Dashboard</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0d1117; --surface: #161b22; --border: #30363d;
+    --text: #e6edf3; --text-muted: #8b949e; --accent: #58a6ff;
+    --green: #3fb950; --red: #f85149; --orange: #d29922; --purple: #bc8cff;
+    --radius: 10px;
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-top: env(safe-area-inset-top, 0px);
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg); color: var(--text); padding: calc(8px + var(--safe-top)) 8px var(--safe-bottom);
+    max-width: 1200px; margin: 0 auto; min-height: 100vh;
+    min-height: -webkit-fill-available;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior: none;
+  }
+  html { height: -webkit-fill-available; }
+
+  /* ── Fullscreen override ── */
+  body:-webkit-full-screen { padding: 8px; }
+  body:fullscreen { padding: 8px; }
+
+  /* ── Header ── */
+  .header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 0 12px; flex-wrap: wrap; gap: 8px;
+  }
+  .header h1 {
+    font-size: 1.2rem; font-weight: 700;
+    background: linear-gradient(135deg, #58a6ff, #bc8cff);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; white-space: nowrap;
+  }
+  .header h1 small { font-size: 0.65rem; color: var(--text-muted); -webkit-text-fill-color: var(--text-muted); font-weight: 400; }
+  .header h1 .ver { font-size:0.55rem; color:#30363d; -webkit-text-fill-color:#30363d; margin-left:4px; }
+
+  .connection-bar {
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  }
+  .status-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600;
+    transition: all 0.3s; white-space: nowrap;
+  }
+  .status-badge.connected { background: #0f2e1a; color: var(--green); border: 1px solid #238636; }
+  .status-badge.disconnected { background: #2d1215; color: var(--red); border: 1px solid #da3633; }
+  .status-badge.connecting { background: #2d1f0a; color: var(--orange); border: 1px solid #9e6a03; }
+  .pulse { width: 7px; height: 7px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+  .connected .pulse { background: var(--green); box-shadow: 0 0 6px var(--green); }
+  .disconnected .pulse { background: var(--red); }
+  .connecting .pulse { background: var(--orange); animation: pulse 1s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  .header-actions { display: flex; gap: 6px; align-items: center; }
+  .icon-btn {
+    width: 36px; height: 36px; border: 1px solid var(--border); border-radius: 8px;
+    background: var(--surface); color: var(--text-muted); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; transition: all 0.2s; -webkit-tap-highlight-color: transparent;
+  }
+  .icon-btn:active { transform: scale(0.9); background: var(--border); }
+
+  .btn {
+    padding: 6px 14px; border: none; border-radius: 6px; font-size: 0.78rem;
+    font-weight: 600; cursor: pointer; transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn:active { transform: scale(0.95); }
+  .btn-primary { background: #238636; color: #fff; }
+  .btn-primary:hover { background: #2ea043; }
+  .btn-secondary { background: #21262d; color: var(--text); border: 1px solid var(--border); }
+  .btn-secondary:hover { background: #30363d; }
+  .btn-outline { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+
+  /* ── QR Code panel (mobile) ── */
+  .qr-panel {
+    display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.85); z-index: 1000;
+    justify-content: center; align-items: center; flex-direction: column;
+    gap: 16px; padding: 24px;
+  }
+  .qr-panel.show { display: flex; }
+  .qr-panel .qr-url {
+    font-family: 'SF Mono', monospace; font-size: 0.9rem; color: var(--accent);
+    background: #0d1117; padding: 10px 20px; border-radius: 8px;
+    text-align: center; word-break: break-all; max-width: 300px;
+  }
+  .qr-panel .qr-hint { font-size: 0.8rem; color: var(--text-muted); text-align: center; }
+  .qr-panel .qr-close {
+    position: absolute; top: 20px; right: 20px;
+    background: var(--surface); border: none; color: var(--text);
+    width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  #qrcode { background: #fff; padding: 12px; border-radius: 12px; }
+  #qrcode canvas { display: block; }
+
+  /* ── Connection info bar ── */
+  .conn-info {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 6px 10px; margin-bottom: 10px;
+    background: #0a0e14; border-radius: 6px; font-size: 0.7rem;
+    color: var(--text-muted); flex-wrap: wrap; gap: 4px;
+  }
+  .conn-info .ip-addr {
+    font-family: 'SF Mono', monospace; color: var(--accent);
+    cursor: pointer; padding: 2px 8px; border-radius: 4px;
+    transition: background 0.2s;
+  }
+  .conn-info .ip-addr:active { background: var(--border); }
+
+  /* ── Mobile tab bar ── */
+  .tab-bar {
+    display: none; position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--surface); border-top: 1px solid var(--border);
+    z-index: 100; padding: 4px 0 calc(4px + var(--safe-bottom));
+    justify-content: space-around;
+  }
+  .tab-bar button {
+    flex: 1; background: none; border: none; color: var(--text-muted);
+    padding: 6px 4px; font-size: 0.6rem; cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    transition: color 0.2s; -webkit-tap-highlight-color: transparent;
+    font-family: inherit;
+  }
+  .tab-bar button .tab-icon { font-size: 1.2rem; }
+  .tab-bar button.active { color: var(--accent); }
+  .tab-bar button:active { opacity: 0.6; }
+  .tab-content { display: block; }
+  @media (max-width: 500px) {
+    .tab-bar { display: flex; }
+    .tab-content { display: none; padding-bottom: 60px; }
+    .tab-content.active { display: block; }
+  }
+
+  /* ── Grid ── */
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
+  @media (orientation: landscape) and (max-height: 500px) {
+    .grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 12px; margin-bottom: 10px;
+  }
+  .card-title {
+    font-size: 0.78rem; font-weight: 600; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 5px;
+  }
+
+  /* ── Sliders ── */
+  .slider-group { margin-bottom: 10px; }
+  .slider-group:last-child { margin-bottom: 0; }
+  .slider-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 3px;
+  }
+  .slider-header label { font-size: 0.78rem; color: var(--text); font-weight: 500; }
+  .slider-header .value {
+    font-size: 0.8rem; color: var(--accent); font-weight: 600;
+    font-family: 'SF Mono', 'Cascadia Code', monospace;
+    min-width: 38px; text-align: right;
+  }
+  input[type="range"] {
+    -webkit-appearance: none; appearance: none; width: 100%; height: 8px;
+    border-radius: 4px; outline: none; cursor: pointer;
+    background: #21262d; transition: background 0.2s;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none; width: 26px; height: 26px;
+    border-radius: 50%; background: var(--accent);
+    border: 3px solid var(--bg); cursor: pointer;
+    box-shadow: 0 0 10px rgba(88,166,255,0.5); transition: all 0.2s;
+  }
+  input[type="range"]::-webkit-slider-thumb:active { transform: scale(1.1); }
+  input[type="range"]::-moz-range-thumb {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--accent); border: 3px solid var(--bg); cursor: pointer;
+  }
+
+  /* ── Toggles ── */
+  .toggle-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 0; border-bottom: 1px solid #21262d; min-height: 44px;
+  }
+  .toggle-row:last-child { border-bottom: none; }
+  .toggle-row label { font-size: 0.82rem; cursor: pointer; }
+  .toggle {
+    position: relative; width: 50px; height: 28px; flex-shrink: 0;
+    background: #21262d; border-radius: 14px; cursor: pointer;
+    transition: background 0.25s; border: none;
+  }
+  .toggle.active { background: #238636; }
+  .toggle::after {
+    content: ''; position: absolute; top: 2px; left: 2px;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: #fff; transition: transform 0.25s;
+  }
+  .toggle.active::after { transform: translateX(22px); }
+
+  /* ── Buttons ── */
+  .button-grid { display: flex; gap: 8px; flex-wrap: wrap; }
+  .ctrl-btn {
+    flex: 1; min-width: 60px; min-height: 44px; padding: 10px 8px; border: none;
+    border-radius: 8px; font-size: 0.78rem; font-weight: 600; cursor: pointer;
+    transition: all 0.15s; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .ctrl-btn:active { transform: scale(0.93); }
+  .ctrl-btn.fire { background: #b62324; box-shadow: 0 0 12px rgba(182,35,36,0.3); }
+  .ctrl-btn.fire:hover { background: #d92e2f; }
+  .ctrl-btn.action { background: #1f6feb; }
+  .ctrl-btn.action:hover { background: #388bfd; }
+  .ctrl-btn.neon { background: #8957e5; }
+  .ctrl-btn.neon:hover { background: #a371f7; }
+  .ctrl-btn.gold { background: #9e6a03; }
+  .ctrl-btn.gold:hover { background: #bb7d0a; }
+
+  /* ── Canvas / Touch Pad ── */
+  .canvas-wrap {
+    position: relative; width: 100%; aspect-ratio: 2/1;
+    background: #0a0e14; border-radius: 8px; border: 1px solid var(--border);
+    overflow: hidden; cursor: crosshair; touch-action: none;
+  }
+  .canvas-wrap canvas { width: 100%; height: 100%; display: block; }
+  .canvas-coords {
+    position: absolute; bottom: 6px; left: 6px; right: 6px;
+    display: flex; justify-content: space-between;
+    font-family: 'SF Mono', monospace; font-size: 0.65rem; color: var(--text-muted);
+    pointer-events: none;
+  }
+  .canvas-clear {
+    position: absolute; top: 6px; right: 6px;
+    padding: 6px 12px; font-size: 0.7rem; border: none;
+    border-radius: 4px; background: #21262d; color: var(--text-muted);
+    cursor: pointer; z-index: 2; min-height: 32px;
+  }
+  .canvas-clear:active { background: #30363d; }
+
+  /* ── Color Picker ── */
+  .color-row { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
+  .color-row input[type="color"] {
+    width: 48px; height: 48px; border: none; border-radius: 8px;
+    cursor: pointer; background: none; padding: 0;
+  }
+  .color-row input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+  .color-row input[type="color"]::-webkit-color-swatch { border: 2px solid var(--border); border-radius: 6px; }
+  .color-hex {
+    font-family: 'SF Mono', monospace; font-size: 0.85rem; color: var(--accent);
+    background: #0d1117; padding: 6px 12px; border-radius: 6px;
+  }
+  .color-preview { display: flex; gap: 4px; }
+  .color-preview span { width: 28px; height: 28px; border-radius: 4px; border: 1px solid var(--border); }
+
+  /* ── Dropdown ── */
+  .dropdown-group { margin-bottom: 10px; }
+  .dropdown-group:last-child { margin-bottom: 0; }
+  .dropdown-group label {
+    display: block; font-size: 0.78rem; color: var(--text); font-weight: 500;
+    margin-bottom: 5px;
+  }
+  select.td-select {
+    width: 100%; padding: 12px 14px; border: 1px solid var(--border);
+    border-radius: 8px; background: #0d1117; color: var(--text);
+    font-size: 0.9rem; cursor: pointer; outline: none;
+    transition: border-color 0.2s; appearance: none; min-height: 44px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath fill='%238b949e' d='M7 9L2 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 12px center;
+  }
+  select.td-select:focus { border-color: var(--accent); }
+  select.td-select option { background: #161b22; color: var(--text); }
+
+  /* ── Knobs ── */
+  .knobs-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 8px; text-align: center;
+  }
+  @media (max-width: 400px) { .knobs-grid { grid-template-columns: repeat(2, 1fr); } }
+  .knob-wrap { display: flex; flex-direction: column; align-items: center; }
+  .knob-wrap canvas {
+    width: 100%; aspect-ratio: 1/1; max-width: 100px;
+    cursor: ns-resize; border-radius: 50%;
+    touch-action: none; min-height: 60px;
+  }
+  .knob-wrap .knob-label { font-size: 0.68rem; color: var(--text-muted); margin-top: 3px; }
+  .knob-wrap .knob-value {
+    font-size: 0.78rem; color: var(--accent); font-weight: 600;
+    font-family: 'SF Mono', monospace;
+  }
+
+  /* ── XY Pad ── */
+  .xypad-wrap {
+    position: relative; width: 100%; aspect-ratio: 1/1; max-height: 220px;
+    background: #0a0e14; border-radius: 8px; border: 1px solid var(--border);
+    overflow: hidden; cursor: crosshair; touch-action: none; margin-bottom: 6px;
+  }
+  .xypad-wrap canvas { width: 100%; height: 100%; display: block; }
+  .xypad-coords {
+    display: flex; justify-content: space-between;
+    font-family: 'SF Mono', monospace; font-size: 0.65rem;
+    color: var(--text-muted); padding: 0 4px;
+  }
+
+  /* ── Timeline ── */
+  .timeline-wrap {
+    position: relative; width: 100%; height: 48px;
+    background: #0a0e14; border-radius: 8px; border: 1px solid var(--border);
+    overflow: hidden; cursor: pointer; touch-action: none; margin-bottom: 6px;
+  }
+  .timeline-wrap canvas { width: 100%; height: 100%; display: block; }
+  .timeline-info {
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'SF Mono', monospace; font-size: 0.75rem;
+    color: var(--text-muted); padding: 0 4px;
+  }
+  .timeline-info .tl-current { color: var(--accent); font-weight: 600; }
+  .timeline-info .tl-duration { color: var(--text-muted); }
+  .tl-controls { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+  .tl-btn {
+    padding: 8px 14px; border: 1px solid var(--border); border-radius: 6px;
+    background: #21262d; color: var(--text); font-size: 0.75rem; cursor: pointer;
+    transition: all 0.15s; font-weight: 500; min-height: 36px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .tl-btn:active { background: #30363d; }
+  .tl-btn.active { background: #238636; border-color: #238636; color: #fff; }
+
+  /* ── CHOP Viewer ── */
+  .chop-viewer {
+    font-family: 'SF Mono', monospace; font-size: 0.7rem; line-height: 1.5;
+    max-height: 180px; overflow-y: auto;
+  }
+  .chop-viewer::-webkit-scrollbar { width: 3px; }
+  .chop-viewer::-webkit-scrollbar-track { background: transparent; }
+  .chop-viewer::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .chop-row { display: flex; justify-content: space-between; padding: 3px 6px; border-radius: 4px; }
+  .chop-row:nth-child(odd) { background: #0d1117; }
+  .chop-row .ch-name { color: var(--accent); }
+  .chop-row .ch-val { color: #7ee787; font-weight: 500; }
+  .chop-row.changed { animation: chopFlash 0.6s ease-out; }
+  @keyframes chopFlash {
+    0% { background: rgba(88,166,255,0.2); }
+    100% { background: transparent; }
+  }
+
+  /* ── Log ── */
+  .log-box {
+    background: #0a0e14; border: 1px solid #21262d; border-radius: 6px;
+    padding: 8px; height: 120px; overflow-y: auto;
+    font-family: 'SF Mono', monospace; font-size: 0.65rem; line-height: 1.4;
+  }
+  .log-box .s { color: var(--accent); }
+  .log-box .r { color: #7ee787; }
+  .log-box .e { color: var(--red); }
+  .log-box .i { color: var(--text-muted); }
+  .log-box::-webkit-scrollbar { width: 3px; }
+  .log-box::-webkit-scrollbar-track { background: #0a0e14; }
+  .log-box::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  /* ── Landscape optimization ── */
+  @media (orientation: landscape) and (max-height: 500px) {
+    body { padding: 4px; }
+    .card { padding: 8px; margin-bottom: 6px; }
+    .card-title { font-size: 0.7rem; margin-bottom: 6px; }
+    .slider-group { margin-bottom: 6px; }
+    .slider-header label { font-size: 0.7rem; }
+    input[type="range"] { height: 6px; }
+    .header { padding: 4px 0 8px; }
+    .header h1 { font-size: 1rem; }
+    .canvas-wrap { aspect-ratio: 3/1; }
+    .xypad-wrap { max-height: 140px; }
+    .timeline-wrap { height: 36px; }
+    .knob-wrap canvas { max-width: 60px; }
+    .knobs-grid { gap: 4px; }
+    .chop-viewer { max-height: 100px; }
+    .log-box { height: 80px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ QR Code Panel ═══ -->
+<div class="qr-panel" id="qrPanel">
+  <button class="qr-close" onclick="closeQR()">&times;</button>
+  <div id="qrcode"></div>
+  <div class="qr-url" id="qrUrl">http://...</div>
+  <div class="qr-hint">&#x1F4F1; Escanea con tu celular para controlar TouchDesigner</div>
+</div>
+
+<div class="header">
+  <h1>
+    &#x1F3AE; Web2Touch <span class="ver">v2.1</span>
+    <small>TD Remote</small>
+  </h1>
+  <div class="connection-bar">
+    <span id="status" class="status-badge disconnected">
+      <span class="pulse"></span> Disconnected
+    </span>
+    <div class="header-actions">
+      <button class="icon-btn" onclick="toggleFullscreen()" title="Fullscreen" id="btnFs">&#x26F6;</button>
+      <button class="icon-btn" onclick="showQR()" title="QR Code" id="btnQr">&#x1F4F1;</button>
+      <button id="btnConnect" class="btn btn-primary" onclick="toggleConn()">Connect</button>
+    </div>
+  </div>
+</div>
+
+<!-- Connection Info -->
+<div class="conn-info" id="connInfo">
+  <span>ws://<span class="ip-addr" id="ipDisplay" onclick="copyIP()">localhost:8090</span></span>
+  <span id="reconnectInfo"></span>
+</div>
+
+<!-- ═══ Mobile Tab Bar ═══ -->
+<div class="tab-bar" id="tabBar">
+  <button class="active" data-tab="controls" onclick="switchTab('controls')">
+    <span class="tab-icon">&#x1F39B;</span> Controls
+  </button>
+  <button data-tab="monitor" onclick="switchTab('monitor')">
+    <span class="tab-icon">&#x1F4CA;</span> Monitor
+  </button>
+  <button data-tab="canvas" onclick="switchTab('canvas')">
+    <span class="tab-icon">&#x270D;</span> Canvas
+  </button>
+</div>
+
+<!-- ═══ Grid ═══ -->
+<div class="tab-content active" id="tab-controls">
+<div class="grid">
+
+  <!-- ── Left Column ── -->
+  <div>
+
+    <!-- Sliders -->
+    <div class="card">
+      <div class="card-title">&#x1F39A; Sliders</div>
+      <div class="slider-group">
+        <div class="slider-header">
+          <label>Amplitude</label>
+          <span class="value" id="val-amp">0.75</span>
+        </div>
+        <input type="range" id="sl-amp" min="0" max="1" step="0.01" value="0.75"
+               oninput="sendSlider('amp', this.value)">
+      </div>
+      <div class="slider-group">
+        <div class="slider-header">
+          <label>Frequency</label>
+          <span class="value" id="val-freq">0.50</span>
+        </div>
+        <input type="range" id="sl-freq" min="0" max="1" step="0.01" value="0.5"
+               oninput="sendSlider('freq', this.value)">
+      </div>
+      <div class="slider-group">
+        <div class="slider-header">
+          <label>Speed</label>
+          <span class="value" id="val-speed">0.30</span>
+        </div>
+        <input type="range" id="sl-speed" min="0" max="2" step="0.01" value="0.3"
+               oninput="sendSlider('speed', this.value)">
+      </div>
+      <div class="slider-group">
+        <div class="slider-header">
+          <label>Size</label>
+          <span class="value" id="val-size">1.00</span>
+        </div>
+        <input type="range" id="sl-size" min="0.1" max="3" step="0.05" value="1"
+               oninput="sendSlider('size', this.value)">
+      </div>
+      <div class="slider-group">
+        <div class="slider-header">
+          <label>Rotation</label>
+          <span class="value" id="val-rot">0.00</span>
+        </div>
+        <input type="range" id="sl-rot" min="0" max="360" step="1" value="0"
+               oninput="sendSlider('rot', this.value)">
+      </div>
+    </div>
+
+    <!-- Toggles -->
+    <div class="card">
+      <div class="card-title">&#x1F3F7; Switches</div>
+      <div class="toggle-row">
+        <label>Enable FX</label>
+        <button class="toggle" id="tog-fx" onclick="sendToggle('fx')"></button>
+      </div>
+      <div class="toggle-row">
+        <label>Auto-Rotate</label>
+        <button class="toggle" id="tog-rotate" onclick="sendToggle('rotate')"></button>
+      </div>
+      <div class="toggle-row">
+        <label>Glow Effect</label>
+        <button class="toggle" id="tog-glow" onclick="sendToggle('glow')"></button>
+      </div>
+      <div class="toggle-row">
+        <label>Mirror Mode</label>
+        <button class="toggle" id="tog-mirror" onclick="sendToggle('mirror')"></button>
+      </div>
+      <div style="margin-top:10px" class="button-grid">
+        <button class="ctrl-btn fire" onclick="sendTrigger('reset')">&#x26A1; Reset</button>
+        <button class="ctrl-btn action" onclick="sendTrigger('explode')">&#x2728; Boom</button>
+        <button class="ctrl-btn neon" onclick="sendTrigger('glitch')">&#x1F4A5; Glitch</button>
+      </div>
+    </div>
+
+    <!-- Knobs & XY Pad -->
+    <div class="card">
+      <div class="card-title">&#x1F50C; Knobs & XY Pad</div>
+      <div class="knobs-grid" id="knobsGrid">
+        <div class="knob-wrap"><canvas class="knob-canvas" data-id="master" data-label="Master" data-min="0" data-max="1" data-val="0.8"></canvas></div>
+        <div class="knob-wrap"><canvas class="knob-canvas" data-id="cutoff" data-label="Cutoff" data-min="0" data-max="1" data-val="0.5"></canvas></div>
+        <div class="knob-wrap"><canvas class="knob-canvas" data-id="reso" data-label="Resonance" data-min="0" data-max="1" data-val="0.3"></canvas></div>
+        <div class="knob-wrap"><canvas class="knob-canvas" data-id="mix" data-label="Mix" data-min="0" data-max="1" data-val="0.65"></canvas></div>
+      </div>
+      <div style="margin-top:8px">
+        <div class="xypad-wrap" id="xypadWrap">
+          <canvas id="xypadCanvas"></canvas>
+        </div>
+        <div class="xypad-coords">
+          <span id="xypad-xy">X: 0.50 &nbsp; Y: 0.50</span>
+          <span id="xypad-angle">Angle: 0&deg; &nbsp; Mag: 0.00</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Right Column ── -->
+  <div>
+
+    <!-- Color Control -->
+    <div class="card">
+      <div class="card-title">&#x1F3A8; Color</div>
+      <div class="color-row">
+        <input type="color" id="colorPicker" value="#58a6ff"
+               oninput="sendColor(this.value)">
+        <span class="color-hex" id="colorHex">#58a6ff</span>
+        <div class="color-preview">
+          <span id="cp-r" style="background:#58a6ff"></span>
+          <span id="cp-g" style="background:#58a6ff"></span>
+          <span id="cp-b" style="background:#58a6ff"></span>
+        </div>
+      </div>
+      <div class="slider-group">
+        <div class="slider-header">
+          <label>Opacity</label>
+          <span class="value" id="val-opacity">1.00</span>
+        </div>
+        <input type="range" id="sl-opacity" min="0" max="1" step="0.01" value="1"
+               oninput="sendSlider('opacity', this.value)">
+      </div>
+      <div class="slider-group">
+        <div class="slider-header">
+          <label>Hue Shift</label>
+          <span class="value" id="val-hue">0.00</span>
+        </div>
+        <input type="range" id="sl-hue" min="0" max="1" step="0.01" value="0"
+               oninput="sendSlider('hue', this.value)">
+      </div>
+    </div>
+
+    <!-- Dropdown + Timeline -->
+    <div class="card">
+      <div class="card-title">&#x1F4CB; Selector & Timeline</div>
+      <div class="dropdown-group">
+        <label for="dd-waveform">Waveform</label>
+        <select class="td-select" id="dd-waveform" onchange="sendDropdown('waveform', this)">
+          <option value="sine">&#x223F; Sine</option>
+          <option value="square">&#x25A3; Square</option>
+          <option value="sawtooth">&#x2A2C; Sawtooth</option>
+          <option value="triangle">&#x25B3; Triangle</option>
+          <option value="noise">&#x2753; Noise</option>
+          <option value="custom">&#x270F; Custom</option>
+        </select>
+      </div>
+      <div class="dropdown-group" style="margin-bottom:0">
+        <label for="dd-blend">Blend Mode</label>
+        <select class="td-select" id="dd-blend" onchange="sendDropdown('blend', this)">
+          <option value="normal">Normal</option>
+          <option value="add">Additive</option>
+          <option value="multiply">Multiply</option>
+          <option value="screen">Screen</option>
+          <option value="overlay">Overlay</option>
+          <option value="difference">Difference</option>
+        </select>
+      </div>
+      <div style="margin-top:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <span style="font-size:0.75rem;font-weight:500">Timeline</span>
+          <span style="font-size:0.65rem;color:var(--text-muted)">Drag to scrub</span>
+        </div>
+        <div class="timeline-wrap" id="timelineWrap">
+          <canvas id="timelineCanvas"></canvas>
+        </div>
+        <div class="timeline-info">
+          <span class="tl-current" id="tl-current">0:00.0</span>
+          <span class="tl-duration" id="tl-duration">0:10.0</span>
+        </div>
+        <div class="tl-controls">
+          <button class="tl-btn" id="tl-play" onclick="togglePlay()">&#x25B6; Play</button>
+          <button class="tl-btn" onclick="timelineGoto(0)">&#x23EE; Start</button>
+          <button class="tl-btn" onclick="timelineGoto(0.5)">&#x25C6; Mid</button>
+          <button class="tl-btn" onclick="timelineGoto(1)">&#x23ED; End</button>
+          <button class="tl-btn" onclick="timelineSpeed(0.5)">0.5x</button>
+          <button class="tl-btn active" onclick="timelineSpeed(1)">1x</button>
+          <button class="tl-btn" onclick="timelineSpeed(2)">2x</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Network Layout ── -->
+    <div class="card">
+      <div class="card-title" style="display:flex;justify-content:space-between;align-items:center">
+        <span>&#x1F9F0; Network Layout</span>
+        <span id="layout-status" style="font-size:0.65rem;font-weight:400;color:var(--text-muted)"></span>
+      </div>
+      <div class="dropdown-group">
+        <label for="layout-path">Container</label>
+        <select class="td-select" id="layout-path">
+          <option value="/project1">/project1 (Root)</option>
+          <option value="/POP_Systems">/POP_Systems</option>
+          <option value="/POP_Systems/GLSL01_WaveDisplace">GLSL01 WaveDisplace</option>
+          <option value="/POP_Systems/GLSL02_ColorVel">GLSL02 ColorVel</option>
+          <option value="/POP_Systems/GLSL03_NeighborRepel">GLSL03 NeighborRepel</option>
+          <option value="/POP_Systems/GLSL04_SphericalBulge">GLSL04 SphericalBulge</option>
+          <option value="/POP_Systems/GLSL05_VortexTornado">GLSL05 VortexTornado</option>
+          <option value="/POP_Systems/GLSL06_TerrainLayered">GLSL06 TerrainLayered</option>
+          <option value="/POP_Systems/GLSL07_RingRipple">GLSL07 RingRipple</option>
+          <option value="/POP_Systems/GLSL08_HelixTwist">GLSL08 HelixTwist</option>
+        </select>
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:8px">
+        <div style="flex:1">
+          <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:2px">Spacing X</label>
+          <input type="number" id="layout-sx" value="250" min="100" max="500" step="10"
+                 style="width:100%;padding:8px 10px;background:#0d1117;border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.8rem;outline:none">
+        </div>
+        <div style="flex:1">
+          <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:2px">Spacing Y</label>
+          <input type="number" id="layout-sy" value="80" min="30" max="200" step="5"
+                 style="width:100%;padding:8px 10px;background:#0d1117;border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.8rem;outline:none">
+        </div>
+      </div>
+      <div class="button-grid">
+        <button class="ctrl-btn action" id="layout-btn" onclick="autoLayout()">
+          &#x26A1; Auto-Layout
+        </button>
+        <button class="ctrl-btn gold" onclick="document.getElementById('layout-result').textContent='';document.getElementById('layout-status').textContent=''">
+          &#x1F5D1; Clear
+        </button>
+      </div>
+      <div id="layout-result" style="margin-top:6px;font-family:'SF Mono',monospace;font-size:0.6rem;color:var(--text-muted);max-height:80px;overflow-y:auto;white-space:pre-wrap;padding:4px 6px;background:#0a0e14;border-radius:4px"></div>
+    </div>
+
+  </div>
+</div>
+</div><!-- /tab-controls -->
+
+<!-- ═══ Monitor Tab (mobile) ═══ -->
+<div class="tab-content" id="tab-monitor">
+<div class="grid">
+  <div>
+    <div class="card">
+      <div class="card-title">&#x1F4CA; CHOP Monitor</div>
+      <div class="chop-viewer" id="chopViewer">
+        <div class="chop-row"><span class="ch-name">No data yet</span><span class="ch-val">&mdash;</span></div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="card" style="margin-bottom:0">
+      <div class="card-title" style="display:flex;justify-content:space-between;align-items:center">
+        <span>&#x1F4DD; Activity Log</span>
+        <button class="btn btn-secondary" style="padding:3px 10px;font-size:0.65rem" onclick="clearLog()">Clear</button>
+      </div>
+      <div class="log-box" id="logBox">
+        <div class="i">&mdash; Disconnected. Connect to start &mdash;</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div><!-- /tab-monitor -->
+
+<!-- ═══ Canvas Tab (mobile) ═══ -->
+<div class="tab-content" id="tab-canvas">
+<div class="grid">
+  <div>
+    <div class="card">
+      <div class="card-title">&#x270D; Touch Canvas</div>
+      <div class="canvas-wrap" id="canvasWrap" style="aspect-ratio:4/3">
+        <canvas id="touchCanvas"></canvas>
+        <button class="canvas-clear" onclick="clearCanvas()">Clear</button>
+        <div class="canvas-coords">
+          <span id="coord-uv">u: 0.00 &nbsp; v: 0.00</span>
+          <span id="coord-state">idle</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">&#x1F4CB; Selector & Timeline</div>
+      <div class="dropdown-group">
+        <label for="dd-waveform-m">Waveform</label>
+        <select class="td-select" id="dd-waveform-m" onchange="sendDropdown('waveform', this)">
+          <option value="sine">&#x223F; Sine</option>
+          <option value="square">&#x25A3; Square</option>
+          <option value="sawtooth">&#x2A2C; Sawtooth</option>
+          <option value="triangle">&#x25B3; Triangle</option>
+          <option value="noise">&#x2753; Noise</option>
+          <option value="custom">&#x270F; Custom</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="card">
+      <div class="card-title">&#x1F50C; Knobs</div>
+      <div class="knobs-grid" id="knobsGrid2">
+        <div class="knob-wrap"><canvas class="knob-canvas" data-id="master" data-label="Master" data-min="0" data-max="1" data-val="0.8"></canvas></div>
+        <div class="knob-wrap"><canvas class="knob-canvas" data-id="cutoff" data-label="Cutoff" data-min="0" data-max="1" data-val="0.5"></canvas></div>
+        <div class="knob-wrap"><canvas class="knob-canvas" data-id="reso" data-label="Resonance" data-min="0" data-max="1" data-val="0.3"></canvas></div>
+        <div class="knob-wrap"><canvas class="knob-canvas" data-id="mix" data-label="Mix" data-min="0" data-max="1" data-val="0.65"></canvas></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div><!-- /tab-canvas -->
+
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<script>
+// ═══════════════════════════════════════════════════════════════════════════
+// WebSocket connection with auto-reconnect
+// ═══════════════════════════════════════════════════════════════════════════
+
+let ws = null;
+let seq = 0;
+let reconnectAttempt = 0;
+let reconnectTimer = null;
+let manualDisconnect = false;
+const MAX_RECONNECT_DELAY = 30; // seconds
+const LOG_MAX = 50;
+
+const $ = id => document.getElementById(id);
+const statusEl = $('status');
+const logBox = $('logBox');
+const btnConn = $('btnConnect');
+const chopViewer = $('chopViewer');
+const reconnectInfo = $('reconnectInfo');
+
+function log(msg, cls = 'i') {
+  const d = document.createElement('div');
+  d.className = cls;
+  const t = new Date().toLocaleTimeString();
+  d.textContent = `[${t}] ${msg}`;
+  logBox.appendChild(d);
+  logBox.scrollTop = logBox.scrollHeight;
+  while (logBox.children.length > LOG_MAX) logBox.removeChild(logBox.firstChild);
+}
+
+function setStatus(label, cls) {
+  statusEl.className = `status-badge ${cls}`;
+  statusEl.innerHTML = `<span class="pulse"></span> ${label}`;
+}
+
+function toggleConn() {
+  if (ws && ws.readyState === WebSocket.OPEN) {
+    reconnectAttempt = 0;
+    manualDisconnect = true;
+    if (reconnectTimer) { clearTimeout(reconnectTimer); reconnectTimer = null; }
+    ws.close();
+  } else {
+    reconnectAttempt = 0;
+    connect();
+  }
+}
+
+function connect() {
+  const url = `ws://${window.location.hostname}:8090`;
+  setStatus('Connecting...', 'connecting');
+  btnConn.disabled = true;
+  btnConn.textContent = '...';
+  if (reconnectAttempt === 0) log(`Connecting to ${url}...`, 'i');
+
+  try { ws = new WebSocket(url); }
+  catch (e) {
+    log(`Conn err: ${e.message}`, 'e');
+    setStatus('Disconnected', 'disconnected');
+    btnConn.textContent = 'Connect'; btnConn.disabled = false;
+    scheduleReconnect();
+    return;
+  }
+
+  ws.onopen = () => {
+    setStatus('Connected', 'connected');
+    btnConn.textContent = 'Disconnect'; btnConn.disabled = false;
+    reconnectAttempt = 0;
+    reconnectInfo.textContent = '';
+    if (reconnectTimer) { clearTimeout(reconnectTimer); reconnectTimer = null; }
+    if (reconnectAttempt > 0) log('Reconnected!', 'r');
+    else log('Connected', 'r');
+  };
+
+  ws.onclose = (e) => {
+    const wasConnected = statusEl.classList.contains('connected');
+    setStatus('Disconnected', 'disconnected');
+    btnConn.textContent = 'Connect'; btnConn.disabled = false;
+    ws = null;
+    if (wasConnected) log('Disconnected', 'i');
+    if (wasConnected && !manualDisconnect) scheduleReconnect();
+    manualDisconnect = false;
+  };
+
+  ws.onerror = () => { /* onclose fires after onerror */ };
+}
+
+function scheduleReconnect() {
+  if (reconnectTimer) return;
+  const delay = Math.min(Math.pow(2, reconnectAttempt), MAX_RECONNECT_DELAY);
+  reconnectAttempt++;
+  reconnectInfo.textContent = `Reconnect in ${Math.round(delay)}s (attempt ${reconnectAttempt})`;
+  reconnectTimer = setTimeout(() => {
+    reconnectTimer = null;
+    if (!ws || ws.readyState !== WebSocket.OPEN) connect();
+  }, delay * 1000);
+}
+
+function sendJSON(obj) {
+  if (!ws || ws.readyState !== WebSocket.OPEN) return;
+  ws.send(JSON.stringify(obj));
+  seq++;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// IP / Network detection
+// ═══════════════════════════════════════════════════════════════════════════
+
+function detectIP() {
+  const ipEl = $('ipDisplay');
+  const host = window.location.hostname;
+  const port = window.location.port || 8090;
+  ipEl.textContent = `${host}:${port}`;
+  return `${host}:${port}`;
+}
+
+function copyIP() {
+  const ip = $('ipDisplay').textContent;
+  navigator.clipboard.writeText(`http://${ip}/dashboard.html`).then(() => {
+    log('IP copied to clipboard!', 'r');
+    const el = $('ipDisplay');
+    el.style.color = 'var(--green)';
+    setTimeout(() => el.style.color = '', 1000);
+  }).catch(() => {});
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Fullscreen
+// ═══════════════════════════════════════════════════════════════════════════
+
+function toggleFullscreen() {
+  if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+    const el = document.documentElement;
+    if (el.requestFullscreen) el.requestFullscreen();
+    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+    $('btnFs').textContent = '\u25A2';
+  } else {
+    if (document.exitFullscreen) document.exitFullscreen();
+    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+    $('btnFs').textContent = '\u26F6';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// QR Code
+// ═══════════════════════════════════════════════════════════════════════════
+
+let qrGenerated = false;
+
+function showQR() {
+  const panel = $('qrPanel');
+  panel.classList.add('show');
+  const url = `http://${window.location.hostname}:${window.location.port || 8090}/dashboard.html`;
+  $('qrUrl').textContent = url;
+  if (!qrGenerated && window.QRCode) {
+    new QRCode($('qrcode'), { text: url, width: 200, height: 200, colorDark: '#0d1117' });
+    qrGenerated = true;
+  }
+}
+
+function closeQR() { $('qrPanel').classList.remove('show'); }
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Mobile Tab Switching
+// ═══════════════════════════════════════════════════════════════════════════
+
+const isMobile = () => window.innerWidth <= 500;
+
+function switchTab(name) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-bar button').forEach(el => el.classList.remove('active'));
+  $(`tab-${name}`).classList.add('active');
+  document.querySelector(`.tab-bar [data-tab="${name}"]`).classList.add('active');
+  // Re-draw canvases in the newly visible tab
+  setTimeout(() => { initKnobs(); resizeAll(); }, 50);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Controls: Slider, Toggle, Trigger, Color
+// ═══════════════════════════════════════════════════════════════════════════
+
+function sendSlider(id, val) {
+  const v = $(`val-${id}`);
+  if (v) v.textContent = val;
+  sendJSON({ id, type: 'slider', value: String(val) });
+  updateChop(id, val);
+  log(`slider ${id} = ${val}`, 's');
+}
+
+function sendToggle(id) {
+  const el = $(`tog-${id}`);
+  const active = el.classList.toggle('active');
+  const val = active ? '1' : '0';
+  sendJSON({ id, type: 'toggle', value: val });
+  updateChop(id, val);
+  log(`toggle ${id} = ${val}`, 's');
+}
+
+function sendTrigger(id) {
+  sendJSON({ id, type: 'trigger', value: '1' });
+  setTimeout(() => sendJSON({ id, type: 'trigger', value: '0' }), 100);
+  updateChop(id, '1');
+  log(`trigger ${id}`, 's');
+}
+
+function sendColor(hex) {
+  $('colorHex').textContent = hex;
+  const r = parseInt(hex.slice(1,3), 16);
+  const g = parseInt(hex.slice(3,5), 16);
+  const b = parseInt(hex.slice(5,7), 16);
+  $('cp-r').style.background = `rgb(${r},0,0)`;
+  $('cp-g').style.background = `rgb(0,${g},0)`;
+  $('cp-b').style.background = `rgb(0,0,${b})`;
+  sendJSON({
+    id: 'color', type: 'color',
+    channels: { r: String(r / 255), g: String(g / 255), b: String(b / 255), hex }
+  });
+  updateChop('color.r', (r/255).toFixed(3));
+  updateChop('color.g', (g/255).toFixed(3));
+  updateChop('color.b', (b/255).toFixed(3));
+  log(`color = ${hex}`, 's');
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Auto-Layout — POST /api/auto_layout via CORS proxy
+// ═══════════════════════════════════════════════════════════════════════════
+
+const LAYOUT_API = window.location.port === '8090' ? '/api/auto_layout' : 'http://127.0.0.1:44444/auto_layout';
+
+async function autoLayout() {
+  const path = document.getElementById('layout-path').value;
+  const sx = parseInt(document.getElementById('layout-sx').value) || 250;
+  const sy = parseInt(document.getElementById('layout-sy').value) || 80;
+  const btn = document.getElementById('layout-btn');
+  const status = document.getElementById('layout-status');
+  const result = document.getElementById('layout-result');
+
+  btn.disabled = true;
+  btn.textContent = '⏳ Layouting...';
+  status.textContent = '⏳ Running...';
+  status.style.color = 'var(--orange)';
+  result.textContent = '';
+
+  try {
+    const resp = await fetch(LAYOUT_API, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ path, spacing_x: sx, spacing_y: sy })
+    });
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${resp.statusText || 'Server error'}`);
+    const data = await resp.json();
+
+    // The response may be wrapped: {output: "{...}"} from robust executor
+    let parsed = data;
+    if (data.output && typeof data.output === 'string') {
+      try { parsed = JSON.parse(data.output); } catch(e) {}
+    }
+
+    if (parsed.success) {
+      status.textContent = `✅ ${parsed.count} operators reposicionados`;
+      status.style.color = 'var(--green)';
+      // Show summary: depths and operator names
+      const groups = {};
+      (parsed.operators || []).forEach(op => {
+        if (!groups[op.depth]) groups[op.depth] = [];
+        groups[op.depth].push(op.name);
+      });
+      let summary = `📐 Layout complete: ${parsed.count} ops\n`;
+      Object.keys(groups).sort().forEach(d => {
+        summary += `  Depth ${d}: ${groups[d].join(', ')}\n`;
+      });
+      result.textContent = summary;
+      log(`Auto-Layout: ${parsed.count} ops in ${path}`, 'r');
+    } else {
+      status.textContent = `❌ ${parsed.error || 'Error'}`;
+      status.style.color = 'var(--red)';
+      result.textContent = JSON.stringify(parsed, null, 2);
+    }
+  } catch(e) {
+    status.textContent = `❌ ${e.message}`;
+    status.style.color = 'var(--red)';
+    result.textContent = `Error: ${e.message}`;
+  }
+
+  btn.disabled = false;
+  btn.textContent = '⚡ Auto-Layout';
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Dropdown
+// ═══════════════════════════════════════════════════════════════════════════
+
+function sendDropdown(id, el) {
+  const val = el.value;
+  const idx = el.selectedIndex;
+  sendJSON({ id, type: 'dropdown',
+    channels: { value: val, index: String(idx), label: el.options[idx].textContent.trim() }
+  });
+  updateChop(`dropdown.${id}`, val);
+  updateChop(`dropdown.${id}.index`, String(idx));
+  log(`dropdown ${id} = ${val}`, 's');
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Knobs
+// ═══════════════════════════════════════════════════════════════════════════
+
+let _knobsInitialized = false;
+
+function initKnobs() {
+  _knobsInitialized = true;
+  document.querySelectorAll('.knob-canvas').forEach(cv => {
+    if (cv._initialized) return;
+    cv._initialized = true;
+    const id = cv.dataset.id;
+    const min = parseFloat(cv.dataset.min);
+    const max = parseFloat(cv.dataset.max);
+    let val = parseFloat(cv.dataset.val);
+    let dragging = false;
+
+    const parent = cv.parentElement;
+    if (parent.querySelector('.knob-label')) return;
+    const labelEl = document.createElement('div');
+    labelEl.className = 'knob-label';
+    labelEl.textContent = cv.dataset.label;
+    const valEl = document.createElement('div');
+    valEl.className = 'knob-value';
+    valEl.textContent = val.toFixed(2);
+    parent.appendChild(labelEl);
+    parent.appendChild(valEl);
+
+    function draw() {
+      const rect = cv.getBoundingClientRect();
+      const size = Math.max(60, Math.min(Math.min(rect.width, rect.height) || 80, 120));
+      cv.width = size * devicePixelRatio;
+      cv.height = size * devicePixelRatio;
+      cv.style.width = size + 'px';
+      cv.style.height = size + 'px';
+      const ctx = cv.getContext('2d');
+      const s2 = cv.width; const cx = s2/2, cy = s2/2, r = s2 * 0.38;
+      const angle = (val - min) / (max - min) * 270 - 225;
+
+      ctx.clearRect(0, 0, s2, s2);
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, -225 * Math.PI/180, 45 * Math.PI/180);
+      ctx.strokeStyle = '#21262d'; ctx.lineWidth = s2 * 0.08; ctx.lineCap = 'round';
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, -225 * Math.PI/180, angle * Math.PI/180);
+      ctx.strokeStyle = val > 0.7 ? '#3fb950' : val > 0.3 ? '#58a6ff' : '#d29922';
+      ctx.stroke();
+
+      ctx.beginPath(); ctx.arc(cx, cy, r * 0.15, 0, Math.PI * 2);
+      ctx.fillStyle = val > 0.7 ? '#3fb950' : val > 0.3 ? '#58a6ff' : '#d29922';
+      ctx.fill();
+
+      const px = cx + Math.cos(angle * Math.PI/180) * r * 0.75;
+      const py = cy + Math.sin(angle * Math.PI/180) * r * 0.75;
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(px, py);
+      ctx.strokeStyle = '#e6edf3'; ctx.lineWidth = s2 * 0.035; ctx.lineCap = 'round';
+      ctx.stroke();
+    }
+
+    function getValFromEvent(e) {
+      const rect = cv.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      const dx = clientX - (rect.left + rect.width / 2);
+      const dy = clientY - (rect.top + rect.height / 2);
+      let a = Math.atan2(dy, dx) * 180 / Math.PI + 225;
+      if (a < 0) a += 360;
+      return Math.max(min, Math.min(max, min + (max - min) * (a / 270)));
+    }
+
+    function onStart(e) { e.preventDefault(); dragging = true; }
+    function onMove(e) {
+      if (!dragging) return; e.preventDefault();
+      val = getValFromEvent(e);
+      cv.dataset.val = val;
+      valEl.textContent = val.toFixed(2);
+      draw();
+    }
+    function onEnd(e) {
+      if (!dragging) return;
+      dragging = false;
+      val = parseFloat(cv.dataset.val);
+      const deg = ((val - min) / (max - min)) * 270;
+      sendJSON({
+        id: `knob_${id}`, type: 'knob',
+        channels: { value: val.toFixed(3), degrees: deg.toFixed(1), normalized: ((val - min) / (max - min)).toFixed(3) }
+      });
+      updateChop(`knob.${id}`, val.toFixed(2));
+      updateChop(`knob.${id}.deg`, deg.toFixed(0));
+      log(`knob ${id} = ${val.toFixed(2)}`, 's');
+    }
+
+    cv.addEventListener('mousedown', onStart);
+    cv.addEventListener('mousemove', onMove);
+    cv.addEventListener('mouseup', onEnd);
+    cv.addEventListener('mouseleave', onEnd);
+    cv.addEventListener('touchstart', onStart, { passive: false });
+    cv.addEventListener('touchmove', onMove, { passive: false });
+    cv.addEventListener('touchend', onEnd, { passive: false });
+
+    draw();
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// XY Pad
+// ═══════════════════════════════════════════════════════════════════════════
+
+const xypadCanvas = $('xypadCanvas');
+const xypadWrap = $('xypadWrap');
+let xypadX = 0.5, xypadY = 0.5;
+let xypadDragging = false;
+
+function resizeXYPad() {
+  if (!xypadWrap || !xypadCanvas) return;
+  const rect = xypadWrap.getBoundingClientRect();
+  xypadCanvas.width = rect.width;
+  xypadCanvas.height = rect.height;
+  drawXYPad();
+}
+
+function drawXYPad() {
+  if (!xypadCanvas) return;
+  const ctx = xypadCanvas.getContext('2d');
+  const w = xypadCanvas.width, h = xypadCanvas.height;
+  if (w === 0 || h === 0) return;
+  ctx.clearRect(0, 0, w, h);
+  ctx.strokeStyle = '#1c2333'; ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    const x = w * i / 4, y = h * i / 4;
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+  }
+  const px = xypadX * w, py = (1 - xypadY) * h;
+  ctx.strokeStyle = 'rgba(88,166,255,0.2)';
+  ctx.beginPath(); ctx.moveTo(px, 0); ctx.lineTo(px, h); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0, py); ctx.lineTo(w, py); ctx.stroke();
+  ctx.beginPath(); ctx.arc(px, py, 16, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(88,166,255,0.15)'; ctx.fill();
+  ctx.beginPath(); ctx.arc(px, py, 8, 0, Math.PI * 2);
+  ctx.fillStyle = '#58a6ff'; ctx.fill();
+  ctx.strokeStyle = '#fff'; ctx.lineWidth = 2;
+  ctx.stroke();
+}
+
+function xypadGetXY(e) {
+  const rect = xypadWrap.getBoundingClientRect();
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+  return {
+    x: Math.max(0, Math.min(1, (clientX - rect.left) / rect.width)),
+    y: Math.max(0, Math.min(1, 1 - (clientY - rect.top) / rect.height))
+  };
+}
+
+function xypadSend() {
+  const angle = Math.atan2(xypadY - 0.5, xypadX - 0.5) * 180 / Math.PI;
+  const mag = Math.sqrt((xypadX - 0.5) ** 2 + (xypadY - 0.5) ** 2) * 2;
+  sendJSON({
+    id: 'xypad', type: 'xypad',
+    channels: {
+      x: xypadX.toFixed(3), y: xypadY.toFixed(3),
+      angle: angle.toFixed(1), magnitude: Math.min(mag, 1).toFixed(3),
+      normalized: ((xypadX + xypadY) / 2).toFixed(3)
+    }
+  });
+  updateChop('xypad.x', xypadX.toFixed(3));
+  updateChop('xypad.y', xypadY.toFixed(3));
+  updateChop('xypad.angle', angle.toFixed(0));
+  updateChop('xypad.mag', Math.min(mag, 1).toFixed(3));
+  if ($('xypad-xy')) $('xypad-xy').textContent = `X: ${xypadX.toFixed(2)}  Y: ${xypadY.toFixed(2)}`;
+  if ($('xypad-angle')) $('xypad-angle').textContent = `Angle: ${angle.toFixed(0)}°  Mag: ${Math.min(mag, 1).toFixed(2)}`;
+  log(`xypad x=${xypadX.toFixed(2)} y=${xypadY.toFixed(2)} a=${angle.toFixed(0)}`, 's');
+}
+
+function xypadOnMove(e) {
+  if (!xypadDragging) return; e.preventDefault();
+  const p = xypadGetXY(e); xypadX = p.x; xypadY = p.y;
+  drawXYPad(); xypadSend();
+}
+
+function setupXYPad() {
+  if (!xypadWrap) return;
+  xypadWrap.addEventListener('mousedown', (e) => { xypadDragging = true; xypadOnMove(e); });
+  xypadWrap.addEventListener('mousemove', xypadOnMove);
+  xypadWrap.addEventListener('mouseup', () => { xypadDragging = false; xypadSend(); });
+  xypadWrap.addEventListener('mouseleave', () => { if (xypadDragging) { xypadDragging = false; xypadSend(); } });
+  xypadWrap.addEventListener('touchstart', (e) => { e.preventDefault(); xypadDragging = true; xypadOnMove(e); }, { passive: false });
+  xypadWrap.addEventListener('touchmove', xypadOnMove, { passive: false });
+  xypadWrap.addEventListener('touchend', (e) => { e.preventDefault(); xypadDragging = false; xypadSend(); }, { passive: false });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Timeline
+// ═══════════════════════════════════════════════════════════════════════════
+
+const TL_DURATION = 10;
+let tlPosition = 0;
+let tlPlaying = false;
+let tlDragging = false;
+let tlAnimFrame = null;
+let tlLastTime = 0;
+let _tlFrameCount = 0;
+
+const tlc = () => $('timelineCanvas');
+const tlw = () => $('timelineWrap');
+
+function resizeTimeline() {
+  const wrap = tlw();
+  const cv = tlc();
+  if (!wrap || !cv) return;
+  const rect = wrap.getBoundingClientRect();
+  cv.width = rect.width;
+  cv.height = rect.height;
+  drawTimeline();
+}
+
+function drawTimeline() {
+  const cv = tlc();
+  if (!cv) return;
+  const ctx = cv.getContext('2d');
+  const w = cv.width, h = cv.height;
+  if (w === 0) return;
+  ctx.clearRect(0, 0, w, h);
+  const grad = ctx.createLinearGradient(0, 0, w, 0);
+  grad.addColorStop(0, '#1a2332');
+  grad.addColorStop(tlPosition, '#1f344d');
+  grad.addColorStop(tlPosition + 0.001, '#2a4a6e');
+  grad.addColorStop(1, '#1a2332');
+  ctx.fillStyle = grad; ctx.fillRect(0, 0, w, h);
+  ctx.strokeStyle = '#30363d'; ctx.lineWidth = 1;
+  for (let i = 0; i <= 10; i++) {
+    const x = w * i / 10;
+    ctx.beginPath(); ctx.moveTo(x, h); ctx.lineTo(x, h - (i % 5 === 0 ? 12 : 6)); ctx.stroke();
+  }
+  const px = tlPosition * w;
+  ctx.strokeStyle = '#58a6ff'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(px, 0); ctx.lineTo(px, h); ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(px, h); ctx.lineTo(px + 6, h - 6);
+  ctx.lineTo(px, h - 12); ctx.lineTo(px - 6, h - 6);
+  ctx.closePath();
+  ctx.fillStyle = '#58a6ff'; ctx.fill();
+  ctx.fillStyle = '#8b949e'; ctx.font = '9px monospace';
+  ctx.fillText('0:00', 4, 10);
+  ctx.fillText('0:05', w / 2 - 10, 10);
+  ctx.fillText('0:10', w - 24, 10);
+}
+
+function timelineUpdateDisplay() {
+  const currentS = tlPosition * TL_DURATION;
+  const mins = Math.floor(currentS / 60);
+  const secs = currentS % 60;
+  if ($('tl-current')) $('tl-current').textContent = `${mins}:${secs.toFixed(1).padStart(4, '0')}`;
+  if ($('tl-duration')) $('tl-duration').textContent = `0:${TL_DURATION}.0`;
+}
+
+function timelineSend() {
+  sendJSON({
+    id: 'timeline', type: 'timeline',
+    channels: {
+      position: tlPosition.toFixed(3), seconds: (tlPosition * TL_DURATION).toFixed(2),
+      normalized: tlPosition.toFixed(3), playing: tlPlaying ? '1' : '0', duration: String(TL_DURATION)
+    }
+  });
+  updateChop('timeline.pos', tlPosition.toFixed(3));
+  updateChop('timeline.sec', (tlPosition * TL_DURATION).toFixed(1));
+  updateChop('timeline.playing', tlPlaying ? '1' : '0');
+}
+
+function timelineTick(timestamp) {
+  if (tlPlaying) {
+    const speed = parseFloat((tlc() || {}).dataset.speed) || 1;
+    const dt = tlLastTime ? (timestamp - tlLastTime) / 1000 / TL_DURATION * speed : 0;
+    tlPosition = Math.min(1, tlPosition + dt);
+    if (tlPosition >= 1) { tlPosition = 1; tlPlaying = false; const p = $('tl-play'); if(p){p.textContent='\u25B6 Play';p.classList.remove('active');} }
+    drawTimeline(); timelineUpdateDisplay();
+    _tlFrameCount++;
+    if (_tlFrameCount % 2 === 0) timelineSend();
+    tlLastTime = timestamp;
+    tlAnimFrame = requestAnimationFrame(timelineTick);
+  }
+}
+
+function togglePlay() {
+  tlPlaying = !tlPlaying;
+  const btn = $('tl-play');
+  if (!btn) return;
+  if (tlPlaying) {
+    btn.textContent = '\u23F8 Pause'; btn.classList.add('active');
+    if (tlPosition >= 1) tlPosition = 0;
+    tlLastTime = 0;
+    tlAnimFrame = requestAnimationFrame(timelineTick);
+  } else {
+    btn.textContent = '\u25B6 Play'; btn.classList.remove('active');
+    if (tlAnimFrame) { cancelAnimationFrame(tlAnimFrame); tlAnimFrame = null; }
+  }
+  timelineSend();
+  log(`timeline ${tlPlaying ? 'play' : 'pause'} at ${(tlPosition * TL_DURATION).toFixed(1)}s`, 's');
+}
+
+function timelineGoto(pos) {
+  tlPosition = Math.max(0, Math.min(1, pos));
+  drawTimeline(); timelineUpdateDisplay(); timelineSend();
+  log(`timeline goto ${(tlPosition * TL_DURATION).toFixed(1)}s`, 's');
+}
+
+function timelineSpeed(speed) {
+  const cv = tlc();
+  if (cv) cv.dataset.speed = speed;
+  document.querySelectorAll('.tl-btn').forEach(b => {
+    if (b.textContent.includes('x')) b.classList.remove('active');
+  });
+  const speedBtn = [...document.querySelectorAll('.tl-btn')].find(b => b.textContent.trim() === speed + 'x');
+  if (speedBtn) speedBtn.classList.add('active');
+  updateChop('timeline.speed', String(speed));
+  log(`timeline speed ${speed}x`, 's');
+}
+
+function setupTimeline() {
+  const wrap = tlw();
+  if (!wrap) return;
+  function onDown(e) {
+    tlDragging = true;
+    const rect = wrap.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    tlPosition = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+    drawTimeline(); timelineUpdateDisplay(); timelineSend();
+  }
+  function onMove(e) {
+    if (!tlDragging) return; e.preventDefault();
+    const rect = wrap.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    tlPosition = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+    drawTimeline(); timelineUpdateDisplay(); timelineSend();
+  }
+  function onUp() { tlDragging = false; }
+  wrap.addEventListener('mousedown', onDown);
+  wrap.addEventListener('mousemove', onMove);
+  wrap.addEventListener('mouseup', onUp);
+  wrap.addEventListener('mouseleave', onUp);
+  wrap.addEventListener('touchstart', onDown, { passive: false });
+  wrap.addEventListener('touchmove', onMove, { passive: false });
+  wrap.addEventListener('touchend', onUp, { passive: false });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Touch Canvas
+// ═══════════════════════════════════════════════════════════════════════════
+
+const canvas = $('touchCanvas');
+const wrap = $('canvasWrap');
+let isDrawing = false;
+
+function resizeAll() {
+  [resizeCanvas, resizeXYPad, resizeTimeline, initKnobs].forEach(fn => { try { fn(); } catch(e) {} });
+}
+
+function resizeCanvas() {
+  if (!canvas || !wrap) return;
+  const rect = wrap.getBoundingClientRect();
+  canvas.width = rect.width;
+  canvas.height = rect.height;
+}
+
+function getUV(e) {
+  const rect = canvas.getBoundingClientRect();
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+  return { u: (clientX - rect.left) / rect.width, v: (clientY - rect.top) / rect.height };
+}
+
+function drawDot(u, v) {
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const x = u * canvas.width, y = v * canvas.height;
+  ctx.fillStyle = 'rgba(88,166,255,0.15)';
+  ctx.beginPath(); ctx.arc(x, y, 20, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = 'rgba(88,166,255,0.3)';
+  ctx.beginPath(); ctx.arc(x, y, 10, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#58a6ff';
+  ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI*2); ctx.fill();
+}
+
+function sendCanvasUV(u, v, active) {
+  sendJSON({
+    id: 'canvas', type: 'canvas',
+    channels: { u: u.toFixed(3), v: v.toFixed(3), select: active ? '1' : '0' }
+  });
+  updateChop('canvas.u', u.toFixed(3));
+  updateChop('canvas.v', v.toFixed(3));
+  updateChop('canvas.select', active ? '1' : '0');
+  if ($('coord-uv')) $('coord-uv').textContent = `u: ${u.toFixed(3)}  v: ${v.toFixed(3)}`;
+  if ($('coord-state')) $('coord-state').textContent = active ? 'touching' : 'idle';
+}
+
+function setupCanvas() {
+  if (!wrap || !canvas) return;
+  wrap.addEventListener('mousedown', (e) => {
+    isDrawing = true; const uv = getUV(e); sendCanvasUV(uv.u, uv.v, true); drawDot(uv.u, uv.v);
+  });
+  wrap.addEventListener('mousemove', (e) => {
+    if (!isDrawing) return; const uv = getUV(e); sendCanvasUV(uv.u, uv.v, true); drawDot(uv.u, uv.v);
+  });
+  wrap.addEventListener('mouseup', () => { isDrawing = false; sendCanvasUV(0, 0, false); });
+  wrap.addEventListener('mouseleave', () => { isDrawing = false; sendCanvasUV(0, 0, false); });
+  wrap.addEventListener('touchstart', (e) => { e.preventDefault(); isDrawing = true; const uv = getUV(e); sendCanvasUV(uv.u, uv.v, true); drawDot(uv.u, uv.v); }, { passive: false });
+  wrap.addEventListener('touchmove', (e) => { e.preventDefault(); const uv = getUV(e); sendCanvasUV(uv.u, uv.v, true); drawDot(uv.u, uv.v); }, { passive: false });
+  wrap.addEventListener('touchend', (e) => { e.preventDefault(); isDrawing = false; sendCanvasUV(0, 0, false); }, { passive: false });
+}
+
+function clearCanvas() {
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#0a0e14'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+  sendJSON({ id: 'canvas', type: 'canvas', channels: { u: '0', v: '0', select: '0', rselect: '1' } });
+  if ($('coord-uv')) $('coord-uv').textContent = 'u: 0.00  v: 0.00';
+  log('Canvas cleared', 'i');
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CHOP Viewer (with flash animation)
+// ═══════════════════════════════════════════════════════════════════════════
+
+const chopData = {};
+const CHOP_MAX = 20;
+
+function updateChop(name, val) {
+  chopData[name] = { val, time: Date.now() };
+  renderChop(name);
+}
+
+function renderChop(changedName) {
+  const entries = Object.entries(chopData)
+    .sort((a, b) => b[1].time - a[1].time)
+    .slice(0, CHOP_MAX);
+  if (entries.length === 0) {
+    if (chopViewer) chopViewer.innerHTML = '<div class="chop-row"><span class="ch-name">No data yet</span><span class="ch-val">&mdash;</span></div>';
+    return;
+  }
+  if (chopViewer) {
+    chopViewer.innerHTML = entries.map(([name, d]) =>
+      `<div class="chop-row${name === changedName ? ' changed' : ''}"><span class="ch-name">${name}</span><span class="ch-val">${d.val}</span></div>`
+    ).join('');
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Init
+// ═══════════════════════════════════════════════════════════════════════════
+
+function clearLog() {
+  if (logBox) logBox.innerHTML = '<div class="i">&mdash; Log cleared &mdash;</div>';
+}
+
+detectIP();
+initKnobs();
+setupXYPad();
+setupTimeline();
+setupCanvas();
+setTimeout(clearCanvas, 100); // draw initial background
+resizeAll();
+
+// Single resize listener that redraws everything
+let _resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(_resizeTimer);
+  _resizeTimer = setTimeout(resizeAll, 100);
+});
+// Also resize on orientation change
+window.addEventListener('orientationchange', () => {
+  setTimeout(resizeAll, 300);
+});
+
+// Auto-connect after 500ms
+setTimeout(connect, 500);
+</script>
+</body>
+</html>

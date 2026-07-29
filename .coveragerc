@@ -1,0 +1,33 @@
+[run]
+source = .
+parallel = True
+concurrency = multiprocessing
+omit =
+    tests/*
+    .claude-plugin/*
+    cron_test_reports/*
+    glsl_files/*
+    glsl_pop_projects/*
+    mcp_reference/*
+    mcp/*
+    node_modules/*
+    references/*
+    toe/*
+    web2touch/*
+    api/*
+    mcp_server.py
+    build_*.py
+    fix_*.py
+    layout_*.py
+    wire_*.py
+    verify_*.py
+    auto_fix_glsl.py
+    callback_code.py
+    convert_toe_expand.py
+    set_shaders.py
+    rebuild_all.py
+    test_glsl.py
+    w2t_shim_*.py
+
+[report]
+skip_empty = true

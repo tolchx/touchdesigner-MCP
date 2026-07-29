@@ -20,9 +20,11 @@ Empirically verified parameter names (from live TD probing):
 
 Usage:
   python toe/src/test_live_td_sphere_transform_trail.py
+  python toe/src/test_live_td_sphere_transform_trail.py --host 127.0.0.1 --port 44444
   python toe/src/test_live_td_sphere_transform_trail.py --keep
   python toe/src/test_live_td_sphere_transform_trail.py --keep --container-x 200 --container-y 0
 """
+
 
 import json
 import time
@@ -34,7 +36,9 @@ import os
 import sys
 
 # === CONFIG ===
-TD_URL = "http://localhost:44444"
+DEFAULT_HOST = "127.0.0.1"
+DEFAULT_PORT = 44444
+TD_URL = f"http://{DEFAULT_HOST}:{DEFAULT_PORT}"
 SANDBOX_NAME = "sph_tr_tl_test"
 UUID_SUFFIX = uuid.uuid4().hex[:8]
 HEADERS = {"Content-Type": "application/json"}
@@ -94,7 +98,19 @@ def assert_ge(actual, threshold, label):
 # === MAIN ===
 def main():
     global checks_passed, checks_total
+
+    # Fallback encoding: reconfigure stdout to handle UTF-8 even
+    # on Windows cp1252 terminals (prevents UnicodeEncodeError).
+    try:
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+    except Exception:
+        pass
+
     parser = argparse.ArgumentParser(description="spherePOP + transformPOP + trailPOP live test")
+    parser.add_argument("--host", default=DEFAULT_HOST,
+                        help="TouchDesigner API host")
+    parser.add_argument("--port", type=int, default=DEFAULT_PORT,
+                        help="TouchDesigner API port")
     parser.add_argument("--keep", action="store_true",
                         help="Keep sandbox after test (don't destroy)")
     parser.add_argument("--container-x", type=int, default=200,
@@ -105,9 +121,12 @@ def main():
     keep = args.keep
     container_x = args.container_x
     container_y = args.container_y
+    global TD_URL
+    TD_URL = f"http://{args.host}:{args.port}"
 
     print("=" * 60)
     print("TD-MCP Live Test: spherePOP + transformPOP + trailPOP")
+    print(f"  Target: http://{args.host}:{args.port}")
     print("=" * 60)
     print()
 

@@ -706,18 +706,18 @@ export function registerValidateTools(server: McpServer, client: TDClient) {
             const healthJson = JSON.stringify(health);
             const reportCode = buildStructuredReportCode(healthJson);
             const reportResult = await client.execute(reportCode, "/");
-          try {
-            structuredReports = JSON.parse(
-              reportResult.stdout || "{}",
-            );
-          } catch {
-            structuredReports = {};
-          }
-          result.steps.push({
-            step: "structured_reports",
-            result: structuredReports,
-          });
-          result.structuredReports = structuredReports;
+            try {
+              structuredReports = JSON.parse(
+                reportResult.stdout || "{}",
+              );
+            } catch {
+              structuredReports = {};
+            }
+            result.steps.push({
+              step: "structured_reports",
+              result: structuredReports,
+            });
+            result.structuredReports = structuredReports;
           } catch {
             result.steps.push({
               step: "structured_reports",

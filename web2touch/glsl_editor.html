@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>GLSL Hot-Reload Editor</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#07070d;--bg2:#0c0c18;--bg3:#111122;
+  --card:#0f0f22;--card2:#141430;
+  --border:#1a1a3a;--border2:#2a2a5a;
+  --accent:#6c5ce7;--accent2:#a29bfe;
+  --neon:#00f5ff;--neon2:#7c3aed;
+  --green:#00e676;--red:#ff1744;--yellow:#ffd600;--orange:#ff9100;
+  --text:#c8c8e0;--text2:#8888aa;--text3:#55557a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);color:var(--text);
+  min-height:100vh;display:flex;flex-direction:column;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse at 20% 50%,rgba(108,92,231,.08) 0%,transparent 50%),
+             radial-gradient(ellipse at 80% 20%,rgba(0,245,255,.06) 0%,transparent 50%);
+  pointer-events:none;z-index:0;
+}
+
+/* ── Header ── */
+.header{
+  position:sticky;top:0;z-index:100;
+  padding:14px 20px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--border);
+  background:rgba(7,7,13,.92);backdrop-filter:blur(20px);flex-wrap:wrap;gap:8px;
+}
+.logo{
+  font-size:18px;font-weight:900;
+  background:linear-gradient(135deg,var(--neon),var(--accent2),var(--neon2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.logo-sub{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:2px}
+.header-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+
+.badge{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 8px;border-radius:4px;font:600 9px/1 'Inter',sans-serif;
+  letter-spacing:.5px;text-transform:uppercase;
+}
+.badge.online{background:rgba(0,230,118,.12);color:var(--green);border:1px solid rgba(0,230,118,.25)}
+.badge.offline{background:rgba(255,23,68,.12);color:var(--red);border:1px solid rgba(255,23,68,.25)}
+.badge.demo{background:rgba(255,145,0,.12);color:var(--orange);border:1px solid rgba(255,145,0,.25)}
+
+.btn{
+  padding:6px 14px;border-radius:6px;border:1px solid var(--border);
+  background:var(--card);color:var(--text);
+  font:600 10px/1 'Inter',sans-serif;cursor:pointer;transition:all .15s;
+  display:inline-flex;align-items:center;gap:4px;
+}
+.btn:hover{border-color:var(--accent);background:var(--card2)}
+.btn:disabled{opacity:.4;cursor:not-allowed;pointer-events:none}
+.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn.primary:hover{background:var(--accent2)}
+.btn.danger{border-color:var(--red);color:var(--red);background:rgba(255,23,68,.08)}
+.btn.danger:hover{background:rgba(255,23,68,.15)}
+.btn.green{border-color:var(--green);color:var(--green);background:rgba(0,230,118,.08)}
+.btn.green:hover{background:rgba(0,230,118,.15)}
+.btn.gold{border-color:var(--yellow);color:var(--yellow);background:rgba(255,214,0,.08)}
+.btn.gold:hover{background:rgba(255,214,0,.15)}
+.btn.small{padding:3px 8px;font-size:9px}
+
+.main{position:relative;z-index:1;padding:16px 20px;flex:1;display:flex;flex-direction:column;gap:10px;max-width:1400px;margin:0 auto;width:100%}
+
+/* ── Mode Toggle ── */
+.mode-toggle{
+  display:flex;gap:0;border:1px solid var(--border);border-radius:6px;overflow:hidden;
+}
+.mode-toggle button{
+  padding:5px 12px;font:600 9px/1 'Inter',sans-serif;text-transform:uppercase;letter-spacing:.5px;
+  border:none;background:var(--bg2);color:var(--text3);cursor:pointer;transition:all .1s;
+}
+.mode-toggle button.active{background:var(--accent);color:#fff}
+.mode-toggle button:hover:not(.active){color:var(--text);background:var(--card)}
+
+/* ── System Gallery ── */
+.section-label{
+  font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;
+  color:var(--text3);margin-bottom:6px;
+}
+.gallery{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));
+  gap:4px;
+}
+.gallery-item{
+  padding:5px 6px;border-radius:5px;border:1px solid var(--border);
+  background:var(--bg2);font-size:8.5px;color:var(--text2);
+  cursor:pointer;transition:all .12s;text-align:center;position:relative;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.gallery-item:hover{border-color:var(--accent);color:var(--text);background:var(--card)}
+.gallery-item.active{
+  border-color:var(--neon);color:var(--neon);
+  background:rgba(0,245,255,.06);box-shadow:0 0 12px rgba(0,245,255,.08);
+}
+.gallery-item .badge-dot{
+  position:absolute;top:3px;right:3px;width:5px;height:5px;border-radius:50%;
+}
+.gallery-item .badge-dot.ok{background:var(--green)}
+.gallery-item .badge-dot.err{background:var(--red)}
+.gallery-item .badge-dot.unknown{background:var(--text3)}
+
+/* ── Toolbar ── */
+.toolbar{
+  display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+  background:var(--card);border:1px solid var(--border);border-radius:8px;
+  padding:8px 10px;
+}
+.toolbar select{
+  background:var(--bg2);border:1px solid var(--border);border-radius:5px;
+  color:var(--text);padding:5px 8px;font:600 10px 'Inter',sans-serif;
+  outline:none;cursor:pointer;min-width:160px;
+}
+.toolbar select:focus{border-color:var(--accent)}
+.toolbar .sep{width:1px;height:20px;background:var(--border)}
+.toolbar .status-text{font-size:9px;color:var(--text3);font-family:'JetBrains Mono',monospace}
+
+/* ── Split Layout ── */
+.split{
+  flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px;min-height:0;
+}
+@media(max-width:900px){.split{grid-template-columns:1fr}}
+
+/* ── Editor Panel ── */
+.editor-panel{
+  display:flex;flex-direction:column;
+  background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;
+}
+.editor-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:6px 10px;border-bottom:1px solid var(--border);background:var(--bg2);
+  font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text2);
+}
+.editor-body{flex:1;position:relative;min-height:250px}
+.editor-body textarea{
+  width:100%;height:100%;min-height:250px;resize:none;
+  background:#0a0a14;color:#c8c8e0;padding:12px;padding-left:44px;
+  font:11px/1.7 'JetBrains Mono',monospace;
+  border:none;outline:none;tab-size:2;white-space:pre;overflow:auto;
+}
+.editor-body textarea:focus{background:#0c0c18}
+.editor-body textarea::placeholder{color:var(--text3)}
+.line-nums{
+  position:absolute;top:0;left:0;width:36px;height:100%;
+  padding:12px 4px;text-align:right;
+  font:11px/1.7 'JetBrains Mono',monospace;color:var(--text3);
+  pointer-events:none;overflow:hidden;user-select:none;
+  background:rgba(0,0,0,.3);border-right:1px solid var(--border);
+}
+
+/* ── Preview Panel ── */
+.preview-panel{
+  display:flex;flex-direction:column;
+  background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;
+}
+.preview-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:6px 10px;border-bottom:1px solid var(--border);background:var(--bg2);
+  font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text2);
+}
+.preview-body{
+  flex:1;padding:10px;overflow-y:auto;
+  font:10px/1.5 'JetBrains Mono',monospace;color:var(--text2);
+  white-space:pre-wrap;
+}
+.preview-body .error{color:var(--red)}
+.preview-body .success{color:var(--green)}
+.preview-body .info{color:var(--text3)}
+.preview-body .warn{color:var(--yellow)}
+.preview-body .highlight{color:var(--neon)}
+
+/* ── Status Bar ── */
+.status-bar{
+  display:flex;align-items:center;gap:10px;
+  padding:6px 12px;border-radius:6px;font-size:9px;
+  background:var(--bg2);border:1px solid var(--border);
+}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block;flex-shrink:0}
+.dot.idle{background:var(--text3)}
+.dot.ok{background:var(--green);box-shadow:0 0 6px var(--green)}
+.dot.err{background:var(--red);box-shadow:0 0 6px var(--red)}
+.dot.busy{background:var(--yellow);animation:pulse .8s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ── Demo Samples Panel ── */
+.demo-samples{
+  display:flex;gap:4px;flex-wrap:wrap;
+  background:var(--bg2);border:1px solid var(--border);border-radius:6px;
+  padding:6px 8px;
+}
+.demo-sample-btn{
+  padding:3px 8px;border-radius:4px;border:1px solid var(--border2);
+  background:transparent;color:var(--text2);
+  font:600 8.5px/1 'Inter',sans-serif;cursor:pointer;transition:all .1s;
+}
+.demo-sample-btn:hover{border-color:var(--accent);color:var(--text);background:var(--card)}
+.demo-sample-btn.active{border-color:var(--neon);color:var(--neon);background:rgba(0,245,255,.06)}
+.demo-sample-btn .size{color:var(--text3);font-weight:400}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+::-webkit-scrollbar-thumb:hover{background:var(--accent)}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="logo">🔮 GLSL HOT-RELOAD</div>
+    <div class="logo-sub">Live Shader Editing · TouchDesigner</div>
+  </div>
+  <div class="header-right">
+    <span id="connBadge" class="badge offline">● TD: --</span>
+    <button class="btn small" onclick="refreshSystems()">⟳</button>
+    <div class="mode-toggle">
+      <button id="modeLive" class="active" onclick="setMode('live')">Live</button>
+      <button id="modeDemo" onclick="setMode('demo')">Demo</button>
+    </div>
+  </div>
+</div>
+
+<main class="main">
+  <!-- GLSL System Gallery -->
+  <div class="section-label">GLSL Systems</div>
+  <div class="gallery" id="systemGallery">
+    <div style="color:var(--text3);font-size:9px;grid-column:1/-1;text-align:center;padding:16px">
+      Discovering systems...
+    </div>
+  </div>
+
+  <!-- Demo Samples (hidden in Live mode) -->
+  <div id="demoSamples" class="demo-samples" style="display:none">
+    <span style="font-size:8.5px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.5px;padding-right:4px">Samples:</span>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <select id="systemSelect" onchange="onSystemChange()">
+      <option value="">— Select system —</option>
+    </select>
+    <div class="sep"></div>
+    <button class="btn" id="btnLoad" onclick="loadCode()">📥 Load</button>
+    <button class="btn green" id="btnApply" onclick="applyCode()">📤 Apply</button>
+    <button class="btn gold" id="btnReload" onclick="reloadGLSL()">⟳ Reload</button>
+    <div class="sep"></div>
+    <button class="btn" onclick="cleanCode()">Clean</button>
+    <button class="btn" onclick="copyCode()">📋 Copy</button>
+    <button class="btn" onclick="formatCode()">Format</button>
+    <span id="statusText" class="status-text">Ready</span>
+  </div>
+
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span class="dot idle" id="statusDot"></span>
+    <span id="statusMsg">Loading GLSL systems...</span>
+    <span style="margin-left:auto;color:var(--text3)" id="charCount">0 chars</span>
+    <span style="color:var(--text3)" id="modeLabel">LIVE MODE</span>
+  </div>
+
+  <!-- Split: Editor + Preview -->
+  <div class="split">
+    <div class="editor-panel">
+      <div class="editor-header">
+        <span>📝 GLSL Code Editor</span>
+        <span style="font-weight:400;color:var(--text3);font-size:8px" id="editorTitle">
+          <span id="editorSysName">—</span>
+          <span id="editorDatName" style="color:var(--text3)"></span>
+        </span>
+      </div>
+      <div class="editor-body">
+        <div class="line-nums" id="lineNums">1</div>
+        <textarea id="glslEditor" spellcheck="false"
+          placeholder="// Select a system and click Load, or switch to Demo mode"
+          oninput="onEditorChange()" onscroll="syncScroll()"></textarea>
+      </div>
+    </div>
+    <div class="preview-panel">
+      <div class="preview-header">
+        <span>📋 Compile Output</span>
+        <div style="display:flex;gap:4px">
+          <button class="btn small" onclick="clearOutput()">Clear</button>
+          <button class="btn small" onclick="toggleAutoApply()" id="autoApplyBtn">Auto: ON</button>
+        </div>
+      </div>
+      <div class="preview-body" id="outputPanel">
+        <span class="info">⏳ Editor initializing...</span>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+// ════════════════════════════════════════════════════════════════
+// Configuration
+// ════════════════════════════════════════════════════════════════
+// Auto-detect TD API endpoint
+// - Served from w2t_server (port 8090): use /api/ proxy (CORS-safe)
+// - Served from TD API (port 44444): use direct origin
+const IS_PROXIED = window.location.port === '8090' || window.__WS_PORT === '8090';
+const TD_API = window.__TD_API || (IS_PROXIED ? '/api' : 'http://127.0.0.1:44444');
+const WS_PORT = window.__WS_PORT || '8090';
+let LIVE_MODE = true;
+let AUTO_APPLY = true;
+let currentSystem = null;
+let currentCode = '';
+
+// ════════════════════════════════════════════════════════════════
+// Demo GLSL Samples — beautiful, working shaders for offline demo
+// ════════════════════════════════════════════════════════════════
+const DEMO_SAMPLES = [
+  {
+    id: 'demo_wave', label: '🌊 Wave Displace',
+    code: `// GLSL Wave Displace — displace particles with a traveling sine wave
+// Works with any POP source (boxPOP, spherePOP, etc.)
+// Compatible with TouchDesigner glslPOP
+
+uniform float u_time;
+uniform float u_amp;     // bind to: amp (range 0-0.5)
+uniform float u_freq;    // bind to: freq (range 0.5-5)
+uniform float u_speed;   // bind to: speed (range 0.1-3)
+
+void main(){
+    // Read input position (from connected TOP/SOP source via TDIn_P)
+    vec3 p = TDIn_P(0, TDIndex());
+    
+    // Wave displacement on Y axis
+    float wave = sin(p.x * u_freq + u_time * u_speed) * u_amp;
+    float wave2 = cos(p.z * u_freq * 0.7 + u_time * u_speed * 1.3) * u_amp * 0.5;
+    p.y += wave + wave2;
+    
+    // Output displaced position
+    P[TDIndex()] = p;
+}`
+  },
+  {
+    id: 'demo_vortex', label: '🌀 Vortex Twist',
+    code: `// GLSL Vortex Twist — rotate particles around Y-axis with height-based twist
+// Requires: outputattrs='P'
+uniform float u_time;
+uniform float u_twist;   // bind to: twist (range 0-6.28)
+uniform float u_radius;   // bind to: radius (range 0.5-2)
+
+void main(){
+    vec3 p = TDIn_P(0, TDIndex());
+    
+    // Height-based twist angle
+    float angle = u_twist * p.y + u_time * 0.5;
+    float cosA = cos(angle);
+    float sinA = sin(angle);
+    
+    // Rotate XZ around Y
+    vec3 q = p;
+    q.x = p.x * cosA - p.z * sinA;
+    q.z = p.x * sinA + p.z * cosA;
+    
+    // Scale by radius
+    q.xz *= u_radius;
+    
+    P[TDIndex()] = q;
+}`
+  },
+  {
+    id: 'demo_explode', label: '💥 Explosion',
+    code: `// GLSL Explosion — burst particles outward from center
+// Requires: outputattrs='P'
+uniform float u_time;
+uniform float u_force;   // bind to: force (range 0-3)
+uniform float u_turb;    // bind to: turb (range 0-2)
+
+void main(){
+    vec3 p = TDIn_P(0, TDIndex());
+    
+    // Direction from center
+    vec3 dir = normalize(p);
+    float dist = length(p);
+    
+    // Explosion force with noise-like variation
+    float noise = sin(p.x * 3.0 + p.y * 2.0 + p.z * 4.0) * 0.5 + 0.5;
+    float push = u_force * (1.0 + noise * u_turb) * (1.0 + sin(u_time * 2.0 + dist * 5.0) * 0.2);
+    
+    // Push outward
+    p += dir * push * 0.1;
+    
+    // Add some rotation
+    float angle = u_time * 0.3 + dist;
+    float cosA = cos(angle);
+    float sinA = sin(angle);
+    p.x = p.x * cosA - p.z * sinA;
+    p.z = p.x * sinA + p.z * cosA;
+    
+    P[TDIndex()] = p;
+}`
+  },
+  {
+    id: 'demo_spiral', label: '🌀 Spiral Staircase',
+    code: `// GLSL Spiral — arrange particles in a rising spiral
+// Requires: outputattrs='P'
+uniform float u_time;
+uniform float u_radius;   // bind to: radius (range 0.5-3)
+uniform float u_height;   // bind to: height (range 0-5)
+
+void main(){
+    vec3 p = TDIn_P(0, TDIndex());
+    
+    // Map particle index to spiral parameter
+    float t = float(TDIndex()) / 500.0;
+    float angle = t * 6.28 * 3.0 + u_time * 0.3;
+    
+    // Spiral position
+    vec3 q;
+    q.x = cos(angle) * u_radius * (1.0 - t * 0.3);
+    q.z = sin(angle) * u_radius * (1.0 - t * 0.3);
+    q.y = p.y + t * u_height + sin(angle * 2.0 + u_time) * 0.1;
+    
+    P[TDIndex()] = q;
+}`
+  },
+  {
+    id: 'demo_noise', label: '🎲 Noise Field',
+    code: `// GLSL Noise Field — advect particles through a 3D noise field
+// Requires: outputattrs='P'
+uniform float u_time;
+uniform float u_strength; // bind to: strength (range 0-2)
+uniform float u_scale;    // bind to: scale (range 0.5-4)
+
+// Simple hash functions for pseudo-random
+float hash(vec3 p){
+    p = fract(p * vec3(443.897, 441.423, 437.195));
+    p += dot(p, p.yxz + 19.19);
+    return fract((p.x + p.y) * p.z);
+}
+
+float noise(vec3 p){
+    vec3 i = floor(p);
+    vec3 f = fract(p);
+    f = f * f * (3.0 - 2.0 * f);
+    float a = hash(i);
+    float b = hash(i + vec3(1,0,0));
+    float c = hash(i + vec3(0,1,0));
+    float d = hash(i + vec3(1,1,0));
+    float e = hash(i + vec3(0,0,1));
+    float f4 = hash(i + vec3(1,0,1));
+    float g = hash(i + vec3(0,1,1));
+    float h = hash(i + vec3(1,1,1));
+    float ux = f.x, uy = f.y, uz = f.z;
+    return mix(mix(mix(a,b,ux), mix(c,d,ux), uy),
+               mix(mix(e,f4,ux), mix(g,h,ux), uy), uz);
+}
+
+void main(){
+    vec3 p = TDIn_P(0, TDIndex());
+    
+    // Advect through noise field
+    vec3 np = p * u_scale + u_time * 0.2;
+    vec3 vel;
+    vel.x = noise(np + vec3(100,0,0)) - 0.5;
+    vel.y = noise(np + vec3(0,100,0)) - 0.5;
+    vel.z = noise(np + vec3(0,0,100)) - 0.5;
+    
+    p += vel * u_strength * 0.1;
+    
+    P[TDIndex()] = p;
+}`
+  },
+  {
+    id: 'demo_terrain', label: '⛰️ Terrain',
+    code: `// GLSL Terrain — generate height-map displacement
+// Requires: outputattrs='P'
+uniform float u_time;
+uniform float u_amp;     // bind to: amp (range 0-2)
+uniform float u_freq;    // bind to: freq (range 0.5-4)
+
+float hash(vec2 p){
+    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+}
+
+float smoothNoise(vec2 p){
+    vec2 i = floor(p);
+    vec2 f = fract(p);
+    f = f * f * (3.0 - 2.0 * f);
+    float a = hash(i);
+    float b = hash(i + vec2(1,0));
+    float c = hash(i + vec2(0,1));
+    float d = hash(i + vec2(1,1));
+    return mix(mix(a,b,f.x), mix(c,d,f.x), f.y);
+}
+
+float fbm(vec2 p){
+    float v = 0.0; float a = 0.5;
+    vec2 shift = vec2(100);
+    for(int i = 0; i < 4; i++){
+        v += a * smoothNoise(p);
+        p = p * 2.0 + shift;
+        a *= 0.5;
+    }
+    return v;
+}
+
+void main(){
+    vec3 p = TDIn_P(0, TDIndex());
+    
+    // Height from FBM noise
+    float h = fbm(p.xz * u_freq + u_time * 0.05);
+    p.y += h * u_amp + sin(p.x * u_freq * 0.5 + p.z * u_freq * 0.3) * u_amp * 0.2;
+    
+    P[TDIndex()] = p;
+}`
+  }
+];
+
+// ════════════════════════════════════════════════════════════════
+// GLSL Systems (populated dynamically or via fallback)
+// ════════════════════════════════════════════════════════════════
+let GLSL_SYSTEMS = [];
+
+const GLSL_FALLBACK = [
+  { id: 'GLSL01_WaveDisplace', label: 'Wave Displace',     glslOp: 'glsl_wave',  codeDat: 'shader_code' },
+  { id: 'GLSL02_ColorVel',     label: 'Color Velocity',    glslOp: 'glsl_color', codeDat: 'shader_code' },
+  { id: 'GLSL03_NeighborRepel',label: 'Neighbor Repel',    glslOp: 'glsl_noise', codeDat: 'shader_code' },
+  { id: 'GLSL04_SphericalBulge',label: 'Spherical Bulge',  glslOp: 'glsl_main',  codeDat: 'shader_code' },
+  { id: 'GLSL05_VortexTornado',label: 'Vortex Tornado',    glslOp: 'glsl_main',  codeDat: 'shader_code' },
+  { id: 'GLSL06_TerrainLayered',label: 'Terrain Layered',  glslOp: 'glsl_main',  codeDat: 'shader_code' },
+  { id: 'GLSL07_RingRipple',   label: 'Ring Ripple',       glslOp: 'glsl_main',  codeDat: 'shader_code' },
+  { id: 'GLSL08_HelixTwist',   label: 'Helix Twist',       glslOp: 'glsl_main',  codeDat: 'shader_code' },
+];
+
+// ════════════════════════════════════════════════════════════════
+// TD API Calls
+// ════════════════════════════════════════════════════════════════
+
+async function tdExec(code) {
+  const resp = await fetch(`${TD_API}/exec`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({code})
+  });
+  const data = resp.headers.get('content-length') === '0' ? {} : await resp.json();
+  if (data?.error) throw new Error(data.error);
+  return data?.output || '';
+}
+
+async function glslReadCode(sysId) {
+  const sys = GLSL_SYSTEMS.find(s => s.id === sysId);
+  if (!sys) throw new Error('System not found');
+  const path = `/POP_Systems/${sys.id}/${sys.codeDat}`;
+
+  // Try read_dat endpoint
+  try {
+    const resp = await fetch(`${TD_API}/read_dat?path=${encodeURIComponent(path)}`);
+    if (resp.status === 200 && resp.headers.get('content-length') !== '0') {
+      const data = await resp.json();
+      if (data?.output) {
+        const parsed = JSON.parse(data.output);
+        if (parsed?.content) return parsed.content;
+      }
+    }
+  } catch(e) {}
+
+  // Fallback: exec Python
+  const output = await tdExec(`import json; t=op("${path}"); print(json.dumps({"text":t.text}))`);
+  const lines = output.trim().split('\n');
+  const lastLine = lines[lines.length - 1];
+  try {
+    const parsed = JSON.parse(lastLine);
+    return parsed.text || '';
+  } catch(e) {
+    return output;
+  }
+}
+
+async function glslUpdateCode(sysId, code) {
+  const sys = GLSL_SYSTEMS.find(s => s.id === sysId);
+  if (!sys) throw new Error('System not found');
+  const glslPath = `/POP_Systems/${sys.id}/${sys.glslOp}`;
+
+  const resp = await fetch(`${TD_API}/glsl_update`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({path: glslPath, code})
+  });
+  const data = resp.headers.get('content-length') === '0' ? {} : await resp.json();
+  if (data.output && typeof data.output === 'string') {
+    try { return JSON.parse(data.output); } catch(e) {}
+  }
+  return data;
+}
+
+async function glslReload(sysId) {
+  const sys = GLSL_SYSTEMS.find(s => s.id === sysId);
+  if (!sys) throw new Error('System not found');
+  const glslPath = `/POP_Systems/${sys.id}/${sys.glslOp}`;
+
+  const resp = await fetch(`${TD_API}/glsl_reload`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({path: glslPath})
+  });
+  const data = resp.headers.get('content-length') === '0' ? {} : await resp.json();
+  if (data.output && typeof data.output === 'string') {
+    try { return JSON.parse(data.output); } catch(e) {}
+  }
+  return data;
+}
+
+async function discoverSystems() {
+  if (!LIVE_MODE) {
+    GLSL_SYSTEMS = GLSL_FALLBACK;
+    renderGallery();
+    return;
+  }
+  try {
+    const resp = await fetch(`${TD_API}/operators?path=/POP_Systems`, {signal: AbortSignal.timeout(3000)});
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const data = await resp.json();
+    const ops = data.operators || [];
+    // Filter to baseCOMPs (GLSL system containers)
+    const comps = ops.filter(o => 
+      o.type === 'base' || o.opType === 'baseCOMP' || o.opType?.includes('COMP')
+    );
+    if (comps.length > 0) {
+      // Scan each system's children to find glslOp + codeDat
+      const systems = [];
+      for (const s of comps) {
+        const sysPath = `/POP_Systems/${s.name}`;
+        try {
+          const childResp = await fetch(`${TD_API}/operators?path=${encodeURIComponent(sysPath)}`, {
+            signal: AbortSignal.timeout(2000)
+          });
+          const childData = await childResp.json();
+          const children = childData.operators || [];
+          
+          // Find glslPOP (the shader) and textDAT (the code)
+          const glslOp = children.find(c => c.opType === 'glslPOP')?.name || null;
+          if (!glslOp) {
+            // Skip non-GLSL systems (e.g. S02_Boids_Flocking, audio, etc.)
+            appendOutput(`⏭ Skipped ${s.name} (no glslPOP found)\n`, 'info');
+            continue;
+          }
+          // Prefer 'shader_code' textDAT, then any textDAT that isn't a compute shader
+          const textDats = children.filter(c => c.opType === 'textDAT');
+          const codeDat = textDats.find(c => c.name === 'shader_code')
+                      || textDats.find(c => !c.name.includes('_compute') && !c.name.includes('_info'))
+                      || textDats[0]?.name
+                      || 'shader_code';
+          
+          systems.push({
+            id: s.name,
+            label: s.name.replace(/^S\d+_/, '').replace(/_/g, ' ').replace(/GLSL\d+_/, ''),
+            glslOp,
+            codeDat
+          });
+        } catch(e) {
+          // If scanning fails, use fallback values
+          systems.push({
+            id: s.name,
+            label: s.name.replace(/^S\d+_/, '').replace(/_/g, ' ').replace(/GLSL\d+_/, ''),
+            glslOp: 'glsl_main',
+            codeDat: 'shader_code'
+          });
+        }
+      }
+      GLSL_SYSTEMS = systems;
+      renderGallery();
+      appendOutput(`📡 Discovered ${systems.length} systems from TD\n`, 'success');
+      return;
+    }
+  } catch(e) {
+    appendOutput(`⚠ TD offline: ${e.message}. Using fallback systems.\n`, 'warn');
+  }
+  GLSL_SYSTEMS = GLSL_FALLBACK;
+  renderGallery();
+  appendOutput(`📋 Using ${GLSL_FALLBACK.length} fallback GLSL systems\n`, 'info');
+}
+
+async function checkTD() {
+  if (!LIVE_MODE) {
+    document.getElementById('connBadge').className = 'badge demo';
+    document.getElementById('connBadge').innerHTML = '● DEMO MODE';
+    return false;
+  }
+  try {
+    const resp = await fetch(`${TD_API}/info`, {signal: AbortSignal.timeout(2000)});
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const data = await resp.json();
+    const fps = data?.projectFPS || '?';
+    document.getElementById('connBadge').className = 'badge online';
+    document.getElementById('connBadge').innerHTML = `● TD: ${fps} FPS`;
+    return true;
+  } catch(e) {
+    document.getElementById('connBadge').className = 'badge offline';
+    document.getElementById('connBadge').innerHTML = '● TD Offline';
+    return false;
+  }
+}
+
+// ════════════════════════════════════════════════════════════════
+// Mode Switching
+// ════════════════════════════════════════════════════════════════
+
+function setMode(mode) {
+  LIVE_MODE = mode === 'live';
+  document.getElementById('modeLive').className = LIVE_MODE ? 'active' : '';
+  document.getElementById('modeDemo').className = !LIVE_MODE ? 'active' : '';
+  document.getElementById('demoSamples').style.display = LIVE_MODE ? 'none' : 'flex';
+  document.getElementById('modeLabel').textContent = LIVE_MODE ? 'LIVE MODE' : 'DEMO MODE';
+  document.getElementById('modeLabel').style.color = LIVE_MODE ? 'var(--green)' : 'var(--orange)';
+
+  if (!LIVE_MODE) {
+    // Load demo samples
+    GLSL_SYSTEMS = DEMO_SAMPLES.map(s => ({
+      id: s.id,
+      label: s.label,
+      glslOp: 'demo',
+      codeDat: 'demo'
+    }));
+    renderGallery();
+    renderDemoSamples();
+    appendOutput(`🔄 Switched to DEMO mode — offline GLSL editing\n`, 'info');
+    checkTD();
+  } else {
+    discoverSystems();
+    checkTD();
+    appendOutput(`🔄 Switched to LIVE mode — TouchDesigner connected\n`, 'info');
+  }
+  setStatus('idle', `Mode: ${LIVE_MODE ? 'Live (TD)' : 'Demo (offline)'}`);
+}
+
+function renderDemoSamples() {
+  const container = document.getElementById('demoSamples');
+  container.innerHTML = `
+    <span style="font-size:8.5px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.5px;padding-right:4px">Samples:</span>
+    ${DEMO_SAMPLES.map(s => `
+      <button class="demo-sample-btn" onclick="loadDemoSample('${s.id}')">
+        ${s.label}
+        <span class="size">(${s.code.split('\\n').length} lines)</span>
+      </button>
+    `).join('')}
+  `;
+}
+
+function loadDemoSample(sampleId) {
+  const sample = DEMO_SAMPLES.find(s => s.id === sampleId);
+  if (!sample) return;
+  document.getElementById('glslEditor').value = sample.code;
+  currentCode = sample.code;
+  currentSystem = sampleId;
+  updateLineNumbers();
+  updateCharCount();
+  renderGallery();
+  document.getElementById('editorSysName').textContent = sample.label;
+  document.getElementById('editorDatName').textContent = '(demo)';
+  setStatus('ok', `Loaded demo: ${sample.label} (${sample.code.length} chars)`);
+  appendOutput(`📥 Loaded demo sample: ${sample.label}\n`, 'success');
+}
+
+// ════════════════════════════════════════════════════════════════
+// UI
+// ════════════════════════════════════════════════════════════════
+
+function renderGallery() {
+  const gallery = document.getElementById('systemGallery');
+  gallery.innerHTML = GLSL_SYSTEMS.map(sys => `
+    <div class="gallery-item ${currentSystem === sys.id ? 'active' : ''}"
+         onclick="selectSystem('${sys.id}')"
+         title="${sys.label} (${sys.id})">
+      ${sys.label}
+    </div>
+  `).join('');
+
+  const select = document.getElementById('systemSelect');
+  select.innerHTML = `
+    <option value="">— Select system —</option>
+    ${GLSL_SYSTEMS.map(sys => `
+      <option value="${sys.id}" ${currentSystem === sys.id ? 'selected' : ''}>
+        ${sys.label} (${sys.id})
+      </option>
+    `).join('')}
+  `;
+}
+
+function selectSystem(sysId) {
+  currentSystem = sysId;
+  renderGallery();
+  const sys = getCurrentSys();
+  // In demo mode, load the sample code immediately
+  if (!LIVE_MODE && sys) {
+    loadDemoSample(sysId);
+    return;
+  }
+  setStatus('idle', `Selected: ${sys?.label || sysId}. Click "Load from TD".`);
+  document.getElementById('editorSysName').textContent = sys?.label || sysId;
+  document.getElementById('editorDatName').textContent = '';
+}
+
+function onSystemChange() {
+  const val = document.getElementById('systemSelect').value;
+  if (val) selectSystem(val);
+}
+
+function getCurrentSys() {
+  return GLSL_SYSTEMS.find(s => s.id === currentSystem);
+}
+
+async function loadCode() {
+  if (!currentSystem) {
+    setStatus('err', 'Select a GLSL system first');
+    return;
+  }
+  if (!LIVE_MODE) {
+    // In demo mode, select a sample instead
+    loadDemoSample(currentSystem);
+    return;
+  }
+  setStatus('busy', `Loading code from ${currentSystem}...`);
+  document.getElementById('btnLoad').disabled = true;
+
+  try {
+    const code = await glslReadCode(currentSystem);
+    currentCode = code;
+    document.getElementById('glslEditor').value = code;
+    updateLineNumbers();
+    updateCharCount();
+    const sys = getCurrentSys();
+    const datName = sys?.codeDat || 'shader_code';
+    setStatus('ok', `Loaded ${code.length} chars from ${currentSystem}/${datName}`);
+    appendOutput(`📥 Loaded ${code.length} chars from ${currentSystem}/${datName}\n`, 'success');
+  } catch(e) {
+    setStatus('err', `Load failed: ${e.message}`);
+    appendOutput(`❌ Load error: ${e.message}\n`, 'error');
+
+    // In live mode, suggest switching to demo
+    appendOutput(`💡 Hint: Switch to DEMO mode to edit offline samples\n`, 'warn');
+  }
+  document.getElementById('btnLoad').disabled = false;
+}
+
+async function applyCode() {
+  if (!LIVE_MODE) {
+    setStatus('ok', 'Demo mode: no TD to apply to. Save your code locally.');
+    appendOutput(`💡 Demo mode: code not applied to TD. Copy or save locally.\n`, 'warn');
+    return;
+  }
+  if (!currentSystem) {
+    setStatus('err', 'Select a GLSL system first');
+    return;
+  }
+  const code = document.getElementById('glslEditor').value;
+  if (!code.trim()) {
+    setStatus('err', 'Editor is empty');
+    return;
+  }
+
+  setStatus('busy', 'Applying code to TD...');
+  document.getElementById('btnApply').disabled = true;
+
+  try {
+    const result = await glslUpdateCode(currentSystem, code);
+    currentCode = code;
+
+    const success = result?.success === true;
+    const errors = result?.errors;
+
+    if (!success || (errors && errors.length > 0)) {
+      const errMsg = errors ? errors.join('; ') : (result?.error || 'Unknown error');
+      setStatus('err', `Compile errors: ${errMsg.slice(0,80)}`);
+      appendOutput(`⚠ Compile errors:\n${errMsg}\n`, 'error');
+    } else {
+      setStatus('ok', `Applied ${code.length} chars successfully`);
+      appendOutput(`✅ Applied ${code.length} chars to ${currentSystem}\n`, 'success');
+      // Auto-reload after apply
+      if (AUTO_APPLY) {
+        setTimeout(() => reloadGLSL(), 200);
+      }
+    }
+  } catch(e) {
+    setStatus('err', `Apply failed: ${e.message}`);
+    appendOutput(`❌ Apply error: ${e.message}\n`, 'error');
+  }
+  document.getElementById('btnApply').disabled = false;
+}
+
+async function reloadGLSL() {
+  if (!LIVE_MODE) {
+    setStatus('ok', 'Demo mode: no TD to reload.');
+    return;
+  }
+  if (!currentSystem) {
+    setStatus('err', 'Select a GLSL system first');
+    return;
+  }
+  setStatus('busy', 'Hot-reloading shader...');
+  document.getElementById('btnReload').disabled = true;
+
+  try {
+    const result = await glslReload(currentSystem);
+    const success = result?.success === true;
+    const errors = result?.errors;
+
+    if (!success || (errors && errors.length > 0)) {
+      const errMsg = errors ? errors.join('; ') : (result?.error || 'Unknown error');
+      setStatus('err', `Shader errors: ${errMsg.slice(0,80)}`);
+      appendOutput(`⚠ Shader errors:\n${errMsg}\n`, 'error');
+    } else {
+      setStatus('ok', 'Shader hot-reloaded successfully');
+      appendOutput(`✅ Shader hot-reloaded successfully\n`, 'success');
+    }
+  } catch(e) {
+    setStatus('err', `Reload failed: ${e.message}`);
+    appendOutput(`❌ Reload error: ${e.message}\n`, 'error');
+  }
+  document.getElementById('btnReload').disabled = false;
+}
+
+async function refreshSystems() {
+  setStatus('busy', 'Refreshing...');
+  await checkTD();
+  if (LIVE_MODE) await discoverSystems();
+  setStatus('idle', 'Refreshed');
+}
+
+// ════════════════════════════════════════════════════════════════
+// Editor Helpers
+// ════════════════════════════════════════════════════════════════
+
+function onEditorChange() {
+  updateLineNumbers();
+  updateCharCount();
+  // Auto-apply indicator
+  const hasChanges = document.getElementById('glslEditor').value !== currentCode;
+  document.getElementById('editorSysName').style.color = hasChanges ? 'var(--yellow)' : 'var(--text)';
+}
+
+function updateLineNumbers() {
+  const textarea = document.getElementById('glslEditor');
+  const lines = textarea.value.split('\n').length;
+  document.getElementById('lineNums').textContent =
+    Array.from({length: lines}, (_, i) => i + 1).join('\n');
+}
+
+function updateCharCount() {
+  const len = document.getElementById('glslEditor').value.length;
+  document.getElementById('charCount').textContent = `${len} chars`;
+}
+
+function syncScroll() {
+  document.getElementById('lineNums').scrollTop =
+    document.getElementById('glslEditor').scrollTop;
+}
+
+function cleanCode() {
+  const textarea = document.getElementById('glslEditor');
+  let code = textarea.value;
+  // Remove trailing whitespace from each line
+  code = code.split('\n').map(l => l.replace(/\s+$/, '')).join('\n');
+  // Remove multiple consecutive blank lines
+  code = code.replace(/\n{3,}/g, '\n\n');
+  textarea.value = code;
+  updateLineNumbers();
+  setStatus('ok', 'Code cleaned');
+  appendOutput(`🧹 Cleaned code (trailing spaces + extra blank lines removed)\n`, 'info');
+}
+
+function formatCode() {
+  const textarea = document.getElementById('glslEditor');
+  let code = textarea.value;
+  // Basic formatting: ensure consistent indentation
+  const lines = code.split('\n');
+  let indent = 0;
+  const formatted = lines.map(line => {
+    const trimmed = line.trim();
+    if (trimmed.endsWith('{') || trimmed.endsWith('(')) {
+      const result = '  '.repeat(indent) + trimmed;
+      indent++;
+      return result;
+    }
+    if (trimmed.startsWith('}') || trimmed.startsWith(')')) {
+      indent = Math.max(0, indent - 1);
+    }
+    if (!trimmed) return '';
+    return '  '.repeat(indent) + trimmed;
+  }).join('\n');
+  textarea.value = formatted;
+  updateLineNumbers();
+  setStatus('ok', 'Code formatted');
+  appendOutput(`🎨 Code formatted\n`, 'info');
+}
+
+function copyCode() {
+  const textarea = document.getElementById('glslEditor');
+  navigator.clipboard.writeText(textarea.value).then(() => {
+    setStatus('ok', 'Code copied to clipboard');
+  }).catch(() => {
+    textarea.select();
+    document.execCommand('copy');
+    setStatus('ok', 'Code copied');
+  });
+}
+
+function clearOutput() {
+  document.getElementById('outputPanel').innerHTML = '';
+}
+
+function toggleAutoApply() {
+  AUTO_APPLY = !AUTO_APPLY;
+  document.getElementById('autoApplyBtn').textContent = `Auto: ${AUTO_APPLY ? 'ON' : 'OFF'}`;
+  document.getElementById('autoApplyBtn').style.borderColor =
+    AUTO_APPLY ? 'var(--green)' : 'var(--text3)';
+  appendOutput(`🔄 Auto-apply ${AUTO_APPLY ? 'ON' : 'OFF'}\n`, 'info');
+}
+
+function appendOutput(text, cls = 'info') {
+  const panel = document.getElementById('outputPanel');
+  const div = document.createElement('div');
+  div.className = cls;
+  div.textContent = text;
+  panel.appendChild(div);
+  panel.scrollTop = panel.scrollHeight;
+}
+
+function setStatus(state, msg) {
+  const dot = document.getElementById('statusDot');
+  dot.className = `dot ${state}`;
+  document.getElementById('statusMsg').textContent = msg;
+  const short = msg.length > 40 ? msg.slice(0,40)+'...' : msg;
+  document.getElementById('statusText').textContent = short;
+}
+
+function openInNewTab() {
+  window.open(window.location.href, '_blank');
+}
+
+// ════════════════════════════════════════════════════════════════
+// Init
+// ════════════════════════════════════════════════════════════════
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Initial render
+  renderGallery();
+  renderDemoSamples();
+
+  // Check TD connection
+  checkTD().then(online => {
+    if (!online) {
+      // Auto-switch to demo mode if TD is offline
+      setMode('demo');
+      // Load first demo sample automatically
+      setTimeout(() => loadDemoSample(DEMO_SAMPLES[0].id), 300);
+      appendOutput(`💡 TD offline — switched to DEMO mode automatically\n`, 'warn');
+    }
+  });
+
+  // Start system discovery
+  if (LIVE_MODE) discoverSystems();
+
+  setStatus('idle', LIVE_MODE ? 'Connecting to TouchDesigner...' : 'Demo mode ready');
+
+  // Auto-refresh TD connection every 10s
+  setInterval(checkTD, 10000);
+
+  // Keyboard shortcuts
+  document.getElementById('glslEditor').addEventListener('keydown', (e) => {
+    // Ctrl+Enter or Ctrl+S → Apply
+    if ((e.ctrlKey && e.key === 'Enter') || (e.ctrlKey && e.key === 's')) {
+      e.preventDefault();
+      applyCode();
+    }
+    // Ctrl+Shift+R → Reload
+    if (e.ctrlKey && e.shiftKey && (e.key === 'r' || e.key === 'R')) {
+      e.preventDefault();
+      reloadGLSL();
+    }
+    // Ctrl+L → Load
+    if (e.ctrlKey && e.key === 'l') {
+      e.preventDefault();
+      loadCode();
+    }
+    // Tab → insert 2 spaces
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      const ta = document.getElementById('glslEditor');
+      const start = ta.selectionStart;
+      const end = ta.selectionEnd;
+      ta.value = ta.value.substring(0, start) + '  ' + ta.value.substring(end);
+      ta.selectionStart = ta.selectionEnd = start + 2;
+      onEditorChange();
+    }
+  });
+
+  appendOutput(`🚀 GLSL Hot-Reload Editor initialized\n`, 'success');
+  appendOutput(`📖 Shortcuts: Ctrl+Enter=Apply  Ctrl+S=Apply  Ctrl+Shift+R=Reload  Ctrl+L=Load  Tab=Indent\n`, 'info');
+});
+</script>
+</body>
+</html>

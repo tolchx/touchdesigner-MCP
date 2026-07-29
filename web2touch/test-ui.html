@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>W2T Data Test UI</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #0d1117; color: #e6edf3; padding: 24px; max-width: 900px; margin: 0 auto;
+  }
+  h1 { font-size: 1.5rem; margin-bottom: 20px; color: #58a6ff; display: flex; align-items: center; gap: 10px; }
+  h1 small { font-size: 0.8rem; color: #8b949e; font-weight: normal; }
+  .card {
+    background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+    padding: 16px; margin-bottom: 16px;
+  }
+  .card h2 { font-size: 1rem; margin-bottom: 12px; color: #c9d1d9; }
+  .status {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;
+  }
+  .status.connected { background: #1b3a1b; color: #7ee787; border: 1px solid #238636; }
+  .status.disconnected { background: #3a1b1b; color: #ff7b72; border: 1px solid #da3633; }
+  .status.connecting { background: #3a2f1b; color: #d29922; border: 1px solid #9e6a03; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .connected .dot { background: #7ee787; }
+  .disconnected .dot { background: #ff7b72; }
+  .connecting .dot { background: #d29922; animation: pulse 1s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .form-row { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+  .form-row label { display: flex; flex-direction: column; flex: 1; min-width: 120px; font-size: 0.8rem; color: #8b949e; }
+  .form-row input, .form-row select {
+    background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+    padding: 8px 12px; color: #e6edf3; font-size: 0.9rem; margin-top: 4px;
+    transition: border-color 0.2s;
+  }
+  .form-row input:focus { outline: none; border-color: #58a6ff; }
+  button {
+    background: #238636; color: #fff; border: none; border-radius: 6px;
+    padding: 10px 20px; font-size: 0.9rem; font-weight: 600; cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+  button:hover { background: #2ea043; }
+  button:active { transform: scale(0.97); }
+  button:disabled { opacity: 0.5; cursor: not-allowed; }
+  button.danger { background: #da3633; }
+  button.danger:hover { background: #f85149; }
+  button.secondary { background: #21262d; border: 1px solid #30363d; }
+  button.secondary:hover { background: #30363d; }
+  .preset-btns { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .preset-btns button { padding: 6px 14px; font-size: 0.8rem; }
+  .log {
+    background: #0d1117; border: 1px solid #21262d; border-radius: 6px;
+    padding: 12px; height: 200px; overflow-y: auto; font-family: 'SF Mono', monospace;
+    font-size: 0.8rem; line-height: 1.5;
+  }
+  .log .sent { color: #58a6ff; }
+  .log .received { color: #7ee787; }
+  .log .error { color: #ff7b72; }
+  .log .info { color: #8b949e; }
+  .log::-webkit-scrollbar { width: 6px; }
+  .log::-webkit-scrollbar-track { background: #0d1117; }
+  .log::-webkit-scrollbar-thumb { background: #30363d; border-radius: 3px; }
+  .flex-row { display: flex; gap: 10px; align-items: flex-end; }
+  .flex-row button { flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+  <h1>
+    🔌 W2T Data Test
+    <small>WebSocket → TouchDesigner tables</small>
+  </h1>
+
+  <!-- Connection status -->
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <span id="status" class="status disconnected">
+          <span class="dot"></span> Disconnected
+        </span>
+        <span style="color:#8b949e;font-size:0.85rem;margin-left:12px" id="ws-url">ws://localhost:8090</span>
+      </div>
+      <div>
+        <button id="btn-connect" class="secondary" onclick="toggleConnection()">Connect</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Preset data senders -->
+  <div class="card">
+    <h2>📤 Send Data to TouchDesigner Table</h2>
+    <div class="preset-btns">
+      <button onclick="sendPreset('slider','amp','0.85')">🎚 Slider 0.85</button>
+      <button onclick="sendPreset('toggle','enable','1')">🔘 Toggle ON</button>
+      <button onclick="sendPreset('toggle','enable','0')">⏹ Toggle OFF</button>
+      <button onclick="sendPreset('color','hue','0.33')">🎨 Color 0.33</button>
+      <button onclick="sendPreset('text','label','hello_td')">📝 Text "hello_td"</button>
+      <button onclick="sendPreset('sensor','temp','23.5')">🌡 Sensor 23.5°C</button>
+      <button onclick="sendPreset('sensor','humidity','68')">💧 Humidity 68%</button>
+      <button onclick="sendPreset('trigger','reset','1')">⚡ Trigger Reset</button>
+    </div>
+  </div>
+
+  <!-- Custom data form -->
+  <div class="card">
+    <h2>✏️ Custom Message</h2>
+    <div class="form-row">
+      <label>ID <input id="field-id" value="custom-01" placeholder="unique id"></label>
+      <label>Type <input id="field-type" value="custom" placeholder="data type"></label>
+      <label>Value <input id="field-value" value="test_value" placeholder="value"></label>
+    </div>
+    <div class="flex-row">
+      <button onclick="sendCustom()" id="btn-send" disabled>Send to TD</button>
+      <button class="danger" onclick="sendClose()" id="btn-close" disabled>Close WS</button>
+    </div>
+  </div>
+
+  <!-- Log -->
+  <div class="card">
+    <h2 style="display:flex;justify-content:space-between;align-items:center">
+      📋 Activity Log
+      <button class="secondary" style="padding:4px 10px;font-size:0.75rem" onclick="clearLog()">Clear</button>
+    </h2>
+    <div id="log" class="log">
+      <div class="info">— Disconnected. Click Connect to start —</div>
+    </div>
+  </div>
+
+  <script>
+    let ws = null;
+    let idCounter = 0;
+
+    const $ = id => document.getElementById(id);
+    const statusEl = $('status');
+    const logEl = $('log');
+    const btnConnect = $('btn-connect');
+    const btnSend = $('btn-send');
+    const btnClose = $('btn-close');
+
+    function log(msg, cls = 'info') {
+      const div = document.createElement('div');
+      div.className = cls;
+      const time = new Date().toLocaleTimeString();
+      div.textContent = `[${time}] ${msg}`;
+      logEl.appendChild(div);
+      logEl.scrollTop = logEl.scrollHeight;
+    }
+
+    function setStatus(label, cls) {
+      statusEl.className = `status ${cls}`;
+      statusEl.innerHTML = `<span class="dot"></span> ${label}`;
+    }
+
+    function toggleConnection() {
+      if (ws && ws.readyState === WebSocket.OPEN) {
+        ws.close();
+      } else {
+        connect();
+      }
+    }
+
+    function connect() {
+      setStatus('Connecting...', 'connecting');
+      btnConnect.disabled = true;
+      log('Connecting to ws://localhost:8090...', 'info');
+
+      try {
+        ws = new WebSocket('ws://localhost:8090');
+      } catch (e) {
+        log(`Connection error: ${e.message}`, 'error');
+        setStatus('Disconnected', 'disconnected');
+        btnConnect.disabled = false;
+        return;
+      }
+
+      ws.onopen = () => {
+        setStatus('Connected', 'connected');
+        btnConnect.textContent = 'Disconnect';
+        btnConnect.disabled = false;
+        btnSend.disabled = false;
+        btnClose.disabled = false;
+        log('✅ Connected to w2t_server', 'received');
+      };
+
+      ws.onclose = () => {
+        setStatus('Disconnected', 'disconnected');
+        btnConnect.textContent = 'Connect';
+        btnConnect.disabled = false;
+        btnSend.disabled = true;
+        btnClose.disabled = true;
+        log('Connection closed', 'info');
+        ws = null;
+      };
+
+      ws.onerror = (e) => {
+        log(`WebSocket error`, 'error');
+        setStatus('Error', 'disconnected');
+        btnConnect.disabled = false;
+      };
+
+      ws.onmessage = (e) => {
+        log(`Received: ${e.data}`, 'received');
+      };
+    }
+
+    function sendJSON(obj) {
+      if (!ws || ws.readyState !== WebSocket.OPEN) {
+        log('Not connected! Click Connect first.', 'error');
+        return;
+      }
+      const str = JSON.stringify(obj);
+      ws.send(str);
+      idCounter++;
+      log(`📤 Sent: ${str}`, 'sent');
+    }
+
+    function sendPreset(type, id, value) {
+      sendJSON({ id, type, value, timestamp: new Date().toISOString() });
+    }
+
+    function sendCustom() {
+      const id = $('field-id').value.trim() || `custom-${idCounter}`;
+      const type = $('field-type').value.trim() || 'custom';
+      const value = $('field-value').value.trim() || '';
+      sendJSON({ id, type, value, timestamp: new Date().toISOString() });
+    }
+
+    function sendClose() {
+      if (ws && ws.readyState === WebSocket.OPEN) {
+        log('Sending close frame...', 'info');
+        ws.close(1000, 'Test complete');
+      }
+    }
+
+    function clearLog() {
+      logEl.innerHTML = '<div class="info">— Log cleared —</div>';
+    }
+
+    // Auto-connect on load
+    setTimeout(connect, 500);
+  </script>
+</body>
+</html>

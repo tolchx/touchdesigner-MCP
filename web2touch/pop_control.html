@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>POP Systems Control</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07070d; --bg2: #0c0c18; --bg3: #111122;
+  --card: #0f0f22; --card2: #141430;
+  --border: #1a1a3a; --border2: #2a2a5a;
+  --accent: #6c5ce7; --accent2: #a29bfe;
+  --neon: #00f5ff; --neon2: #7c3aed;
+  --green: #00e676; --red: #ff1744; --yellow: #ffd600;
+  --orange: #ff9100; --pink: #ff6b9d;
+  --text: #c8c8e0; --text2: #8888aa; --text3: #55557a;
+  --glsl: #00f5ff; --pop: #ff6b9d;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body::before {
+  content: ''; position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(108,92,231,.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(0,245,255,.06) 0%, transparent 50%);
+  pointer-events: none; z-index: 0;
+}
+
+/* Header */
+.header {
+  position: sticky; top: 0; z-index: 100;
+  padding: 16px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  background: rgba(7,7,13,.92); backdrop-filter: blur(20px);
+  flex-wrap: wrap; gap: 12px;
+}
+.header-left { display: flex; align-items: center; gap: 16px; }
+.logo {
+  font-size: 20px; font-weight: 900;
+  background: linear-gradient(135deg, var(--neon), var(--accent2), var(--neon2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  letter-spacing: -1px;
+}
+.logo-sub { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 2px; }
+.header-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+/* Status pills */
+.pill {
+  display: flex; align-items: center; gap: 6px;
+  padding: 5px 14px; border-radius: 20px;
+  font-size: 11px; font-weight: 600;
+  transition: all .3s;
+}
+.pill .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+.pill.online { background: rgba(0,230,118,.08); border: 1px solid rgba(0,230,118,.2); color: var(--green); }
+.pill.online .dot { background: var(--green); box-shadow: 0 0 10px var(--green); animation: pulse 2s infinite; }
+.pill.offline { background: rgba(255,23,68,.08); border: 1px solid rgba(255,23,68,.2); color: var(--red); }
+.pill.offline .dot { background: var(--red); }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+.pill.connecting { background: rgba(255,214,0,.08); border: 1px solid rgba(255,214,0,.2); color: var(--yellow); }
+.pill.connecting .dot { background: var(--yellow); animation: pulse .8s infinite; }
+
+.btn {
+  padding: 7px 16px; border-radius: 8px; border: 1px solid var(--border);
+  background: var(--card); color: var(--text);
+  font: 600 11px/1 'Inter', sans-serif; cursor: pointer;
+  transition: all .2s; white-space: nowrap;
+}
+.btn:hover { border-color: var(--accent); background: var(--card2); }
+.btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn.primary:hover { background: var(--accent2); }
+.btn.danger { border-color: var(--red); color: var(--red); background: rgba(255,23,68,.08); }
+.btn.danger:hover { background: rgba(255,23,68,.15); }
+.btn.green { border-color: var(--green); color: var(--green); background: rgba(0,230,118,.08); }
+.btn.green:hover { background: rgba(0,230,118,.15); }
+.btn.sm { padding: 5px 10px; font-size: 10px; }
+
+/* Main layout */
+.main { position: relative; z-index: 1; padding: 20px 24px 40px; max-width: 1400px; margin: 0 auto; }
+
+/* Stats bar */
+.stats-bar {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px; margin-bottom: 20px;
+}
+.stat-box {
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+  padding: 14px; text-align: center; position: relative; overflow: hidden;
+  transition: all .2s;
+}
+.stat-box:hover { border-color: var(--accent); transform: translateY(-1px); }
+.stat-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); }
+.stat-val { font-size: 24px; font-weight: 800; background: linear-gradient(135deg, #fff, var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.stat-lbl { font-size: 9px; color: var(--text3); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+
+/* System grid */
+.section-title {
+  font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
+  display: flex; align-items: center; gap: 10px; margin-bottom: 14px; color: var(--text2);
+}
+.section-title .badge { padding: 2px 10px; border-radius: 10px; font-size: 10px; font-weight: 600; }
+.badge.glsl { background: rgba(0,245,255,.1); color: var(--glsl); border: 1px solid rgba(0,245,255,.2); }
+.badge.pop { background: rgba(255,107,157,.1); color: var(--pink); border: 1px solid rgba(255,107,157,.2); }
+
+.systems-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 14px; margin-bottom: 28px;
+}
+
+.system-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+  overflow: hidden; transition: all .25s;
+}
+.system-card:hover { border-color: var(--border2); box-shadow: 0 4px 24px rgba(0,0,0,.3); }
+.system-card.expanded { border-color: var(--accent); }
+.system-card-header {
+  padding: 12px 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  cursor: pointer; user-select: none; gap: 10px;
+}
+.system-card-header:hover { background: rgba(108,92,231,.03); }
+.system-name { font-size: 12px; font-weight: 600; color: var(--text); flex: 1; }
+.system-type-tag {
+  font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+  padding: 2px 8px; border-radius: 4px;
+}
+.system-type-tag.glsl { background: rgba(0,245,255,.08); color: var(--glsl); }
+.system-type-tag.pop { background: rgba(255,107,157,.08); color: var(--pink); }
+.system-expand-icon { color: var(--text3); font-size: 14px; transition: transform .2s; }
+.system-card.expanded .system-expand-icon { transform: rotate(180deg); }
+
+.system-card-body {
+  display: none; padding: 0 16px 14px;
+  border-top: 1px solid var(--border);
+}
+.system-card.expanded .system-card-body { display: block; }
+
+/* Controls within a card */
+.control-group { margin-top: 10px; }
+.control-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 6px 0; border-bottom: 1px solid rgba(26,26,58,.3);
+}
+.control-row:last-child { border: none; }
+.control-label {
+  min-width: 60px; font-size: 10px; color: var(--text2);
+  font-weight: 500; text-transform: uppercase; letter-spacing: .5px;
+}
+.control-value {
+  min-width: 40px; font-size: 11px; font-family: 'JetBrains Mono', monospace;
+  color: var(--accent2); text-align: right; font-weight: 600;
+}
+
+/* Custom range slider */
+input[type="range"] {
+  -webkit-appearance: none; appearance: none;
+  flex: 1; height: 4px; border-radius: 2px;
+  background: var(--border); outline: none;
+  transition: background .2s;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--accent); cursor: pointer;
+  border: 2px solid var(--card); box-shadow: 0 0 8px rgba(108,92,231,.3);
+  transition: all .15s;
+}
+input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+input[type="range"]::-moz-range-thumb {
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--accent); cursor: pointer; border: 2px solid var(--card);
+}
+input[type="range"]:active::-webkit-slider-thumb { box-shadow: 0 0 16px rgba(108,92,231,.5); }
+
+/* Buttons in control rows */
+.ctrl-btn {
+  padding: 4px 12px; border-radius: 5px; border: 1px solid var(--border);
+  background: var(--bg2); color: var(--text2);
+  font: 600 9px 'Inter', sans-serif; cursor: pointer;
+  transition: all .15s; text-transform: uppercase; letter-spacing: .5px;
+}
+.ctrl-btn:hover { border-color: var(--accent); color: var(--accent2); }
+.ctrl-btn.trigger { border-color: var(--yellow); color: var(--yellow); }
+.ctrl-btn.trigger:hover { background: rgba(255,214,0,.1); }
+.ctrl-btn.toggle { border-color: var(--green); color: var(--green); }
+.ctrl-btn.toggle.on { background: rgba(0,230,118,.15); }
+
+/* Select */
+.ctrl-select {
+  padding: 4px 8px; border-radius: 5px; border: 1px solid var(--border);
+  background: var(--bg2); color: var(--text); font-size: 10px;
+  font-family: 'Inter', sans-serif; outline: none; cursor: pointer;
+}
+.ctrl-select:focus { border-color: var(--accent); }
+
+/* GLSL Code Preview */
+.code-preview {
+  margin-top: 8px; background: #000; border: 1px solid var(--border);
+  border-radius: 6px; padding: 10px; font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--green); line-height: 1.5;
+  max-height: 120px; overflow-y: auto; white-space: pre-wrap;
+  cursor: pointer; transition: border-color .2s;
+}
+.code-preview:hover { border-color: var(--accent); }
+
+/* Log */
+.log-section {
+  background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+  margin-top: 20px; overflow: hidden;
+}
+.log-header {
+  padding: 10px 16px; display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--border); background: var(--bg2);
+}
+.log-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text2); }
+.log-body {
+  padding: 10px 16px; max-height: 200px; overflow-y: auto;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; line-height: 1.6;
+}
+.log-entry { padding: 2px 0; display: flex; gap: 8px; }
+.log-time { color: var(--text3); min-width: 50px; }
+.log-msg { color: var(--text2); }
+.log-msg.sent { color: var(--accent2); }
+.log-msg.recv { color: var(--green); }
+.log-msg.err { color: var(--red); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .systems-grid { grid-template-columns: 1fr; }
+  .main { padding: 12px; }
+  .header { padding: 12px 16px; }
+  .stats-bar { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Node count spark */
+.node-count {
+  font-size: 10px; color: var(--text3); font-family: 'JetBrains Mono', monospace;
+}
+
+/* Toast */
+.toast-container { position: fixed; top: 16px; right: 16px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; }
+.toast {
+  padding: 10px 16px; border-radius: 8px; font-size: 11px; font-weight: 500;
+  background: var(--card2); border: 1px solid var(--border2); color: var(--text);
+  box-shadow: 0 4px 20px rgba(0,0,0,.4); min-width: 200px;
+  display: flex; align-items: center; gap: 8px; animation: slideIn .25s ease;
+}
+.toast.success { border-left: 3px solid var(--green); }
+.toast.error { border-left: 3px solid var(--red); }
+.toast.info { border-left: 3px solid var(--accent); }
+@keyframes slideIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+</style>
+</head>
+<body>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Header -->
+<header class="header">
+  <div class="header-left">
+    <div>
+      <div class="logo">⬡ POP SYSTEMS CONTROL</div>
+      <div class="logo-sub">TouchDesigner · Particle & GLSL System Controller</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div id="statusPill" class="pill offline">
+      <span class="dot"></span> <span id="statusText">Disconnected</span>
+    </div>
+    <button class="btn primary sm" onclick="connectWS()">⟳ Connect</button>
+    <button class="btn sm" onclick="refreshAll()">⟳ Refresh</button>
+    <button class="btn sm" onclick="expandAll()">⊞ Expand All</button>
+    <button class="btn sm" onclick="collapseAll()">⊟ Collapse All</button>
+    <button class="btn sm danger" onclick="resetAll()">↺ Reset All</button>
+  </div>
+</header>
+
+<main class="main">
+
+  <!-- Stats -->
+  <div class="stats-bar" id="statsBar">
+    <div class="stat-box"><div class="stat-val" id="statSystems">13</div><div class="stat-lbl">Systems</div></div>
+    <div class="stat-box"><div class="stat-val" id="statGlsl">9</div><div class="stat-lbl">GLSL</div></div>
+    <div class="stat-box"><div class="stat-val" id="statPop">4</div><div class="stat-lbl">POP Systems</div></div>
+    <div class="stat-box"><div class="stat-val" id="statFps">—</div><div class="stat-lbl">FPS</div></div>
+    <div class="stat-box"><div class="stat-val" id="statNodes">—</div><div class="stat-lbl">Operators</div></div>
+    <div class="stat-box"><div class="stat-val" id="statConn" style="font-size:18px">—</div><div class="stat-lbl">WS Messages</div></div>
+  </div>
+
+  <!-- GLSL Systems -->
+  <div class="section-title">
+    <span>🔮 GLSL Shader Systems</span>
+    <span class="badge glsl">9 shaders</span>
+  </div>
+  <div class="systems-grid" id="glslGrid"></div>
+
+  <!-- POP Systems -->
+  <div class="section-title" style="margin-top:8px">
+    <span>✨ Particle Systems</span>
+    <span class="badge pop">4 systems</span>
+  </div>
+  <div class="systems-grid" id="popGrid"></div>
+
+  <!-- Log -->
+  <div class="log-section">
+    <div class="log-header">
+      <span class="log-title">📋 Activity Log</span>
+      <button class="btn sm" onclick="clearLog()">Clear</button>
+    </div>
+    <div class="log-body" id="logBody">
+      <div class="log-entry"><span class="log-time">⏱</span><span class="log-msg">Connected. Adjust sliders to control POP systems.</span></div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+// ════════════════════════════════════════════════════════════════
+// POP Systems Data
+// ════════════════════════════════════════════════════════════════
+
+const GLSL_SYSTEMS = [
+  { id: 'GLSL_Test',           label: 'GLSL Test',         nodes: 3,  params: ['amp','freq','speed'] },
+  { id: 'GLSL01_WaveDisplace', label: 'Wave Displace',     nodes: 7,  params: ['amp','freq','speed'] },
+  { id: 'GLSL02_ColorVel',     label: 'Color Velocity',    nodes: 7,  params: ['amp','hue','speed'] },
+  { id: 'GLSL03_NeighborRepel',label: 'Neighbor Repel',    nodes: 7,  params: ['amp','radius','force'] },
+  { id: 'GLSL04_SphericalBulge',label: 'Spherical Bulge',  nodes: 7,  params: ['amp','radius','bias'] },
+  { id: 'GLSL05_VortexTornado', label: 'Vortex Tornado',   nodes: 7,  params: ['amp','rot','speed'] },
+  { id: 'GLSL06_TerrainLayered',label: 'Terrain Layered',  nodes: 7,  params: ['amp','freq','octaves'] },
+  { id: 'GLSL07_RingRipple',   label: 'Ring Ripple',       nodes: 7,  params: ['amp','freq','decay'] },
+  { id: 'GLSL08_HelixTwist',   label: 'Helix Twist',       nodes: 7,  params: ['amp','twist','height'] },
+];
+
+const POP_SYSTEMS = [
+  { id: 'S01_AudioReactive_Trails', label: 'Audio Reactive Trails', nodes: 13, params: ['amp','freq','speed','size'], hasTrigger: true },
+  { id: 'S02_Boids_Flocking',       label: 'Boids Flocking',        nodes: 11, params: ['separation','cohesion','align'], hasTrigger: true },
+  { id: 'S03_GPU_Fluid_Curl',       label: 'GPU Fluid Curl',        nodes: 11, params: ['vorticity','dissipation','speed'], hasTrigger: true },
+  { id: 'S04_Instanced_Audio',      label: 'Instanced Audio',       nodes: 13, params: ['amp','freq','size','spread'], hasTrigger: true },
+];
+
+let ws = null;
+let msgCount = 0;
+let wsConnected = false;
+let paramValues = {};
+
+// Initialize default values
+[...GLSL_SYSTEMS, ...POP_SYSTEMS].forEach(sys => {
+  sys.params.forEach(p => { paramValues[`${sys.id}.${p}`] = 0.5; });
+});
+
+// ════════════════════════════════════════════════════════════════
+// WebSocket connection
+// ════════════════════════════════════════════════════════════════
+
+function connectWS() {
+  const host = window.location.hostname || '127.0.0.1';
+  const port = window.__WS_PORT || 8090;
+  setStatus('connecting', 'Connecting...');
+  
+  try {
+    ws = new WebSocket(`ws://${host}:${port}`);
+  } catch(e) {
+    log(`Connection error: ${e.message}`, 'err');
+    setStatus('offline', 'Connection failed');
+    return;
+  }
+  
+  ws.onopen = () => {
+    wsConnected = true;
+    setStatus('online', 'Connected');
+    log('✅ WebSocket connected', 'recv');
+    // Send initial state
+    sendAllParams();
+  };
+  
+  ws.onclose = () => {
+    wsConnected = false;
+    setStatus('offline', 'Disconnected');
+    log('Connection closed', 'err');
+    ws = null;
+  };
+  
+  ws.onerror = () => {
+    log('WebSocket error', 'err');
+  };
+  
+  ws.onmessage = (e) => {
+    log(`← ${e.data}`, 'recv');
+  };
+}
+
+function sendJSON(obj) {
+  if (!ws || ws.readyState !== WebSocket.OPEN) {
+    log('Cannot send: not connected', 'err');
+    return false;
+  }
+  const str = JSON.stringify(obj);
+  ws.send(str);
+  msgCount++;
+  document.getElementById('statConn').textContent = msgCount;
+  log(`→ ${str.slice(0,80)}${str.length>80?'...':''}`, 'sent');
+  return true;
+}
+
+function sendParam(sysId, param, value) {
+  const key = `${sysId}.${param}`;
+  paramValues[key] = value;
+  sendJSON({
+    id: key,
+    type: 'slider',
+    value: String(value),
+    timestamp: new Date().toISOString()
+  });
+}
+
+function sendAllParams() {
+  Object.entries(paramValues).forEach(([key, val]) => {
+    sendJSON({
+      id: key,
+      type: 'slider',
+      value: String(val),
+      timestamp: new Date().toISOString()
+    });
+  });
+}
+
+function sendTrigger(sysId) {
+  sendJSON({
+    id: `${sysId}.trigger`,
+    type: 'trigger',
+    value: '1',
+    timestamp: new Date().toISOString()
+  });
+  setTimeout(() => {
+    sendJSON({
+      id: `${sysId}.trigger`,
+      type: 'trigger',
+      value: '0',
+      timestamp: new Date().toISOString()
+    });
+  }, 100);
+}
+
+function sendToggle(sysId, param, state) {
+  sendJSON({
+    id: `${sysId}.${param}`,
+    type: 'toggle',
+    value: state ? '1' : '0',
+    timestamp: new Date().toISOString()
+  });
+}
+
+// ════════════════════════════════════════════════════════════════
+// UI
+// ════════════════════════════════════════════════════════════════
+
+function renderSystems() {
+  renderGrid('glslGrid', GLSL_SYSTEMS, 'glsl');
+  renderGrid('popGrid', POP_SYSTEMS, 'pop');
+}
+
+function renderGrid(containerId, systems, type) {
+  const grid = document.getElementById(containerId);
+  grid.innerHTML = systems.map(sys => {
+    const isGlsl = type === 'glsl';
+    const typeLabel = isGlsl ? 'GLSL' : 'POP';
+    const typeClass = isGlsl ? 'glsl' : 'pop';
+    
+    let controlsHtml = '';
+    if (isGlsl) {
+      controlsHtml = sys.params.map(p => renderSlider(sys.id, p)).join('');
+    } else {
+      controlsHtml = sys.params.map(p => renderSlider(sys.id, p)).join('');
+      controlsHtml += `
+        <div class="control-row">
+          <span class="control-label">Actions</span>
+          <button class="ctrl-btn trigger" onclick="sendTrigger('${sys.id}')">⚡ Trigger</button>
+          <button class="ctrl-btn toggle" id="tog_${sys.id}" onclick="toggleSystem('${sys.id}')">▶ Enable</button>
+        </div>
+      `;
+    }
+    
+    // Add code preview for GLSL
+    let extraHtml = '';
+    if (isGlsl) {
+      extraHtml = `
+        <div class="code-preview" onclick="loadGLSL('${sys.id}')" id="code_${sys.id}">
+          📄 Click to load GLSL code from ${sys.id}...
+        </div>
+      `;
+    }
+    
+    return `
+      <div class="system-card" id="card_${sys.id}">
+        <div class="system-card-header" onclick="toggleCard('${sys.id}')">
+          <span class="system-name">⬡ ${sys.label}</span>
+          <span class="node-count">${sys.nodes} ops</span>
+          <span class="system-type-tag ${typeClass}">${typeLabel}</span>
+          <span class="system-expand-icon">▼</span>
+        </div>
+        <div class="system-card-body">
+          <div class="control-group">
+            ${controlsHtml}
+          </div>
+          ${extraHtml}
+        </div>
+      </div>
+    `;
+  }).join('');
+  
+  // Auto-expand first card
+  const firstCard = grid.querySelector('.system-card');
+  if (firstCard) firstCard.classList.add('expanded');
+}
+
+function renderSlider(sysId, param) {
+  const key = `${sysId}.${param}`;
+  const val = paramValues[key] || 0.5;
+  return `
+    <div class="control-row">
+      <span class="control-label">${param}</span>
+      <input type="range" min="0" max="1" step="0.01" value="${val}"
+        oninput="onSlider('${sysId}','${param}',this.value)" 
+        onchange="onSlider('${sysId}','${param}',this.value)">
+      <span class="control-value" id="val_${key}">${Number(val).toFixed(2)}</span>
+    </div>
+  `;
+}
+
+function onSlider(sysId, param, val) {
+  const key = `${sysId}.${param}`;
+  document.getElementById(`val_${key}`).textContent = Number(val).toFixed(2);
+  sendParam(sysId, param, val);
+}
+
+function toggleCard(id) {
+  document.getElementById(`card_${id}`).classList.toggle('expanded');
+}
+
+function expandAll() {
+  document.querySelectorAll('.system-card').forEach(c => c.classList.add('expanded'));
+  log('Expanded all systems', 'recv');
+}
+
+function collapseAll() {
+  document.querySelectorAll('.system-card').forEach(c => c.classList.remove('expanded'));
+  log('Collapsed all systems', 'recv');
+}
+
+function toggleSystem(sysId) {
+  const btn = document.getElementById(`tog_${sysId}`);
+  const isOn = btn.classList.toggle('on');
+  btn.textContent = isOn ? '● Active' : '▶ Enable';
+  sendToggle(sysId, 'enabled', isOn);
+}
+
+function resetAll() {
+  [...GLSL_SYSTEMS, ...POP_SYSTEMS].forEach(sys => {
+    sys.params.forEach(p => {
+      const key = `${sys.id}.${p}`;
+      paramValues[key] = 0.5;
+      const slider = document.querySelector(`input[type="range"][oninput*="${sys.id}"][oninput*="${p}"]`);
+      if (slider) { slider.value = 0.5; }
+      const valEl = document.getElementById(`val_${key}`);
+      if (valEl) { valEl.textContent = '0.50'; }
+      sendParam(sys.id, p, 0.5);
+    });
+  });
+  log('All parameters reset to 0.5', 'recv');
+}
+
+// ════════════════════════════════════════════════════════════════
+// GLSL Code Loading
+// ════════════════════════════════════════════════════════════════
+
+async function loadGLSL(sysId) {
+  const preview = document.getElementById(`code_${sysId}`);
+  preview.textContent = '📥 Loading GLSL code...';
+  
+  try {
+    const resp = await fetch(`http://127.0.0.1:44444/read_dat?path=/POP_Systems/${sysId}/shader_code`);
+    const data = await resp.json();
+    let code = data?.output || '// No shader code found';
+    // Clean up the output
+    if (typeof code === 'string' && code.includes('\\n')) {
+      // Already escaped
+    }
+    preview.textContent = code.length > 300 ? code.slice(0,300) + '\n// ...' : code;
+    preview.title = 'Click to view full code';
+    log(`📄 Loaded GLSL code from ${sysId}`, 'recv');
+  } catch(e) {
+    preview.textContent = `⚠ Error loading: ${e.message}`;
+    log(`Error loading GLSL from ${sysId}: ${e.message}`, 'err');
+  }
+}
+
+// ════════════════════════════════════════════════════════════════
+// TD API - fetch system info
+// ════════════════════════════════════════════════════════════════
+
+async function fetchTDInfo() {
+  try {
+    const resp = await fetch('http://127.0.0.1:44444/info');
+    const info = await resp.json();
+    if (info.projectFPS) {
+      document.getElementById('statFps').textContent = info.projectFPS + ' FPS';
+    }
+  } catch(e) {
+    // TD API might not be available
+  }
+  
+  try {
+    const resp = await fetch('http://127.0.0.1:44444/verify?path=/POP_Systems');
+    const data = await resp.json();
+    if (data.operator_count) {
+      document.getElementById('statNodes').textContent = data.operator_count;
+    }
+  } catch(e) {}
+}
+
+function refreshAll() {
+  fetchTDInfo();
+  log('⟳ Refreshed system data', 'recv');
+}
+
+// ════════════════════════════════════════════════════════════════
+// Utils
+// ════════════════════════════════════════════════════════════════
+
+function setStatus(cls, text) {
+  const pill = document.getElementById('statusPill');
+  pill.className = `pill ${cls}`;
+  document.getElementById('statusText').textContent = text;
+}
+
+function log(msg, type = 'info') {
+  const body = document.getElementById('logBody');
+  const entry = document.createElement('div');
+  entry.className = 'log-entry';
+  const time = new Date().toLocaleTimeString();
+  entry.innerHTML = `<span class="log-time">${time}</span><span class="log-msg ${type}">${msg}</span>`;
+  body.appendChild(entry);
+  body.scrollTop = body.scrollHeight;
+}
+
+function clearLog() {
+  document.getElementById('logBody').innerHTML = '';
+}
+
+// ════════════════════════════════════════════════════════════════
+// Init
+// ════════════════════════════════════════════════════════════════
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderSystems();
+  fetchTDInfo();
+  setTimeout(connectWS, 1000);
+  // Refresh TD info every 5s
+  setInterval(fetchTDInfo, 5000);
+});
+</script>
+</body>
+</html>

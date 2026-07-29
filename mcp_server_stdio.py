@@ -21,6 +21,7 @@ All tools are backed by the TD HTTP API at http://localhost:44444.
 from __future__ import annotations
 
 import json
+import re
 import sys
 import traceback
 from typing import Any
@@ -29,6 +30,23 @@ from urllib.error import URLError
 
 TD_API_BASE = "http://localhost:44444"
 REQUEST_TIMEOUT = 30
+
+
+# ---------------------------------------------------------------------------
+# Security: escape single quotes for embedding into TD Python code strings
+# ---------------------------------------------------------------------------
+
+def _py_esc(s: str) -> str:
+    """Escape a string for safe embedding inside single-quoted Python strings."""
+    return s.replace("\\", "\\\\").replace("'", "\\'")
+
+
+def _validate_operator_type(op_type: str) -> str:
+    """Validate that op_type is a safe Python class reference (e.g. td.glslPOP).
+    Allows alphanumeric characters, dots, and underscores only."""
+    if not re.match(r'^[a-zA-Z_][a-zA-Z0-9_.]*$', op_type):
+        raise ValueError(f"Invalid operator type: '{op_type}' — must be a valid Python class reference")
+    return op_type
 
 
 # ---------------------------------------------------------------------------
@@ -209,16 +227,17 @@ def _call_tool(name: str, arguments: dict[str, Any]) -> dict[str, Any]:
     """Execute an MCP tool by translating it to an HTTP call."""
     # ---- create_td_node ----
     if name == "create_td_node":
-        op_type = arguments.get("type", "")
+        op_type = _validate_operator_type(arguments.get("type", ""))
         op_name = arguments.get("name", "")
-        parent = arguments.get("parent", "/project1")
-        code = f"op('{parent}').create({op_type}, '{op_name}')"
+        parent = _py_esc(arguments.get("parent", "/project1"))
+        op_name_esc = _py_esc(op_name)
+        code = f"op('{parent}').create({op_type}, '{op_name_esc}')"
         result = _http_post("/exec", {"code": code})
         return _unwrap_post(result)
 
     # ---- delete_td_node ----
     if name == "delete_td_node":
-        path = arguments.get("path", "")
+        path = _py_esc(arguments.get("path", ""))
         code = f"op('{path}').destroy()"
         result = _http_post("/exec", {"code": code})
         return _unwrap_post(result)
@@ -244,8 +263,8 @@ def _call_tool(name: str, arguments: dict[str, Any]) -> dict[str, Any]:
 
     # ---- connect_td_nodes ----
     if name == "connect_td_nodes":
-        src = arguments.get("src", "")
-        dst = arguments.get("dst", "")
+        src = _py_esc(arguments.get("src", ""))
+        dst = _py_esc(arguments.get("dst", ""))
         inp = arguments.get("input", 0)
         code = f"op('{dst}').inputConnectors[{inp}].connect(op('{src}'))"
         result = _http_post("/exec", {"code": code})

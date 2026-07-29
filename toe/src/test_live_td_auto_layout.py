@@ -145,6 +145,13 @@ def cleanup(td: TDClient) -> None:
 
 
 def main() -> int:
+    # Fallback encoding: reconfigure stdout to handle UTF-8 even
+    # on Windows cp1252 terminals (prevents UnicodeEncodeError).
+    try:
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+    except Exception:
+        pass
+
     parser = argparse.ArgumentParser(
         description="Live TD integration test for POST /auto_layout."
     )

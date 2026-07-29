@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+"""Web2Touch bridge — HTTP + WS on same port 8090, relay to TD MCP
+   BACKUP created 2026-07-26 before CHOP modification"""
+import asyncio
+import base64
+import hashlib
+import json
+import pathlib
+import struct
+import sys
+import urllib.request
+
+PORT = 8090
+BASE = pathlib.Path(__file__).parent / "web2touch"
+MCP = "http://127.0.0.1:44444"
+MIMES: dict[str, str] = {
+    ".html": "text/html",
+    ".js": "application/javascript",
+    ".css": "text/css",
+    ".png": "image/png",
+    ".svg": "image/svg+xml",
+}
+MAGIC = b"258EAFA5-E914-47DA-95CA-C5AB0DC85B11"

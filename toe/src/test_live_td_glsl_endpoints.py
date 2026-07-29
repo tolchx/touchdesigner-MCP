@@ -119,7 +119,7 @@ class TestResult:
             self.passed += 1
         else:
             self.failed += 1
-        icon = "✓" if ok else "✗"
+        icon = "[OK]" if ok else "[FAIL]"
         msg = f"  {icon} {name}"
         if detail:
             msg += f" — {detail}"
@@ -499,6 +499,13 @@ def run(res: TestResult, td: TDClient) -> None:
 
 def main():
     import argparse
+
+    # Fallback encoding: reconfigure stdout to handle UTF-8 even
+    # on Windows cp1252 terminals (prevents UnicodeEncodeError).
+    try:
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+    except Exception:
+        pass
 
     parser = argparse.ArgumentParser(
         description="Live TD test: GLSL endpoints + /document"

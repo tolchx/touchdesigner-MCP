@@ -799,6 +799,13 @@ def cleanup(td: TDClient, res: TestResult, keep: bool = False,
 
 
 def main() -> int:
+    # Fallback encoding: reconfigure stdout to handle UTF-8 even
+    # on Windows cp1252 terminals (prevents UnicodeEncodeError).
+    try:
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+    except Exception:
+        pass
+
     parser = argparse.ArgumentParser(
         description="Advanced POP Integration Test 2 — glslPOP, glsladvancedPOP, "
                     "parallel chains, custom attrs, /document."
