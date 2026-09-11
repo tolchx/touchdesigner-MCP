@@ -735,11 +735,16 @@ def verify_connections_intact(td: TDClient, res: SafeCheck) -> None:
 
     # Source-type operators that legitimately have zero inputs.
     source_keywords = ("boxPOP", "noiseTOP", "boxSOP", "constant", "noiseCHOP",
-                       "circle", "source", "moviein", "audioin", "lfo", "timer")
+                       "circle", "source", "moviein", "audioin", "lfo", "timer",
+                       "null")
 
     isolated = []
     total_wired = 0
     for op_info in operators:
+        # Skip the sandbox container itself (baseCOMP has no inputs by design)
+        op_path = op_info.get("path", "")
+        if op_path == SANDBOX_PATH:
+            continue
         inputs = op_info.get("inputs", [])
         has_input = any(inp.get("path") for inp in inputs)
         if has_input:

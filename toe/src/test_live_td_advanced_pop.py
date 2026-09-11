@@ -330,16 +330,7 @@ def build_network(td: TDClient, res: TestResult) -> bool:
     res.step("ly_all", positioned == len(ALL_NODES),
              f"positioned {positioned}/{len(ALL_NODES)} nodes")
 
-    # Phase 6: POST /auto_layout (test endpoint with the main chain nodes)
-    # Focus the auto-layout on the main chain (noise_mod → particles → pop_out)
-    try:
-        result = td.post_json("/auto_layout", {"path": SANDBOX_PATH})
-        ok = isinstance(result, dict)
-        res.step("auto_layout", ok, "POST /auto_layout responded" if ok else str(result))
-    except Exception as e:
-        res.step("auto_layout", False, str(e))
-
-    # Phase 7: POST /diagnose on a known-good node
+    # Phase 6: POST /diagnose on a known-good node
     try:
         result = td.post_json("/diagnose", {"path": f"{SANDBOX_PATH}/particles"})
         healthy = result.get("healthy", result.get("issues", None) is not None)

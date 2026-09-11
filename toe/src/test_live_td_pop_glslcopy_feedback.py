@@ -83,9 +83,9 @@ LAYOUT_SPACING_Y = 200
 # attribute via TDIn_P(0, id), perturbs it with a simple 2D hash (pseudo-noise)
 # modulated by the built-in u_time uniform, and writes the result back via the
 # P[id] output write-back. Uses TDIndex() for the point index — the verified
-# pattern for glslcopyPOP (NOT the `#define G 1.0` geometry shader variant).
+# pattern for glslcopyPOP.
+# NOTE: TD injects #version internally — never include it in shader text.
 GLSLCOPY_COMPUTE_SHADER = (
-    "#version 400\n"
     "#define G 1.0\n"
     "uniform float u_time;\n"
     "float hash21(vec2 p) {\n"
@@ -890,7 +890,7 @@ def main() -> int:
         pass
 
     parser = argparse.ArgumentParser(
-        description="Live TD POP test — glslcopyPOP, feedbackPOP, "
+        description="Live TD POP test -- glslcopyPOP, feedbackPOP, "
                     "/diagnose, /auto_layout."
     )
     parser.add_argument("--host", default=DEFAULT_HOST)
@@ -905,7 +905,7 @@ def main() -> int:
 
     n_sources = sum(1 for n in ALL_NODES if n["is_source"])
     print("=" * 72)
-    print("  POP Integration Test — glslcopyPOP + feedbackPOP + /diagnose + /auto_layout")
+    print("  POP Integration Test -- glslcopyPOP + feedbackPOP + /diagnose + /auto_layout")
     print(f"  Target:  http://{args.host}:{args.port}")
     print(f"  Sandbox: {SANDBOX_PATH}")
     print(f"  Nodes: {len(ALL_NODES)} ({n_sources} sources), "
@@ -934,7 +934,7 @@ def main() -> int:
         container_x=args.container_x, container_y=args.container_y)
 
     if not build_ok:
-        print("\n[ABORT] sandbox creation failed — skipping remaining phases.")
+        print("\n[ABORT] sandbox creation failed -- skipping remaining phases.")
 
     # ── Verify (creation, wiring, params, errors, scattered overlap) ───────
     if build_ok:
@@ -959,7 +959,7 @@ def main() -> int:
         cleanup(td, res, keep=args.keep,
                 container_x=args.container_x, container_y=args.container_y)
     else:
-        print("\n--- (Keep mode — no cleanup) ---")
+        print("\n--- (Keep mode -- no cleanup) ---")
         res.check("cleanup", True,
                   f"kept at {SANDBOX_PATH} (x={args.container_x}, y={actual_y})")
 
@@ -970,12 +970,12 @@ def main() -> int:
     print(f"\n{'=' * 72}")
     print(f"RESULT: {passed}/{total} checks passed ({failed} failed)")
     if res.all_passed:
-        print("\nOVERALL: PASS — glslcopyPOP + feedbackPOP built, wired, "
+        print("\nOVERALL: PASS -- glslcopyPOP + feedbackPOP built, wired, "
               "params verified, /diagnose + /auto_layout exercised, "
               "async GLSL clean, cleaned up.")
         return 0
     else:
-        print(f"\nOVERALL: FAIL — {failed} check(s) failed:")
+        print(f"\nOVERALL: FAIL -- {failed} check(s) failed:")
         for f in res.failures:
             print(f"  - {f}")
         return 1

@@ -30,7 +30,7 @@ import time
 import os
 
 # === CONFIG ===
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 TESTS_DIR = os.path.join(PROJECT_ROOT, "toe", "src")
 
 TESTS = [
@@ -55,12 +55,29 @@ TESTS = [
      [], "POST /smart_connect — 5 scenarios (auto-detect TOP/POP, explicit type)"),
     ("Document POP Network", "test_live_td_document_pop.py",
      [], "POST /document — 3 POP chains, 12 nodes, validate output structure"),
+    ("GLSL Advanced TOP", "test_live_td_glsl_advanced.py",
+     [], "GLSL TOP fragments (threshold/blur/gradient) + feedback loops + multi-pass (24 nodes)"),
+    ("GLSL Extreme", "test_live_td_glsl_extreme.py",
+     [], "glsladvancedPOP prim + npasses + vertex shaders + extra output (17 nodes)"),
+    ("GLSL Ping-Pong Feedback", "test_live_td_pingpong_feedback.py",
+     [], "Gray-Scott reaction-diffusion + progressive blur ping-pong (14 nodes)"),
+    ("GLSL NPasses", "test_live_td_glsl_npasses.py",
+     [], "Intra-frame multi-pass GLSL TOP (npasses=4,3,2,1) (16 nodes)"),
+    ("GLSL POP Suite", "test_live_td_glslpop_suite.py",
+     [], "6-level GLSL POP complexity suite: basic→multi-attr→feedback→multpass→dual chains (30 nodes)"),
+    ("GLSL Vertex Shader", "test_live_td_glsl_vertex_shader.py",
+     [], "glslTOP vertexdat: wave, noise, twist, pulse deformation (20 nodes)"),
+    ("GLSL POP 10 Bases", "test_live_td_glslpop_10bases.py",
+     [], "10 independent GLSL POP systems: wave, color, spiral, noise, feedback, multipass, fractal, attractor, ripple, colorcycle (42 nodes)"),
+    ("GLSL POP Web Shaders", "test_live_td_glslpop_webshaders.py",
+     [], "5 web-sourced shaders: voronoi, curl noise, lorenz, reaction-diffusion, fBm terrain (20 nodes)"),
+    ("GLSL POP Tutorials", "test_live_td_glslpop_tutorials.py",
+     [], "10 tutorial-inspired shaders: phyllotaxis, magnetic, domain warp, interference, lissajous, spring, lifecycle, quaternion, growth, audio (40 nodes)"),
 ]
 
 # Tests que requieren endpoints nuevos (pueden fallar si TD no recargó)
 SKIP_IF_ENDPOINT_MISSING = {
     "Smart Connect": "/smart_connect",
-    "Document POP Network": "/document",
     "GLSLcopy+Feedback POP": "/diagnose",
 }
 
@@ -79,6 +96,13 @@ def check_endpoint(endpoint):
             return True
         elif endpoint == "/diagnose":
             r = req.Request(f"http://localhost:44444/diagnose",
+                            data=json.dumps({"path": "/project1"}).encode(),
+                            headers={"Content-Type": "application/json"},
+                            method="POST")
+            resp = req.urlopen(r, timeout=5)
+            return True
+        elif endpoint == "/document":
+            r = req.Request(f"http://localhost:44444/document",
                             data=json.dumps({"path": "/project1"}).encode(),
                             headers={"Content-Type": "application/json"},
                             method="POST")
@@ -118,13 +142,21 @@ def run_test(name, script, extra_args, description):
                 "reason": f"Endpoint {ep} not available (TD needs restart/reload)"
             }
 
-    cmd = [sys.executable, script_path, "--keep"]
+    cmd = [sys.executable, script_path]
     cmd.extend(extra_args)
+
+    # Try with --keep first; if the test doesn't support it, run without
+    cmd_with_keep = cmd + ["--keep"]
 
     try:
         start = time.time()
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=180,
+        result = subprocess.run(cmd_with_keep, capture_output=True, text=True, timeout=180,
                                 cwd=PROJECT_ROOT)
+
+        # If --keep caused an argparse error, retry without it
+        if result.returncode != 0 and "unrecognized arguments" in (result.stderr or ""):
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=180,
+                                    cwd=PROJECT_ROOT)
         elapsed = time.time() - start
 
         # Parse results
@@ -132,11 +164,12 @@ def run_test(name, script, extra_args, description):
         error_output = result.stderr
         exit_code = result.returncode
 
-        # Extract check counts
+        # Extract check counts (case-insensitive: RESULTS, RESULT, Results, etc.)
         passed = 0
         total = 0
         for line in output.split("\n"):
-            if "RESULTS:" in line or "RESULT:" in line:
+            line_upper = line.upper()
+            if "RESULTS:" in line_upper or "RESULT:" in line_upper:
                 import re
                 m = re.search(r"(\d+)/(\d+)", line)
                 if m:
@@ -216,7 +249,12 @@ def document_containers(containers):
 
 
 def main():
-    skip_unknown = "--skip-unknown" in sys.argv
+    # Fallback encoding: reconfigure stdout to handle UTF-8 even
+    # on Windows cp1252 terminals (prevents UnicodeEncodeError).
+    try:
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+    except Exception:
+        pass
 
     print("=" * 60)
     print("🚀 TD-MCP MASSIVE TEST ORCHESTRATOR")
@@ -282,7 +320,7 @@ def main():
             print(f"     Checks: {r.get('passed',0)}/{r.get('total',0)}")
     for r in results:
         if r["status"] != "PASS" and r.get("container"):
-            print(f"  ⚠️  {r['container']} (status={r['status']})")
+            print(f"  ⚠️ {r['container']} (status={r['status']})")
     print()
 
     # Document table
@@ -312,7 +350,7 @@ def main():
             print(f"  ❌ {r['name']}: {r.get('status','FAIL')} ({r.get('elapsed',0)}s)")
     for r in results:
         if r["status"] == "SKIP":
-            print(f"  ⏭️  {r['name']}: {r.get('reason','')}")
+            print(f"  ⏭️ {r['name']}: {r.get('reason','')}")
 
     print(f"\n{'='*60}")
     print(f"🏁 FINAL: {passed_count} passed, {failed_count} failed, {skipped_count} skipped")

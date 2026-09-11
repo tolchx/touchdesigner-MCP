@@ -1,0 +1,300 @@
+{
+ "sandbox_root": "pop_networks_live",
+ "td_build": "TouchDesigner 2025.32460",
+ "networks": [
+  {
+   "name": "basic_chain",
+   "note": "Cadena fuente -> deformación -> salida",
+   "nodes": [
+    {
+     "name": "box1",
+     "type": "box",
+     "family": "POP"
+    },
+    {
+     "name": "noise1",
+     "type": "noise",
+     "family": "POP"
+    },
+    {
+     "name": "out1",
+     "type": "null",
+     "family": "POP"
+    }
+   ],
+   "errors": [],
+   "connections": 2,
+   "ok": true
+  },
+  {
+   "name": "copy_instancing",
+   "note": "Instanciación GPU: geometría (in0) copiada sobre plantilla de puntos (in1)",
+   "nodes": [
+    {
+     "name": "grid1",
+     "type": "grid",
+     "family": "POP"
+    },
+    {
+     "name": "attr1",
+     "type": "attribute",
+     "family": "POP"
+    },
+    {
+     "name": "sph1",
+     "type": "sphere",
+     "family": "POP"
+    },
+    {
+     "name": "copy1",
+     "type": "copy",
+     "family": "POP"
+    },
+    {
+     "name": "out1",
+     "type": "null",
+     "family": "POP"
+    }
+   ],
+   "errors": [],
+   "connections": 4,
+   "ok": true
+  },
+  {
+   "name": "particles_solver",
+   "note": "Sistema de partículas por feedback (el solver recuerda el estado del cuadro previo)",
+   "nodes": [
+    {
+     "name": "emitter1",
+     "type": "box",
+     "family": "POP"
+    },
+    {
+     "name": "sprinkle1",
+     "type": "sprinkle",
+     "family": "POP"
+    },
+    {
+     "name": "particle1",
+     "type": "particle",
+     "family": "POP"
+    },
+    {
+     "name": "forces1",
+     "type": "null",
+     "family": "POP"
+    },
+    {
+     "name": "out1",
+     "type": "null",
+     "family": "POP"
+    }
+   ],
+   "errors": [],
+   "connections": 4,
+   "ok": true
+  },
+  {
+   "name": "trail_line_strip",
+   "note": "Estela de posiciones: genera line strips a partir del historial",
+   "nodes": [
+    {
+     "name": "sph1",
+     "type": "sphere",
+     "family": "POP"
+    },
+    {
+     "name": "xform1",
+     "type": "transform",
+     "family": "POP"
+    },
+    {
+     "name": "trail1",
+     "type": "trail",
+     "family": "POP"
+    },
+    {
+     "name": "out1",
+     "type": "null",
+     "family": "POP"
+    }
+   ],
+   "errors": [],
+   "connections": 3,
+   "ok": true
+  },
+  {
+   "name": "merge_switch",
+   "note": "Combinar dos geometrías y alternar la salida",
+   "nodes": [
+    {
+     "name": "box1",
+     "type": "box",
+     "family": "POP"
+    },
+    {
+     "name": "sph1",
+     "type": "sphere",
+     "family": "POP"
+    },
+    {
+     "name": "merge1",
+     "type": "merge",
+     "family": "POP"
+    },
+    {
+     "name": "switch1",
+     "type": "switch",
+     "family": "POP"
+    },
+    {
+     "name": "out1",
+     "type": "null",
+     "family": "POP"
+    }
+   ],
+   "errors": [],
+   "connections": 4,
+   "ok": true
+  },
+  {
+   "name": "math_ops_chain",
+   "note": "Matemática nativa sobre atributos en VRAM (sin pasar por CHOPs)",
+   "nodes": [
+    {
+     "name": "box1",
+     "type": "box",
+     "family": "POP"
+    },
+    {
+     "name": "math1",
+     "type": "math",
+     "family": "POP"
+    },
+    {
+     "name": "comb1",
+     "type": "mathcombine",
+     "family": "POP"
+    },
+    {
+     "name": "out1",
+     "type": "null",
+     "family": "POP"
+    }
+   ],
+   "errors": [],
+   "connections": 3,
+   "ok": true
+  },
+  {
+   "name": "glsl_shader",
+   "note": "GLSL POP: boxPOP como fuente + DAT con el shader + outputattrs='P'",
+   "nodes": [
+    {
+     "name": "box1",
+     "type": "box",
+     "family": "POP"
+    },
+    {
+     "name": "shader_code",
+     "type": "text",
+     "family": "DAT"
+    },
+    {
+     "name": "glsl1",
+     "type": "glsl",
+     "family": "POP"
+    },
+    {
+     "name": "out1",
+     "type": "null",
+     "family": "POP"
+    }
+   ],
+   "errors": [],
+   "connections": 2,
+   "ok": true
+  },
+  {
+   "name": "line_divide_resample",
+   "note": "Trabajo sobre line strips: dividir y remuestrear",
+   "nodes": [
+    {
+     "name": "circle1",
+     "type": "circle",
+     "family": "POP"
+    },
+    {
+     "name": "div1",
+     "type": "linedivide",
+     "family": "POP"
+    },
+    {
+     "name": "res1",
+     "type": "lineresample",
+     "family": "POP"
+    },
+    {
+     "name": "out1",
+     "type": "null",
+     "family": "POP"
+    }
+   ],
+   "errors": [],
+   "connections": 3,
+   "ok": true
+  },
+  {
+   "name": "feedback_loop",
+   "note": "Feedback POP: realimentación de la propia red",
+   "nodes": [
+    {
+     "name": "box1",
+     "type": "box",
+     "family": "POP"
+    },
+    {
+     "name": "fb1",
+     "type": "feedback",
+     "family": "POP"
+    },
+    {
+     "name": "out1",
+     "type": "null",
+     "family": "POP"
+    }
+   ],
+   "errors": [],
+   "connections": 2,
+   "ok": true
+  },
+  {
+   "name": "field_deform",
+   "note": "Field POP: deformación por campo (usado en los ejemplos de TDSW)",
+   "nodes": [
+    {
+     "name": "sph1",
+     "type": "sphere",
+     "family": "POP"
+    },
+    {
+     "name": "field1",
+     "type": "field",
+     "family": "POP"
+    },
+    {
+     "name": "out1",
+     "type": "null",
+     "family": "POP"
+    }
+   ],
+   "errors": [],
+   "connections": 2,
+   "ok": true
+  }
+ ],
+ "ok_all": true,
+ "total_networks": 10,
+ "total_connections": 29,
+ "generated_at": "2026-09-10T14:03:53"
+}
