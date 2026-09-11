@@ -26,3 +26,4 @@ coverage_html/
 .freebuff_tasks/
 .freebuff_prompt.txt
 *.bak
+toe/TDImportCache/
