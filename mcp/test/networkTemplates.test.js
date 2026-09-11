@@ -27,8 +27,24 @@ import {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 describe("NETWORK_TEMPLATES — Static Data", () => {
-  it("should have exactly 8 built-in templates", () => {
-    assert.equal(NETWORK_TEMPLATES.length, 8);
+  it("should have exactly 8 built-in templates + 6 corpus POP templates", () => {
+    // 8 generic templates from data/templates/builtin-templates.json plus the
+    // 6 corpus-derived POP network templates (patterns.json chains).
+    assert.equal(NETWORK_TEMPLATES.length, 14);
+  });
+
+  it("should include the corpus-derived POP templates", () => {
+    const names = NETWORK_TEMPLATES.map((t) => t.name);
+    for (const expected of [
+      "pop-line-merge-copy",
+      "pop-circle-merge-switch",
+      "pop-grid-attribute-instancing",
+      "pop-sphere-transform-trail",
+      "pop-box-glsl-chain",
+      "pop-sprinkle-particle-feedback",
+    ]) {
+      assert.ok(names.includes(expected), `missing ${expected}`);
+    }
   });
 
   it("should have unique names across all templates", () => {

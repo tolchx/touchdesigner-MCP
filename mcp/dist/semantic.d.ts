@@ -66,13 +66,13 @@ export declare const SemanticResolutionSchema: z.ZodObject<{
     }, "strip", z.ZodTypeAny, {
         canonical: string;
         requested: string;
-        family?: string | undefined;
         note?: string | undefined;
+        family?: string | undefined;
     }, {
         canonical: string;
         requested: string;
-        family?: string | undefined;
         note?: string | undefined;
+        family?: string | undefined;
     }>, "many">;
 }, "strip", z.ZodTypeAny, {
     original: string;
@@ -97,8 +97,8 @@ export declare const SemanticResolutionSchema: z.ZodObject<{
     operatorHints: {
         canonical: string;
         requested: string;
-        family?: string | undefined;
         note?: string | undefined;
+        family?: string | undefined;
     }[];
 }, {
     original: string;
@@ -123,8 +123,8 @@ export declare const SemanticResolutionSchema: z.ZodObject<{
     operatorHints: {
         canonical: string;
         requested: string;
-        family?: string | undefined;
         note?: string | undefined;
+        family?: string | undefined;
     }[];
 }>;
 export type SemanticResolution = z.infer<typeof SemanticResolutionSchema>;

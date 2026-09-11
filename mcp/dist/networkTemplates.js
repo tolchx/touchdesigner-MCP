@@ -10,6 +10,7 @@ import fs from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { TYPE_SYNONYMS, FAMILY_HINTS, resolveOperatorType, resolveAllOperatorTypes, getBestFamily, getAllFamilies, resolveSemanticTerms, } from "./semantic.js";
+import { popTemplatesAsNetworkTemplates } from "./popsValidate.js";
 // Re-export all semantic resolution for backward compatibility
 export { TYPE_SYNONYMS, FAMILY_HINTS, resolveOperatorType, resolveAllOperatorTypes, getBestFamily, getAllFamilies, resolveSemanticTerms, };
 /**
@@ -44,18 +45,27 @@ function loadBuiltinTemplates() {
         resolve(process.cwd(), "data/templates/builtin-templates.json"),
     ];
     try {
+        let templates = [];
+        let foundFile = false;
         for (const p of candidates) {
             if (fs.existsSync(p)) {
                 const raw = JSON.parse(fs.readFileSync(p, "utf-8"));
-                return (raw.templates || []);
+                templates = (raw.templates || []);
+                foundFile = true;
+                break;
             }
         }
-        console.warn("[networkTemplates] No builtin templates found — tried:", candidates.join(", "));
-        return [];
+        if (!foundFile) {
+            console.warn("[networkTemplates] No builtin templates found — tried:", candidates.join(", "));
+        }
+        // Corpus-derived POP network templates (patterns.json chains), merged
+        // into the searchable template list.
+        templates = templates.concat(popTemplatesAsNetworkTemplates());
+        return templates;
     }
     catch (err) {
         console.warn("[networkTemplates] Failed to load builtin templates:", err instanceof Error ? err.message : err);
-        return [];
+        return popTemplatesAsNetworkTemplates();
     }
 }
 // ─── All Network Templates ────────────────────────────────────────────────

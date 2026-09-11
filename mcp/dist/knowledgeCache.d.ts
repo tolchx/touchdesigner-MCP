@@ -5,9 +5,9 @@ declare const OpsIndexSchema: z.ZodObject<{
     source: z.ZodObject<{
         categories: z.ZodRecord<z.ZodEnum<["TOP", "CHOP", "SOP", "DAT", "POP", "COMP", "MAT"]>, z.ZodString>;
     }, "strip", z.ZodTypeAny, {
-        categories: Partial<Record<"TOP" | "CHOP" | "SOP" | "DAT" | "POP" | "COMP" | "MAT", string>>;
+        categories: Partial<Record<"POP" | "TOP" | "COMP" | "CHOP" | "SOP" | "DAT" | "MAT", string>>;
     }, {
-        categories: Partial<Record<"TOP" | "CHOP" | "SOP" | "DAT" | "POP" | "COMP" | "MAT", string>>;
+        categories: Partial<Record<"POP" | "TOP" | "COMP" | "CHOP" | "SOP" | "DAT" | "MAT", string>>;
     }>;
     operators: z.ZodArray<z.ZodObject<{
         family: z.ZodEnum<["TOP", "CHOP", "SOP", "DAT", "POP", "COMP", "MAT"]>;
@@ -17,14 +17,14 @@ declare const OpsIndexSchema: z.ZodObject<{
         tdOpTypeGuess: z.ZodOptional<z.ZodString>;
         summary: z.ZodOptional<z.ZodString>;
     }, "strip", z.ZodTypeAny, {
-        family: "TOP" | "CHOP" | "SOP" | "DAT" | "POP" | "COMP" | "MAT";
+        family: "POP" | "TOP" | "COMP" | "CHOP" | "SOP" | "DAT" | "MAT";
         pageTitle: string;
         pageSlug: string;
         url: string;
         summary?: string | undefined;
         tdOpTypeGuess?: string | undefined;
     }, {
-        family: "TOP" | "CHOP" | "SOP" | "DAT" | "POP" | "COMP" | "MAT";
+        family: "POP" | "TOP" | "COMP" | "CHOP" | "SOP" | "DAT" | "MAT";
         pageTitle: string;
         pageSlug: string;
         url: string;
@@ -33,30 +33,30 @@ declare const OpsIndexSchema: z.ZodObject<{
     }>, "many">;
 }, "strip", z.ZodTypeAny, {
     operators: {
-        family: "TOP" | "CHOP" | "SOP" | "DAT" | "POP" | "COMP" | "MAT";
+        family: "POP" | "TOP" | "COMP" | "CHOP" | "SOP" | "DAT" | "MAT";
         pageTitle: string;
         pageSlug: string;
         url: string;
         summary?: string | undefined;
         tdOpTypeGuess?: string | undefined;
     }[];
-    generatedAt: string;
     source: {
-        categories: Partial<Record<"TOP" | "CHOP" | "SOP" | "DAT" | "POP" | "COMP" | "MAT", string>>;
+        categories: Partial<Record<"POP" | "TOP" | "COMP" | "CHOP" | "SOP" | "DAT" | "MAT", string>>;
     };
+    generatedAt: string;
 }, {
     operators: {
-        family: "TOP" | "CHOP" | "SOP" | "DAT" | "POP" | "COMP" | "MAT";
+        family: "POP" | "TOP" | "COMP" | "CHOP" | "SOP" | "DAT" | "MAT";
         pageTitle: string;
         pageSlug: string;
         url: string;
         summary?: string | undefined;
         tdOpTypeGuess?: string | undefined;
     }[];
-    generatedAt: string;
     source: {
-        categories: Partial<Record<"TOP" | "CHOP" | "SOP" | "DAT" | "POP" | "COMP" | "MAT", string>>;
+        categories: Partial<Record<"POP" | "TOP" | "COMP" | "CHOP" | "SOP" | "DAT" | "MAT", string>>;
     };
+    generatedAt: string;
 }>;
 declare const OpsOperatorDocSchema: z.ZodObject<{
     family: z.ZodEnum<["TOP", "CHOP", "SOP", "DAT", "POP", "COMP", "MAT"]>;
@@ -152,7 +152,7 @@ declare const OpsOperatorDocSchema: z.ZodObject<{
         fix?: string | undefined;
     }>, "many">>;
 }, "strip", z.ZodTypeAny, {
-    family: "TOP" | "CHOP" | "SOP" | "DAT" | "POP" | "COMP" | "MAT";
+    family: "POP" | "TOP" | "COMP" | "CHOP" | "SOP" | "DAT" | "MAT";
     pageTitle: string;
     pageSlug: string;
     url: string;
@@ -193,7 +193,7 @@ declare const OpsOperatorDocSchema: z.ZodObject<{
     summary?: string | undefined;
     tdOpTypeGuess?: string | undefined;
 }, {
-    family: "TOP" | "CHOP" | "SOP" | "DAT" | "POP" | "COMP" | "MAT";
+    family: "POP" | "TOP" | "COMP" | "CHOP" | "SOP" | "DAT" | "MAT";
     pageTitle: string;
     pageSlug: string;
     url: string;
@@ -274,10 +274,10 @@ declare const PopsIndexSchema: z.ZodObject<{
         summary?: string | undefined;
         tdOpTypeGuess?: string | undefined;
     }[];
-    generatedAt: string;
     source: {
         categoryUrl: string;
     };
+    generatedAt: string;
 }, {
     operators: {
         pageTitle: string;
@@ -287,10 +287,10 @@ declare const PopsIndexSchema: z.ZodObject<{
         tdOpTypeGuess?: string | undefined;
         experimental?: boolean | undefined;
     }[];
-    generatedAt: string;
     source: {
         categoryUrl: string;
     };
+    generatedAt: string;
 }>;
 declare const PopsOperatorDocSchema: z.ZodObject<{
     pageTitle: z.ZodString;

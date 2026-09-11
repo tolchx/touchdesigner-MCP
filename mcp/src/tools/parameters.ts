@@ -3,6 +3,7 @@ import type { TDClient } from "td-api";
 import { z } from "zod";
 import { ok, err } from "../helpers.js";
 import { postModifyValidate } from "./postValidate.js";
+import { validateParameterNamesForPath, resolvePopTypeForPath } from "../popsValidate.js";
 
 export function registerParameterTools(server: McpServer, client: TDClient) {
   // ---------------------------------------------------------------------------
@@ -58,13 +59,26 @@ export function registerParameterTools(server: McpServer, client: TDClient) {
     },
     async ({ path: opPath, updates, transactional }) => {
       try {
+        // Never set parameters blindly: verify the requested names against the
+        // operator's real parameter list (live read, falling back to the
+        // live-validated POP knowledge base for known POP types).
+        const typeHint = await resolvePopTypeForPath(client, opPath);
+        const validation = await validateParameterNamesForPath(
+          client,
+          opPath,
+          updates.map((u) => u.name),
+          typeHint ?? undefined,
+        );
+        if (!validation.ok) {
+          throw new Error(validation.detail);
+        }
         const result = await client.setParameters(
           opPath,
           updates,
           transactional ?? true
         );
         // Post-modification validation (catch expression errors)
-        const validation = await postModifyValidate(client, opPath);
+        const validation2 = await postModifyValidate(client, opPath);
         return ok({ ...result, validation });
       } catch (e: any) {
         return err(e);
@@ -100,6 +114,15 @@ export function registerParameterTools(server: McpServer, client: TDClient) {
     },
     async ({ path: opPath, updates, transactional }) => {
       try {
+        // Never set parameters blindly (see td_pars_set).
+        const typeHint = await resolvePopTypeForPath(client, opPath);
+        const validation = await validateParameterNamesForPath(
+          client,
+          opPath,
+          updates.map((u) => u.name),
+          typeHint ?? undefined,
+        );
+        if (!validation.ok) return err(new Error(validation.detail));
         const apiUpdates = updates.map((u) => ({
           name: u.name,
           value: u.value,
@@ -110,7 +133,7 @@ export function registerParameterTools(server: McpServer, client: TDClient) {
           transactional ?? true
         );
         // Post-modification validation (catch expression errors)
-        const validation = await postModifyValidate(client, opPath);
+        const validation2 = await postModifyValidate(client, opPath);
         return ok({ ...result, validation });
       } catch (e: any) {
         return err(e);

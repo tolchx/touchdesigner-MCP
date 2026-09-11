@@ -17,13 +17,13 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
-import { resolve } from "node:path";
-import { pathToFileURL } from "node:url";
 import { promisify } from "node:util";
 
 const exec = promisify(execFile);
 
-const moduleUrl = pathToFileURL(resolve("mcp/dist/networkTemplates.js")).href;
+// Resolve relative to this test file (not process.cwd()) so the suite
+// passes regardless of which directory `node --test` is run from.
+const moduleUrl = new URL("../dist/networkTemplates.js", import.meta.url).href;
 
 /**
  * Spawn a child process that mocks fs via CJS require() before importing

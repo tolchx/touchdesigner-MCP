@@ -5,6 +5,7 @@
  * Extracted from networkPlannerGraph.ts for single-responsibility.
  */
 import { buildVerifyFix, verifyAndFixConnections } from "./buildVerifyFix.js";
+import { validatePopParameters } from "./popsValidate.js";
 /**
  * Apply a network graph to TouchDesigner: create nodes, then wire connections.
  * Creates nodes first (all must succeed), then wires in topological order
@@ -26,11 +27,25 @@ export async function applyNetworkGraph(client, graph) {
             // Set parameters if provided
             if (node.parameters && Object.keys(node.parameters).length > 0) {
                 try {
-                    const updates = Object.entries(node.parameters).map(([name, value]) => ({
-                        name,
-                        value,
-                    }));
-                    await client.setParameters(tdPath, updates);
+                    const names = Object.keys(node.parameters);
+                    // Never set parameters blindly: check names against the live-validated
+                    // POP knowledge base first (skipped for types it doesn't cover).
+                    const pv = validatePopParameters(node.opType, names);
+                    if (!pv.ok) {
+                        errors.push(`Params for ${node.id} (${node.opType}): ${pv.unknown
+                            .map((u) => `'${u.name}'` +
+                            (u.suggestions.length > 0
+                                ? ` (did you mean: ${u.suggestions.join(", ")}?)`
+                                : ""))
+                            .join(", ")} — parameters were NOT set. Read real names with td_pars_get.`);
+                    }
+                    else {
+                        const updates = Object.entries(node.parameters).map(([name, value]) => ({
+                            name,
+                            value,
+                        }));
+                        await client.setParameters(tdPath, updates);
+                    }
                 }
                 catch (parErr) {
                     errors.push(`Params for ${node.id} (${tdPath}): ${parErr.message}`);

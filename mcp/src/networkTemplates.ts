@@ -57,6 +57,7 @@ import {
   resolveSemanticTerms,
   type SemanticResolution,
 } from "./semantic.js";
+import { popTemplatesAsNetworkTemplates } from "./popsValidate.js";
 
 // Re-export all semantic resolution for backward compatibility
 export {
@@ -116,17 +117,26 @@ function loadBuiltinTemplates(): NetworkTemplate[] {
     resolve(process.cwd(), "data/templates/builtin-templates.json"),
   ];
   try {
+    let templates: NetworkTemplate[] = [];
+    let foundFile = false;
     for (const p of candidates) {
       if (fs.existsSync(p)) {
         const raw = JSON.parse(fs.readFileSync(p, "utf-8"));
-        return (raw.templates || []) as NetworkTemplate[];
+        templates = (raw.templates || []) as NetworkTemplate[];
+        foundFile = true;
+        break;
       }
     }
-    console.warn("[networkTemplates] No builtin templates found — tried:", candidates.join(", "));
-    return [];
+    if (!foundFile) {
+      console.warn("[networkTemplates] No builtin templates found — tried:", candidates.join(", "));
+    }
+    // Corpus-derived POP network templates (patterns.json chains), merged
+    // into the searchable template list.
+    templates = templates.concat(popTemplatesAsNetworkTemplates());
+    return templates;
   } catch (err) {
     console.warn("[networkTemplates] Failed to load builtin templates:", err instanceof Error ? err.message : err);
-    return [];
+    return popTemplatesAsNetworkTemplates();
   }
 }
 
