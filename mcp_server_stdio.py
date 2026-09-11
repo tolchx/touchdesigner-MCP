@@ -202,7 +202,9 @@ TOOL_DEFINITIONS: list[dict[str, Any]] = [
         "description": "Capture a screenshot from TouchDesigner",
         "inputSchema": {
             "type": "object",
-            "properties": {},
+            "properties": {
+                "path": {"type": "string", "description": "Path of the TOP operator to capture (default: active pane's TOP)"},
+            },
         },
     },
     {
@@ -257,8 +259,15 @@ def _call_tool(name: str, arguments: dict[str, Any]) -> dict[str, Any]:
     # ---- set_td_parameters ----
     if name == "set_td_parameters":
         path = arguments.get("path", "")
+        # /parameters/set expects an updates array ({name, value?}); convert
+        # this tool's params dict ({name: value}) to that form. The endpoint
+        # also accepts a raw params dict for backwards compatibility.
         params = arguments.get("params", {})
-        result = _http_post("/parameters/set", {"path": path, "params": params})
+        if isinstance(params, dict):
+            updates = [{"name": str(k), "value": v} for k, v in params.items()]
+        else:
+            updates = params
+        result = _http_post("/parameters/set", {"path": path, "updates": updates})
         return result
 
     # ---- connect_td_nodes ----
@@ -294,7 +303,10 @@ def _call_tool(name: str, arguments: dict[str, Any]) -> dict[str, Any]:
 
     # ---- capture_td_screenshot ----
     if name == "capture_td_screenshot":
-        result = _http_post("/screenshot", {})
+        payload = {}
+        if arguments.get("path"):
+            payload["path"] = arguments.get("path")
+        result = _http_post("/screenshot", payload)
         return result
 
     # ---- get_td_help ----

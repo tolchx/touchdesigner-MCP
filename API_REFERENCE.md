@@ -161,6 +161,8 @@ Set parámetros transaccionalmente con rollback.
 
 **Validación post-set:** Corre healthcheck para detectar errores de expresión.
 
+> **Payload del endpoint HTTP (`POST /parameters/set`):** acepta la forma canónica `{"path":..., "updates":[{name, value?, expr?}]}` y también el shorthand `{"path":..., "params":{name: value}}` (se normaliza a `updates[]`). Si no hay nada aplicable (`updates` vacío/ausente o `params` vacío) devuelve **error explícito 400**, nunca un éxito vacío.
+
 **Ejemplo:**
 ```json
 {
@@ -578,7 +580,7 @@ Además de las herramientas, el servidor expone **recursos** (recursos estilo RE
 | URI | Descripción | Source |
 |-----|-------------|--------|
 | `td://status` | Estado de conexión: `{connected, baseUrl}` | `createTouchDesignerMcpServerWithStatus()` |
-| `td://info` | Info de TouchDesigner: build, versión, FPS | Python stdio server (`mcp_server_stdio.py`) |
+| `td://info` | Info de TouchDesigner: `build` (ej. "2025.32460"), `version` (legacy "099"), `product` (ej. "TouchDesigner"), `commercial` (bool), `platform` (osName), `osVersion`, `release` (releaseType), `projectPath` (project.filePath), `projectFPS` (cookRate) | Python stdio server (`mcp_server_stdio.py`) |
 | `td://performance` | Métricas de performance: FPS, ops lentos | Python stdio server |
 | `td://spatial_context` | Contexto espacial: *here, *this, *these | Python stdio server |
 
@@ -957,13 +959,13 @@ El archivo `mcp_server_stdio.py` implementa un servidor MCP alternativo en Pytho
 | `delete_td_node` | Elimina operador. `path` |
 | `get_td_nodes` | Lista operadores. `path` |
 | `get_td_parameters` | Obtiene parámetros. `path` |
-| `set_td_parameters` | Set parámetros. `path`, `params` (dict) |
+| `set_td_parameters` | Set parámetros. `path`, `params` (dict) — el server lo convierte a `updates[]` para `/parameters/set` |
 | `connect_td_nodes` | Conecta nodos. `src`, `dst`, `input` (opcional) |
 | `execute_td_python` | Ejecuta Python. `code` |
 | `verify_td_network` | Verifica red. `path` |
 | `get_td_performance` | Obtiene performance (sin args) |
 | `get_td_spatial_context` | Contexto espacial (sin args) |
-| `capture_td_screenshot` | Screenshot (sin args) |
+| `capture_td_screenshot` | Screenshot. Opcional `path` del TOP a capturar (sin `path`: TOP activo del pane) |
 | `get_td_help` | Ayuda de operador. `module` |
 
 ---
@@ -1037,6 +1039,6 @@ Todas las herramientas devuelven respuestas en formato MCP estándar:
 5. **Tool batch para operaciones múltiples** — Usa `tool_batch` para ejecutar hasta 8 operaciones en secuencia
 6. **Tiempo de espera** — Las operaciones en TD pueden tomar tiempo; timeout por defecto es 30s
 7. **Nombres de parámetros** — Usa nombres `.eval()` (ej. `amp`, `tx`, `sx`), no labels (ej. "Amplitude", "Translate X")
-8. **Conexiones multi-output** — Usa `.outputConnectors[0].connect(dst, input_index)`
+8. **Conexiones multi-output** — Usa `.outputConnectors[0].connect(dst)` para input 0 o dinámico, o `.outputConnectors[0].connect(dst.inputConnectors[i])` para input indexado (ver regla 12 de AGENTS.md)
 9. **GLSL POP requiere** — `outputattrs='P'` y `numelems` > 0 para escribir P[id]/Cd[id]
 10. **Python 3.9 en TD** — No uses `str | None` (union syntax); usa `Optional[str]` en su lugar

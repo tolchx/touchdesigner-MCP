@@ -230,7 +230,7 @@ class TouchDesignerAPI:
 
             # POST /screenshot - Capture frame as base64
             if uri == "/screenshot" and method == "POST":
-                return self._handle_screenshot_post(response)
+                return self._handle_screenshot_post(request, response)
 
             # GET /pop_inspect - POP operator data
             if uri.startswith("/pop_inspect") and method == "GET":
@@ -425,6 +425,11 @@ class TouchDesignerAPI:
     def _handle_info(self, response: dict) -> dict:
         """Handle GET /info request — return TD build info."""
         try:
+            # Real TouchDesigner properties live on the `app` global:
+            #   app.build    → "2025.32460"
+            #   app.product  → "TouchDesigner"
+            #   app.osName   → "Windows" (app.osVersion for the full version)
+            # Note: app.version returns the legacy "099" string and is not useful.
             info = {
                 "build": None,
                 "version": None,
@@ -433,28 +438,40 @@ class TouchDesignerAPI:
                 "release": None,
             }
             try:
-                info["build"] = str(tdu.Build)  # type: ignore
+                info["build"] = str(app.build)  # type: ignore
             except:
                 pass
             try:
-                info["version"] = str(tduVersion)  # type: ignore
+                # Legacy field: kept for backwards compatibility, but app.build
+                # above is the authoritative build string.
+                info["version"] = str(getattr(app, "version", "")) or None  # type: ignore
             except:
                 pass
             try:
-                info["commercial"] = tdu.Commercial  # type: ignore
+                info["product"] = str(getattr(app, "product", "")) or None  # type: ignore
             except:
                 pass
             try:
-                info["platform"] = str(tdu.Platform.PC64)  # type: ignore
+                # Non-commercial / educational builds report app.commercial as 0.
+                info["commercial"] = bool(getattr(app, "commercial", None))  # type: ignore
             except:
                 pass
             try:
-                info["release"] = str(tdu.Release)  # type: ignore
+                info["platform"] = str(getattr(app, "osName", "")) or None  # type: ignore
+            except:
+                pass
+            try:
+                info["osVersion"] = str(getattr(app, "osVersion", "")) or None  # type: ignore
+            except:
+                pass
+            try:
+                # Build release/stream, e.g. "official" or "experimental".
+                info["release"] = str(getattr(app, "releaseType", "")) or None  # type: ignore
             except:
                 pass
             # Add project info
             try:
-                info["projectPath"] = project.path if hasattr(project, 'path') else None  # type: ignore
+                info["projectPath"] = project.filePath if hasattr(project, 'filePath') else None  # type: ignore
                 info["projectFPS"] = project.cookRate if hasattr(project, 'cookRate') else None  # type: ignore
             except:
                 pass
@@ -1315,9 +1332,81 @@ print(json.dumps({{
     # POST /screenshot
     # =========================================================================
 
-    def _handle_screenshot_post(self, response: dict) -> dict:
-        """Save a frame from TOP output and return as base64 image."""
-        code = r"""import json, tempfile, base64, os, io
+    def _handle_screenshot_post(self, request: dict, response: dict) -> dict:
+        """Save a frame from a TOP output and return as base64 image.
+
+        Accepts an optional JSON body {"path": "...", "maxSize": N}. When
+        `path` is provided, that exact operator is captured — previously the
+        body was ignored, so a valid TOP path still answered
+        "No TOP output found". Without `path`, falls back to the
+        active pane's selected/current TOP heuristic.
+        """
+        body = {}
+        try:
+            raw = request.get("data", "") or ""
+            if isinstance(raw, bytes):
+                raw = raw.decode("utf-8")
+            body = json.loads(raw) if raw else {}
+        except Exception:
+            body = {}
+        if not isinstance(body, dict):
+            body = {}
+
+        body_path = body.get("path")
+        try:
+            ms = int(body.get("maxSize") or body.get("max_size") or 0)
+        except (TypeError, ValueError):
+            ms = 0
+        if ms > 0:
+            img_code = f"""with open(tf, 'rb') as f:
+                img_data = f.read()
+            try:
+                from PIL import Image as PILImage
+            except ImportError:
+                PILImage = None
+            if PILImage is not None:
+                pil_img = PILImage.open(io.BytesIO(img_data))
+                w, h = pil_img.size
+                if w > {ms} or h > {ms}:
+                    if w >= h:
+                        new_w = {ms}; new_h = int(h * {ms} / w)
+                    else:
+                        new_h = {ms}; new_w = int(w * {ms} / h)
+                    pil_img = pil_img.resize((new_w, new_h), PILImage.LANCZOS)
+                    buf = io.BytesIO()
+                    pil_img.save(buf, format='PNG')
+                    b64 = base64.b64encode(buf.getvalue()).decode()
+                else:
+                    b64 = base64.b64encode(img_data).decode()
+            else:
+                b64 = base64.b64encode(img_data).decode()"""
+        else:
+            img_code = """with open(tf, 'rb') as f:
+                img_data = f.read()
+            b64 = base64.b64encode(img_data).decode()"""
+
+        if body_path:
+            # Explicit operator path requested: capture exactly that operator.
+            requested = str(body_path).replace("\\", "\\\\").replace("'", "\\'")
+            code = f"""import json, tempfile, base64, os, io
+try:
+    t = op('{requested}')
+    if t is None:
+        print(json.dumps({{'success': False, 'error': 'Operator not found: {requested}'}}))
+    else:
+        tf = tempfile.NamedTemporaryFile(suffix='.png', delete=False).name
+        try:
+            t.save(tf)
+            {img_code}
+            print(json.dumps({{'success': True, 'path': t.path, 'name': t.name, 'type': t.OPType, 'image': b64, 'format': 'png'}}))
+        finally:
+            try: os.unlink(tf)
+            except: pass
+except Exception as e:
+    print(json.dumps({{'success': False, 'path': '{requested}', 'error': str(e)}}))
+"""
+        else:
+            code = r"""import json, tempfile, base64, os, io
 
 try:
     # Attempt to capture from the current pane's active TOP
@@ -3088,7 +3177,28 @@ else:
         try:
             payload = json.loads(request.get("data", "") or "{}")
             path = payload.get("path", "/")
-            updates = payload.get("updates", [])
+            updates = payload.get("updates")
+            if updates is None:
+                # Accept the documented shorthand form:
+                #   {"path": ..., "params": {name: value}}
+                # and normalize it to the updates array form.
+                params = payload.get("params")
+                if isinstance(params, dict):
+                    updates = [
+                        {"name": str(name), "value": value}
+                        for name, value in params.items()
+                    ]
+                elif isinstance(params, list):
+                    updates = params
+                else:
+                    updates = []
+            if not isinstance(updates, list) or not updates:
+                # Fail loudly instead of returning an empty success.
+                raise ValueError(
+                    "No parameter updates to apply: expected non-empty "
+                    "'updates' array ({name, value?, expr?}) or 'params' "
+                    "dict ({name: value})"
+                )
             transactional = bool(payload.get("transactional", True))
 
             target = op(path)  # type: ignore

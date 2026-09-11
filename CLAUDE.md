@@ -57,7 +57,10 @@ op('/project1/noise1').par.amp = 0.5
 
 # Batch (preferred):
 POST /parameters/set
-{"path": "/project1/noise1", "params": {"amp": 0.5, "freq": 10}}
+{"path": "/project1/noise1", "updates": [{"name": "amp", "value": 0.5}, {"name": "freq", "value": 10}]}
+# Shorthand also accepted:
+# {"path": "/project1/noise1", "params": {"amp": 0.5, "freq": 10}}
+# Empty/missing updates or params → explicit 400 error (never a silent empty success)
 ```
 
 ## Error Checking Pattern

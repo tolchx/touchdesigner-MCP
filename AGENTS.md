@@ -23,7 +23,7 @@ GET http://localhost:44444/verify?path=/project1
 - `GET /audit/performance` — slowest ops
 
 ### Write
-- `POST /parameters/set {"path":..., "params":{...}}` — batch set params
+- `POST /parameters/set {"path":..., "updates":[...]}` — batch set params (also accepts `{"path":..., "params":{name: value}}`; returns explicit error if nothing can be applied)
 - `POST /exec {"code":"..."}` — execute Python in TD
 - `POST /screenshot` — capture viewer image
 
@@ -42,7 +42,11 @@ GET http://localhost:44444/verify?path=/project1
 9. **Python 3.9 in TD**: No `str | None` union type syntax — use `Optional[str]` or omit type hints
 10. **GLSL POP requires**: `boxPOP` source (NOT SOP), `outputattrs='P'`, `uniform float u_time;` declared manually
 11. **Parameter names**: use `.eval()` names (e.g. `amp` not "Amplitude") — read with `/parameters` first
-12. **Connections after multi-output**: compositeTOP has inputs [0]=top A, [1]=top B, [2]=top C — use `connect(dst, input_index)`
+12. **Multi-input wiring** (verified on 2025.32460 — `connect(dst, input_index)` FAILS with "Invalid number or type of arguments", both for POPs and TOPs):
+    - Input 0 / dynamic inputs: `src.outputConnectors[0].connect(dst)`
+    - Indexed input (operator already has several connectors, e.g. copyPOP): `src.outputConnectors[0].connect(dst.inputConnectors[i])`
+    - mergePOP and compositeTOP have **dynamic inputs**: they start with 1 connector and add one per connection (measured live: 1 → 2 → 3)
+    - copyPOP has 2 fixed inputs: [0]=geometry, [1]=template
 13. **7 operator families**: COMP (🔵), TOP (🟢), CHOP (🟡), SOP (🟠), POP (🔴), DAT (🟣), MAT (⚪) — see `mcp_reference/OPERATOR_FAMILIES.md`
 14. **COMP and MAT exist!**: COMPs (baseCOMP, geometryCOMP, etc.) son contenedores de redes; MATs (phongMAT, pbrMAT, glslMAT, etc.) son materiales asignados a geometryCOMP
 

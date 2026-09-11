@@ -374,14 +374,17 @@ class TestCallToolCodeInjection(unittest.TestCase):
     # ── set_td_parameters ───────────────────────────────────────────────
 
     def test_set_td_parameters_calls_http_post(self):
-        """set_td_parameters should call _http_post with path and params."""
+        """set_td_parameters should call _http_post with path and updates array."""
         result = stdio._call_tool("set_td_parameters", {
             "path": "/project1/noise1",
             "params": {"amp": 0.5, "type": "simplex"},
         })
         self.mock_post.assert_called_once_with("/parameters/set", {
             "path": "/project1/noise1",
-            "params": {"amp": 0.5, "type": "simplex"},
+            "updates": [
+                {"name": "amp", "value": 0.5},
+                {"name": "type", "value": "simplex"},
+            ],
         })
         self.assertEqual(result, {"output": "(ok)"})
 
@@ -390,7 +393,7 @@ class TestCallToolCodeInjection(unittest.TestCase):
         stdio._call_tool("set_td_parameters", {"path": "/project1/noise1", "params": {}})
         self.mock_post.assert_called_once()
         args, _ = self.mock_post.call_args
-        self.assertEqual(args[1]["params"], {})
+        self.assertEqual(args[1]["updates"], [])
 
     # ── get_td_spatial_context ──────────────────────────────────────────
 
@@ -551,6 +554,50 @@ class TestHandleCallTool(unittest.TestCase):
         text = result["content"][0]["text"]
         self.assertIn("output", text)
         self.assertIn("(ok)", text)
+
+    @patch.object(stdio, '_call_tool')
+    def test_error_from_call_tool_returns_isError(self, mock_call):
+        """When _call_tool returns a dict with 'error' key, _handle_call_tool
+        should return isError: true (covers L334 in mcp_server_stdio.py)."""
+        mock_call.return_value = {"error": "Connection refused"}
+        result = stdio._handle_call_tool({
+            "name": "get_td_nodes",
+            "arguments": {"path": "/project1"},
+        })
+        self.assertIn("isError", result)
+        self.assertTrue(result["isError"])
+        self.assertIn("content", result)
+        # The error dict should be serialized as JSON in the text
+        text = result["content"][0]["text"]
+        self.assertIn("Connection refused", text)
+        self.assertIn("error", text)
+
+    @patch.object(stdio, '_call_tool')
+    def test_error_from_call_tool_serializes_full_dict(self, mock_call):
+        """When _call_tool returns an error dict, the full dict should be
+        serialized in the response text."""
+        mock_call.return_value = {"error": "Timeout", "code": 504}
+        result = stdio._handle_call_tool({
+            "name": "execute_td_python",
+            "arguments": {"code": "import time; time.sleep(100)"},
+        })
+        self.assertTrue(result["isError"])
+        text = result["content"][0]["text"]
+        # Full dict should be serialized with indent=2
+        self.assertIn("Timeout", text)
+        self.assertIn("504", text)
+
+    @patch.object(stdio, '_call_tool')
+    def test_error_dict_with_output_key_not_treated_as_error(self, mock_call):
+        """A dict with 'output' key should NOT be treated as an error,
+        even if it also has other keys."""
+        mock_call.return_value = {"output": "(ok)", "warnings": ["minor"]}
+        result = stdio._handle_call_tool({
+            "name": "execute_td_python",
+            "arguments": {"code": "print('hello')"},
+        })
+        self.assertNotIn("isError", result)
+        self.assertIn("content", result)
 
 
 # ═══════════════════════════════════════════════════════════════════════════
