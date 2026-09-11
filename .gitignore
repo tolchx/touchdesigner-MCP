@@ -21,3 +21,8 @@ tests/add_*.py
 coverage_html/
 .coverage
 .coverage.*
+# Freebuff agent artifacts (runtime, no van al repo)
+.freebuff/
+.freebuff_tasks/
+.freebuff_prompt.txt
+*.bak

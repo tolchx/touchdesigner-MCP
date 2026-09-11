@@ -41,9 +41,21 @@ Conecta Inteligencia Artificial con TouchDesigner usando el Model Context Protoc
 ### 📚 Base de conocimiento local (sin TD)
 - **630+ operadores** TOP, CHOP, SOP, DAT, POP documentados localmente.
 - Búsqueda fuzzy con scoring inteligente (exacto, prefijo, substring, levenshtein) para sugerir operadores.
-- Mapeo preciso y referencia de parámetros POP validados contra TD real.
+- **POPs validados de punta a punta** ([detalle](docs/POPs_KNOWLEDGE.md)): **101 operadores POP** probados en vivo en TouchDesigner 2025.32460 y cruzados contra la [wiki oficial de Derivative](https://docs.derivative.ca/Category:POPs) (106 páginas). De **1916 parámetros documentados**, **1609 están confirmados en el build** y **296 quedan marcados como drift** (documentados pero inexistentes en este build — no usarlos sin probar).
+- **1120 patrones de conexión POP→POP** y **80 cadenas** minados de 102 proyectos `.toe` descomprimidos a texto plano, con el uso real de cada parámetro ([patrones](docs/POPs_KNOWLEDGE.md)).
+- **62 shaders GLSL POP** indexados con su código.
+- Validación de parámetros antes de escribir: el MCP rechaza nombres inexistentes con sugerencias en lugar de fallar en silencio.
 - **609 clases de la API de Python** documentadas offline.
-- **1000+ unit tests offline** nativos de Node.js que garantizan que el MCP se ejecute de forma robusta e independiente de TD.
+- **1155 tests offline** nativos de Node.js que garantizan que el MCP se ejecute de forma robusta e independiente de TD.
+
+### 📑 Documentación técnica
+| Documento | Contenido |
+|---|---|
+| [`docs/POPs_KNOWLEDGE.md`](docs/POPs_KNOWLEDGE.md) | Base de conocimiento POP completa (params reales, patrones, GLSL) |
+| [`docs/POPs_VALIDATION.md`](docs/POPs_VALIDATION.md) | Cruce POP build ↔ wiki oficial, con el drift detectado |
+| [`docs/POPs_CORRECTIONS.md`](docs/POPs_CORRECTIONS.md) | Correcciones verificadas en vivo (contratos de API, cableado multi-input) |
+| [`docs/API_CONTRACT_AUDIT.md`](docs/API_CONTRACT_AUDIT.md) | Auditoría de contratos de todos los endpoints del bridge HTTP |
+| [`AGENTS.md`](AGENTS.md) | Reglas para agentes que operan TD vía este MCP |
 
 ### 🎓 Contenido educativo
 - **15 tutoriales interactivos** — desde beginner hasta nivel experto.
@@ -380,7 +392,7 @@ node server.js
 
 ### Node.js — Offline tests
 ```bash
-# Suite de unit/integration tests offline (1000+ tests nativos)
+# Suite de unit/integration tests offline (1155 tests nativos, 0 fallos)
 node --test mcp/test/*.test.js
 
 # Smoke test offline (tools locales)
