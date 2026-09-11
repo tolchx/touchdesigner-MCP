@@ -27,3 +27,9 @@ coverage_html/
 .freebuff_prompt.txt
 *.bak
 toe/TDImportCache/
+
+# runners locales generados por el agente (rutas absolutas de esta máquina)
+/run_orchestrator.cjs
+/run_contract_test.cjs
+/run_contract_test.js
+/inspect_pop_scripts.cjs
