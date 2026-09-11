@@ -1,0 +1,440 @@
+{
+ "source": "empírico + repositorio",
+ "count": 62,
+ "shaders": [
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/circle_distribution.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 47,
+   "code": "// ============================================\n// Circle Distribution - GLSL POP para TouchDesigner\n// Fuente: fullscreencode.com/ejemplosshaders/ Cap 4\n// Descripción: Puntos distribuidos en círculo con variación\n// ============================================\n\n#version 430\nlayout(local_size_x = 64, local_size_y = 1, local_size_z = 1) in;\n\n#define PI 3.14159265359\n\nuniform float u_time;\nuniform int uNumPoints;\nuniform float u_radius;      // Radio base (default: 1.0)\nuniform float u_waves;       // Number de ondas (default: 20.0)\n\nvec3 hsb2rgb(vec3 c) {\n    vec3 rgb = clamp(abs(mod(c.x * 6.0 + vec3(0.0, 4.0, 2.0), 6.0) - 3.0) - 1.0, 0.0, 1.0);\n    rgb = rgb * rgb * (3.0 - 2.0 * rgb);\n    return c.z * mix(vec3(1.0), rgb, c.y);\n}\n\nvoid main() {\n    uint id = TDIndex();\n    if (id >= uNumPoints) return;\n    \n    float t = float(id) / float(uNumPoints - 1);\n    \n    // Ángulo base + rotación temporal\n    float angle = t * 2.0 * PI + u_time * 0.5;\n    \n    // Radio con variación ondulada\n    float radius = u_radius + sin(t * u_waves + u_time * 2.0) * 0.2;\n    \n    // Posición en círculo\n    vec3 pos;\n    pos.x = cos(angle) * radius;\n    pos.y = sin(angle) * radius;\n    pos.z = 0.0;\n    \n    P[id] = pos;\n    \n    // Color basado en posición angular\n    vec3 color = hsb2rgb(vec3(t, 0.8, 0.9));\n    Cd[id] = vec4(color, 1.0);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/color.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 5,
+   "code": "void main(){\n  const uint id = TDIndex();\n  if(id >= TDNumElements()) return;\n  Cd[id] = vec4(TDIn_P(0,id)*0.5+0.5, 1.0);\n}"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/explosion.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 19,
+   "code": "\nuniform float u_time;\nvoid main(){\n    const uint id = TDIndex();\n    if(id >= TDNumElements()) return;\n    vec3 p = TDIn_P(0, id);\n    // Explosion: push points outward from center over time\n    float dist = length(p);\n    float force = sin(u_time * 1.5) * 0.5 + 0.5;\n    vec3 dir = normalize(p + 0.001);\n    float push = force * 2.0 + sin(dist * 2.0 - u_time * 3.0) * 0.3;\n    p += dir * push;\n    // Spiral rotation\n    float a = u_time * 0.5 + dist * 0.3;\n    float ct = cos(a), st = sin(a);\n    p.xz = mat2(ct, -st, st, ct) * p.xz;\n    P[id] = p;\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/extreme_extraout.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 22,
+   "code": "// Extreme: glsladvancedPOP extra output (extraout + extraout0name)\n// Variable: GLSL_EXTRAOUT_SHADER\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// glsladvancedPOP with extra output - custom velocity attribute\nuniform float u_time;\nvoid main() {\n    uint id = TDIndex();\n    if (id >= TDNumElements()) return;\n    vec3 pos = TDIn_P(0, id);\n    float angle = atan(pos.z, pos.x) + u_time * 0.3;\n    float rad = length(pos.xz);\n    pos.x = cos(angle) * rad;\n    pos.z = sin(angle) * rad;\n    pos.y += sin(u_time + id * 0.01) * 0.1;\n    P[id] = pos;\n    Cd[id] = vec4(pos.y * 0.3 + 0.5, 0.6, 1.0 - pos.y * 0.3, 1.0);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/extreme_multipass_blur.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 23,
+   "code": "// Extreme: Multi-pass progressive blur (glslTOP, npasses=4)\n// Variable: GLSL_MULTIPASS_SHADER\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Multi-pass GLSL TOP - progressive blur using npasses\nout vec4 fragColor;\nvoid main() {\n    vec2 res = uTD2DInfos[0].res.zw;\n    vec4 sum = vec4(0.0);\n    for (int x = -1; x <= 1; x++) {\n        for (int y = -1; y <= 1; y++) {\n            vec2 offset = vec2(float(x), float(y)) * res;\n            sum += texture(sTD2DInputs[0], vUV.st + offset);\n        }\n    }\n    vec4 color = sum / 9.0;\n    color.g += 0.02;\n    fragColor = TDOutputSwizzle(color);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/extreme_prim_compute.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 19,
+   "code": "// Extreme: glsladvancedPOP primitive compute (glsladvancedPOP)\n// Variable: GLSL_PRIM_SHADER\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// glsladvancedPOP primitive compute - color by normal direction\nuniform float u_time;\nvoid main() {\n    uint id = TDIndex();\n    if (id >= TDNumElements()) return;\n    vec3 pos = TDIn_P(0, id);\n    float wave = sin(u_time + pos.x * 3.0 + pos.y * 2.0) * 0.1;\n    P[id] = pos + vec3(0.0, wave, 0.0);\n    vec3 n = normalize(pos + vec3(0.001));\n    Cd[id] = vec4(n * 0.5 + 0.5, 1.0);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/extreme_vertex_shader.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 18,
+   "code": "// Extreme: GLSL TOP vertex shader - wave deformation (glslTOP vertexdat)\n// Variable: GLSL_VERTEX_SHADER\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// GLSL TOP vertex shader - wave deformation of geometry\nuniform float u_time;\nvoid main() {\n    vec4 pos = P;\n    pos.y += sin(u_time * 2.0 + pos.x * 5.0 + pos.z * 3.0) * 0.15;\n    pos.x += cos(u_time * 1.5 + pos.z * 4.0) * 0.08;\n    gl_Position = TDWorldToProj(TDModelToWorld(pos));\n    uv = uvable;\n    color = CD;\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/fountain.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 6,
+   "code": "void main(){\n  const uint id = TDIndex();\n  if(id >= TDNumElements()) return;\n  float a = float(id)*0.1 + u_time*2.0;\n  P[id] = vec3(sin(a)*2.0, cos(a*0.5)*2.0+2.0, 0.0);\n}"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/fountain2.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 13,
+   "code": "\nuniform float u_time;\nvoid main(){\n    const uint id = TDIndex();\n    if(id >= TDNumElements()) return;\n    float a = float(id) * 0.05 + u_time * 2.0;\n    float r = 0.5 + sin(float(id) * 0.3 + u_time) * 0.3;\n    float x = cos(a) * r * (1.0 + sin(u_time * 0.7) * 0.3);\n    float z = sin(a) * r * (1.0 + cos(u_time * 0.5) * 0.3);\n    float y = 2.0 + sin(float(id) * 0.1 + u_time * 1.5) * 1.5 - abs(sin(u_time * 0.3)) * 3.0;\n    P[id] = vec3(x, y + 2.0, z);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/fractal_displacement.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 63,
+   "code": "// ============================================\n// Fractal Displacement - GLSL POP para TouchDesigner\n// Fuente: fullscreencode.com/ejemplosshaders/ Cap 11\n// Descripción: Desplazamiento con fractal Julia\n// ============================================\n\n#version 430\nlayout(local_size_x = 64, local_size_y = 1, local_size_z = 1) in;\n\nuniform float u_time;\nuniform int uNumPoints;\nuniform float u_fractal_scale;  // Escala del fractal (default: 1.5)\nuniform vec2 u_julia_c;         // Parámetro Julia (default: vec2(-0.7, 0.27015))\n\nvec2 cmul(vec2 a, vec2 b) {\n    return vec2(a.x * b.x - a.y * b.y, a.x * b.y + a.y * b.x);\n}\n\nvec3 hsb2rgb(vec3 c) {\n    vec3 rgb = clamp(abs(mod(c.x * 6.0 + vec3(0.0, 4.0, 2.0), 6.0) - 3.0) - 1.0, 0.0, 1.0);\n    rgb = rgb * rgb * (3.0 - 2.0 * rgb);\n    return c.z * mix(vec3(1.0), rgb, c.y);\n}\n\nvoid main() {\n    uint id = TDIndex();\n    if (id >= uNumPoints) return;\n    \n    vec3 pos = TDIn_P(0, id);\n    \n    // Mapear posición a plano complejo\n    vec2 c = pos.xy * u_fractal_scale;\n    vec2 z = vec2(0.0);\n    \n    // Parámetro Julia animado\n    vec2 juliaC = vec2(\n        u_julia_c.x + sin(u_time * 0.2) * 0.1,\n        u_julia_c.y + cos(u_time * 0.3) * 0.1\n    );\n    \n    // Iteraciones del fractal\n    float iter = 0.0;\n    const int MAX_ITER = 20;\n    for (int i = 0; i < MAX_ITER; i++) {\n        z = cmul(z, z) + juliaC;\n        if (dot(z, z) > 4.0) break;\n        iter += 1.0;\n    }\n    \n    // Normalizar iteraciones\n    float t = iter / float(MAX_ITER);\n    \n    // Color basado en fractal\n    vec3 color = hsb2rgb(vec3(t + u_time * 0.1, 0.8, 0.9));\n    \n    // Desplazar puntos según fractal\n    pos.z += t * 2.0 - 1.0;\n    pos.xy += z * 0.1;\n    \n    P[id] = pos;\n    Cd[id] = vec4(color, 1.0);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/generative_pattern.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 98,
+   "code": "// ============================================\n// Generative Pattern - GLSL POP para TouchDesigner\n// Fuente: fullscreencode.com/ejemplosshaders/ Cap 10\n// Descripción: Patrón generativo con ruido simplex\n// ============================================\n\n#version 430\nlayout(local_size_x = 64, local_size_y = 1, local_size_z = 1) in;\n\n// #include \"util_noise.glsl\" // Descomentar si TD encuentra el include\n\nuniform float u_time;\nuniform int uNumPoints;\n\n// Simplex noise fallback (si include no está disponible)\nvec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }\nvec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }\nvec4 permute(vec4 x) { return mod289(((x*34.0)+1.0)*x); }\nvec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }\n\nfloat snoise(vec3 v) {\n    const vec2 C = vec2(1.0/6.0, 1.0/3.0);\n    const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);\n    vec3 i = floor(v + dot(v, C.yyy));\n    vec3 x0 = v - i + dot(i, C.xxx);\n    vec3 g = step(x0.yzx, x0.xyz);\n    vec3 l = 1.0 - g;\n    vec3 i1 = min(g.xyz, l.zxy);\n    vec3 i2 = max(g.xyz, l.zxy);\n    vec3 x1 = x0 - i1 + C.xxx;\n    vec3 x2 = x0 - i2 + C.yyy;\n    vec3 x3 = x0 - D.yyy;\n    i = mod289(i);\n    vec4 p = permute(permute(permute(\n        i.z + vec4(0.0, i1.z, i2.z, 1.0))\n        + i.y + vec4(0.0, i1.y, i2.y, 1.0))\n        + i.x + vec4(0.0, i1.x, i2.x, 1.0));\n    float n_ = 0.142857142857;\n    vec3 ns = n_ * D.wyz - D.xzx;\n    vec4 j = p - 49.0 * floor(p * ns.z * ns.z);\n    vec4 x_ = floor(j * ns.z);\n    vec4 y_ = floor(j - 7.0 * x_);\n    vec4 x = x_ *ns.x + ns.yyyy;\n    vec4 y = y_ *ns.x + ns.yyyy;\n    vec4 h = 1.0 - abs(x) - abs(y);\n    vec4 b0 = vec4(x.xy, y.xy);\n    vec4 b1 = vec4(x.zw, y.zw);\n    vec4 s0 = floor(b0)*2.0 + 1.0;\n    vec4 s1 = floor(b1)*2.0 + 1.0;\n    vec4 sh = -step(h, vec4(0.0));\n    vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy;\n    vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww;\n    vec3 p0 = vec3(a0.xy,h.x);\n    vec3 p1 = vec3(a0.zw,h.y);\n    vec3 p2 = vec3(a1.xy,h.z);\n    vec3 p3 = vec3(a1.zw,h.w);\n    vec4 norm = taylorInvSqrt(vec4(dot(p0,p0),dot(p1,p1),dot(p2,p2),dot(p3,p3)));\n    p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;\n    vec4 m = max(0.6 - vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)), 0.0);\n    m = m * m;\n    return 42.0 * dot(m*m, vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));\n}\nuniform float u_noise_scale;   // Escala del ruido (default: 2.0)\nuniform float u_displacement;  // Fuerza de desplazamiento (default: 0.3)\n\nvoid main() {\n    uint id = TDIndex();\n    if (id >= uNumPoints) return;\n    \n    vec3 pos = TDIn_P(0, id);\n    \n    // Coordenadas para ruido\n    vec3 noisePos = pos * u_noise_scale + u_time * 0.3;\n    \n    // Múltiples capas de ruido (fractal noise / FBM)\n    float n = 0.0;\n    n += snoise(noisePos * 1.0) * 0.5;\n    n += snoise(noisePos * 2.0) * 0.25;\n    n += snoise(noisePos * 4.0) * 0.125;\n    \n    // Aplicar desplazamiento orgánico\n    pos += vec3(\n        n * u_displacement,\n        snoise(noisePos + 100.0) * u_displacement,\n        snoise(noisePos + 200.0) * u_displacement * 0.5\n    );\n    \n    P[id] = pos;\n    \n    // Color basado en ruido\n    vec3 color = vec3(\n        n * 0.5 + 0.5,\n        snoise(noisePos + 50.0) * 0.5 + 0.5,\n        snoise(noisePos + 150.0) * 0.5 + 0.5\n    );\n    Cd[id] = vec4(color, 1.0);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/grid_pattern.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 45,
+   "code": "// ============================================\n// Grid Pattern - GLSL POP para TouchDesigner\n// Fuente: fullscreencode.com/ejemplosshaders/ Cap 6\n// Descripción: Puntos distribuidos en grilla con patrón\n// ============================================\n\n#version 430\nlayout(local_size_x = 64, local_size_y = 1, local_size_z = 1) in;\n\nuniform float u_time;\nuniform int uNumPoints;\nuniform float u_grid_size;   // Tamaño de la grilla (default: 10.0)\nuniform float u_wave_amp;    // Amplitud de onda (default: 0.1)\n\nvoid main() {\n    uint id = TDIndex();\n    if (id >= uNumPoints) return;\n    \n    // Convertir índice a posición 2D en grilla\n    float gridSize = ceil(sqrt(float(uNumPoints)));\n    float x = mod(float(id), gridSize);\n    float y = floor(float(id) / gridSize);\n    \n    // Normalizar a [-1, 1]\n    vec2 uv = vec2(x, y) / (gridSize - 1.0) * 2.0 - 1.0;\n    \n    // Patrón basado en distancia al centro\n    float d = length(uv);\n    float pattern = smoothstep(0.8, 0.2, d);\n    \n    // Animación\n    uv += sin(u_time + d * 3.0) * u_wave_amp;\n    \n    vec3 pos = vec3(uv, 0.0);\n    P[id] = pos;\n    \n    // Color por patrón\n    vec3 color = vec3(\n        pattern,\n        uv.x * 0.5 + 0.5,\n        uv.y * 0.5 + 0.5\n    );\n    Cd[id] = vec4(color, 1.0);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/movement.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 20,
+   "code": "\nuniform float u_time;\nvoid main(){\n    const uint id = TDIndex();\n    if(id >= TDNumElements()) return;\n    vec3 p = TDIn_P(0, id);\n    float speed = u_time * 0.5;\n    // Orbital movement around Y axis\n    float angle = atan(p.z, p.x) + speed;\n    float rad = length(p.xz);\n    p.x = cos(angle) * rad;\n    p.z = sin(angle) * rad;\n    // Breathing scale\n    float breathe = 1.0 + sin(u_time * 1.5 + p.y * 0.5) * 0.15;\n    p *= breathe;\n    // Wave displacement on Y\n    p.y += sin(p.x * 3.0 + u_time * 2.0) * 0.2;\n    P[id] = p;\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/noise.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 6,
+   "code": "void main(){\n  const uint id = TDIndex();\n  if(id >= TDNumElements()) return;\n  float n = TDSimplexNoise(vec4(TDIn_P(0,id)*0.5, u_time*0.3));\n  P[id] = TDIn_P(0,id) + TDIn_N(0,id) * n * 0.4;\n}"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/pop_01_wave.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 17,
+   "code": "// 10 Bases: Sinusoidal wave displacement (glslPOP)\n// Variable: GLSL_WAVE\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Base 01: Sinusoidal wave displacement\nuniform float u_time;\nvoid main() {\n    uint id = TDIndex();\n    vec3 pos = TDIn_P(0, id);\n    float wave = sin(pos.x * 3.0 + pos.z * 2.0 + u_time * 1.5) * 0.15;\n    float wave2 = cos(pos.z * 2.5 + pos.x * 1.8 + u_time * 1.2) * 0.1;\n    P[id] = pos + vec3(wave2, wave, wave * 0.5);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/pop_02_color_distance.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 20,
+   "code": "// 10 Bases: Color by distance (glsladvancedPOP)\n// Variable: GLSL_COLOR_DISTANCE\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Base 02: Color by distance from origin\nuniform float u_time;\nvoid main() {\n    uint id = TDIndex();\n    vec3 pos = TDIn_P(0, id);\n    float d = length(pos);\n    P[id] = pos;\n    Cd[id] = vec4(\n        sin(d * 2.0 + u_time) * 0.5 + 0.5,\n        cos(d * 1.5 + u_time * 0.7) * 0.5 + 0.5,\n        1.0 - d * 0.3, 1.0);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/pop_03_spiral.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 23,
+   "code": "// 10 Bases: Spiral vortex displacement (glsladvancedPOP)\n// Variable: GLSL_SPIRAL\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Base 03: Spiral vortex displacement\nuniform float u_time;\nvoid main() {\n    uint id = TDIndex();\n    vec3 pos = TDIn_P(0, id);\n    float angle = atan(pos.z, pos.x) + u_time * 0.8;\n    float rad = length(pos.xz);\n    float spiral = sin(rad * 4.0 - u_time * 3.0) * 0.15;\n    pos.x = cos(angle) * rad;\n    pos.z = sin(angle) * rad;\n    pos.y += spiral;\n    P[id] = pos;\n    Cd[id] = vec4(sin(angle + u_time) * 0.5 + 0.5, rad * 0.3,\n        cos(angle - u_time) * 0.5 + 0.5, 1.0);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/pop_04_noise.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 19,
+   "code": "// 10 Bases: Noise turbulence displacement (glslPOP)\n// Variable: GLSL_NOISE\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Base 04: Noise turbulence displacement\nuniform float u_time;\nvoid main() {\n    uint id = TDIndex();\n    vec3 pos = TDIn_P(0, id);\n    float n1 = TDSimplexNoise(vec4(pos * 2.0, u_time * 0.5));\n    float n2 = TDSimplexNoise(vec4(pos * 4.0 + 100.0, u_time * 0.3));\n    float n3 = TDSimplexNoise(vec4(pos * 8.0 + 200.0, u_time * 0.2));\n    float turbulence = n1 * 0.5 + n2 * 0.3 + n3 * 0.2;\n    P[id] = pos + vec3(n1, n2, n3) * 0.2 * turbulence;\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/pop_05_feedback.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 20,
+   "code": "// 10 Bases: Feedback-aware displacement (glslPOP + feedbackPOP)\n// Variable: GLSL_FEEDBACK\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Base 05: Feedback-aware displacement\n// feedbackPOP.inputmul controls temporal blending\nuniform float u_time;\nvoid main() {\n    uint id = TDIndex();\n    vec3 pos = TDIn_P(0, id);\n    float drift = sin(u_time * 0.4 + pos.x * 2.0 + pos.z * 1.5) * 0.06;\n    float drift2 = cos(u_time * 0.3 + pos.y * 1.8 + pos.x * 2.2) * 0.05;\n    pos.x += drift; pos.z += drift2;\n    pos.y += sin(u_time * 0.2 + id * 0.003) * 0.03;\n    P[id] = pos;\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/pop_06_multipass.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 19,
+   "code": "// 10 Bases: Multi-pass iterative displacement (glslPOP, npasses=4)\n// Variable: GLSL_MULTIPASS\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Base 06: Multi-pass iterative displacement\nuniform float u_time;\nvoid main() {\n    uint id = TDIndex();\n    vec3 pos = TDIn_P(0, id);\n    float amp = 0.12 / float(uTDPass + 1);\n    float wave = sin(pos.x * 5.0 + pos.z * 3.0 + u_time + float(uTDPass) * 1.5) * amp;\n    pos.y += wave;\n    pos.x += cos(pos.z * 4.0 + u_time * 0.8 + float(uTDPass) * 1.2) * amp * 0.5;\n    P[id] = pos;\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/pop_07_fractal.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 22,
+   "code": "// 10 Bases: Fractal displacement with iterative noise (glslPOP)\n// Variable: GLSL_FRACTAL\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Base 07: Fractal displacement (iterative noise)\nuniform float u_time;\nvoid main() {\n    uint id = TDIndex();\n    vec3 pos = TDIn_P(0, id);\n    float amp = 0.2; float freq = 1.0;\n    vec3 offset = vec3(0.0);\n    for (int i = 0; i < 5; i++) {\n        float n = TDSimplexNoise(vec4(pos * freq + offset, u_time * 0.3));\n        offset += vec3(n * amp, n * amp * 0.5, n * amp * 0.7);\n        amp *= 0.5; freq *= 2.0;\n    }\n    P[id] = pos + offset;\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/pop_08_attractor.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 24,
+   "code": "// 10 Bases: Attraction field with const params (glsladvancedPOP)\n// Variable: GLSL_ATTRACTOR\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Base 08: Attraction field toward center\n// u_strength is set via TD const params (const0name/const0value)\nuniform float u_time;\nuniform float u_strength;\nvoid main() {\n    uint id = TDIndex();\n    vec3 pos = TDIn_P(0, id);\n    vec3 center = vec3(0.0, sin(u_time * 0.5) * 0.3, 0.0);\n    vec3 dir = center - pos;\n    float dist = length(dir);\n    vec3 norm_dir = dist > 0.001 ? dir / dist : vec3(0.0);\n    float force = u_strength / (dist * dist + 0.5);\n    vec3 orbital = vec3(-pos.z, 0.0, pos.x) * 0.3;\n    P[id] = pos + norm_dir * force * 0.05 + orbital * 0.02;\n    Cd[id] = vec4(force * 0.5, 1.0 - force * 0.3, 0.8, 1.0);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/pop_09_ripple.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 22,
+   "code": "// 10 Bases: Radial ripple wave from center (glslPOP)\n// Variable: GLSL_RIPPLE\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Base 09: Radial ripple wave from center\nuniform float u_time;\nvoid main() {\n    uint id = TDIndex();\n    vec3 pos = TDIn_P(0, id);\n    float dist = length(pos.xz);\n    float ripple1 = sin(dist * 8.0 - u_time * 4.0) * 0.08;\n    float ripple2 = cos(dist * 5.0 + u_time * 2.5) * 0.05;\n    float falloff = exp(-dist * 0.5);\n    pos.y += (ripple1 + ripple2) * falloff;\n    float pulse = sin(u_time * 1.5) * 0.1 * falloff;\n    pos.xz *= 1.0 + pulse;\n    P[id] = pos;\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/pop_10_color_cycle.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 21,
+   "code": "// 10 Bases: Color cycling animation (glsladvancedPOP)\n// Variable: GLSL_COLOR_CYCLE\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Base 10: Color cycling animation\nuniform float u_time;\nvoid main() {\n    uint id = TDIndex();\n    vec3 pos = TDIn_P(0, id);\n    float wave = sin(pos.x * 2.0 + u_time) * 0.08;\n    P[id] = pos + vec3(0.0, wave, 0.0);\n    float hue = fract(atan(pos.z, pos.x) / 6.283 + u_time * 0.1 + pos.y * 0.3);\n    float sat = 0.8 + 0.2 * sin(pos.y * 3.0);\n    float val = 0.7 + 0.3 * cos(pos.x * 2.0 + u_time * 0.5);\n    vec3 rgb = clamp(abs(mod(hue * 6.0 + vec3(0.0, 4.0, 2.0), 6.0) - 3.0) - 1.0, 0.0, 1.0);\n    Cd[id] = vec4(rgb * val * sat, 1.0);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/pop_glslcopy_hash.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 21,
+   "code": "// GlslcopyPOP: Hash-based pseudo-noise displacement\n// Variable: GLSLCOPY_COMPUTE_SHADER\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n#define G 1.0\nuniform float u_time;\nfloat hash21(vec2 p) {\n    p = fract(p * vec2(234.34, 435.345));\n    p += dot(p, p + 19.19);\n    return fract(p.x * p.y);\n}\nvoid main(){\n    uint id = TDIndex();\n    vec3 p = TDIn_P(0, id);\n    float n = hash21(p.xy + u_time * 0.1);\n    P[id] = p + n * 0.1;\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/rainbow_gradient.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 45,
+   "code": "// ============================================\n// Rainbow Gradient - GLSL POP para TouchDesigner\n// Fuente: fullscreencode.com/ejemplosshaders/ Cap 3\n// Descripción: Gradiente arcoíris con conversión HSB→RGB\n// ============================================\n\n#version 430\nlayout(local_size_x = 64, local_size_y = 1, local_size_z = 1) in;\n\nuniform float u_time;\nuniform int uNumPoints;\nuniform float u_saturation;  // Saturación (default: 0.8)\nuniform float u_brightness;  // Brillo (default: 0.9)\nuniform float u_speed;       // Velocidad (default: 0.1)\n\n// Conversión HSB a RGB (Cap 3.2)\nvec3 hsb2rgb(vec3 c) {\n    vec3 rgb = clamp(abs(mod(c.x * 6.0 + vec3(0.0, 4.0, 2.0), 6.0) - 3.0) - 1.0, 0.0, 1.0);\n    rgb = rgb * rgb * (3.0 - 2.0 * rgb);\n    return c.z * mix(vec3(1.0), rgb, c.y);\n}\n\nvoid main() {\n    uint id = TDIndex();\n    if (id >= uNumPoints) return;\n    \n    vec3 pos = TDIn_P(0, id);\n    \n    // Normalizar posición\n    float t = float(id) / float(uNumPoints - 1);\n    \n    // Hue varía con el tiempo y la posición\n    float hue = fract(t + u_time * u_speed);\n    \n    // Color arcoíris\n    vec3 color = hsb2rgb(vec3(hue, u_saturation, u_brightness));\n    \n    // Aplicar color\n    Cd[id] = vec4(color, 1.0);\n    \n    // También modificar posición ligeramente según el color\n    pos.z = sin(t * 6.28318 + u_time) * 0.3;\n    P[id] = pos;\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/simple.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 1,
+   "code": "void main(){const uint id = TDIndex(); if(id >= TDNumElements()) return; P[id] = vec3(0);}"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/sin_wave.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 45,
+   "code": "// ============================================\n// Sin Wave - GLSL POP para TouchDesigner\n// Fuente: fullscreencode.com/ejemplosshaders/ Cap 2\n// Descripción: Ondas sinusoidales sobre posición Y\n// ============================================\n\n#version 430\nlayout(local_size_x = 64, local_size_y = 1, local_size_z = 1) in;\n\nuniform float u_time;\nuniform int uNumPoints;\nuniform float u_amplitude;   // Amplitud de la onda (default: 0.5)\nuniform float u_frequency;   // Frecuencia de la onda (default: 10.0)\nuniform float u_speed;       // Velocidad de la animación (default: 1.0)\n\nvoid main() {\n    uint id = TDIndex();\n    if (id >= uNumPoints) return;\n    \n    vec3 pos = TDIn_P(0, id);\n    \n    // Mapear índice a coordenada normalizada [0, 1]\n    float t = float(id) / float(uNumPoints - 1);\n    \n    // Onda sinusoidal principal\n    float wave = sin(t * u_frequency + u_time * u_speed) * u_amplitude;\n    \n    // Ondas anidadas (Cap 2.5)\n    wave += sin(t * u_frequency * 2.0 - u_time * u_speed * 1.5) * u_amplitude * 0.3;\n    wave += sin(t * u_frequency * 0.5 + u_time * u_speed * 0.7) * u_amplitude * 0.5;\n    \n    // Aplicar al eje Y\n    pos.y = wave;\n    \n    P[id] = pos;\n    \n    // Color basado en la onda\n    vec3 color = vec3(\n        wave * 0.5 + 0.5,\n        t,\n        1.0 - t\n    );\n    Cd[id] = vec4(color, 1.0);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/spiral_points.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 50,
+   "code": "// ============================================\n// Spiral Points - GLSL POP para TouchDesigner\n// Fuente: fullscreencode.com/ejemplosshaders/ Cap 7\n// Descripción: Puntos en espiral con iteración\n// ============================================\n\n#version 430\nlayout(local_size_x = 64, local_size_y = 1, local_size_z = 1) in;\n\n#define PI 3.14159265359\n#define TAU 6.28318530718\n\nuniform float u_time;\nuniform int uNumPoints;\nuniform float u_turns;       // Vueltas de la espiral (default: 5.0)\nuniform float u_radius_max;  // Radio máximo (default: 2.0)\n\nvec3 hsb2rgb(vec3 c) {\n    vec3 rgb = clamp(abs(mod(c.x * 6.0 + vec3(0.0, 4.0, 2.0), 6.0) - 3.0) - 1.0, 0.0, 1.0);\n    rgb = rgb * rgb * (3.0 - 2.0 * rgb);\n    return c.z * mix(vec3(1.0), rgb, c.y);\n}\n\nvoid main() {\n    uint id = TDIndex();\n    if (id >= uNumPoints) return;\n    \n    float t = float(id) / float(uNumPoints - 1);\n    \n    // Espiral: ángulo crece con el índice\n    float angle = t * u_turns * TAU + u_time;\n    \n    // Radio creciente\n    float radius = t * u_radius_max;\n    \n    // Agregar variación orgánica\n    radius += sin(t * 30.0 + u_time * 2.0) * 0.1;\n    \n    vec3 pos;\n    pos.x = cos(angle) * radius;\n    pos.y = sin(angle) * radius;\n    pos.z = t * 2.0 - 1.0;  // Altura creciente\n    \n    P[id] = pos;\n    \n    // Color por posición en la espiral\n    vec3 color = hsb2rgb(vec3(t, 0.7, 0.9));\n    Cd[id] = vec4(color, 1.0);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/suite_L1_displacement.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 16,
+   "code": "// Suite L1: Basic glslPOP displacement\n// Variable: GLSL_L1_DISPLACEMENT\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Level 1: Basic glslPOP displacement\nuniform float u_time;\nvoid main() {\n    uint id = TDIndex();\n    vec3 pos = TDIn_P(0, id);\n    float wave = sin(u_time * 0.8 + pos.x * 3.0 + pos.y * 2.0) * 0.15;\n    P[id] = pos + vec3(wave, wave * 0.5, 0.0);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/suite_L2_color_output.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 17,
+   "code": "// Suite L2: glsladvancedPOP P + Cd color output\n// Variable: GLSL_L2_COLOR_OUTPUT\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Level 2: glsladvancedPOP P + Cd output\nuniform float u_time;\nvoid main() {\n    uint id = TDIndex();\n    vec3 pos = TDIn_P(0, id);\n    float n = sin(u_time + pos.x * 2.0 + pos.y * 1.5) * 0.1;\n    P[id] = pos + vec3(n * 0.5, n, 0.0);\n    Cd[id] = vec4(pos.y * 0.3 + 0.5, 0.6, 1.0 - pos.y * 0.3, 1.0);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/suite_L3_multi_attr.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 21,
+   "code": "// Suite L3: Multi-attribute spiral + color (glsladvancedPOP)\n// Variable: GLSL_L3_MULTI_ATTR\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Level 3: Multi-attribute glsladvancedPOP\nuniform float u_time;\nvoid main() {\n    uint id = TDIndex();\n    vec3 pos = TDIn_P(0, id);\n    float angle = atan(pos.z, pos.x) + u_time * 0.5;\n    float rad = length(pos.xz);\n    pos.x = cos(angle) * rad; pos.z = sin(angle) * rad;\n    pos.y += sin(u_time + id * 0.01) * 0.15;\n    P[id] = pos;\n    float d = length(pos);\n    Cd[id] = vec4(d * 0.2, 0.8 - d * 0.1, 0.5 + d * 0.1, 1.0);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/suite_L4_feedback.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 19,
+   "code": "// Suite L4: Feedback-aware glslPOP (temporal drift)\n// Variable: GLSL_L4_FEEDBACK\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Level 4: Feedback-aware glslPOP\nuniform float u_time;\nvoid main() {\n    uint id = TDIndex();\n    vec3 pos = TDIn_P(0, id);\n    float drift = sin(u_time * 0.3 + pos.x * 1.5 + pos.z * 2.0) * 0.08;\n    pos.x += drift;\n    pos.z += cos(u_time * 0.4 + pos.y * 1.8) * 0.06;\n    pos.y += sin(u_time * 0.2 + id * 0.005) * 0.04;\n    P[id] = pos;\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/suite_L5_multipass.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 17,
+   "code": "// Suite L5: Multi-pass glslPOP (npasses=3)\n// Variable: GLSL_L5_MULTIPASS\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Level 5: Multi-pass iterative displacement\nuniform float u_time;\nvoid main() {\n    uint id = TDIndex();\n    vec3 pos = TDIn_P(0, id);\n    float wave = sin(pos.x * 3.0 + pos.z * 2.1 + u_time) * 0.1;\n    pos.y += wave;\n    P[id] = pos;\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/suite_L5_top_const.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 18,
+   "code": "// Suite L5: glslTOP const uniform-driven color grading\n// Variable: GLSL_L5_TOP_CONST\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Level 5 glslTOP: const uniform-driven color grading\nuniform float u_amplitude;\nuniform float u_frequency;\nout vec4 fragColor;\nvoid main() {\n    vec2 uv = vUV.st;\n    float wave = sin(uv.x * u_frequency + uv.y * u_frequency) * u_amplitude;\n    vec3 color = vec3(wave * 0.5 + 0.5, uv.x, uv.y);\n    fragColor = TDOutputSwizzle(vec4(color, 1.0));\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/suite_L6a_swirl.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 19,
+   "code": "// Suite L6A: Swirl displacement (glslPOP)\n// Variable: GLSL_L6A_SWIRL\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Level 6A: glslPOP swirl displacement\nuniform float u_time;\nvoid main() {\n    uint id = TDIndex();\n    vec3 pos = TDIn_P(0, id);\n    float angle = u_time * 0.5 + length(pos.xz) * 2.0;\n    pos.x += cos(angle) * 0.05;\n    pos.z += sin(angle) * 0.05;\n    pos.y += sin(u_time + id * 0.1) * 0.08;\n    P[id] = pos;\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/suite_L6b_color.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 19,
+   "code": "// Suite L6B: Color by position (glsladvancedPOP)\n// Variable: GLSL_L6B_COLOR\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Level 6B: glsladvancedPOP color by position\nuniform float u_time;\nvoid main() {\n    uint id = TDIndex();\n    vec3 pos = TDIn_P(0, id);\n    float wave = sin(u_time * 0.6 + pos.y * 3.0) * 0.08;\n    P[id] = pos + vec3(wave, 0.0, wave * 0.5);\n    Cd[id] = vec4(sin(pos.x * 2.0 + u_time) * 0.5 + 0.5,\n        cos(pos.y * 2.0 + u_time * 0.7) * 0.5 + 0.5,\n        sin(pos.z * 2.0 + u_time * 1.3) * 0.5 + 0.5, 1.0);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/suite_L7_pixel_blur.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 26,
+   "code": "// Suite L7: Multi-pass pixel blur with const uniforms (glslTOP)\n// Variable: GLSL_L7_PIXELBLUR\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Level 7: Multi-pass pixel shader - iterative box blur\nuniform float u_radius;\nuniform float u_strength;\nout vec4 fragColor;\nvoid main() {\n    vec2 uv = vUV.st;\n    vec2 texel = 1.0 / uTDOutputInfo.res;\n    vec4 sum = vec4(0.0); float total = 0.0;\n    int rad = int(u_radius);\n    for (int x = -rad; x <= rad; x++) {\n        for (int y = -rad; y <= rad; y++) {\n            vec2 offset = vec2(float(x), float(y)) * texel * u_strength;\n            sum += texture(sTD2DInputs[0], uv + offset);\n            total += 1.0;\n        }\n    }\n    fragColor = TDOutputSwizzle(sum / total);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/top_blur.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 21,
+   "code": "// Advanced TOP: 3x3 box blur (glslTOP)\n// Variable: GLSL_TOP_BLUR\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Chain 1b: Blur - 3x3 box blur\nout vec4 fragColor;\nvoid main() {\n    vec2 res = uTD2DInfos[0].res.zw;\n    vec4 sum = vec4(0.0);\n    for (int x = -1; x <= 1; x++) {\n        for (int y = -1; y <= 1; y++) {\n            vec2 offset = vec2(float(x), float(y)) * res;\n            sum += texture(sTD2DInputs[0], vUV.st + offset);\n        }\n    }\n    fragColor = TDOutputSwizzle(sum / 9.0);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/top_edge_detect.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 25,
+   "code": "// Advanced TOP: Sobel edge detection (glslTOP)\n// Variable: GLSL_TOP_EDGE_DETECT\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Chain 3 Pass 1: Sobel edge detection\nout vec4 fragColor;\nvoid main() {\n    vec2 res = uTD2DInfos[0].res.zw;\n    vec4 tl = texture(sTD2DInputs[0], vUV.st + vec2(-res.x, -res.y));\n    vec4 tc = texture(sTD2DInputs[0], vUV.st + vec2(0.0, -res.y));\n    vec4 tr = texture(sTD2DInputs[0], vUV.st + vec2(res.x, -res.y));\n    vec4 ml = texture(sTD2DInputs[0], vUV.st + vec2(-res.x, 0.0));\n    vec4 mr = texture(sTD2DInputs[0], vUV.st + vec2(res.x, 0.0));\n    vec4 bl = texture(sTD2DInputs[0], vUV.st + vec2(-res.x, res.y));\n    vec4 bc = texture(sTD2DInputs[0], vUV.st + vec2(0.0, res.y));\n    vec4 br = texture(sTD2DInputs[0], vUV.st + vec2(res.x, res.y));\n    vec3 sx = -tl.rgb - 2.0*ml.rgb - bl.rgb + tr.rgb + 2.0*mr.rgb + br.rgb;\n    vec3 sy = -tl.rgb - 2.0*tc.rgb - tr.rgb + bl.rgb + 2.0*bc.rgb + br.rgb;\n    float edge = length(sx) + length(sy);\n    fragColor = TDOutputSwizzle(vec4(vec3(edge), 1.0));\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/top_feedback_decal.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 18,
+   "code": "// Advanced TOP: Feedback decal - zoom + fade (glslTOP + feedbackTOP)\n// Variable: GLSL_TOP_FEEDBACK_DECAL\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Chain 2: Feedback Loop - decal shader that zooms and fades\nout vec4 fragColor;\nvoid main() {\n    vec2 uv = vUV.st - vec2(0.5);\n    uv *= 0.98;\n    uv += vec2(0.5);\n    vec4 fb = texture(sTD2DInputs[0], uv);\n    fb.rgb *= 0.92;\n    fragColor = TDOutputSwizzle(fb);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/top_gradient.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 18,
+   "code": "// Advanced TOP: Procedural gradient with time (glslTOP)\n// Variable: GLSL_TOP_GRADIENT\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Chain 1c: Color Manipulation - procedural gradient with time\nout vec4 fragColor;\nuniform float u_time;\nvoid main() {\n    vec2 st = vUV.st;\n    vec3 col = vec3(0.5 + 0.5 * sin(st.x * 6.28 + u_time),\n        0.5 + 0.5 * sin(st.y * 6.28 + u_time * 0.7),\n        0.5 + 0.5 * sin((st.x + st.y) * 3.14 + u_time * 1.3));\n    fragColor = TDOutputSwizzle(vec4(col, 1.0));\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/top_soft_glow.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 25,
+   "code": "// Advanced TOP: Soft glow composite (glslTOP)\n// Variable: GLSL_TOP_SOFT_GLOW\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Chain 3 Pass 2: Soft glow on edge output\nout vec4 fragColor;\nvoid main() {\n    vec2 res = uTD2DInfos[0].res.zw;\n    vec4 sum = vec4(0.0);\n    for (int x = -2; x <= 2; x++) {\n        for (int y = -2; y <= 2; y++) {\n            vec2 offset = vec2(float(x), float(y)) * res * 2.0;\n            sum += texture(sTD2DInputs[0], vUV.st + offset);\n        }\n    }\n    vec4 blurred = sum / 25.0;\n    vec4 sharp = texture(sTD2DInputs[0], vUV.st);\n    vec4 result = max(sharp, blurred * 1.5);\n    result.rgb *= vec3(0.3, 1.0, 0.5);\n    fragColor = TDOutputSwizzle(result);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/top_threshold.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 17,
+   "code": "// Advanced TOP: Luminance threshold (glslTOP)\n// Variable: GLSL_TOP_THRESHOLD\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Chain 1a: Threshold - luminance-based black/white threshold\nout vec4 fragColor;\nvoid main() {\n    vec4 src = texture(sTD2DInputs[0], vUV.st);\n    float lum = dot(src.rgb, vec3(0.299, 0.587, 0.114));\n    float thresh = 0.3;\n    vec3 result = (lum > thresh) ? src.rgb : vec3(0.0);\n    fragColor = TDOutputSwizzle(vec4(result, 1.0));\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/transformations.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 50,
+   "code": "// ============================================\n// Transformations - GLSL POP para TouchDesigner\n// Fuente: fullscreencode.com/ejemplosshaders/ Cap 5\n// Descripción: Transformaciones TRS (Translate, Rotate, Scale)\n// ============================================\n\n#version 430\nlayout(local_size_x = 64, local_size_y = 1, local_size_z = 1) in;\n\nuniform float u_time;\nuniform int uNumPoints;\nuniform float u_rot_speed;   // Velocidad de rotación (default: 0.5)\nuniform float u_scale_pulse; // Amplitud del pulso de escala (default: 0.3)\n\n// Matriz de rotación 2D\nmat2 rotate2d(float angle) {\n    float s = sin(angle);\n    float c = cos(angle);\n    return mat2(c, -s, s, c);\n}\n\nvoid main() {\n    uint id = TDIndex();\n    if (id >= uNumPoints) return;\n    \n    vec3 pos = TDIn_P(0, id);\n    \n    // Aplicar rotación en eje Z\n    float angle = u_time * u_rot_speed;\n    pos.xy = rotate2d(angle) * pos.xy;\n    \n    // Aplicar escala pulsante\n    float scale = 1.0 + sin(u_time * 2.0) * u_scale_pulse;\n    pos *= scale;\n    \n    // Aplicar traslación sinusoidal\n    pos.x += sin(u_time) * 0.5;\n    pos.y += cos(u_time) * 0.5;\n    \n    P[id] = pos;\n    \n    // Color por posición\n    vec3 color = vec3(\n        pos.x * 0.5 + 0.5,\n        pos.y * 0.5 + 0.5,\n        0.8\n    );\n    Cd[id] = vec4(color, 1.0);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/tut_01_phyllotaxis.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 22,
+   "code": "// Tutorials: Phyllotaxis spiral layout - golden angle (glsladvancedPOP)\n// Variable: GLSL_PHYLLLOTAXIS\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Tut 01: Phyllotaxis Spiral Layout\n// Golden angle distribution - each point placed at 137.5 degree increment\nuniform float u_time;\nvoid main() {\n    uint id = TDIndex();\n    vec3 pos = TDIn_P(0, id);\n    float n = float(id);\n    float golden_angle = 2.39996323;\n    float phi = n * golden_angle + u_time * 0.5;\n    float r = sqrt(n) * 0.08;\n    vec3 target = vec3(cos(phi) * r, sin(phi) * r, 0.0);\n    float expansion = 1.0 + sin(u_time * 0.3) * 0.3;\n    P[id] = mix(pos, target * expansion, 0.15);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/tut_02_magnetic.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 24,
+   "code": "// Tutorials: Magnetic field displacement - dipole field lines (glslPOP)\n// Variable: GLSL_MAGNETIC\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Tut 02: Magnetic Field Displacement\nuniform float u_time;\nvoid main() {\n    uint id = TDIndex();\n    vec3 pos = TDIn_P(0, id);\n    vec3 pole1 = vec3(sin(u_time * 0.7) * 1.5, 0.0, 0.0);\n    vec3 pole2 = vec3(-sin(u_time * 0.7) * 1.5, 0.0, 0.0);\n    vec3 field = vec3(0.0);\n    vec3 d1 = pos - pole1;\n    float r1 = max(length(d1), 0.1);\n    field += d1 / (r1 * r1 * r1) * 0.5;\n    vec3 d2 = pos - pole2;\n    float r2 = max(length(d2), 0.1);\n    field -= d2 / (r2 * r2 * r2) * 0.5;\n    P[id] = pos + normalize(field) * 0.02;\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/tut_03_domain_warp.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 28,
+   "code": "// Tutorials: Domain warped turbulence - Inigo Quilez FBM (glslPOP)\n// Variable: GLSL_DOMAIN_WARP\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Tut 03: Domain Warped Turbulence\n// Noise of noise - domain warping creates organic flow\nuniform float u_time;\nfloat fbm(vec3 p) {\n    float f = 0.0; float amp = 0.5;\n    for (int i = 0; i < 5; i++) {\n        f += amp * TDSimplexNoise(vec4(p, u_time * 0.1));\n        p *= 2.1; amp *= 0.5;\n    }\n    return f;\n}\nvoid main() {\n    uint id = TDIndex();\n    vec3 pos = TDIn_P(0, id);\n    vec3 q = vec3(fbm(pos), fbm(pos + vec3(5.2, 1.3, 0.0)), fbm(pos));\n    vec3 r = vec3(fbm(pos + 4.0*q + vec3(1.7, 9.2, 0.0)),\n        fbm(pos + 4.0*q + vec3(8.3, 2.8, 0.0)), fbm(pos + 4.0*q));\n    float f = fbm(pos + 4.0 * r);\n    P[id] = pos + vec3(f * 0.3, f * 0.2, f * 0.15);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/tut_04_interference.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 24,
+   "code": "// Tutorials: Sine wave interference - multiple point sources (glslPOP)\n// Variable: GLSL_INTERFERENCE\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Tut 04: Sine Wave Interference Pattern\nuniform float u_time;\nvoid main() {\n    uint id = TDIndex();\n    vec3 pos = TDIn_P(0, id);\n    vec3 s1 = vec3(2.0, 0.0, 0.0);\n    vec3 s2 = vec3(-2.0, 0.0, 0.0);\n    vec3 s3 = vec3(0.0, 0.0, 2.0);\n    float d1 = length(pos.xz - s1.xz);\n    float d2 = length(pos.xz - s2.xz);\n    float d3 = length(pos.xz - s3.xz);\n    float wave = sin(d1 * 4.0 - u_time * 3.0) * 0.15\n              + sin(d2 * 5.0 - u_time * 2.5) * 0.12\n              + sin(d3 * 3.5 - u_time * 3.5) * 0.1;\n    P[id] = pos + vec3(0.0, wave, 0.0);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/tut_05_lissajous.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 20,
+   "code": "// Tutorials: Lissajous curve attractor - parametric 3D (glsladvancedPOP)\n// Variable: GLSL_LISSAJOUS\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Tut 05: Lissajous Curve Attractor\nuniform float u_time;\nvoid main() {\n    uint id = TDIndex();\n    vec3 pos = TDIn_P(0, id);\n    float a = 3.0, b = 2.0, c = 5.0;\n    float phase = float(id) * 0.05;\n    float t = u_time * 0.8 + phase;\n    vec3 target = vec3(sin(a * t + 1.57) * 1.5, sin(b * t) * 1.5, sin(c * t + 0.78) * 1.5);\n    P[id] = mix(pos, target, 0.08);\n    Cd[id] = vec4(sin(t) * 0.5 + 0.5, sin(t + 2.09) * 0.5 + 0.5, sin(t + 4.19) * 0.5 + 0.5, 1.0);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/tut_06_spring.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 18,
+   "code": "// Tutorials: Spring dynamics - damped harmonic oscillation (glslPOP)\n// Variable: GLSL_SPRING\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Tut 06: Spring Dynamics (damped oscillation)\nuniform float u_time;\nvoid main() {\n    uint id = TDIndex();\n    vec3 pos = TDIn_P(0, id);\n    float freq = sqrt(5.0);\n    float amp = exp(-0.5 * u_time * 0.1);\n    float osc = sin(freq * u_time + float(id) * 0.1);\n    P[id] = pos + vec3(osc * amp * 0.15, cos(osc * 1.3) * amp * 0.1, sin(osc * 0.7) * amp * 0.12);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/tut_07_lifecycle.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 25,
+   "code": "// Tutorials: Particle lifecycle - birth to decay (glsladvancedPOP)\n// Variable: GLSL_LIFECYCLE\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Tut 07: Particle Age/Lifecycle\nuniform float u_time;\nvoid main() {\n    uint id = TDIndex();\n    vec3 pos = TDIn_P(0, id);\n    float phase = float(id) * 0.13;\n    float age = fract(u_time * 0.15 + phase);\n    float scale;\n    if (age < 0.2) scale = age / 0.2;\n    else if (age < 0.5) scale = 1.0;\n    else if (age < 0.8) scale = 1.0;\n    else scale = (1.0 - age) / 0.2;\n    float angle = age * 6.283 + phase;\n    float radius = scale * 1.5;\n    P[id] = vec3(cos(angle) * radius, age * 2.0 - 1.0, sin(angle) * radius);\n    Cd[id] = vec4(scale, 1.0 - age, age * 0.5, 1.0);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/tut_08_quaternion.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 23,
+   "code": "// Tutorials: Quaternion rotation - axis-angle rotation (glsladvancedPOP)\n// Variable: GLSL_QUATERNION\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Tut 08: Quaternion Rotation (axis-angle)\nuniform float u_time;\nvec3 rotateAxis(vec3 p, vec3 axis, float angle) {\n    float c = cos(angle); float s = sin(angle);\n    return p * c + cross(axis, p) * s + axis * dot(axis, p) * (1.0 - c);\n}\nvoid main() {\n    uint id = TDIndex();\n    vec3 pos = TDIn_P(0, id);\n    vec3 axis = normalize(vec3(sin(u_time * 0.3), cos(u_time * 0.5), sin(u_time * 0.7)));\n    float angle = u_time * 0.8;\n    P[id] = rotateAxis(pos, axis, angle);\n    Cd[id] = vec4(sin(angle + pos.x) * 0.5 + 0.5, cos(angle + pos.y) * 0.5 + 0.5,\n        sin(angle * 0.5 + pos.z) * 0.5 + 0.5, 1.0);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/tut_09_growth.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 20,
+   "code": "// Tutorials: Emergent growth - noise-driven organic (glsladvancedPOP)\n// Variable: GLSL_GROWTH\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Tut 09: Emergent Growth Pattern\nuniform float u_time;\nvoid main() {\n    uint id = TDIndex();\n    vec3 pos = TDIn_P(0, id);\n    float seed = TDSimplexNoise(vec4(pos * 0.5, 0.0, 0.0));\n    float growth = smoothstep(-0.3, 0.3, sin(seed * 6.0 + u_time * 0.5));\n    float branch = TDSimplexNoise(vec4(pos * 2.0 + seed, u_time * 0.3, 0.0));\n    float height = growth * 0.4 + branch * 0.2;\n    P[id] = pos + vec3(0.0, height, 0.0);\n    Cd[id] = vec4(growth * 0.5, 0.8 - growth * 0.3, branch * 0.5 + 0.3, 1.0);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/tut_10_audio_reactive.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 20,
+   "code": "// Tutorials: Audio-reactive heightfield - multi-band simulation (glsladvancedPOP)\n// Variable: GLSL_AUDIO_REACTIVE\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Tut 10: Audio-Reactive Heightfield (simulated)\nuniform float u_time;\nvoid main() {\n    uint id = TDIndex();\n    vec3 pos = TDIn_P(0, id);\n    float x = (pos.x + 2.0) / 4.0;\n    float bass = sin(x * 3.0 + u_time * 4.0) * 0.4;\n    float mid = sin(x * 15.0 + u_time * 6.0) * 0.2;\n    float high = sin(x * 30.0 + u_time * 8.0) * 0.1;\n    P[id] = pos + vec3(0.0, (bass + mid + high) * 0.5, 0.0);\n    Cd[id] = vec4(abs(bass) * 2.0, abs(mid) * 2.0, abs(high) * 2.0, 1.0);\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/vertex_noise.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 19,
+   "code": "// Vertex: Simplex noise displacement (glslTOP vertexdat)\n// Variable: VS_NOISE\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Vertex shader: simplex noise displacement\n#include \"util_noise.glsl\"\nuniform float u_time;\nvoid main() {\n    vec4 pos = P;\n    float n = snoise(pos.xyz * 2.0 + u_time * 0.5);\n    pos.xyz += normalize(pos.xyz + vec3(0.001)) * n * 0.2;\n    gl_Position = TDWorldToProj(TDModelToWorld(pos));\n    uv = uvable;\n    color = CD;\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/vertex_passthrough_pixel.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 13,
+   "code": "// Vertex: Pixel passthrough shader (glslTOP pixeldat)\n// Variable: PS_PASSTHROUGH\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Pixel shader: passthrough (used with all vertex shaders)\nout vec4 fragColor;\nvoid main() {\n    fragColor = TDOutputSwizzle(texture(sTD2DInputs[0], vUV.st));\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/vertex_pulse.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 18,
+   "code": "// Vertex: Time-based pulse scaling (glslTOP vertexdat)\n// Variable: VS_PULSE\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Vertex shader: time-based pulse scaling\nuniform float u_time;\nvoid main() {\n    vec4 pos = P;\n    float pulse = 1.0 + sin(u_time * 3.0) * 0.3;\n    pos.xyz *= pulse;\n    gl_Position = TDWorldToProj(TDModelToWorld(pos));\n    uv = uvable;\n    color = CD;\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/vertex_twist.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 19,
+   "code": "// Vertex: Twist rotation by Y axis (glslTOP vertexdat)\n// Variable: VS_TWIST\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Vertex shader: twist rotation based on Y\nuniform float u_time;\nvoid main() {\n    vec4 pos = P;\n    float twist = pos.y * 2.0 + u_time;\n    float c = cos(twist); float s = sin(twist);\n    vec3 twisted = vec3(pos.x * c - pos.z * s, pos.y, pos.x * s + pos.z * c);\n    gl_Position = TDWorldToProj(TDModelToWorld(vec4(twisted, 1.0)));\n    uv = uvable;\n    color = CD;\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/vertex_wave.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 18,
+   "code": "// Vertex: Sinusoidal wave deformation (glslTOP vertexdat)\n// Variable: VS_WAVE\n//\n// TouchDesigner GLSL shader\n// Use with: glslPOP, glsladvancedPOP, glslTOP, or glslcopyPOP\n//\n\n// Vertex shader: sinusoidal wave deformation\nuniform float u_time;\nvoid main() {\n    vec4 pos = P;\n    pos.y += sin(u_time * 2.0 + pos.x * 5.0 + pos.z * 3.0) * 0.15;\n    pos.x += cos(u_time * 1.5 + pos.z * 4.0) * 0.08;\n    gl_Position = TDWorldToProj(TDModelToWorld(pos));\n    uv = uvable;\n    color = CD;\n}\n"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/wave.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 7,
+   "code": "void main(){\n  const uint id = TDIndex();\n  if(id >= TDNumElements()) return;\n  vec3 p = TDIn_P(0,id);\n  p.y += sin(p.x*2.0+u_time*3.0)*0.3;\n  P[id] = p;\n}"
+  },
+  {
+   "project": "repo td-mcp",
+   "file": "glsl_files/waves.glsl",
+   "origin": "biblioteca del repo",
+   "lines": 18,
+   "code": "\nuniform float u_time;\nvoid main(){\n    const uint id = TDIndex();\n    if(id >= TDNumElements()) return;\n    vec3 p = TDIn_P(0, id);\n    // Multi-frequency wave deformation\n    float w1 = sin(p.x * 1.5 + u_time * 1.2) * 0.4;\n    float w2 = cos(p.z * 2.0 + u_time * 0.8) * 0.3;\n    float w3 = sin((p.x + p.z) * 1.0 + u_time * 2.5) * 0.2;\n    p.y += w1 + w2 + w3;\n    // Twist\n    float twist = sin(p.y * 0.5 + u_time) * 0.3;\n    float ct = cos(twist), st = sin(twist);\n    p.xz = mat2(ct, -st, st, ct) * p.xz;\n    P[id] = p;\n}\n"
+  }
+ ]
+}

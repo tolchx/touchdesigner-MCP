@@ -1,0 +1,10356 @@
+{
+ "fetched_from": "https://docs.derivative.ca/api.php",
+ "params_by_page": {
+  "Accumulate POP": [
+   {
+    "eval": "attrclass",
+    "label": "Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "inputattrscope",
+    "label": "Input Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "scantype",
+    "label": "Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "outputattrscope",
+    "label": "Output Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "overrideautoattr",
+    "label": "Override Automatic Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attrtype",
+    "label": "Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrnumcomps",
+    "label": "Components",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrdefaultval",
+    "label": "Default Value",
+    "type": "Float"
+   }
+  ],
+  "Alembic In POP": [
+   {
+    "eval": "file",
+    "label": "Alembic File",
+    "type": "File"
+   },
+   {
+    "eval": "objectpath",
+    "label": "Object Path",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "loadtype",
+    "label": "Load Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "xform",
+    "label": "Transform",
+    "type": "Menu"
+   },
+   {
+    "eval": "interp",
+    "label": "Interpolation",
+    "type": "Menu"
+   },
+   {
+    "eval": "loadfile",
+    "label": "Unload",
+    "type": "Toggle"
+   },
+   {
+    "eval": "shiftanimationstart",
+    "label": "Shift Animation Start",
+    "type": "Toggle"
+   },
+   {
+    "eval": "sampleratemode",
+    "label": "Sample Rate Mode",
+    "type": "Menu"
+   },
+   {
+    "eval": "samplerate",
+    "label": "Sample Rate",
+    "type": "Float"
+   },
+   {
+    "eval": "playmode",
+    "label": "Play Mode",
+    "type": "Menu"
+   },
+   {
+    "eval": "initialize",
+    "label": "Initialize",
+    "type": "Pulse"
+   },
+   {
+    "eval": "start",
+    "label": "Start",
+    "type": "Pulse"
+   },
+   {
+    "eval": "cue",
+    "label": "Cue",
+    "type": "Toggle"
+   },
+   {
+    "eval": "cuepoint",
+    "label": "Cue Point",
+    "type": "Float"
+   },
+   {
+    "eval": "play",
+    "label": "Play",
+    "type": "Toggle"
+   },
+   {
+    "eval": "index",
+    "label": "Index",
+    "type": "Float"
+   },
+   {
+    "eval": "speed",
+    "label": "Speed",
+    "type": "Float"
+   },
+   {
+    "eval": "trim",
+    "label": "Trim",
+    "type": "Toggle"
+   },
+   {
+    "eval": "tstart",
+    "label": "Trim Start",
+    "type": "Float"
+   },
+   {
+    "eval": "tend",
+    "label": "Trim End",
+    "type": "Float"
+   },
+   {
+    "eval": "textendleft",
+    "label": "Extend Left",
+    "type": "Menu"
+   },
+   {
+    "eval": "textendright",
+    "label": "Extend Right",
+    "type": "Menu"
+   }
+  ],
+  "Alembic Out POP": [
+   {
+    "eval": "input",
+    "label": "Input",
+    "type": "Sequence"
+   },
+   {
+    "eval": "input0objname",
+    "label": "Object Name",
+    "type": "String"
+   },
+   {
+    "eval": "input0idname",
+    "label": "Ids Attribute",
+    "type": "String"
+   },
+   {
+    "eval": "input0velname",
+    "label": "Velocity Attribute",
+    "type": "String"
+   },
+   {
+    "eval": "input0ptattrname",
+    "label": "Point Attribute Name",
+    "type": "String"
+   },
+   {
+    "eval": "input0vertattrname",
+    "label": "Vertex Attribute Name",
+    "type": "String"
+   },
+   {
+    "eval": "input0primattrname",
+    "label": "Prim Attribute Name",
+    "type": "String"
+   },
+   {
+    "eval": "uniquesuff",
+    "label": "Unique Suffix",
+    "type": "Toggle"
+   },
+   {
+    "eval": "n",
+    "label": "N",
+    "type": "Int"
+   },
+   {
+    "eval": "leadingzerosdigits",
+    "label": "Leading Zeros Digits",
+    "type": "Int"
+   },
+   {
+    "eval": "file",
+    "label": "File",
+    "type": "File"
+   },
+   {
+    "eval": "fps",
+    "label": "FPS",
+    "type": "Float"
+   },
+   {
+    "eval": "limitlength",
+    "label": "Limit Length",
+    "type": "Toggle"
+   },
+   {
+    "eval": "length",
+    "label": "Length",
+    "type": "Float"
+   },
+   {
+    "eval": "record",
+    "label": "Record",
+    "type": "Toggle"
+   },
+   {
+    "eval": "recordpulse",
+    "label": "Record Pulse",
+    "type": "Pulse"
+   },
+   {
+    "eval": "pause",
+    "label": "Pause",
+    "type": "Toggle"
+   },
+   {
+    "eval": "addframe",
+    "label": "Add Frame",
+    "type": "Pulse"
+   },
+   {
+    "eval": "maxactive",
+    "label": "Max Active Saves",
+    "type": "Int"
+   },
+   {
+    "eval": "includeprim",
+    "label": "Include Primitives",
+    "type": "Toggle"
+   },
+   {
+    "eval": "texcoordattrib",
+    "label": "Tex Coord Attribute",
+    "type": "Str"
+   },
+   {
+    "eval": "unchangedtopology",
+    "label": "Topology Unchanged",
+    "type": "Toggle"
+   },
+   {
+    "eval": "abcfps",
+    "label": "Samples per Second",
+    "type": "Float"
+   },
+   {
+    "eval": "abc3dtex",
+    "label": "Export 3D Texture Coord",
+    "type": "Toggle"
+   }
+  ],
+  "Analyze POP": [
+   {
+    "eval": "attrclass",
+    "label": "Attributes Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "group",
+    "label": "Group",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "numgroupelements",
+    "label": "Number of Elements in Group",
+    "type": "Toggle"
+   },
+   {
+    "eval": "inputattrs",
+    "label": "Input Attributes",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "appendattrname",
+    "label": "Append Attrib Names to Output",
+    "type": "Toggle"
+   },
+   {
+    "eval": "combine",
+    "label": "Combine Components",
+    "type": "Menu"
+   },
+   {
+    "eval": "avg",
+    "label": "Average",
+    "type": "Toggle"
+   },
+   {
+    "eval": "centroid",
+    "label": "Centroid",
+    "type": "Toggle"
+   },
+   {
+    "eval": "min",
+    "label": "Minimum",
+    "type": "Toggle"
+   },
+   {
+    "eval": "max",
+    "label": "Maximum",
+    "type": "Toggle"
+   },
+   {
+    "eval": "size",
+    "label": "Size",
+    "type": "Toggle"
+   },
+   {
+    "eval": "minindex",
+    "label": "Index of Minimum",
+    "type": "Toggle"
+   },
+   {
+    "eval": "maxindex",
+    "label": "Index of Maximum",
+    "type": "Toggle"
+   },
+   {
+    "eval": "sum",
+    "label": "Sum",
+    "type": "Toggle"
+   },
+   {
+    "eval": "rmspower",
+    "label": "RMS Power",
+    "type": "Toggle"
+   },
+   {
+    "eval": "numpointsvertsprims",
+    "label": "Num Points, Vertices, Primitives",
+    "type": "Toggle"
+   },
+   {
+    "eval": "numprimsbatch",
+    "label": "Num Prims/Verts per Type",
+    "type": "Toggle"
+   },
+   {
+    "eval": "dimension",
+    "label": "Dimension",
+    "type": "Toggle"
+   },
+   {
+    "eval": "pattrvals",
+    "label": "P Attribute Values",
+    "type": "Menu"
+   }
+  ],
+  "Attribute Combine POP": [
+   {
+    "eval": "attrclass",
+    "label": "Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "lengthmismatchnotif",
+    "label": "Length Mismatch",
+    "type": "Menu"
+   },
+   {
+    "eval": "duplicateattrs",
+    "label": "Duplicate Attributes",
+    "type": "Menu"
+   },
+   {
+    "eval": "input",
+    "label": "In",
+    "type": "Sequence"
+   },
+   {
+    "eval": "input0attrs",
+    "label": "In Attributes",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "input0renameto",
+    "label": "Rename to",
+    "type": "Str"
+   }
+  ],
+  "Attribute Convert POP": [
+   {
+    "eval": "convertop",
+    "label": "Convert Operation",
+    "type": "Menu"
+   },
+   {
+    "eval": "inputattrs",
+    "label": "Input Attributes",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "newattrs",
+    "label": "New Attribute Name",
+    "type": "Str"
+   },
+   {
+    "eval": "deleteorig",
+    "label": "Delete Original",
+    "type": "Toggle"
+   },
+   {
+    "eval": "notificationifexists",
+    "label": "Notification if Attribute Exists",
+    "type": "Menu"
+   },
+   {
+    "eval": "overrideifexists",
+    "label": "Override if Attribute Exists",
+    "type": "Toggle"
+   }
+  ],
+  "Attribute POP": [
+   {
+    "eval": "attrclass",
+    "label": "Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "group",
+    "label": "Group",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "notificationifexists",
+    "label": "Notification if Attribute Exists",
+    "type": "Menu"
+   },
+   {
+    "eval": "overrideifexists",
+    "label": "Override if Attribute Exists",
+    "type": "Toggle"
+   },
+   {
+    "eval": "premultcolor",
+    "label": "Pre-Multiply RGB by Alpha",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attr",
+    "label": "New Attribute",
+    "type": "Sequence"
+   },
+   {
+    "eval": "attr0customname",
+    "label": "Custom Name",
+    "type": "Str"
+   },
+   {
+    "eval": "attr0type",
+    "label": "Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attr0numcomps",
+    "label": "Number of Components",
+    "type": "Menu"
+   },
+   {
+    "eval": "attr0isarray",
+    "label": "Array",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attr0arraysize",
+    "label": "Array Size",
+    "type": "Int"
+   },
+   {
+    "eval": "attr0value",
+    "label": "Value",
+    "type": "Float"
+   },
+   {
+    "eval": "matattr",
+    "label": "Matrix Attribute",
+    "type": "Sequence"
+   },
+   {
+    "eval": "matattr0numrows",
+    "label": "Rows",
+    "type": "Int"
+   },
+   {
+    "eval": "matattr0numcols",
+    "label": "Columns",
+    "type": "Int"
+   },
+   {
+    "eval": "matattr0isarray",
+    "label": "Array",
+    "type": "Toggle"
+   },
+   {
+    "eval": "matattr0qualifier",
+    "label": "Qualifier",
+    "type": "Menu"
+   },
+   {
+    "eval": "ren",
+    "label": "Rename Attribute",
+    "type": "Sequence"
+   },
+   {
+    "eval": "ren0to",
+    "label": "To Attribute",
+    "type": "Str"
+   },
+   {
+    "eval": "dup",
+    "label": "Duplicate Attribute",
+    "type": "Sequence"
+   },
+   {
+    "eval": "dup0new",
+    "label": "New Attribute Name",
+    "type": "Str"
+   },
+   {
+    "eval": "deletepoint",
+    "label": "Delete Point Attributes",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "deletevert",
+    "label": "Delete Vertex Attributes",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "deleteprim",
+    "label": "Delete Primitive Attributes",
+    "type": "StrMenu"
+   }
+  ],
+  "Blend POP": [
+   {
+    "eval": "blendtype",
+    "label": "Blend Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "lengthmismatchnotif",
+    "label": "Length Mismatch",
+    "type": "Menu"
+   },
+   {
+    "eval": "weightchop",
+    "label": "Blend Weights CHOP",
+    "type": "CHOP"
+   },
+   {
+    "eval": "pointattrscope",
+    "label": "Point Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "primattrscope",
+    "label": "Primitive Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "vertattrscope",
+    "label": "Vertex Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "input",
+    "label": "Input",
+    "type": "Sequence"
+   },
+   {
+    "eval": "input0weight",
+    "label": "Blend Input",
+    "type": "Float"
+   },
+   {
+    "eval": "map",
+    "label": "Mapping",
+    "type": "Sequence"
+   },
+   {
+    "eval": "map0element",
+    "label": "Element",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "map0parm",
+    "label": "Target Parameter",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "map0combineop",
+    "label": "Combine Operation",
+    "type": "Menu"
+   }
+  ],
+  "Box POP": [
+   {
+    "eval": "surftype",
+    "label": "Connectivity",
+    "type": "Menu"
+   },
+   {
+    "eval": "uniquepoints",
+    "label": "Unique Points",
+    "type": "Toggle"
+   },
+   {
+    "eval": "modifybounds",
+    "label": "Modify Bounds",
+    "type": "Toggle"
+   },
+   {
+    "eval": "size",
+    "label": "Size",
+    "type": "XYZW"
+   },
+   {
+    "eval": "roundcorners",
+    "label": "Round Corners",
+    "type": "Toggle"
+   },
+   {
+    "eval": "cornerradius",
+    "label": "Corner Radius",
+    "type": "Float"
+   },
+   {
+    "eval": "depth",
+    "label": "Subdivisions Depth",
+    "type": "Int"
+   },
+   {
+    "eval": "anchoru",
+    "label": "Anchor U",
+    "type": "Float"
+   },
+   {
+    "eval": "anchorv",
+    "label": "Anchor V",
+    "type": "Float"
+   },
+   {
+    "eval": "anchorw",
+    "label": "Anchor W",
+    "type": "Float"
+   },
+   {
+    "eval": "t",
+    "label": "Translate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "r",
+    "label": "Rotate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "scale",
+    "label": "Uniform Scale",
+    "type": "Float"
+   },
+   {
+    "eval": "normal",
+    "label": "Normal",
+    "type": "Menu"
+   },
+   {
+    "eval": "texture",
+    "label": "Texture Coordinates",
+    "type": "Menu"
+   },
+   {
+    "eval": "texmethod",
+    "label": "Texture Method",
+    "type": "Menu"
+   },
+   {
+    "eval": "extenduv",
+    "label": "Extend to Corner",
+    "type": "Toggle"
+   },
+   {
+    "eval": "color",
+    "label": "Color",
+    "type": "Menu"
+   }
+  ],
+  "Cache Blend POP": [
+   {
+    "eval": "cachepop",
+    "label": "Cache POP",
+    "type": "POP"
+   },
+   {
+    "eval": "chop",
+    "label": "CHOP",
+    "type": "CHOP"
+   },
+   {
+    "eval": "indexchan",
+    "label": "Index Channel",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "indexchanunit",
+    "label": "Index Channel Unit",
+    "type": "Menu"
+   },
+   {
+    "eval": "weightchan",
+    "label": "Weight Channel",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "interp",
+    "label": "Interpolate Frames",
+    "type": "Toggle"
+   },
+   {
+    "eval": "cache",
+    "label": "Cache",
+    "type": "Sequence"
+   },
+   {
+    "eval": "cache0weight",
+    "label": "Cache Weight",
+    "type": "Float"
+   }
+  ],
+  "Cache POP": [
+   {
+    "eval": "active",
+    "label": "Active",
+    "type": "Toggle"
+   },
+   {
+    "eval": "alwayscook",
+    "label": "Always Cook",
+    "type": "Toggle"
+   },
+   {
+    "eval": "cachesize",
+    "label": "Cache Size",
+    "type": "Int"
+   },
+   {
+    "eval": "step",
+    "label": "Step Size",
+    "type": "Float"
+   },
+   {
+    "eval": "outputindex",
+    "label": "Output Index",
+    "type": "Float"
+   },
+   {
+    "eval": "interp",
+    "label": "Interpolate Frames",
+    "type": "Toggle"
+   },
+   {
+    "eval": "reset",
+    "label": "Reset",
+    "type": "Toggle"
+   }
+  ],
+  "Cache Select POP": [
+   {
+    "eval": "cachepop",
+    "label": "Cache POP",
+    "type": "POP"
+   },
+   {
+    "eval": "index",
+    "label": "Cache Index",
+    "type": "Float"
+   },
+   {
+    "eval": "interp",
+    "label": "Interpolate Frames",
+    "type": "Toggle"
+   }
+  ],
+  "CHOP to POP": [
+   {
+    "eval": "chop",
+    "label": "CHOP",
+    "type": "CHOP"
+   },
+   {
+    "eval": "surftype",
+    "label": "Connectivity",
+    "type": "Menu"
+   },
+   {
+    "eval": "overridenumpoints",
+    "label": "Override Number of Points",
+    "type": "Toggle"
+   },
+   {
+    "eval": "interpolate",
+    "label": "Interpolate",
+    "type": "Toggle"
+   },
+   {
+    "eval": "specifypos",
+    "label": "Specify Position",
+    "type": "Toggle"
+   },
+   {
+    "eval": "startpos",
+    "label": "Start Position",
+    "type": "XYZW"
+   },
+   {
+    "eval": "endpos",
+    "label": "End Position",
+    "type": "XYZW"
+   },
+   {
+    "eval": "closed",
+    "label": "Closed",
+    "type": "Toggle"
+   },
+   {
+    "eval": "chanssel",
+    "label": "Channels Selection",
+    "type": "Menu"
+   },
+   {
+    "eval": "chanscope",
+    "label": "Channel Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "attrscope",
+    "label": "Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "attrs",
+    "label": "Attributes",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "attr",
+    "label": "New Attribute",
+    "type": "Sequence"
+   },
+   {
+    "eval": "attr0name",
+    "label": "New Attribute Name",
+    "type": "Menu"
+   },
+   {
+    "eval": "attr0type",
+    "label": "Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attr0defaultval",
+    "label": "Default Value",
+    "type": "Float"
+   }
+  ],
+  "Circle POP": [
+   {
+    "eval": "connectivity",
+    "label": "Connectivity",
+    "type": "Menu"
+   },
+   {
+    "eval": "orient",
+    "label": "Orientation",
+    "type": "Menu"
+   },
+   {
+    "eval": "modifybounds",
+    "label": "Modify Bounds",
+    "type": "Toggle"
+   },
+   {
+    "eval": "rad",
+    "label": "Radius",
+    "type": "XYZW"
+   },
+   {
+    "eval": "divs",
+    "label": "Divisions",
+    "type": "Int"
+   },
+   {
+    "eval": "closed",
+    "label": "Closed",
+    "type": "Toggle"
+   },
+   {
+    "eval": "angle",
+    "label": "Arc Angles",
+    "type": "Float"
+   },
+   {
+    "eval": "anchoru",
+    "label": "Anchor U",
+    "type": "Float"
+   },
+   {
+    "eval": "anchorv",
+    "label": "Anchor V",
+    "type": "Float"
+   },
+   {
+    "eval": "t",
+    "label": "Translate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "r",
+    "label": "Rotate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "scale",
+    "label": "Uniform Scale",
+    "type": "Float"
+   },
+   {
+    "eval": "normal",
+    "label": "Normal",
+    "type": "Menu"
+   },
+   {
+    "eval": "normaldirection",
+    "label": "Normal Direction",
+    "type": "Menu"
+   },
+   {
+    "eval": "tangent",
+    "label": "Tangent",
+    "type": "Menu"
+   },
+   {
+    "eval": "tangentdirection",
+    "label": "Tangent Direction",
+    "type": "Menu"
+   },
+   {
+    "eval": "texture",
+    "label": "Texture Coordinates",
+    "type": "Menu"
+   }
+  ],
+  "Connectivity POP": [
+   {
+    "eval": "surftype",
+    "label": "Connectivity",
+    "type": "Menu"
+   },
+   {
+    "eval": "firstdim",
+    "label": "(First) Dimension Index",
+    "type": "Int"
+   },
+   {
+    "eval": "seconddim",
+    "label": "Second Dimension Index",
+    "type": "Int"
+   },
+   {
+    "eval": "firstdimclosed",
+    "label": "(First) Dimension Closed",
+    "type": "Toggle"
+   },
+   {
+    "eval": "seconddimclosed",
+    "label": "Second Dimension Closed",
+    "type": "Toggle"
+   },
+   {
+    "eval": "reorderpoints",
+    "label": "Reorder Points by Prim/Vertex Order",
+    "type": "Toggle"
+   }
+  ],
+  "Convert POP": [
+   {
+    "eval": "convert",
+    "label": "Convert",
+    "type": "Menu"
+   }
+  ],
+  "Copy POP": [
+   {
+    "eval": "ncy",
+    "label": "Number of Copies",
+    "type": "Int"
+   },
+   {
+    "eval": "xord",
+    "label": "Transform Order",
+    "type": "Menu"
+   },
+   {
+    "eval": "rord",
+    "label": "Rotate Order",
+    "type": "Menu"
+   },
+   {
+    "eval": "t",
+    "label": "Translate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "r",
+    "label": "Rotate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "s",
+    "label": "Scale",
+    "type": "XYZW"
+   },
+   {
+    "eval": "p",
+    "label": "Pivot",
+    "type": "XYZW"
+   },
+   {
+    "eval": "scale",
+    "label": "Uniform Scale",
+    "type": "Float"
+   },
+   {
+    "eval": "copyid",
+    "label": "CopyId Attribute",
+    "type": "Menu"
+   },
+   {
+    "eval": "lookat",
+    "label": "Look At",
+    "type": "Object"
+   },
+   {
+    "eval": "upvector",
+    "label": "Up Vector",
+    "type": "XYZW"
+   },
+   {
+    "eval": "forwarddir",
+    "label": "Forward Direction",
+    "type": "Menu"
+   },
+   {
+    "eval": "vlength",
+    "label": "Vectors Maintain Length",
+    "type": "Toggle"
+   },
+   {
+    "eval": "dimension",
+    "label": "Append Dimension",
+    "type": "Menu"
+   },
+   {
+    "eval": "dotemplatematrix",
+    "label": "Template Matrix Transform",
+    "type": "Toggle"
+   },
+   {
+    "eval": "templatexord",
+    "label": "Template Transform Order",
+    "type": "Menu"
+   },
+   {
+    "eval": "templaterord",
+    "label": "Template Rotate Order",
+    "type": "Menu"
+   },
+   {
+    "eval": "dotemplatetranslate",
+    "label": "Template Translate",
+    "type": "Toggle"
+   },
+   {
+    "eval": "dotemplaterotate",
+    "label": "Template Rotate",
+    "type": "Toggle"
+   },
+   {
+    "eval": "dotemplatescale",
+    "label": "Template Scale",
+    "type": "Toggle"
+   },
+   {
+    "eval": "dotemplatepivot",
+    "label": "Template Pivot",
+    "type": "Toggle"
+   },
+   {
+    "eval": "dotemplaterotateto",
+    "label": "Template Rotate to Vector",
+    "type": "Toggle"
+   },
+   {
+    "eval": "templaterottoord",
+    "label": "Template Rotate to Order",
+    "type": "Menu"
+   },
+   {
+    "eval": "instanceforward",
+    "label": "Rotate to Vector : Forward Direction",
+    "type": "Menu"
+   },
+   {
+    "eval": "vecattr",
+    "label": "Rotate to Vector Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "upvectoratype",
+    "label": "Up Vector Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "upattr",
+    "label": "Up Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "upconstant",
+    "label": "Up Constant",
+    "type": "XYZW"
+   },
+   {
+    "eval": "templateid",
+    "label": "TemplateId Attribute",
+    "type": "Menu"
+   },
+   {
+    "eval": "doattr",
+    "label": "Use Template Point Attribs",
+    "type": "Toggle"
+   },
+   {
+    "eval": "templateattr",
+    "label": "Template Attribute",
+    "type": "Sequence"
+   },
+   {
+    "eval": "templateattr0dest",
+    "label": "Destination",
+    "type": "Menu"
+   },
+   {
+    "eval": "templateattr0names",
+    "label": "Names",
+    "type": "StrMenu"
+   }
+  ],
+  "CPlusPlus POP": [
+   {
+    "eval": "plugin",
+    "label": "Plugin Path",
+    "type": "File"
+   },
+   {
+    "eval": "reinit",
+    "label": "Re-Init Class",
+    "type": "Toggle"
+   },
+   {
+    "eval": "unloadplugin",
+    "label": "Unload Plugin",
+    "type": "Toggle"
+   }
+  ],
+  "Curve POP": [
+   {
+    "eval": "totallength",
+    "label": "Total Length",
+    "type": "Int"
+   },
+   {
+    "eval": "outputcurve",
+    "label": "Output Curve",
+    "type": "Menu"
+   },
+   {
+    "eval": "normalizeu",
+    "label": "Normalize U",
+    "type": "Toggle"
+   },
+   {
+    "eval": "symmetric",
+    "label": "Symmetric",
+    "type": "Toggle"
+   },
+   {
+    "eval": "parsize",
+    "label": "Parameter Size",
+    "type": "Menu"
+   },
+   {
+    "eval": "startu",
+    "label": "Start U",
+    "type": "Float"
+   },
+   {
+    "eval": "seg",
+    "label": "Segment",
+    "type": "Sequence"
+   },
+   {
+    "eval": "seg0u",
+    "label": "U",
+    "type": "Float"
+   },
+   {
+    "eval": "seg0specstartval",
+    "label": "Specify Start Value",
+    "type": "Toggle"
+   },
+   {
+    "eval": "seg0startval",
+    "label": "Start Value",
+    "type": "Float"
+   },
+   {
+    "eval": "seg0endval",
+    "label": "End Value",
+    "type": "Float"
+   },
+   {
+    "eval": "seg0alpha",
+    "label": "Alpha",
+    "type": "Float"
+   },
+   {
+    "eval": "seg0beta",
+    "label": "Beta",
+    "type": "Float"
+   },
+   {
+    "eval": "seg0slopein",
+    "label": "Slope in",
+    "type": "Float"
+   },
+   {
+    "eval": "seg0slopeout",
+    "label": "Slope Out",
+    "type": "Float"
+   },
+   {
+    "eval": "applylookup",
+    "label": "Apply Lookup",
+    "type": "Toggle"
+   },
+   {
+    "eval": "lookupindexattr",
+    "label": "Lookup Index Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "fromlow",
+    "label": "From Low High",
+    "type": "Float"
+   },
+   {
+    "eval": "tolow",
+    "label": "To Low High",
+    "type": "Float"
+   },
+   {
+    "eval": "extendleft",
+    "label": "Extend Left and Right",
+    "type": "Menu"
+   },
+   {
+    "eval": "lookup",
+    "label": "Lookup",
+    "type": "Sequence"
+   },
+   {
+    "eval": "lookup0add",
+    "label": "Add",
+    "type": "Float"
+   },
+   {
+    "eval": "lookup0combineop",
+    "label": "Combine Operation",
+    "type": "Menu"
+   },
+   {
+    "eval": "lookup0outputattrscope",
+    "label": "Output Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "lookup0overrideautoattr",
+    "label": "Override Automatic Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "lookup0attrtype",
+    "label": "Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "lookup0attrnumcomps",
+    "label": "Components",
+    "type": "Menu"
+   },
+   {
+    "eval": "lookup0attrdefaultval",
+    "label": "Default Value",
+    "type": "Float"
+   },
+   {
+    "eval": "extendright",
+    "label": "Extend Right",
+    "type": "Menu"
+   }
+  ],
+  "DAT to POP": [
+   {
+    "eval": "pointsdat",
+    "label": "Points DAT",
+    "type": "DAT"
+   },
+   {
+    "eval": "createpointprim",
+    "label": "Create Point Primitives",
+    "type": "Toggle"
+   },
+   {
+    "eval": "cnvrtallpointcols",
+    "label": "Convert All Excluding",
+    "type": "Toggle"
+   },
+   {
+    "eval": "pointgroupnamescol",
+    "label": "Group Names Column",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "attr",
+    "label": "New Attribute",
+    "type": "Sequence"
+   },
+   {
+    "eval": "attr0columns",
+    "label": "Columns",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "attr0outputscope",
+    "label": "Output Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "attr0overrideauto",
+    "label": "Override Automatic Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attr0type",
+    "label": "Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attr0isarray",
+    "label": "Array",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attr0arraysize",
+    "label": "Array Size",
+    "type": "Int"
+   },
+   {
+    "eval": "primitivesdat",
+    "label": "Primitives DAT",
+    "type": "DAT"
+   },
+   {
+    "eval": "primtype",
+    "label": "Prim Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "primtypecol",
+    "label": "Type Column",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "primvertices",
+    "label": "Vertices Column",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "cnvrtallprimcols",
+    "label": "Convert All Excluding",
+    "type": "Toggle"
+   },
+   {
+    "eval": "primgroupnamescol",
+    "label": "Group Names Column",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "primattr",
+    "label": "New Attribute",
+    "type": "Sequence"
+   },
+   {
+    "eval": "primattr0columns",
+    "label": "Columns",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "primattr0outputscope",
+    "label": "Output Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "primattr0overrideauto",
+    "label": "Override Automatic Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "primattr0type",
+    "label": "Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "primattr0isarray",
+    "label": "Array",
+    "type": "Toggle"
+   },
+   {
+    "eval": "verticesdat",
+    "label": "Vertices DAT",
+    "type": "DAT"
+   },
+   {
+    "eval": "cnvrtallvertcols",
+    "label": "Convert All Excluding",
+    "type": "Toggle"
+   },
+   {
+    "eval": "vertattr",
+    "label": "New Attribute",
+    "type": "Sequence"
+   },
+   {
+    "eval": "vertattr0columns",
+    "label": "Columns",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "vertattr0outputscope",
+    "label": "Output Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "vertattr0overrideauto",
+    "label": "Override Automatic Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "vertattr0type",
+    "label": "Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "vertattr0isarray",
+    "label": "Array",
+    "type": "Toggle"
+   },
+   {
+    "eval": "detailsdat",
+    "label": "Details DAT",
+    "type": "DAT"
+   },
+   {
+    "eval": "dimensionsdat",
+    "label": "Dimensions DAT",
+    "type": "DAT"
+   },
+   {
+    "eval": "dimcol",
+    "label": "Dimension Column",
+    "type": "StrMenu"
+   }
+  ],
+  "Delete POP": [
+   {
+    "eval": "invert",
+    "label": "Operation",
+    "type": "Menu"
+   },
+   {
+    "eval": "entity",
+    "label": "Entity",
+    "type": "Menu"
+   },
+   {
+    "eval": "linestripbehavior",
+    "label": "Line Strip Behavior",
+    "type": "Menu"
+   },
+   {
+    "eval": "cpureadback",
+    "label": "Copy Topology Info Back to CPU",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attr",
+    "label": "Attribute",
+    "type": "Sequence"
+   },
+   {
+    "eval": "attr0inattr",
+    "label": "Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "attr0func",
+    "label": "Function",
+    "type": "Menu"
+   },
+   {
+    "eval": "attr0value",
+    "label": "Value",
+    "type": "Float"
+   },
+   {
+    "eval": "attr0invert",
+    "label": "Invert",
+    "type": "Toggle"
+   },
+   {
+    "eval": "thinenabled",
+    "label": "Enabled",
+    "type": "Toggle"
+   },
+   {
+    "eval": "thinoutrange",
+    "label": "Thin Out Range",
+    "type": "Toggle"
+   },
+   {
+    "eval": "thinrangestart",
+    "label": "Thin Range Start",
+    "type": "Int"
+   },
+   {
+    "eval": "thinrangelength",
+    "label": "Thin Range Length",
+    "type": "Int"
+   },
+   {
+    "eval": "thinstep",
+    "label": "Thin Step",
+    "type": "Int"
+   },
+   {
+    "eval": "thinrandom",
+    "label": "Thin Random",
+    "type": "Float"
+   },
+   {
+    "eval": "thinrandomseed",
+    "label": "Thin Random Seed",
+    "type": "Float"
+   },
+   {
+    "eval": "thininvert",
+    "label": "Invert",
+    "type": "Toggle"
+   },
+   {
+    "eval": "pattern",
+    "label": "Pattern",
+    "type": "Sequence"
+   },
+   {
+    "eval": "pattern0pattern",
+    "label": "Pattern",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "pattern0invert",
+    "label": "Invert",
+    "type": "Toggle"
+   },
+   {
+    "eval": "group",
+    "label": "Group",
+    "type": "Sequence"
+   },
+   {
+    "eval": "group0name",
+    "label": "Group",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "group0invert",
+    "label": "Invert",
+    "type": "Toggle"
+   },
+   {
+    "eval": "bound",
+    "label": "Bound",
+    "type": "Sequence"
+   },
+   {
+    "eval": "bound0inattr",
+    "label": "Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "bound0type",
+    "label": "Bounding Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "bound0translate",
+    "label": "Translate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "bound0rotate",
+    "label": "Rotate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "bound0scale",
+    "label": "Scale",
+    "type": "XYZW"
+   },
+   {
+    "eval": "bound0invert",
+    "label": "Invert",
+    "type": "Toggle"
+   }
+  ],
+  "Dimension POP": [
+   {
+    "eval": "mode",
+    "label": "Mode",
+    "type": "Menu"
+   },
+   {
+    "eval": "dimorder",
+    "label": "Dimension Order",
+    "type": "Str"
+   },
+   {
+    "eval": "dim",
+    "label": "Dimension",
+    "type": "Sequence"
+   }
+  ],
+  "DMX Fixture POP": [
+   {
+    "eval": "active",
+    "label": "Active",
+    "type": "Toggle"
+   },
+   {
+    "eval": "autolayout",
+    "label": "Auto Layout",
+    "type": "Toggle"
+   },
+   {
+    "eval": "routingtable",
+    "label": "Routing Table",
+    "type": "DAT"
+   },
+   {
+    "eval": "net",
+    "label": "Net (0-127)",
+    "type": "Int"
+   },
+   {
+    "eval": "subnet",
+    "label": "Subnet (0-15)",
+    "type": "Int"
+   },
+   {
+    "eval": "universe",
+    "label": "Universe",
+    "type": "Int"
+   },
+   {
+    "eval": "channel",
+    "label": "Channel",
+    "type": "Int"
+   },
+   {
+    "eval": "changap",
+    "label": "Channel Gap",
+    "type": "Int"
+   },
+   {
+    "eval": "quantizeuni",
+    "label": "Quantize Universe",
+    "type": "Menu"
+   },
+   {
+    "eval": "dmxchan",
+    "label": "DMX Channel",
+    "type": "Sequence"
+   },
+   {
+    "eval": "dmxchan0valuetype",
+    "label": "Value Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "dmxchan0valuesource",
+    "label": "Value Source",
+    "type": "Menu"
+   },
+   {
+    "eval": "dmxchan0group",
+    "label": "Group",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "dmxchan0numcomps",
+    "label": "Number of Components",
+    "type": "Menu"
+   },
+   {
+    "eval": "dmxchan0value",
+    "label": "Value",
+    "type": "RGBA"
+   },
+   {
+    "eval": "dmxchan0attr",
+    "label": "Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "dmxchan0valueres",
+    "label": "Value Resolution",
+    "type": "Menu"
+   },
+   {
+    "eval": "dmxchan0normalized",
+    "label": "Value is Normalized",
+    "type": "Toggle"
+   },
+   {
+    "eval": "dmxchan0merge",
+    "label": "Merge with Above Block",
+    "type": "Toggle"
+   },
+   {
+    "eval": "dmxchan0interleavebytes",
+    "label": "Interleave Bytes",
+    "type": "Toggle"
+   }
+  ],
+  "DMX Out POP": [
+   {
+    "eval": "active",
+    "label": "Active",
+    "type": "Toggle"
+   },
+   {
+    "eval": "interface",
+    "label": "Interface",
+    "type": "Menu"
+   },
+   {
+    "eval": "rate",
+    "label": "Rate",
+    "type": "Int"
+   },
+   {
+    "eval": "fixture",
+    "label": "Fixture",
+    "type": "Sequence"
+   },
+   {
+    "eval": "fixture0pop",
+    "label": "DMX Fixture POPs",
+    "type": "POP"
+   },
+   {
+    "eval": "serialport",
+    "label": "Serial Port",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "dmxkingport",
+    "label": "DMXking Port",
+    "type": "Menu"
+   },
+   {
+    "eval": "device",
+    "label": "Device",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "multicast",
+    "label": "Multicast",
+    "type": "Toggle"
+   },
+   {
+    "eval": "netaddress",
+    "label": "Network Address",
+    "type": "Str"
+   },
+   {
+    "eval": "localaddress",
+    "label": "Local Address",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "localport",
+    "label": "Local Port",
+    "type": "Int"
+   },
+   {
+    "eval": "customport",
+    "label": "Use Custom Port",
+    "type": "Toggle"
+   },
+   {
+    "eval": "netport",
+    "label": "Network Port",
+    "type": "Int"
+   },
+   {
+    "eval": "priority",
+    "label": "Priority",
+    "type": "Int"
+   },
+   {
+    "eval": "sendartsync",
+    "label": "Send ArtSync",
+    "type": "Toggle"
+   },
+   {
+    "eval": "artsynctimeout",
+    "label": "ArtSync Timeout",
+    "type": "Int"
+   },
+   {
+    "eval": "cid",
+    "label": "CID",
+    "type": "Str"
+   },
+   {
+    "eval": "source",
+    "label": "Source",
+    "type": "Str"
+   },
+   {
+    "eval": "kinetversion",
+    "label": "KiNET Version",
+    "type": "Menu"
+   },
+   {
+    "eval": "customkinetport",
+    "label": "Use Custom KiNET Port",
+    "type": "Toggle"
+   },
+   {
+    "eval": "kinetport",
+    "label": "KiNET Port",
+    "type": "Int"
+   },
+   {
+    "eval": "routingtable",
+    "label": "Routing Table",
+    "type": "DAT"
+   },
+   {
+    "eval": "usemultipliers",
+    "label": "Use Multipliers",
+    "type": "Toggle"
+   },
+   {
+    "eval": "multiplier",
+    "label": "Multiplier",
+    "type": "Sequence"
+   },
+   {
+    "eval": "multiplier0value",
+    "label": "Multiplier Value",
+    "type": "Float"
+   }
+  ],
+  "Extrude POP": [
+   {
+    "eval": "group",
+    "label": "Group",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "axis",
+    "label": "Axis",
+    "type": "Menu"
+   },
+   {
+    "eval": "distance",
+    "label": "Distance",
+    "type": "Float"
+   },
+   {
+    "eval": "taper",
+    "label": "Taper",
+    "type": "Float"
+   },
+   {
+    "eval": "peredge",
+    "label": "Per Edge",
+    "type": "Toggle"
+   },
+   {
+    "eval": "maxprimsperpoint",
+    "label": "Max Primitives per Point",
+    "type": "Int"
+   },
+   {
+    "eval": "normal",
+    "label": "Normal",
+    "type": "Menu"
+   },
+   {
+    "eval": "cpureadback",
+    "label": "Copy Topology Info Back to CPU",
+    "type": "Toggle"
+   },
+   {
+    "eval": "map",
+    "label": "Mapping",
+    "type": "Sequence"
+   },
+   {
+    "eval": "map0element",
+    "label": "Element",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "map0parm",
+    "label": "Target Parameter",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "map0combineop",
+    "label": "Combine Operation",
+    "type": "Menu"
+   }
+  ],
+  "Facet POP": [
+   {
+    "eval": "group",
+    "label": "Group",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "operation",
+    "label": "Operation",
+    "type": "Menu"
+   },
+   {
+    "eval": "angle",
+    "label": "Angle",
+    "type": ""
+   },
+   {
+    "eval": "dist",
+    "label": "Distance",
+    "type": "Float"
+   },
+   {
+    "eval": "maxtries",
+    "label": "Max Tries",
+    "type": "Int"
+   },
+   {
+    "eval": "removedegenerate",
+    "label": "Remove Degenerate",
+    "type": "Toggle"
+   },
+   {
+    "eval": "removeunusedpoints",
+    "label": "Remove Unused Points",
+    "type": "Toggle"
+   },
+   {
+    "eval": "technique",
+    "label": "Technique",
+    "type": "Menu"
+   },
+   {
+    "eval": "gridres",
+    "label": "Voxels Grid Resolution",
+    "type": "Int"
+   },
+   {
+    "eval": "specifybbox",
+    "label": "Specify Bounding Box",
+    "type": "Toggle"
+   },
+   {
+    "eval": "bbox",
+    "label": "Bounding Box",
+    "type": "SOP"
+   },
+   {
+    "eval": "computenormals",
+    "label": "Compute Point Normals",
+    "type": "Toggle"
+   },
+   {
+    "eval": "cpureadback",
+    "label": "Copy Topology Info Back to CPU",
+    "type": "Toggle"
+   }
+  ],
+  "Feedback POP": [
+   {
+    "eval": "targetpop",
+    "label": "Target POP",
+    "type": "POP"
+   },
+   {
+    "eval": "initializepulse",
+    "label": "Initialize",
+    "type": "Pulse"
+   },
+   {
+    "eval": "startpulse",
+    "label": "Start",
+    "type": "Pulse"
+   },
+   {
+    "eval": "play",
+    "label": "Play",
+    "type": "Toggle"
+   },
+   {
+    "eval": "preroll",
+    "label": "Pre-Roll",
+    "type": "Float"
+   },
+   {
+    "eval": "donepulse",
+    "label": "Go to Done",
+    "type": "Pulse"
+   },
+   {
+    "eval": "usememlimit",
+    "label": "Use Memory Limit",
+    "type": "Toggle"
+   },
+   {
+    "eval": "inputmul",
+    "label": "Input Multiplier",
+    "type": "Int"
+   }
+  ],
+  "Field POP": [
+   {
+    "eval": "attrclass",
+    "label": "Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "fieldattrscope",
+    "label": "Field Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "specpop",
+    "label": "Specification POP",
+    "type": "POP"
+   },
+   {
+    "eval": "mode",
+    "label": "Mode",
+    "type": "Menu"
+   },
+   {
+    "eval": "size",
+    "label": "Size",
+    "type": "XYZW"
+   },
+   {
+    "eval": "rad",
+    "label": "Radius",
+    "type": "XYZW"
+   },
+   {
+    "eval": "height",
+    "label": "Height",
+    "type": "Float"
+   },
+   {
+    "eval": "roundness",
+    "label": "Roundness",
+    "type": "Float"
+   },
+   {
+    "eval": "pointa",
+    "label": "Point A",
+    "type": "XYZW"
+   },
+   {
+    "eval": "pointb",
+    "label": "Point B",
+    "type": "XYZW"
+   },
+   {
+    "eval": "strength",
+    "label": "Strength",
+    "type": "XYZW"
+   },
+   {
+    "eval": "exponent",
+    "label": "Exponent",
+    "type": "Float"
+   },
+   {
+    "eval": "transitionrange",
+    "label": "Transition Range",
+    "type": "Float"
+   },
+   {
+    "eval": "transitionalign",
+    "label": "Transition Align",
+    "type": "Float"
+   },
+   {
+    "eval": "transitiontype",
+    "label": "Transition Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "absvalue",
+    "label": "Absolute Value",
+    "type": "Toggle"
+   },
+   {
+    "eval": "invert",
+    "label": "Invert",
+    "type": "Toggle"
+   },
+   {
+    "eval": "torange",
+    "label": "To Range",
+    "type": "Float"
+   },
+   {
+    "eval": "deletezeros",
+    "label": "Delete Zeros",
+    "type": "Toggle"
+   },
+   {
+    "eval": "linestripbehavior",
+    "label": "Line Strip Behavior",
+    "type": "Menu"
+   },
+   {
+    "eval": "xord",
+    "label": "Transform Order",
+    "type": "Menu"
+   },
+   {
+    "eval": "rord",
+    "label": "Rotate Order",
+    "type": "Menu"
+   },
+   {
+    "eval": "t",
+    "label": "Translate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "r",
+    "label": "Rotate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "s",
+    "label": "Scale",
+    "type": "XYZW"
+   },
+   {
+    "eval": "p",
+    "label": "Pivot",
+    "type": "XYZW"
+   },
+   {
+    "eval": "weight",
+    "label": "Weight",
+    "type": "Toggle"
+   },
+   {
+    "eval": "signeddistance",
+    "label": "Signed Distance",
+    "type": "Toggle"
+   },
+   {
+    "eval": "perfieldweights",
+    "label": "Per-Field Weights",
+    "type": "Toggle"
+   },
+   {
+    "eval": "perfielddistances",
+    "label": "Per-Field Distances",
+    "type": "Toggle"
+   },
+   {
+    "eval": "combineop",
+    "label": "Combine Operation",
+    "type": "Menu"
+   },
+   {
+    "eval": "combineentity",
+    "label": "Combine Entity",
+    "type": "Menu"
+   },
+   {
+    "eval": "combineattr",
+    "label": "Combine Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "combineoutputattr",
+    "label": "Combine Output Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "combineoverrideautoattr",
+    "label": "Override Automatic Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "combineattrtype",
+    "label": "Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "combineattrnumcomps",
+    "label": "Components",
+    "type": "Menu"
+   },
+   {
+    "eval": "combineattrdefaultval",
+    "label": "Default Value",
+    "type": "Float"
+   }
+  ],
+  "File In POP": [
+   {
+    "eval": "file",
+    "label": "Geometry File",
+    "type": "File"
+   },
+   {
+    "eval": "flipfacing",
+    "label": "Flip Primitive Faces",
+    "type": "Toggle"
+   },
+   {
+    "eval": "refresh",
+    "label": "Refresh",
+    "type": "Toggle"
+   },
+   {
+    "eval": "inputcolorspace",
+    "label": "Input Color Space",
+    "type": "Menu"
+   },
+   {
+    "eval": "inputreferencewhite",
+    "label": "Input Reference White",
+    "type": "Menu"
+   }
+  ],
+  "File Out POP": [
+   {
+    "eval": "type",
+    "label": "Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "objectfiletype",
+    "label": "Object File Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "uniquesuff",
+    "label": "Unique Suffix",
+    "type": "Toggle"
+   },
+   {
+    "eval": "n",
+    "label": "N",
+    "type": "Int"
+   },
+   {
+    "eval": "leadingzerosdigits",
+    "label": "Leading Zeros Digits",
+    "type": "Int"
+   },
+   {
+    "eval": "file",
+    "label": "File",
+    "type": "File"
+   },
+   {
+    "eval": "fps",
+    "label": "FPS",
+    "type": "Float"
+   },
+   {
+    "eval": "limitlength",
+    "label": "Limit Length",
+    "type": "Toggle"
+   },
+   {
+    "eval": "length",
+    "label": "Length",
+    "type": "Float"
+   },
+   {
+    "eval": "record",
+    "label": "Record",
+    "type": "Toggle"
+   },
+   {
+    "eval": "recordpulse",
+    "label": "Record Pulse",
+    "type": "Pulse"
+   },
+   {
+    "eval": "pause",
+    "label": "Pause",
+    "type": "Toggle"
+   },
+   {
+    "eval": "addframe",
+    "label": "Add Frame",
+    "type": "Pulse"
+   },
+   {
+    "eval": "maxactive",
+    "label": "Max Active Saves",
+    "type": "Int"
+   },
+   {
+    "eval": "includeprim",
+    "label": "Include Primitives",
+    "type": "Toggle"
+   },
+   {
+    "eval": "texcoordattrib",
+    "label": "Tex Coord Attribute",
+    "type": "Str"
+   },
+   {
+    "eval": "outputcolorspace",
+    "label": "Output Color Space",
+    "type": "Menu"
+   },
+   {
+    "eval": "attr",
+    "label": "Attribute",
+    "type": "Sequence"
+   },
+   {
+    "eval": "attr0fields",
+    "label": "Fields",
+    "type": "Str"
+   }
+  ],
+  "Force Radial POP": [
+   {
+    "eval": "specpop",
+    "label": "Specification POP",
+    "type": "POP"
+   },
+   {
+    "eval": "pos",
+    "label": "Position",
+    "type": "XYZW"
+   },
+   {
+    "eval": "direction",
+    "label": "Direction",
+    "type": "XYZW"
+   },
+   {
+    "eval": "radial",
+    "label": "Enable Radial",
+    "type": "Toggle"
+   },
+   {
+    "eval": "radialstrength",
+    "label": "Radial Strength",
+    "type": "Float"
+   },
+   {
+    "eval": "axial",
+    "label": "Enable Axial",
+    "type": "Toggle"
+   },
+   {
+    "eval": "axialr",
+    "label": "Axis Rotation",
+    "type": "XYZW"
+   },
+   {
+    "eval": "axialstrength",
+    "label": "Axial Strength",
+    "type": "Float"
+   },
+   {
+    "eval": "spiral",
+    "label": "Enable Spiral",
+    "type": "Toggle"
+   },
+   {
+    "eval": "spiralr",
+    "label": "Spiral Rotation",
+    "type": "XYZW"
+   },
+   {
+    "eval": "spiralstrength",
+    "label": "Spiral Strength",
+    "type": "Float"
+   },
+   {
+    "eval": "planar",
+    "label": "Enable Planar",
+    "type": "Toggle"
+   },
+   {
+    "eval": "planarexponent",
+    "label": "Planar Exponent",
+    "type": "Float"
+   },
+   {
+    "eval": "planarstrength",
+    "label": "Planar Strength",
+    "type": "Float"
+   },
+   {
+    "eval": "falloff",
+    "label": "Falloff",
+    "type": "Menu"
+   },
+   {
+    "eval": "falloffsteepness",
+    "label": "Steepness",
+    "type": "Float"
+   },
+   {
+    "eval": "falloffbias",
+    "label": "Bias",
+    "type": "Float"
+   },
+   {
+    "eval": "falloffexponent",
+    "label": "Exponent",
+    "type": "Float"
+   },
+   {
+    "eval": "falloffradius",
+    "label": "Radius",
+    "type": "Float"
+   },
+   {
+    "eval": "falloffplateau",
+    "label": "Plateau",
+    "type": "Float"
+   },
+   {
+    "eval": "fallofflimitrange",
+    "label": "Limit Near-Range",
+    "type": "Float"
+   },
+   {
+    "eval": "globforce",
+    "label": "Global Force",
+    "type": "XYZW"
+   },
+   {
+    "eval": "globforcemult",
+    "label": "Global Force Multiplier",
+    "type": "Float"
+   },
+   {
+    "eval": "windspeed",
+    "label": "Wind Speed",
+    "type": "XYZW"
+   },
+   {
+    "eval": "windspeedmult",
+    "label": "Wind Speed Multiplier",
+    "type": "Float"
+   },
+   {
+    "eval": "map",
+    "label": "Mapping",
+    "type": "Sequence"
+   },
+   {
+    "eval": "map0element",
+    "label": "Element",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "map0parm",
+    "label": "Parameter",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "map0combineop",
+    "label": "Combine Operation",
+    "type": "Menu"
+   }
+  ],
+  "GLSL Advanced POP": [
+   {
+    "eval": "computedat",
+    "label": "Compute Shader",
+    "type": "DAT"
+   },
+   {
+    "eval": "shaderdispatchmode",
+    "label": "Shader Dispatch Mode",
+    "type": "Menu"
+   },
+   {
+    "eval": "numelems",
+    "label": "Number of Elements",
+    "type": "Int"
+   },
+   {
+    "eval": "numelemspop",
+    "label": "POP",
+    "type": "POP"
+   },
+   {
+    "eval": "numelemsclass",
+    "label": "Num Elements Attrib",
+    "type": "Menu"
+   },
+   {
+    "eval": "workgroupsize",
+    "label": "Work Group Size",
+    "type": "Int"
+   },
+   {
+    "eval": "dispatchsize",
+    "label": "Dispatch Size",
+    "type": "Int"
+   },
+   {
+    "eval": "numthreadsbatchmode",
+    "label": "Number of Threads per Batch Mode",
+    "type": "Menu"
+   },
+   {
+    "eval": "ptoutputattrs",
+    "label": "Point Output Attributes",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "primoutputattrs",
+    "label": "Prim Output Attributes",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "vertoutputattrs",
+    "label": "Vert Output Attributes",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "outputaccess",
+    "label": "Output Access",
+    "type": "Menu"
+   },
+   {
+    "eval": "initoutputattrs",
+    "label": "Initialize Output Attributes",
+    "type": "Toggle"
+   },
+   {
+    "eval": "prevpassoutput",
+    "label": "Copy Previous Pass Output to Input",
+    "type": "Toggle"
+   },
+   {
+    "eval": "npasses",
+    "label": "Passes",
+    "type": "Int"
+   },
+   {
+    "eval": "input",
+    "label": "Input",
+    "type": "Sequence"
+   },
+   {
+    "eval": "simplexnoise",
+    "label": "TDSimplexNoise()",
+    "type": "Menu"
+   },
+   {
+    "eval": "numthreadsmode",
+    "label": "Number of Threads",
+    "type": "Menu"
+   },
+   {
+    "eval": "render",
+    "label": "Render",
+    "type": "Toggle"
+   },
+   {
+    "eval": "maxpointsmode",
+    "label": "Max Points",
+    "type": "Menu"
+   },
+   {
+    "eval": "pointcountinfo",
+    "label": "Point Count Info",
+    "type": "Menu"
+   },
+   {
+    "eval": "pointcountmode",
+    "label": "Point Count",
+    "type": "Menu"
+   },
+   {
+    "eval": "pointcountpop",
+    "label": "Point Count POP",
+    "type": "POP"
+   },
+   {
+    "eval": "pointcountclass",
+    "label": "Point Count Attribute",
+    "type": "Menu"
+   },
+   {
+    "eval": "maxtrianglesmode",
+    "label": "Max Triangles",
+    "type": "Menu"
+   },
+   {
+    "eval": "maxquadsmode",
+    "label": "Max Quads",
+    "type": "Menu"
+   },
+   {
+    "eval": "maxlinestripsmode",
+    "label": "Max Line Strips",
+    "type": "Menu"
+   },
+   {
+    "eval": "maxlsvertsmode",
+    "label": "Max Line Strip Verts",
+    "type": "Menu"
+   },
+   {
+    "eval": "maxlinesmode",
+    "label": "Max Lines",
+    "type": "Menu"
+   },
+   {
+    "eval": "maxpointprimsmode",
+    "label": "Max Point Prims",
+    "type": "Menu"
+   },
+   {
+    "eval": "lsinfoupdate",
+    "label": "Line Strip Info Update",
+    "type": "Menu"
+   },
+   {
+    "eval": "lsinfopop",
+    "label": "Line Strip Info POP",
+    "type": "POP"
+   },
+   {
+    "eval": "lsinfoclass",
+    "label": "Line Strip Info Attribute",
+    "type": "Menu"
+   },
+   {
+    "eval": "lsindexpop",
+    "label": "Line Strip Index per Vert POP",
+    "type": "POP"
+   },
+   {
+    "eval": "lsindexclass",
+    "label": "Line Strip Index per Vert Attribute",
+    "type": "Menu"
+   },
+   {
+    "eval": "lsmaxvertsoverride",
+    "label": "Max Verts per Line Strip",
+    "type": "Toggle"
+   },
+   {
+    "eval": "initoutputprims",
+    "label": "Initialize Output Primitives",
+    "type": "Menu"
+   },
+   {
+    "eval": "topoinfo",
+    "label": "Topology Info",
+    "type": "Menu"
+   },
+   {
+    "eval": "topoinfopop",
+    "label": "Topology Info POP",
+    "type": "POP"
+   },
+   {
+    "eval": "topoinfoclass",
+    "label": "Topology Info Attributes Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "trianglecountmode",
+    "label": "Triangle Count",
+    "type": "Menu"
+   },
+   {
+    "eval": "quadcountmode",
+    "label": "Quad Count",
+    "type": "Menu"
+   },
+   {
+    "eval": "linestripcountmode",
+    "label": "Line Strip Count",
+    "type": "Menu"
+   },
+   {
+    "eval": "lsvertcountmode",
+    "label": "Line Strip Vert Count",
+    "type": "Menu"
+   },
+   {
+    "eval": "linecountmode",
+    "label": "Line Count",
+    "type": "Menu"
+   },
+   {
+    "eval": "pointprimcountmode",
+    "label": "Point Prim Count",
+    "type": "Menu"
+   },
+   {
+    "eval": "extraout",
+    "label": "Extra Output",
+    "type": "Sequence"
+   },
+   {
+    "eval": "extraout0pop",
+    "label": "POP",
+    "type": "POP"
+   },
+   {
+    "eval": "extraout0ptattrs",
+    "label": "Point Output Attributes",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "extraout0primattrs",
+    "label": "Prim Output Attributes",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "extraout0vertattrs",
+    "label": "Vert Output Attributes",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "extraout0outputaccess",
+    "label": "Output Access",
+    "type": "Menu"
+   },
+   {
+    "eval": "extraout0prevpassoutput",
+    "label": "Copy Previous Pass Output to Input",
+    "type": "Toggle"
+   },
+   {
+    "eval": "extraout0copyinputattrs",
+    "label": "Copy Input Attributes",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attr",
+    "label": "New Attribute",
+    "type": "Sequence"
+   },
+   {
+    "eval": "attr0name",
+    "label": "New Attribute Name",
+    "type": "Menu"
+   },
+   {
+    "eval": "attr0type",
+    "label": "New Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attr0isarray",
+    "label": "Array",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attr0arraysize",
+    "label": "Array Size",
+    "type": "Int"
+   },
+   {
+    "eval": "attr0value",
+    "label": "Value",
+    "type": "Float"
+   },
+   {
+    "eval": "matattr",
+    "label": "Matrix Attribute",
+    "type": "Sequence"
+   },
+   {
+    "eval": "matattr0name",
+    "label": "Custom Matrix Name",
+    "type": "Str"
+   },
+   {
+    "eval": "matattr0numrows",
+    "label": "Rows",
+    "type": "Int"
+   },
+   {
+    "eval": "matattr0numcols",
+    "label": "Columns",
+    "type": "Int"
+   },
+   {
+    "eval": "matattr0isarray",
+    "label": "Array",
+    "type": "Toggle"
+   },
+   {
+    "eval": "matattr0arraysize",
+    "label": "Array Size",
+    "type": "Int"
+   },
+   {
+    "eval": "matattr0qualifier",
+    "label": "Qualifier",
+    "type": "Menu"
+   },
+   {
+    "eval": "premultcolor",
+    "label": "Pre-Multiply RGB by Alpha",
+    "type": "Toggle"
+   },
+   {
+    "eval": "color",
+    "label": "Color",
+    "type": "Sequence"
+   },
+   {
+    "eval": "color0rgb",
+    "label": "RGB",
+    "type": "RGBA"
+   },
+   {
+    "eval": "color0alpha",
+    "label": "Alpha",
+    "type": "Float"
+   },
+   {
+    "eval": "vec",
+    "label": "Vector",
+    "type": "Sequence"
+   },
+   {
+    "eval": "vec0type",
+    "label": "Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "vec0value",
+    "label": "Value",
+    "type": "XYZW"
+   },
+   {
+    "eval": "sampler",
+    "label": "Sampler",
+    "type": "Sequence"
+   },
+   {
+    "eval": "sampler0top",
+    "label": "TOP",
+    "type": "TOP"
+   },
+   {
+    "eval": "sampler0extendv",
+    "label": "Extend V",
+    "type": "Menu"
+   },
+   {
+    "eval": "sampler0extendw",
+    "label": "Extend W",
+    "type": "Menu"
+   },
+   {
+    "eval": "sampler0filter",
+    "label": "Filter",
+    "type": "Menu"
+   },
+   {
+    "eval": "array",
+    "label": "Array",
+    "type": "Sequence"
+   },
+   {
+    "eval": "array0type",
+    "label": "Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "array0chop",
+    "label": "CHOP",
+    "type": "CHOP"
+   },
+   {
+    "eval": "array0arraytype",
+    "label": "Array Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "matrix",
+    "label": "Matrix",
+    "type": "Sequence"
+   },
+   {
+    "eval": "matrix0value",
+    "label": "Matrix",
+    "type": "CHOP"
+   },
+   {
+    "eval": "tempbuffer",
+    "label": "Temp Buffer",
+    "type": "Sequence"
+   },
+   {
+    "eval": "tempbuffer0initval",
+    "label": "Initial Value",
+    "type": "Int"
+   },
+   {
+    "eval": "const",
+    "label": "Constant",
+    "type": "Sequence"
+   },
+   {
+    "eval": "const0value",
+    "label": "Value",
+    "type": "Float"
+   }
+  ],
+  "GLSL Copy POP": [
+   {
+    "eval": "ncy",
+    "label": "Number of Copies",
+    "type": "Int"
+   },
+   {
+    "eval": "ptcomputedat",
+    "label": "Points Compute Shader",
+    "type": "DAT"
+   },
+   {
+    "eval": "ptoutputattrs",
+    "label": "Point Output Attributes",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "vertcomputemethod",
+    "label": "Verts Compute Method",
+    "type": "Menu"
+   },
+   {
+    "eval": "vertcomputedat",
+    "label": "Verts Compute Shader",
+    "type": "DAT"
+   },
+   {
+    "eval": "vertoutputattrs",
+    "label": "Vert Output Attributes",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "primcomputemethod",
+    "label": "Prim Compute Method",
+    "type": "Menu"
+   },
+   {
+    "eval": "primcomputedat",
+    "label": "Prim Compute Shader",
+    "type": "DAT"
+   },
+   {
+    "eval": "primoutputattrs",
+    "label": "Prim Output Attributes",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "dimension",
+    "label": "Append Dimension",
+    "type": "Menu"
+   },
+   {
+    "eval": "simplexnoise",
+    "label": "TDSimplexNoise()",
+    "type": "Menu"
+   },
+   {
+    "eval": "attr",
+    "label": "New Attribute",
+    "type": "Sequence"
+   },
+   {
+    "eval": "attr0name",
+    "label": "New Attribute Name",
+    "type": "Menu"
+   },
+   {
+    "eval": "attr0type",
+    "label": "New Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attr0isarray",
+    "label": "Array",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attr0arraysize",
+    "label": "Array Size",
+    "type": "Int"
+   },
+   {
+    "eval": "matattr",
+    "label": "Matrix Attribute",
+    "type": "Sequence"
+   },
+   {
+    "eval": "matattr0name",
+    "label": "Custom Matrix Name",
+    "type": "Str"
+   },
+   {
+    "eval": "matattr0numrows",
+    "label": "Rows",
+    "type": "Int"
+   },
+   {
+    "eval": "matattr0numcols",
+    "label": "Columns",
+    "type": "Int"
+   },
+   {
+    "eval": "matattr0isarray",
+    "label": "Array",
+    "type": "Toggle"
+   },
+   {
+    "eval": "matattr0arraysize",
+    "label": "Array Size",
+    "type": "Int"
+   },
+   {
+    "eval": "matattr0qualifier",
+    "label": "Qualifier",
+    "type": "Menu"
+   },
+   {
+    "eval": "premultcolor",
+    "label": "Pre-Multiply RGB by Alpha",
+    "type": "Toggle"
+   },
+   {
+    "eval": "color",
+    "label": "Color",
+    "type": "Sequence"
+   },
+   {
+    "eval": "color0rgb",
+    "label": "RGB",
+    "type": "RGBA"
+   },
+   {
+    "eval": "color0alpha",
+    "label": "Alpha",
+    "type": "Float"
+   },
+   {
+    "eval": "vec",
+    "label": "Vector",
+    "type": "Sequence"
+   },
+   {
+    "eval": "vec0type",
+    "label": "Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "vec0value",
+    "label": "Value",
+    "type": "XYZW"
+   },
+   {
+    "eval": "sampler",
+    "label": "Sampler",
+    "type": "Sequence"
+   },
+   {
+    "eval": "sampler0top",
+    "label": "TOP",
+    "type": "TOP"
+   },
+   {
+    "eval": "sampler0extendv",
+    "label": "Extend V",
+    "type": "Menu"
+   },
+   {
+    "eval": "sampler0extendw",
+    "label": "Extend W",
+    "type": "Menu"
+   },
+   {
+    "eval": "sampler0filter",
+    "label": "Filter",
+    "type": "Menu"
+   },
+   {
+    "eval": "array",
+    "label": "Array",
+    "type": "Sequence"
+   },
+   {
+    "eval": "array0type",
+    "label": "Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "array0chop",
+    "label": "CHOP",
+    "type": "CHOP"
+   },
+   {
+    "eval": "array0arraytype",
+    "label": "Array Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "matrix",
+    "label": "Matrix",
+    "type": "Sequence"
+   },
+   {
+    "eval": "matrix0value",
+    "label": "Matrix",
+    "type": "CHOP"
+   },
+   {
+    "eval": "tempbuffer",
+    "label": "Temp Buffer",
+    "type": "Sequence"
+   },
+   {
+    "eval": "tempbuffer0initval",
+    "label": "Initial Value",
+    "type": "Int"
+   },
+   {
+    "eval": "const",
+    "label": "Constant",
+    "type": "Sequence"
+   },
+   {
+    "eval": "const0value",
+    "label": "Value",
+    "type": "Float"
+   },
+   {
+    "eval": "buffer",
+    "label": "Buffer",
+    "type": "Sequence"
+   },
+   {
+    "eval": "buffer0attrclass",
+    "label": "Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "buffer0attr",
+    "label": "Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "buffer0name",
+    "label": "Name",
+    "type": "Str"
+   }
+  ],
+  "GLSL Create POP": [
+   {
+    "eval": "computedat",
+    "label": "Compute Shader",
+    "type": "DAT"
+   },
+   {
+    "eval": "primtype",
+    "label": "Primitive Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "maxprims",
+    "label": "Max Number of Primitives",
+    "type": "Int"
+   },
+   {
+    "eval": "indirect",
+    "label": "Indirect",
+    "type": "Toggle"
+   },
+   {
+    "eval": "numthreadsmode",
+    "label": "Number of Threads",
+    "type": "Menu"
+   },
+   {
+    "eval": "workgroupsize",
+    "label": "Work Group Size",
+    "type": "Int"
+   },
+   {
+    "eval": "dispatchsize",
+    "label": "Dispatch Size",
+    "type": "Int"
+   },
+   {
+    "eval": "pops",
+    "label": "POPs",
+    "type": "POP"
+   },
+   {
+    "eval": "vec",
+    "label": "Vector",
+    "type": "Sequence"
+   },
+   {
+    "eval": "vec0type",
+    "label": "Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "vec0value",
+    "label": "Value",
+    "type": "XYZW"
+   },
+   {
+    "eval": "sampler",
+    "label": "Sampler",
+    "type": "Sequence"
+   },
+   {
+    "eval": "sampler0top",
+    "label": "TOP",
+    "type": "TOP"
+   },
+   {
+    "eval": "sampler0extendv",
+    "label": "Extend V",
+    "type": "Menu"
+   },
+   {
+    "eval": "sampler0extendw",
+    "label": "Extend W",
+    "type": "Menu"
+   },
+   {
+    "eval": "sampler0filter",
+    "label": "Filter",
+    "type": "Menu"
+   },
+   {
+    "eval": "array",
+    "label": "Array",
+    "type": "Sequence"
+   },
+   {
+    "eval": "array0type",
+    "label": "Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "array0chop",
+    "label": "CHOP",
+    "type": "CHOP"
+   },
+   {
+    "eval": "matrix",
+    "label": "Matrix",
+    "type": "Sequence"
+   },
+   {
+    "eval": "matrix0value",
+    "label": "Matrix",
+    "type": "CHOP"
+   },
+   {
+    "eval": "ac",
+    "label": "Atomic Counter",
+    "type": "Sequence"
+   },
+   {
+    "eval": "ac0singlevalue",
+    "label": "Initial Value",
+    "type": "Int"
+   },
+   {
+    "eval": "const",
+    "label": "Constant",
+    "type": "Sequence"
+   },
+   {
+    "eval": "const0value",
+    "label": "Value",
+    "type": "Float"
+   }
+  ],
+  "GLSL POP": [
+   {
+    "eval": "computedat",
+    "label": "Compute Shader",
+    "type": "DAT"
+   },
+   {
+    "eval": "attrclass",
+    "label": "Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "numthreadsmode",
+    "label": "Number of Threads",
+    "type": "Menu"
+   },
+   {
+    "eval": "threadsinput",
+    "label": "Threads Input",
+    "type": "Int"
+   },
+   {
+    "eval": "numelems",
+    "label": "Number of Elements",
+    "type": "Int"
+   },
+   {
+    "eval": "numelemspop",
+    "label": "POP",
+    "type": "POP"
+   },
+   {
+    "eval": "numelemsclass",
+    "label": "Num Elements Attrib",
+    "type": "Menu"
+   },
+   {
+    "eval": "workgroupsize",
+    "label": "Work Group Size",
+    "type": "Int"
+   },
+   {
+    "eval": "dispatchsize",
+    "label": "Dispatch Size",
+    "type": "Int"
+   },
+   {
+    "eval": "outputattrs",
+    "label": "Output Attributes",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "outputaccess",
+    "label": "Output Access",
+    "type": "Menu"
+   },
+   {
+    "eval": "initoutputattrs",
+    "label": "Initialize Output Attributes",
+    "type": "Toggle"
+   },
+   {
+    "eval": "prevpassoutput",
+    "label": "Copy Previous Pass Output to Input",
+    "type": "Toggle"
+   },
+   {
+    "eval": "npasses",
+    "label": "Passes",
+    "type": "Int"
+   },
+   {
+    "eval": "input",
+    "label": "Input",
+    "type": "Sequence"
+   },
+   {
+    "eval": "simplexnoise",
+    "label": "TDSimplexNoise()",
+    "type": "Menu"
+   },
+   {
+    "eval": "attr",
+    "label": "New Attribute",
+    "type": "Sequence"
+   },
+   {
+    "eval": "attr0type",
+    "label": "New Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attr0isarray",
+    "label": "Array",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attr0arraysize",
+    "label": "Array Size",
+    "type": "Int"
+   },
+   {
+    "eval": "attr0value",
+    "label": "Value",
+    "type": "Float"
+   },
+   {
+    "eval": "matattr",
+    "label": "Matrix Attribute",
+    "type": "Sequence"
+   },
+   {
+    "eval": "matattr0numrows",
+    "label": "Rows",
+    "type": "Int"
+   },
+   {
+    "eval": "matattr0numcols",
+    "label": "Columns",
+    "type": "Int"
+   },
+   {
+    "eval": "matattr0isarray",
+    "label": "Array",
+    "type": "Toggle"
+   },
+   {
+    "eval": "matattr0arraysize",
+    "label": "Array Size",
+    "type": "Int"
+   },
+   {
+    "eval": "matattr0qualifier",
+    "label": "Qualifier",
+    "type": "Menu"
+   },
+   {
+    "eval": "premultcolor",
+    "label": "Pre-Multiply RGB by Alpha",
+    "type": "Toggle"
+   },
+   {
+    "eval": "color",
+    "label": "Color",
+    "type": "Sequence"
+   },
+   {
+    "eval": "color0rgb",
+    "label": "RGB",
+    "type": "RGBA"
+   },
+   {
+    "eval": "color0alpha",
+    "label": "Alpha",
+    "type": "Float"
+   },
+   {
+    "eval": "vec",
+    "label": "Vector",
+    "type": "Sequence"
+   },
+   {
+    "eval": "vec0type",
+    "label": "Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "vec0value",
+    "label": "Value",
+    "type": "XYZW"
+   },
+   {
+    "eval": "sampler",
+    "label": "Sampler",
+    "type": "Sequence"
+   },
+   {
+    "eval": "sampler0top",
+    "label": "TOP",
+    "type": "TOP"
+   },
+   {
+    "eval": "sampler0extendv",
+    "label": "Extend V",
+    "type": "Menu"
+   },
+   {
+    "eval": "sampler0extendw",
+    "label": "Extend W",
+    "type": "Menu"
+   },
+   {
+    "eval": "sampler0filter",
+    "label": "Filter",
+    "type": "Menu"
+   },
+   {
+    "eval": "array",
+    "label": "Array",
+    "type": "Sequence"
+   },
+   {
+    "eval": "array0type",
+    "label": "Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "array0chop",
+    "label": "CHOP",
+    "type": "CHOP"
+   },
+   {
+    "eval": "array0arraytype",
+    "label": "Array Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "matrix",
+    "label": "Matrix",
+    "type": "Sequence"
+   },
+   {
+    "eval": "matrix0value",
+    "label": "Matrix",
+    "type": "CHOP"
+   },
+   {
+    "eval": "tempbuffer",
+    "label": "Temp Buffer",
+    "type": "Sequence"
+   },
+   {
+    "eval": "tempbuffer0initval",
+    "label": "Initial Value",
+    "type": "Int"
+   },
+   {
+    "eval": "const",
+    "label": "Constant",
+    "type": "Sequence"
+   },
+   {
+    "eval": "const0value",
+    "label": "Value",
+    "type": "Float"
+   },
+   {
+    "eval": "asname",
+    "label": "Name",
+    "type": "Str"
+   },
+   {
+    "eval": "colpop",
+    "label": "Collision POP",
+    "type": "POP"
+   },
+   {
+    "eval": "buildflag",
+    "label": "Build Flag",
+    "type": "Menu"
+   },
+   {
+    "eval": "opaquecolgeo",
+    "label": "Opaque Collision Geometry",
+    "type": "Toggle"
+   }
+  ],
+  "GLSL Select POP": [
+   {
+    "eval": "pop",
+    "label": "POP",
+    "type": "POP"
+   },
+   {
+    "eval": "name",
+    "label": "Output Name",
+    "type": "Str"
+   }
+  ],
+  "Grid POP": [
+   {
+    "eval": "surftype",
+    "label": "Connectivity",
+    "type": "Menu"
+   },
+   {
+    "eval": "modifybounds",
+    "label": "Modify Bounds",
+    "type": "Toggle"
+   },
+   {
+    "eval": "size",
+    "label": "Size",
+    "type": "XYZW"
+   },
+   {
+    "eval": "cols",
+    "label": "Columns",
+    "type": "Int"
+   },
+   {
+    "eval": "rows",
+    "label": "Rows",
+    "type": "Int"
+   },
+   {
+    "eval": "slices",
+    "label": "Slices",
+    "type": "Int"
+   },
+   {
+    "eval": "uniquepoints",
+    "label": "Unique Points",
+    "type": "Toggle"
+   },
+   {
+    "eval": "seed",
+    "label": "Seed",
+    "type": "Float"
+   },
+   {
+    "eval": "random",
+    "label": "Random",
+    "type": "XYZW"
+   },
+   {
+    "eval": "randomsizefit",
+    "label": "Random Size Fit",
+    "type": "XYZW"
+   },
+   {
+    "eval": "line",
+    "label": "Line X/Y/Z",
+    "type": "Toggle"
+   },
+   {
+    "eval": "plane",
+    "label": "Plane XY/YZ/ZX",
+    "type": "Toggle"
+   },
+   {
+    "eval": "anchoru",
+    "label": "Anchor U",
+    "type": "Float"
+   },
+   {
+    "eval": "anchorv",
+    "label": "Anchor V",
+    "type": "Float"
+   },
+   {
+    "eval": "anchorw",
+    "label": "Anchor W",
+    "type": "Float"
+   },
+   {
+    "eval": "t",
+    "label": "Translate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "r",
+    "label": "Rotate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "scale",
+    "label": "Uniform Scale",
+    "type": "Float"
+   },
+   {
+    "eval": "normal",
+    "label": "Normal",
+    "type": "Menu"
+   },
+   {
+    "eval": "texture",
+    "label": "Texture Coordinates",
+    "type": "Menu"
+   },
+   {
+    "eval": "dimension",
+    "label": "Append Dimension",
+    "type": "Menu"
+   }
+  ],
+  "Group POP": [
+   {
+    "eval": "grname",
+    "label": "Group Name",
+    "type": "Str"
+   },
+   {
+    "eval": "entity",
+    "label": "Entity",
+    "type": "Menu"
+   },
+   {
+    "eval": "debugcolor",
+    "label": "Debug Color",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attr",
+    "label": "Attribute",
+    "type": "Sequence"
+   },
+   {
+    "eval": "attr0inattr",
+    "label": "Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "attr0func",
+    "label": "Function",
+    "type": "Menu"
+   },
+   {
+    "eval": "attr0value",
+    "label": "Value",
+    "type": "Float"
+   },
+   {
+    "eval": "attr0invert",
+    "label": "Invert",
+    "type": "Toggle"
+   },
+   {
+    "eval": "thinenabled",
+    "label": "Enabled",
+    "type": "Toggle"
+   },
+   {
+    "eval": "thinoutrange",
+    "label": "Thin Out Range",
+    "type": "Toggle"
+   },
+   {
+    "eval": "thinrangestart",
+    "label": "Thin Range Start",
+    "type": "Int"
+   },
+   {
+    "eval": "thinrangelength",
+    "label": "Thin Range Length",
+    "type": "Int"
+   },
+   {
+    "eval": "thinstep",
+    "label": "Thin Step",
+    "type": "Int"
+   },
+   {
+    "eval": "thinrandom",
+    "label": "Thin Random",
+    "type": "Float"
+   },
+   {
+    "eval": "thinrandomseed",
+    "label": "Thin Random Seed",
+    "type": "Float"
+   },
+   {
+    "eval": "thininvert",
+    "label": "Invert",
+    "type": "Toggle"
+   },
+   {
+    "eval": "pattern",
+    "label": "Pattern",
+    "type": "Sequence"
+   },
+   {
+    "eval": "pattern0pattern",
+    "label": "Pattern",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "pattern0invert",
+    "label": "Invert",
+    "type": "Toggle"
+   },
+   {
+    "eval": "group",
+    "label": "Group",
+    "type": "Sequence"
+   },
+   {
+    "eval": "group0name",
+    "label": "Group",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "group0invert",
+    "label": "Invert",
+    "type": "Toggle"
+   },
+   {
+    "eval": "bound",
+    "label": "Bound",
+    "type": "Sequence"
+   },
+   {
+    "eval": "bound0inattr",
+    "label": "Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "bound0type",
+    "label": "Bounding Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "bound0translate",
+    "label": "Translate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "bound0rotate",
+    "label": "Rotate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "bound0scale",
+    "label": "Scale",
+    "type": "XYZW"
+   },
+   {
+    "eval": "bound0invert",
+    "label": "Invert",
+    "type": "Toggle"
+   },
+   {
+    "eval": "cnvttype",
+    "label": "Convert Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "cnvtgroup",
+    "label": "Convert Group",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "cnvtname",
+    "label": "Convert Name",
+    "type": "Str"
+   },
+   {
+    "eval": "preserve",
+    "label": "Preserve Original",
+    "type": "Toggle"
+   },
+   {
+    "eval": "oldname",
+    "label": "Old Group Name",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "newname",
+    "label": "New Group Name",
+    "type": "Str"
+   },
+   {
+    "eval": "deletename",
+    "label": "Delete Group",
+    "type": "StrMenu"
+   }
+  ],
+  "Histogram POP": [
+   {
+    "eval": "attrclass",
+    "label": "Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "inputattrscope",
+    "label": "Input Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "useinputrange",
+    "label": "Use Input Range",
+    "type": "Toggle"
+   },
+   {
+    "eval": "inputrange",
+    "label": "Input Range",
+    "type": "Float"
+   },
+   {
+    "eval": "outputbinval",
+    "label": "Output Bin Value",
+    "type": "Toggle"
+   },
+   {
+    "eval": "quantize",
+    "label": "Quantize",
+    "type": "Menu"
+   },
+   {
+    "eval": "outsiderange",
+    "label": "Outside Range",
+    "type": "Menu"
+   },
+   {
+    "eval": "numbins",
+    "label": "Number of Bins",
+    "type": "Int"
+   },
+   {
+    "eval": "countattr",
+    "label": "Count Attribute",
+    "type": "Str"
+   }
+  ],
+  "Import Select POP": [
+   {
+    "eval": "parent",
+    "label": "Import Parent",
+    "type": "Object"
+   },
+   {
+    "eval": "geometry",
+    "label": "Geo Path",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "reload",
+    "label": "Reload",
+    "type": "Pulse"
+   },
+   {
+    "eval": "blendshape",
+    "label": "Blend Shape",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "comptang",
+    "label": "Compute Tangents",
+    "type": "Toggle"
+   },
+   {
+    "eval": "useparentanim",
+    "label": "Use Parent Animation",
+    "type": "Toggle"
+   },
+   {
+    "eval": "shiftanimationstart",
+    "label": "Shift Animation Start",
+    "type": "Toggle"
+   },
+   {
+    "eval": "sampleratemode",
+    "label": "Sample Rate Mode",
+    "type": "Menu"
+   },
+   {
+    "eval": "samplerate",
+    "label": "Sample Rate",
+    "type": "Float"
+   },
+   {
+    "eval": "playmode",
+    "label": "Play Mode",
+    "type": "Menu"
+   },
+   {
+    "eval": "initialize",
+    "label": "Initialize",
+    "type": "Pulse"
+   },
+   {
+    "eval": "start",
+    "label": "Start",
+    "type": "Pulse"
+   },
+   {
+    "eval": "cue",
+    "label": "Cue",
+    "type": "Toggle"
+   },
+   {
+    "eval": "cuepoint",
+    "label": "Cue Point",
+    "type": "Float"
+   },
+   {
+    "eval": "play",
+    "label": "Play",
+    "type": "Toggle"
+   },
+   {
+    "eval": "index",
+    "label": "Index",
+    "type": "Float"
+   },
+   {
+    "eval": "speed",
+    "label": "Speed",
+    "type": "Float"
+   },
+   {
+    "eval": "trim",
+    "label": "Trim",
+    "type": "Toggle"
+   },
+   {
+    "eval": "tstart",
+    "label": "Trim Start",
+    "type": "Float"
+   },
+   {
+    "eval": "tend",
+    "label": "Trim End",
+    "type": "Float"
+   },
+   {
+    "eval": "textendleft",
+    "label": "Extend Left",
+    "type": "Menu"
+   },
+   {
+    "eval": "textendright",
+    "label": "Extend Right",
+    "type": "Menu"
+   }
+  ],
+  "In POP": [
+   {
+    "eval": "label",
+    "label": "Label",
+    "type": "Str"
+   },
+   {
+    "eval": "connectorder",
+    "label": "Connect Order",
+    "type": "Float"
+   }
+  ],
+  "Limit POP": [
+   {
+    "eval": "attrclass",
+    "label": "Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "group",
+    "label": "Group",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "inputattrscope",
+    "label": "Input Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "parsize",
+    "label": "Parameter Size",
+    "type": "Menu"
+   },
+   {
+    "eval": "mintype",
+    "label": "Limit Type Minimum",
+    "type": "Menu"
+   },
+   {
+    "eval": "maxtype",
+    "label": "Limit Type Maximum",
+    "type": "Menu"
+   },
+   {
+    "eval": "min",
+    "label": "Minimum Value",
+    "type": "Float"
+   },
+   {
+    "eval": "max",
+    "label": "Maximum Value",
+    "type": "Float"
+   },
+   {
+    "eval": "positive",
+    "label": "Positive Only",
+    "type": "Toggle"
+   },
+   {
+    "eval": "castto",
+    "label": "Cast to",
+    "type": "Menu"
+   },
+   {
+    "eval": "outputattrscope",
+    "label": "Output Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "overrideautoattr",
+    "label": "Override Automatic Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attrtype",
+    "label": "Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrnumcomps",
+    "label": "Components",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrdefaultval",
+    "label": "Default Value",
+    "type": "Float"
+   },
+   {
+    "eval": "quantize",
+    "label": "Quantize",
+    "type": "Menu"
+   },
+   {
+    "eval": "quantstep",
+    "label": "Value Step",
+    "type": "Float"
+   },
+   {
+    "eval": "quantoffset",
+    "label": "Value Offset",
+    "type": "Float"
+   }
+  ],
+  "Line Break POP": [
+   {
+    "eval": "connecmode",
+    "label": "Mode",
+    "type": "Menu"
+   },
+   {
+    "eval": "uselinebreak",
+    "label": "Line Break Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "uselinestripindex",
+    "label": "Line Strip Index Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "useinputlinebreaks",
+    "label": "Use Input Line Breaks",
+    "type": "Toggle"
+   },
+   {
+    "eval": "everyn",
+    "label": "Every N Points",
+    "type": "Toggle"
+   },
+   {
+    "eval": "n",
+    "label": "N",
+    "type": "Int"
+   },
+   {
+    "eval": "bydistancethreshold",
+    "label": "By Distance Threshold",
+    "type": "Toggle"
+   },
+   {
+    "eval": "distancethreshold",
+    "label": "Distance Threshold",
+    "type": "Float"
+   },
+   {
+    "eval": "distancethresholdattr",
+    "label": "Distance Threshold Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "outputlinebreakattr",
+    "label": "Output Line Break Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "outputlines",
+    "label": "Output Lines",
+    "type": "Toggle"
+   },
+   {
+    "eval": "linetype",
+    "label": "Line Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "cpureadback",
+    "label": "Copy Topology Info Back to CPU",
+    "type": "Toggle"
+   }
+  ],
+  "Line Divide POP": [
+   {
+    "eval": "divmethod",
+    "label": "Divisions Method",
+    "type": "Menu"
+   },
+   {
+    "eval": "divs",
+    "label": "Divisions",
+    "type": "Int"
+   },
+   {
+    "eval": "mindist",
+    "label": "Min Distance",
+    "type": "Float"
+   },
+   {
+    "eval": "maxdist",
+    "label": "Max Distance",
+    "type": "Float"
+   },
+   {
+    "eval": "minmaxbias",
+    "label": "Min Max Bias",
+    "type": "Float"
+   },
+   {
+    "eval": "byedge",
+    "label": "By Edge",
+    "type": "Toggle"
+   },
+   {
+    "eval": "addctrlpointattr",
+    "label": "Add ControlPoint Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "maxverts",
+    "label": "Maximum Number of Vertices",
+    "type": "Int"
+   },
+   {
+    "eval": "interpmethodpersegment",
+    "label": "Interpolation Method per Segment",
+    "type": "Toggle"
+   },
+   {
+    "eval": "interpmethod",
+    "label": "Interpolation Method",
+    "type": "Menu"
+   },
+   {
+    "eval": "useweight",
+    "label": "Weight Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "usetanin",
+    "label": "In Tangent Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "usetanout",
+    "label": "Out Tangent Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "usetaninconst",
+    "label": "In Tangent Constraint Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "clamped",
+    "label": "Clamped",
+    "type": "Toggle"
+   },
+   {
+    "eval": "tension",
+    "label": "Tension",
+    "type": "Float"
+   },
+   {
+    "eval": "resamplemethod",
+    "label": "Post-Resample Method",
+    "type": "Menu"
+   },
+   {
+    "eval": "resampledivs",
+    "label": "Divisions",
+    "type": "Int"
+   },
+   {
+    "eval": "indvarattr",
+    "label": "Independant Variable Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "indvarstep",
+    "label": "Independant Variable Step",
+    "type": "Float"
+   },
+   {
+    "eval": "resamplemaxverts",
+    "label": "Maximum Number of Vertices",
+    "type": "Int"
+   },
+   {
+    "eval": "maxtries",
+    "label": "Max Tries for Binary Search",
+    "type": "Int"
+   },
+   {
+    "eval": "rmvunusedpts",
+    "label": "Remove Unused Points",
+    "type": "Toggle"
+   },
+   {
+    "eval": "resamplemaxdist",
+    "label": "Max Distance",
+    "type": "Float"
+   }
+  ],
+  "Line Metrics POP": [
+   {
+    "eval": "attrclass",
+    "label": "Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "dispnext",
+    "label": "Displacement to Next",
+    "type": "Toggle"
+   },
+   {
+    "eval": "dispprev",
+    "label": "Displacement to Previous",
+    "type": "Toggle"
+   },
+   {
+    "eval": "distnext",
+    "label": "Distance to Next",
+    "type": "Toggle"
+   },
+   {
+    "eval": "distprev",
+    "label": "Distance to Previous",
+    "type": "Toggle"
+   },
+   {
+    "eval": "dirnext",
+    "label": "Direction to Next",
+    "type": "Toggle"
+   },
+   {
+    "eval": "dirprev",
+    "label": "Direction to Previous",
+    "type": "Toggle"
+   },
+   {
+    "eval": "tangent",
+    "label": "Tangent",
+    "type": "Toggle"
+   },
+   {
+    "eval": "curvature",
+    "label": "Curvature",
+    "type": "Toggle"
+   },
+   {
+    "eval": "angleperdist",
+    "label": "Angle per Distance",
+    "type": "Toggle"
+   },
+   {
+    "eval": "continuousdir",
+    "label": "Continuous Direction",
+    "type": "Toggle"
+   },
+   {
+    "eval": "maxneighbors",
+    "label": "Max Neighbors",
+    "type": "Int"
+   },
+   {
+    "eval": "normal",
+    "label": "Normal",
+    "type": "Toggle"
+   },
+   {
+    "eval": "binormal",
+    "label": "Binormal",
+    "type": "Toggle"
+   },
+   {
+    "eval": "quaternion",
+    "label": "Quaternion",
+    "type": "Toggle"
+   },
+   {
+    "eval": "rotmat",
+    "label": "Rotation Matrix",
+    "type": "Toggle"
+   },
+   {
+    "eval": "transformmat",
+    "label": "Transform Matrix",
+    "type": "Toggle"
+   },
+   {
+    "eval": "useinputorient",
+    "label": "Input Seed Orientation",
+    "type": "Toggle"
+   },
+   {
+    "eval": "diststart",
+    "label": "Distance from Start",
+    "type": "Toggle"
+   },
+   {
+    "eval": "distend",
+    "label": "Distance from End",
+    "type": "Toggle"
+   },
+   {
+    "eval": "diststartnorm",
+    "label": "Distance from Start Normalized",
+    "type": "Toggle"
+   },
+   {
+    "eval": "distendnorm",
+    "label": "Distance from End Normalized",
+    "type": "Toggle"
+   },
+   {
+    "eval": "primlen",
+    "label": "Line Strip Length",
+    "type": "Toggle"
+   },
+   {
+    "eval": "primlenprim",
+    "label": "Length Attrib Primitive Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "pointindex",
+    "label": "Vert Index in Line Strip",
+    "type": "Toggle"
+   },
+   {
+    "eval": "numverts",
+    "label": "Number of Verts in Line Strip",
+    "type": "Toggle"
+   },
+   {
+    "eval": "vertindexnorm",
+    "label": "Vert Index in Line Strip Normalized",
+    "type": "Toggle"
+   },
+   {
+    "eval": "linestripindex",
+    "label": "Line Strip Index",
+    "type": "Toggle"
+   },
+   {
+    "eval": "lsindexnorm",
+    "label": "Line Strip Index Normalized",
+    "type": "Toggle"
+   }
+  ],
+  "Line POP": [
+   {
+    "eval": "output",
+    "label": "Output",
+    "type": "Menu"
+   },
+   {
+    "eval": "multiplelinestrips",
+    "label": "Multiple Line Strips",
+    "type": "Toggle"
+   },
+   {
+    "eval": "interpmethodpersegment",
+    "label": "Interpolation Method per Segment",
+    "type": "Toggle"
+   },
+   {
+    "eval": "interpmethod",
+    "label": "Interpolation Method",
+    "type": "Menu"
+   },
+   {
+    "eval": "tension",
+    "label": "Tension",
+    "type": "Float"
+   },
+   {
+    "eval": "enableweights",
+    "label": "Enable Weights",
+    "type": "Toggle"
+   },
+   {
+    "eval": "enabletangent",
+    "label": "Enable Tangents",
+    "type": "Toggle"
+   },
+   {
+    "eval": "enablepointrepeat",
+    "label": "Enable Point Repeat",
+    "type": "Toggle"
+   },
+   {
+    "eval": "closed",
+    "label": "Closed",
+    "type": "Toggle"
+   },
+   {
+    "eval": "premultcolor",
+    "label": "Pre-Multiply RGB by Alpha",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attr",
+    "label": "New Attribute",
+    "type": "Sequence"
+   },
+   {
+    "eval": "attr0customname",
+    "label": "Custom Name",
+    "type": "Str"
+   },
+   {
+    "eval": "attr0type",
+    "label": "Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attr0numcomps",
+    "label": "Number of Components",
+    "type": "Menu"
+   },
+   {
+    "eval": "attr0value",
+    "label": "Default Value",
+    "type": "RGBA"
+   },
+   {
+    "eval": "pt",
+    "label": "Point",
+    "type": "Sequence"
+   },
+   {
+    "eval": "pt1pos",
+    "label": "Position",
+    "type": "XYZW"
+   },
+   {
+    "eval": "divmethod",
+    "label": "Divisions Method",
+    "type": "Menu"
+   },
+   {
+    "eval": "divs",
+    "label": "Divisions",
+    "type": "Int"
+   },
+   {
+    "eval": "dist",
+    "label": "Distance",
+    "type": "Float"
+   },
+   {
+    "eval": "addctrlpointattr",
+    "label": "Add ControlPoint Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "resamplemethod",
+    "label": "Post-Resample Method",
+    "type": "Menu"
+   },
+   {
+    "eval": "resampledivs",
+    "label": "Divisions",
+    "type": "Int"
+   },
+   {
+    "eval": "resampledist",
+    "label": "Distance",
+    "type": "Float"
+   },
+   {
+    "eval": "indvarattr",
+    "label": "Independant Variable Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "indvarstep",
+    "label": "Independant Variable Step",
+    "type": "Float"
+   },
+   {
+    "eval": "resamplemaxverts",
+    "label": "Maximum Number of Vertices",
+    "type": "Int"
+   },
+   {
+    "eval": "maxtries",
+    "label": "Max Tries for Binary Search",
+    "type": "Int"
+   }
+  ],
+  "Line Resample POP": [
+   {
+    "eval": "resamplemethod",
+    "label": "Resample Method",
+    "type": "Menu"
+   },
+   {
+    "eval": "resampledivs",
+    "label": "Divisions",
+    "type": "Int"
+   },
+   {
+    "eval": "resamplemindist",
+    "label": "Min Distance",
+    "type": "Float"
+   },
+   {
+    "eval": "resamplemaxdist",
+    "label": "Max Distance",
+    "type": "Float"
+   },
+   {
+    "eval": "resampleminmaxbias",
+    "label": "Min Max Bias",
+    "type": "Float"
+   },
+   {
+    "eval": "usectrlpoints",
+    "label": "Control Points Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "indvarattr",
+    "label": "Independant Variable Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "indvarstep",
+    "label": "Independant Variable Step",
+    "type": "Float"
+   },
+   {
+    "eval": "maxverts",
+    "label": "Maximum Number of Vertices",
+    "type": "Int"
+   },
+   {
+    "eval": "maxtries",
+    "label": "Max Tries for Binary Search",
+    "type": "Int"
+   },
+   {
+    "eval": "rmvunusedpts",
+    "label": "Remove Unused Points",
+    "type": "Toggle"
+   }
+  ],
+  "Line Smooth POP": [
+   {
+    "eval": "attrclass",
+    "label": "Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "inputattrscope",
+    "label": "Input Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "prediv",
+    "label": "Pre-Divide",
+    "type": "Toggle"
+   },
+   {
+    "eval": "maxdivdist",
+    "label": "Max Distance",
+    "type": "Float"
+   },
+   {
+    "eval": "maxverts",
+    "label": "Maximum Number of Vertices",
+    "type": "Int"
+   },
+   {
+    "eval": "filtermethod",
+    "label": "Filter Method",
+    "type": "Menu"
+   },
+   {
+    "eval": "filtertype",
+    "label": "Filter Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "filterdist",
+    "label": "Edge Distance",
+    "type": "Float"
+   },
+   {
+    "eval": "filtersize",
+    "label": "Point Step Filter Size",
+    "type": "Int"
+   },
+   {
+    "eval": "effect",
+    "label": "Effect",
+    "type": "Float"
+   },
+   {
+    "eval": "endpointsfixed",
+    "label": "End Points Fixed",
+    "type": "Toggle"
+   },
+   {
+    "eval": "outputattrscope",
+    "label": "Output Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "overrideautoattr",
+    "label": "Override Automatic Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attrtype",
+    "label": "Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrnumcomps",
+    "label": "Components",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrdefaultval",
+    "label": "Default Value",
+    "type": "Float"
+   },
+   {
+    "eval": "resamplemethod",
+    "label": "Resample Method",
+    "type": "Menu"
+   },
+   {
+    "eval": "resamplemindist",
+    "label": "Min Distance",
+    "type": "Float"
+   },
+   {
+    "eval": "resamplemaxdist",
+    "label": "Max Distance",
+    "type": "Float"
+   },
+   {
+    "eval": "resampleminmaxbias",
+    "label": "Min Max Bias",
+    "type": "Float"
+   },
+   {
+    "eval": "maxtries",
+    "label": "Max Tries for Binary Search",
+    "type": "Int"
+   },
+   {
+    "eval": "map",
+    "label": "Mapping",
+    "type": "Sequence"
+   },
+   {
+    "eval": "map0element",
+    "label": "Element",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "map0parm",
+    "label": "Target Parameter",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "map0combineop",
+    "label": "Combine Operation",
+    "type": "Menu"
+   }
+  ],
+  "Line Thick POP": [
+   {
+    "eval": "camera",
+    "label": "Camera Name",
+    "type": "Object"
+   },
+   {
+    "eval": "cameraaspect",
+    "label": "Camera Aspect",
+    "type": "XYZW"
+   },
+   {
+    "eval": "depthinterpolationmodel",
+    "label": "Depth Interpolation Model",
+    "type": "Menu"
+   },
+   {
+    "eval": "inversedistanceexponent",
+    "label": "Inverse Distance Exponent",
+    "type": "Float"
+   },
+   {
+    "eval": "distancenear",
+    "label": "Distance Near",
+    "type": "Float"
+   },
+   {
+    "eval": "distancefar",
+    "label": "Distance Far",
+    "type": "Float"
+   },
+   {
+    "eval": "widthnear",
+    "label": "Width Near",
+    "type": "Float"
+   },
+   {
+    "eval": "widthfar",
+    "label": "Width Far",
+    "type": "Float"
+   },
+   {
+    "eval": "widthaffectedbyfov",
+    "label": "Width Affected by FOV/OrthoWidth",
+    "type": "Toggle"
+   },
+   {
+    "eval": "widthbias",
+    "label": "Width Bias",
+    "type": "Float"
+   },
+   {
+    "eval": "widthsteepness",
+    "label": "Width Steepness",
+    "type": "Float"
+   },
+   {
+    "eval": "widthlinearize",
+    "label": "Width Linearize",
+    "type": "Float"
+   },
+   {
+    "eval": "colorbias",
+    "label": "Color Bias",
+    "type": "Float"
+   },
+   {
+    "eval": "colorsteepness",
+    "label": "Color Steepness",
+    "type": "Float"
+   },
+   {
+    "eval": "colorlinearize",
+    "label": "Color Linearize",
+    "type": "Float"
+   },
+   {
+    "eval": "liftdirection",
+    "label": "Lift Direction",
+    "type": "Menu"
+   },
+   {
+    "eval": "liftscale",
+    "label": "Lift Scale",
+    "type": "Float"
+   },
+   {
+    "eval": "numptsincircle",
+    "label": "Num Points in Circle",
+    "type": "Int"
+   },
+   {
+    "eval": "id",
+    "label": "Thread Id",
+    "type": "Int"
+   },
+   {
+    "eval": "drawlines",
+    "label": "Draw Lines",
+    "type": "Toggle"
+   },
+   {
+    "eval": "linejointtype",
+    "label": "Line Joint Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "miterthreshold",
+    "label": "Miter Threshold (deg)",
+    "type": "Int"
+   },
+   {
+    "eval": "linestartcaptype",
+    "label": "Line Start Cap Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "lineendcaptype",
+    "label": "Line End Cap Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "linenearcolor",
+    "label": "Line Near Color",
+    "type": "RGBA"
+   },
+   {
+    "eval": "linenearalpha",
+    "label": "Line Near Alpha",
+    "type": "Float"
+   },
+   {
+    "eval": "specifylinefarcolor",
+    "label": "Specify Line Far Color",
+    "type": "Toggle"
+   },
+   {
+    "eval": "linefarcolor",
+    "label": "Line Far Color",
+    "type": "RGBA"
+   },
+   {
+    "eval": "linefaralpha",
+    "label": "Line Far Alpha",
+    "type": "Float"
+   },
+   {
+    "eval": "drawvectors",
+    "label": "Draw Vectors",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attribute",
+    "label": "Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "scale",
+    "label": "Scale",
+    "type": "Float"
+   },
+   {
+    "eval": "vectorstartcaptype",
+    "label": "Vector Start Cap Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "vectorendcaptype",
+    "label": "Vector End Cap Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "vectortaperstrength",
+    "label": "Vector Taper Strength",
+    "type": "Float"
+   },
+   {
+    "eval": "vectornearcolor",
+    "label": "Vector Near Color",
+    "type": "RGBA"
+   },
+   {
+    "eval": "vectornearalpha",
+    "label": "Vector Near Alpha",
+    "type": "Float"
+   },
+   {
+    "eval": "specifyvectorfarcolor",
+    "label": "Specify Vector Far Color",
+    "type": "Toggle"
+   },
+   {
+    "eval": "vectorfarcolor",
+    "label": "Vector Far Color",
+    "type": "RGBA"
+   },
+   {
+    "eval": "vectorfaralpha",
+    "label": "Vector Far Alpha",
+    "type": "Float"
+   },
+   {
+    "eval": "roundwidth",
+    "label": "Round Width",
+    "type": "Float"
+   },
+   {
+    "eval": "roundheight",
+    "label": "Round Height",
+    "type": "Float"
+   },
+   {
+    "eval": "squarewidth",
+    "label": "Square Width",
+    "type": "Float"
+   },
+   {
+    "eval": "squareheight",
+    "label": "Square Height",
+    "type": "Float"
+   },
+   {
+    "eval": "trianglewidth",
+    "label": "Triangle Width",
+    "type": "Float"
+   },
+   {
+    "eval": "triangleheight",
+    "label": "Triangle Height",
+    "type": "Float"
+   },
+   {
+    "eval": "arrowwidth",
+    "label": "Arrow Width",
+    "type": "Float"
+   },
+   {
+    "eval": "arrowheight",
+    "label": "Arrow Height",
+    "type": "Float"
+   },
+   {
+    "eval": "arrowtaillength",
+    "label": "Arrow Tail Length",
+    "type": "Float"
+   },
+   {
+    "eval": "endcapwidthmultiplier",
+    "label": "End Cap Width Multiplier",
+    "type": "Float"
+   },
+   {
+    "eval": "endcapheightmultiplier",
+    "label": "End Cap Height Multiplier",
+    "type": "Float"
+   },
+   {
+    "eval": "startcappullback",
+    "label": "Start Caps Pullback",
+    "type": "Float"
+   },
+   {
+    "eval": "endcappullback",
+    "label": "End Caps Pullback",
+    "type": "Float"
+   }
+  ],
+  "Lookup Attribute POP": [
+   {
+    "eval": "attrclass",
+    "label": "Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "group",
+    "label": "Group",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "lookupindexattr",
+    "label": "Lookup Index Attribute(s)",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "indexunit",
+    "label": "Lookup Index Units",
+    "type": "Menu"
+   },
+   {
+    "eval": "cyclic",
+    "label": "Cyclic Index",
+    "type": "Toggle"
+   },
+   {
+    "eval": "interpolate",
+    "label": "Interpolate",
+    "type": "Toggle"
+   },
+   {
+    "eval": "indexfromlow",
+    "label": "From Low High",
+    "type": "Float"
+   },
+   {
+    "eval": "indextolow",
+    "label": "To Low High",
+    "type": "Float"
+   },
+   {
+    "eval": "extendleft",
+    "label": "Extend Left and Right",
+    "type": "Menu"
+   },
+   {
+    "eval": "lookup",
+    "label": "Lookup",
+    "type": "Sequence"
+   },
+   {
+    "eval": "lookup0fromlow",
+    "label": "From Low High",
+    "type": "Float"
+   },
+   {
+    "eval": "lookup0fromhigh",
+    "label": "From High",
+    "type": "Float"
+   },
+   {
+    "eval": "lookup0tolow",
+    "label": "To Low High",
+    "type": "Float"
+   },
+   {
+    "eval": "lookup0tohigh",
+    "label": "To High",
+    "type": "Float"
+   },
+   {
+    "eval": "lookup0outputattrscope",
+    "label": "Output Attribute Scope",
+    "type": "StrMenu"
+   }
+  ],
+  "Lookup Channel POP": [
+   {
+    "eval": "attrclass",
+    "label": "Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "group",
+    "label": "Group",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "chop",
+    "label": "CHOP",
+    "type": "CHOP"
+   },
+   {
+    "eval": "lookupindexattr",
+    "label": "Lookup Index Attribute(s)",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "indexunit",
+    "label": "Lookup Index Units",
+    "type": "Menu"
+   },
+   {
+    "eval": "cyclic",
+    "label": "Cyclic Index",
+    "type": "Toggle"
+   },
+   {
+    "eval": "interpolate",
+    "label": "Interpolate",
+    "type": "Toggle"
+   },
+   {
+    "eval": "extendleft",
+    "label": "Extend Left and Right",
+    "type": "Menu"
+   },
+   {
+    "eval": "lookup",
+    "label": "Lookup",
+    "type": "Sequence"
+   },
+   {
+    "eval": "lookup0fromlow",
+    "label": "From Low",
+    "type": "Float"
+   },
+   {
+    "eval": "lookup0fromhigh",
+    "label": "From High",
+    "type": "Float"
+   },
+   {
+    "eval": "lookup0tolow",
+    "label": "To Low",
+    "type": "Float"
+   },
+   {
+    "eval": "lookup0tohigh",
+    "label": "To High",
+    "type": "Float"
+   },
+   {
+    "eval": "lookup0outputattrscope",
+    "label": "Output Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "lookup0overrideautoattr",
+    "label": "Override Automatic Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "lookup0attrtype",
+    "label": "Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "lookup0attrnumcomps",
+    "label": "Components",
+    "type": "Menu"
+   },
+   {
+    "eval": "lookup0attrdefaultval",
+    "label": "Default Value",
+    "type": "Float"
+   }
+  ],
+  "Lookup Texture POP": [
+   {
+    "eval": "attrclass",
+    "label": "Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "group",
+    "label": "Group",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "top",
+    "label": "TOP",
+    "type": "TOP"
+   },
+   {
+    "eval": "indexunit",
+    "label": "Lookup Index Units",
+    "type": "Menu"
+   },
+   {
+    "eval": "pixelcentered",
+    "label": "Pixel Centered Sampling Location",
+    "type": "Toggle"
+   },
+   {
+    "eval": "cyclic",
+    "label": "Cyclic Index",
+    "type": "Toggle"
+   },
+   {
+    "eval": "inputextend",
+    "label": "Input Extend Mode",
+    "type": "Menu"
+   },
+   {
+    "eval": "interpolate",
+    "label": "Interpolate",
+    "type": "Toggle"
+   },
+   {
+    "eval": "usedepthoffset",
+    "label": "Use Depth Offset",
+    "type": "Toggle"
+   },
+   {
+    "eval": "channelmask",
+    "label": "Channel Mask",
+    "type": "Menu"
+   },
+   {
+    "eval": "fromlow",
+    "label": "From Low",
+    "type": "Float"
+   },
+   {
+    "eval": "fromhigh",
+    "label": "From High",
+    "type": "Float"
+   },
+   {
+    "eval": "tolow",
+    "label": "To Low",
+    "type": "Float"
+   },
+   {
+    "eval": "tohigh",
+    "label": "To High",
+    "type": "Float"
+   },
+   {
+    "eval": "outputattrscope",
+    "label": "Output Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "overrideautoattr",
+    "label": "Override Automatic Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attrtype",
+    "label": "Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrnumcomps",
+    "label": "Components",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrdefaultval",
+    "label": "Default Value",
+    "type": "Float"
+   },
+   {
+    "eval": "lookupindexattr0",
+    "label": "Lookup Index Attribute U",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "lookupindexattr1",
+    "label": "Lookup Index Attribute V",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "lookupindexattr2",
+    "label": "Lookup Index Attribute W",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "lookupindexoffset",
+    "label": "Lookup Index Offset",
+    "type": "Float"
+   }
+  ],
+  "Math Combine POP": [
+   {
+    "eval": "attrclass",
+    "label": "Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "lengthmismatchnotif",
+    "label": "Length Mismatch",
+    "type": "Menu"
+   },
+   {
+    "eval": "group",
+    "label": "Group",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "angleunit",
+    "label": "Angle Units",
+    "type": "Menu"
+   },
+   {
+    "eval": "input",
+    "label": "Input",
+    "type": "Sequence"
+   },
+   {
+    "eval": "input0attrs",
+    "label": "In Attributes",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "input0renameto",
+    "label": "Rename to",
+    "type": "Str"
+   },
+   {
+    "eval": "vec",
+    "label": "Vector",
+    "type": "Sequence"
+   },
+   {
+    "eval": "vec0type",
+    "label": "Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "vec0value",
+    "label": "Value",
+    "type": "Float"
+   },
+   {
+    "eval": "premultcolor",
+    "label": "Pre-Multiply RGB by Alpha",
+    "type": "Toggle"
+   },
+   {
+    "eval": "color",
+    "label": "Color",
+    "type": "Sequence"
+   },
+   {
+    "eval": "color0rgb",
+    "label": "RGB",
+    "type": "RGBA"
+   },
+   {
+    "eval": "color0alpha",
+    "label": "Alpha",
+    "type": "Float"
+   },
+   {
+    "eval": "attr",
+    "label": "New Attribute",
+    "type": "Sequence"
+   },
+   {
+    "eval": "attr0type",
+    "label": "Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attr0defaultval",
+    "label": "Default Value",
+    "type": "Float"
+   },
+   {
+    "eval": "pre",
+    "label": "Pre",
+    "type": "Sequence"
+   },
+   {
+    "eval": "pre0parsize",
+    "label": "Parameter Size",
+    "type": "Menu"
+   },
+   {
+    "eval": "pre0order",
+    "label": "Order",
+    "type": "Menu"
+   },
+   {
+    "eval": "pre0mult",
+    "label": "Multiply",
+    "type": "Float"
+   },
+   {
+    "eval": "pre0add",
+    "label": "Add",
+    "type": "Float"
+   },
+   {
+    "eval": "pre0oper",
+    "label": "Operation",
+    "type": "Menu"
+   },
+   {
+    "eval": "pre0quantize",
+    "label": "Quantize",
+    "type": "Menu"
+   },
+   {
+    "eval": "pre0resultscope",
+    "label": "Result Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "comb",
+    "label": "Combine",
+    "type": "Sequence"
+   },
+   {
+    "eval": "comb0scopea",
+    "label": "Scope A",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "comb0scopeb",
+    "label": "Scope B",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "comb0scopec",
+    "label": "Scope C",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "comb0result",
+    "label": "Result Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "post",
+    "label": "Post",
+    "type": "Sequence"
+   },
+   {
+    "eval": "post0parsize",
+    "label": "Parameter Size",
+    "type": "Menu"
+   },
+   {
+    "eval": "post0fromlow",
+    "label": "Map from Low",
+    "type": "Float"
+   },
+   {
+    "eval": "post0fromhigh",
+    "label": "Map from High",
+    "type": "Float"
+   },
+   {
+    "eval": "post0tolow",
+    "label": "Map to Low",
+    "type": "Float"
+   },
+   {
+    "eval": "post0tohigh",
+    "label": "Map to High",
+    "type": "Float"
+   },
+   {
+    "eval": "post0quantize",
+    "label": "Quantize",
+    "type": "Menu"
+   },
+   {
+    "eval": "post0castto",
+    "label": "Cast to",
+    "type": "Menu"
+   },
+   {
+    "eval": "post0result",
+    "label": "Result Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "delattrs",
+    "label": "Delete Attributes",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "delnewattrs",
+    "label": "Delete New Attributes",
+    "type": "Toggle"
+   },
+   {
+    "eval": "outputsecondary",
+    "label": "Output Secondary Attributes",
+    "type": "StrMenu"
+   }
+  ],
+  "Math Mix POP": [
+   {
+    "eval": "lengthmismatchnotif",
+    "label": "Length Mismatch",
+    "type": "Menu"
+   },
+   {
+    "eval": "group",
+    "label": "Group",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "angleunit",
+    "label": "Angle Units",
+    "type": "Menu"
+   },
+   {
+    "eval": "input",
+    "label": "Input",
+    "type": "Sequence"
+   },
+   {
+    "eval": "attrclass",
+    "label": "Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "vec",
+    "label": "Vector",
+    "type": "Sequence"
+   },
+   {
+    "eval": "vec0type",
+    "label": "Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "vec0value",
+    "label": "Value",
+    "type": "Float"
+   },
+   {
+    "eval": "premultcolor",
+    "label": "Pre-Multiply RGB by Alpha",
+    "type": "Toggle"
+   },
+   {
+    "eval": "color",
+    "label": "Color",
+    "type": "Sequence"
+   },
+   {
+    "eval": "color0rgb",
+    "label": "RGB",
+    "type": "RGBA"
+   },
+   {
+    "eval": "color0alpha",
+    "label": "Alpha",
+    "type": "Float"
+   },
+   {
+    "eval": "comb",
+    "label": "Combine",
+    "type": "Sequence"
+   },
+   {
+    "eval": "comb0scopea",
+    "label": "Scope A",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "comb0scopeb",
+    "label": "Scope B",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "comb0scopec",
+    "label": "Scope C",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "comb0result",
+    "label": "Result Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "delattrs",
+    "label": "Delete Attributes",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "delnewattrs",
+    "label": "Delete New Attributes",
+    "type": "Toggle"
+   }
+  ],
+  "Math POP": [
+   {
+    "eval": "attrclass",
+    "label": "Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "group",
+    "label": "Group",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "inputattrscope",
+    "label": "Input Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "angleunit",
+    "label": "Angle Units",
+    "type": "Menu"
+   },
+   {
+    "eval": "parsize",
+    "label": "Parameter Size",
+    "type": "Menu"
+   },
+   {
+    "eval": "preoper",
+    "label": "Pre Operation",
+    "type": "Menu"
+   },
+   {
+    "eval": "preadd",
+    "label": "Pre Add",
+    "type": "Float"
+   },
+   {
+    "eval": "mult",
+    "label": "Multiply",
+    "type": "Float"
+   },
+   {
+    "eval": "postadd",
+    "label": "Post Add",
+    "type": "Float"
+   },
+   {
+    "eval": "postoper",
+    "label": "Post Operation",
+    "type": "Menu"
+   },
+   {
+    "eval": "fromlow",
+    "label": "Map from Low",
+    "type": "Float"
+   },
+   {
+    "eval": "fromhigh",
+    "label": "Map from High",
+    "type": "Float"
+   },
+   {
+    "eval": "tolow",
+    "label": "Map to Low",
+    "type": "Float"
+   },
+   {
+    "eval": "tohigh",
+    "label": "Map to High",
+    "type": "Float"
+   },
+   {
+    "eval": "quantize",
+    "label": "Quantize",
+    "type": "Menu"
+   },
+   {
+    "eval": "castto",
+    "label": "Cast to",
+    "type": "Menu"
+   },
+   {
+    "eval": "outputattrscope",
+    "label": "Output Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "overrideautoattr",
+    "label": "Override Automatic Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attrtype",
+    "label": "Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrnumcomps",
+    "label": "Components",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrdefaultval",
+    "label": "Default Value",
+    "type": "Float"
+   }
+  ],
+  "Merge POP": [
+   {
+    "eval": "uniquegroupname",
+    "label": "Unique Group Name",
+    "type": "Toggle"
+   },
+   {
+    "eval": "groupentity",
+    "label": "Entity",
+    "type": "Menu"
+   },
+   {
+    "eval": "group",
+    "label": "Group",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "input",
+    "label": "Input",
+    "type": "Sequence"
+   },
+   {
+    "eval": "input0groupentity",
+    "label": "Entity",
+    "type": "Menu"
+   },
+   {
+    "eval": "input0group",
+    "label": "Group",
+    "type": "StrMenu"
+   }
+  ],
+  "Neighbor POP": [
+   {
+    "eval": "nebrtype",
+    "label": "Neighbors Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "maxdistance",
+    "label": "Max Neighbors Distance",
+    "type": "Float"
+   },
+   {
+    "eval": "distribution",
+    "label": "Distribution",
+    "type": "Menu"
+   },
+   {
+    "eval": "numhashbuckets",
+    "label": "Num Hash Buckets",
+    "type": "Int"
+   },
+   {
+    "eval": "outputhash",
+    "label": "Output Hash Attrib",
+    "type": "Toggle"
+   },
+   {
+    "eval": "nebroutput",
+    "label": "Output",
+    "type": "Menu"
+   },
+   {
+    "eval": "maxneighbors",
+    "label": "Max Neighbors",
+    "type": "Int"
+   },
+   {
+    "eval": "nebrs",
+    "label": "Neighbors",
+    "type": "Toggle"
+   },
+   {
+    "eval": "numnebrs",
+    "label": "Num Neighbors",
+    "type": "Toggle"
+   },
+   {
+    "eval": "dodist",
+    "label": "Add Distance Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "maxnebrsavg",
+    "label": "Max Neighbors for Average",
+    "type": "Int"
+   },
+   {
+    "eval": "incquerypt",
+    "label": "Include Query Point",
+    "type": "Toggle"
+   },
+   {
+    "eval": "addprefix",
+    "label": "Add Prefix",
+    "type": "Toggle"
+   },
+   {
+    "eval": "castintstofloats",
+    "label": "Cast Integers to Floats",
+    "type": "Toggle"
+   },
+   {
+    "eval": "nebrptattrs",
+    "label": "Neighbor Point Attributes",
+    "type": "StrMenu"
+   }
+  ],
+  "Noise POP": [
+   {
+    "eval": "noiselookupattrib",
+    "label": "Noise Lookup Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "type",
+    "label": "Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "noisesize",
+    "label": "Noise Size",
+    "type": "Menu"
+   },
+   {
+    "eval": "seed",
+    "label": "Seed",
+    "type": "Float"
+   },
+   {
+    "eval": "period",
+    "label": "Period",
+    "type": "Float"
+   },
+   {
+    "eval": "harmon",
+    "label": "Harmonics",
+    "type": "Int"
+   },
+   {
+    "eval": "spread",
+    "label": "Harmonic Spread",
+    "type": "Float"
+   },
+   {
+    "eval": "gain",
+    "label": "Harmonic Gain",
+    "type": "Float"
+   },
+   {
+    "eval": "parsize",
+    "label": "Parameter Size",
+    "type": "Menu"
+   },
+   {
+    "eval": "amp",
+    "label": "Amplitude",
+    "type": "Float"
+   },
+   {
+    "eval": "exp",
+    "label": "Exponent",
+    "type": "Float"
+   },
+   {
+    "eval": "offset",
+    "label": "Offset",
+    "type": "Float"
+   },
+   {
+    "eval": "attrclass",
+    "label": "Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "group",
+    "label": "Group",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "xord",
+    "label": "Transform Order",
+    "type": "Menu"
+   },
+   {
+    "eval": "rord",
+    "label": "Rotate Order",
+    "type": "Menu"
+   },
+   {
+    "eval": "t",
+    "label": "Translate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "r",
+    "label": "Rotate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "s",
+    "label": "Scale",
+    "type": "XYZW"
+   },
+   {
+    "eval": "p",
+    "label": "Pivot",
+    "type": "XYZW"
+   },
+   {
+    "eval": "t4d",
+    "label": "Translate 4D",
+    "type": "Float"
+   },
+   {
+    "eval": "noise",
+    "label": "Noise",
+    "type": "Toggle"
+   },
+   {
+    "eval": "gradient",
+    "label": "Gradient",
+    "type": "Toggle"
+   },
+   {
+    "eval": "curl3d",
+    "label": "Curl 3D",
+    "type": "Toggle"
+   },
+   {
+    "eval": "curl2d",
+    "label": "Curl 2D",
+    "type": "Toggle"
+   },
+   {
+    "eval": "combineop",
+    "label": "Combine Operation",
+    "type": "Menu"
+   },
+   {
+    "eval": "combineentity",
+    "label": "Combine Entity",
+    "type": "Menu"
+   },
+   {
+    "eval": "combineattrscope",
+    "label": "Combine Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "outputattrscope",
+    "label": "Output Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "overrideautoattr",
+    "label": "Override Automatic Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attrtype",
+    "label": "Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrnumcomps",
+    "label": "Components",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrdefaultval",
+    "label": "Default Value",
+    "type": "Float"
+   },
+   {
+    "eval": "computenormals",
+    "label": "Compute Point Normals",
+    "type": "Toggle"
+   },
+   {
+    "eval": "mode",
+    "label": "Mode",
+    "type": "Menu"
+   },
+   {
+    "eval": "map",
+    "label": "Mapping",
+    "type": "Sequence"
+   },
+   {
+    "eval": "map0element",
+    "label": "Element",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "map0parm",
+    "label": "Target Parameter",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "map0combineop",
+    "label": "Combine Operation",
+    "type": "Menu"
+   }
+  ],
+  "Normal POP": [
+   {
+    "eval": "nml",
+    "label": "Normals Action",
+    "type": "Menu"
+   },
+   {
+    "eval": "inputposattrn",
+    "label": "Input Position Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "attrclass",
+    "label": "Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "nmlweighting",
+    "label": "Normals Weighting",
+    "type": "Menu"
+   },
+   {
+    "eval": "compnmltech",
+    "label": "Compute Normals Technique",
+    "type": "Menu"
+   },
+   {
+    "eval": "maxprimsperpoint",
+    "label": "Max Number of Primitives per Point",
+    "type": "Int"
+   },
+   {
+    "eval": "angle",
+    "label": "Angle",
+    "type": ""
+   },
+   {
+    "eval": "outputattrscopen",
+    "label": "Normal Output Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "overrideautoattrn",
+    "label": "Override Automatic Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attrtypen",
+    "label": "Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrnumcompsn",
+    "label": "Components",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrdefaultvaln",
+    "label": "Default Value",
+    "type": "Float"
+   },
+   {
+    "eval": "tang",
+    "label": "Tangents Action",
+    "type": "Menu"
+   },
+   {
+    "eval": "inputposattrt",
+    "label": "Input Position Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "inputnormalattr",
+    "label": "Input Normal Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "inputtexattrib",
+    "label": "Input Texture Coord Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "comptangtech",
+    "label": "Compute Tangents Technique",
+    "type": "Menu"
+   },
+   {
+    "eval": "outputattrscopet",
+    "label": "Tangent Output Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "overrideautoattrt",
+    "label": "Override Automatic Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attrtypet",
+    "label": "Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrnumcompst",
+    "label": "Components",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrdefaultvalt",
+    "label": "Default Value",
+    "type": "Float"
+   }
+  ],
+  "Normalize POP": [
+   {
+    "eval": "attrclass",
+    "label": "Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "inputattrscope",
+    "label": "Input Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "parsize",
+    "label": "Parameter Size",
+    "type": "Menu"
+   },
+   {
+    "eval": "aspectcorrect",
+    "label": "Aspect Correct",
+    "type": "Toggle"
+   },
+   {
+    "eval": "replace",
+    "label": "Replace Errors",
+    "type": "Toggle"
+   },
+   {
+    "eval": "errval",
+    "label": "Error Value",
+    "type": "Float"
+   },
+   {
+    "eval": "mode",
+    "label": "Mode",
+    "type": "Menu"
+   },
+   {
+    "eval": "bias",
+    "label": "Bias",
+    "type": "Float"
+   },
+   {
+    "eval": "lookupcurve",
+    "label": "Lookup Curve",
+    "type": "Menu"
+   },
+   {
+    "eval": "exp",
+    "label": "Exponent",
+    "type": "Float"
+   },
+   {
+    "eval": "tolow",
+    "label": "Map to Low",
+    "type": "Float"
+   },
+   {
+    "eval": "tohigh",
+    "label": "Map to High",
+    "type": "Float"
+   },
+   {
+    "eval": "outputattrscope",
+    "label": "Output Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "overrideautoattr",
+    "label": "Override Automatic Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attrtype",
+    "label": "Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrnumcomps",
+    "label": "Components",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrdefaultval",
+    "label": "Default Value",
+    "type": "Float"
+   }
+  ],
+  "Null POP": [
+   {
+    "eval": "bypass",
+    "label": "Bypass",
+    "type": "Toggle"
+   }
+  ],
+  "OAK Select POP": [
+   {
+    "eval": "active",
+    "label": "Active",
+    "type": "Toggle"
+   },
+   {
+    "eval": "chop",
+    "label": "OAK Device CHOP",
+    "type": "CHOP"
+   },
+   {
+    "eval": "stream",
+    "label": "Stream",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "cachesize",
+    "label": "Cache Size",
+    "type": "Int"
+   }
+  ],
+  "Out POP": [
+   {
+    "eval": "selectpop",
+    "label": "Select POP",
+    "type": "POP"
+   },
+   {
+    "eval": "label",
+    "label": "Label",
+    "type": "Str"
+   },
+   {
+    "eval": "connectorder",
+    "label": "Connect Order",
+    "type": "Float"
+   }
+  ],
+  "Particle POP": [
+   {
+    "eval": "targetpop",
+    "label": "Target Feedback Loop POP",
+    "type": "POP"
+   },
+   {
+    "eval": "createpointprim",
+    "label": "Create Point Primitives",
+    "type": "Toggle"
+   },
+   {
+    "eval": "pointidreuse",
+    "label": "Point Id Reuse",
+    "type": "Menu"
+   },
+   {
+    "eval": "maxparticles",
+    "label": "Maximum Particles",
+    "type": "Int"
+   },
+   {
+    "eval": "emissionmode",
+    "label": "Emission from",
+    "type": "Menu"
+   },
+   {
+    "eval": "birthrate",
+    "label": "Birth Rate",
+    "type": "Float"
+   },
+   {
+    "eval": "birthattr",
+    "label": "Input Birth Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "rndinputpts",
+    "label": "Randomize Input Points",
+    "type": "Toggle"
+   },
+   {
+    "eval": "life",
+    "label": "Life Expect",
+    "type": "Float"
+   },
+   {
+    "eval": "lifevariance",
+    "label": "Life Variance (Fraction)",
+    "type": "Float"
+   },
+   {
+    "eval": "randomseed",
+    "label": "Random Seed",
+    "type": "Float"
+   },
+   {
+    "eval": "timeintegration",
+    "label": "Enable Time Integration",
+    "type": "Toggle"
+   },
+   {
+    "eval": "jitterbirthtime",
+    "label": "Jitter Births During Frame",
+    "type": "Toggle"
+   },
+   {
+    "eval": "jitterbirthpos",
+    "label": "Jitter Birth Position",
+    "type": "Float"
+   },
+   {
+    "eval": "initvelocity",
+    "label": "Initial Velocity",
+    "type": "XYZW"
+   },
+   {
+    "eval": "initmass",
+    "label": "Initial Mass",
+    "type": "Float"
+   },
+   {
+    "eval": "initdrag",
+    "label": "Initial Drag",
+    "type": "Float"
+   },
+   {
+    "eval": "damping",
+    "label": "Velocity Damping",
+    "type": "Float"
+   },
+   {
+    "eval": "initializepulse",
+    "label": "Initialize",
+    "type": "Pulse"
+   },
+   {
+    "eval": "startpulse",
+    "label": "Start",
+    "type": "Pulse"
+   },
+   {
+    "eval": "play",
+    "label": "Play",
+    "type": "Toggle"
+   },
+   {
+    "eval": "speed",
+    "label": "Speed",
+    "type": "Float"
+   },
+   {
+    "eval": "preroll",
+    "label": "Pre-Roll",
+    "type": "Float"
+   },
+   {
+    "eval": "donepulse",
+    "label": "Go to Done",
+    "type": "Pulse"
+   },
+   {
+    "eval": "attrs",
+    "label": "Input Attributes",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "renameto",
+    "label": "Rename to",
+    "type": "Str"
+   },
+   {
+    "eval": "usedeathattr",
+    "label": "Use Death Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attr",
+    "label": "New Attribute",
+    "type": "Sequence"
+   },
+   {
+    "eval": "attr0type",
+    "label": "Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attr0value",
+    "label": "Default Value",
+    "type": "Float"
+   },
+   {
+    "eval": "map",
+    "label": "Mapping",
+    "type": "Sequence"
+   },
+   {
+    "eval": "map0element",
+    "label": "Element",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "map0parm",
+    "label": "Parameter",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "map0combineop",
+    "label": "Combine Operation",
+    "type": "Menu"
+   }
+  ],
+  "Pattern POP": [
+   {
+    "eval": "numpoints",
+    "label": "Number of Points",
+    "type": "Int"
+   },
+   {
+    "eval": "cyclic",
+    "label": "Cyclic",
+    "type": "Toggle"
+   },
+   {
+    "eval": "connectivity",
+    "label": "Connectivity",
+    "type": "Menu"
+   },
+   {
+    "eval": "parsize",
+    "label": "Parameter Size",
+    "type": "Menu"
+   },
+   {
+    "eval": "type",
+    "label": "Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "seed",
+    "label": "Seed",
+    "type": "Float"
+   },
+   {
+    "eval": "numcycles",
+    "label": "Number of Cycles",
+    "type": "Float"
+   },
+   {
+    "eval": "steppercycle",
+    "label": "Step per Cycle",
+    "type": "Float"
+   },
+   {
+    "eval": "bias",
+    "label": "Bias",
+    "type": "Float"
+   },
+   {
+    "eval": "phase",
+    "label": "Phase",
+    "type": "Float"
+   },
+   {
+    "eval": "exp",
+    "label": "Exponent",
+    "type": "Float"
+   },
+   {
+    "eval": "fromlow",
+    "label": "Map from Low",
+    "type": "Float"
+   },
+   {
+    "eval": "fromhigh",
+    "label": "Map from High",
+    "type": "Float"
+   },
+   {
+    "eval": "tolow",
+    "label": "Map to Low",
+    "type": "Float"
+   },
+   {
+    "eval": "tohigh",
+    "label": "Map to High",
+    "type": "Float"
+   },
+   {
+    "eval": "reverse",
+    "label": "Reverse",
+    "type": "Toggle"
+   },
+   {
+    "eval": "linebreakcycle",
+    "label": "Line Break Each Cycle",
+    "type": "Toggle"
+   },
+   {
+    "eval": "closed",
+    "label": "Closed",
+    "type": "Toggle"
+   },
+   {
+    "eval": "outputlinebreakattr",
+    "label": "Output Line Break Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "texture",
+    "label": "Texture Coordinates",
+    "type": "Menu"
+   },
+   {
+    "eval": "combineop",
+    "label": "Combine Operation",
+    "type": "Menu"
+   },
+   {
+    "eval": "combineattrscope",
+    "label": "Combine Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "outputattrscope",
+    "label": "Output Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "overrideautoattr",
+    "label": "Override Automatic Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attrtype",
+    "label": "Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrnumcomps",
+    "label": "Components",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrdefaultval",
+    "label": "Default Value",
+    "type": "Float"
+   },
+   {
+    "eval": "attrclass",
+    "label": "Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "group",
+    "label": "Group",
+    "type": "StrMenu"
+   }
+  ],
+  "Phaser POP": [
+   {
+    "eval": "phaseattrscope",
+    "label": "Phase Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "fract",
+    "label": "Fraction",
+    "type": "Float"
+   },
+   {
+    "eval": "parsize",
+    "label": "Parameter Size",
+    "type": "Menu"
+   },
+   {
+    "eval": "edge",
+    "label": "Edge",
+    "type": "Float"
+   },
+   {
+    "eval": "reversephase",
+    "label": "Reverse Phase",
+    "type": "Toggle"
+   },
+   {
+    "eval": "smoothstep",
+    "label": "Smooth Step",
+    "type": "Toggle"
+   },
+   {
+    "eval": "castto",
+    "label": "Cast to",
+    "type": "Menu"
+   },
+   {
+    "eval": "outputattrscope",
+    "label": "Output Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "overrideautoattr",
+    "label": "Override Automatic Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attrtype",
+    "label": "Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrnumcomps",
+    "label": "Components",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrdefaultval",
+    "label": "Default Value",
+    "type": "Float"
+   },
+   {
+    "eval": "attrclass",
+    "label": "Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "fromlow",
+    "label": "From Low",
+    "type": "Float"
+   },
+   {
+    "eval": "fromhigh",
+    "label": "From High",
+    "type": "Float"
+   },
+   {
+    "eval": "tolow",
+    "label": "To Low",
+    "type": "Float"
+   },
+   {
+    "eval": "tohigh",
+    "label": "To High",
+    "type": "Float"
+   }
+  ],
+  "Plane POP": [
+   {
+    "eval": "surftype",
+    "label": "Connectivity",
+    "type": "Menu"
+   },
+   {
+    "eval": "linetype",
+    "label": "Line Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "orient",
+    "label": "Orientation",
+    "type": "Menu"
+   },
+   {
+    "eval": "modifybounds",
+    "label": "Modify Bounds",
+    "type": "Toggle"
+   },
+   {
+    "eval": "size",
+    "label": "Size",
+    "type": "UVW"
+   },
+   {
+    "eval": "cols",
+    "label": "Columns",
+    "type": "Int"
+   },
+   {
+    "eval": "rows",
+    "label": "Rows",
+    "type": "Int"
+   },
+   {
+    "eval": "anchoru",
+    "label": "Anchor U",
+    "type": "Float"
+   },
+   {
+    "eval": "anchorv",
+    "label": "Anchor V",
+    "type": "Float"
+   },
+   {
+    "eval": "t",
+    "label": "Translate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "r",
+    "label": "Rotate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "scale",
+    "label": "Uniform Scale",
+    "type": "Float"
+   },
+   {
+    "eval": "normal",
+    "label": "Normal",
+    "type": "Menu"
+   },
+   {
+    "eval": "texture",
+    "label": "Texture Coordinates",
+    "type": "Menu"
+   }
+  ],
+  "Point File In POP": [
+   {
+    "eval": "file",
+    "label": "File",
+    "type": "File"
+   },
+   {
+    "eval": "reload",
+    "label": "Reload",
+    "type": "Toggle"
+   },
+   {
+    "eval": "createpointprim",
+    "label": "Create Point Primitives",
+    "type": "Toggle"
+   },
+   {
+    "eval": "maxpointsenable",
+    "label": "Max Number of Points",
+    "type": "Toggle"
+   },
+   {
+    "eval": "splat",
+    "label": "Gaussian Splat Format",
+    "type": "Menu"
+   },
+   {
+    "eval": "maxpoints",
+    "label": "Max Number of Points",
+    "type": "Int"
+   },
+   {
+    "eval": "positionfields",
+    "label": "Position Fields",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "normalfields",
+    "label": "Normal Fields",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "texturefields",
+    "label": "Texture Fields",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "colorfields",
+    "label": "Color Fields",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "attr",
+    "label": "Attribute",
+    "type": "Sequence"
+   },
+   {
+    "eval": "attr0name",
+    "label": "Attribute Name",
+    "type": "Str"
+   },
+   {
+    "eval": "attr0isarray",
+    "label": "Array",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attr0arraysize",
+    "label": "Array Size",
+    "type": "Int"
+   },
+   {
+    "eval": "attr0qualifier",
+    "label": "Qualifier",
+    "type": "Menu"
+   },
+   {
+    "eval": "inputcolorspace",
+    "label": "Input Color Space",
+    "type": "Menu"
+   },
+   {
+    "eval": "inputreferencewhite",
+    "label": "Input Reference White",
+    "type": "Menu"
+   },
+   {
+    "eval": "thinoutrange",
+    "label": "Thin Out Range",
+    "type": "Toggle"
+   },
+   {
+    "eval": "thinrangestart",
+    "label": "Thin Range Start",
+    "type": "Int"
+   },
+   {
+    "eval": "thinrangelength",
+    "label": "Thin Range Length",
+    "type": "Int"
+   },
+   {
+    "eval": "thinstep",
+    "label": "Thin Step",
+    "type": "Int"
+   },
+   {
+    "eval": "thinrandom",
+    "label": "Thin Random",
+    "type": "Float"
+   },
+   {
+    "eval": "thinrandomseed",
+    "label": "Thin Random Seed",
+    "type": "Float"
+   },
+   {
+    "eval": "rerange",
+    "label": "Rerange",
+    "type": "Sequence"
+   },
+   {
+    "eval": "rerange0parsize",
+    "label": "Parameter Size",
+    "type": "Menu"
+   },
+   {
+    "eval": "rerange0fromlow",
+    "label": "Map from Low",
+    "type": "Float"
+   },
+   {
+    "eval": "rerange0fromhigh",
+    "label": "Map from High",
+    "type": "Float"
+   },
+   {
+    "eval": "rerange0tolow",
+    "label": "Map to Low",
+    "type": "Float"
+   },
+   {
+    "eval": "rerange0tohigh",
+    "label": "Map to High",
+    "type": "Float"
+   }
+  ],
+  "Point Generator POP": [
+   {
+    "eval": "shape",
+    "label": "Shape",
+    "type": "Menu"
+   },
+   {
+    "eval": "createpointprim",
+    "label": "Create Point Primitives",
+    "type": "Toggle"
+   },
+   {
+    "eval": "numpoints",
+    "label": "Number of Points",
+    "type": "Int"
+   },
+   {
+    "eval": "distribution",
+    "label": "Distribution",
+    "type": "Menu"
+   },
+   {
+    "eval": "random",
+    "label": "Random",
+    "type": "Toggle"
+   },
+   {
+    "eval": "seed",
+    "label": "Seed",
+    "type": "Float"
+   },
+   {
+    "eval": "orient",
+    "label": "Orientation",
+    "type": "Menu"
+   },
+   {
+    "eval": "size",
+    "label": "Size",
+    "type": "XYZW"
+   },
+   {
+    "eval": "radius",
+    "label": "Radius",
+    "type": "XYZW"
+   },
+   {
+    "eval": "height",
+    "label": "Height",
+    "type": "Float"
+   },
+   {
+    "eval": "pointa",
+    "label": "Point A",
+    "type": "XYZW"
+   },
+   {
+    "eval": "pointb",
+    "label": "Point B",
+    "type": "XYZW"
+   },
+   {
+    "eval": "normal",
+    "label": "Normal",
+    "type": "Menu"
+   },
+   {
+    "eval": "normaldirection",
+    "label": "Normal Direction",
+    "type": "Menu"
+   },
+   {
+    "eval": "dotangent",
+    "label": "Tangent",
+    "type": "Menu"
+   },
+   {
+    "eval": "xord",
+    "label": "Transform Order",
+    "type": "Menu"
+   },
+   {
+    "eval": "rord",
+    "label": "Rotate Order",
+    "type": "Menu"
+   },
+   {
+    "eval": "t",
+    "label": "Translate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "r",
+    "label": "Rotate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "s",
+    "label": "Scale",
+    "type": "XYZW"
+   },
+   {
+    "eval": "p",
+    "label": "Pivot",
+    "type": "XYZW"
+   }
+  ],
+  "Point POP": [
+   {
+    "eval": "createp",
+    "label": "Create P Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "createpointprim",
+    "label": "Create Point Primitives",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attr",
+    "label": "New Attribute",
+    "type": "Sequence"
+   },
+   {
+    "eval": "attr0customname",
+    "label": "Custom Name",
+    "type": "Str"
+   },
+   {
+    "eval": "attr0type",
+    "label": "Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attr0numcomps",
+    "label": "Number of Components",
+    "type": "Menu"
+   },
+   {
+    "eval": "pt",
+    "label": "Point",
+    "type": "Sequence"
+   }
+  ],
+  "Points, Vertices and Primitives in POPs": [],
+  "Polygonize POP": [
+   {
+    "eval": "inputattrscope",
+    "label": "Input Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "posattrib",
+    "label": "Use Position Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "top",
+    "label": "TOP",
+    "type": "TOP"
+   },
+   {
+    "eval": "channel",
+    "label": "Channel",
+    "type": "Menu"
+   },
+   {
+    "eval": "resmult",
+    "label": "Resolution Multiplier",
+    "type": "Float"
+   },
+   {
+    "eval": "inside",
+    "label": "Inside",
+    "type": "Menu"
+   },
+   {
+    "eval": "threshold",
+    "label": "Threshold",
+    "type": "Float"
+   },
+   {
+    "eval": "extend",
+    "label": "Extend",
+    "type": "Menu"
+   },
+   {
+    "eval": "uniquepoints",
+    "label": "Unique Points",
+    "type": "Toggle"
+   },
+   {
+    "eval": "rerangep",
+    "label": "ReRange P",
+    "type": "Toggle"
+   },
+   {
+    "eval": "tolow",
+    "label": "Map to Low",
+    "type": "Float"
+   },
+   {
+    "eval": "tohigh",
+    "label": "Map to High",
+    "type": "Float"
+   },
+   {
+    "eval": "nmlmethod",
+    "label": "Normals Method",
+    "type": "Menu"
+   },
+   {
+    "eval": "nmlstepmul",
+    "label": "Step Multiplier",
+    "type": "Float"
+   },
+   {
+    "eval": "texture",
+    "label": "Texture Coordinates",
+    "type": "Toggle"
+   },
+   {
+    "eval": "allocfract",
+    "label": "Fraction of Max Allocation",
+    "type": "Float"
+   },
+   {
+    "eval": "cpureadback",
+    "label": "Copy Topology Info Back to CPU",
+    "type": "Toggle"
+   }
+  ],
+  "POP": [],
+  "Primitive POP": [
+   {
+    "eval": "keep",
+    "label": "Delete Primitives and Keep Points",
+    "type": "Toggle"
+   },
+   {
+    "eval": "addpts",
+    "label": "Add Points",
+    "type": "Toggle"
+   },
+   {
+    "eval": "premultcolor",
+    "label": "Pre-Multiply RGB by Alpha",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attr",
+    "label": "New Attribute",
+    "type": "Sequence"
+   },
+   {
+    "eval": "attr0customname",
+    "label": "Custom Name",
+    "type": "Str"
+   },
+   {
+    "eval": "attr0type",
+    "label": "Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attr0numcomps",
+    "label": "Number of Components",
+    "type": "Menu"
+   },
+   {
+    "eval": "attr0value",
+    "label": "Default Value",
+    "type": "RGBA"
+   },
+   {
+    "eval": "pt",
+    "label": "Point",
+    "type": "Sequence"
+   },
+   {
+    "eval": "method",
+    "label": "Method",
+    "type": "Menu"
+   },
+   {
+    "eval": "setprimtype",
+    "label": "Primitives Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "set",
+    "label": "Set",
+    "type": "Menu"
+   },
+   {
+    "eval": "n",
+    "label": "N",
+    "type": "Int"
+   },
+   {
+    "eval": "prim",
+    "label": "Primitive",
+    "type": "Sequence"
+   },
+   {
+    "eval": "prim0pattern",
+    "label": "Point Index Pattern",
+    "type": "Str"
+   },
+   {
+    "eval": "unusedpointsop",
+    "label": "Unused Points",
+    "type": "Menu"
+   },
+   {
+    "eval": "cpureadback",
+    "label": "Copy Topology Info Back to CPU",
+    "type": "Toggle"
+   }
+  ],
+  "Projection POP": [
+   {
+    "eval": "attrclass",
+    "label": "Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "group",
+    "label": "Group",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "inputattrscope",
+    "label": "Input Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "fromcoordsys",
+    "label": "From Coordinate System",
+    "type": "Menu"
+   },
+   {
+    "eval": "tocoordsys",
+    "label": "To Coordinate System",
+    "type": "Menu"
+   },
+   {
+    "eval": "angunit",
+    "label": "Angle Units",
+    "type": "Menu"
+   },
+   {
+    "eval": "camera",
+    "label": "Camera",
+    "type": "Object"
+   },
+   {
+    "eval": "aspectcorrectuv",
+    "label": "Aspect Correct UVs",
+    "type": "Toggle"
+   },
+   {
+    "eval": "aspect",
+    "label": "Aspect Ratio",
+    "type": "XYZW"
+   },
+   {
+    "eval": "fov",
+    "label": "Horizontal FOV",
+    "type": "Float"
+   },
+   {
+    "eval": "depthnear",
+    "label": "Near Depth",
+    "type": "Float"
+   },
+   {
+    "eval": "depthfar",
+    "label": "Far Depth",
+    "type": "Float"
+   },
+   {
+    "eval": "outputattrscope",
+    "label": "Output Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "overrideautoattr",
+    "label": "Override Automatic Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attrtype",
+    "label": "Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrnumcomps",
+    "label": "Components",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrdefaultval",
+    "label": "Default Value",
+    "type": "Float"
+   }
+  ],
+  "Proximity POP": [
+   {
+    "eval": "maxdist",
+    "label": "Maximum Distance",
+    "type": "Float"
+   },
+   {
+    "eval": "mindist",
+    "label": "Minimum Distance",
+    "type": "Float"
+   },
+   {
+    "eval": "maxlinesperpoint",
+    "label": "Max Lines per Point",
+    "type": "Int"
+   },
+   {
+    "eval": "uniformdist",
+    "label": "Uniform Distribution",
+    "type": "Toggle"
+   },
+   {
+    "eval": "maxtempneighbors",
+    "label": "Max Temp Neighbors",
+    "type": "Int"
+   },
+   {
+    "eval": "duplines",
+    "label": "Duplicate Lines",
+    "type": "Menu"
+   },
+   {
+    "eval": "numhashbuckets",
+    "label": "Num Hash Buckets",
+    "type": "Int"
+   },
+   {
+    "eval": "output",
+    "label": "Output",
+    "type": "Menu"
+   },
+   {
+    "eval": "linedir",
+    "label": "Line Direction",
+    "type": "Toggle"
+   },
+   {
+    "eval": "linelength",
+    "label": "Line Length",
+    "type": "Toggle"
+   },
+   {
+    "eval": "endptattrs",
+    "label": "End Point Attributes",
+    "type": "Toggle"
+   },
+   {
+    "eval": "origin",
+    "label": "Origin",
+    "type": "Menu"
+   },
+   {
+    "eval": "remunusedpoints",
+    "label": "Remove Unused Points",
+    "type": "Toggle"
+   },
+   {
+    "eval": "cpureadback",
+    "label": "Copy Topology Info Back to CPU",
+    "type": "Toggle"
+   }
+  ],
+  "Quantize POP": [
+   {
+    "eval": "attrclass",
+    "label": "Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "group",
+    "label": "Group",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "inputattrscope",
+    "label": "Input Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "parsize",
+    "label": "Parameter Size",
+    "type": "Menu"
+   },
+   {
+    "eval": "quantize",
+    "label": "Quantize",
+    "type": "Menu"
+   },
+   {
+    "eval": "quantstep",
+    "label": "Value Step",
+    "type": "Float"
+   },
+   {
+    "eval": "quantoffset",
+    "label": "Value Offset",
+    "type": "Float"
+   },
+   {
+    "eval": "quantcompare",
+    "label": "Value Compare",
+    "type": "Float"
+   },
+   {
+    "eval": "castto",
+    "label": "Cast to",
+    "type": "Menu"
+   },
+   {
+    "eval": "outputattrscope",
+    "label": "Output Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "overrideautoattr",
+    "label": "Override Automatic Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attrtype",
+    "label": "Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrnumcomps",
+    "label": "Components",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrdefaultval",
+    "label": "Default Value",
+    "type": "Float"
+   }
+  ],
+  "Random POP": [
+   {
+    "eval": "extrapts",
+    "label": "Extra Points per Source Point",
+    "type": "Int"
+   },
+   {
+    "eval": "type",
+    "label": "Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "chop",
+    "label": "CHOP",
+    "type": "CHOP"
+   },
+   {
+    "eval": "randomsize",
+    "label": "Random Size",
+    "type": "Menu"
+   },
+   {
+    "eval": "seed",
+    "label": "Seed",
+    "type": "Float"
+   },
+   {
+    "eval": "parsize",
+    "label": "Parameter Size",
+    "type": "Menu"
+   },
+   {
+    "eval": "amp",
+    "label": "Amplitude",
+    "type": "Float"
+   },
+   {
+    "eval": "exp",
+    "label": "Exponent",
+    "type": "Float"
+   },
+   {
+    "eval": "offset",
+    "label": "Offset",
+    "type": "Float"
+   },
+   {
+    "eval": "valuea",
+    "label": "Value A",
+    "type": "Float"
+   },
+   {
+    "eval": "valueb",
+    "label": "Value B",
+    "type": "Float"
+   },
+   {
+    "eval": "valuebproba",
+    "label": "Value B Probability",
+    "type": "Float"
+   },
+   {
+    "eval": "clamp",
+    "label": "Clamp Value",
+    "type": "Toggle"
+   },
+   {
+    "eval": "minval",
+    "label": "Clamp Min",
+    "type": "Float"
+   },
+   {
+    "eval": "maxval",
+    "label": "Clamp Max",
+    "type": "Float"
+   },
+   {
+    "eval": "conedir",
+    "label": "Cone Direction",
+    "type": "XYZW"
+   },
+   {
+    "eval": "coneangle",
+    "label": "Cone Angle",
+    "type": "Float"
+   },
+   {
+    "eval": "combineop",
+    "label": "Combine Operation",
+    "type": "Menu"
+   },
+   {
+    "eval": "combineattrscope",
+    "label": "Combine Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "outputattrscope",
+    "label": "Output Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "overrideautoattr",
+    "label": "Override Automatic Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attrtype",
+    "label": "Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrnumcomps",
+    "label": "Components",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrdefaultval",
+    "label": "Default Value",
+    "type": "Float"
+   },
+   {
+    "eval": "attrclass",
+    "label": "Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "group",
+    "label": "Group",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "computenormals",
+    "label": "Compute Point Normals",
+    "type": "Toggle"
+   },
+   {
+    "eval": "map",
+    "label": "Mapping",
+    "type": "Sequence"
+   },
+   {
+    "eval": "map0element",
+    "label": "Element",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "map0parm",
+    "label": "Target Parameter",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "map0combineop",
+    "label": "Combine Operation",
+    "type": "Menu"
+   }
+  ],
+  "Ray POP": [
+   {
+    "eval": "rayattrib",
+    "label": "Ray Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "negateray",
+    "label": "Negate Ray",
+    "type": "Toggle"
+   },
+   {
+    "eval": "numbounces",
+    "label": "Number of Bounces",
+    "type": "Int"
+   },
+   {
+    "eval": "connectpoints",
+    "label": "Connect Points",
+    "type": "Toggle"
+   },
+   {
+    "eval": "limitraylength",
+    "label": "Limit Ray Length",
+    "type": "Toggle"
+   },
+   {
+    "eval": "trimray",
+    "label": "Trim Ray",
+    "type": "Toggle"
+   },
+   {
+    "eval": "hwraytracing",
+    "label": "Hardware Ray Tracing",
+    "type": "Menu"
+   },
+   {
+    "eval": "opaque",
+    "label": "Opaque Geometry",
+    "type": "Toggle"
+   },
+   {
+    "eval": "anyhit",
+    "label": "Any Hit",
+    "type": "Toggle"
+   },
+   {
+    "eval": "hitnormal",
+    "label": "Hit Normal",
+    "type": "Toggle"
+   },
+   {
+    "eval": "doreflectedray",
+    "label": "Reflected Ray",
+    "type": "Toggle"
+   },
+   {
+    "eval": "dist",
+    "label": "Point Intersection Distance",
+    "type": "Toggle"
+   },
+   {
+    "eval": "farhit",
+    "label": "Farthest Hit",
+    "type": "Toggle"
+   },
+   {
+    "eval": "numhits",
+    "label": "Number of Hits",
+    "type": "Toggle"
+   },
+   {
+    "eval": "inside",
+    "label": "Inside",
+    "type": "Toggle"
+   },
+   {
+    "eval": "hitprimindex",
+    "label": "Hit Primitive Index",
+    "type": "Toggle"
+   },
+   {
+    "eval": "barycoords",
+    "label": "Barycentric Coordinates",
+    "type": "Toggle"
+   },
+   {
+    "eval": "scale",
+    "label": "Scale",
+    "type": "Float"
+   },
+   {
+    "eval": "lift",
+    "label": "Lift",
+    "type": "Float"
+   },
+   {
+    "eval": "hitpointattrscope",
+    "label": "Hit Point Attr Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "hitprimattrscope",
+    "label": "Hit Primitive Attr Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "hitvertattrscope",
+    "label": "Hit Vertex Attr Scope",
+    "type": "StrMenu"
+   }
+  ],
+  "Rectangle POP": [
+   {
+    "eval": "surftype",
+    "label": "Connectivity",
+    "type": "Menu"
+   },
+   {
+    "eval": "modifybounds",
+    "label": "Modify Bounds",
+    "type": "Toggle"
+   },
+   {
+    "eval": "orient",
+    "label": "Orientation",
+    "type": "Menu"
+   },
+   {
+    "eval": "camera",
+    "label": "Camera",
+    "type": "Object"
+   },
+   {
+    "eval": "distfromcam",
+    "label": "Dist from Camera",
+    "type": "Float"
+   },
+   {
+    "eval": "cameraaspect",
+    "label": "Camera Aspect",
+    "type": "XYZW"
+   },
+   {
+    "eval": "size",
+    "label": "Size",
+    "type": "XYZW"
+   },
+   {
+    "eval": "roundcorners",
+    "label": "Round Corners",
+    "type": "Toggle"
+   },
+   {
+    "eval": "cornerradius",
+    "label": "Corner Radius",
+    "type": "Float"
+   },
+   {
+    "eval": "cornersides",
+    "label": "Corner Sides",
+    "type": "Int"
+   },
+   {
+    "eval": "anchoru",
+    "label": "Anchor U",
+    "type": "Float"
+   },
+   {
+    "eval": "anchorv",
+    "label": "Anchor V",
+    "type": "Float"
+   },
+   {
+    "eval": "t",
+    "label": "Translate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "r",
+    "label": "Rotate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "scale",
+    "label": "Uniform Scale",
+    "type": "Float"
+   },
+   {
+    "eval": "normal",
+    "label": "Normal",
+    "type": "Menu"
+   },
+   {
+    "eval": "texture",
+    "label": "Texture Coordinates",
+    "type": "Menu"
+   },
+   {
+    "eval": "texturefit",
+    "label": "Texture Fit",
+    "type": "Menu"
+   }
+  ],
+  "ReRange POP": [
+   {
+    "eval": "attrclass",
+    "label": "Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "group",
+    "label": "Group",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "inputattrscope",
+    "label": "Input Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "parsize",
+    "label": "Parameter Size",
+    "type": "Menu"
+   },
+   {
+    "eval": "fromlow",
+    "label": "Map from Low",
+    "type": "Float"
+   },
+   {
+    "eval": "fromhigh",
+    "label": "Map from High",
+    "type": "Float"
+   },
+   {
+    "eval": "tolow",
+    "label": "Map to Low",
+    "type": "Float"
+   },
+   {
+    "eval": "tohigh",
+    "label": "Map to High",
+    "type": "Float"
+   },
+   {
+    "eval": "castto",
+    "label": "Cast to",
+    "type": "Menu"
+   },
+   {
+    "eval": "outputattrscope",
+    "label": "Output Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "overrideautoattr",
+    "label": "Override Automatic Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attrtype",
+    "label": "Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrnumcomps",
+    "label": "Components",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrdefaultval",
+    "label": "Default Value",
+    "type": "Float"
+   }
+  ],
+  "Revolve POP": [
+   {
+    "eval": "axis",
+    "label": "Axis",
+    "type": "Menu"
+   },
+   {
+    "eval": "autopivot",
+    "label": "Auto Pivot",
+    "type": "Toggle"
+   },
+   {
+    "eval": "p",
+    "label": "Pivot",
+    "type": "XYZW"
+   },
+   {
+    "eval": "surftype",
+    "label": "Connectivity",
+    "type": "Menu"
+   },
+   {
+    "eval": "divs",
+    "label": "Divisions",
+    "type": "Int"
+   },
+   {
+    "eval": "texture",
+    "label": "Texture Coordinates",
+    "type": "Menu"
+   },
+   {
+    "eval": "normal",
+    "label": "Normal",
+    "type": "Menu"
+   }
+  ],
+  "Script POP": [
+   {
+    "eval": "callbacks",
+    "label": "Callbacks DAT",
+    "type": "DAT"
+   },
+   {
+    "eval": "setuppars",
+    "label": "Setup Parameters",
+    "type": "Pulse"
+   }
+  ],
+  "Select POP": [
+   {
+    "eval": "pop",
+    "label": "POP",
+    "type": "POP"
+   },
+   {
+    "eval": "pointattrscope",
+    "label": "Point Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "primattrscope",
+    "label": "Primitive Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "vertattrscope",
+    "label": "Vertex Attribute Scope",
+    "type": "StrMenu"
+   }
+  ],
+  "Skin Deform POP": [
+   {
+    "eval": "mode",
+    "label": "Mode",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrclass",
+    "label": "Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "inputattrscope",
+    "label": "Input Attribute (Scope)",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "bonepaths",
+    "label": "Bone Paths Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "bonebindposes",
+    "label": "Bone Bind Poses Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "delcaptattrs",
+    "label": "Delete Capture Attributes",
+    "type": "Toggle"
+   },
+   {
+    "eval": "skelrootpath",
+    "label": "Skeleton Root Path",
+    "type": "Object"
+   },
+   {
+    "eval": "vlength",
+    "label": "Vectors Maintain Length",
+    "type": "Toggle"
+   },
+   {
+    "eval": "outputattrscope",
+    "label": "Output Attribute (Scope)",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "overrideautoattr",
+    "label": "Override Automatic Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attrtype",
+    "label": "Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrnumcomps",
+    "label": "Components",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrdefaultval",
+    "label": "Default Value",
+    "type": "Float"
+   }
+  ],
+  "Skin POP": [
+   {
+    "eval": "skinops",
+    "label": "Skin",
+    "type": "Menu"
+   },
+   {
+    "eval": "inc",
+    "label": "N",
+    "type": "Int"
+   },
+   {
+    "eval": "closed",
+    "label": "Closed",
+    "type": "Toggle"
+   },
+   {
+    "eval": "outputquads",
+    "label": "Output Quads",
+    "type": "Toggle"
+   }
+  ],
+  "SOP to POP": [
+   {
+    "eval": "sop",
+    "label": "SOP",
+    "type": "SOP"
+   },
+   {
+    "eval": "polygons",
+    "label": "5+ Points Polygons",
+    "type": "Menu"
+   },
+   {
+    "eval": "mesh",
+    "label": "Meshes",
+    "type": "Menu"
+   },
+   {
+    "eval": "inputcolorspace",
+    "label": "Input Color Space",
+    "type": "Menu"
+   },
+   {
+    "eval": "inputreferencewhite",
+    "label": "Input Reference White",
+    "type": "Menu"
+   }
+  ],
+  "Sort POP": [
+   {
+    "eval": "ptmethod",
+    "label": "Point Method",
+    "type": "Menu"
+   },
+   {
+    "eval": "pointattr",
+    "label": "Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "pointuint",
+    "label": "Attrib is UInt",
+    "type": "Menu"
+   },
+   {
+    "eval": "pointseed",
+    "label": "Seed",
+    "type": "Float"
+   },
+   {
+    "eval": "pointprox",
+    "label": "Point",
+    "type": "XYZW"
+   },
+   {
+    "eval": "pointdir",
+    "label": "Vector",
+    "type": "XYZW"
+   },
+   {
+    "eval": "pointobj",
+    "label": "Object",
+    "type": "Object"
+   },
+   {
+    "eval": "pointrev",
+    "label": "Reverse",
+    "type": "Toggle"
+   },
+   {
+    "eval": "pointshift",
+    "label": "Shift",
+    "type": "Toggle"
+   },
+   {
+    "eval": "pointoffset",
+    "label": "Offset",
+    "type": "Int"
+   },
+   {
+    "eval": "primmethod",
+    "label": "Primitive Method",
+    "type": "Menu"
+   },
+   {
+    "eval": "primattr",
+    "label": "Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "primuint",
+    "label": "Attrib is UInt",
+    "type": "Menu"
+   },
+   {
+    "eval": "primseed",
+    "label": "Seed",
+    "type": "Float"
+   },
+   {
+    "eval": "primprox",
+    "label": "Point",
+    "type": "XYZW"
+   },
+   {
+    "eval": "primdir",
+    "label": "Vector",
+    "type": "XYZW"
+   },
+   {
+    "eval": "primobj",
+    "label": "Object",
+    "type": "Object"
+   },
+   {
+    "eval": "primrev",
+    "label": "Reverse",
+    "type": "Toggle"
+   },
+   {
+    "eval": "primshift",
+    "label": "Shift",
+    "type": "Toggle"
+   },
+   {
+    "eval": "primoffset",
+    "label": "Offset",
+    "type": "Int"
+   }
+  ],
+  "Sphere POP": [
+   {
+    "eval": "type",
+    "label": "Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "geodesictype",
+    "label": "Geodesic Connectivity",
+    "type": "Menu"
+   },
+   {
+    "eval": "surftype",
+    "label": "Grid Connectivity",
+    "type": "Menu"
+   },
+   {
+    "eval": "linetype",
+    "label": "Line Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "orient",
+    "label": "Orientation",
+    "type": "Menu"
+   },
+   {
+    "eval": "modifybounds",
+    "label": "Modify Bounds",
+    "type": "Toggle"
+   },
+   {
+    "eval": "rad",
+    "label": "Radius",
+    "type": "XYZW"
+   },
+   {
+    "eval": "freq",
+    "label": "Frequency",
+    "type": "Int"
+   },
+   {
+    "eval": "fuse",
+    "label": "Fuse",
+    "type": "Toggle"
+   },
+   {
+    "eval": "fusetechnique",
+    "label": "Fuse Technique",
+    "type": "Menu"
+   },
+   {
+    "eval": "cols",
+    "label": "Columns",
+    "type": "Int"
+   },
+   {
+    "eval": "rows",
+    "label": "Rows",
+    "type": "Int"
+   },
+   {
+    "eval": "anchoru",
+    "label": "Anchor U",
+    "type": "Float"
+   },
+   {
+    "eval": "anchorv",
+    "label": "Anchor V",
+    "type": "Float"
+   },
+   {
+    "eval": "anchorw",
+    "label": "Anchor W",
+    "type": "Float"
+   },
+   {
+    "eval": "t",
+    "label": "Translate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "r",
+    "label": "Rotate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "scale",
+    "label": "Uniform Scale",
+    "type": "Float"
+   },
+   {
+    "eval": "normal",
+    "label": "Normal",
+    "type": "Menu"
+   },
+   {
+    "eval": "texture",
+    "label": "Texture Coordinates",
+    "type": "Menu"
+   },
+   {
+    "eval": "texmethod",
+    "label": "Texture Method",
+    "type": "Menu"
+   },
+   {
+    "eval": "fov",
+    "label": "FOV Angle",
+    "type": ""
+   },
+   {
+    "eval": "sharedpolessurftype",
+    "label": "Shared Poles Connectivity",
+    "type": "Menu"
+   },
+   {
+    "eval": "closedu",
+    "label": "U Closed",
+    "type": "Toggle"
+   },
+   {
+    "eval": "angleu",
+    "label": "Angle U",
+    "type": ""
+   },
+   {
+    "eval": "texrangeu",
+    "label": "Tex Coords Range U",
+    "type": "Menu"
+   },
+   {
+    "eval": "anglev",
+    "label": "Angle V",
+    "type": ""
+   },
+   {
+    "eval": "texrangev",
+    "label": "Tex Coords Range V",
+    "type": "Menu"
+   }
+  ],
+  "Sprinkle POP": [
+   {
+    "eval": "createpointprim",
+    "label": "Create Point Primitives",
+    "type": "Toggle"
+   },
+   {
+    "eval": "seed",
+    "label": "Seed",
+    "type": "Float"
+   },
+   {
+    "eval": "method",
+    "label": "Method",
+    "type": "Menu"
+   },
+   {
+    "eval": "numpoints",
+    "label": "Number of Points",
+    "type": "Int"
+   },
+   {
+    "eval": "attemptsperpoint",
+    "label": "Attempts per Point",
+    "type": "Int"
+   },
+   {
+    "eval": "raydirmode",
+    "label": "Ray Direction Mode",
+    "type": "Menu"
+   },
+   {
+    "eval": "raydir",
+    "label": "Ray Direction",
+    "type": "XYZW"
+   },
+   {
+    "eval": "hwraytracing",
+    "label": "Hardware Ray Tracing",
+    "type": "Menu"
+   },
+   {
+    "eval": "pointattrscope",
+    "label": "Point Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "primattrscope",
+    "label": "Primitive Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "vertattribscope",
+    "label": "Vertex Attribute Scope",
+    "type": "StrMenu"
+   }
+  ],
+  "Subdivide POP": [
+   {
+    "eval": "iterations",
+    "label": "Depth",
+    "type": "Int"
+   },
+   {
+    "eval": "creaseweight",
+    "label": "Crease Weight",
+    "type": "Float"
+   },
+   {
+    "eval": "simplecoeffs",
+    "label": "Simple Coefficients",
+    "type": "Toggle"
+   },
+   {
+    "eval": "cpureadback",
+    "label": "Copy Topology Info Back to CPU",
+    "type": "Toggle"
+   }
+  ],
+  "Switch POP": [
+   {
+    "eval": "index",
+    "label": "Index",
+    "type": "Float"
+   },
+   {
+    "eval": "extend",
+    "label": "Extend",
+    "type": "Menu"
+   },
+   {
+    "eval": "blend",
+    "label": "Blend between Inputs",
+    "type": "Toggle"
+   },
+   {
+    "eval": "lengthmismatchnotif",
+    "label": "Length Mismatch",
+    "type": "Menu"
+   },
+   {
+    "eval": "pointattrscope",
+    "label": "Point Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "primattrscope",
+    "label": "Primitive Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "vertattrscope",
+    "label": "Vertex Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "input",
+    "label": "Input",
+    "type": "Sequence"
+   }
+  ],
+  "Text POP": [
+   {
+    "eval": "connectivity",
+    "label": "Connectivity",
+    "type": "Menu"
+   },
+   {
+    "eval": "bridgeholes",
+    "label": "Bridge Holes",
+    "type": "Toggle"
+   },
+   {
+    "eval": "mode",
+    "label": "Mode",
+    "type": "Menu"
+   },
+   {
+    "eval": "text",
+    "label": "Text",
+    "type": "Str"
+   },
+   {
+    "eval": "specdat",
+    "label": "Specification DAT",
+    "type": "DAT"
+   },
+   {
+    "eval": "specchop",
+    "label": "Specification CHOP",
+    "type": "CHOP"
+   },
+   {
+    "eval": "scalefonttobboxheight",
+    "label": "Scale Font to BBox Height",
+    "type": "Toggle"
+   },
+   {
+    "eval": "breaklang",
+    "label": "Break Language",
+    "type": "Menu"
+   },
+   {
+    "eval": "readingdirection",
+    "label": "Reading Direction",
+    "type": "Menu"
+   },
+   {
+    "eval": "wordwrap",
+    "label": "Word Wrap",
+    "type": "Toggle"
+   },
+   {
+    "eval": "wordwrapsize",
+    "label": "Word Wrap Size",
+    "type": "Float"
+   },
+   {
+    "eval": "smartpunct",
+    "label": "Smart Punctuation",
+    "type": "Toggle"
+   },
+   {
+    "eval": "levelofdetail",
+    "label": "Level of Detail",
+    "type": "Int"
+   },
+   {
+    "eval": "font",
+    "label": "Font",
+    "type": "Menu"
+   },
+   {
+    "eval": "fontfile",
+    "label": "Font File",
+    "type": "File"
+   },
+   {
+    "eval": "typeface",
+    "label": "Typeface",
+    "type": "Menu"
+   },
+   {
+    "eval": "fontsize",
+    "label": "Font Size",
+    "type": "XYZW"
+   },
+   {
+    "eval": "keepfontratio",
+    "label": "Keep Font Ratio",
+    "type": "Toggle"
+   },
+   {
+    "eval": "tracking",
+    "label": "Tracking",
+    "type": "XYZW"
+   },
+   {
+    "eval": "linespacing",
+    "label": "Line Spacing",
+    "type": "Float"
+   },
+   {
+    "eval": "alignx",
+    "label": "Horizontal Align",
+    "type": "Menu"
+   },
+   {
+    "eval": "aligny",
+    "label": "Vertical Align",
+    "type": "Menu"
+   },
+   {
+    "eval": "fontcolor",
+    "label": "Font Color",
+    "type": "RGBA"
+   },
+   {
+    "eval": "fontalpha",
+    "label": "Font Alpha",
+    "type": "Float"
+   },
+   {
+    "eval": "extrude",
+    "label": "Extrude",
+    "type": "Toggle"
+   },
+   {
+    "eval": "extrudedepth",
+    "label": "Extrude Depth",
+    "type": "Float"
+   },
+   {
+    "eval": "xord",
+    "label": "Transform Order",
+    "type": "Menu"
+   },
+   {
+    "eval": "rord",
+    "label": "Rotate Order",
+    "type": "Menu"
+   },
+   {
+    "eval": "t",
+    "label": "Translate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "r",
+    "label": "Rotate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "s",
+    "label": "Scale",
+    "type": "XYZW"
+   },
+   {
+    "eval": "p",
+    "label": "Pivot",
+    "type": "XYZW"
+   }
+  ],
+  "Texture Map POP": [
+   {
+    "eval": "group",
+    "label": "Primitive Group",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "transforminput",
+    "label": "Transform Input Texture Coord",
+    "type": "Toggle"
+   },
+   {
+    "eval": "inputtexattr",
+    "label": "Input Texture Coord Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "posattr",
+    "label": "Position Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "axis",
+    "label": "Projection Axis",
+    "type": "Menu"
+   },
+   {
+    "eval": "fov",
+    "label": "FOV Angle",
+    "type": ""
+   },
+   {
+    "eval": "centermode",
+    "label": "Center Mode",
+    "type": "Menu"
+   },
+   {
+    "eval": "center",
+    "label": "Center",
+    "type": "XYZW"
+   },
+   {
+    "eval": "camera",
+    "label": "Camera",
+    "type": "Object"
+   },
+   {
+    "eval": "cameraaspect",
+    "label": "Camera Aspect",
+    "type": "XYZW"
+   },
+   {
+    "eval": "applyto",
+    "label": "Apply to",
+    "type": "Menu"
+   },
+   {
+    "eval": "s",
+    "label": "Scale",
+    "type": "UVW"
+   },
+   {
+    "eval": "offset",
+    "label": "Offset",
+    "type": "UVW"
+   },
+   {
+    "eval": "angle",
+    "label": "Rotate",
+    "type": ""
+   },
+   {
+    "eval": "fixseams",
+    "label": "Fix Face Seams",
+    "type": "Toggle"
+   },
+   {
+    "eval": "outputattrscope",
+    "label": "Output Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "overrideautoattr",
+    "label": "Override Automatic Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attrtype",
+    "label": "Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrnumcomps",
+    "label": "Components",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrdefaultval",
+    "label": "Default Value",
+    "type": "Float"
+   },
+   {
+    "eval": "texmethod",
+    "label": "Texture Method",
+    "type": "Menu"
+   },
+   {
+    "eval": "xord",
+    "label": "Transform Order",
+    "type": "Menu"
+   },
+   {
+    "eval": "rord",
+    "label": "Rotate Order",
+    "type": "Menu"
+   },
+   {
+    "eval": "t",
+    "label": "Translate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "r",
+    "label": "Rotate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "scaletwo",
+    "label": "Scale",
+    "type": "XYZW"
+   },
+   {
+    "eval": "p",
+    "label": "Pivot",
+    "type": "XYZW"
+   }
+  ],
+  "Time Filter POP": [
+   {
+    "eval": "active",
+    "label": "Active",
+    "type": "Toggle"
+   },
+   {
+    "eval": "alwayscook",
+    "label": "Always Cook",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attrclass",
+    "label": "Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrs",
+    "label": "Input Attributes",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "renameto",
+    "label": "Rename to",
+    "type": "Str"
+   },
+   {
+    "eval": "type",
+    "label": "Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "width",
+    "label": "Filter Width",
+    "type": "Float"
+   },
+   {
+    "eval": "inc",
+    "label": "Increment",
+    "type": "Float"
+   },
+   {
+    "eval": "cutoff",
+    "label": "Cutoff Frequency (Hz)",
+    "type": "Float"
+   },
+   {
+    "eval": "speedcoeff",
+    "label": "Speed Coefficient",
+    "type": "Float"
+   },
+   {
+    "eval": "slopecutoff",
+    "label": "Slope Cutoff Frequency (Hz)",
+    "type": "Float"
+   },
+   {
+    "eval": "filterreset",
+    "label": "Filter Reset",
+    "type": "Toggle"
+   },
+   {
+    "eval": "fillmissedframes",
+    "label": "Fill Missed Frames",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attrmatch",
+    "label": "Match by Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attrname",
+    "label": "Attribute Name",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "uintmax",
+    "label": "Attrib is UInt",
+    "type": "Menu"
+   },
+   {
+    "eval": "maxelements",
+    "label": "Max Number of Elements",
+    "type": "Int"
+   },
+   {
+    "eval": "lagtype",
+    "label": "Lag Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "lag",
+    "label": "Lag",
+    "type": "Float"
+   },
+   {
+    "eval": "overshoot",
+    "label": "Overshoot",
+    "type": "Float"
+   },
+   {
+    "eval": "clampslope",
+    "label": "Clamp Slope",
+    "type": "Toggle"
+   },
+   {
+    "eval": "slope",
+    "label": "Max Slope",
+    "type": "Float"
+   },
+   {
+    "eval": "clampaccel",
+    "label": "Clamp Acceleration",
+    "type": "Toggle"
+   },
+   {
+    "eval": "accel",
+    "label": "Max Acceleration",
+    "type": "Float"
+   },
+   {
+    "eval": "snap",
+    "label": "Snap",
+    "type": "Toggle"
+   },
+   {
+    "eval": "lagreset",
+    "label": "Reset Lag",
+    "type": "Toggle"
+   },
+   {
+    "eval": "freeze",
+    "label": "Freeze",
+    "type": "Float"
+   },
+   {
+    "eval": "freezereset",
+    "label": "Reset Freeze",
+    "type": "Toggle"
+   },
+   {
+    "eval": "map",
+    "label": "Mapping",
+    "type": "Sequence"
+   },
+   {
+    "eval": "map0element",
+    "label": "Element",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "map0parm",
+    "label": "Target Parameter",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "map0combineop",
+    "label": "Combine Operation",
+    "type": "Menu"
+   }
+  ],
+  "TOP to POP": [
+   {
+    "eval": "rgba",
+    "label": "First RGBA Contains",
+    "type": "Menu"
+   },
+   {
+    "eval": "maxpointsenable",
+    "label": "Max Number of Points",
+    "type": "Toggle"
+   },
+   {
+    "eval": "input",
+    "label": "TOP",
+    "type": "Sequence"
+   },
+   {
+    "eval": "input0chanscope",
+    "label": "Channel Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "input0attrscope",
+    "label": "Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "input0filter",
+    "label": "Filter",
+    "type": "Menu"
+   },
+   {
+    "eval": "attr",
+    "label": "New Attribute",
+    "type": "Sequence"
+   },
+   {
+    "eval": "attr0type",
+    "label": "Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attr0defaultval",
+    "label": "Default Value",
+    "type": "Float"
+   },
+   {
+    "eval": "surftype",
+    "label": "Connectivity",
+    "type": "Menu"
+   },
+   {
+    "eval": "line",
+    "label": "Line X/Y/Z",
+    "type": "Toggle"
+   },
+   {
+    "eval": "plane",
+    "label": "Plane XY/YZ/ZX",
+    "type": "Toggle"
+   },
+   {
+    "eval": "uniquepoints",
+    "label": "Unique Points",
+    "type": "Toggle"
+   },
+   {
+    "eval": "t",
+    "label": "Center",
+    "type": "XYZW"
+   },
+   {
+    "eval": "overridesize",
+    "label": "Override Size",
+    "type": "Toggle"
+   },
+   {
+    "eval": "size",
+    "label": "Size",
+    "type": "XYZW"
+   },
+   {
+    "eval": "overrideres",
+    "label": "Override Resolution",
+    "type": "Toggle"
+   },
+   {
+    "eval": "res",
+    "label": "Resolution",
+    "type": "Int"
+   },
+   {
+    "eval": "pixelsamplingloc",
+    "label": "Pixel Sampling Location",
+    "type": "Menu"
+   },
+   {
+    "eval": "texture",
+    "label": "Texture Coordinates",
+    "type": "Menu"
+   },
+   {
+    "eval": "dimension",
+    "label": "Append Dimension",
+    "type": "Menu"
+   },
+   {
+    "eval": "rerangefromlow",
+    "label": "Rerange from Low High",
+    "type": "Float"
+   },
+   {
+    "eval": "rerangetolow",
+    "label": "Rerange to Low High",
+    "type": "Float"
+   },
+   {
+    "eval": "camera",
+    "label": "Camera",
+    "type": "Object"
+   },
+   {
+    "eval": "overridecamera",
+    "label": "Override Camera View",
+    "type": "Toggle"
+   },
+   {
+    "eval": "viewanglemethod",
+    "label": "View Angle Method",
+    "type": "Menu"
+   },
+   {
+    "eval": "fov",
+    "label": "FOV Angle",
+    "type": "Float"
+   },
+   {
+    "eval": "focallengths",
+    "label": "Focal Length (Fx, Fy)",
+    "type": "XYZW"
+   },
+   {
+    "eval": "center",
+    "label": "Optical Center (Cx, Cy)",
+    "type": "XYZW"
+   },
+   {
+    "eval": "deletenear",
+    "label": "Delete Near Points",
+    "type": "Toggle"
+   },
+   {
+    "eval": "depthnear",
+    "label": "Near Depth",
+    "type": "Float"
+   },
+   {
+    "eval": "deletefar",
+    "label": "Delete Far Points",
+    "type": "Toggle"
+   },
+   {
+    "eval": "depthfar",
+    "label": "Far Depth",
+    "type": "Float"
+   },
+   {
+    "eval": "linestripbehavior",
+    "label": "Line Strip Behavior",
+    "type": "Menu"
+   },
+   {
+    "eval": "dispscale",
+    "label": "Displacement Scale",
+    "type": "Float"
+   }
+  ],
+  "Topology POP": [
+   {
+    "eval": "maxpointsmode",
+    "label": "Max Points",
+    "type": "Menu"
+   },
+   {
+    "eval": "pointcountinfo",
+    "label": "Point Count Info",
+    "type": "Menu"
+   },
+   {
+    "eval": "pointcountpop",
+    "label": "Point Count POP",
+    "type": "POP"
+   },
+   {
+    "eval": "pointcountclass",
+    "label": "Point Count Attribute",
+    "type": "Menu"
+   },
+   {
+    "eval": "render",
+    "label": "Render",
+    "type": "Toggle"
+   },
+   {
+    "eval": "primsourcemode",
+    "label": "Primitive Source Mode",
+    "type": "Menu"
+   },
+   {
+    "eval": "primmode",
+    "label": "Primitive Mode",
+    "type": "Menu"
+   },
+   {
+    "eval": "primspop",
+    "label": "Primitives POP",
+    "type": "POP"
+   },
+   {
+    "eval": "pointindexattrclass",
+    "label": "Point Index Attrib Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "vertattrmode",
+    "label": "Vertex Attribute Mode",
+    "type": "Menu"
+   },
+   {
+    "eval": "vertattrpop",
+    "label": "Vertex Attribute POP",
+    "type": "POP"
+   },
+   {
+    "eval": "vertattrclass",
+    "label": "Vertex Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "primattrmode",
+    "label": "Prim Attribute Mode",
+    "type": "Menu"
+   },
+   {
+    "eval": "primattrpop",
+    "label": "Prim Attribute POP",
+    "type": "POP"
+   },
+   {
+    "eval": "primattrclass",
+    "label": "Prim Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "topology",
+    "label": "Topology",
+    "type": "Menu"
+   },
+   {
+    "eval": "maxtrianglesmode",
+    "label": "Max Triangles",
+    "type": "Menu"
+   },
+   {
+    "eval": "maxquadsmode",
+    "label": "Max Quads",
+    "type": "Menu"
+   },
+   {
+    "eval": "maxlinestripsmode",
+    "label": "Max Line Strips",
+    "type": "Menu"
+   },
+   {
+    "eval": "maxlsvertsmode",
+    "label": "Max Line Strip Verts",
+    "type": "Menu"
+   },
+   {
+    "eval": "maxlinesmode",
+    "label": "Max Lines",
+    "type": "Menu"
+   },
+   {
+    "eval": "maxpointprimsmode",
+    "label": "Max Point Prims",
+    "type": "Menu"
+   },
+   {
+    "eval": "lsinfofromprimsource",
+    "label": "Line Strip Info from Prim Source",
+    "type": "Toggle"
+   },
+   {
+    "eval": "lsinfoupdate",
+    "label": "Line Strip Info Update",
+    "type": "Menu"
+   },
+   {
+    "eval": "lsinfopop",
+    "label": "Line Strip Info POP",
+    "type": "POP"
+   },
+   {
+    "eval": "lsinfoclass",
+    "label": "Line Strip Info Attribute",
+    "type": "Menu"
+   },
+   {
+    "eval": "lsindexpop",
+    "label": "Line Strip Index per Vert POP",
+    "type": "POP"
+   },
+   {
+    "eval": "lsindexclass",
+    "label": "Line Strip Index per Vert Attribute",
+    "type": "Menu"
+   },
+   {
+    "eval": "lsmaxvertsoverride",
+    "label": "Max Verts per Line Strip",
+    "type": "Toggle"
+   },
+   {
+    "eval": "topoinfo",
+    "label": "Topology Info",
+    "type": "Menu"
+   },
+   {
+    "eval": "topoinfopop",
+    "label": "Topology Info POP",
+    "type": "POP"
+   },
+   {
+    "eval": "topoinfoclass",
+    "label": "Topology Info Attributes Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "trianglecountmode",
+    "label": "Triangle Count",
+    "type": "Menu"
+   },
+   {
+    "eval": "quadcountmode",
+    "label": "Quad Count",
+    "type": "Menu"
+   },
+   {
+    "eval": "linestripcountmode",
+    "label": "Line Strip Count",
+    "type": "Menu"
+   },
+   {
+    "eval": "lsvertcountmode",
+    "label": "Line Strip Vert Count",
+    "type": "Menu"
+   },
+   {
+    "eval": "linecountmode",
+    "label": "Line Count",
+    "type": "Menu"
+   },
+   {
+    "eval": "pointprimcountmode",
+    "label": "Point Prim Count",
+    "type": "Menu"
+   }
+  ],
+  "Torus POP": [
+   {
+    "eval": "surftype",
+    "label": "Connectivity",
+    "type": "Menu"
+   },
+   {
+    "eval": "linetype",
+    "label": "Line Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "orient",
+    "label": "Orientation",
+    "type": "Menu"
+   },
+   {
+    "eval": "modifybounds",
+    "label": "Modify Bounds",
+    "type": "Toggle"
+   },
+   {
+    "eval": "rad",
+    "label": "Radius",
+    "type": "XYZW"
+   },
+   {
+    "eval": "cols",
+    "label": "Columns",
+    "type": "Int"
+   },
+   {
+    "eval": "rows",
+    "label": "Rows",
+    "type": "Int"
+   },
+   {
+    "eval": "anchoru",
+    "label": "Anchor U",
+    "type": "Float"
+   },
+   {
+    "eval": "anchorv",
+    "label": "Anchor V",
+    "type": "Float"
+   },
+   {
+    "eval": "anchorw",
+    "label": "Anchor W",
+    "type": "Float"
+   },
+   {
+    "eval": "t",
+    "label": "Translate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "r",
+    "label": "Rotate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "scale",
+    "label": "Uniform Scale",
+    "type": "Float"
+   },
+   {
+    "eval": "normal",
+    "label": "Normal",
+    "type": "Menu"
+   },
+   {
+    "eval": "texture",
+    "label": "Texture Coordinates",
+    "type": "Menu"
+   },
+   {
+    "eval": "closedu",
+    "label": "U Closed",
+    "type": "Toggle"
+   },
+   {
+    "eval": "closedv",
+    "label": "V Closed",
+    "type": "Toggle"
+   },
+   {
+    "eval": "angleu",
+    "label": "Angle U",
+    "type": "Float"
+   },
+   {
+    "eval": "anglev",
+    "label": "Angle V",
+    "type": "Float"
+   }
+  ],
+  "Trace POP": [
+   {
+    "eval": "inputattrscope",
+    "label": "Input Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "posattrib",
+    "label": "Use Position Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "top",
+    "label": "TOP",
+    "type": "TOP"
+   },
+   {
+    "eval": "channel",
+    "label": "Channel",
+    "type": "Menu"
+   },
+   {
+    "eval": "resmult",
+    "label": "Resolution Multiplier",
+    "type": "Float"
+   },
+   {
+    "eval": "threshold",
+    "label": "Threshold",
+    "type": "Float"
+   },
+   {
+    "eval": "inside",
+    "label": "Inside",
+    "type": "Menu"
+   },
+   {
+    "eval": "extend",
+    "label": "Extend",
+    "type": "Menu"
+   },
+   {
+    "eval": "twodimensions",
+    "label": "Output",
+    "type": "Menu"
+   },
+   {
+    "eval": "uniquepoints",
+    "label": "Unique Points",
+    "type": "Toggle"
+   },
+   {
+    "eval": "winding",
+    "label": "Winding",
+    "type": "Menu"
+   },
+   {
+    "eval": "smooth",
+    "label": "Smooth Edge Distance",
+    "type": "Toggle"
+   },
+   {
+    "eval": "rerangep",
+    "label": "ReRange P",
+    "type": "Toggle"
+   },
+   {
+    "eval": "tolow",
+    "label": "Map to Low",
+    "type": "Float"
+   },
+   {
+    "eval": "tohigh",
+    "label": "Map to High",
+    "type": "Float"
+   },
+   {
+    "eval": "normal",
+    "label": "Normal",
+    "type": "Menu"
+   },
+   {
+    "eval": "normaldirection",
+    "label": "Normal Direction",
+    "type": "Menu"
+   },
+   {
+    "eval": "texture",
+    "label": "Texture Coordinates",
+    "type": "Toggle"
+   },
+   {
+    "eval": "allocfract",
+    "label": "Fraction of Max Allocation",
+    "type": "Float"
+   },
+   {
+    "eval": "setmaxnumls",
+    "label": "Max Num Line Strips",
+    "type": "Toggle"
+   },
+   {
+    "eval": "setmaxnumvertsperls",
+    "label": "Max Num Verts per Line Strip",
+    "type": "Toggle"
+   },
+   {
+    "eval": "cpureadback",
+    "label": "Copy Topology Info Back to CPU",
+    "type": "Toggle"
+   }
+  ],
+  "Trail POP": [
+   {
+    "eval": "active",
+    "label": "Active",
+    "type": "Toggle"
+   },
+   {
+    "eval": "alwayscook",
+    "label": "Always Cook",
+    "type": "Toggle"
+   },
+   {
+    "eval": "length",
+    "label": "Trail Length",
+    "type": "Float"
+   },
+   {
+    "eval": "inc",
+    "label": "Trail Increment",
+    "type": "Float"
+   },
+   {
+    "eval": "reset",
+    "label": "Reset",
+    "type": "Toggle"
+   },
+   {
+    "eval": "ageattr",
+    "label": "Age Attribute",
+    "type": "Menu"
+   },
+   {
+    "eval": "oldestpointfirst",
+    "label": "Oldest Point First",
+    "type": "Toggle"
+   },
+   {
+    "eval": "fillmissedframes",
+    "label": "Fill Missed Frames",
+    "type": "Toggle"
+   },
+   {
+    "eval": "orientationattrs",
+    "label": "Orientation Attributes",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrmatch",
+    "label": "Match by Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attrname",
+    "label": "Attribute Name",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "uintmax",
+    "label": "Attrib is UInt",
+    "type": "Menu"
+   },
+   {
+    "eval": "maxls",
+    "label": "Max Number of Line Strips",
+    "type": "Int"
+   },
+   {
+    "eval": "surftype",
+    "label": "Connectivity",
+    "type": "Menu"
+   },
+   {
+    "eval": "closed",
+    "label": "Closed",
+    "type": "Toggle"
+   },
+   {
+    "eval": "xord",
+    "label": "Transform Order",
+    "type": "Menu"
+   },
+   {
+    "eval": "rord",
+    "label": "Rotate Order",
+    "type": "Menu"
+   },
+   {
+    "eval": "t",
+    "label": "Translate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "r",
+    "label": "Rotate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "s",
+    "label": "Scale",
+    "type": "XYZW"
+   },
+   {
+    "eval": "p",
+    "label": "Pivot",
+    "type": "XYZW"
+   }
+  ],
+  "Transform POP": [
+   {
+    "eval": "mode",
+    "label": "Mode",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrclass",
+    "label": "Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "inputattrscope",
+    "label": "Input Attribute (Scope)",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "group",
+    "label": "Group",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "weightattr",
+    "label": "Weight Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "xord",
+    "label": "Transform Order",
+    "type": "Menu"
+   },
+   {
+    "eval": "rord",
+    "label": "Rotate Order",
+    "type": "Menu"
+   },
+   {
+    "eval": "t",
+    "label": "Translate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "r",
+    "label": "Rotate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "s",
+    "label": "Scale",
+    "type": "XYZW"
+   },
+   {
+    "eval": "p",
+    "label": "Pivot",
+    "type": "XYZW"
+   },
+   {
+    "eval": "scale",
+    "label": "Uniform Scale",
+    "type": "Float"
+   },
+   {
+    "eval": "invert",
+    "label": "Invert",
+    "type": "Toggle"
+   },
+   {
+    "eval": "vlength",
+    "label": "Vectors Maintain Length",
+    "type": "Toggle"
+   },
+   {
+    "eval": "lookat",
+    "label": "Look At",
+    "type": "Object"
+   },
+   {
+    "eval": "upvector",
+    "label": "Up Vector",
+    "type": "XYZW"
+   },
+   {
+    "eval": "forwarddir",
+    "label": "Forward Direction",
+    "type": "Menu"
+   },
+   {
+    "eval": "xformmatrixop",
+    "label": "Xform Matrix/CHOP/DAT",
+    "type": "CHOP"
+   },
+   {
+    "eval": "multiplyorder",
+    "label": "Multiply Order",
+    "type": "Menu"
+   },
+   {
+    "eval": "outputattrscope",
+    "label": "Output Attribute (Scope)",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "overrideautoattr",
+    "label": "Override Automatic Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attrtype",
+    "label": "Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrnumcomps",
+    "label": "Components",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrdefaultval",
+    "label": "Default Value",
+    "type": "Float"
+   },
+   {
+    "eval": "alignxformorder",
+    "label": "Align Transform Order",
+    "type": "Menu"
+   },
+   {
+    "eval": "alignopord",
+    "label": "Align Operation Order",
+    "type": "Menu"
+   },
+   {
+    "eval": "aligntx",
+    "label": "Align Translate X",
+    "type": "Menu"
+   },
+   {
+    "eval": "fromx",
+    "label": "From Input",
+    "type": "Menu"
+   },
+   {
+    "eval": "tox",
+    "label": "To Reference",
+    "type": "Menu"
+   },
+   {
+    "eval": "alignty",
+    "label": "Align Translate Y",
+    "type": "Menu"
+   },
+   {
+    "eval": "fromy",
+    "label": "From Input",
+    "type": "Menu"
+   },
+   {
+    "eval": "toy",
+    "label": "To Reference",
+    "type": "Menu"
+   },
+   {
+    "eval": "aligntz",
+    "label": "Align Translate Z",
+    "type": "Menu"
+   },
+   {
+    "eval": "fromz",
+    "label": "From Input",
+    "type": "Menu"
+   },
+   {
+    "eval": "toz",
+    "label": "To Reference",
+    "type": "Menu"
+   },
+   {
+    "eval": "alignscale",
+    "label": "Align Scale",
+    "type": "Menu"
+   },
+   {
+    "eval": "alignscalex",
+    "label": "Align Scale X",
+    "type": "Menu"
+   },
+   {
+    "eval": "alignscaley",
+    "label": "Align Scale Y",
+    "type": "Menu"
+   },
+   {
+    "eval": "alignscalez",
+    "label": "Align Scale Z",
+    "type": "Menu"
+   },
+   {
+    "eval": "map",
+    "label": "Mapping",
+    "type": "Sequence"
+   },
+   {
+    "eval": "map0element",
+    "label": "Element",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "map0parm",
+    "label": "Target Parameter",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "map0combineop",
+    "label": "Combine Operation",
+    "type": "Menu"
+   }
+  ],
+  "Triangulate POP": [
+   {
+    "eval": "mode",
+    "label": "Mode",
+    "type": "Menu"
+   },
+   {
+    "eval": "connectholes",
+    "label": "Connect Holes",
+    "type": "Toggle"
+   },
+   {
+    "eval": "hwraytracing",
+    "label": "Hardware Ray Tracing",
+    "type": "Menu"
+   },
+   {
+    "eval": "raydir",
+    "label": "Ray Direction",
+    "type": "XYZW"
+   },
+   {
+    "eval": "maxls",
+    "label": "Max Number of Line Strips",
+    "type": "Int"
+   },
+   {
+    "eval": "numpasses",
+    "label": "Number of Passes",
+    "type": "Int"
+   },
+   {
+    "eval": "lsmaxverts",
+    "label": "Max Verts per Input Line Strip",
+    "type": "Int"
+   },
+   {
+    "eval": "exceedmaxverts",
+    "label": "Line Strips Exceeding Max Verts",
+    "type": "Menu"
+   },
+   {
+    "eval": "maxiter",
+    "label": "Max Iterations",
+    "type": "Int"
+   },
+   {
+    "eval": "triangulatequads",
+    "label": "Triangulate Quads",
+    "type": "Toggle"
+   },
+   {
+    "eval": "remzerotri",
+    "label": "Remove Zero Area Triangles",
+    "type": "Toggle"
+   }
+  ],
+  "Trig POP": [
+   {
+    "eval": "attrclass",
+    "label": "Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "group",
+    "label": "Group",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "inputattrscopea",
+    "label": "Input Attribute Scope A",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "inputattrscopeb",
+    "label": "Input Attribute Scope B",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "operation",
+    "label": "Operation",
+    "type": "Menu"
+   },
+   {
+    "eval": "fromunit",
+    "label": "From Angle Units",
+    "type": "Menu"
+   },
+   {
+    "eval": "tounit",
+    "label": "To Angle Units",
+    "type": "Menu"
+   },
+   {
+    "eval": "outputattrscope",
+    "label": "Output Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "overrideautoattr",
+    "label": "Override Automatic Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attrtype",
+    "label": "Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrnumcomps",
+    "label": "Components",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrdefaultval",
+    "label": "Default Value",
+    "type": "Float"
+   }
+  ],
+  "Tube POP": [
+   {
+    "eval": "surftype",
+    "label": "Connectivity",
+    "type": "Menu"
+   },
+   {
+    "eval": "linetype",
+    "label": "Line Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "orient",
+    "label": "Orientation",
+    "type": "Menu"
+   },
+   {
+    "eval": "modifybounds",
+    "label": "Modify Bounds",
+    "type": "Toggle"
+   },
+   {
+    "eval": "rad",
+    "label": "Radius",
+    "type": "XYZW"
+   },
+   {
+    "eval": "height",
+    "label": "Height",
+    "type": "Float"
+   },
+   {
+    "eval": "cols",
+    "label": "Columns",
+    "type": "Int"
+   },
+   {
+    "eval": "rows",
+    "label": "Rows",
+    "type": "Int"
+   },
+   {
+    "eval": "anchoru",
+    "label": "Anchor U",
+    "type": "Float"
+   },
+   {
+    "eval": "anchorv",
+    "label": "Anchor V",
+    "type": "Float"
+   },
+   {
+    "eval": "anchorw",
+    "label": "Anchor W",
+    "type": "Float"
+   },
+   {
+    "eval": "t",
+    "label": "Translate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "r",
+    "label": "Rotate",
+    "type": "XYZW"
+   },
+   {
+    "eval": "scale",
+    "label": "Uniform Scale",
+    "type": "Float"
+   },
+   {
+    "eval": "normal",
+    "label": "Normal",
+    "type": "Menu"
+   },
+   {
+    "eval": "texture",
+    "label": "Texture Coordinates",
+    "type": "Menu"
+   },
+   {
+    "eval": "closedu",
+    "label": "U Closed",
+    "type": "Toggle"
+   },
+   {
+    "eval": "angleu",
+    "label": "Angle U",
+    "type": "Float"
+   },
+   {
+    "eval": "endcaps",
+    "label": "End Caps",
+    "type": "Toggle"
+   }
+  ],
+  "Twist POP": [
+   {
+    "eval": "attrclass",
+    "label": "Attribute Class",
+    "type": "Menu"
+   },
+   {
+    "eval": "inputattrscope",
+    "label": "Input Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "weightattr",
+    "label": "Weight Attribute",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "op",
+    "label": "Operation",
+    "type": "Menu"
+   },
+   {
+    "eval": "paxis",
+    "label": "Primary Axis",
+    "type": "Menu"
+   },
+   {
+    "eval": "saxis",
+    "label": "Secondary Axis",
+    "type": "Menu"
+   },
+   {
+    "eval": "p",
+    "label": "Pivot",
+    "type": "XYZW"
+   },
+   {
+    "eval": "strength",
+    "label": "Strength",
+    "type": "Float"
+   },
+   {
+    "eval": "rolloff",
+    "label": "Rolloff",
+    "type": "Float"
+   },
+   {
+    "eval": "outputattrscope",
+    "label": "Output Attribute Scope",
+    "type": "StrMenu"
+   },
+   {
+    "eval": "overrideautoattr",
+    "label": "Override Automatic Attribute",
+    "type": "Toggle"
+   },
+   {
+    "eval": "attrtype",
+    "label": "Attribute Type",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrnumcomps",
+    "label": "Components",
+    "type": "Menu"
+   },
+   {
+    "eval": "attrdefaultval",
+    "label": "Default Value",
+    "type": "Float"
+   }
+  ],
+  "ZED POP": [
+   {
+    "eval": "active",
+    "label": "Active",
+    "type": "Toggle"
+   },
+   {
+    "eval": "zedtop",
+    "label": "ZED TOP",
+    "type": "TOP"
+   },
+   {
+    "eval": "outputmode",
+    "label": "Output Mode",
+    "type": "Menu"
+   },
+   {
+    "eval": "connectivity",
+    "label": "Connectivity",
+    "type": "Menu"
+   },
+   {
+    "eval": "initialize",
+    "label": "Initialize",
+    "type": "Pulse"
+   },
+   {
+    "eval": "startpulse",
+    "label": "Start",
+    "type": "Pulse"
+   },
+   {
+    "eval": "play",
+    "label": "Play",
+    "type": "Toggle"
+   },
+   {
+    "eval": "donepulse",
+    "label": "Go to Done",
+    "type": "Pulse"
+   },
+   {
+    "eval": "preview",
+    "label": "Preview",
+    "type": "Menu"
+   },
+   {
+    "eval": "maxmemory",
+    "label": "Maximum Memory",
+    "type": "Int"
+   },
+   {
+    "eval": "resolution",
+    "label": "Resolution",
+    "type": "Float"
+   },
+   {
+    "eval": "range",
+    "label": "Range",
+    "type": "Float"
+   },
+   {
+    "eval": "normals",
+    "label": "Normals",
+    "type": "Toggle"
+   },
+   {
+    "eval": "color",
+    "label": "Color",
+    "type": "Toggle"
+   },
+   {
+    "eval": "filter",
+    "label": "Filter",
+    "type": "Menu"
+   },
+   {
+    "eval": "perspective",
+    "label": "Perspective",
+    "type": "Menu"
+   },
+   {
+    "eval": "rerangefromlow",
+    "label": "Rerange from Low High",
+    "type": "Float"
+   },
+   {
+    "eval": "rerangetolow",
+    "label": "Rerange to Low High",
+    "type": "Float"
+   },
+   {
+    "eval": "mirrorimage",
+    "label": "Mirror Image",
+    "type": "Toggle"
+   },
+   {
+    "eval": "camera",
+    "label": "Camera",
+    "type": "Object"
+   },
+   {
+    "eval": "overridecamera",
+    "label": "Override Camera View",
+    "type": "Toggle"
+   },
+   {
+    "eval": "viewanglemethod",
+    "label": "View Angle Method",
+    "type": "Menu"
+   },
+   {
+    "eval": "fov",
+    "label": "FOV Angle",
+    "type": "Float"
+   },
+   {
+    "eval": "focallengths",
+    "label": "Focal Length (Fx, Fy)",
+    "type": "XYZW"
+   },
+   {
+    "eval": "center",
+    "label": "Optical Center (Cx, Cy)",
+    "type": "XYZW"
+   },
+   {
+    "eval": "deletenear",
+    "label": "Delete Near Points",
+    "type": "Toggle"
+   },
+   {
+    "eval": "depthnear",
+    "label": "Near Depth",
+    "type": "Float"
+   },
+   {
+    "eval": "deletefar",
+    "label": "Delete Far Points",
+    "type": "Toggle"
+   },
+   {
+    "eval": "depthfar",
+    "label": "Far Depth",
+    "type": "Float"
+   }
+  ]
+ },
+ "fetched_at": "2026-09-10 13:59:45"
+}

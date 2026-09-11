@@ -1,0 +1,831 @@
+{
+ "td_build": "TouchDesigner 2025.32460",
+ "generated_from": {
+  "live": "docs/pop_matrix.json",
+  "wiki": "https://docs.derivative.ca/api.php?action=query&list=categorymembers&cmtitle=Category:POPs",
+  "corpus": "C:\\Users\\Tolch\\Documents\\AI_Code\\Touchdesigner_MCP\\old\\mcp_td_v3\\Toe_Expand"
+ },
+ "counts": {
+  "pop_types_live": 101,
+  "created_ok": 100,
+  "documented_in_wiki": 100,
+  "undocumented": 1,
+  "wiki_pages_total": 106,
+  "patterns_pop_to_pop": 1120,
+  "chains": 80,
+  "glsl_snippets": 62,
+  "params_wiki_totales": 1916,
+  "params_confirmados": 1609,
+  "params_drift": 296
+ },
+ "undocumented_in_wiki": [
+  "engineoutPOP"
+ ],
+ "top_patterns": [
+  {
+   "from": "in",
+   "to": "out",
+   "count": 235,
+   "projects": [
+    "20250823_TDSW",
+    "ExampleLensFlare",
+    "GLSL Copy POP AnimOffsetInstancesConnectingLines",
+    "GLSL Copy POP AnimOffsetInstancesConnectingLines.22",
+    "GLSL Copy POP Humanoid_AnimOffsetInstances",
+    "GLSL Copy POP Humanoid_AnimOffsetInstances.31"
+   ]
+  },
+  {
+   "from": "line",
+   "to": "merge",
+   "count": 181,
+   "projects": [
+    "20250823_TDSW",
+    "ExampleLensFlare",
+    "God Rays & POP Fluid Solver - High Performances",
+    "God Rays & POP Fluid Solver - Low Performances",
+    "JPOPsDev",
+    "LineStripsByAttribFourWays.5"
+   ]
+  },
+  {
+   "from": "circle",
+   "to": "merge",
+   "count": 179,
+   "projects": [
+    "20250823_TDSW",
+    "ExampleLensFlare",
+    "GLSLPOPs",
+    "GlslAdvanced",
+    "God Rays & POP Fluid Solver - High Performances",
+    "God Rays & POP Fluid Solver - Low Performances"
+   ]
+  },
+  {
+   "from": "transform",
+   "to": "merge",
+   "count": 155,
+   "projects": [
+    "20250823_TDSW",
+    "Attribute_Blur_exmaple",
+    "ExampleLensFlare",
+    "GroupPOPBoundingSphere",
+    "JPOPsDev",
+    "LineStripFeedback.8"
+   ]
+  },
+  {
+   "from": "glsl",
+   "to": "glsl",
+   "count": 140,
+   "projects": [
+    "GLSLPOPs",
+    "GaussianSplatting-1.0.30_POPs",
+    "God Rays & POP Fluid Solver - High Performances",
+    "God Rays & POP Fluid Solver - Low Performances",
+    "NeighborBalls",
+    "POP Fluid Solver - Example Project"
+   ]
+  },
+  {
+   "from": "merge",
+   "to": "switch",
+   "count": 113,
+   "projects": [
+    "20250823_TDSW",
+    "ExampleLensFlare",
+    "God Rays & POP Fluid Solver - High Performances",
+    "God Rays & POP Fluid Solver - Low Performances",
+    "Overview",
+    "ParseError_POP_example3_trails"
+   ]
+  },
+  {
+   "from": "attribute",
+   "to": "merge",
+   "count": 70,
+   "projects": [
+    "Overview",
+    "POP_Ray_Scene_240815",
+    "POP_Ray_Scene_240815.1",
+    "SolidGeometrySketches_30770",
+    "SpringFeedbackPOP",
+    "Toe_Expand"
+   ]
+  },
+  {
+   "from": "attribute",
+   "to": "null",
+   "count": 69,
+   "projects": [
+    "CacheSelectGLSLPOP",
+    "GLSLPOPs",
+    "GaussianSplatting-1.0.30_POPs",
+    "GaussianSplatting-1.0.37_POPs",
+    "GaussianSplatting-1.0.42_POPs_and_Original_2",
+    "God Rays & POP Fluid Solver - High Performances"
+   ]
+  },
+  {
+   "from": "mathcombine",
+   "to": "mathcombine",
+   "count": 66,
+   "projects": [
+    "God Rays & POP Fluid Solver - High Performances",
+    "God Rays & POP Fluid Solver - Low Performances",
+    "POP Fluid Solver - Example Project",
+    "POP Fluid Solver - Technical Example Project",
+    "POP_Fluid_Solver_default_project_A",
+    "POP_Fluid_Solver_default_project_B"
+   ]
+  },
+  {
+   "from": "tube",
+   "to": "merge",
+   "count": 61,
+   "projects": [
+    "20250823_TDSW",
+    "ExampleLensFlare",
+    "God Rays & POP Fluid Solver - High Performances",
+    "God Rays & POP Fluid Solver - Low Performances",
+    "Overview",
+    "POPsGuide.0.0"
+   ]
+  },
+  {
+   "from": "circle",
+   "to": "transform",
+   "count": 60,
+   "projects": [
+    "CacheSelectGLSLPOP",
+    "ExampleLensFlare",
+    "GroupPOPBoundingSphere",
+    "Overview",
+    "ParseError_POP_example3_trails",
+    "Picking"
+   ]
+  },
+  {
+   "from": "sphere",
+   "to": "merge",
+   "count": 59,
+   "projects": [
+    "20250823_TDSW",
+    "ExampleLensFlare",
+    "GLSLPOPs",
+    "GlslAdvanced",
+    "God Rays & POP Fluid Solver - High Performances",
+    "God Rays & POP Fluid Solver - Low Performances"
+   ]
+  },
+  {
+   "from": "copy",
+   "to": "merge",
+   "count": 58,
+   "projects": [
+    "20250823_TDSW",
+    "God Rays & POP Fluid Solver - High Performances",
+    "God Rays & POP Fluid Solver - Low Performances",
+    "LineStripsByAttrib",
+    "LineStripsByAttribFourWays.5",
+    "Measure_Example"
+   ]
+  },
+  {
+   "from": "grid",
+   "to": "merge",
+   "count": 55,
+   "projects": [
+    "20250823_TDSW",
+    "ExampleLensFlare",
+    "GLSLCreate_ProximityTriangles",
+    "GLSLPOPs",
+    "MultiPassBlur",
+    "Overview"
+   ]
+  },
+  {
+   "from": "grid",
+   "to": "attribute",
+   "count": 54,
+   "projects": [
+    "20250823_TDSW",
+    "GLSLPOPs",
+    "Overview",
+    "POP_Ray_Scene_240815",
+    "POP_Ray_Scene_240815.1",
+    "POPsGuide.0.0"
+   ]
+  },
+  {
+   "from": "noise",
+   "to": "noise",
+   "count": 54,
+   "projects": [
+    "20250823_TDSW",
+    "GLSLPOPs",
+    "JPOPsDev",
+    "POPsGuide.0.0",
+    "ParseError_POP_example3_trails",
+    "SolidGeometrySketches_30770"
+   ]
+  },
+  {
+   "from": "mathcombine",
+   "to": "null",
+   "count": 52,
+   "projects": [
+    "20250823_TDSW",
+    "GLSLPOPs",
+    "JPOPsDev",
+    "Measure_Example",
+    "Overview",
+    "POP_Ray_Scene_240815"
+   ]
+  },
+  {
+   "from": "filein",
+   "to": "transform",
+   "count": 52,
+   "projects": [
+    "ExampleLensFlare",
+    "Overview",
+    "POPsGuide.0.0",
+    "ParseError_POP_example3_trails",
+    "Picking",
+    "Toe_Expand"
+   ]
+  },
+  {
+   "from": "in",
+   "to": "null",
+   "count": 52,
+   "projects": [
+    "GLSL Copy POP AnimOffsetInstancesConnectingLines",
+    "GLSL Copy POP AnimOffsetInstancesConnectingLines.22",
+    "GLSL Copy POP Humanoid_AnimOffsetInstances",
+    "GLSL Copy POP Humanoid_AnimOffsetInstances.31",
+    "GLSL Copy POP Humanoid_AnimOffsetInstancesPOPvsTOP",
+    "GLSL Copy POP Humanoid_AnimOffsetInstancesPOPvsTOP.7"
+   ]
+  },
+  {
+   "from": "select",
+   "to": "glsl",
+   "count": 52,
+   "projects": [
+    "GLSL Copy POP Humanoid_AnimOffsetInstances",
+    "GLSL Copy POP Humanoid_AnimOffsetInstances.31",
+    "GLSL Copy POP Humanoid_AnimOffsetInstancesPOPvsTOP",
+    "GLSL Copy POP Humanoid_AnimOffsetInstancesPOPvsTOP.7",
+    "GLSLPOPs",
+    "NeighborBalls"
+   ]
+  },
+  {
+   "from": "glsl",
+   "to": "attribute",
+   "count": 52,
+   "projects": [
+    "God Rays & POP Fluid Solver - High Performances",
+    "God Rays & POP Fluid Solver - Low Performances",
+    "JPOPsDev",
+    "POP Fluid Solver - Example Project",
+    "POP Fluid Solver - Technical Example Project",
+    "POP_Fluid_Solver_default_project_A"
+   ]
+  },
+  {
+   "from": "mathmix",
+   "to": "mathmix",
+   "count": 52,
+   "projects": [
+    "JPOPsDev",
+    "POPsGuide.0.0",
+    "Toe_Expand",
+    "particlePopBananaDisolver",
+    "particlesandmagnetism",
+    "wled-mapping-test.599.forum_example"
+   ]
+  },
+  {
+   "from": "glsl",
+   "to": "null",
+   "count": 50,
+   "projects": [
+    "AccurateColoring_v",
+    "GLSL Copy POP Humanoid_AnimOffsetInstancesPOPvsTOP",
+    "GLSL Copy POP Humanoid_AnimOffsetInstancesPOPvsTOP.7",
+    "GLSLPOPs",
+    "JPOPsDev",
+    "NeighborBalls"
+   ]
+  },
+  {
+   "from": "mathmix",
+   "to": "null",
+   "count": 50,
+   "projects": [
+    "GLSLPOPs",
+    "God Rays & POP Fluid Solver - High Performances",
+    "God Rays & POP Fluid Solver - Low Performances",
+    "JPOPsDev",
+    "Overview",
+    "POP_Fluid_Solver_default_project_A"
+   ]
+  },
+  {
+   "from": "noise",
+   "to": "mathmix",
+   "count": 49,
+   "projects": [
+    "20250823_TDSW",
+    "Blending Attributes",
+    "JPOPsDev",
+    "Overview",
+    "POPsGuide.0.0",
+    "ParseError_POP_example3_trails"
+   ]
+  },
+  {
+   "from": "copy",
+   "to": "glsl",
+   "count": 48,
+   "projects": [
+    "GLSL Copy POP Humanoid_AnimOffsetInstances",
+    "GLSL Copy POP Humanoid_AnimOffsetInstances.31",
+    "GLSL Copy POP Humanoid_AnimOffsetInstancesPOPvsTOP",
+    "GLSL Copy POP Humanoid_AnimOffsetInstancesPOPvsTOP.7",
+    "GLSLPOPs",
+    "POPsGuide.0.0"
+   ]
+  },
+  {
+   "from": "noise",
+   "to": "null",
+   "count": 46,
+   "projects": [
+    "20250823_TDSW",
+    "ExampleLensFlare",
+    "GLSL Copy POP AnimOffsetInstancesConnectingLines",
+    "GLSL Copy POP AnimOffsetInstancesConnectingLines.22",
+    "GLSL Copy POP Humanoid_AnimOffsetInstances",
+    "GLSL Copy POP Humanoid_AnimOffsetInstances.31"
+   ]
+  },
+  {
+   "from": "attribute",
+   "to": "random",
+   "count": 46,
+   "projects": [
+    "God Rays & POP Fluid Solver - High Performances",
+    "God Rays & POP Fluid Solver - Low Performances",
+    "POP Fluid Solver - Example Project",
+    "POP Fluid Solver - Technical Example Project",
+    "POP_Fluid_Solver_default_project_A",
+    "POP_Fluid_Solver_default_project_B"
+   ]
+  },
+  {
+   "from": "pointgen",
+   "to": "attribute",
+   "count": 46,
+   "projects": [
+    "God Rays & POP Fluid Solver - High Performances",
+    "God Rays & POP Fluid Solver - Low Performances",
+    "NeighborBalls",
+    "POP Fluid Solver - Example Project",
+    "POP Fluid Solver - Technical Example Project",
+    "POP_Fluid_Solver_default_project_A"
+   ]
+  },
+  {
+   "from": "grid",
+   "to": "noise",
+   "count": 45,
+   "projects": [
+    "20250823_TDSW",
+    "AttribManip",
+    "ExampleLensFlare",
+    "GLSLPOPs",
+    "GlslTOPSamplePOP",
+    "Overview"
+   ]
+  },
+  {
+   "from": "switch",
+   "to": "merge",
+   "count": 45,
+   "projects": [
+    "ExampleLensFlare",
+    "Overview",
+    "ParseError_POP_example3_trails",
+    "Picking",
+    "Toe_Expand",
+    "fieldPOPtorus"
+   ]
+  },
+  {
+   "from": "null",
+   "to": "merge",
+   "count": 44,
+   "projects": [
+    "20250823_TDSW",
+    "GLSLCreate_ProximityTriangles",
+    "GLSLPOPs",
+    "JPOPsDev",
+    "Overview",
+    "POP_Ray_Scene_240815"
+   ]
+  },
+  {
+   "from": "circle",
+   "to": "copy",
+   "count": 44,
+   "projects": [
+    "20250823_TDSW",
+    "CopyTemplateId.3",
+    "GLSLPOPs",
+    "GroupPOPBoundingSphere",
+    "JPOPsDev",
+    "Overview"
+   ]
+  },
+  {
+   "from": "importselect",
+   "to": "blend",
+   "count": 44,
+   "projects": [
+    "GLSL Copy POP AnimOffsetInstancesConnectingLines",
+    "GLSL Copy POP AnimOffsetInstancesConnectingLines.22",
+    "GLSL Copy POP Humanoid_AnimOffsetInstances",
+    "GLSL Copy POP Humanoid_AnimOffsetInstances.31",
+    "GLSL Copy POP Humanoid_AnimOffsetInstancesPOPvsTOP",
+    "GLSL Copy POP Humanoid_AnimOffsetInstancesPOPvsTOP.7"
+   ]
+  },
+  {
+   "from": "facet",
+   "to": "normal",
+   "count": 44,
+   "projects": [
+    "GLSLCreate_ProximityTriangles",
+    "GroupPOPBoundingSphere",
+    "POPsGuide.0.0",
+    "PerPrimTransformPOP",
+    "RayPOPBoundingObject",
+    "SolidGeometrySketches_30770"
+   ]
+  },
+  {
+   "from": "attribute",
+   "to": "glsl",
+   "count": 44,
+   "projects": [
+    "GLSLPOPs",
+    "God Rays & POP Fluid Solver - High Performances",
+    "God Rays & POP Fluid Solver - Low Performances",
+    "POP Fluid Solver - Example Project",
+    "POP Fluid Solver - Technical Example Project",
+    "POP_Fluid_Solver_default_project_A"
+   ]
+  },
+  {
+   "from": "attribute",
+   "to": "mathmix",
+   "count": 44,
+   "projects": [
+    "GLSLPOPs",
+    "JPOPsDev",
+    "Overview",
+    "POPsGuide.0.0",
+    "Sistrom Particle Emit Update Alpha 5",
+    "SolidGeometrySketches_30770"
+   ]
+  },
+  {
+   "from": "noise",
+   "to": "math",
+   "count": 42,
+   "projects": [
+    "AttribManip",
+    "JPOPsDev",
+    "Overview",
+    "Sistrom Particle Emit Update Alpha 5",
+    "SolidGeometrySketches_30770",
+    "Toe_Expand"
+   ]
+  },
+  {
+   "from": "select",
+   "to": "glsladv",
+   "count": 42,
+   "projects": [
+    "GLSLPOPs",
+    "Toe_Expand"
+   ]
+  },
+  {
+   "from": "null",
+   "to": "glsl",
+   "count": 40,
+   "projects": [
+    "AccurateColoring_v",
+    "GLSLPOPs",
+    "God Rays & POP Fluid Solver - High Performances",
+    "God Rays & POP Fluid Solver - Low Performances",
+    "POP Fluid Solver - Example Project",
+    "POP Fluid Solver - Technical Example Project"
+   ]
+  }
+ ],
+ "top_chains": [
+  {
+   "chain": [
+    "line",
+    "merge",
+    "copy"
+   ],
+   "count": 168
+  },
+  {
+   "chain": [
+    "line",
+    "merge",
+    "switch"
+   ],
+   "count": 167
+  },
+  {
+   "chain": [
+    "circle",
+    "merge",
+    "switch"
+   ],
+   "count": 161
+  },
+  {
+   "chain": [
+    "line",
+    "merge",
+    "merge"
+   ],
+   "count": 158
+  },
+  {
+   "chain": [
+    "circle",
+    "merge",
+    "copy"
+   ],
+   "count": 153
+  },
+  {
+   "chain": [
+    "line",
+    "merge",
+    "skin"
+   ],
+   "count": 148
+  },
+  {
+   "chain": [
+    "circle",
+    "merge",
+    "merge"
+   ],
+   "count": 145
+  },
+  {
+   "chain": [
+    "glsl",
+    "glsl",
+    "glsl"
+   ],
+   "count": 140
+  },
+  {
+   "chain": [
+    "line",
+    "merge",
+    "primitive"
+   ],
+   "count": 139
+  },
+  {
+   "chain": [
+    "circle",
+    "merge",
+    "connectivity"
+   ],
+   "count": 138
+  },
+  {
+   "chain": [
+    "circle",
+    "merge",
+    "skin"
+   ],
+   "count": 138
+  },
+  {
+   "chain": [
+    "line",
+    "merge",
+    "connectivity"
+   ],
+   "count": 137
+  },
+  {
+   "chain": [
+    "circle",
+    "merge",
+    "null"
+   ],
+   "count": 134
+  },
+  {
+   "chain": [
+    "circle",
+    "merge",
+    "analyze"
+   ],
+   "count": 134
+  },
+  {
+   "chain": [
+    "glsl",
+    "glsl",
+    "attribute"
+   ],
+   "count": 134
+  },
+  {
+   "chain": [
+    "line",
+    "merge",
+    "linemetrics"
+   ],
+   "count": 133
+  },
+  {
+   "chain": [
+    "line",
+    "merge",
+    "ray"
+   ],
+   "count": 133
+  },
+  {
+   "chain": [
+    "line",
+    "merge",
+    "null"
+   ],
+   "count": 133
+  },
+  {
+   "chain": [
+    "line",
+    "merge",
+    "analyze"
+   ],
+   "count": 133
+  },
+  {
+   "chain": [
+    "line",
+    "merge",
+    "attribute"
+   ],
+   "count": 133
+  },
+  {
+   "chain": [
+    "transform",
+    "merge",
+    "copy"
+   ],
+   "count": 130
+  },
+  {
+   "chain": [
+    "circle",
+    "merge",
+    "linemetrics"
+   ],
+   "count": 128
+  },
+  {
+   "chain": [
+    "transform",
+    "merge",
+    "switch"
+   ],
+   "count": 127
+  },
+  {
+   "chain": [
+    "circle",
+    "merge",
+    "primitive"
+   ],
+   "count": 126
+  },
+  {
+   "chain": [
+    "circle",
+    "merge",
+    "ray"
+   ],
+   "count": 126
+  }
+ ],
+ "fan_in": [
+  {
+   "type": "null",
+   "count": 45
+  },
+  {
+   "type": "copy",
+   "count": 37
+  },
+  {
+   "type": "transform",
+   "count": 36
+  },
+  {
+   "type": "merge",
+   "count": 34
+  },
+  {
+   "type": "attribute",
+   "count": 30
+  },
+  {
+   "type": "mathcombine",
+   "count": 30
+  },
+  {
+   "type": "out",
+   "count": 29
+  },
+  {
+   "type": "switch",
+   "count": 29
+  },
+  {
+   "type": "mathmix",
+   "count": 27
+  },
+  {
+   "type": "glsl",
+   "count": 26
+  },
+  {
+   "type": "noise",
+   "count": 24
+  },
+  {
+   "type": "attcombine",
+   "count": 23
+  },
+  {
+   "type": "blend",
+   "count": 17
+  },
+  {
+   "type": "lookuptex",
+   "count": 16
+  },
+  {
+   "type": "math",
+   "count": 15
+  },
+  {
+   "type": "random",
+   "count": 15
+  },
+  {
+   "type": "delete",
+   "count": 14
+  },
+  {
+   "type": "normal",
+   "count": 14
+  },
+  {
+   "type": "field",
+   "count": 13
+  },
+  {
+   "type": "sort",
+   "count": 13
+  }
+ ],
+ "trust_tiers": {
+  "oficial": "docs.derivative.ca (wiki)",
+  "live-verified": "probado contra TD en vivo",
+  "empirico": "extraído de proyectos .toe reales — no normativo"
+ }
+}

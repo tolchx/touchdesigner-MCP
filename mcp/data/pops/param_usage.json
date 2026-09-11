@@ -1,0 +1,7468 @@
+{
+ "source": "empírico — archivos .parm de proyectos POP reales del corpus",
+ "projects": [
+  "yfx-pop-workshop-1.0.68",
+  "20250823_TDSW",
+  "JPOPsDev",
+  "AttribManip",
+  "dmxPOPExamples",
+  "BlendPCSortNeighborPOPMatchIds",
+  "fieldPOPtorus_Rich",
+  "fieldPOPtorus_vincentGLSL",
+  "GLSL Copy POP Humanoid_AnimOffsetInstances",
+  "GaussianSplatting-1.0.30_POPs",
+  "GaussianSplatting-1.0.42_POPs_and_Original_2"
+ ],
+ "popFilesScanned": 1175,
+ "popTypesSeen": [
+  "accumulate",
+  "analyze",
+  "attcombine",
+  "attconvert",
+  "attribute",
+  "blend",
+  "box",
+  "chopto",
+  "circle",
+  "connectivity",
+  "convert",
+  "copy",
+  "create",
+  "delete",
+  "dmxfixture",
+  "dmxout",
+  "engineout",
+  "facet",
+  "feedback",
+  "field",
+  "filein",
+  "force",
+  "glsl",
+  "glslcopy",
+  "grid",
+  "group",
+  "importselect",
+  "limit",
+  "line",
+  "linemetrics",
+  "linesmooth",
+  "lookupchan",
+  "lookuptex",
+  "math",
+  "mathcombine",
+  "mathmix",
+  "merge",
+  "neighbor",
+  "noise",
+  "normal",
+  "normalize",
+  "null",
+  "particle",
+  "pattern",
+  "phaser",
+  "point",
+  "pointfilein",
+  "pointgen",
+  "polygonize",
+  "primitive",
+  "projection",
+  "proximity",
+  "quantize",
+  "random",
+  "ray",
+  "rectangle",
+  "select",
+  "skin",
+  "skindeform",
+  "sopto",
+  "sort",
+  "sphere",
+  "sprinkle",
+  "subdivide",
+  "switch",
+  "texturemap",
+  "topology",
+  "topto",
+  "torus",
+  "trail",
+  "transform",
+  "trig",
+  "tube"
+ ],
+ "byType": {
+  "primitive": {
+   "writes": 2401,
+   "params": [
+    {
+     "name": "method",
+     "hits": 97,
+     "samples": [
+      "pattern",
+      "set"
+     ]
+    },
+    {
+     "name": "prim0type",
+     "hits": 93,
+     "samples": [
+      "lines",
+      "linestrip",
+      "points"
+     ]
+    },
+    {
+     "name": "pt1posx",
+     "hits": 93,
+     "samples": [
+      "0.1",
+      "0 \"mod.math.sin(mod.math.radians(parent().par.coneangle/2)) ",
+      "0.2"
+     ]
+    },
+    {
+     "name": "pt3posy",
+     "hits": 93,
+     "samples": [
+      "0.1",
+      "0 \"-mod.math.sin(-mod.math.radians(parent().par.coneangle/2)",
+      "0.2"
+     ]
+    },
+    {
+     "name": "pt4posz",
+     "hits": 93,
+     "samples": [
+      "-0.1",
+      "0 -op('tube_cone1').par.height",
+      "-0.2"
+     ]
+    },
+    {
+     "name": "pt0posx",
+     "hits": 92,
+     "samples": [
+      "-0.1",
+      "-0.2",
+      "0.07"
+     ]
+    },
+    {
+     "name": "pt2posy",
+     "hits": 92,
+     "samples": [
+      "-0.1",
+      "-0.2",
+      "0.07"
+     ]
+    },
+    {
+     "name": "pt5posz",
+     "hits": 92,
+     "samples": [
+      "0.1",
+      "0.2",
+      "0.07"
+     ]
+    },
+    {
+     "name": "prim0pattern",
+     "hits": 91,
+     "samples": [
+      "\"0 1\"",
+      "\"0 1 0 2 0 3 0 4\""
+     ]
+    },
+    {
+     "name": "attr0name",
+     "hits": 90,
+     "samples": [
+      "color"
+     ]
+    },
+    {
+     "name": "pt0colorr",
+     "hits": 90,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "pt0colora",
+     "hits": 90,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "pt1colorr",
+     "hits": 90,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "pt1colora",
+     "hits": 90,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "pt2colorg",
+     "hits": 90,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "pt2colora",
+     "hits": 90,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "pt3colorg",
+     "hits": 90,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "pt3colora",
+     "hits": 90,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "pt4colorb",
+     "hits": 90,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "pt4colora",
+     "hits": 90,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "pt5colorb",
+     "hits": 90,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "pt5colora",
+     "hits": 90,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "prim1type",
+     "hits": 90,
+     "samples": [
+      "lines"
+     ]
+    },
+    {
+     "name": "prim1pattern",
+     "hits": 90,
+     "samples": [
+      "\"2 3\""
+     ]
+    },
+    {
+     "name": "prim2type",
+     "hits": 90,
+     "samples": [
+      "lines"
+     ]
+    },
+    {
+     "name": "prim2pattern",
+     "hits": 90,
+     "samples": [
+      "\"4 5\""
+     ]
+    },
+    {
+     "name": "pageindex",
+     "hits": 6,
+     "samples": [
+      "1",
+      "2"
+     ]
+    },
+    {
+     "name": "setprimtype",
+     "hits": 4,
+     "samples": [
+      "lines",
+      "linestrip"
+     ]
+    },
+    {
+     "name": "pt1posz",
+     "hits": 2,
+     "samples": [
+      "0 -op('tube_cone1').par.height",
+      "-0.07"
+     ]
+    },
+    {
+     "name": "pt2posx",
+     "hits": 2,
+     "samples": [
+      "0 \"mod.math.sin(-mod.math.radians(parent().par.coneangle/2))",
+      "-0.07"
+     ]
+    },
+    {
+     "name": "pt2posz",
+     "hits": 2,
+     "samples": [
+      "0 0-op('tube_cone1').par.height",
+      "0.07"
+     ]
+    },
+    {
+     "name": "pt3posz",
+     "hits": 2,
+     "samples": [
+      "0 -op('tube_cone1').par.height",
+      "-0.07"
+     ]
+    },
+    {
+     "name": "pt4posy",
+     "hits": 2,
+     "samples": [
+      "0 \"mod.math.sin(-mod.math.radians(parent().par.coneangle/2))",
+      "0.07"
+     ]
+    },
+    {
+     "name": "pt0posy",
+     "hits": 1,
+     "samples": [
+      "0.07"
+     ]
+    },
+    {
+     "name": "pt0posz",
+     "hits": 1,
+     "samples": [
+      "0.07"
+     ]
+    },
+    {
+     "name": "pt1posy",
+     "hits": 1,
+     "samples": [
+      "-0.07"
+     ]
+    },
+    {
+     "name": "pt3posx",
+     "hits": 1,
+     "samples": [
+      "0.07"
+     ]
+    },
+    {
+     "name": "pt4posx",
+     "hits": 1,
+     "samples": [
+      "0.07"
+     ]
+    },
+    {
+     "name": "pt5posx",
+     "hits": 1,
+     "samples": [
+      "-0.07"
+     ]
+    },
+    {
+     "name": "pt5posy",
+     "hits": 1,
+     "samples": [
+      "-0.07"
+     ]
+    }
+   ]
+  },
+  "glsl": {
+   "writes": 965,
+   "params": [
+    {
+     "name": "computedat",
+     "hits": 46,
+     "samples": [
+      "glsl1_compute",
+      "glsl3_compute",
+      "glsl4_compute"
+     ]
+    },
+    {
+     "name": "outputattrs",
+     "hits": 42,
+     "samples": [
+      "Color",
+      "\"P Color\"",
+      "P"
+     ]
+    },
+    {
+     "name": "vec0name",
+     "hits": 41,
+     "samples": [
+      "Gamma",
+      "HSV",
+      "uTime"
+     ]
+    },
+    {
+     "name": "pageindex",
+     "hits": 36,
+     "samples": [
+      "3",
+      "1",
+      "2"
+     ]
+    },
+    {
+     "name": "vec0valuex",
+     "hits": 32,
+     "samples": [
+      "1",
+      "0 absTime.seconds",
+      "0 \"me.time.seconds * 5\""
+     ]
+    },
+    {
+     "name": "vec0type",
+     "hits": 30,
+     "samples": [
+      "vec3",
+      "int"
+     ]
+    },
+    {
+     "name": "vec0valuez",
+     "hits": 28,
+     "samples": [
+      "1",
+      "0 parent.Splat.op(\\\"Camera\\\")[\\\"m23\\\"]",
+      "0.8 op('glsl_colorgrade3').par.vec0valuez"
+     ]
+    },
+    {
+     "name": "vec0valuey",
+     "hits": 24,
+     "samples": [
+      "1",
+      "0 parent.Splat.op(\\\"Camera\\\")[\\\"m13\\\"]",
+      "1 op('glsl_colorgrade3').par.vec0valuey"
+     ]
+    },
+    {
+     "name": "vec1name",
+     "hits": 17,
+     "samples": [
+      "Vibrance",
+      "\"\"",
+      "forceCenter"
+     ]
+    },
+    {
+     "name": "vec1type",
+     "hits": 17,
+     "samples": [
+      "vec3",
+      "float"
+     ]
+    },
+    {
+     "name": "vec2name",
+     "hits": 17,
+     "samples": [
+      "ColorShift",
+      "time",
+      "forceAxis"
+     ]
+    },
+    {
+     "name": "vec2type",
+     "hits": 17,
+     "samples": [
+      "vec3",
+      "float"
+     ]
+    },
+    {
+     "name": "vec3name",
+     "hits": 17,
+     "samples": [
+      "Contrast",
+      "rollSpeed",
+      "forceRotation"
+     ]
+    },
+    {
+     "name": "vec3type",
+     "hits": 17,
+     "samples": [
+      "float",
+      "vec3"
+     ]
+    },
+    {
+     "name": "vec4name",
+     "hits": 17,
+     "samples": [
+      "Pivot",
+      "pitchSpeed",
+      "forceRadius"
+     ]
+    },
+    {
+     "name": "vec4type",
+     "hits": 17,
+     "samples": [
+      "float"
+     ]
+    },
+    {
+     "name": "vec5name",
+     "hits": 17,
+     "samples": [
+      "RemapRange",
+      "yawSpeed",
+      "forceStrength"
+     ]
+    },
+    {
+     "name": "vec5type",
+     "hits": 17,
+     "samples": [
+      "float"
+     ]
+    },
+    {
+     "name": "vec4valuex",
+     "hits": 15,
+     "samples": [
+      "0.5",
+      "10",
+      "0 op('glsl_colorgrade3').par.vec4valuex"
+     ]
+    },
+    {
+     "name": "attr0customname",
+     "hits": 13,
+     "samples": [
+      "Color",
+      "right",
+      "Weight"
+     ]
+    },
+    {
+     "name": "vec6name",
+     "hits": 13,
+     "samples": [
+      "RemapBlend",
+      "spiralStrength",
+      "spiralRotation"
+     ]
+    },
+    {
+     "name": "vec6type",
+     "hits": 13,
+     "samples": [
+      "float",
+      "vec3"
+     ]
+    },
+    {
+     "name": "vec3valuex",
+     "hits": 11,
+     "samples": [
+      "1",
+      "1 op('glsl_colorgrade3').par.vec3valuex",
+      "10 parent().par.Forceradius"
+     ]
+    },
+    {
+     "name": "color0name",
+     "hits": 10,
+     "samples": [
+      "InputMin"
+     ]
+    },
+    {
+     "name": "color1name",
+     "hits": 10,
+     "samples": [
+      "InputMax"
+     ]
+    },
+    {
+     "name": "color1rgbr",
+     "hits": 10,
+     "samples": [
+      "1",
+      "1 op('glsl_colorgrade3').par.color1rgbr",
+      "1.5"
+     ]
+    },
+    {
+     "name": "color1rgbg",
+     "hits": 10,
+     "samples": [
+      "1",
+      "1 op('glsl_colorgrade3').par.color1rgbg",
+      "2"
+     ]
+    },
+    {
+     "name": "color1rgbb",
+     "hits": 10,
+     "samples": [
+      "1",
+      "1 op('glsl_colorgrade3').par.color1rgbb",
+      "2.4"
+     ]
+    },
+    {
+     "name": "color1alpha",
+     "hits": 10,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "color2name",
+     "hits": 10,
+     "samples": [
+      "OutputMin"
+     ]
+    },
+    {
+     "name": "color2alpha",
+     "hits": 10,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "color3name",
+     "hits": 10,
+     "samples": [
+      "OutputMax"
+     ]
+    },
+    {
+     "name": "color3rgbr",
+     "hits": 10,
+     "samples": [
+      "1",
+      "2.2 op('glsl_colorgrade3').par.color3rgbr"
+     ]
+    },
+    {
+     "name": "color3rgbg",
+     "hits": 10,
+     "samples": [
+      "1",
+      "0.52 op('glsl_colorgrade3').par.color3rgbg"
+     ]
+    },
+    {
+     "name": "color3rgbb",
+     "hits": 10,
+     "samples": [
+      "1",
+      "1 op('glsl_colorgrade3').par.color3rgbb"
+     ]
+    },
+    {
+     "name": "color3alpha",
+     "hits": 10,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "color4name",
+     "hits": 10,
+     "samples": [
+      "Lift"
+     ]
+    },
+    {
+     "name": "color4alpha",
+     "hits": 10,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "color5name",
+     "hits": 10,
+     "samples": [
+      "Gamma2"
+     ]
+    },
+    {
+     "name": "color5alpha",
+     "hits": 10,
+     "samples": [
+      "1"
+     ]
+    }
+   ]
+  },
+  "noise": {
+   "writes": 557,
+   "params": [
+    {
+     "name": "amp0",
+     "hits": 63,
+     "samples": [
+      "1",
+      "0.5",
+      "2"
+     ]
+    },
+    {
+     "name": "combineop",
+     "hits": 60,
+     "samples": [
+      "none",
+      "set"
+     ]
+    },
+    {
+     "name": "noiseoutputattscope",
+     "hits": 55,
+     "samples": [
+      "InitialVelocity",
+      "PointScale",
+      "Mass"
+     ]
+    },
+    {
+     "name": "period",
+     "hits": 50,
+     "samples": [
+      "2",
+      "0.33",
+      "0.32"
+     ]
+    },
+    {
+     "name": "noisesize",
+     "hits": 36,
+     "samples": [
+      "1",
+      "4",
+      "2"
+     ]
+    },
+    {
+     "name": "exp0",
+     "hits": 36,
+     "samples": [
+      "2.3",
+      "1",
+      "1.34"
+     ]
+    },
+    {
+     "name": "tz",
+     "hits": 31,
+     "samples": [
+      "0 \"absTime.seconds / 20\"",
+      "0 \"absTime.seconds / 100\"",
+      "0 op('lfo1')['sin']"
+     ]
+    },
+    {
+     "name": "pageindex",
+     "hits": 30,
+     "samples": [
+      "2",
+      "1",
+      "3"
+     ]
+    },
+    {
+     "name": "seed",
+     "hits": 28,
+     "samples": [
+      "1.09 parent().par.Seed",
+      "6.44",
+      "3.9"
+     ]
+    },
+    {
+     "name": "spread",
+     "hits": 24,
+     "samples": [
+      "20.587",
+      "2 parent().par.Spread",
+      "1 parent().par.Spread"
+     ]
+    },
+    {
+     "name": "harmon",
+     "hits": 21,
+     "samples": [
+      "3",
+      "1",
+      "5"
+     ]
+    },
+    {
+     "name": "gain",
+     "hits": 21,
+     "samples": [
+      "1.042",
+      "0.5 parent().par.Gain",
+      "1"
+     ]
+    },
+    {
+     "name": "combineattrscope",
+     "hits": 18,
+     "samples": [
+      "\"\"",
+      "N",
+      "PointScale"
+     ]
+    },
+    {
+     "name": "t4d",
+     "hits": 17,
+     "samples": [
+      "0 absTime.seconds",
+      "0.93 op('lfo1')['cos']",
+      "0 absTime.seconds/5"
+     ]
+    },
+    {
+     "name": "offset0",
+     "hits": 17,
+     "samples": [
+      "0.5",
+      "0.2",
+      "1.5"
+     ]
+    },
+    {
+     "name": "outputattrscope",
+     "hits": 9,
+     "samples": [
+      "PartForce",
+      "noiseDelete",
+      "Scale"
+     ]
+    },
+    {
+     "name": "noiselookupattrib",
+     "hits": 8,
+     "samples": [
+      "N",
+      "Index",
+      "glyphIndex"
+     ]
+    },
+    {
+     "name": "type",
+     "hits": 5,
+     "samples": [
+      "simplex3d",
+      "perlin4d",
+      "perlin3d"
+     ]
+    },
+    {
+     "name": "ty",
+     "hits": 4,
+     "samples": [
+      "0 op('lfo1')['sin']",
+      "0 absTime.seconds/20"
+     ]
+    },
+    {
+     "name": "ry",
+     "hits": 3,
+     "samples": [
+      "0 \"absTime.seconds * 45\"",
+      "67 absTime.seconds*30"
+     ]
+    },
+    {
+     "name": "combineentity",
+     "hits": 3,
+     "samples": [
+      "curl3d",
+      "curl2d"
+     ]
+    },
+    {
+     "name": "amp",
+     "hits": 2,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "offset",
+     "hits": 2,
+     "samples": [
+      "0.5",
+      "0.801"
+     ]
+    },
+    {
+     "name": "outputattscope",
+     "hits": 2,
+     "samples": [
+      "Color",
+      "noiseUint"
+     ]
+    },
+    {
+     "name": "newattribtype",
+     "hits": 2,
+     "samples": [
+      "uint"
+     ]
+    },
+    {
+     "name": "sx",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "sy",
+     "hits": 1,
+     "samples": [
+      "3"
+     ]
+    },
+    {
+     "name": "sz",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "tx",
+     "hits": 1,
+     "samples": [
+      "0.8"
+     ]
+    },
+    {
+     "name": "curl3doutputattscope",
+     "hits": 1,
+     "samples": [
+      "Velocity"
+     ]
+    },
+    {
+     "name": "curl2doutputattscope",
+     "hits": 1,
+     "samples": [
+      "\"\""
+     ]
+    },
+    {
+     "name": "rz",
+     "hits": 1,
+     "samples": [
+      "0 op('null2')['chan1']"
+     ]
+    },
+    {
+     "name": "parsize",
+     "hits": 1,
+     "samples": [
+      "2"
+     ]
+    },
+    {
+     "name": "amp1",
+     "hits": 1,
+     "samples": [
+      "0.1"
+     ]
+    },
+    {
+     "name": "exp1",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    }
+   ]
+  },
+  "dmxfixture": {
+   "writes": 498,
+   "params": [
+    {
+     "name": "routingtable",
+     "hits": 8,
+     "samples": [
+      "dmxfixture1_routingtable",
+      "dmxfixture2_routingtable",
+      "dmxfixture8_routingtable"
+     ]
+    },
+    {
+     "name": "dmxchan0name",
+     "hits": 8,
+     "samples": [
+      "Position",
+      "Color",
+      "Tilt"
+     ]
+    },
+    {
+     "name": "dmxchan0attr",
+     "hits": 8,
+     "samples": [
+      "Position",
+      "\"Color(0) Color(1) Color(2)\"",
+      "Tilt"
+     ]
+    },
+    {
+     "name": "dmxchan0valueres",
+     "hits": 5,
+     "samples": [
+      "b16"
+     ]
+    },
+    {
+     "name": "dmxchan1name",
+     "hits": 5,
+     "samples": [
+      "\"Pan / Tilt Speed\"",
+      "\"Tilt speed\"",
+      "\"Pan/Tilt speed\""
+     ]
+    },
+    {
+     "name": "dmxchan1valuetype",
+     "hits": 5,
+     "samples": [
+      "point",
+      "primitive"
+     ]
+    },
+    {
+     "name": "dmxchan1valuesource",
+     "hits": 5,
+     "samples": [
+      "attribute"
+     ]
+    },
+    {
+     "name": "dmxchan1group",
+     "hits": 5,
+     "samples": [
+      "\"\"",
+      "body"
+     ]
+    },
+    {
+     "name": "dmxchan1numcomps",
+     "hits": 5,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "dmxchan1attr",
+     "hits": 5,
+     "samples": [
+      "Pantiltspeed",
+      "TiltSpeed",
+      "PanTiltSpeed"
+     ]
+    },
+    {
+     "name": "dmxchan1valueres",
+     "hits": 5,
+     "samples": [
+      "b8"
+     ]
+    },
+    {
+     "name": "universe",
+     "hits": 4,
+     "samples": [
+      "2",
+      "3",
+      "4"
+     ]
+    },
+    {
+     "name": "changap",
+     "hits": 4,
+     "samples": [
+      "5",
+      "4"
+     ]
+    },
+    {
+     "name": "dmxchan2name",
+     "hits": 4,
+     "samples": [
+      "Dimmer",
+      "CTC",
+      "\"Zoom 1\""
+     ]
+    },
+    {
+     "name": "dmxchan2valuetype",
+     "hits": 4,
+     "samples": [
+      "point",
+      "primitive"
+     ]
+    },
+    {
+     "name": "dmxchan2valuesource",
+     "hits": 4,
+     "samples": [
+      "attribute"
+     ]
+    },
+    {
+     "name": "dmxchan2group",
+     "hits": 4,
+     "samples": [
+      "\"\"",
+      "body"
+     ]
+    },
+    {
+     "name": "dmxchan2numcomps",
+     "hits": 4,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "dmxchan2attr",
+     "hits": 4,
+     "samples": [
+      "Dimmer",
+      "CTC",
+      "Zoom1"
+     ]
+    },
+    {
+     "name": "dmxchan2valueres",
+     "hits": 4,
+     "samples": [
+      "b16",
+      "b8"
+     ]
+    },
+    {
+     "name": "dmxchan3name",
+     "hits": 4,
+     "samples": [
+      "Strobe",
+      "Color",
+      "\"Zoom 2\""
+     ]
+    },
+    {
+     "name": "dmxchan3valuetype",
+     "hits": 4,
+     "samples": [
+      "point",
+      "primitive"
+     ]
+    },
+    {
+     "name": "dmxchan3valuesource",
+     "hits": 4,
+     "samples": [
+      "attribute"
+     ]
+    },
+    {
+     "name": "dmxchan3group",
+     "hits": 4,
+     "samples": [
+      "\"\"",
+      "body"
+     ]
+    },
+    {
+     "name": "dmxchan3numcomps",
+     "hits": 4,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "dmxchan3attr",
+     "hits": 4,
+     "samples": [
+      "Strobe",
+      "FColor",
+      "Zoom2"
+     ]
+    },
+    {
+     "name": "dmxchan3valueres",
+     "hits": 4,
+     "samples": [
+      "b8"
+     ]
+    },
+    {
+     "name": "dmxchan4name",
+     "hits": 4,
+     "samples": [
+      "\"Virtual Strobe\"",
+      "Patterns",
+      "\"Dimmer Ring\""
+     ]
+    },
+    {
+     "name": "dmxchan4valuetype",
+     "hits": 4,
+     "samples": [
+      "point",
+      "primitive"
+     ]
+    },
+    {
+     "name": "dmxchan4valuesource",
+     "hits": 4,
+     "samples": [
+      "attribute"
+     ]
+    },
+    {
+     "name": "dmxchan4group",
+     "hits": 4,
+     "samples": [
+      "\"\"",
+      "ring"
+     ]
+    },
+    {
+     "name": "dmxchan4numcomps",
+     "hits": 4,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "dmxchan4attr",
+     "hits": 4,
+     "samples": [
+      "VirtualStrobe",
+      "Patterns",
+      "Dimmer"
+     ]
+    },
+    {
+     "name": "dmxchan4valueres",
+     "hits": 4,
+     "samples": [
+      "b8",
+      "b16"
+     ]
+    },
+    {
+     "name": "dmxchan5name",
+     "hits": 4,
+     "samples": [
+      "CMY",
+      "\"LED Macro\"",
+      "\"Strobe Ring\""
+     ]
+    },
+    {
+     "name": "dmxchan5valuetype",
+     "hits": 4,
+     "samples": [
+      "point",
+      "primitive"
+     ]
+    },
+    {
+     "name": "dmxchan5valuesource",
+     "hits": 4,
+     "samples": [
+      "attribute"
+     ]
+    },
+    {
+     "name": "dmxchan5group",
+     "hits": 4,
+     "samples": [
+      "\"\"",
+      "ring"
+     ]
+    },
+    {
+     "name": "dmxchan5numcomps",
+     "hits": 4,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "dmxchan5attr",
+     "hits": 4,
+     "samples": [
+      "CMY",
+      "LEDMacro",
+      "Strobe"
+     ]
+    }
+   ]
+  },
+  "mathcombine": {
+   "writes": 472,
+   "params": [
+    {
+     "name": "pageindex",
+     "hits": 30,
+     "samples": [
+      "4",
+      "2",
+      "1"
+     ]
+    },
+    {
+     "name": "comb0oper",
+     "hits": 30,
+     "samples": [
+      "mult",
+      "min",
+      "gt"
+     ]
+    },
+    {
+     "name": "comb0scopea",
+     "hits": 30,
+     "samples": [
+      "Lifetime",
+      "Velocity",
+      "LineWidth"
+     ]
+    },
+    {
+     "name": "comb0scopeb",
+     "hits": 27,
+     "samples": [
+      "border",
+      "100.",
+      "fwd"
+     ]
+    },
+    {
+     "name": "comb1oper",
+     "hits": 21,
+     "samples": [
+      "mult",
+      "ifelse",
+      "none"
+     ]
+    },
+    {
+     "name": "comb1scopea",
+     "hits": 21,
+     "samples": [
+      "\"\"",
+      "alpha",
+      "backDistance"
+     ]
+    },
+    {
+     "name": "comb1scopeb",
+     "hits": 21,
+     "samples": [
+      "\"\"",
+      "border",
+      "P(2)"
+     ]
+    },
+    {
+     "name": "comb1scopec",
+     "hits": 21,
+     "samples": [
+      "\"\"",
+      "inBack",
+      "dead"
+     ]
+    },
+    {
+     "name": "comb1result",
+     "hits": 21,
+     "samples": [
+      "\"\"",
+      "P(2)",
+      "P"
+     ]
+    },
+    {
+     "name": "comb0result",
+     "hits": 19,
+     "samples": [
+      "alpha",
+      "inBack",
+      "Velocity"
+     ]
+    },
+    {
+     "name": "attr0defaultval3",
+     "hits": 12,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "attr0defaultval0",
+     "hits": 11,
+     "samples": [
+      "4.5",
+      "0.005",
+      "-2.4 parent().par.Backgrounddistance"
+     ]
+    },
+    {
+     "name": "attr0defaultval2",
+     "hits": 11,
+     "samples": [
+      "0.5",
+      "-1"
+     ]
+    },
+    {
+     "name": "attr0defaultval1",
+     "hits": 10,
+     "samples": [
+      "0.5"
+     ]
+    },
+    {
+     "name": "comb2oper",
+     "hits": 10,
+     "samples": [
+      "mult",
+      "mix",
+      "ifelse"
+     ]
+    },
+    {
+     "name": "comb2scopea",
+     "hits": 10,
+     "samples": [
+      "Color",
+      "Scale",
+      "P"
+     ]
+    },
+    {
+     "name": "comb2scopeb",
+     "hits": 10,
+     "samples": [
+      "alpha",
+      "instanceSize",
+      "OffsetWeight"
+     ]
+    },
+    {
+     "name": "comb2scopec",
+     "hits": 10,
+     "samples": [
+      "\"\"",
+      "dead",
+      "boundary"
+     ]
+    },
+    {
+     "name": "comb2result",
+     "hits": 10,
+     "samples": [
+      "\"\"",
+      "Velocity",
+      "Lifetime"
+     ]
+    },
+    {
+     "name": "attr0customname",
+     "hits": 9,
+     "samples": [
+      "border",
+      "backDistance",
+      "fwd"
+     ]
+    },
+    {
+     "name": "delattrs",
+     "hits": 9,
+     "samples": [
+      "noiseDeriv",
+      "positionStep",
+      "WeightInverted"
+     ]
+    },
+    {
+     "name": "input1pop",
+     "hits": 6,
+     "samples": [
+      "InitialData",
+      "\"\""
+     ]
+    },
+    {
+     "name": "input1attrs",
+     "hits": 6,
+     "samples": [
+      "Lifetime",
+      "\"P Lifetime\"",
+      "\"\""
+     ]
+    },
+    {
+     "name": "input1renameto",
+     "hits": 6,
+     "samples": [
+      "\"\"",
+      "\"InitP InitLifetime\"",
+      "InitLifetime"
+     ]
+    },
+    {
+     "name": "post0scope",
+     "hits": 5,
+     "samples": [
+      "Color",
+      "Scale",
+      "life"
+     ]
+    },
+    {
+     "name": "attr0name",
+     "hits": 5,
+     "samples": [
+      "linewidth",
+      "color"
+     ]
+    },
+    {
+     "name": "comb3oper",
+     "hits": 4,
+     "samples": [
+      "mult",
+      "asubb",
+      "ifelse"
+     ]
+    },
+    {
+     "name": "comb3scopea",
+     "hits": 4,
+     "samples": [
+      "FaceNormal",
+      "Lifetime",
+      "speed"
+     ]
+    },
+    {
+     "name": "comb3scopeb",
+     "hits": 4,
+     "samples": [
+      "Force",
+      "_StepSeconds 1./me.time.rate",
+      "Life"
+     ]
+    },
+    {
+     "name": "comb3scopec",
+     "hits": 4,
+     "samples": [
+      "\"\"",
+      "dead"
+     ]
+    },
+    {
+     "name": "comb3result",
+     "hits": 4,
+     "samples": [
+      "\"\"",
+      "State"
+     ]
+    },
+    {
+     "name": "comb4oper",
+     "hits": 3,
+     "samples": [
+      "add",
+      "ifelse"
+     ]
+    },
+    {
+     "name": "comb4scopea",
+     "hits": 3,
+     "samples": [
+      "P",
+      "Life",
+      "InitLifetime"
+     ]
+    },
+    {
+     "name": "comb4scopeb",
+     "hits": 3,
+     "samples": [
+      "FaceNormal",
+      "speed",
+      "Lifetime"
+     ]
+    },
+    {
+     "name": "comb4scopec",
+     "hits": 3,
+     "samples": [
+      "\"\"",
+      "dead"
+     ]
+    },
+    {
+     "name": "comb4result",
+     "hits": 3,
+     "samples": [
+      "\"\"",
+      "Scale",
+      "Lifetime"
+     ]
+    },
+    {
+     "name": "post0parsize",
+     "hits": 3,
+     "samples": [
+      "4"
+     ]
+    },
+    {
+     "name": "post0fromhigh0",
+     "hits": 3,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "post0fromhigh1",
+     "hits": 3,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "post0fromhigh2",
+     "hits": 3,
+     "samples": [
+      "1"
+     ]
+    }
+   ]
+  },
+  "attribute": {
+   "writes": 407,
+   "params": [
+    {
+     "name": "attr0value3",
+     "hits": 32,
+     "samples": [
+      "1",
+      "1.1"
+     ]
+    },
+    {
+     "name": "attr0name",
+     "hits": 26,
+     "samples": [
+      "pointscale",
+      "color",
+      "n"
+     ]
+    },
+    {
+     "name": "attr0value0",
+     "hits": 23,
+     "samples": [
+      "0.011",
+      "1.67",
+      "1"
+     ]
+    },
+    {
+     "name": "attr1name",
+     "hits": 19,
+     "samples": [
+      "custom",
+      "pointscale"
+     ]
+    },
+    {
+     "name": "attr1customname",
+     "hits": 19,
+     "samples": [
+      "Rot",
+      "Random",
+      "\"\""
+     ]
+    },
+    {
+     "name": "attr1type",
+     "hits": 19,
+     "samples": [
+      "dir",
+      "float"
+     ]
+    },
+    {
+     "name": "attr1numcomps",
+     "hits": 19,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "attr1arraysize",
+     "hits": 19,
+     "samples": [
+      "2",
+      "1"
+     ]
+    },
+    {
+     "name": "attr1value3",
+     "hits": 19,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "attr0customname",
+     "hits": 17,
+     "samples": [
+      "up",
+      "Velocity",
+      "Rot"
+     ]
+    },
+    {
+     "name": "attr0value2",
+     "hits": 9,
+     "samples": [
+      "1",
+      "-1",
+      "0.1"
+     ]
+    },
+    {
+     "name": "attr1value2",
+     "hits": 9,
+     "samples": [
+      "45",
+      "-45",
+      "-30"
+     ]
+    },
+    {
+     "name": "attr0value1",
+     "hits": 8,
+     "samples": [
+      "1",
+      "0.5",
+      "0.1"
+     ]
+    },
+    {
+     "name": "pageindex",
+     "hits": 8,
+     "samples": [
+      "4",
+      "2"
+     ]
+    },
+    {
+     "name": "ptdel",
+     "hits": 7,
+     "samples": [
+      "N",
+      "T",
+      "\"Nebr NumNebrs\""
+     ]
+    },
+    {
+     "name": "attr0numcomps",
+     "hits": 7,
+     "samples": [
+      "3",
+      "2",
+      "4"
+     ]
+    },
+    {
+     "name": "attr2name",
+     "hits": 6,
+     "samples": [
+      "custom",
+      "color"
+     ]
+    },
+    {
+     "name": "attr2customname",
+     "hits": 6,
+     "samples": [
+      "RGB",
+      "\"\"",
+      "State"
+     ]
+    },
+    {
+     "name": "attr2type",
+     "hits": 6,
+     "samples": [
+      "float",
+      "dir"
+     ]
+    },
+    {
+     "name": "attr2numcomps",
+     "hits": 6,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "attr2arraysize",
+     "hits": 6,
+     "samples": [
+      "2",
+      "1"
+     ]
+    },
+    {
+     "name": "attr2value3",
+     "hits": 6,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "attr0type",
+     "hits": 5,
+     "samples": [
+      "dir",
+      "int"
+     ]
+    },
+    {
+     "name": "attr1value0",
+     "hits": 3,
+     "samples": [
+      "0.9 parent().par.Instancesize",
+      "0.2",
+      "1"
+     ]
+    },
+    {
+     "name": "attr3name",
+     "hits": 3,
+     "samples": [
+      "custom"
+     ]
+    },
+    {
+     "name": "attr3customname",
+     "hits": 3,
+     "samples": [
+      "Scale",
+      "Zoom2",
+      "FColor"
+     ]
+    },
+    {
+     "name": "attr3type",
+     "hits": 3,
+     "samples": [
+      "float",
+      "int"
+     ]
+    },
+    {
+     "name": "attr3numcomps",
+     "hits": 3,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "attr3arraysize",
+     "hits": 3,
+     "samples": [
+      "2",
+      "1"
+     ]
+    },
+    {
+     "name": "attr3value3",
+     "hits": 3,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "attrclass",
+     "hits": 3,
+     "samples": [
+      "primitive"
+     ]
+    },
+    {
+     "name": "ren0from",
+     "hits": 2,
+     "samples": [
+      "DirNext"
+     ]
+    },
+    {
+     "name": "ren0to",
+     "hits": 2,
+     "samples": [
+      "forward"
+     ]
+    },
+    {
+     "name": "attr4name",
+     "hits": 2,
+     "samples": [
+      "custom"
+     ]
+    },
+    {
+     "name": "attr4customname",
+     "hits": 2,
+     "samples": [
+      "Control",
+      "Patterns"
+     ]
+    },
+    {
+     "name": "attr4type",
+     "hits": 2,
+     "samples": [
+      "float",
+      "int"
+     ]
+    },
+    {
+     "name": "attr4numcomps",
+     "hits": 2,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "attr4arraysize",
+     "hits": 2,
+     "samples": [
+      "2"
+     ]
+    },
+    {
+     "name": "attr4value3",
+     "hits": 2,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "attr3value0",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    }
+   ]
+  },
+  "mathmix": {
+   "writes": 389,
+   "params": [
+    {
+     "name": "comb0oper",
+     "hits": 47,
+     "samples": [
+      "mult",
+      "adivb",
+      "copya"
+     ]
+    },
+    {
+     "name": "comb0scopea",
+     "hits": 47,
+     "samples": [
+      "P",
+      "PartAge",
+      "PartVel"
+     ]
+    },
+    {
+     "name": "pageindex",
+     "hits": 44,
+     "samples": [
+      "2"
+     ]
+    },
+    {
+     "name": "comb0result",
+     "hits": 43,
+     "samples": [
+      "NormAge",
+      "Speed",
+      "PointScale"
+     ]
+    },
+    {
+     "name": "comb0scopeb",
+     "hits": 34,
+     "samples": [
+      "PartLifeSpan",
+      "LifeSize",
+      "0.5"
+     ]
+    },
+    {
+     "name": "comb1oper",
+     "hits": 17,
+     "samples": [
+      "add",
+      "square",
+      "mult"
+     ]
+    },
+    {
+     "name": "comb1scopea",
+     "hits": 17,
+     "samples": [
+      "PartVel.x",
+      "P",
+      "force"
+     ]
+    },
+    {
+     "name": "comb1scopeb",
+     "hits": 17,
+     "samples": [
+      "\"\"",
+      "extraForce",
+      "positionStep"
+     ]
+    },
+    {
+     "name": "comb1scopec",
+     "hits": 17,
+     "samples": [
+      "\"\""
+     ]
+    },
+    {
+     "name": "comb1result",
+     "hits": 17,
+     "samples": [
+      "\"\"",
+      "A",
+      "newP"
+     ]
+    },
+    {
+     "name": "comb2oper",
+     "hits": 11,
+     "samples": [
+      "none",
+      "add",
+      "ifelse"
+     ]
+    },
+    {
+     "name": "comb2scopea",
+     "hits": 11,
+     "samples": [
+      "\"\"",
+      "Velocity",
+      "newP"
+     ]
+    },
+    {
+     "name": "comb2scopec",
+     "hits": 11,
+     "samples": [
+      "\"\"",
+      "State",
+      "1"
+     ]
+    },
+    {
+     "name": "comb2result",
+     "hits": 11,
+     "samples": [
+      "\"\"",
+      "P",
+      "PointScale"
+     ]
+    },
+    {
+     "name": "comb2scopeb",
+     "hits": 10,
+     "samples": [
+      "\"\"",
+      "P",
+      "force"
+     ]
+    },
+    {
+     "name": "vec0type",
+     "hits": 6,
+     "samples": [
+      "float3"
+     ]
+    },
+    {
+     "name": "input1pop",
+     "hits": 6,
+     "samples": [
+      "\"\""
+     ]
+    },
+    {
+     "name": "vec0name",
+     "hits": 3,
+     "samples": [
+      "fwd",
+      "extraForce",
+      "Col"
+     ]
+    },
+    {
+     "name": "vec0value2",
+     "hits": 3,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "delattrs",
+     "hits": 3,
+     "samples": [
+      "noiseDeriv",
+      "force",
+      "positionStep"
+     ]
+    },
+    {
+     "name": "vec0value1",
+     "hits": 3,
+     "samples": [
+      "-1",
+      "-0.5",
+      "1"
+     ]
+    },
+    {
+     "name": "vec0value0",
+     "hits": 2,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "comb3oper",
+     "hits": 1,
+     "samples": [
+      "mult"
+     ]
+    },
+    {
+     "name": "comb3scopea",
+     "hits": 1,
+     "samples": [
+      "Velocity"
+     ]
+    },
+    {
+     "name": "comb3scopeb",
+     "hits": 1,
+     "samples": [
+      "MaxSpeed"
+     ]
+    },
+    {
+     "name": "comb3scopec",
+     "hits": 1,
+     "samples": [
+      "\"\""
+     ]
+    },
+    {
+     "name": "comb3result",
+     "hits": 1,
+     "samples": [
+      "\"\""
+     ]
+    },
+    {
+     "name": "vec1name",
+     "hits": 1,
+     "samples": [
+      "\"\""
+     ]
+    },
+    {
+     "name": "vec1type",
+     "hits": 1,
+     "samples": [
+      "float"
+     ]
+    },
+    {
+     "name": "vec1value0",
+     "hits": 1,
+     "samples": [
+      "0.5"
+     ]
+    },
+    {
+     "name": "attribclass",
+     "hits": 1,
+     "samples": [
+      "vertex"
+     ]
+    }
+   ]
+  },
+  "lookuptex": {
+   "writes": 233,
+   "params": [
+    {
+     "name": "top",
+     "hits": 42,
+     "samples": [
+      "ramp1",
+      "null1",
+      "color"
+     ]
+    },
+    {
+     "name": "outputattrscope",
+     "hits": 41,
+     "samples": [
+      "Color",
+      "Color.rgb",
+      "Shape"
+     ]
+    },
+    {
+     "name": "lookupattr0",
+     "hits": 38,
+     "samples": [
+      "Tex(0)",
+      "Speed",
+      "DistStartNorm"
+     ]
+    },
+    {
+     "name": "lookupattr1",
+     "hits": 38,
+     "samples": [
+      "\"\"",
+      "Tex(1)",
+      "Color(1)"
+     ]
+    },
+    {
+     "name": "inputextend0",
+     "hits": 19,
+     "samples": [
+      "hold"
+     ]
+    },
+    {
+     "name": "inputextend1",
+     "hits": 19,
+     "samples": [
+      "hold",
+      "repeat"
+     ]
+    },
+    {
+     "name": "inputextend2",
+     "hits": 19,
+     "samples": [
+      "hold",
+      "repeat"
+     ]
+    },
+    {
+     "name": "channelmask",
+     "hits": 7,
+     "samples": [
+      "7",
+      "1",
+      "2"
+     ]
+    },
+    {
+     "name": "attrclass",
+     "hits": 4,
+     "samples": [
+      "vertex",
+      "primitive"
+     ]
+    },
+    {
+     "name": "lookupattr2",
+     "hits": 2,
+     "samples": [
+      "Color(2)"
+     ]
+    },
+    {
+     "name": "lookupoffset0",
+     "hits": 1,
+     "samples": [
+      "-0.5"
+     ]
+    },
+    {
+     "name": "lookupoffset1",
+     "hits": 1,
+     "samples": [
+      "-0.5"
+     ]
+    },
+    {
+     "name": "attribclass",
+     "hits": 1,
+     "samples": [
+      "vertex"
+     ]
+    },
+    {
+     "name": "outputattscope",
+     "hits": 1,
+     "samples": [
+      "displace"
+     ]
+    }
+   ]
+  },
+  "point": {
+   "writes": 212,
+   "params": [
+    {
+     "name": "attr0customname",
+     "hits": 6,
+     "samples": [
+      "Position",
+      "t",
+      "DMXFixtureUniverse"
+     ]
+    },
+    {
+     "name": "pageindex",
+     "hits": 5,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "attr0numcomps",
+     "hits": 5,
+     "samples": [
+      "2",
+      "3"
+     ]
+    },
+    {
+     "name": "attr1name",
+     "hits": 5,
+     "samples": [
+      "custom"
+     ]
+    },
+    {
+     "name": "attr1customname",
+     "hits": 5,
+     "samples": [
+      "Pantiltspeed",
+      "rad",
+      "DMXFixtureSubnet"
+     ]
+    },
+    {
+     "name": "attr1type",
+     "hits": 5,
+     "samples": [
+      "float",
+      "uint"
+     ]
+    },
+    {
+     "name": "attr1numcomps",
+     "hits": 5,
+     "samples": [
+      "1",
+      "3"
+     ]
+    },
+    {
+     "name": "pt1posx",
+     "hits": 3,
+     "samples": [
+      "1",
+      "0.6"
+     ]
+    },
+    {
+     "name": "attr2name",
+     "hits": 3,
+     "samples": [
+      "custom"
+     ]
+    },
+    {
+     "name": "attr2customname",
+     "hits": 3,
+     "samples": [
+      "Dimmer",
+      "DMXFixtureUniverse"
+     ]
+    },
+    {
+     "name": "attr2type",
+     "hits": 3,
+     "samples": [
+      "float",
+      "uint"
+     ]
+    },
+    {
+     "name": "attr2numcomps",
+     "hits": 3,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "attr3name",
+     "hits": 3,
+     "samples": [
+      "custom"
+     ]
+    },
+    {
+     "name": "attr3customname",
+     "hits": 3,
+     "samples": [
+      "Strobe",
+      "DMXFixtureChannel"
+     ]
+    },
+    {
+     "name": "attr3type",
+     "hits": 3,
+     "samples": [
+      "float",
+      "uint"
+     ]
+    },
+    {
+     "name": "attr3numcomps",
+     "hits": 3,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "attr4name",
+     "hits": 3,
+     "samples": [
+      "custom"
+     ]
+    },
+    {
+     "name": "attr4customname",
+     "hits": 3,
+     "samples": [
+      "VirtualStrobe",
+      "DMXFixtureNetAddress"
+     ]
+    },
+    {
+     "name": "attr4type",
+     "hits": 3,
+     "samples": [
+      "float",
+      "uint"
+     ]
+    },
+    {
+     "name": "attr4numcomps",
+     "hits": 3,
+     "samples": [
+      "1",
+      "4"
+     ]
+    },
+    {
+     "name": "pt2posy",
+     "hits": 2,
+     "samples": [
+      "1",
+      "0.1"
+     ]
+    },
+    {
+     "name": "attr0type",
+     "hits": 2,
+     "samples": [
+      "uint"
+     ]
+    },
+    {
+     "name": "pt1dmxfixtureuniverse",
+     "hits": 2,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "attr5name",
+     "hits": 2,
+     "samples": [
+      "custom"
+     ]
+    },
+    {
+     "name": "attr5customname",
+     "hits": 2,
+     "samples": [
+      "CMY"
+     ]
+    },
+    {
+     "name": "attr5type",
+     "hits": 2,
+     "samples": [
+      "float"
+     ]
+    },
+    {
+     "name": "attr5numcomps",
+     "hits": 2,
+     "samples": [
+      "3"
+     ]
+    },
+    {
+     "name": "attr6name",
+     "hits": 2,
+     "samples": [
+      "custom"
+     ]
+    },
+    {
+     "name": "attr6customname",
+     "hits": 2,
+     "samples": [
+      "ColorWheel"
+     ]
+    },
+    {
+     "name": "attr6type",
+     "hits": 2,
+     "samples": [
+      "float"
+     ]
+    },
+    {
+     "name": "attr6numcomps",
+     "hits": 2,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "attr7name",
+     "hits": 2,
+     "samples": [
+      "custom"
+     ]
+    },
+    {
+     "name": "attr7customname",
+     "hits": 2,
+     "samples": [
+      "GoboWheel1"
+     ]
+    },
+    {
+     "name": "attr7type",
+     "hits": 2,
+     "samples": [
+      "float"
+     ]
+    },
+    {
+     "name": "attr7numcomps",
+     "hits": 2,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "attr8name",
+     "hits": 2,
+     "samples": [
+      "custom"
+     ]
+    },
+    {
+     "name": "attr8customname",
+     "hits": 2,
+     "samples": [
+      "Gobo1Rotation"
+     ]
+    },
+    {
+     "name": "attr8type",
+     "hits": 2,
+     "samples": [
+      "float"
+     ]
+    },
+    {
+     "name": "attr8numcomps",
+     "hits": 2,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "attr9name",
+     "hits": 2,
+     "samples": [
+      "custom"
+     ]
+    }
+   ]
+  },
+  "particle": {
+   "writes": 207,
+   "params": [
+    {
+     "name": "particlesupdatepop",
+     "hits": 29,
+     "samples": [
+      "null_particleEnd",
+      "null1",
+      "Particle_End"
+     ]
+    },
+    {
+     "name": "birthrate",
+     "hits": 22,
+     "samples": [
+      "100",
+      "50000",
+      "1000"
+     ]
+    },
+    {
+     "name": "maxparticles",
+     "hits": 20,
+     "samples": [
+      "10000",
+      "1000000",
+      "4096"
+     ]
+    },
+    {
+     "name": "lifevariance",
+     "hits": 12,
+     "samples": [
+      "0.213",
+      "1",
+      "0.601"
+     ]
+    },
+    {
+     "name": "map0element",
+     "hits": 12,
+     "samples": [
+      "InitialVelocity",
+      "N"
+     ]
+    },
+    {
+     "name": "initdrag",
+     "hits": 11,
+     "samples": [
+      "0.5",
+      "1"
+     ]
+    },
+    {
+     "name": "map0parm",
+     "hits": 11,
+     "samples": [
+      "initvelocity"
+     ]
+    },
+    {
+     "name": "randomseed",
+     "hits": 10,
+     "samples": [
+      "1.44",
+      "1"
+     ]
+    },
+    {
+     "name": "life",
+     "hits": 9,
+     "samples": [
+      "5",
+      "100",
+      "2"
+     ]
+    },
+    {
+     "name": "damping",
+     "hits": 7,
+     "samples": [
+      "0.5",
+      "0.55",
+      "0.999"
+     ]
+    },
+    {
+     "name": "map1op",
+     "hits": 7,
+     "samples": [
+      "\"\""
+     ]
+    },
+    {
+     "name": "map1element",
+     "hits": 7,
+     "samples": [
+      "Drag",
+      "\"\"",
+      "Mass"
+     ]
+    },
+    {
+     "name": "map1parm",
+     "hits": 7,
+     "samples": [
+      "initdrag",
+      "\"\"",
+      "initmass"
+     ]
+    },
+    {
+     "name": "map1combineop",
+     "hits": 7,
+     "samples": [
+      "set"
+     ]
+    },
+    {
+     "name": "map2op",
+     "hits": 6,
+     "samples": [
+      "\"\""
+     ]
+    },
+    {
+     "name": "map2element",
+     "hits": 6,
+     "samples": [
+      "Mass",
+      "\"\"",
+      "Drag"
+     ]
+    },
+    {
+     "name": "map2parm",
+     "hits": 6,
+     "samples": [
+      "initmass",
+      "\"\"",
+      "initdrag"
+     ]
+    },
+    {
+     "name": "map2combineop",
+     "hits": 6,
+     "samples": [
+      "set"
+     ]
+    },
+    {
+     "name": "pageindex",
+     "hits": 3,
+     "samples": [
+      "2"
+     ]
+    },
+    {
+     "name": "initvelocityy",
+     "hits": 2,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "attr0name",
+     "hits": 1,
+     "samples": [
+      "color"
+     ]
+    },
+    {
+     "name": "attr0value0",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "attr0value1",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "attr0value2",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "attr0value3",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "pointidreuse",
+     "hits": 1,
+     "samples": [
+      "none"
+     ]
+    },
+    {
+     "name": "attrs",
+     "hits": 1,
+     "samples": [
+      "colorId"
+     ]
+    }
+   ]
+  },
+  "math": {
+   "writes": 179,
+   "params": [
+    {
+     "name": "inputattrscope",
+     "hits": 51,
+     "samples": [
+      "PointScale",
+      "Color",
+      "Tex"
+     ]
+    },
+    {
+     "name": "outputattrscope",
+     "hits": 25,
+     "samples": [
+      "Color.rgb",
+      "P.y",
+      "N"
+     ]
+    },
+    {
+     "name": "mult0",
+     "hits": 13,
+     "samples": [
+      "1",
+      "7.34",
+      "1.5"
+     ]
+    },
+    {
+     "name": "tohigh0",
+     "hits": 12,
+     "samples": [
+      "1",
+      "2",
+      "0.5"
+     ]
+    },
+    {
+     "name": "preoper",
+     "hits": 9,
+     "samples": [
+      "abs",
+      "length",
+      "cos"
+     ]
+    },
+    {
+     "name": "fromhigh0",
+     "hits": 7,
+     "samples": [
+      "1",
+      "0.2",
+      "6"
+     ]
+    },
+    {
+     "name": "fromlow0",
+     "hits": 6,
+     "samples": [
+      "-1"
+     ]
+    },
+    {
+     "name": "tolow0",
+     "hits": 5,
+     "samples": [
+      "0.288",
+      "1",
+      "0.233"
+     ]
+    },
+    {
+     "name": "parsize",
+     "hits": 4,
+     "samples": [
+      "3",
+      "4"
+     ]
+    },
+    {
+     "name": "fromhigh1",
+     "hits": 4,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "fromhigh2",
+     "hits": 4,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "tohigh1",
+     "hits": 4,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "tohigh2",
+     "hits": 4,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "preadd0",
+     "hits": 4,
+     "samples": [
+      "0.001",
+      "4"
+     ]
+    },
+    {
+     "name": "inputattscope",
+     "hits": 4,
+     "samples": [
+      "Color",
+      "noiseFloat",
+      "noiseUint"
+     ]
+    },
+    {
+     "name": "outputattscope",
+     "hits": 4,
+     "samples": [
+      "\"Color(1) Color(1) Color(0) Color(3)\"",
+      "\"Color(0) Color(1) Color(2)\"",
+      "noiseFloat"
+     ]
+    },
+    {
+     "name": "postoper",
+     "hits": 3,
+     "samples": [
+      "abs",
+      "sqrt"
+     ]
+    },
+    {
+     "name": "quantize",
+     "hits": 2,
+     "samples": [
+      "round"
+     ]
+    },
+    {
+     "name": "mult1",
+     "hits": 2,
+     "samples": [
+      "1",
+      "0.5"
+     ]
+    },
+    {
+     "name": "mult2",
+     "hits": 2,
+     "samples": [
+      "1",
+      "0.2"
+     ]
+    },
+    {
+     "name": "attrclass",
+     "hits": 2,
+     "samples": [
+      "primitive"
+     ]
+    },
+    {
+     "name": "postadd1",
+     "hits": 2,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "fromlow1",
+     "hits": 1,
+     "samples": [
+      "-1"
+     ]
+    },
+    {
+     "name": "fromlow2",
+     "hits": 1,
+     "samples": [
+      "-1"
+     ]
+    },
+    {
+     "name": "attrnumcomps",
+     "hits": 1,
+     "samples": [
+      "3"
+     ]
+    },
+    {
+     "name": "mult3",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "fromhigh3",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "tohigh3",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    }
+   ]
+  },
+  "field": {
+   "writes": 163,
+   "params": [
+    {
+     "name": "radx",
+     "hits": 20,
+     "samples": [
+      "3",
+      "0.2",
+      "2"
+     ]
+    },
+    {
+     "name": "rady",
+     "hits": 20,
+     "samples": [
+      "3",
+      "0.2",
+      "2"
+     ]
+    },
+    {
+     "name": "radz",
+     "hits": 20,
+     "samples": [
+      "3",
+      "0.2",
+      "2"
+     ]
+    },
+    {
+     "name": "outputattr",
+     "hits": 16,
+     "samples": [
+      "PartDeath",
+      "Color.rgb",
+      "boundary"
+     ]
+    },
+    {
+     "name": "transitionrange",
+     "hits": 11,
+     "samples": [
+      "1",
+      "3 parent().par.Fadeoutrange",
+      "0.5 parent().par.Fadeoutrange"
+     ]
+    },
+    {
+     "name": "sizex",
+     "hits": 8,
+     "samples": [
+      "1.1",
+      "1 parent().par.Sizex+parent().par.Fadeoutrange/2",
+      "0.01 parent().par.Sizex"
+     ]
+    },
+    {
+     "name": "sizey",
+     "hits": 8,
+     "samples": [
+      "1.1",
+      "0.01 parent().par.Sizey",
+      "3 parent().par.Sizey+parent().par.Fadeoutrange/2"
+     ]
+    },
+    {
+     "name": "sizez",
+     "hits": 8,
+     "samples": [
+      "1.1",
+      "1 parent().par.Sizez+parent().par.Fadeoutrange/2",
+      "0.01 parent().par.Sizez"
+     ]
+    },
+    {
+     "name": "pageindex",
+     "hits": 7,
+     "samples": [
+      "1",
+      "2"
+     ]
+    },
+    {
+     "name": "mode",
+     "hits": 7,
+     "samples": [
+      "box",
+      "torus"
+     ]
+    },
+    {
+     "name": "tx",
+     "hits": 6,
+     "samples": [
+      "0 -",
+      "0 op('FieldLoc')['tx']",
+      "0 op('FieldOrigin')['x']"
+     ]
+    },
+    {
+     "name": "transitiontype",
+     "hits": 5,
+     "samples": [
+      "smoothstep",
+      "easeinout"
+     ]
+    },
+    {
+     "name": "ty",
+     "hits": 4,
+     "samples": [
+      "0 op('FieldLoc')['ty']",
+      "0 op('FieldOrigin')['y']",
+      "0 op('null2')['ty']"
+     ]
+    },
+    {
+     "name": "tz",
+     "hits": 4,
+     "samples": [
+      "0 op('FieldLoc')['tz']",
+      "-0.4 op('FieldOrigin')['z']",
+      "0 op('null2')['tz']"
+     ]
+    },
+    {
+     "name": "transitionalign",
+     "hits": 3,
+     "samples": [
+      "0.342 parent().par.Shoulder",
+      "0.09",
+      "0.5"
+     ]
+    },
+    {
+     "name": "torange2",
+     "hits": 3,
+     "samples": [
+      "1.2 \"op('null1')['alpha'][me.digits -1 ]\""
+     ]
+    },
+    {
+     "name": "sx",
+     "hits": 3,
+     "samples": [
+      "0.1"
+     ]
+    },
+    {
+     "name": "sy",
+     "hits": 3,
+     "samples": [
+      "0.1"
+     ]
+    },
+    {
+     "name": "sz",
+     "hits": 3,
+     "samples": [
+      "0.1"
+     ]
+    },
+    {
+     "name": "specpop",
+     "hits": 1,
+     "samples": [
+      "null3"
+     ]
+    },
+    {
+     "name": "ry",
+     "hits": 1,
+     "samples": [
+      "90"
+     ]
+    },
+    {
+     "name": "rz",
+     "hits": 1,
+     "samples": [
+      "90"
+     ]
+    },
+    {
+     "name": "rx",
+     "hits": 1,
+     "samples": [
+      "90"
+     ]
+    }
+   ]
+  },
+  "merge": {
+   "writes": 152,
+   "params": [
+    {
+     "name": "input1pop",
+     "hits": 30,
+     "samples": [
+      "\"\""
+     ]
+    },
+    {
+     "name": "input1attrclass",
+     "hits": 30,
+     "samples": [
+      "point"
+     ]
+    },
+    {
+     "name": "input1group",
+     "hits": 30,
+     "samples": [
+      "\"\""
+     ]
+    },
+    {
+     "name": "input2pop",
+     "hits": 8,
+     "samples": [
+      "\"\""
+     ]
+    },
+    {
+     "name": "input2attrclass",
+     "hits": 8,
+     "samples": [
+      "point"
+     ]
+    },
+    {
+     "name": "input2group",
+     "hits": 8,
+     "samples": [
+      "\"\""
+     ]
+    },
+    {
+     "name": "input3pop",
+     "hits": 8,
+     "samples": [
+      "\"\""
+     ]
+    },
+    {
+     "name": "input3attrclass",
+     "hits": 8,
+     "samples": [
+      "point"
+     ]
+    },
+    {
+     "name": "input3group",
+     "hits": 8,
+     "samples": [
+      "\"\""
+     ]
+    },
+    {
+     "name": "pageindex",
+     "hits": 2,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "input4pop",
+     "hits": 2,
+     "samples": [
+      "\"\""
+     ]
+    },
+    {
+     "name": "input4attrclass",
+     "hits": 2,
+     "samples": [
+      "point"
+     ]
+    },
+    {
+     "name": "input4group",
+     "hits": 2,
+     "samples": [
+      "\"\""
+     ]
+    },
+    {
+     "name": "input5pop",
+     "hits": 1,
+     "samples": [
+      "\"\""
+     ]
+    },
+    {
+     "name": "input5attrclass",
+     "hits": 1,
+     "samples": [
+      "point"
+     ]
+    },
+    {
+     "name": "input5group",
+     "hits": 1,
+     "samples": [
+      "\"\""
+     ]
+    },
+    {
+     "name": "input6pop",
+     "hits": 1,
+     "samples": [
+      "\"\""
+     ]
+    },
+    {
+     "name": "input6attrclass",
+     "hits": 1,
+     "samples": [
+      "point"
+     ]
+    },
+    {
+     "name": "input6group",
+     "hits": 1,
+     "samples": [
+      "\"\""
+     ]
+    }
+   ]
+  },
+  "delete": {
+   "writes": 149,
+   "params": [
+    {
+     "name": "pageindex",
+     "hits": 42,
+     "samples": [
+      "1",
+      "4",
+      "3"
+     ]
+    },
+    {
+     "name": "attr0inattr",
+     "hits": 24,
+     "samples": [
+      "colorId",
+      "P(0)",
+      "random"
+     ]
+    },
+    {
+     "name": "attr0func",
+     "hits": 18,
+     "samples": [
+      "eq",
+      "gt",
+      "gte"
+     ]
+    },
+    {
+     "name": "attr0value",
+     "hits": 16,
+     "samples": [
+      "1",
+      "2",
+      "3"
+     ]
+    },
+    {
+     "name": "group0name",
+     "hits": 6,
+     "samples": [
+      "trace_border",
+      "trace"
+     ]
+    },
+    {
+     "name": "attr1combine",
+     "hits": 5,
+     "samples": [
+      "or"
+     ]
+    },
+    {
+     "name": "attr1inattr",
+     "hits": 5,
+     "samples": [
+      "P(1)",
+      "\"\""
+     ]
+    },
+    {
+     "name": "attr1func",
+     "hits": 5,
+     "samples": [
+      "lt",
+      "lte"
+     ]
+    },
+    {
+     "name": "bound0inattr",
+     "hits": 4,
+     "samples": [
+      "P"
+     ]
+    },
+    {
+     "name": "bound0scalex",
+     "hits": 4,
+     "samples": [
+      "100",
+      "2.3 parent().par.Scalex"
+     ]
+    },
+    {
+     "name": "bound0scaley",
+     "hits": 4,
+     "samples": [
+      "8",
+      "1.7 parent().par.Scaley"
+     ]
+    },
+    {
+     "name": "bound0scalez",
+     "hits": 4,
+     "samples": [
+      "3",
+      "1 parent().par.Scalez",
+      "5"
+     ]
+    },
+    {
+     "name": "pattern0pattern",
+     "hits": 4,
+     "samples": [
+      "*"
+     ]
+    },
+    {
+     "name": "entity",
+     "hits": 2,
+     "samples": [
+      "primitive"
+     ]
+    },
+    {
+     "name": "bound0type",
+     "hits": 1,
+     "samples": [
+      "boundingsphere"
+     ]
+    },
+    {
+     "name": "bound0translatex",
+     "hits": 1,
+     "samples": [
+      "0 parent().par.Translatex"
+     ]
+    },
+    {
+     "name": "bound0translatey",
+     "hits": 1,
+     "samples": [
+      "0.2 parent().par.Translatey"
+     ]
+    },
+    {
+     "name": "bound0translatez",
+     "hits": 1,
+     "samples": [
+      "0 parent().par.Translatez"
+     ]
+    },
+    {
+     "name": "attr1value",
+     "hits": 1,
+     "samples": [
+      "-0.1"
+     ]
+    },
+    {
+     "name": "thinrandom",
+     "hits": 1,
+     "samples": [
+      "0.527"
+     ]
+    }
+   ]
+  },
+  "line": {
+   "writes": 120,
+   "params": [
+    {
+     "name": "divs",
+     "hits": 26,
+     "samples": [
+      "1",
+      "1000",
+      "38"
+     ]
+    },
+    {
+     "name": "pt1posx",
+     "hits": 25,
+     "samples": [
+      "0.5",
+      "1",
+      "2"
+     ]
+    },
+    {
+     "name": "pageindex",
+     "hits": 19,
+     "samples": [
+      "1",
+      "2"
+     ]
+    },
+    {
+     "name": "pt1posz",
+     "hits": 16,
+     "samples": [
+      "0 -op('tube1').par.height",
+      "0 -parent().par.attenuationend"
+     ]
+    },
+    {
+     "name": "pt1posy",
+     "hits": 14,
+     "samples": [
+      "-0.5",
+      "1",
+      "1 \"mod.math.sin(-mod.math.radians(parent().par.coneangle/2))"
+     ]
+    },
+    {
+     "name": "pt0posx",
+     "hits": 8,
+     "samples": [
+      "-0.5",
+      "-2",
+      "-1"
+     ]
+    },
+    {
+     "name": "pt0posy",
+     "hits": 7,
+     "samples": [
+      "-0.5",
+      "-1",
+      "0.1"
+     ]
+    },
+    {
+     "name": "pt0posz",
+     "hits": 4,
+     "samples": [
+      "0 -parent().par.attenuationstart"
+     ]
+    },
+    {
+     "name": "bypass",
+     "hits": 1,
+     "samples": [
+      "off \"not parent().par.attenuated\""
+     ]
+    }
+   ]
+  },
+  "grid": {
+   "writes": 112,
+   "params": [
+    {
+     "name": "cols",
+     "hits": 20,
+     "samples": [
+      "50",
+      "2",
+      "4"
+     ]
+    },
+    {
+     "name": "rows",
+     "hits": 20,
+     "samples": [
+      "2",
+      "50",
+      "4"
+     ]
+    },
+    {
+     "name": "surftype",
+     "hits": 12,
+     "samples": [
+      "none",
+      "points",
+      "triangles"
+     ]
+    },
+    {
+     "name": "sizex",
+     "hits": 9,
+     "samples": [
+      "3",
+      "2",
+      "5"
+     ]
+    },
+    {
+     "name": "sizey",
+     "hits": 8,
+     "samples": [
+      "3",
+      "4",
+      "1"
+     ]
+    },
+    {
+     "name": "sizez",
+     "hits": 8,
+     "samples": [
+      "1",
+      "1.5",
+      "2"
+     ]
+    },
+    {
+     "name": "slices",
+     "hits": 6,
+     "samples": [
+      "20",
+      "10",
+      "40 me.par.cols"
+     ]
+    },
+    {
+     "name": "rx",
+     "hits": 5,
+     "samples": [
+      "90",
+      "-90"
+     ]
+    },
+    {
+     "name": "randomx",
+     "hits": 4,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "randomy",
+     "hits": 4,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "ty",
+     "hits": 4,
+     "samples": [
+      "0.25",
+      "-0.5"
+     ]
+    },
+    {
+     "name": "tz",
+     "hits": 2,
+     "samples": [
+      "1.5"
+     ]
+    },
+    {
+     "name": "randomz",
+     "hits": 2,
+     "samples": [
+      "0.1"
+     ]
+    },
+    {
+     "name": "size1",
+     "hits": 2,
+     "samples": [
+      "0.02"
+     ]
+    },
+    {
+     "name": "size2",
+     "hits": 2,
+     "samples": [
+      "0.5"
+     ]
+    },
+    {
+     "name": "size3",
+     "hits": 2,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "normal",
+     "hits": 1,
+     "samples": [
+      "none"
+     ]
+    },
+    {
+     "name": "rz",
+     "hits": 1,
+     "samples": [
+      "90"
+     ]
+    }
+   ]
+  },
+  "pointfilein": {
+   "writes": 112,
+   "params": [
+    {
+     "name": "file",
+     "hits": 5,
+     "samples": [
+      "\"\" parent.Splat.par.Gaussiansplat",
+      "\"\" \"app.samplesFolder + '/PointClouds/bananaNorm.ply'\"",
+      "\"LIULI Year of the Dragon Glass Sculpture Splat.ply\" parent."
+     ]
+    },
+    {
+     "name": "normalfields",
+     "hits": 4,
+     "samples": [
+      "\"\""
+     ]
+    },
+    {
+     "name": "attr0fields",
+     "hits": 4,
+     "samples": [
+      "\"scale_0 scale_1 scale_2\"",
+      "scale_[0-2]",
+      "rot[xyzw]"
+     ]
+    },
+    {
+     "name": "attr0name",
+     "hits": 4,
+     "samples": [
+      "scale",
+      "rot"
+     ]
+    },
+    {
+     "name": "attr1fields",
+     "hits": 4,
+     "samples": [
+      "\"rot_0 rot_1 rot_2 rot_3\"",
+      "rot_[0-3]",
+      "scale[xyz]"
+     ]
+    },
+    {
+     "name": "attr1name",
+     "hits": 4,
+     "samples": [
+      "rot",
+      "scale"
+     ]
+    },
+    {
+     "name": "attr2fields",
+     "hits": 4,
+     "samples": [
+      "\"\" \"op('f_rest')[me.curBlock.index - 1,0]\"",
+      "f_rest_[$i-44:15]",
+      "sh$i[rgb]"
+     ]
+    },
+    {
+     "name": "attr2name",
+     "hits": 4,
+     "samples": [
+      "\"\" \"'sh' + str((me.curBlock.index - 2))\"",
+      "sh"
+     ]
+    },
+    {
+     "name": "colorfields",
+     "hits": 3,
+     "samples": [
+      "\"f_dc_0 f_dc_1 f_dc_2 opacity\"",
+      "\"f_dc_[0-2] opacity\""
+     ]
+    },
+    {
+     "name": "attr1arraysize",
+     "hits": 3,
+     "samples": [
+      "2"
+     ]
+    },
+    {
+     "name": "attr2arraysize",
+     "hits": 3,
+     "samples": [
+      "15",
+      "2"
+     ]
+    },
+    {
+     "name": "attr3fields",
+     "hits": 2,
+     "samples": [
+      "\"\" \"op('f_rest')[me.curBlock.index - 1,0]\""
+     ]
+    },
+    {
+     "name": "attr3name",
+     "hits": 2,
+     "samples": [
+      "\"\" \"\\\"sh\\\"+str((me.curBlock.index - 2))\""
+     ]
+    },
+    {
+     "name": "attr4fields",
+     "hits": 2,
+     "samples": [
+      "\"\" \"op('f_rest')[me.curBlock.index - 1,0]\""
+     ]
+    },
+    {
+     "name": "attr4name",
+     "hits": 2,
+     "samples": [
+      "\"\" \"\\\"sh\\\"+str((me.curBlock.index - 2))\""
+     ]
+    },
+    {
+     "name": "attr5fields",
+     "hits": 2,
+     "samples": [
+      "\"\" \"op('f_rest')[me.curBlock.index - 1,0]\""
+     ]
+    },
+    {
+     "name": "attr5name",
+     "hits": 2,
+     "samples": [
+      "\"\" \"\\\"sh\\\"+str((me.curBlock.index - 2))\""
+     ]
+    },
+    {
+     "name": "attr6fields",
+     "hits": 2,
+     "samples": [
+      "\"\" \"op('f_rest')[me.curBlock.index - 1,0]\""
+     ]
+    },
+    {
+     "name": "attr6name",
+     "hits": 2,
+     "samples": [
+      "\"\" \"\\\"sh\\\"+str((me.curBlock.index - 2))\""
+     ]
+    },
+    {
+     "name": "attr7fields",
+     "hits": 2,
+     "samples": [
+      "\"\" \"op('f_rest')[me.curBlock.index - 1,0]\""
+     ]
+    },
+    {
+     "name": "attr7name",
+     "hits": 2,
+     "samples": [
+      "\"\" \"\\\"sh\\\"+str((me.curBlock.index - 2))\""
+     ]
+    },
+    {
+     "name": "attr8fields",
+     "hits": 2,
+     "samples": [
+      "\"\" \"op('f_rest')[me.curBlock.index - 1,0]\""
+     ]
+    },
+    {
+     "name": "attr8name",
+     "hits": 2,
+     "samples": [
+      "\"\" \"\\\"sh\\\"+str((me.curBlock.index - 2))\""
+     ]
+    },
+    {
+     "name": "attr9fields",
+     "hits": 2,
+     "samples": [
+      "\"\" \"op('f_rest')[me.curBlock.index - 1,0]\""
+     ]
+    },
+    {
+     "name": "attr9name",
+     "hits": 2,
+     "samples": [
+      "\"\" \"\\\"sh\\\"+str((me.curBlock.index - 2))\""
+     ]
+    },
+    {
+     "name": "attr10fields",
+     "hits": 2,
+     "samples": [
+      "\"\" \"op('f_rest')[me.curBlock.index - 1,0]\""
+     ]
+    },
+    {
+     "name": "attr10name",
+     "hits": 2,
+     "samples": [
+      "\"\" \"\\\"sh\\\"+str((me.curBlock.index - 2))\""
+     ]
+    },
+    {
+     "name": "attr11fields",
+     "hits": 2,
+     "samples": [
+      "\"\" \"op('f_rest')[me.curBlock.index - 1,0]\""
+     ]
+    },
+    {
+     "name": "attr11name",
+     "hits": 2,
+     "samples": [
+      "\"\" \"\\\"sh\\\"+str((me.curBlock.index - 2))\""
+     ]
+    },
+    {
+     "name": "attr12fields",
+     "hits": 2,
+     "samples": [
+      "\"\" \"op('f_rest')[me.curBlock.index - 1,0]\""
+     ]
+    },
+    {
+     "name": "attr12name",
+     "hits": 2,
+     "samples": [
+      "\"\" \"\\\"sh\\\"+str((me.curBlock.index - 2))\""
+     ]
+    },
+    {
+     "name": "attr13fields",
+     "hits": 2,
+     "samples": [
+      "\"\" \"op('f_rest')[me.curBlock.index - 1,0]\""
+     ]
+    },
+    {
+     "name": "attr13name",
+     "hits": 2,
+     "samples": [
+      "\"\" \"\\\"sh\\\"+str((me.curBlock.index - 2))\""
+     ]
+    },
+    {
+     "name": "attr14fields",
+     "hits": 2,
+     "samples": [
+      "\"\" \"op('f_rest')[me.curBlock.index - 1,0]\""
+     ]
+    },
+    {
+     "name": "attr14name",
+     "hits": 2,
+     "samples": [
+      "\"\" \"\\\"sh\\\"+str((me.curBlock.index - 2))\""
+     ]
+    },
+    {
+     "name": "attr15fields",
+     "hits": 2,
+     "samples": [
+      "\"\" \"op('f_rest')[me.curBlock.index - 1,0]\""
+     ]
+    },
+    {
+     "name": "attr15name",
+     "hits": 2,
+     "samples": [
+      "\"\" \"\\\"sh\\\"+str((me.curBlock.index - 2))\""
+     ]
+    },
+    {
+     "name": "attr16fields",
+     "hits": 2,
+     "samples": [
+      "\"\" \"op('f_rest')[me.curBlock.index - 1,0]\""
+     ]
+    },
+    {
+     "name": "attr16name",
+     "hits": 2,
+     "samples": [
+      "\"\" \"\\\"sh\\\"+str((me.curBlock.index - 2))\""
+     ]
+    },
+    {
+     "name": "attr3arraysize",
+     "hits": 1,
+     "samples": [
+      "2"
+     ]
+    }
+   ]
+  },
+  "transform": {
+   "writes": 110,
+   "params": [
+    {
+     "name": "tz",
+     "hits": 20,
+     "samples": [
+      "0 -parent().par.attenuationstart",
+      "0 -parent().par.attenuationend",
+      "0 parent.Splat.par.Tz"
+     ]
+    },
+    {
+     "name": "ry",
+     "hits": 11,
+     "samples": [
+      "0 parent.Splat.par.Ry",
+      "0 op('null2')['chan1']*360",
+      "0 \"absTime.seconds * 5\""
+     ]
+    },
+    {
+     "name": "rz",
+     "hits": 10,
+     "samples": [
+      "-45",
+      "0 parent.Splat.par.Rz",
+      "0 op('null3')['chan1']*360"
+     ]
+    },
+    {
+     "name": "rx",
+     "hits": 9,
+     "samples": [
+      "-45",
+      "180 parent.Splat.par.Rx",
+      "50 op('speed1')['rotate']"
+     ]
+    },
+    {
+     "name": "tx",
+     "hits": 8,
+     "samples": [
+      "0 parent.Splat.par.Tx",
+      "0 op('Force')['sin']",
+      "1.7 op('lfo1')['chan1']"
+     ]
+    },
+    {
+     "name": "ty",
+     "hits": 7,
+     "samples": [
+      "0 parent.Splat.par.Ty",
+      "-14 op('Force')['cos']",
+      "-2"
+     ]
+    },
+    {
+     "name": "sx",
+     "hits": 6,
+     "samples": [
+      "2",
+      "1",
+      "0.97"
+     ]
+    },
+    {
+     "name": "sy",
+     "hits": 6,
+     "samples": [
+      "2",
+      "1",
+      "0.97"
+     ]
+    },
+    {
+     "name": "sz",
+     "hits": 6,
+     "samples": [
+      "2",
+      "0.95",
+      "0.97"
+     ]
+    },
+    {
+     "name": "scale",
+     "hits": 5,
+     "samples": [
+      "1 parent.Splat.par.Scale",
+      "0.1",
+      "0.4"
+     ]
+    },
+    {
+     "name": "pageindex",
+     "hits": 5,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "aligntz",
+     "hits": 5,
+     "samples": [
+      "origin"
+     ]
+    },
+    {
+     "name": "aligntx",
+     "hits": 3,
+     "samples": [
+      "origin"
+     ]
+    },
+    {
+     "name": "alignty",
+     "hits": 3,
+     "samples": [
+      "origin"
+     ]
+    },
+    {
+     "name": "weightattr",
+     "hits": 2,
+     "samples": [
+      "Force",
+      "State"
+     ]
+    },
+    {
+     "name": "mode",
+     "hits": 2,
+     "samples": [
+      "transformattr",
+      "transformattrib"
+     ]
+    },
+    {
+     "name": "inputattrscope",
+     "hits": 1,
+     "samples": [
+      "N"
+     ]
+    },
+    {
+     "name": "py",
+     "hits": 1,
+     "samples": [
+      "-0.32"
+     ]
+    }
+   ]
+  },
+  "copy": {
+   "writes": 109,
+   "params": [
+    {
+     "name": "pageindex",
+     "hits": 23,
+     "samples": [
+      "1",
+      "2"
+     ]
+    },
+    {
+     "name": "ncy",
+     "hits": 19,
+     "samples": [
+      "2",
+      "3",
+      "11"
+     ]
+    },
+    {
+     "name": "templateattr0names",
+     "hits": 16,
+     "samples": [
+      "Color",
+      "Length",
+      "DistNext"
+     ]
+    },
+    {
+     "name": "scaleattrib",
+     "hits": 6,
+     "samples": [
+      "Phase",
+      "Length",
+      "NoiseScale"
+     ]
+    },
+    {
+     "name": "upattr",
+     "hits": 5,
+     "samples": [
+      "\"\"",
+      "Normal",
+      "tangent"
+     ]
+    },
+    {
+     "name": "templateattr1op",
+     "hits": 4,
+     "samples": [
+      "copy"
+     ]
+    },
+    {
+     "name": "templateattr1dest",
+     "hits": 4,
+     "samples": [
+      "point",
+      "vertex"
+     ]
+    },
+    {
+     "name": "templateattr1names",
+     "hits": 4,
+     "samples": [
+      "Color",
+      "RandomMovement"
+     ]
+    },
+    {
+     "name": "rx",
+     "hits": 4,
+     "samples": [
+      "90"
+     ]
+    },
+    {
+     "name": "tz",
+     "hits": 4,
+     "samples": [
+      "-0.4",
+      "0.2"
+     ]
+    },
+    {
+     "name": "vecattr",
+     "hits": 3,
+     "samples": [
+      "FaceNormal",
+      "Dir",
+      "Orient"
+     ]
+    },
+    {
+     "name": "upvectoratype",
+     "hits": 3,
+     "samples": [
+      "attribute"
+     ]
+    },
+    {
+     "name": "copyid",
+     "hits": 3,
+     "samples": [
+      "primitive",
+      "point"
+     ]
+    },
+    {
+     "name": "templateattr2op",
+     "hits": 1,
+     "samples": [
+      "copy"
+     ]
+    },
+    {
+     "name": "templateattr2dest",
+     "hits": 1,
+     "samples": [
+      "point"
+     ]
+    },
+    {
+     "name": "templateattr2names",
+     "hits": 1,
+     "samples": [
+      "FaceNormal"
+     ]
+    },
+    {
+     "name": "templateattr3op",
+     "hits": 1,
+     "samples": [
+      "copy"
+     ]
+    },
+    {
+     "name": "templateattr3dest",
+     "hits": 1,
+     "samples": [
+      "point"
+     ]
+    },
+    {
+     "name": "templateattr3names",
+     "hits": 1,
+     "samples": [
+      "Color"
+     ]
+    },
+    {
+     "name": "rz",
+     "hits": 1,
+     "samples": [
+      "45"
+     ]
+    },
+    {
+     "name": "ry",
+     "hits": 1,
+     "samples": [
+      "5"
+     ]
+    },
+    {
+     "name": "tx",
+     "hits": 1,
+     "samples": [
+      "0.25 1/3"
+     ]
+    },
+    {
+     "name": "ty",
+     "hits": 1,
+     "samples": [
+      "0.2"
+     ]
+    },
+    {
+     "name": "templateattr0dest",
+     "hits": 1,
+     "samples": [
+      "primitive"
+     ]
+    }
+   ]
+  },
+  "circle": {
+   "writes": 77,
+   "params": [
+    {
+     "name": "radx",
+     "hits": 22,
+     "samples": [
+      "0.1",
+      "1 \"mod.math.sin(mod.math.radians(parent().par.coneangle/2)) ",
+      "1 mod.math.sin(mod.math.radians(parent().par.coneangle/2))"
+     ]
+    },
+    {
+     "name": "rady",
+     "hits": 22,
+     "samples": [
+      "0.1",
+      "1 \"mod.math.sin(mod.math.radians(parent().par.coneangle/2)) ",
+      "1 mod.math.sin(mod.math.radians(parent().par.coneangle/2))"
+     ]
+    },
+    {
+     "name": "divs",
+     "hits": 9,
+     "samples": [
+      "3",
+      "8 parent().par.Circledivisions",
+      "184"
+     ]
+    },
+    {
+     "name": "connectivity",
+     "hits": 8,
+     "samples": [
+      "surface"
+     ]
+    },
+    {
+     "name": "tz",
+     "hits": 8,
+     "samples": [
+      "0 -op('tube1').par.height",
+      "0 -parent().par.attenuationend",
+      "0 -parent().par.attenuationstart"
+     ]
+    },
+    {
+     "name": "pageindex",
+     "hits": 2,
+     "samples": [
+      "3",
+      "1"
+     ]
+    },
+    {
+     "name": "bypass",
+     "hits": 2,
+     "samples": [
+      "off \"not parent().par.attenuated\""
+     ]
+    },
+    {
+     "name": "endangle",
+     "hits": 2,
+     "samples": [
+      "270",
+      "360"
+     ]
+    },
+    {
+     "name": "scale",
+     "hits": 1,
+     "samples": [
+      "0.2"
+     ]
+    },
+    {
+     "name": "normaldirection",
+     "hits": 1,
+     "samples": [
+      "radial"
+     ]
+    }
+   ]
+  },
+  "pointgen": {
+   "writes": 62,
+   "params": [
+    {
+     "name": "numpoints",
+     "hits": 16,
+     "samples": [
+      "1000",
+      "500",
+      "17"
+     ]
+    },
+    {
+     "name": "shape",
+     "hits": 9,
+     "samples": [
+      "box",
+      "tube",
+      "circle"
+     ]
+    },
+    {
+     "name": "distribution",
+     "hits": 3,
+     "samples": [
+      "surface"
+     ]
+    },
+    {
+     "name": "pageindex",
+     "hits": 3,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "orientation",
+     "hits": 3,
+     "samples": [
+      "zx"
+     ]
+    },
+    {
+     "name": "sizex",
+     "hits": 3,
+     "samples": [
+      "30",
+      "8"
+     ]
+    },
+    {
+     "name": "sizey",
+     "hits": 3,
+     "samples": [
+      "30",
+      "8"
+     ]
+    },
+    {
+     "name": "sizez",
+     "hits": 3,
+     "samples": [
+      "90",
+      "8"
+     ]
+    },
+    {
+     "name": "sx",
+     "hits": 2,
+     "samples": [
+      "0.2",
+      "3"
+     ]
+    },
+    {
+     "name": "sy",
+     "hits": 2,
+     "samples": [
+      "0.2",
+      "8"
+     ]
+    },
+    {
+     "name": "sz",
+     "hits": 2,
+     "samples": [
+      "0.2",
+      "3"
+     ]
+    },
+    {
+     "name": "radiusx",
+     "hits": 1,
+     "samples": [
+      "0.2"
+     ]
+    },
+    {
+     "name": "radiusy",
+     "hits": 1,
+     "samples": [
+      "0.2"
+     ]
+    },
+    {
+     "name": "radiusz",
+     "hits": 1,
+     "samples": [
+      "0.2"
+     ]
+    },
+    {
+     "name": "height",
+     "hits": 1,
+     "samples": [
+      "0.29"
+     ]
+    },
+    {
+     "name": "ty",
+     "hits": 1,
+     "samples": [
+      "0 me.par.height/2"
+     ]
+    },
+    {
+     "name": "seed",
+     "hits": 1,
+     "samples": [
+      "2"
+     ]
+    },
+    {
+     "name": "size1",
+     "hits": 1,
+     "samples": [
+      "4"
+     ]
+    },
+    {
+     "name": "size2",
+     "hits": 1,
+     "samples": [
+      "2"
+     ]
+    },
+    {
+     "name": "size3",
+     "hits": 1,
+     "samples": [
+      "2"
+     ]
+    },
+    {
+     "name": "radius1",
+     "hits": 1,
+     "samples": [
+      "3"
+     ]
+    },
+    {
+     "name": "radius2",
+     "hits": 1,
+     "samples": [
+      "3"
+     ]
+    },
+    {
+     "name": "radius3",
+     "hits": 1,
+     "samples": [
+      "3"
+     ]
+    },
+    {
+     "name": "normaldirection",
+     "hits": 1,
+     "samples": [
+      "random"
+     ]
+    }
+   ]
+  },
+  "random": {
+   "writes": 59,
+   "params": [
+    {
+     "name": "outputattrscope",
+     "hits": 16,
+     "samples": [
+      "Color.rgb",
+      "MaxSpeed",
+      "Lifetime"
+     ]
+    },
+    {
+     "name": "combineop",
+     "hits": 15,
+     "samples": [
+      "set"
+     ]
+    },
+    {
+     "name": "valueb0",
+     "hits": 9,
+     "samples": [
+      "1 parent().par.Speed2",
+      "1 parent().par.Lifetime2",
+      "1 parent().par.Randomizeposition2"
+     ]
+    },
+    {
+     "name": "valuea0",
+     "hits": 7,
+     "samples": [
+      "0 parent().par.Speed1",
+      "0 parent().par.Lifetime1",
+      "0 parent().par.Randomizeposition1"
+     ]
+    },
+    {
+     "name": "seed",
+     "hits": 6,
+     "samples": [
+      "123",
+      "1.32",
+      "6.59"
+     ]
+    },
+    {
+     "name": "attrclass",
+     "hits": 2,
+     "samples": [
+      "primitive",
+      "vertex"
+     ]
+    },
+    {
+     "name": "randomsize",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "combineattrscope",
+     "hits": 1,
+     "samples": [
+      "PartId"
+     ]
+    },
+    {
+     "name": "valuea",
+     "hits": 1,
+     "samples": [
+      "0.03"
+     ]
+    },
+    {
+     "name": "valueb",
+     "hits": 1,
+     "samples": [
+      "0.05"
+     ]
+    }
+   ]
+  },
+  "tube": {
+   "writes": 59,
+   "params": [
+    {
+     "name": "radx",
+     "hits": 11,
+     "samples": [
+      "1 mod.math.sin(mod.math.radians(parent().par.coneangle/2))",
+      "0.02",
+      "2"
+     ]
+    },
+    {
+     "name": "rady",
+     "hits": 9,
+     "samples": [
+      "0.01",
+      "0.005",
+      "2"
+     ]
+    },
+    {
+     "name": "orient",
+     "hits": 7,
+     "samples": [
+      "z"
+     ]
+    },
+    {
+     "name": "rows",
+     "hits": 7,
+     "samples": [
+      "2",
+      "20",
+      "100 parent().par.Tubesh"
+     ]
+    },
+    {
+     "name": "tz",
+     "hits": 7,
+     "samples": [
+      "0 -me.par.height*0.5",
+      "0 me.par.height/2.",
+      "-1"
+     ]
+    },
+    {
+     "name": "height",
+     "hits": 7,
+     "samples": [
+      "1 mod.math.cos(mod.math.radians(parent().par.coneangle/2))",
+      "1.5",
+      "2"
+     ]
+    },
+    {
+     "name": "cols",
+     "hits": 4,
+     "samples": [
+      "3",
+      "100 parent().par.Tubesw",
+      "6"
+     ]
+    },
+    {
+     "name": "surftype",
+     "hits": 2,
+     "samples": [
+      "points",
+      "rows"
+     ]
+    },
+    {
+     "name": "linetype",
+     "hits": 1,
+     "samples": [
+      "lines"
+     ]
+    },
+    {
+     "name": "normal",
+     "hits": 1,
+     "samples": [
+      "pointNormals"
+     ]
+    },
+    {
+     "name": "ty",
+     "hits": 1,
+     "samples": [
+      "0.5 me.par.height/2"
+     ]
+    },
+    {
+     "name": "bypass",
+     "hits": 1,
+     "samples": [
+      "off \"not parent().par.attenuated\""
+     ]
+    },
+    {
+     "name": "texture",
+     "hits": 1,
+     "samples": [
+      "none"
+     ]
+    }
+   ]
+  },
+  "sphere": {
+   "writes": 51,
+   "params": [
+    {
+     "name": "freq",
+     "hits": 9,
+     "samples": [
+      "2",
+      "6",
+      "7"
+     ]
+    },
+    {
+     "name": "radx",
+     "hits": 7,
+     "samples": [
+      "0.05",
+      "0.01",
+      "2.1"
+     ]
+    },
+    {
+     "name": "rady",
+     "hits": 7,
+     "samples": [
+      "0.05",
+      "0.01",
+      "2.1"
+     ]
+    },
+    {
+     "name": "radz",
+     "hits": 7,
+     "samples": [
+      "0.05",
+      "0.01",
+      "2.1"
+     ]
+    },
+    {
+     "name": "type",
+     "hits": 5,
+     "samples": [
+      "grid",
+      "tetrahedron"
+     ]
+    },
+    {
+     "name": "cols",
+     "hits": 3,
+     "samples": [
+      "33",
+      "50",
+      "40"
+     ]
+    },
+    {
+     "name": "rows",
+     "hits": 2,
+     "samples": [
+      "33",
+      "50"
+     ]
+    },
+    {
+     "name": "texture",
+     "hits": 2,
+     "samples": [
+      "none"
+     ]
+    },
+    {
+     "name": "rad1",
+     "hits": 2,
+     "samples": [
+      "0.05"
+     ]
+    },
+    {
+     "name": "rad2",
+     "hits": 2,
+     "samples": [
+      "0.05"
+     ]
+    },
+    {
+     "name": "rad3",
+     "hits": 2,
+     "samples": [
+      "0.05"
+     ]
+    },
+    {
+     "name": "pageindex",
+     "hits": 1,
+     "samples": [
+      "2"
+     ]
+    },
+    {
+     "name": "ry",
+     "hits": 1,
+     "samples": [
+      "45"
+     ]
+    },
+    {
+     "name": "orient",
+     "hits": 1,
+     "samples": [
+      "z"
+     ]
+    }
+   ]
+  },
+  "pattern": {
+   "writes": 49,
+   "params": [
+    {
+     "name": "type0",
+     "hits": 6,
+     "samples": [
+      "index",
+      "ramp",
+      "easein"
+     ]
+    },
+    {
+     "name": "tohigh0",
+     "hits": 6,
+     "samples": [
+      "1",
+      "4.4",
+      "360"
+     ]
+    },
+    {
+     "name": "numcycles0",
+     "hits": 5,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "outputattrscope",
+     "hits": 5,
+     "samples": [
+      "Index",
+      "Phase"
+     ]
+    },
+    {
+     "name": "parsize",
+     "hits": 4,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "exp0",
+     "hits": 4,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "fromhigh0",
+     "hits": 4,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "type1",
+     "hits": 2,
+     "samples": [
+      "rampupdown",
+      "ramp"
+     ]
+    },
+    {
+     "name": "type2",
+     "hits": 2,
+     "samples": [
+      "zero",
+      "ramp"
+     ]
+    },
+    {
+     "name": "tohigh1",
+     "hits": 2,
+     "samples": [
+      "1",
+      "360"
+     ]
+    },
+    {
+     "name": "tohigh2",
+     "hits": 2,
+     "samples": [
+      "1",
+      "360"
+     ]
+    },
+    {
+     "name": "numpoints",
+     "hits": 1,
+     "samples": [
+      "60"
+     ]
+    },
+    {
+     "name": "numcycles1",
+     "hits": 1,
+     "samples": [
+      "3"
+     ]
+    },
+    {
+     "name": "numcycles2",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "steppercycle1",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "seed",
+     "hits": 1,
+     "samples": [
+      "2.29"
+     ]
+    },
+    {
+     "name": "phase1",
+     "hits": 1,
+     "samples": [
+      "0.25"
+     ]
+    },
+    {
+     "name": "phase2",
+     "hits": 1,
+     "samples": [
+      "0.75"
+     ]
+    }
+   ]
+  },
+  "chopto": {
+   "writes": 46,
+   "params": [
+    {
+     "name": "chop",
+     "hits": 2,
+     "samples": [
+      "limit1",
+      "null3"
+     ]
+    },
+    {
+     "name": "chanscope",
+     "hits": 2,
+     "samples": [
+      "chan1",
+      "\"\""
+     ]
+    },
+    {
+     "name": "attrscope",
+     "hits": 1,
+     "samples": [
+      "P(1)"
+     ]
+    },
+    {
+     "name": "surftype",
+     "hits": 1,
+     "samples": [
+      "none"
+     ]
+    },
+    {
+     "name": "attscope",
+     "hits": 1,
+     "samples": [
+      "\"\""
+     ]
+    },
+    {
+     "name": "attr0chanscope",
+     "hits": 1,
+     "samples": [
+      "\"tx ty tz\""
+     ]
+    },
+    {
+     "name": "attr0name",
+     "hits": 1,
+     "samples": [
+      "p"
+     ]
+    },
+    {
+     "name": "attr0numcomps",
+     "hits": 1,
+     "samples": [
+      "3"
+     ]
+    },
+    {
+     "name": "attr1chanscope",
+     "hits": 1,
+     "samples": [
+      "\"rx ry rz\""
+     ]
+    },
+    {
+     "name": "attr1name",
+     "hits": 1,
+     "samples": [
+      "custom"
+     ]
+    },
+    {
+     "name": "attr1customname",
+     "hits": 1,
+     "samples": [
+      "rot"
+     ]
+    },
+    {
+     "name": "attr1type",
+     "hits": 1,
+     "samples": [
+      "float"
+     ]
+    },
+    {
+     "name": "attr1numcomps",
+     "hits": 1,
+     "samples": [
+      "3"
+     ]
+    },
+    {
+     "name": "attr1defvalue1",
+     "hits": 1,
+     "samples": [
+      "0.5"
+     ]
+    },
+    {
+     "name": "attr1defvalue2",
+     "hits": 1,
+     "samples": [
+      "0.5"
+     ]
+    },
+    {
+     "name": "attr1defvalue3",
+     "hits": 1,
+     "samples": [
+      "0.5"
+     ]
+    },
+    {
+     "name": "attr1defvalue4",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "attr2chanscope",
+     "hits": 1,
+     "samples": [
+      "\"sx sy sz\""
+     ]
+    },
+    {
+     "name": "attr2name",
+     "hits": 1,
+     "samples": [
+      "custom"
+     ]
+    },
+    {
+     "name": "attr2customname",
+     "hits": 1,
+     "samples": [
+      "scale"
+     ]
+    },
+    {
+     "name": "attr2type",
+     "hits": 1,
+     "samples": [
+      "float"
+     ]
+    },
+    {
+     "name": "attr2numcomps",
+     "hits": 1,
+     "samples": [
+      "3"
+     ]
+    },
+    {
+     "name": "attr2defvalue1",
+     "hits": 1,
+     "samples": [
+      "0.5"
+     ]
+    },
+    {
+     "name": "attr2defvalue2",
+     "hits": 1,
+     "samples": [
+      "0.5"
+     ]
+    },
+    {
+     "name": "attr2defvalue3",
+     "hits": 1,
+     "samples": [
+      "0.5"
+     ]
+    },
+    {
+     "name": "attr2defvalue4",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "attr3chanscope",
+     "hits": 1,
+     "samples": [
+      "\"size size1\""
+     ]
+    },
+    {
+     "name": "attr3name",
+     "hits": 1,
+     "samples": [
+      "custom"
+     ]
+    },
+    {
+     "name": "attr3customname",
+     "hits": 1,
+     "samples": [
+      "radius"
+     ]
+    },
+    {
+     "name": "attr3type",
+     "hits": 1,
+     "samples": [
+      "float"
+     ]
+    },
+    {
+     "name": "attr3numcomps",
+     "hits": 1,
+     "samples": [
+      "2"
+     ]
+    },
+    {
+     "name": "attr3defvalue1",
+     "hits": 1,
+     "samples": [
+      "0.5"
+     ]
+    },
+    {
+     "name": "attr3defvalue2",
+     "hits": 1,
+     "samples": [
+      "0.5"
+     ]
+    },
+    {
+     "name": "attr3defvalue3",
+     "hits": 1,
+     "samples": [
+      "0.5"
+     ]
+    },
+    {
+     "name": "attr3defvalue4",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "attr4chanscope",
+     "hits": 1,
+     "samples": [
+      "alpha"
+     ]
+    },
+    {
+     "name": "attr4name",
+     "hits": 1,
+     "samples": [
+      "custom"
+     ]
+    },
+    {
+     "name": "attr4customname",
+     "hits": 1,
+     "samples": [
+      "alpha"
+     ]
+    },
+    {
+     "name": "attr4type",
+     "hits": 1,
+     "samples": [
+      "float"
+     ]
+    },
+    {
+     "name": "attr4numcomps",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    }
+   ]
+  },
+  "select": {
+   "writes": 45,
+   "params": [
+    {
+     "name": "pop",
+     "hits": 30,
+     "samples": [
+      "parent.World.op(\\\"HeadModel/out1|\\\") parent.World.op(\\\"HeadM",
+      "modelPOP",
+      "pointCloudB"
+     ]
+    },
+    {
+     "name": "pointattribscope",
+     "hits": 5,
+     "samples": [
+      "Color",
+      "\"\"",
+      "P"
+     ]
+    },
+    {
+     "name": "primattribscope",
+     "hits": 5,
+     "samples": [
+      "\"\""
+     ]
+    },
+    {
+     "name": "vertattribscope",
+     "hits": 5,
+     "samples": [
+      "\"\""
+     ]
+    }
+   ]
+  },
+  "lookupchan": {
+   "writes": 42,
+   "params": [
+    {
+     "name": "chop",
+     "hits": 12,
+     "samples": [
+      "pattern1",
+      "null3",
+      "Size_Lifetime"
+     ]
+    },
+    {
+     "name": "lookupattr",
+     "hits": 12,
+     "samples": [
+      "NormAge",
+      "Lifetime",
+      "life"
+     ]
+    },
+    {
+     "name": "lookup0outputattrscope",
+     "hits": 12,
+     "samples": [
+      "LifeSize",
+      "P",
+      "Life"
+     ]
+    },
+    {
+     "name": "extendleft",
+     "hits": 2,
+     "samples": [
+      "cycle"
+     ]
+    },
+    {
+     "name": "extendright",
+     "hits": 2,
+     "samples": [
+      "cycle"
+     ]
+    },
+    {
+     "name": "lookup0chanscope",
+     "hits": 1,
+     "samples": [
+      "ty"
+     ]
+    },
+    {
+     "name": "indexunit",
+     "hits": 1,
+     "samples": [
+      "sampleindex"
+     ]
+    }
+   ]
+  },
+  "linesmooth": {
+   "writes": 30,
+   "params": [
+    {
+     "name": "filterdist",
+     "hits": 8,
+     "samples": [
+      "0.4",
+      "0.368",
+      "0.01"
+     ]
+    },
+    {
+     "name": "maxdivdist",
+     "hits": 5,
+     "samples": [
+      "0.05",
+      "0.073",
+      "0.066"
+     ]
+    },
+    {
+     "name": "resamplemindist",
+     "hits": 4,
+     "samples": [
+      "0.05",
+      "0.01"
+     ]
+    },
+    {
+     "name": "resampleminmaxbias",
+     "hits": 4,
+     "samples": [
+      "-0.4",
+      "-0.25"
+     ]
+    },
+    {
+     "name": "filtertype",
+     "hits": 2,
+     "samples": [
+      "box"
+     ]
+    },
+    {
+     "name": "filtersize",
+     "hits": 2,
+     "samples": [
+      "2"
+     ]
+    },
+    {
+     "name": "effect",
+     "hits": 2,
+     "samples": [
+      "0.6",
+      "0.799"
+     ]
+    },
+    {
+     "name": "resamplemaxdist",
+     "hits": 2,
+     "samples": [
+      "0.138"
+     ]
+    },
+    {
+     "name": "pageindex",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    }
+   ]
+  },
+  "attcombine": {
+   "writes": 28,
+   "params": [
+    {
+     "name": "input1pop",
+     "hits": 6,
+     "samples": [
+      "\"\""
+     ]
+    },
+    {
+     "name": "input1attrs",
+     "hits": 6,
+     "samples": [
+      "*",
+      "\"P RayDistance Normal\"",
+      "DMXFixtureUniverse"
+     ]
+    },
+    {
+     "name": "input1renameto",
+     "hits": 6,
+     "samples": [
+      "\"\""
+     ]
+    },
+    {
+     "name": "input0attrs",
+     "hits": 4,
+     "samples": [
+      "\"Velocity Lifetime Color\"",
+      "\"Index Velocity Color\"",
+      "\"\""
+     ]
+    },
+    {
+     "name": "attrclass",
+     "hits": 3,
+     "samples": [
+      "primitive"
+     ]
+    },
+    {
+     "name": "input2pop",
+     "hits": 1,
+     "samples": [
+      "\"\""
+     ]
+    },
+    {
+     "name": "input2attrs",
+     "hits": 1,
+     "samples": [
+      "Color"
+     ]
+    },
+    {
+     "name": "input2renameto",
+     "hits": 1,
+     "samples": [
+      "\"\""
+     ]
+    }
+   ]
+  },
+  "limit": {
+   "writes": 26,
+   "params": [
+    {
+     "name": "mintype0",
+     "hits": 8,
+     "samples": [
+      "clamp",
+      "loop",
+      "zigzag"
+     ]
+    },
+    {
+     "name": "inputattrscope",
+     "hits": 6,
+     "samples": [
+      "NoiseA",
+      "NoiseB",
+      "NoiseScale"
+     ]
+    },
+    {
+     "name": "maxtype0",
+     "hits": 6,
+     "samples": [
+      "clamp",
+      "loop",
+      "zigzag"
+     ]
+    },
+    {
+     "name": "min0",
+     "hits": 3,
+     "samples": [
+      "-30",
+      "0.0001"
+     ]
+    },
+    {
+     "name": "max0",
+     "hits": 3,
+     "samples": [
+      "30",
+      "0.2"
+     ]
+    }
+   ]
+  },
+  "sopto": {
+   "writes": 26,
+   "params": [
+    {
+     "name": "sop",
+     "hits": 12,
+     "samples": [
+      "text1",
+      "convert2",
+      "text3"
+     ]
+    },
+    {
+     "name": "polygons",
+     "hits": 9,
+     "samples": [
+      "closedlinestrip",
+      "triangulated"
+     ]
+    },
+    {
+     "name": "mesh",
+     "hits": 5,
+     "samples": [
+      "rowscols"
+     ]
+    }
+   ]
+  },
+  "texturemap": {
+   "writes": 26,
+   "params": [
+    {
+     "name": "axis",
+     "hits": 10,
+     "samples": [
+      "y",
+      "x"
+     ]
+    },
+    {
+     "name": "type",
+     "hits": 8,
+     "samples": [
+      "persp",
+      "triplanar",
+      "xyzposition"
+     ]
+    },
+    {
+     "name": "offsetu",
+     "hits": 2,
+     "samples": [
+      "-0.5"
+     ]
+    },
+    {
+     "name": "offsetv",
+     "hits": 2,
+     "samples": [
+      "-0.5"
+     ]
+    },
+    {
+     "name": "su",
+     "hits": 1,
+     "samples": [
+      "0.7 op('lfo2')['chan1']"
+     ]
+    },
+    {
+     "name": "sv",
+     "hits": 1,
+     "samples": [
+      "0.7 op('lfo2')['chan1']"
+     ]
+    },
+    {
+     "name": "sw",
+     "hits": 1,
+     "samples": [
+      "0.7 op('lfo2')['chan1']"
+     ]
+    },
+    {
+     "name": "tx",
+     "hits": 1,
+     "samples": [
+      "0.6 op('lfo3')['chan1']"
+     ]
+    }
+   ]
+  },
+  "create": {
+   "writes": 26,
+   "params": [
+    {
+     "name": "attr0name",
+     "hits": 1,
+     "samples": [
+      "color"
+     ]
+    },
+    {
+     "name": "method",
+     "hits": 1,
+     "samples": [
+      "pattern"
+     ]
+    },
+    {
+     "name": "prim0type",
+     "hits": 1,
+     "samples": [
+      "lines"
+     ]
+    },
+    {
+     "name": "prim0pattern",
+     "hits": 1,
+     "samples": [
+      "\"0 1\""
+     ]
+    },
+    {
+     "name": "pt0posx",
+     "hits": 1,
+     "samples": [
+      "-0.1"
+     ]
+    },
+    {
+     "name": "pt0colorr",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "pt0colora",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "pt1posx",
+     "hits": 1,
+     "samples": [
+      "0.1"
+     ]
+    },
+    {
+     "name": "pt1colorr",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "pt1colora",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "pt2posy",
+     "hits": 1,
+     "samples": [
+      "-0.1"
+     ]
+    },
+    {
+     "name": "pt2colorg",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "pt2colora",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "pt3posy",
+     "hits": 1,
+     "samples": [
+      "0.1"
+     ]
+    },
+    {
+     "name": "pt3colorg",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "pt3colora",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "pt4posz",
+     "hits": 1,
+     "samples": [
+      "-0.1"
+     ]
+    },
+    {
+     "name": "pt4colorb",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "pt4colora",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "pt5posz",
+     "hits": 1,
+     "samples": [
+      "0.1"
+     ]
+    },
+    {
+     "name": "pt5colorb",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "pt5colora",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "prim1type",
+     "hits": 1,
+     "samples": [
+      "lines"
+     ]
+    },
+    {
+     "name": "prim1pattern",
+     "hits": 1,
+     "samples": [
+      "\"2 3\""
+     ]
+    },
+    {
+     "name": "prim2type",
+     "hits": 1,
+     "samples": [
+      "lines"
+     ]
+    },
+    {
+     "name": "prim2pattern",
+     "hits": 1,
+     "samples": [
+      "\"4 5\""
+     ]
+    }
+   ]
+  },
+  "filein": {
+   "writes": 25,
+   "params": [
+    {
+     "name": "file",
+     "hits": 25,
+     "samples": [
+      "\"\" \"app.samplesFolder + '/Geo/defcam.tog'\"",
+      "\"\" \"app.samplesFolder + '/Geo/defnull.geo'\"",
+      "Assets/uploads_files_3533140_female_head.obj app.samplesFold"
+     ]
+    }
+   ]
+  },
+  "normalize": {
+   "writes": 25,
+   "params": [
+    {
+     "name": "outputattrscope",
+     "hits": 5,
+     "samples": [
+      "Color.rgb",
+      "Tex"
+     ]
+    },
+    {
+     "name": "inputattrscope",
+     "hits": 3,
+     "samples": [
+      "forward",
+      "PartVel"
+     ]
+    },
+    {
+     "name": "mode0",
+     "hits": 2,
+     "samples": [
+      "boxy"
+     ]
+    },
+    {
+     "name": "mode1",
+     "hits": 2,
+     "samples": [
+      "zero",
+      "boxy"
+     ]
+    },
+    {
+     "name": "mode2",
+     "hits": 2,
+     "samples": [
+      "zero",
+      "boxy"
+     ]
+    },
+    {
+     "name": "tohigh0",
+     "hits": 2,
+     "samples": [
+      "2",
+      "1"
+     ]
+    },
+    {
+     "name": "tohigh1",
+     "hits": 2,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "tolow0",
+     "hits": 2,
+     "samples": [
+      "-1"
+     ]
+    },
+    {
+     "name": "tolow1",
+     "hits": 2,
+     "samples": [
+      "-1"
+     ]
+    },
+    {
+     "name": "tolow2",
+     "hits": 2,
+     "samples": [
+      "-1"
+     ]
+    },
+    {
+     "name": "tohigh2",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    }
+   ]
+  },
+  "rectangle": {
+   "writes": 25,
+   "params": [
+    {
+     "name": "sizex",
+     "hits": 7,
+     "samples": [
+      "2.1",
+      "1.42",
+      "2"
+     ]
+    },
+    {
+     "name": "sizey",
+     "hits": 7,
+     "samples": [
+      "0.4",
+      "0.5",
+      "1 \"op('switch1').aspectHeight/op('switch1').aspectWidth * 2\""
+     ]
+    },
+    {
+     "name": "texture",
+     "hits": 3,
+     "samples": [
+      "none"
+     ]
+    },
+    {
+     "name": "normal",
+     "hits": 2,
+     "samples": [
+      "none"
+     ]
+    },
+    {
+     "name": "rx",
+     "hits": 1,
+     "samples": [
+      "-90"
+     ]
+    },
+    {
+     "name": "scale",
+     "hits": 1,
+     "samples": [
+      "1 1/50"
+     ]
+    },
+    {
+     "name": "orient",
+     "hits": 1,
+     "samples": [
+      "cam"
+     ]
+    },
+    {
+     "name": "camera",
+     "hits": 1,
+     "samples": [
+      "cam1"
+     ]
+    },
+    {
+     "name": "size1",
+     "hits": 1,
+     "samples": [
+      "2"
+     ]
+    },
+    {
+     "name": "size2",
+     "hits": 1,
+     "samples": [
+      "2"
+     ]
+    }
+   ]
+  },
+  "force": {
+   "writes": 25,
+   "params": [
+    {
+     "name": "rad",
+     "hits": 13,
+     "samples": [
+      "10",
+      "6",
+      "3"
+     ]
+    },
+    {
+     "name": "radialstrength",
+     "hits": 5,
+     "samples": [
+      "-1"
+     ]
+    },
+    {
+     "name": "falloffsteepness",
+     "hits": 5,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "axialrz",
+     "hits": 1,
+     "samples": [
+      "0 absTime.frame"
+     ]
+    },
+    {
+     "name": "planarstrength",
+     "hits": 1,
+     "samples": [
+      "10"
+     ]
+    }
+   ]
+  },
+  "trail": {
+   "writes": 23,
+   "params": [
+    {
+     "name": "length",
+     "hits": 9,
+     "samples": [
+      "10",
+      "200 parent().par.Traillength",
+      "300 parent().par.Traillength"
+     ]
+    },
+    {
+     "name": "lengthunit",
+     "hits": 5,
+     "samples": [
+      "frames"
+     ]
+    },
+    {
+     "name": "resetpulse",
+     "hits": 2,
+     "samples": [
+      "0 parent().par.Reset"
+     ]
+    },
+    {
+     "name": "ageattr",
+     "hits": 2,
+     "samples": [
+      "frames",
+      "seconds"
+     ]
+    },
+    {
+     "name": "inc",
+     "hits": 2,
+     "samples": [
+      "1.5",
+      "2"
+     ]
+    },
+    {
+     "name": "attrname",
+     "hits": 2,
+     "samples": [
+      "PartId"
+     ]
+    },
+    {
+     "name": "tz",
+     "hits": 1,
+     "samples": [
+      "0.1"
+     ]
+    }
+   ]
+  },
+  "sprinkle": {
+   "writes": 22,
+   "params": [
+    {
+     "name": "method",
+     "hits": 6,
+     "samples": [
+      "volnondeterministic"
+     ]
+    },
+    {
+     "name": "numpoints",
+     "hits": 6,
+     "samples": [
+      "50",
+      "20000 parent().par.Instances",
+      "100000 parent().par.Particles"
+     ]
+    },
+    {
+     "name": "pointattrscope",
+     "hits": 3,
+     "samples": [
+      "P"
+     ]
+    },
+    {
+     "name": "primattrscope",
+     "hits": 3,
+     "samples": [
+      "glyphIndex"
+     ]
+    },
+    {
+     "name": "vertattribscope",
+     "hits": 3,
+     "samples": [
+      "\"\""
+     ]
+    },
+    {
+     "name": "seed",
+     "hits": 1,
+     "samples": [
+      "2.06"
+     ]
+    }
+   ]
+  },
+  "blend": {
+   "writes": 21,
+   "params": [
+    {
+     "name": "input1pop",
+     "hits": 7,
+     "samples": [
+      "\"\""
+     ]
+    },
+    {
+     "name": "blendtype",
+     "hits": 5,
+     "samples": [
+      "differencing"
+     ]
+    },
+    {
+     "name": "input1weight",
+     "hits": 5,
+     "samples": [
+      "0 op('null1')['chan1']",
+      "1 op('default_weight')['Plastic_Women']"
+     ]
+    },
+    {
+     "name": "pageindex",
+     "hits": 2,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "pointattrscope",
+     "hits": 2,
+     "samples": [
+      "P"
+     ]
+    }
+   ]
+  },
+  "box": {
+   "writes": 19,
+   "params": [
+    {
+     "name": "sizex",
+     "hits": 4,
+     "samples": [
+      "0.03",
+      "0.05",
+      "1"
+     ]
+    },
+    {
+     "name": "sizey",
+     "hits": 4,
+     "samples": [
+      "0.03",
+      "0.05",
+      "18"
+     ]
+    },
+    {
+     "name": "sizez",
+     "hits": 4,
+     "samples": [
+      "0.01",
+      "0.005",
+      "1"
+     ]
+    },
+    {
+     "name": "cornerradius",
+     "hits": 2,
+     "samples": [
+      "0.21"
+     ]
+    },
+    {
+     "name": "scale",
+     "hits": 1,
+     "samples": [
+      "1 \"1 / op('grid1').par.cols\""
+     ]
+    },
+    {
+     "name": "depth",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "normal",
+     "hits": 1,
+     "samples": [
+      "none"
+     ]
+    },
+    {
+     "name": "surftype",
+     "hits": 1,
+     "samples": [
+      "none"
+     ]
+    },
+    {
+     "name": "ty",
+     "hits": 1,
+     "samples": [
+      "0 \"me.par.sizey / 2\""
+     ]
+    }
+   ]
+  },
+  "sort": {
+   "writes": 19,
+   "params": [
+    {
+     "name": "ptmethod",
+     "hits": 10,
+     "samples": [
+      "seed",
+      "object",
+      "vector"
+     ]
+    },
+    {
+     "name": "pointobj",
+     "hits": 3,
+     "samples": [
+      "../cameraViewport",
+      "cam1"
+     ]
+    },
+    {
+     "name": "primobj",
+     "hits": 2,
+     "samples": [
+      "../cameraViewport"
+     ]
+    },
+    {
+     "name": "pageindex",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "primmethod",
+     "hits": 1,
+     "samples": [
+      "seed"
+     ]
+    },
+    {
+     "name": "pointattrib",
+     "hits": 1,
+     "samples": [
+      "NebrId"
+     ]
+    },
+    {
+     "name": "pointuint",
+     "hits": 1,
+     "samples": [
+      "uint16"
+     ]
+    }
+   ]
+  },
+  "trig": {
+   "writes": 19,
+   "params": [
+    {
+     "name": "inputattrscope",
+     "hits": 5,
+     "samples": [
+      "P.x",
+      "P.y"
+     ]
+    },
+    {
+     "name": "oper0",
+     "hits": 5,
+     "samples": [
+      "cos",
+      "sin",
+      "acos"
+     ]
+    },
+    {
+     "name": "outputattrscope",
+     "hits": 5,
+     "samples": [
+      "P.y",
+      "Angles",
+      "Angle"
+     ]
+    },
+    {
+     "name": "fromunit",
+     "hits": 3,
+     "samples": [
+      "cycle",
+      "rad"
+     ]
+    },
+    {
+     "name": "inputattrscopeb",
+     "hits": 1,
+     "samples": [
+      "P.x"
+     ]
+    }
+   ]
+  },
+  "neighbor": {
+   "writes": 17,
+   "params": [
+    {
+     "name": "maxdistance",
+     "hits": 4,
+     "samples": [
+      "0.4",
+      "0.34",
+      "0.02"
+     ]
+    },
+    {
+     "name": "maxneighbors",
+     "hits": 4,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "numhashbuckets",
+     "hits": 3,
+     "samples": [
+      "4000"
+     ]
+    },
+    {
+     "name": "nebrptattrs",
+     "hits": 3,
+     "samples": [
+      "DirNext",
+      "\"N DirNext\""
+     ]
+    },
+    {
+     "name": "nebroutput",
+     "hits": 2,
+     "samples": [
+      "avg"
+     ]
+    },
+    {
+     "name": "distribution",
+     "hits": 1,
+     "samples": [
+      "closest"
+     ]
+    }
+   ]
+  },
+  "switch": {
+   "writes": 13,
+   "params": [
+    {
+     "name": "index",
+     "hits": 11,
+     "samples": [
+      "0 parent().par.attenuated",
+      "0 parent().par.lighttype.menuIndex",
+      "0 parent.Splat.par.Spzfileformat"
+     ]
+    },
+    {
+     "name": "input",
+     "hits": 2,
+     "samples": [
+      "1"
+     ]
+    }
+   ]
+  },
+  "glslcopy": {
+   "writes": 13,
+   "params": [
+    {
+     "name": "pageindex",
+     "hits": 1,
+     "samples": [
+      "7"
+     ]
+    },
+    {
+     "name": "ptcomputedat",
+     "hits": 1,
+     "samples": [
+      "glslcopy1_ptCompute"
+     ]
+    },
+    {
+     "name": "ptoutputattrs",
+     "hits": 1,
+     "samples": [
+      "\"P N\""
+     ]
+    },
+    {
+     "name": "vertcomputedat",
+     "hits": 1,
+     "samples": [
+      "glslcopy1_vertCompute"
+     ]
+    },
+    {
+     "name": "primcomputedat",
+     "hits": 1,
+     "samples": [
+      "glslcopy1_primCompute"
+     ]
+    },
+    {
+     "name": "vec0name",
+     "hits": 1,
+     "samples": [
+      "uPercent"
+     ]
+    },
+    {
+     "name": "vec0valuex",
+     "hits": 1,
+     "samples": [
+      "0.5 op('percent')['chan1']"
+     ]
+    },
+    {
+     "name": "sampler0name",
+     "hits": 1,
+     "samples": [
+      "sDeformTex"
+     ]
+    },
+    {
+     "name": "sampler0top",
+     "hits": 1,
+     "samples": [
+      "bakedAnimTOP"
+     ]
+    },
+    {
+     "name": "sampler0extendu",
+     "hits": 1,
+     "samples": [
+      "repeat"
+     ]
+    },
+    {
+     "name": "vec1name",
+     "hits": 1,
+     "samples": [
+      "uScale"
+     ]
+    },
+    {
+     "name": "vec1type",
+     "hits": 1,
+     "samples": [
+      "float"
+     ]
+    },
+    {
+     "name": "vec1valuex",
+     "hits": 1,
+     "samples": [
+      "0.05"
+     ]
+    }
+   ]
+  },
+  "subdivide": {
+   "writes": 12,
+   "params": [
+    {
+     "name": "iterations",
+     "hits": 7,
+     "samples": [
+      "4",
+      "2"
+     ]
+    },
+    {
+     "name": "creaseweight",
+     "hits": 5,
+     "samples": [
+      "4",
+      "1.37 op('lfo1')['chan1']"
+     ]
+    }
+   ]
+  },
+  "attconvert": {
+   "writes": 11,
+   "params": [
+    {
+     "name": "convertop",
+     "hits": 5,
+     "samples": [
+      "pointtoprim",
+      "verttopoint",
+      "verttoprim"
+     ]
+    },
+    {
+     "name": "attrname",
+     "hits": 2,
+     "samples": [
+      "Tex",
+      "DMXFixtureUniverse"
+     ]
+    },
+    {
+     "name": "attribname",
+     "hits": 2,
+     "samples": [
+      "displace",
+      "Tex"
+     ]
+    },
+    {
+     "name": "newattrname",
+     "hits": 1,
+     "samples": [
+      "DMXFixtureUniverse"
+     ]
+    },
+    {
+     "name": "notificationifexists",
+     "hits": 1,
+     "samples": [
+      "ignore"
+     ]
+    }
+   ]
+  },
+  "quantize": {
+   "writes": 11,
+   "params": [
+    {
+     "name": "parsize",
+     "hits": 2,
+     "samples": [
+      "3"
+     ]
+    },
+    {
+     "name": "quantize0",
+     "hits": 2,
+     "samples": [
+      "round"
+     ]
+    },
+    {
+     "name": "quantize1",
+     "hits": 2,
+     "samples": [
+      "round"
+     ]
+    },
+    {
+     "name": "quantize2",
+     "hits": 2,
+     "samples": [
+      "round"
+     ]
+    },
+    {
+     "name": "quantstep0",
+     "hits": 1,
+     "samples": [
+      "0.043"
+     ]
+    },
+    {
+     "name": "quantstep1",
+     "hits": 1,
+     "samples": [
+      "0.043"
+     ]
+    },
+    {
+     "name": "quantstep2",
+     "hits": 1,
+     "samples": [
+      "0.043"
+     ]
+    }
+   ]
+  },
+  "phaser": {
+   "writes": 11,
+   "params": [
+    {
+     "name": "phaseattrscope",
+     "hits": 3,
+     "samples": [
+      "Shape",
+      "P.x"
+     ]
+    },
+    {
+     "name": "fract",
+     "hits": 3,
+     "samples": [
+      "0.205 op('lfo2')['chan1']",
+      "1 op('lfo2')['chan1']"
+     ]
+    },
+    {
+     "name": "edge0",
+     "hits": 2,
+     "samples": [
+      "0.5",
+      "0.25"
+     ]
+    },
+    {
+     "name": "castto",
+     "hits": 2,
+     "samples": [
+      "float"
+     ]
+    },
+    {
+     "name": "fromrangehigh0",
+     "hits": 1,
+     "samples": [
+      "10"
+     ]
+    }
+   ]
+  },
+  "importselect": {
+   "writes": 11,
+   "params": [
+    {
+     "name": "geometry",
+     "hits": 5,
+     "samples": [
+      "/Humanoid/Humanoid"
+     ]
+    },
+    {
+     "name": "blendshape",
+     "hits": 2,
+     "samples": [
+      "Humanoid/Plastic_Women"
+     ]
+    },
+    {
+     "name": "pageindex",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "parent",
+     "hits": 1,
+     "samples": [
+      "fbx1"
+     ]
+    },
+    {
+     "name": "playmode",
+     "hits": 1,
+     "samples": [
+      "lockedtotimeline"
+     ]
+    },
+    {
+     "name": "index",
+     "hits": 1,
+     "samples": [
+      "0 me.time.frame"
+     ]
+    }
+   ]
+  },
+  "engineout": {
+   "writes": 9,
+   "params": [
+    {
+     "name": "label",
+     "hits": 6,
+     "samples": [
+      "out1 me.name",
+      "out2 me.name"
+     ]
+    },
+    {
+     "name": "connectorder",
+     "hits": 3,
+     "samples": [
+      "1"
+     ]
+    }
+   ]
+  },
+  "torus": {
+   "writes": 8,
+   "params": [
+    {
+     "name": "radx",
+     "hits": 2,
+     "samples": [
+      "0.7",
+      "1"
+     ]
+    },
+    {
+     "name": "rady",
+     "hits": 2,
+     "samples": [
+      "0.3",
+      "0.2"
+     ]
+    },
+    {
+     "name": "orient",
+     "hits": 1,
+     "samples": [
+      "z"
+     ]
+    },
+    {
+     "name": "cols",
+     "hits": 1,
+     "samples": [
+      "3"
+     ]
+    },
+    {
+     "name": "rows",
+     "hits": 1,
+     "samples": [
+      "3"
+     ]
+    },
+    {
+     "name": "rx",
+     "hits": 1,
+     "samples": [
+      "-530"
+     ]
+    }
+   ]
+  },
+  "analyze": {
+   "writes": 8,
+   "params": [
+    {
+     "name": "inputattrs",
+     "hits": 8,
+     "samples": [
+      "Speed",
+      "PointScale"
+     ]
+    }
+   ]
+  },
+  "convert": {
+   "writes": 7,
+   "params": [
+    {
+     "name": "convert",
+     "hits": 7,
+     "samples": [
+      "topointprims",
+      "tolinestrips",
+      "quadstotriangles"
+     ]
+    }
+   ]
+  },
+  "facet": {
+   "writes": 7,
+   "params": [
+    {
+     "name": "operation",
+     "hits": 7,
+     "samples": [
+      "unique"
+     ]
+    }
+   ]
+  },
+  "topology": {
+   "writes": 7,
+   "params": [
+    {
+     "name": "pageindex",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "pointcountinfo",
+     "hits": 1,
+     "samples": [
+      "fromparams"
+     ]
+    },
+    {
+     "name": "pointindexattrname",
+     "hits": 1,
+     "samples": [
+      "Tex"
+     ]
+    },
+    {
+     "name": "vertattrmode",
+     "hits": 1,
+     "samples": [
+      "primsource"
+     ]
+    },
+    {
+     "name": "topology",
+     "hits": 1,
+     "samples": [
+      "copy"
+     ]
+    },
+    {
+     "name": "maxtrianglesmode",
+     "hits": 1,
+     "samples": [
+      "custom"
+     ]
+    },
+    {
+     "name": "maxtriangles",
+     "hits": 1,
+     "samples": [
+      "56"
+     ]
+    }
+   ]
+  },
+  "dmxout": {
+   "writes": 7,
+   "params": [
+    {
+     "name": "fixture0pop",
+     "hits": 1,
+     "samples": [
+      "dmxfixture1"
+     ]
+    },
+    {
+     "name": "routingtable",
+     "hits": 1,
+     "samples": [
+      "dmxout1_routingtable"
+     ]
+    },
+    {
+     "name": "fixture1pop",
+     "hits": 1,
+     "samples": [
+      "dmxfixture2"
+     ]
+    },
+    {
+     "name": "fixture2pop",
+     "hits": 1,
+     "samples": [
+      "dmxfixture3"
+     ]
+    },
+    {
+     "name": "fixture3pop",
+     "hits": 1,
+     "samples": [
+      "dmxfixture4"
+     ]
+    },
+    {
+     "name": "fixture4pop",
+     "hits": 1,
+     "samples": [
+      "dmxfixture5"
+     ]
+    },
+    {
+     "name": "fixture5pop",
+     "hits": 1,
+     "samples": [
+      "dmxfixture6"
+     ]
+    }
+   ]
+  },
+  "ray": {
+   "writes": 6,
+   "params": [
+    {
+     "name": "hitnormalname",
+     "hits": 3,
+     "samples": [
+      "Normal",
+      "FaceNormal"
+     ]
+    },
+    {
+     "name": "rayattrib",
+     "hits": 2,
+     "samples": [
+      "Dir"
+     ]
+    },
+    {
+     "name": "hitpointattrscope",
+     "hits": 1,
+     "samples": [
+      "\"P N\""
+     ]
+    }
+   ]
+  },
+  "feedback": {
+   "writes": 6,
+   "params": [
+    {
+     "name": "pop",
+     "hits": 3,
+     "samples": [
+      "FeedbackLoop"
+     ]
+    },
+    {
+     "name": "startpulse",
+     "hits": 3,
+     "samples": [
+      "0 parent().par.Reset"
+     ]
+    }
+   ]
+  },
+  "skin": {
+   "writes": 6,
+   "params": [
+    {
+     "name": "skinops",
+     "hits": 3,
+     "samples": [
+      "skip"
+     ]
+    },
+    {
+     "name": "inc",
+     "hits": 3,
+     "samples": [
+      "14",
+      "100 op('Particles')['Particles']"
+     ]
+    }
+   ]
+  },
+  "group": {
+   "writes": 6,
+   "params": [
+    {
+     "name": "grname",
+     "hits": 6,
+     "samples": [
+      "background",
+      "text",
+      "ring"
+     ]
+    }
+   ]
+  },
+  "projection": {
+   "writes": 6,
+   "params": [
+    {
+     "name": "angunit",
+     "hits": 4,
+     "samples": [
+      "rad"
+     ]
+    },
+    {
+     "name": "fromcoordsys",
+     "hits": 1,
+     "samples": [
+      "cartesian"
+     ]
+    },
+    {
+     "name": "tocoordsys",
+     "hits": 1,
+     "samples": [
+      "spherical"
+     ]
+    }
+   ]
+  },
+  "normal": {
+   "writes": 5,
+   "params": [
+    {
+     "name": "pageindex",
+     "hits": 2,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "maxprimsperpoint",
+     "hits": 2,
+     "samples": [
+      "9"
+     ]
+    },
+    {
+     "name": "tang",
+     "hits": 1,
+     "samples": [
+      "alwayscompute"
+     ]
+    }
+   ]
+  },
+  "topto": {
+   "writes": 5,
+   "params": [
+    {
+     "name": "input0top",
+     "hits": 5,
+     "samples": [
+      "res2",
+      "res1",
+      "null1"
+     ]
+    }
+   ]
+  },
+  "proximity": {
+   "writes": 5,
+   "params": [
+    {
+     "name": "maxdist",
+     "hits": 2,
+     "samples": [
+      "0.15"
+     ]
+    },
+    {
+     "name": "mindist",
+     "hits": 2,
+     "samples": [
+      "0.015"
+     ]
+    },
+    {
+     "name": "maxlinesperpoint",
+     "hits": 1,
+     "samples": [
+      "1"
+     ]
+    }
+   ]
+  },
+  "linemetrics": {
+   "writes": 4,
+   "params": [
+    {
+     "name": "pageindex",
+     "hits": 2,
+     "samples": [
+      "1"
+     ]
+    },
+    {
+     "name": "distprevname",
+     "hits": 1,
+     "samples": [
+      "DistNext"
+     ]
+    },
+    {
+     "name": "dirnextname",
+     "hits": 1,
+     "samples": [
+      "Dir"
+     ]
+    }
+   ]
+  },
+  "polygonize": {
+   "writes": 4,
+   "params": [
+    {
+     "name": "top",
+     "hits": 2,
+     "samples": [
+      "circle1",
+      "res1"
+     ]
+    },
+    {
+     "name": "threshold",
+     "hits": 1,
+     "samples": [
+      "0.1"
+     ]
+    },
+    {
+     "name": "extend",
+     "hits": 1,
+     "samples": [
+      "hold"
+     ]
+    }
+   ]
+  },
+  "skindeform": {
+   "writes": 4,
+   "params": [
+    {
+     "name": "skelrootpath",
+     "hits": 4,
+     "samples": [
+      "\"\" parent.FBX",
+      "\"\" op('humanoid')",
+      "fbx1"
+     ]
+    }
+   ]
+  },
+  "connectivity": {
+   "writes": 1,
+   "params": [
+    {
+     "name": "surftype",
+     "hits": 1,
+     "samples": [
+      "lines"
+     ]
+    }
+   ]
+  },
+  "accumulate": {
+   "writes": 1,
+   "params": [
+    {
+     "name": "inputattrscope",
+     "hits": 1,
+     "samples": [
+      "Index"
+     ]
+    }
+   ]
+  },
+  "null": {
+   "writes": 1,
+   "params": [
+    {
+     "name": "pageindex",
+     "hits": 1,
+     "samples": [
+      "2"
+     ]
+    }
+   ]
+  }
+ }
+}
