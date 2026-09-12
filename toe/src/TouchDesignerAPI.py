@@ -466,14 +466,43 @@ class TouchDesignerAPI:
                 pass
             try:
                 # Build release/stream, e.g. "official" or "experimental".
-                info["release"] = str(getattr(app, "releaseType", "")) or None  # type: ignore
-            except:
+                # app.release does not exist in TD 2025.32460, so try releaseType
+                # first, then fall back to deriving from app.build.
+                _release = None
+                try:
+                    _release = str(getattr(app, "release", "")).strip()
+                except Exception:
+                    pass
+                if not _release:
+                    try:
+                        _release = str(getattr(app, "releaseType", "")).strip()
+                    except Exception:
+                        pass
+                if not _release and info.get("build"):
+                    _release = info["build"]
+                info["release"] = _release or None
+            except Exception:
                 pass
             # Add project info
             try:
-                info["projectPath"] = project.filePath if hasattr(project, 'filePath') else None  # type: ignore
+                # project.filePath does not exist in TD 2025.32460; derive the
+                # real path from project.folder + project.name when both exist.
+                _projPath = None
+                try:
+                    _projPath = str(project.filePath).strip()
+                except Exception:
+                    pass
+                if not _projPath:
+                    try:
+                        _folder = str(project.folder).strip()
+                        _name = str(project.name).strip()
+                        if _folder and _name:
+                            _projPath = f"{_folder}/{_name}"
+                    except Exception:
+                        pass
+                info["projectPath"] = _projPath or None
                 info["projectFPS"] = project.cookRate if hasattr(project, 'cookRate') else None  # type: ignore
-            except:
+            except Exception:
                 pass
 
             response["statusCode"] = 200
