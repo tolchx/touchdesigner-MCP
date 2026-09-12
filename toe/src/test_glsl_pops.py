@@ -208,7 +208,7 @@ def main():
         bien = compila and pts > 0
         ok += 1 if bien else 0
         fallas += 0 if bien else 1
-        print(f"{'✔' if bien else '✘'} [{r['nivel']:<8}] {r['n']:<32} compila={compila} "
+        print(f"{'OK' if bien else 'FAIL'} [{r['nivel']:<8}] {r['n']:<32} compila={compila} "
               f"puntos={pts:<6} transformó={movio}")
         if not compila:
             print(f"      error: {str(r.get('error'))[:150]}")
@@ -216,7 +216,7 @@ def main():
             print(f"      glsl : {str(r['error_glsl'])[:150]}")
         if r.get("atributos"):
             print(f"      attrs: {r['atributos']}")
-    print(f"\nRESULTADO: {ok}/{d['total']} casos OK · {fallas} con problemas")
+    print(f"\nRESULTADO: {ok}/{d['total']} casos OK - {fallas} con problemas")
     return 0 if fallas == 0 else 1
 
 
