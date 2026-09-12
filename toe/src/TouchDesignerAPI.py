@@ -3244,6 +3244,75 @@ else:
         if state.get("hasValue"):
             par.val = state.get("value")
 
+    @staticmethod
+    def _parameter_suggestions(requested, real_names, k=3):
+        """Return up to k suggested real parameter names for a misspelled
+        'requested' name, using simple string similarity (no external deps).
+
+        Ranking: exact match > shared 3-char prefix > substring containment >
+        Levenshtein-like distance (lowercase, acotada a 6) > alfabética.
+        """
+        if not requested or not real_names:
+            return []
+        req = requested.strip().lower()
+        if not req:
+            return []
+        scored: list[tuple[int, int, str]] = []
+        for idx, rn in enumerate(real_names):
+            rl = rn.lower()
+            # Exact match
+            if rl == req:
+                return [rn]
+            score = 0
+            # Shared 3-char prefix
+            if len(req) >= 3 and rl.startswith(req[:3]):
+                score += 40
+            elif len(rl) >= 3 and req.startswith(rl[:3]):
+                score += 30
+            # Substring containment either direction
+            if req in rl:
+                score += 25
+            elif rl in req:
+                score += 20
+            # First-char match
+            if rl and req and rl[0] == req[0]:
+                score += 5
+            # Length penalty
+            score -= abs(len(rl) - len(req))
+            scored.append((score, idx, rn))
+        # Also compute a cheap edit-distance for tie-breaking
+        def _ed(a: str, b: str) -> int:
+            la, lb = len(a), len(b)
+            if la == 0:
+                return lb
+            if lb == 0:
+                return la
+            prev = list(range(lb + 1))
+            for i in range(1, la + 1):
+                cur = [i]
+                for j in range(1, lb + 1):
+                    cost = 0 if a[i - 1] == b[j - 1] else 1
+                    cur.append(min(prev[j] + 1, cur[-1] + 1, prev[j - 1] + cost))
+                prev = cur
+            return prev[-1]
+        scored.sort(key=lambda x: (_ed(req, x[2].lower()), x[1]))
+        top = [name for _, _, name in scored[:k]]
+        return top
+
+    def _invalid_params_report(self, invalid: list[dict]) -> dict:
+        """Build the structured payload fragment for invalid parameters."""
+        return {
+            "invalid": [
+                {
+                    "name": item["name"],
+                    "reason": item["reason"],
+                    "suggestions": item["suggestions"],
+                    "note": item["note"],
+                }
+                for item in invalid
+            ]
+        }
+
     def _handle_parameters_set(self, request: dict, response: dict) -> dict:
         backups = {}
         target = None
@@ -3281,30 +3350,68 @@ else:
                 response["data"] = json.dumps({"error": f"Operator not found: {path}"})
                 return self._send_response(response)
 
+            # Discover the real parameter names of this operator (server-side
+            # validation, mirroring the client-side gate in mcp/src/popsValidate.ts).
+            real_names: list[str] = []
+            try:
+                real_names = [str(p.name) for p in target.pars()]
+            except Exception:
+                try:
+                    real_names = [n for n in dir(target.par) if not n.startswith("_")]
+                except Exception:
+                    real_names = []
+
             backups = {}
             applied = []
-            missing = []
+            invalid = []
+            partial_applied = []
 
             for upd in updates:
                 name = upd.get("name")
-                if not name or not hasattr(target.par, name):
-                    missing.append(name)
+                if not name:
+                    invalid.append({
+                        "name": None,
+                        "reason": "missing_name",
+                        "suggestions": [],
+                        "note": "Each update must include a 'name' field.",
+                    })
                     if transactional:
-                        raise ValueError(f"Parameter not found: {name}")
+                        raise ValueError("Parameter update missing 'name'")
                     continue
 
-                par = getattr(target.par, name)
-                backups[name] = self._capture_parameter_state(par)
-
-                if "expr" in upd and upd.get("expr") is not None:
-                    par.expr = upd.get("expr")
-                elif "value" in upd:
-                    if str(getattr(par, "style", "")) == "Pulse" and upd.get("value"):
-                        par.pulse()
+                name = str(name)
+                if hasattr(target.par, name):
+                    # Valid name: apply.
+                    par = getattr(target.par, name)
+                    backups[name] = self._capture_parameter_state(par)
+                    if "expr" in upd and upd.get("expr") is not None:
+                        par.expr = upd.get("expr")
+                    elif "value" in upd:
+                        if str(getattr(par, "style", "")) == "Pulse" and upd.get("value"):
+                            par.pulse()
+                        else:
+                            par.val = upd.get("value")
+                    applied.append(self._serialize_parameter(par))
+                else:
+                    # Unknown name: suggest instead of failing silently.
+                    suggestions = self._parameter_suggestions(name, real_names)
+                    invalid.append({
+                        "name": name,
+                        "reason": "unknown_parameter",
+                        "suggestions": suggestions,
+                        "note": (
+                            "This name does not match any real parameter of the "
+                            f"operator. Did you mean one of: {', '.join(suggestions) or 'none'}?"
+                        ),
+                    })
+                    if transactional:
+                        raise ValueError(
+                            f"Unknown parameter '{name}'. "
+                            f"Did you mean: {', '.join(suggestions) or 'none'}? "
+                            "No parameters were changed (transactional)."
+                        )
                     else:
-                        par.val = upd.get("value")
-
-                applied.append(self._serialize_parameter(par))
+                        partial_applied.append(name)
 
             response["statusCode"] = 200
             response["statusReason"] = "OK"
@@ -3312,7 +3419,8 @@ else:
                 {
                     "path": target.path,
                     "updated": applied,
-                    "missing": missing,
+                    "invalid": invalid,
+                    "applied_with_missing_param": partial_applied,
                     "transactional": transactional,
                 },
                 ensure_ascii=False,
@@ -3326,7 +3434,10 @@ else:
                 pass
             response["statusCode"] = 400
             response["statusReason"] = "Bad Request"
-            response["data"] = json.dumps({"error": str(e)})
+            response["data"] = json.dumps({
+                "error": str(e),
+                "note": "No parameters were changed (transactional request aborted).",
+            })
         except Exception as e:
             try:
                 for name, state in backups.items():
