@@ -992,7 +992,7 @@ El archivo `mcp_server_stdio.py` implementa un servidor MCP alternativo en Pytho
 | `set_td_parameters` | Set parámetros. `path`, `params` (dict) — el server lo convierte a `updates[]` para `/parameters/set` |
 | `connect_td_nodes` | Conecta nodos. `src`, `dst`, `input` (opcional) |
 | `execute_td_python` | Ejecuta Python. `code` |
-| `verify_td_network` | Verifica red. `path` |
+| `verify_td_network` | Verifica red. `path`, `recurse` (default true) | Devuelve `{path, recurse, operators_scanned, total_in_tree, error_count, errors:[{path,type,message}], warning_count, warnings, total_connections, healthy, pop_stats:{scanned,healthy,error_count}}`. recurse=false → solo la raíz (legacy). `numPoints()` en POPs es método, no propiedad. |
 | `get_td_performance` | Obtiene performance (sin args) |
 | `get_td_spatial_context` | Contexto espacial (sin args) |
 | `capture_td_screenshot` | Screenshot. Opcional `path` del TOP a capturar (sin `path`: TOP activo del pane) |

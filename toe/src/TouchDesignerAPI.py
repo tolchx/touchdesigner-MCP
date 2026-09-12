@@ -126,10 +126,11 @@ class TouchDesignerAPI:
             if uri == "/info" and method == "GET":
                 return self._handle_info(response)
 
-            # GET /verify - Verify network: errors, connections, cook times
+            # GET /verify - Verify network: errors, warnings, connections, POP stats
             if uri == "/verify" and method == "GET":
                 path = unquote(pars.get("path", "/project1"))
-                return self._handle_verify(path, response)
+                recurse = pars.get("recurse", "1") in ("1", "true", "True")
+                return self._handle_verify_impl(path, recurse, response)
 
             # GET /events - Server-Sent Events (SSE) stream
             if uri == "/events" and method == "GET":
@@ -383,40 +384,149 @@ class TouchDesignerAPI:
             return self._send_response(response)
 
 
-    def _handle_verify(self, path: str, response: dict) -> dict:
-        """Verify network: check errors, connections, report summary."""
+    def _verify_iter_safe(self, target):
+        """Safer descendent iteration used only for verify (never mutates).
+
+        Uses OP.children iteration guarded with try/except so a malformed
+        network cannot crash the extension.
+        """
+        nodes = []
         try:
-            target = op(path) if path and path != "/" else root
-            all_ops = target.findChildren() if target else []
-            errors = []
-            for n in all_ops:
+            if getattr(target, "isCOMP", False):
+                for child in target.children:
+                    try:
+                        nodes.append(child)
+                        if getattr(child, "isCOMP", False):
+                            nodes.extend(self._verify_iter_safe(child))
+                    except Exception:
+                        pass
+            else:
                 try:
-                    errs = n.errors()
-                    if isinstance(errs, (list, tuple)) and len(errs) > 0:
-                        errors.append({"path": n.path, "error": str(errs)})
-                except:
+                    for child in target.children:
+                        nodes.append(child)
+                except Exception:
                     pass
-            connected = 0
-            for n in all_ops:
+        except Exception:
+            pass
+        return nodes
+
+    def _verify_collect_terminal_errors(self, nodes, max_items=200):
+        """Walk scanned nodes and collect terminal errors + warnings.
+
+        Returns (errors, warnings, stats) where stats has keys
+        scanned/pop_scanned/pop_healthy/pop_error_count.
+        """
+        errors = []
+        warnings = []
+        scanned = len(nodes)
+        pop_scanned = 0
+        pop_healthy = 0
+        pop_error_count = 0
+
+        for n in nodes[:max_items]:
+            try:
+                errs = n.errors(recurse=False)
+            except Exception:
+                errs = ""
+            try:
+                warns = n.warnings(recurse=False)
+            except Exception:
+                warns = ""
+
+            family = getattr(n, "family", "")
+            if family == "POP":
+                pop_scanned += 1
+                try:
+                    if n.numPoints() > 0:  # method, not property
+                        pop_healthy += 1
+                except Exception:
+                    pass
+                try:
+                    if errs:
+                        pop_error_count += 1
+                except Exception:
+                    pass
+
+            if isinstance(errs, str) and errs.strip():
+                errors.append({"path": getattr(n, "path", ""), "message": errs.strip()})
+            elif isinstance(errs, (list, tuple)):
+                for e in errs:
+                    if str(e).strip():
+                        errors.append({"path": getattr(n, "path", ""), "message": str(e).strip()})
+
+            if isinstance(warns, str) and warns.strip():
+                warnings.append({"path": getattr(n, "path", ""), "message": warns.strip()})
+            elif isinstance(warns, (list, tuple)):
+                for w in warns:
+                    if str(w).strip():
+                        warnings.append({"path": getattr(n, "path", ""), "message": str(w).strip()})
+
+        return errors, warnings, {
+            "scanned": scanned,
+            "pop_scanned": pop_scanned,
+            "pop_healthy": pop_healthy,
+            "pop_error_count": pop_error_count,
+        }
+
+    def _verify_build_response(self, target, recurse, scanned, total_in_tree, errors, warnings, connected, stats):
+        """Assemble the verify JSON response."""
+        return {
+            "path": getattr(target, "path", ""),
+            "recurse": recurse,
+            "operators_scanned": scanned,
+            "total_in_tree": total_in_tree,
+            "error_count": len(errors),
+            "errors": errors,
+            "warning_count": len(warnings),
+            "warnings": warnings,
+            "total_connections": connected,
+            "healthy": len(errors) == 0,
+            "pop_stats": stats,
+        }
+
+    def _verify_from_node(self, target, recurse):
+        """Entry point used by the test harness to exercise verification logic
+        without going through OnHTTPRequest."""
+        if recurse:
+            nodes = self._verify_iter_safe(target)
+            nodes.insert(0, target)
+        else:
+            nodes = [target]
+        total_in_tree = None
+        try:
+            total_in_tree = len(self._verify_iter_safe(target)) + 1
+        except Exception:
+            pass
+        errors, warnings, stats = self._verify_collect_terminal_errors(nodes)
+        connected = 0
+        for n in nodes:
+            try:
                 for inp in n.inputs:
-                    if inp: connected += 1
-            result = {
-                "path": path,
-                "operator_count": len(all_ops),
-                "errors": errors,
-                "error_count": len(errors),
-                "total_connections": connected,
-                "healthy": len(errors) == 0,
-            }
-            response["statusCode"] = 200
-            response["statusReason"] = "OK"
-            response["data"] = json.dumps(result, ensure_ascii=False)
+                    if inp:
+                        connected += 1
+            except Exception:
+                pass
+        return self._verify_build_response(target, recurse, len(nodes), total_in_tree, errors, warnings, connected, stats)
+
+    def _handle_verify_impl(self, path: str, recurse: bool, response: dict) -> dict:
+        """Implementation of /verify with explicit recurse control.
+
+        This is the canonical handler. The top-level OnHTTPRequest handler
+        parses the query/body and delegates here so the same logic is used
+        by both the HTTP endpoint and the tests.
+        """
+        target = op(path) if path and path != "/" else root  # type: ignore
+        if target is None:
+            response["statusCode"] = 404
+            response["statusReason"] = "Not Found"
+            response["data"] = json.dumps({"error": f"Operator not found: {path}"})
             return self._send_response(response)
-        except Exception as e:
-            err = {"error": str(e), "traceback": traceback.format_exc()}
-            response["statusCode"] = 500
-            response["data"] = json.dumps(err, ensure_ascii=False)
-            return self._send_response(response)
+
+        result = self._verify_from_node(target, recurse)
+        response["statusCode"] = 200
+        response["statusReason"] = "OK"
+        response["data"] = json.dumps(result, ensure_ascii=False)
+        return self._send_response(response)
 
     # -------------------------------------------------------------------------
     # GET /info

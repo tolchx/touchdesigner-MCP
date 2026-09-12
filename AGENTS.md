@@ -19,7 +19,7 @@ GET http://localhost:44444/verify?path=/project1
 - `GET /connections?path=/project1` — wire structure
 - `GET /editor/selection` — selected ops
 - `GET /spatial_context` — *here/*this/*these
-- `GET /verify?path=/project1` — errors + connection count
+- `GET /verify?path=/project1[&recurse=true]` — errors, warnings, connections, POP stats. Default recurse=true (scans COMP children). recurse=false → root only (legacy).
 - `GET /audit/performance` — slowest ops
 
 ### Write
