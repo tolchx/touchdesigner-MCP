@@ -129,6 +129,37 @@ class TestParametersSet(unittest.TestCase):
         body = json.loads(response["data"])
         return response, body
 
+    # ── Sugerencias de parámetros (función pura, sin TD) ──────────────────
+
+    def test_suggestions_exact_match(self):
+        sug = self.api._parameter_suggestions("amp", ["amp", "phase", "freq"])
+        self.assertEqual(sug, ["amp"])
+
+    def test_suggestions_shared_prefix(self):
+        sug = self.api._parameter_suggestions("phas", ["phase", "freq", "position"])
+        self.assertIn("phase", sug)
+        self.assertEqual(len(sug), 3)
+
+    def test_suggestions_substring(self):
+        sug = self.api._parameter_suggestions("amp", ["amp", "amplitude", "phase"])
+        self.assertEqual(sug, ["amp"])
+
+    def test_suggestions_typo_amplitud(self):
+        sug = self.api._parameter_suggestions("amplitud", ["amp", "phase", "freq", "position", "rate"])
+        self.assertTrue(len(sug) >= 1)
+        self.assertIn("amp", sug)
+
+    def test_suggestions_empty_request(self):
+        self.assertEqual(self.api._parameter_suggestions("", ["amp"]), [])
+        self.assertEqual(self.api._parameter_suggestions(None, ["amp"]), [])
+        self.assertEqual(self.api._parameter_suggestions("amp", []), [])
+
+    def test_suggestions_case_insensitive(self):
+        sug = self.api._parameter_suggestions("AMP", ["amp", "phase"])
+        self.assertEqual(sug, ["amp"])
+
+    # ── Handler: aplicación y validación ─────────────────────────────────
+
     def test_updates_array_is_applied(self):
         """Canonical form {"path", "updates":[...]} keeps working."""
         response, body = self._call({
@@ -137,7 +168,8 @@ class TestParametersSet(unittest.TestCase):
         })
         self.assertEqual(response["statusCode"], 200)
         self.assertEqual(len(body["updated"]), 1)
-        self.assertEqual(body["missing"], [])
+        self.assertEqual(body.get("missing", []), [])
+        self.assertEqual(body.get("invalid", []), [])
         self.assertEqual(self.par_amp.val, 0.9)
 
     def test_params_dict_shorthand_is_applied(self):
@@ -151,7 +183,8 @@ class TestParametersSet(unittest.TestCase):
         self.assertEqual(response["statusCode"], 200)
         self.assertEqual(len(body["updated"]), 1)
         self.assertEqual(body["updated"][0]["name"], "amp")
-        self.assertEqual(body["missing"], [])
+        self.assertEqual(body.get("missing", []), [])
+        self.assertEqual(body.get("invalid", []), [])
         self.assertEqual(self.par_amp.val, 0.7)
 
     def test_missing_both_forms_returns_explicit_error(self):
@@ -180,14 +213,56 @@ class TestParametersSet(unittest.TestCase):
         self.assertEqual(response["statusCode"], 404)
         self.assertIn("Operator not found", body["error"])
 
-    def test_non_transactional_missing_param_is_reported(self):
+    def test_unknown_param_returns_suggestions_instead_of_silent_empty(self):
+        """Regression: un nombre inexistente (ej. 'amplitud') no debe ser
+        ignorado en silencio. El handler debe devolver 'invalid' con sugerencias."""
         response, body = self._call({
             "path": "/project1/op1",
-            "updates": [{"name": "does_not_exist", "value": 1}],
+            "updates": [{"name": "amplitud", "value": 1}],
+        })
+        # Transaccional por defecto → error 400, rollback, nada aplicado.
+        self.assertEqual(response["statusCode"], 400)
+        self.assertIn("error", body)
+        self.assertIn("amplitud", body["error"])
+        self.assertIn("amp", body["error"])
+        self.assertEqual(self.par_amp.val, 0.5)  # sin cambios
+
+    def test_invalid_structure_on_unknown_param(self):
+        """Con transactional=False, los válidos se aplican y los inválidos
+        van en 'invalid' con sugerencias."""
+        response, body = self._call({
+            "path": "/project1/op1",
+            "updates": [
+                {"name": "amp", "value": 0.8},
+                {"name": "amplitud", "value": 1},
+            ],
             "transactional": False,
         })
         self.assertEqual(response["statusCode"], 200)
-        self.assertEqual(body["missing"], ["does_not_exist"])
+        # 'amp' existe → aplicado; 'amplitud' no → invalid.
+        self.assertEqual(len(body["updated"]), 1)
+        self.assertEqual(body["updated"][0]["name"], "amp")
+        self.assertEqual(self.par_amp.val, 0.8)
+        self.assertIn("invalid", body)
+        invalid_names = [item["name"] for item in body["invalid"] if item["name"]]
+        self.assertIn("amplitud", invalid_names)
+        invalid_amp = next(item for item in body["invalid"] if item["name"] == "amplitud")
+        self.assertEqual(invalid_amp["reason"], "unknown_parameter")
+        self.assertIn("amp", invalid_amp["suggestions"])
+        self.assertIn("note", invalid_amp)
+
+    def test_unknown_param_with_suggestions_in_error_message(self):
+        """El mensaje de error transaccional debe incluir las sugerencias.
+        El fake solo tiene 'amp', así que 'ph' sugiere 'amp'."""
+        response, body = self._call({
+            "path": "/project1/op1",
+            "updates": [{"name": "ph", "value": 1}],
+        })
+        self.assertEqual(response["statusCode"], 400)
+        error = body["error"]
+        self.assertIn("ph", error)
+        self.assertIn("amp", error)
+        self.assertIn("No parameters were changed", body.get("note", ""))
 
     def test_pulse_param_is_pulsed(self):
         par_pulse = _FakePar("cook", style="Pulse")
@@ -198,6 +273,16 @@ class TestParametersSet(unittest.TestCase):
         })
         self.assertEqual(response["statusCode"], 200)
         self.assertTrue(par_pulse.pulsed)
+
+    def test_missing_name_in_update_reported(self):
+        response, body = self._call({
+            "path": "/project1/op1",
+            "updates": [{"value": 1}],
+            "transactional": False,
+        })
+        self.assertEqual(response["statusCode"], 200)
+        self.assertIn("invalid", body)
+        self.assertTrue(any(item.get("reason") == "missing_name" for item in body["invalid"]))
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -287,6 +372,20 @@ class TestInfo(unittest.TestCase):
         used to be null because the handler read non-existent attributes."""
         response, info = self._call()
         self.assertEqual(response["statusCode"], 200)
+        # Shape completo — todas las claves presentes con tipos correctos
+        expected_keys = {
+            "build", "version", "product", "commercial", "platform",
+            "osVersion", "release", "projectPath", "projectFPS",
+        }
+        self.assertEqual(set(info.keys()), expected_keys)
+        self.assertIsInstance(info["build"], str)
+        self.assertIsInstance(info["product"], str)
+        self.assertIsInstance(info["commercial"], bool)
+        self.assertIsInstance(info["platform"], str)
+        self.assertIsInstance(info["release"], str)
+        self.assertIsInstance(info["projectPath"], str)
+        self.assertIsInstance(info["projectFPS"], float)
+        # Valores derivados en el mock (filePath y release existen)
         self.assertEqual(info["build"], "2025.32460")
         self.assertEqual(info["product"], "TouchDesigner")
         self.assertTrue(info["commercial"])
@@ -305,6 +404,36 @@ class TestInfo(unittest.TestCase):
         self.assertIsNone(info["build"])
         self.assertIsNone(info["platform"])
         self.assertIsNone(info["projectPath"])
+
+    def test_release_and_projectpath_derived_when_attrs_missing(self):
+        """TD 2025.32460: app.release y project.filePath no existen, pero se
+        pueden derivar de app.build y project.folder+project.name. El handler
+        debe devolver valores reales sin inventar."""
+        self.app = types.SimpleNamespace(
+            build="2025.32460",
+            version="099",
+            product="TouchDesigner",
+            commercial=1,
+            osName="Windows",
+            osVersion="10",
+        )
+        self.project = types.SimpleNamespace(
+            name="TouchDesignerAPI.1.toe",
+            folder="C:/Users/Tolch/Documents/AI_Code/Touchdesigner_MCP/Main/toe",
+            cookRate=60.0,
+        )
+        _set_module_attr("app", self.app)
+        _set_module_attr("project", self.project)
+        response, info = self._call()
+        self.assertEqual(response["statusCode"], 200)
+        self.assertEqual(info["build"], "2025.32460")
+        # release derivado de app.build (ya que app.release no existe)
+        self.assertEqual(info["release"], "2025.32460")
+        # projectPath derivado de project.folder + project.name
+        self.assertEqual(
+            info["projectPath"],
+            "C:/Users/Tolch/Documents/AI_Code/Touchdesigner_MCP/Main/toe/TouchDesignerAPI.1.toe",
+        )
 
 
 if __name__ == "__main__":
