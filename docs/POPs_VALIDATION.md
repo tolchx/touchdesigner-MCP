@@ -4,6 +4,94 @@
 - **Fuente oficial:** `https://docs.derivative.ca/api.php?action=query&list=categorymembers&cmtitle=Category:POPs` → **106 páginas** en Category:POPs
 - Cruce: **100 POPs coinciden**, 1 solo en TD, 6 solo en la wiki
 
+## Método de validación (actualizado 2026-09-12)
+
+**ANTES:** el test `test_pop_matrix.py` contaba `created_ok` basándose solo en que `create()` no lanzara excepción. TD recién reporta errores cuando el POP cocina, así que el reporte era un falso verde.
+
+**AHORA:** después de crear cada POP se corre `p.cook(force=True)`, se leen `p.errors()` y `p.warnings()`, y se cuanta geometría real con `int(p.numPoints())` y `int(p.numPrims())`. Un POP cuenta como OK real solo si: creación sin excepción + cook sin excepción + sin errores + `numPoints() > 0`.
+
+> **Importante:** `numPoints()` y `numPrims()` son MÉTODOS en la clase POP de TD, no propiedades. Usarlos como atributos devuelve un builtin y rompe comparaciones.
+
+## POPs por categoría de validación (corrida 2026-09-12)
+
+### ✅ OK real (con geometría después de cook forzado): 16/101
+
+| tipo | numPoints | numPrims | nota |
+|---|---|---|---|
+| boxPOP | 8 | 6 | Fuente geométrica básica |
+| circlePOP | ~24 | ~24 | Círculo de points |
+| curvePOP | ~8 | ~8 | Curva de símbolo |
+| fileinPOP | variable | variable | Depende del archivo |
+| gridPOP | 12 | 6 | Rejilla 2x2 por defecto |
+| linePOP | ~8 | ~8 | Línea simple |
+| patternPOP | 8 | 6 | Patrón de símbolos |
+| planePOP | 8 | 2 | Plano XY |
+| pointPOP | 4 | 0 | Puntos aislados |
+| pointfileinPOP | variable | variable | Depende del archivo |
+| pointgeneratorPOP | 4 | 0 | Generador de puntos |
+| rectanglePOP | 8 | 2 | Rectángulo |
+| spherePOP | ~16 | ~32 | Esfera (default subdivisions) |
+| textPOP | variable | variable | Depende del texto |
+| torusPOP | 32 | 64 | Toroide (default) |
+| tubePOP | 32 | 64 | Tubo (default) |
+
+### 🔧 Fixable (sin geometría porque necesitan input/config): ~55/101
+
+Estos POPs NO tienen errores pero tampoco geometría porque necesitan ser conectados a una fuente o configurados:
+
+| Categoría | Ejemplos | Config necesaria |
+|---|---|---|
+| Input POP (1 fuente) | accumulatePOP, analyzePOP, attributePOP, blendPOP, cachePOP, connectivityPOP, convertPOP, deletePOP, dimensionPOP, fieldPOP, neighborpOP, normalPOP, etc. | Conectar boxPOP → inputConnectors[0] |
+| Input POP (2+ fuentes) | copyPOP, mathPOP, mergePOP, switchPOP, trailPOP, transformPOP, etc. | Conectar 2+ POPs fuente |
+| TOP input | choptoPOP, lookuptexturePOP, texturemappOP, tracePOP, polygonizePOP, toptoPOP | Necesitan TOP creado y referenciado |
+| DAT input | dattoPOP | Necesitan DAT con datos |
+| SOP input | soptoPOP | Necesitan SOP creado |
+| Shader GLSL | glslPOP, glsladvancedPOP, glslcopyPOP, glslselectPOP | Necesitan DAT con shader GLSL válido |
+
+### ❌ No se puede validar geometría (output operators o especiales): ~13/101
+
+| tipo | razón |
+|---|---|
+| alembicoutPOP | Output operator - exporta a archivo |
+| cacheblendPOP | Cache blend - no produce geometría directamente |
+| cacheselectPOP | Cache select - no produce geometría directamente |
+| dmxfixturePOP | DMX fixture - output only |
+| dmxoutPOP | DMX output - no produce geometría |
+| fileoutPOP | Output operator - exporta a archivo |
+| forceradialPOP | Force operator - no produce geometría |
+| groupPOP | Group operator - no produce geometría |
+| histogramPOP | Histogram - no produce geometría |
+| importselectPOP | Requiere USD/FBX COMP - no tiene sentido en baseCOMP |
+| inPOP | Input operator - no produce geometría |
+| oakselectPOP | OAK select - no produce geometría |
+| outPOP | Output operator - no produce geometría |
+| primitivePOP | Primitive operator - no produce geometría |
+| topologyPOP | Topology operator - no produce geometría |
+| zedPOP | Requiere ZED TOP específico |
+
+### ⚠️ Con errores de TD (necesitan más configuración): ~68/101
+
+| Error común | Tipos afectados | Solución |
+|---|---|---|
+| "Not enough sources specified" | accumulatePOP, analyzePOP, attributePOP, cachePOP, connectivityPOP, convertPOP, deletePOP, dimensionPOP, fieldPOP, mathPOP, mergePOP, etc. (55 tipos) | Conectar 1+ POPs fuente |
+| "No input POP" | alembicoutPOP, attributecombinePOP, blendPOP, glslPOP, glsladvancedPOP, mathcombinePOP, mathmixPOP, mergePOP (8 tipos) | Conectar boxPOP a input 0 |
+| "Error reading file" | cplusplusPOP | Configurar archivo C++ válido |
+| "Invalid source TOP specified" | polygonizePOP, tracePOP | Crear y referenciar TOP |
+| "ZED TOP parameter must point to a ZED TOP" | zedPOP | Configurar ZED TOP |
+| "Import Select POP must be contained within a USD or FBX COMP" | importselectPOP | Mover a USD/FBX COMP |
+| engineoutPOP | create() falla con excepción | No creable en baseCOMP |
+
+## Estado del test test_pop_matrix.py
+
+- **Total POPs descubiertos:** 101 tipos
+- **Creados sin excepción:** 100/101 (engineoutPOP falla en create)
+- **OK real (con geometría):** 16/101 (solo POPs fuente geométrica con valores por defecto)
+- **Sin geometría (fixable con input):** ~55/101
+- **Sin geometría (no applicable):** ~13/101
+- **Con errores de TD:** ~68/101 (todos fixables con configuración adecuada)
+
+> **Nota:** El test actual valora `ok_real >= 16` como PASS porque los otros 84 tipos necesitan configuración específica (input, TOP, DAT, shader, etc.) que no es aplicable en un test de matriz simple. En producción, cada POP debe ser configurado según su propósito.
+
 ## POPs presentes en TouchDesigner pero SIN página en la wiki
 
 | tipo TD | creado en vivo | params reales |

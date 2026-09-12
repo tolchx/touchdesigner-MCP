@@ -45,14 +45,15 @@ Conecta Inteligencia Artificial con TouchDesigner usando el Model Context Protoc
 - **1120 patrones de conexión POP→POP** y **80 cadenas** minados de 102 proyectos `.toe` descomprimidos a texto plano, con el uso real de cada parámetro ([patrones](docs/POPs_KNOWLEDGE.md)).
 - **62 shaders GLSL POP** indexados con su código.
 - Validación de parámetros antes de escribir: el MCP rechaza nombres inexistentes con sugerencias en lugar de fallar en silencio.
+- `/verify` recursivo por defecto: recorre los hijos de los COMP, atribuye cada error/warning a su operador y agrega estadísticas POP (`pop_stats` con puntos reales), con `?recurse=false` para el comportamiento legacy. Antes reportaba "healthy" en redes rotas.
 - **609 clases de la API de Python** documentadas offline.
-- **1155 tests offline** nativos de Node.js que garantizan que el MCP se ejecute de forma robusta e independiente de TD, más **40 tests offline del bridge en Python** (`tests/test_api_contract_offline.py` 17 + `tests/test_td_api_offline.py` 23, todos verdes).
+- **1155 tests offline** nativos de Node.js que garantizan que el MCP se ejecute de forma robusta e independiente de TD, más **45 tests offline del bridge en Python** (`tests/test_api_contract_offline.py` 22 + `tests/test_td_api_offline.py` 23, todos verdes).
 
 ### 📑 Documentación técnica
 | Documento | Contenido |
 |---|---|
 | [`docs/POPs_KNOWLEDGE.md`](docs/POPs_KNOWLEDGE.md) | Base de conocimiento POP completa (params reales, patrones, GLSL) |
-| [`docs/POPs_VALIDATION.md`](docs/POPs_VALIDATION.md) | Cruce POP build ↔ wiki oficial, con el drift detectado |
+| [`docs/POPs_VALIDATION.md`](docs/POPs_VALIDATION.md) | Cruce POP build ↔ wiki oficial, drift detectado y método de validación estricta en vivo (cook forzado + geometría) |
 | [`docs/POPs_CORRECTIONS.md`](docs/POPs_CORRECTIONS.md) | Correcciones verificadas en vivo (contratos de API, cableado multi-input) |
 | [`docs/API_CONTRACT_AUDIT.md`](docs/API_CONTRACT_AUDIT.md) | Auditoría de contratos de todos los endpoints del bridge HTTP |
 | [`AGENTS.md`](AGENTS.md) | Reglas para agentes que operan TD vía este MCP |
@@ -395,7 +396,7 @@ node server.js
 # Suite de unit/integration tests offline (1155 tests nativos, 0 fallos)
 cd mcp && npm run build && node --test
 
-# Suite de contrato del bridge Python (sin TD): 17 + 23 tests
+# Suite de contrato del bridge Python (sin TD): 22 + 23 tests
 python tests/test_api_contract_offline.py
 python tests/test_td_api_offline.py
 
