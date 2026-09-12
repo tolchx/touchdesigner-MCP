@@ -118,6 +118,18 @@ class FakeOperator:
         self._children = []
         self._expr_obj = None
 
+    # POP semantics helpers (used by verify handler tests)
+    def numPoints(self):
+        # Real TD POP: numPoints() is a METHOD, not a property.
+        # Expose it here as a callable so the verify handler can call it.
+        return 0
+
+    def numPrims(self):
+        return 0
+
+    def isCOMP(self):
+        return self.family == "COMP"
+
     def __getattr__(self, attr):
         # par.<name> access (e.g. op.par.cook) — delegates to the par namespace
         if attr == "par":
@@ -851,7 +863,11 @@ class TestEndpointInventory(unittest.TestCase):
             "_handle_glsl_update",
             "_handle_events",
             "_handle_instances",
-            "_handle_verify",
+            "_handle_verify_impl",
+            "_verify_from_node",
+            "_verify_iter_safe",
+            "_verify_collect_terminal_errors",
+            "_verify_build_response",
             # "_handle_disconnect",  # not wired in this build — see audit note
             "_handle_connect_nodes",
             "_handle_create_operator",
@@ -877,8 +893,85 @@ class TestEndpointInventory(unittest.TestCase):
         self.assertTrue(hasattr(self.api, "_handle_info"))
         self.assertTrue(hasattr(self.api, "_handle_screenshot_post"))
         self.assertTrue(hasattr(self.api, "_handle_parameters_set"))
-        self.assertTrue(hasattr(self.api, "_handle_verify"))
+        self.assertTrue(hasattr(self.api, "_handle_verify_impl"))
         self.assertTrue(hasattr(self.api, "_handle_document"))
+
+    def test_verify_recurse_default_true(self):
+        """Default /verify recurses into COMP children."""
+        _install_fake_globals()
+        api = FakeAPI()
+        root = _fake_root
+        child = FakeOperator("/project1/child1", "child1", "nullTOP", "TOP")
+        root._children = [child]
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.op = _fake_op
+        result = api._verify_from_node(root, recurse=True)
+        self.assertIn("operators_scanned", result)
+        self.assertGreaterEqual(result["operators_scanned"], 2)
+        self.assertTrue(result["recurse"])
+
+    def test_verify_recurse_false_scans_only_root(self):
+        """With recurse=false, only the target operator is scanned."""
+        _install_fake_globals()
+        api = FakeAPI()
+        root = _fake_root
+        child = FakeOperator("/project1/child1", "child1", "nullTOP", "TOP")
+        root._children = [child]
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.op = _fake_op
+        result = api._verify_from_node(root, recurse=False)
+        self.assertEqual(result["operators_scanned"], 1)
+        self.assertFalse(result["recurse"])
+
+    def test_verify_child_error_makes_healthy_false(self):
+        """A child operator with an error makes the network unhealthy."""
+        _install_fake_globals()
+        api = FakeAPI()
+        root = _fake_root
+        bad = FakeOperator("/project1/bad", "bad", "glsl1", "TOP")
+        bad._errors = "Error: Compile failed (syntax error on line 3)\nError: another thing"
+        root._children = [bad]
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.op = _fake_op
+        result = api._verify_from_node(root, recurse=True)
+        self.assertFalse(result["healthy"])
+        self.assertGreater(result["error_count"], 0)
+        self.assertEqual(result["operators_scanned"], 2)
+        paths = [e["path"] for e in result["errors"]]
+        self.assertIn("/project1/bad", paths)
+
+    def test_verify_pop_numpoints_method_not_property(self):
+        """POP scanned via verify: numPoints() is a method call, not a property.
+
+        The fake POP operator exposes numPoints as a callable so the verify
+        handler can call it like the real TD POP class does.
+        """
+        _install_fake_globals()
+        api = FakeAPI()
+        pop = FakeOperator("/project1/pop1", "pop1", "boxPOP", "POP")
+        # Make root a COMP so only the child is counted as a POP.
+        root = FakeOperator("/project1/comp1", "comp1", "baseCOMP", "COMP")
+        # Clear the default child noise1 and add only our POP.
+        root._children = [pop]
+        global _fake_project1
+        _fake_project1 = root
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.op = _fake_op
+        result = api._verify_from_node(root, recurse=True)
+        self.assertIn("pop_stats", result)
+        self.assertEqual(result["pop_stats"]["scanned"], 2)  # root COMP + child POP
+
+    def test_verify_invalid_path_returns_404(self):
+        """Verify rejects a nonexistent path with a clear error."""
+        _install_fake_globals()
+        api = FakeAPI()
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.op = _fake_op
+        resp = _make_response()
+        api._handle_verify_impl("/project1/nonexistent", recurse=True, response=resp)
+        self.assertEqual(resp["statusCode"], 404)
+        data = json.loads(resp["data"])
+        self.assertIn("Operator not found", data["error"])
 
 
 # ===========================================================================
