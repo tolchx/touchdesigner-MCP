@@ -88,7 +88,9 @@ NETWORKS = [
 ]
 
 GLSL_CODE = ("void main(){\\n"
-             "  P[TDIndex()] = P[TDIndex()] * 1.001;\\n"
+             # OJO: la salida (P) no se puede LEER en la misma expresión -> "Compile failed".
+             # La entrada se lee con TDIn_P(inputIndex, TDIndex()) (verificado en vivo 11/09/26).
+             "  P[TDIndex()] = TDIn_P(0, TDIndex()) * 1.001;\\n"
              "}\\n")
 
 
@@ -160,7 +162,20 @@ for ni, (name, nodes, conns, note) in enumerate(NETS):
         o.nodeX = order[n] * 260
         o.nodeY = 0
 
-    # 4) verificar errores por operador
+    # 4) verificar errores por operador.
+    #    IMPORTANTE: TD recién reporta los errores cuando el POP COCINA. Sin el cook
+    #    forzado esto devuelve [] siempre y el test da un falso OK (verificado el
+    #    11/09/26: la red "merge_switch" pasaba el test y tenía "Error: No input POP").
+    for n, o in created.items():
+        for attr in ("cook", "cookForce"):
+            fn = getattr(o, attr, None)
+            if callable(fn):
+                try:
+                    fn(force=True) if attr == "cook" else fn()
+                except Exception:
+                    pass
+                break
+
     for n, o in created.items():
         try:
             err = o.errors()
@@ -171,6 +186,21 @@ for ni, (name, nodes, conns, note) in enumerate(NETS):
                 entry.setdefault("warnings", []).append("%s: %s" % (n, warn))
         except Exception as e:
             entry["errors"].append("verify %s: %s" % (n, e))
+
+    # 5) geometría real de la salida — ojo: numPoints() es MÉTODO en la clase POP de TD,
+    #    no propiedad (usarlo como atributo devuelve un builtin, no un número).
+    pops = {{n: o for n, o in created.items() if getattr(o, "family", "") == "POP"}}
+    con_geo = 0
+    for n, o in pops.items():
+        try:
+            if int(o.numPoints()) > 0:
+                con_geo += 1
+        except Exception as e:
+            entry["errors"].append("numPoints %s: %s" % (n, e))
+    entry["pops"] = len(pops)
+    entry["con_geometria"] = con_geo
+    if pops and con_geo == 0:
+        entry["errors"].append("ninguno de los %d POPs produce geometría" % len(pops))
 
     entry["ok"] = not entry["errors"]
     report["networks"].append(entry)

@@ -33,3 +33,8 @@ toe/TDImportCache/
 /run_contract_test.cjs
 /run_contract_test.js
 /inspect_pop_scripts.cjs
+/run_*.cjs
+/run_*.js
+/inspect_*.cjs
+/debug_*.py
+/fix_*.py

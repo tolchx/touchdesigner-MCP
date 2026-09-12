@@ -24,7 +24,9 @@
    ],
    "errors": [],
    "connections": 2,
-   "ok": true
+   "ok": true,
+   "pops": 3,
+   "con_geometria": 3
   },
   {
    "name": "copy_instancing",
@@ -58,7 +60,9 @@
    ],
    "errors": [],
    "connections": 4,
-   "ok": true
+   "ok": true,
+   "pops": 5,
+   "con_geometria": 5
   },
   {
    "name": "particles_solver",
@@ -92,7 +96,9 @@
    ],
    "errors": [],
    "connections": 4,
-   "ok": true
+   "ok": true,
+   "pops": 5,
+   "con_geometria": 2
   },
   {
    "name": "trail_line_strip",
@@ -121,7 +127,9 @@
    ],
    "errors": [],
    "connections": 3,
-   "ok": true
+   "ok": true,
+   "pops": 4,
+   "con_geometria": 4
   },
   {
    "name": "merge_switch",
@@ -155,7 +163,9 @@
    ],
    "errors": [],
    "connections": 4,
-   "ok": true
+   "ok": true,
+   "pops": 5,
+   "con_geometria": 5
   },
   {
    "name": "math_ops_chain",
@@ -184,7 +194,9 @@
    ],
    "errors": [],
    "connections": 3,
-   "ok": true
+   "ok": true,
+   "pops": 4,
+   "con_geometria": 4
   },
   {
    "name": "glsl_shader",
@@ -213,7 +225,9 @@
    ],
    "errors": [],
    "connections": 2,
-   "ok": true
+   "ok": true,
+   "pops": 3,
+   "con_geometria": 3
   },
   {
    "name": "line_divide_resample",
@@ -242,7 +256,9 @@
    ],
    "errors": [],
    "connections": 3,
-   "ok": true
+   "ok": true,
+   "pops": 4,
+   "con_geometria": 4
   },
   {
    "name": "feedback_loop",
@@ -266,7 +282,9 @@
    ],
    "errors": [],
    "connections": 2,
-   "ok": true
+   "ok": true,
+   "pops": 3,
+   "con_geometria": 3
   },
   {
    "name": "field_deform",
@@ -290,11 +308,13 @@
    ],
    "errors": [],
    "connections": 2,
-   "ok": true
+   "ok": true,
+   "pops": 3,
+   "con_geometria": 3
   }
  ],
  "ok_all": true,
  "total_networks": 10,
  "total_connections": 29,
- "generated_at": "2026-09-11T18:39:50"
+ "generated_at": "2026-09-11T22:23:36"
 }
