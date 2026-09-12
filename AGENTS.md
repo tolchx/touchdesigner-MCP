@@ -41,6 +41,12 @@ GET http://localhost:44444/verify?path=/project1
 8. **TD type mistakes to avoid**: `audioinCHOP` does NOT exist → use `audioDeviceInCHOP`; `glsl1MAT` cannot be created with `create()`
 9. **Python 3.9 in TD**: No `str | None` union type syntax — use `Optional[str]` or omit type hints
 10. **GLSL POP requires**: `boxPOP` source (NOT SOP), `outputattrs='P'`, `uniform float u_time;` declared manually
+10a. **Output no se lee (Regla 1)**: `P[id] = TDIn_P(0, id) * 1.001;` compila; `P[id] = P[id] * 1.001;` da Compile failed. Nunca leer un atributo que también se escribe.
+10b. **Patrón canónico (Regla 2)**: `const uint id = TDIndex(); if (id >= TDNumElements()) return;` — omitir la guarda puede causar acceso fuera de rango.
+10c. **Atributos nuevos (Regla 3)**: `outputattrs` solo selecciona atributos que YA existen en la entrada. Para escribir Cd / N / un custom hay que crearlos con la página Create Attributes del glslPOP: `attr0name='Custom'`, `attr0customname='Cd'`, `attr0numcomps=4`. `attr0name='Cd'` NO funciona. Componentes: Cd=4, N=3, uv=2, float custom=1.
+10d. **Atributos WRITE-ONLY (Regla 4)**: leer un atributo que también se escribe da `'*' : can't read from writeonly object`. Para leerlo usar `outputaccess='readwrite'`.
+10e. **Error real del compilador (Regla 5)**: `errors()` solo dice 'Compile failed'. El log real está en el infoDAT `<nombre_glsl>_info`. Leer ese DAT para diagnosticar.
+10f. **API de POP (Regla 6)**: `numPoints`, `numPrims`, `bounds` y `points` son MÉTODOS: `p.numPoints()`, no atributos.
 11. **Parameter names**: use `.eval()` names (e.g. `amp` not "Amplitude") — read with `/parameters` first
 12. **Multi-input wiring** (verified on 2025.32460 — `connect(dst, input_index)` FAILS with "Invalid number or type of arguments", both for POPs and TOPs):
     - Input 0 / dynamic inputs: `src.outputConnectors[0].connect(dst)`

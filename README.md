@@ -47,7 +47,7 @@ Conecta Inteligencia Artificial con TouchDesigner usando el Model Context Protoc
 - Validación de parámetros antes de escribir: el MCP rechaza nombres inexistentes con sugerencias en lugar de fallar en silencio.
 - `/verify` recursivo por defecto: recorre los hijos de los COMP, atribuye cada error/warning a su operador y agrega estadísticas POP (`pop_stats` con puntos reales), con `?recurse=false` para el comportamiento legacy. Antes reportaba "healthy" en redes rotas.
 - **609 clases de la API de Python** documentadas offline.
-- **1155 tests offline** nativos de Node.js que garantizan que el MCP se ejecute de forma robusta e independiente de TD, más **45 tests offline del bridge en Python** (`tests/test_api_contract_offline.py` 22 + `tests/test_td_api_offline.py` 23, todos verdes).
+- **1155 tests offline** nativos de Node.js que garantizan que el MCP se ejecute de forma robusta e independiente de TD, más **45 tests offline del bridge en Python** (`tests/test_api_contract_offline.py` 22 + `tests/test_td_api_offline.py` 23, todos verdes), y **19 tests offline de sintaxis GLSL POP** (`tests/test_glsl_pop_offline.py`).
 
 ### 📑 Documentación técnica
 | Documento | Contenido |
@@ -56,6 +56,7 @@ Conecta Inteligencia Artificial con TouchDesigner usando el Model Context Protoc
 | [`docs/POPs_VALIDATION.md`](docs/POPs_VALIDATION.md) | Cruce POP build ↔ wiki oficial, drift detectado y método de validación estricta en vivo (cook forzado + geometría) |
 | [`docs/POPs_CORRECTIONS.md`](docs/POPs_CORRECTIONS.md) | Correcciones verificadas en vivo (contratos de API, cableado multi-input) |
 | [`docs/API_CONTRACT_AUDIT.md`](docs/API_CONTRACT_AUDIT.md) | Auditoría de contratos de todos los endpoints del bridge HTTP |
+| [`docs/GLSL_POP_RULES.md`](docs/GLSL_POP_RULES.md) | Reglas de GLSL POP verificadas en vivo (compilación, atributos, infoDAT) |
 | [`AGENTS.md`](AGENTS.md) | Reglas para agentes que operan TD vía este MCP |
 
 ### 🎓 Contenido educativo
