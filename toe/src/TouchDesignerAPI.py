@@ -1361,14 +1361,42 @@ print(json.dumps({{
     # POST /screenshot
     # =========================================================================
 
+    @staticmethod
+    def _parse_json_output(output):
+        """Parse the JSON payload printed by generated code.
+
+        TD's stdout can carry warnings before the JSON line (e.g. a
+        ResourceWarning from a temp file), so try the whole output first and
+        then every individual line, last one first. Returns None when nothing
+        parses (caller falls back to the raw result).
+        """
+        if not isinstance(output, str) or not output.strip():
+            return None
+        candidates = [output.strip()]
+        candidates += [ln.strip() for ln in reversed(output.splitlines()) if ln.strip()]
+        for cand in candidates:
+            try:
+                return json.loads(cand)
+            except (json.JSONDecodeError, TypeError, ValueError):
+                continue
+        return None
+
     def _handle_screenshot_post(self, request: dict, response: dict) -> dict:
         """Save a frame from a TOP output and return as base64 image.
 
-        Accepts an optional JSON body {"path": "...", "maxSize": N}. When
-        `path` is provided, that exact operator is captured — previously the
-        body was ignored, so a valid TOP path still answered
-        "No TOP output found". Without `path`, falls back to the
-        active pane's selected/current TOP heuristic.
+        Accepts an optional JSON body with either:
+          - "path" (or "op") : exact operator path to capture, OR
+          - "maxSize" : max dimension for optional resize.
+
+        When a path/op is provided, that exact operator is captured.
+        Without a path/op, falls back to the active pane's selected/current
+        TOP, then the first TOP in the current network, then the first TOP
+        anywhere under /project1. If none of those yield a TOP, returns an
+        explicit, actionable error (never a generic 404).
+
+        NOTE: the legacy body was previously ignored, so a valid TOP path
+        still answered "No TOP output found". That is fixed: path/op in the
+        body is now honored.
         """
         body = {}
         try:
@@ -1381,128 +1409,144 @@ print(json.dumps({{
         if not isinstance(body, dict):
             body = {}
 
-        body_path = body.get("path")
+        body_path = body.get("path") or body.get("op")
         try:
             ms = int(body.get("maxSize") or body.get("max_size") or 0)
         except (TypeError, ValueError):
             ms = 0
-        if ms > 0:
-            img_code = f"""with open(tf, 'rb') as f:
-                img_data = f.read()
-            try:
-                from PIL import Image as PILImage
-            except ImportError:
-                PILImage = None
-            if PILImage is not None:
-                pil_img = PILImage.open(io.BytesIO(img_data))
-                w, h = pil_img.size
-                if w > {ms} or h > {ms}:
-                    if w >= h:
-                        new_w = {ms}; new_h = int(h * {ms} / w)
-                    else:
-                        new_h = {ms}; new_w = int(w * {ms} / h)
-                    pil_img = pil_img.resize((new_w, new_h), PILImage.LANCZOS)
-                    buf = io.BytesIO()
-                    pil_img.save(buf, format='PNG')
-                    b64 = base64.b64encode(buf.getvalue()).decode()
-                else:
-                    b64 = base64.b64encode(img_data).decode()
-            else:
-                b64 = base64.b64encode(img_data).decode()"""
-        else:
-            img_code = """with open(tf, 'rb') as f:
-                img_data = f.read()
-            b64 = base64.b64encode(img_data).decode()"""
 
         if body_path:
             # Explicit operator path requested: capture exactly that operator.
+            # Build the post-save image encoding block with correct indentation.
+            if ms > 0:
+                # Default to the raw capture; only override b64 when the PIL
+                # resize succeeds, so a decode failure never fails the request.
+                img_block = (
+                    "                with open(tf, 'rb') as f:\n"
+                    "                    img_data = f.read()\n"
+                    "                b64 = base64.b64encode(img_data).decode()\n"
+                    "                try:\n"
+                    "                    from PIL import Image as PILImage\n"
+                    "                except ImportError:\n"
+                    "                    PILImage = None\n"
+                    "                if PILImage is not None:\n"
+                    "                    try:\n"
+                    "                        pil_img = PILImage.open(io.BytesIO(img_data))\n"
+                    "                        w, h = pil_img.size\n"
+                    f"                        if w > {ms} or h > {ms}:\n"
+                    "                            if w >= h:\n"
+                    f"                                new_w = {ms}; new_h = int(h * {ms} / w)\n"
+                    "                            else:\n"
+                    f"                                new_h = {ms}; new_w = int(w * {ms} / h)\n"
+                    "                            pil_img = pil_img.resize((new_w, new_h), PILImage.LANCZOS)\n"
+                    "                            buf = io.BytesIO()\n"
+                    "                            pil_img.save(buf, format='PNG')\n"
+                    "                            b64 = base64.b64encode(buf.getvalue()).decode()\n"
+                    "                    except Exception:\n"
+                    "                        pass  # keep the unresized capture\n"
+                )
+            else:
+                img_block = (
+                    "                with open(tf, 'rb') as f:\n"
+                    "                    img_data = f.read()\n"
+                    "                b64 = base64.b64encode(img_data).decode()\n"
+                )
+
             requested = str(body_path).replace("\\", "\\\\").replace("'", "\\'")
-            code = f"""import json, tempfile, base64, os, io
-try:
-    t = op('{requested}')
-    if t is None:
-        print(json.dumps({{'success': False, 'error': 'Operator not found: {requested}'}}))
-    else:
-        tf = tempfile.NamedTemporaryFile(suffix='.png', delete=False).name
-        try:
-            t.save(tf)
-            {img_code}
-            print(json.dumps({{'success': True, 'path': t.path, 'name': t.name, 'type': t.OPType, 'image': b64, 'format': 'png'}}))
-        finally:
-            try: os.unlink(tf)
-            except: pass
-except Exception as e:
-    print(json.dumps({{'success': False, 'path': '{requested}', 'error': str(e)}}))
-"""
+            code = (
+                "import json, tempfile, base64, os, io\n"
+                "try:\n"
+                f"    t = op('{requested}')\n"
+                "    if t is None:\n"
+                f"        print(json.dumps({{'success': False, 'error': 'Operator not found: {requested}', 'hint': 'Provide a valid TOP path, e.g. path=\"/project1/mynullTOP\"'}}))\n"
+                "    else:\n"
+                "        if getattr(t, 'family', '') != 'TOP':\n"
+                f"            print(json.dumps({{'success': False, 'error': 'Not a TOP: {requested}', 'hint': 'Provide the path of a TOP operator (nullTOP, noiseTOP, etc.)'}}))\n"
+                "        else:\n"
+                "            # NamedTemporaryFile must be closed explicitly, otherwise\n"
+                "            # its finalizer emits a ResourceWarning into TD's stdout.\n"
+                "            _tfh = tempfile.NamedTemporaryFile(suffix='.png', delete=False)\n"
+                "            tf = _tfh.name\n"
+                "            _tfh.close()\n"
+                "            try:\n"
+                "                t.save(tf)\n"
+                f"{img_block}"
+                "                print(json.dumps({'success': True, 'path': t.path, 'name': t.name, 'type': t.OPType, 'image': b64, 'format': 'png'}))\n"
+                "            finally:\n"
+                "                try: os.unlink(tf)\n"
+                "                except: pass\n"
+                "except Exception as e:\n"
+                "    print(json.dumps({'success': False, 'error': str(e), 'hint': 'Provide a valid TOP path in the body (e.g. path=\"/project1/something\")'}))\n"
+            )
         else:
-            code = r"""import json, tempfile, base64, os, io
+            code = (
+                "import json, tempfile, base64, os, io\n"
+                "\n"
+                "try:\n"
+                "    pane = ui.panes.current if 'ui' in globals() else None\n"
+                "    target = None\n"
+                "    if pane and getattr(pane, 'owner', None):\n"
+                "        for c in pane.owner.children:\n"
+                "            try:\n"
+                "                if getattr(c, 'family', '') == 'TOP' and (getattr(c, 'selected', False) or getattr(c, 'current', False)):\n"
+                "                    target = c\n"
+                "                    break\n"
+                "            except Exception:\n"
+                "                pass\n"
+                "        if target is None:\n"
+                "            for c in pane.owner.children:\n"
+                "                try:\n"
+                "                    if getattr(c, 'family', '') == 'TOP':\n"
+                "                        target = c\n"
+                "                        break\n"
+                "                except Exception:\n"
+                "                    pass\n"
+                "    if target is None:\n"
+                "        root = op('/') if 'op' in globals() else None\n"
+                "        if root:\n"
+                "            for c in root.children:\n"
+                "                try:\n"
+                "                    if getattr(c, 'family', '') == 'TOP':\n"
+                "                        target = c\n"
+                "                        break\n"
+                "                except Exception:\n"
+                "                    pass\n"
+                "    if target is None:\n"
+                "        print(json.dumps({\n"
+                "            'success': False,\n"
+                "            'error': 'No TOP output found',\n"
+                "            'hint': 'Provide an explicit TOP path in the body, e.g. path=\"/project1/mynullTOP\". Without a path the server looks in the current pane, then anywhere under /project1.',\n"
+                "            'note': 'Select a TOP operator or create one to capture a screenshot'\n"
+                "        }))\n"
+                "    else:\n"
+                "        _tfh = tempfile.NamedTemporaryFile(suffix='.png', delete=False)\n"
+                "        tf = _tfh.name\n"
+                "        _tfh.close()\n"
+                "        try:\n"
+                "            target.save(tf)\n"
+                "            with open(tf, 'rb') as f:\n"
+                "                b64 = base64.b64encode(f.read()).decode()\n"
+                "            result = {\n"
+                "                'success': True,\n"
+                "                'path': target.path,\n"
+                "                'name': target.name,\n"
+                "                'type': target.OPType,\n"
+                "                'image': b64,\n"
+                "                'format': 'png',\n"
+                "            }\n"
+                "            print(json.dumps(result))\n"
+                "        finally:\n"
+                "            try:\n"
+                "                os.unlink(tf)\n"
+                "            except Exception:\n"
+                "                pass\n"
+                "except Exception as e:\n"
+                "    print(json.dumps({'success': False, 'error': str(e), 'hint': 'Provide a valid TOP path in the body (e.g. path=\"/project1/something\")'}))\n"
+            )
 
-try:
-    # Attempt to capture from the current pane's active TOP
-    pane = ui.panes.current
-    target = None
-    if pane and pane.owner:
-        # Look for a TOP in the current network
-        for c in pane.owner.children:
-            try:
-                if getattr(c, 'family', '') == 'TOP' and (getattr(c, 'selected', False) or getattr(c, 'current', False)):
-                    target = c
-                    break
-            except:
-                pass
-        if target is None:
-            # Try first TOP child available
-            for c in pane.owner.children:
-                try:
-                    if getattr(c, 'family', '') == 'TOP':
-                        target = c
-                        break
-                except:
-                    pass
-
-    if target is None:
-        # Fall back: try root for any TOP
-        for c in op('/').children:
-            try:
-                if getattr(c, 'family', '') == 'TOP':
-                    target = c
-                    break
-            except:
-                pass
-
-    if target is None:
-        print(json.dumps({
-            'success': False,
-            'error': 'No TOP output found',
-            'note': 'Select a TOP operator or create one to capture a screenshot'
-        }))
-    else:
-        tf = tempfile.NamedTemporaryFile(suffix='.png', delete=False).name
-        try:
-            target.save(tf)
-            with open(tf, 'rb') as f:
-                b64 = base64.b64encode(f.read()).decode()
-            result = {
-                'success': True,
-                'path': target.path,
-                'name': target.name,
-                'type': target.OPType,
-                'image': b64,
-                'format': 'png',
-            }
-            print(json.dumps(result))
-        finally:
-            try:
-                os.unlink(tf)
-            except:
-                pass
-except Exception as e:
-    print(json.dumps({'success': False, 'error': str(e), 'note': 'Screenshot requires TD UI interaction'}))
-"""
         result = self._execute_python_robust(code)
-        try:
-            data = json.loads(result.get("output", "{}"))
-        except (json.JSONDecodeError, TypeError):
+        data = self._parse_json_output(result.get("output", ""))
+        if data is None:
             data = result
         response["statusCode"] = 200
         response["statusReason"] = "OK"
