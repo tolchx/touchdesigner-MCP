@@ -126,7 +126,7 @@ Juicio: **documentado** = aparece (con firma razonablemente completa) en AGENTS.
 | 3 | GET `/neonctrl` | ❌ | ✅ | **NO DOCUMENTADO** | Ídem |
 | 4 | GET `/web2touch` | ❌ | ✅ | **NO DOCUMENTADO** | Ídem |
 | 5 | GET `/assets/*` | ❌ | ✅ | **NO DOCUMENTADO** | Ídem |
-| 6 | GET `/info` | ✅ AGENTS, API_REFERENCE (td://info), mcp_server_stdio (tool+resource) | ✅ | **OK** (post-fix) | Firma real: `build, version(legacy "099"), product, commercial, platform, osVersion, release, projectPath, projectFPS`. API_REFERENCE lista `version, build, commercial, platform, projectFPS` — **le falta `product`, `osVersion`, `release`, `projectPath`** como campos documentados. Ver corrección abajo. |
+| 6 | GET `/info` | ✅ AGENTS, API_REFERENCE (td://info), mcp_server_stdio (tool+resource) | ✅ | **OK** (post-fix) | Firma real: `build, version(legacy "099"), product, commercial, platform, osVersion, release, projectPath, projectFPS`. API_REFERENCE ya documenta los 9 campos (incluidos `product`, `osVersion`, `release`, `projectPath`) — corregido 12/09/26. |
 | 7 | GET `/editor/pane` | ✅ API_REFERENCE (td_pane) | ✅ | **OK** | — |
 | 8 | GET `/editor/selection` | ✅ API_REFERENCE (td_selection) | ✅ | **OK** | — |
 | 9 | GET `/operators` | ✅ AGENTS, API_REFERENCE (td_operators) | ✅ | **OK** | — |
@@ -273,7 +273,7 @@ Cubre:
 |-----------|--------|
 | Endpoints en live bridge (GET+POST contados por ruta+ método) | ~58 handlers (algunos con GET y POST separados) |
 | OK (documentado y real alineado) | la mayoría de las herramientas MCP públicas |
-| DESALINEADO (corregido en este turno) | `/info` (campos faltantes en docs), `/screenshot` POST (body ignorado → ahora lee body), `/parameters/set` (ya corregido en turno previo; confirmado aquí) |
+| DESALINEADO (corregido y verificado 12/09/26) | `/info` (campos `release`/`projectPath` reales + docs completas), `/screenshot` POST (body `path`/`op` respetado, errores explícitos con `hint`, `maxSize` degrada sin fallar), `/parameters/set` (validación server-side con sugerencias + rollback) |
 | DESALINEADO (por investigar / documentar) | `/help` (falta firma en docs), `/get_hints` (stub), `/execute` (documentación solo menciona `/exec`), `/diagnose` (no en API_REFERENCE como herramienta) |
 | NO DOCUMENTADO (endpoint real sin documentar) | `/`, `/dashboard`, `/neonctrl`, `/web2touch`, `/assets/*`, `/get_errors`, `/instances`, `/events`, `/execute_async`, `/batch`, `/document`, `/param_presets`, `/glsl_reload`, `/glsl_update` — varios son internos/SSE/app-web, no herramientas MCP |
 | HUERFANO (contrato ambiguo) | `/param_presets` GET (lee body en GET — inusual), `/glsl_reload` y `/glsl_update` (payload no verificado) |

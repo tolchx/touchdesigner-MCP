@@ -161,6 +161,18 @@ Set parámetros transaccionalmente con rollback.
 
 **Validación post-set:** Corre healthcheck para detectar errores de expresión.
 
+**Validación server-side de nombres (bridge Python, no solo el cliente TS):** el handler lee los
+nombres reales del operador (`target.pars()`) antes de aplicar. Un nombre inexistente **no se
+ignora en silencio**: entra en `invalid[]` con `{name, reason: "unknown_parameter", suggestions[], note}`
+y las sugerencias se calculan por similitud (prefijo de 3 chars, contención, distancia de edición).
+Con `transactional: true` (defecto) la request aborta con **400** y rollback de lo ya aplicado;
+con `transactional: false` aplica lo válido y devuelve los nombres omitidos en
+`applied_with_missing_param[]`.
+
+**Respuesta 200:** `{path, updated[], invalid[], applied_with_missing_param[], transactional}` —
+donde cada entrada de `updated[]` es el parámetro serializado (`name`, `value`, `expr`, `style`,
+`isPulse`, …). Los parámetros de estilo `Pulse` con `value` truthy se disparan con `par.pulse()`.
+
 > **Payload del endpoint HTTP (`POST /parameters/set`):** acepta la forma canónica `{"path":..., "updates":[{name, value?, expr?}]}` y también el shorthand `{"path":..., "params":{name: value}}` (se normaliza a `updates[]`). Si no hay nada aplicable (`updates` vacío/ausente o `params` vacío) devuelve **error explícito 400**, nunca un éxito vacío.
 
 **Ejemplo:**
@@ -280,7 +292,13 @@ Guía de conexiones para un tipo de operador.
 | `node_type` | `string` | ✅ | Tipo (ej. `"noiseTOP"`) |
 
 ### `td_get_info` (sin args)
-Info del entorno TD: `version`, `build`, `commercial`, `platform`, `projectFPS`.
+Info del entorno TD: `version`, `build`, `product`, `commercial`, `platform`, `osVersion`,
+`release`, `projectPath`, `projectFPS`.
+
+`release` y `projectPath` ya no salen `null`: se derivan de los globales reales
+(`app.release` → `app.releaseType` → `app.build`, y `project.filePath` →
+`project.folder` + `project.name`). Si un atributo no existe en el build se degrada a `null`
+(HTTP 200, nunca 500). El endpoint HTTP es `GET /info`.
 
 ### `td_get_focus` (sin args)
 Foco actual del usuario: `networkPath`, `numPanes`, `selection[]`.
@@ -408,6 +426,18 @@ Captura screenshot del output de un operador.
 | Campo | Tipo | Obligatorio | Descripción |
 |-------|------|-------------|-------------|
 | `path` | `string` | ❌ | Ruta (defecto: panel activo) |
+| `op` | `string` | ❌ | Alias de `path` |
+| `maxSize` | `number` | ❌ | Redimensiona el lado más largo (alias: `max_size`) |
+
+**Payload del endpoint HTTP (`POST /screenshot`):** `{"path": "/project1/mynullTOP", "maxSize": 256}`.
+El `path`/`op` del body **se respeta**: se captura exactamente ese operador (antes se ignoraba y
+un TOP válido igual respondía `No TOP output found`). Sin `path`, la búsqueda cae en cascada:
+TOP seleccionado/actual del pane → primer TOP del pane → primer TOP bajo `/project1`.
+
+**Errores explícitos** (siempre con `hint`, nunca un 404 genérico): operador inexistente,
+operador que no es TOP (`family != "TOP"`) y `No TOP output found` cuando no hay ningún TOP.
+El `maxSize` degrada a la captura sin redimensionar si PIL no está o si no puede decodificar la
+imagen, así que la request nunca falla por el resize.
 
 ### `td_get_screenshots`
 Screenshots batch de múltiples operadores.

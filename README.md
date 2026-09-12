@@ -46,7 +46,7 @@ Conecta Inteligencia Artificial con TouchDesigner usando el Model Context Protoc
 - **62 shaders GLSL POP** indexados con su código.
 - Validación de parámetros antes de escribir: el MCP rechaza nombres inexistentes con sugerencias en lugar de fallar en silencio.
 - **609 clases de la API de Python** documentadas offline.
-- **1155 tests offline** nativos de Node.js que garantizan que el MCP se ejecute de forma robusta e independiente de TD.
+- **1155 tests offline** nativos de Node.js que garantizan que el MCP se ejecute de forma robusta e independiente de TD, más **40 tests offline del bridge en Python** (`tests/test_api_contract_offline.py` 17 + `tests/test_td_api_offline.py` 23, todos verdes).
 
 ### 📑 Documentación técnica
 | Documento | Contenido |
@@ -393,7 +393,11 @@ node server.js
 ### Node.js — Offline tests
 ```bash
 # Suite de unit/integration tests offline (1155 tests nativos, 0 fallos)
-node --test mcp/test/*.test.js
+cd mcp && npm run build && node --test
+
+# Suite de contrato del bridge Python (sin TD): 17 + 23 tests
+python tests/test_api_contract_offline.py
+python tests/test_td_api_offline.py
 
 # Smoke test offline (tools locales)
 node mcp/test_smoke.mjs
