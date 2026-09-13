@@ -1,383 +1,199 @@
 {
- "generated_at": "2026-09-12T02:58:17",
+ "generated_at": "2026-09-12T18:44:51",
  "td_build": "TouchDesigner 2025.32460",
- "sandbox": "/project1/pop_matrix_live3",
+ "sandbox": "/project1/pop_matrix_live4",
+ "method": "cada POP bajo prueba recibe una fuente boxPOP (2x2x2, div 4) conectada a input[0]; cook(force=True) + errors() + numPoints()/numPrims() (métodos); clasificación excluyente ok_con_input / error_con_input / sin_geometria_con_input / no_creable",
  "type_count": 101,
  "created_ok": 100,
  "created_fail": 1,
- "ok_real": 16,
+ "ok_con_input_count": 80,
+ "ok_real": 80,
+ "categories": {
+  "ok_con_input": [
+   "accumulatePOP",
+   "alembicoutPOP",
+   "analyzePOP",
+   "attributePOP",
+   "attributecombinePOP",
+   "attributeconvertPOP",
+   "blendPOP",
+   "boxPOP",
+   "cachePOP",
+   "circlePOP",
+   "connectivityPOP",
+   "convertPOP",
+   "copyPOP",
+   "curvePOP",
+   "deletePOP",
+   "dimensionPOP",
+   "dmxfixturePOP",
+   "extrudePOP",
+   "facetPOP",
+   "feedbackPOP",
+   "fieldPOP",
+   "fileinPOP",
+   "fileoutPOP",
+   "forceradialPOP",
+   "glslPOP",
+   "glsladvancedPOP",
+   "glslcopyPOP",
+   "gridPOP",
+   "groupPOP",
+   "histogramPOP",
+   "inPOP",
+   "limitPOP",
+   "linePOP",
+   "linebreakPOP",
+   "linedividePOP",
+   "linemetricsPOP",
+   "lineresamplePOP",
+   "linesmoothPOP",
+   "lookupattributePOP",
+   "lookuptexturePOP",
+   "mathPOP",
+   "mathcombinePOP",
+   "mathmixPOP",
+   "mergePOP",
+   "neighborPOP",
+   "noisePOP",
+   "normalPOP",
+   "normalizePOP",
+   "nullPOP",
+   "outPOP",
+   "patternPOP",
+   "phaserPOP",
+   "planePOP",
+   "pointPOP",
+   "pointfileinPOP",
+   "pointgeneratorPOP",
+   "primitivePOP",
+   "projectionPOP",
+   "proximityPOP",
+   "quantizePOP",
+   "randomPOP",
+   "rectanglePOP",
+   "rerangePOP",
+   "selectPOP",
+   "skinPOP",
+   "sortPOP",
+   "spherePOP",
+   "sprinklePOP",
+   "subdividePOP",
+   "switchPOP",
+   "textPOP",
+   "texturemapPOP",
+   "topologyPOP",
+   "torusPOP",
+   "trailPOP",
+   "transformPOP",
+   "triangulatePOP",
+   "trigPOP",
+   "tubePOP",
+   "twistPOP"
+  ],
+  "error_con_input": [
+   "cplusplusPOP",
+   "importselectPOP",
+   "lookupchannelPOP",
+   "polygonizePOP",
+   "rayPOP",
+   "skindeformPOP",
+   "tracePOP",
+   "zedPOP"
+  ],
+  "sin_geometria_con_input": [
+   "alembicinPOP",
+   "cacheblendPOP",
+   "cacheselectPOP",
+   "choptoPOP",
+   "dattoPOP",
+   "dmxoutPOP",
+   "glslselectPOP",
+   "oakselectPOP",
+   "particlePOP",
+   "revolvePOP",
+   "soptoPOP",
+   "toptoPOP"
+  ],
+  "no_creable": [
+   "engineoutPOP"
+  ]
+ },
  "sin_geometria": [
-  "accumulatePOP",
   "alembicinPOP",
-  "alembicoutPOP",
-  "analyzePOP",
-  "attributePOP",
-  "attributecombinePOP",
-  "attributeconvertPOP",
-  "blendPOP",
-  "cachePOP",
   "cacheblendPOP",
   "cacheselectPOP",
   "choptoPOP",
-  "connectivityPOP",
-  "convertPOP",
-  "copyPOP",
-  "cplusplusPOP",
   "dattoPOP",
-  "deletePOP",
-  "dimensionPOP",
-  "dmxfixturePOP",
   "dmxoutPOP",
-  "extrudePOP",
-  "facetPOP",
-  "feedbackPOP",
-  "fieldPOP",
-  "fileoutPOP",
-  "forceradialPOP",
-  "glslPOP",
-  "glsladvancedPOP",
-  "glslcopyPOP",
   "glslselectPOP",
-  "groupPOP",
-  "histogramPOP",
-  "importselectPOP",
-  "inPOP",
-  "limitPOP",
-  "linebreakPOP",
-  "linedividePOP",
-  "linemetricsPOP",
-  "lineresamplePOP",
-  "linesmoothPOP",
-  "lookupattributePOP",
-  "lookupchannelPOP",
-  "lookuptexturePOP",
-  "mathPOP",
-  "mathcombinePOP",
-  "mathmixPOP",
-  "mergePOP",
-  "neighborPOP",
-  "noisePOP",
-  "normalPOP",
-  "normalizePOP",
-  "nullPOP",
   "oakselectPOP",
-  "outPOP",
   "particlePOP",
-  "phaserPOP",
-  "polygonizePOP",
-  "primitivePOP",
-  "projectionPOP",
-  "proximityPOP",
-  "quantizePOP",
-  "randomPOP",
-  "rayPOP",
-  "rerangePOP",
   "revolvePOP",
-  "selectPOP",
-  "skinPOP",
-  "skindeformPOP",
   "soptoPOP",
-  "sortPOP",
-  "sprinklePOP",
-  "subdividePOP",
-  "switchPOP",
-  "texturemapPOP",
-  "topologyPOP",
-  "toptoPOP",
-  "tracePOP",
-  "trailPOP",
-  "transformPOP",
-  "triangulatePOP",
-  "trigPOP",
-  "twistPOP",
-  "zedPOP"
+  "toptoPOP"
  ],
  "con_errores": [
   {
-   "type": "accumulatePOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/accumulatepop)"
-  },
-  {
-   "type": "alembicoutPOP",
-   "message": "Error: No input POP\n (/project1/pop_matrix_live3/alembicoutpop)"
-  },
-  {
-   "type": "analyzePOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/analyzepop)"
-  },
-  {
-   "type": "attributePOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/attributepop)"
-  },
-  {
-   "type": "attributecombinePOP",
-   "message": "Error: No input POP (/project1/pop_matrix_live3/attributecombinepop)"
-  },
-  {
-   "type": "attributeconvertPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/attributeconvertpop)"
-  },
-  {
-   "type": "blendPOP",
-   "message": "Error: No input POP (/project1/pop_matrix_live3/blendpop)"
-  },
-  {
-   "type": "cachePOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/cachepop)"
-  },
-  {
-   "type": "connectivityPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/connectivitypop)"
-  },
-  {
-   "type": "convertPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/convertpop)"
-  },
-  {
-   "type": "copyPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/copypop)"
-  },
-  {
    "type": "cplusplusPOP",
-   "message": "Error: Error reading file \"\" (/project1/pop_matrix_live3/cpluspluspop)"
-  },
-  {
-   "type": "deletePOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/deletepop)"
-  },
-  {
-   "type": "dimensionPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/dimensionpop)"
-  },
-  {
-   "type": "dmxfixturePOP",
-   "message": "Error: Not enough sources specified. (/project1/pop_matrix_live3/dmxfixturepop)"
-  },
-  {
-   "type": "extrudePOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/extrudepop)"
-  },
-  {
-   "type": "facetPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/facetpop)"
-  },
-  {
-   "type": "feedbackPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/feedbackpop)"
-  },
-  {
-   "type": "fieldPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/fieldpop)"
-  },
-  {
-   "type": "forceradialPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/forceradialpop)"
-  },
-  {
-   "type": "glslPOP",
-   "message": "Error: No input POP (/project1/pop_matrix_live3/glslpop)"
-  },
-  {
-   "type": "glsladvancedPOP",
-   "message": "Error: No input POP (/project1/pop_matrix_live3/glsladvancedpop)"
-  },
-  {
-   "type": "glslcopyPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/glslcopypop)"
-  },
-  {
-   "type": "groupPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/grouppop)"
-  },
-  {
-   "type": "histogramPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/histogrampop)"
+   "message": "Error: Error reading file \"\" (/project1/pop_matrix_live4/cpluspluspop)"
   },
   {
    "type": "importselectPOP",
-   "message": "Error: Import Select POP must be contained within a USD or FBX COMP, or have one specified in the Import Parent parameter (/project1/pop_matrix_live3/importselectpop)"
-  },
-  {
-   "type": "limitPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/limitpop)"
-  },
-  {
-   "type": "linebreakPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/linebreakpop)"
-  },
-  {
-   "type": "linedividePOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/linedividepop)"
-  },
-  {
-   "type": "linemetricsPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/linemetricspop)"
-  },
-  {
-   "type": "lineresamplePOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/lineresamplepop)"
-  },
-  {
-   "type": "linesmoothPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/linesmoothpop)"
-  },
-  {
-   "type": "lookupattributePOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/lookupattributepop)"
+   "message": "Error: Import Select POP must be contained within a USD or FBX COMP, or have one specified in the Import Parent parameter (/project1/pop_matrix_live4/importselectpop)"
   },
   {
    "type": "lookupchannelPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/lookupchannelpop)"
-  },
-  {
-   "type": "lookuptexturePOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/lookuptexturepop)"
-  },
-  {
-   "type": "mathPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/mathpop)"
-  },
-  {
-   "type": "mathcombinePOP",
-   "message": "Error: No input POP (/project1/pop_matrix_live3/mathcombinepop)"
-  },
-  {
-   "type": "mathmixPOP",
-   "message": "Error: No input POP (/project1/pop_matrix_live3/mathmixpop)"
-  },
-  {
-   "type": "mergePOP",
-   "message": "Error: No input POP (/project1/pop_matrix_live3/mergepop)"
-  },
-  {
-   "type": "neighborPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/neighborpop)"
-  },
-  {
-   "type": "noisePOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/noisepop)"
-  },
-  {
-   "type": "normalPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/normalpop)"
-  },
-  {
-   "type": "normalizePOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/normalizepop)"
-  },
-  {
-   "type": "nullPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/nullpop)"
-  },
-  {
-   "type": "particlePOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/particlepop)"
-  },
-  {
-   "type": "phaserPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/phaserpop)"
+   "message": "Error: CHOP not found (/project1/pop_matrix_live4/lookupchannelpop)"
   },
   {
    "type": "polygonizePOP",
-   "message": "Error: Invalid source TOP specified. (/project1/pop_matrix_live3/polygonizepop)"
-  },
-  {
-   "type": "projectionPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/projectionpop)"
-  },
-  {
-   "type": "proximityPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/proximitypop)"
-  },
-  {
-   "type": "quantizePOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/quantizepop)"
-  },
-  {
-   "type": "randomPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/randompop)"
+   "message": "Error: Input POP needs to have 3 dimensions, use Trace POP for POPs with 2 dimensions. (/project1/pop_matrix_live4/polygonizepop)"
   },
   {
    "type": "rayPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/raypop)"
-  },
-  {
-   "type": "rerangePOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/rerangepop)"
-  },
-  {
-   "type": "revolvePOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/revolvepop)"
-  },
-  {
-   "type": "skinPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/skinpop)"
+   "message": "Error: Attribute not found. (/project1/pop_matrix_live4/raypop)"
   },
   {
    "type": "skindeformPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/skindeformpop)"
-  },
-  {
-   "type": "sortPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/sortpop)"
-  },
-  {
-   "type": "sprinklePOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/sprinklepop)"
-  },
-  {
-   "type": "subdividePOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/subdividepop)"
-  },
-  {
-   "type": "texturemapPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/texturemappop)"
-  },
-  {
-   "type": "topologyPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/topologypop)"
+   "message": "Error: BonePathsAttrib attribute not found (/project1/pop_matrix_live4/skindeformpop)"
   },
   {
    "type": "tracePOP",
-   "message": "Error: Invalid source TOP specified. (/project1/pop_matrix_live3/tracepop)"
-  },
-  {
-   "type": "trailPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/trailpop)"
-  },
-  {
-   "type": "transformPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/transformpop)"
-  },
-  {
-   "type": "triangulatePOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/triangulatepop)"
-  },
-  {
-   "type": "trigPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/trigpop)"
-  },
-  {
-   "type": "twistPOP",
-   "message": "Error: Not enough sources specified (/project1/pop_matrix_live3/twistpop)"
+   "message": "Error: Input POP needs to have 2 dimensions, use Polygonize POP for POPs with 3 dimensions. (/project1/pop_matrix_live4/tracepop)"
   },
   {
    "type": "zedPOP",
-   "message": "Error: ZED TOP parameter must point to a ZED TOP. (/project1/pop_matrix_live3/zedpop)"
+   "message": "Error: ZED TOP parameter must point to a ZED TOP. (/project1/pop_matrix_live4/zedpop)"
   }
  ],
+ "no_creables": [
+  {
+   "type": "engineoutPOP",
+   "message": "tdError: Invalid number or type of arguments. See help for details. Value:(<class 'td.engineoutPOP'>, 'engineoutpop') Type:<class 'tuple'>."
+  }
+ ],
+ "wired_count": 83,
+ "multi_source_count": 7,
  "total_params": 3160,
  "results": [
   {
    "type": "accumulatePOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/accumulatepop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 17,
@@ -485,6 +301,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "accumulatepop",
    "opType": "accumulate",
    "family": "POP"
@@ -492,13 +309,18 @@
   {
    "type": "alembicinPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
    "has_errors": false,
    "error_message": null,
    "numPoints": 0,
    "numPrims": 0,
    "geometry_ok": false,
+   "source_created": true,
+   "wired": false,
+   "wired_to_input": null,
+   "wire_note": "sin inputs (generador o input por param)",
    "inputs": 0,
    "outputs": 1,
    "param_count": 33,
@@ -702,6 +524,7 @@
      "default": "default"
     }
    ],
+   "category": "sin_geometria_con_input",
    "name": "alembicinpop",
    "opType": "alembicin",
    "family": "POP"
@@ -709,13 +532,20 @@
   {
    "type": "alembicoutPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: No input POP\n (/project1/pop_matrix_live3/alembicoutpop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 33,
@@ -919,6 +749,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "alembicoutpop",
    "opType": "alembicout",
    "family": "POP"
@@ -926,13 +757,20 @@
   {
    "type": "analyzePOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/analyzepop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 1,
+   "numPrims": 1,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 25,
@@ -1088,6 +926,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "analyzepop",
    "opType": "analyze",
    "family": "POP"
@@ -1095,13 +934,20 @@
   {
    "type": "attributePOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/attributepop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 38,
@@ -1335,6 +1181,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "attributepop",
    "opType": "attribute",
    "family": "POP"
@@ -1342,13 +1189,20 @@
   {
    "type": "attributecombinePOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: No input POP (/project1/pop_matrix_live3/attributecombinepop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 14,
@@ -1438,6 +1292,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "attributecombinepop",
    "opType": "attcombine",
    "family": "POP"
@@ -1445,13 +1300,20 @@
   {
    "type": "attributeconvertPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/attributeconvertpop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 12,
@@ -1529,6 +1391,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "attributeconvertpop",
    "opType": "attconvert",
    "family": "POP"
@@ -1536,13 +1399,20 @@
   {
    "type": "blendPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: No input POP (/project1/pop_matrix_live3/blendpop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 21,
@@ -1674,6 +1544,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "blendpop",
    "opType": "blend",
    "family": "POP"
@@ -1681,6 +1552,7 @@
   {
    "type": "boxPOP",
    "created": true,
+   "sources_created": 1,
    "error": null,
    "cooked": true,
    "has_errors": false,
@@ -1688,6 +1560,12 @@
    "numPoints": 8,
    "numPrims": 6,
    "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 30,
@@ -1873,6 +1751,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "boxpop",
    "opType": "box",
    "family": "POP"
@@ -1880,13 +1759,20 @@
   {
    "type": "cachePOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/cachepop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 17,
@@ -1994,6 +1880,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "cachepop",
    "opType": "cache",
    "family": "POP"
@@ -2001,13 +1888,18 @@
   {
    "type": "cacheblendPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
    "has_errors": false,
    "error_message": null,
    "numPoints": 0,
    "numPrims": 0,
    "geometry_ok": false,
+   "source_created": true,
+   "wired": false,
+   "wired_to_input": null,
+   "wire_note": "sin inputs (generador o input por param)",
    "inputs": 0,
    "outputs": 1,
    "param_count": 16,
@@ -2109,6 +2001,7 @@
      "default": "default"
     }
    ],
+   "category": "sin_geometria_con_input",
    "name": "cacheblendpop",
    "opType": "cacheblend",
    "family": "POP"
@@ -2116,13 +2009,18 @@
   {
    "type": "cacheselectPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
    "has_errors": false,
    "error_message": null,
    "numPoints": 0,
    "numPrims": 0,
    "geometry_ok": false,
+   "source_created": true,
+   "wired": false,
+   "wired_to_input": null,
+   "wire_note": "sin inputs (generador o input por param)",
    "inputs": 0,
    "outputs": 1,
    "param_count": 10,
@@ -2188,6 +2086,7 @@
      "default": "default"
     }
    ],
+   "category": "sin_geometria_con_input",
    "name": "cacheselectpop",
    "opType": "cacheselect",
    "family": "POP"
@@ -2195,13 +2094,18 @@
   {
    "type": "choptoPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
    "has_errors": false,
    "error_message": null,
    "numPoints": 0,
    "numPrims": 0,
    "geometry_ok": false,
+   "source_created": true,
+   "wired": false,
+   "wired_to_input": null,
+   "wire_note": "sin inputs (generador o input por param)",
    "inputs": 0,
    "outputs": 1,
    "param_count": 33,
@@ -2405,6 +2309,7 @@
      "default": "default"
     }
    ],
+   "category": "sin_geometria_con_input",
    "name": "choptopop",
    "opType": "chopto",
    "family": "POP"
@@ -2412,6 +2317,7 @@
   {
    "type": "circlePOP",
    "created": true,
+   "sources_created": 1,
    "error": null,
    "cooked": true,
    "has_errors": false,
@@ -2419,6 +2325,12 @@
    "numPoints": 40,
    "numPrims": 1,
    "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 29,
@@ -2598,6 +2510,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "circlepop",
    "opType": "circle",
    "family": "POP"
@@ -2605,13 +2518,20 @@
   {
    "type": "connectivityPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/connectivitypop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 1,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 12,
@@ -2689,6 +2609,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "connectivitypop",
    "opType": "connectivity",
    "family": "POP"
@@ -2696,13 +2617,20 @@
   {
    "type": "convertPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/convertpop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 7,
@@ -2750,6 +2678,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "convertpop",
    "opType": "convert",
    "family": "POP"
@@ -2757,13 +2686,21 @@
   {
    "type": "copyPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 2,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/copypop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 64,
+   "numPrims": 48,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0,
+    1
+   ],
+   "wire_note": null,
    "inputs": 2,
    "outputs": 1,
    "param_count": 59,
@@ -3123,6 +3060,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "copypop",
    "opType": "copy",
    "family": "POP"
@@ -3130,13 +3068,20 @@
   {
    "type": "cplusplusPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
    "has_errors": true,
-   "error_message": "Error: Error reading file \"\" (/project1/pop_matrix_live3/cpluspluspop)",
-   "numPoints": 0,
-   "numPrims": 0,
+   "error_message": "Error: Error reading file \"\" (/project1/pop_matrix_live4/cpluspluspop)",
+   "numPoints": 8,
+   "numPrims": 6,
    "geometry_ok": false,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 10,
@@ -3202,6 +3147,7 @@
      "default": "default"
     }
    ],
+   "category": "error_con_input",
    "name": "cpluspluspop",
    "opType": "cplusplus",
    "family": "POP"
@@ -3209,6 +3155,7 @@
   {
    "type": "curvePOP",
    "created": true,
+   "sources_created": 1,
    "error": null,
    "cooked": true,
    "has_errors": false,
@@ -3216,6 +3163,12 @@
    "numPoints": 1000,
    "numPrims": 1,
    "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 48,
@@ -3509,6 +3462,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "curvepop",
    "opType": "curve",
    "family": "POP"
@@ -3516,13 +3470,18 @@
   {
    "type": "dattoPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
    "has_errors": false,
    "error_message": null,
    "numPoints": 0,
    "numPrims": 0,
    "geometry_ok": false,
+   "source_created": true,
+   "wired": false,
+   "wired_to_input": null,
+   "wire_note": "sin inputs (generador o input por param)",
    "inputs": 0,
    "outputs": 1,
    "param_count": 16,
@@ -3624,6 +3583,7 @@
      "default": "default"
     }
    ],
+   "category": "sin_geometria_con_input",
    "name": "dattopop",
    "opType": "datto",
    "family": "POP"
@@ -3631,13 +3591,20 @@
   {
    "type": "deletePOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/deletepop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 47,
@@ -3925,6 +3892,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "deletepop",
    "opType": "delete",
    "family": "POP"
@@ -3932,13 +3900,20 @@
   {
    "type": "dimensionPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/dimensionpop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 10,
@@ -4004,6 +3979,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "dimensionpop",
    "opType": "dimension",
    "family": "POP"
@@ -4011,13 +3987,20 @@
   {
    "type": "dmxfixturePOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified. (/project1/pop_matrix_live3/dmxfixturepop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 30,
@@ -4203,6 +4186,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "dmxfixturepop",
    "opType": "dmxfixture",
    "family": "POP"
@@ -4210,13 +4194,20 @@
   {
    "type": "dmxoutPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
    "has_errors": false,
    "error_message": null,
    "numPoints": 0,
    "numPrims": 0,
    "geometry_ok": false,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 34,
@@ -4426,6 +4417,7 @@
      "default": "default"
     }
    ],
+   "category": "sin_geometria_con_input",
    "name": "dmxoutpop",
    "opType": "dmxout",
    "family": "POP"
@@ -4433,6 +4425,7 @@
   {
    "type": "engineoutPOP",
    "created": false,
+   "sources_created": 0,
    "error": "tdError: Invalid number or type of arguments. See help for details. Value:(<class 'td.engineoutPOP'>, 'engineoutpop') Type:<class 'tuple'>.",
    "cooked": false,
    "has_errors": false,
@@ -4440,21 +4433,33 @@
    "numPoints": null,
    "numPrims": null,
    "geometry_ok": false,
+   "source_created": false,
+   "wired": false,
+   "wired_to_input": null,
+   "wire_note": null,
    "inputs": null,
    "outputs": null,
    "param_count": null,
-   "params": []
+   "params": [],
+   "category": "no_creable"
   },
   {
    "type": "extrudePOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/extrudepop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 32,
+   "numPrims": 30,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 19,
@@ -4574,6 +4579,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "extrudepop",
    "opType": "extrude",
    "family": "POP"
@@ -4581,13 +4587,20 @@
   {
    "type": "facetPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/facetpop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 19,
@@ -4707,6 +4720,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "facetpop",
    "opType": "facet",
    "family": "POP"
@@ -4714,13 +4728,20 @@
   {
    "type": "feedbackPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/feedbackpop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 16,
@@ -4822,6 +4843,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "feedbackpop",
    "opType": "feedback",
    "family": "POP"
@@ -4829,13 +4851,20 @@
   {
    "type": "fieldPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/fieldpop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 69,
@@ -5255,6 +5284,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "fieldpop",
    "opType": "field",
    "family": "POP"
@@ -5262,6 +5292,7 @@
   {
    "type": "fileinPOP",
    "created": true,
+   "sources_created": 1,
    "error": null,
    "cooked": true,
    "has_errors": false,
@@ -5269,6 +5300,10 @@
    "numPoints": 80,
    "numPrims": 64,
    "geometry_ok": true,
+   "source_created": true,
+   "wired": false,
+   "wired_to_input": null,
+   "wire_note": "sin inputs (generador o input por param)",
    "inputs": 0,
    "outputs": 1,
    "param_count": 14,
@@ -5358,6 +5393,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "fileinpop",
    "opType": "filein",
    "family": "POP"
@@ -5365,13 +5401,20 @@
   {
    "type": "fileoutPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
    "has_errors": false,
    "error_message": null,
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 27,
@@ -5539,6 +5582,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "fileoutpop",
    "opType": "fileout",
    "family": "POP"
@@ -5546,13 +5590,20 @@
   {
    "type": "forceradialPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/forceradialpop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 48,
@@ -5846,6 +5897,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "forceradialpop",
    "opType": "forceradial",
    "family": "POP"
@@ -5853,13 +5905,20 @@
   {
    "type": "glslPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: No input POP (/project1/pop_matrix_live3/glslpop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 85,
@@ -6375,6 +6434,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "glslpop",
    "opType": "glsl",
    "family": "POP"
@@ -6382,13 +6442,20 @@
   {
    "type": "glsladvancedPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: No input POP (/project1/pop_matrix_live3/glsladvancedpop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 143,
@@ -7252,6 +7319,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "glsladvancedpop",
    "opType": "glsladv",
    "family": "POP"
@@ -7259,13 +7327,21 @@
   {
    "type": "glslcopyPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 2,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/glslcopypop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 64,
+   "numPrims": 48,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0,
+    1
+   ],
+   "wire_note": null,
    "inputs": 2,
    "outputs": 1,
    "param_count": 73,
@@ -7709,6 +7785,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "glslcopypop",
    "opType": "glslcopy",
    "family": "POP"
@@ -7716,13 +7793,18 @@
   {
    "type": "glslselectPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
    "has_errors": false,
    "error_message": null,
    "numPoints": 0,
    "numPrims": 0,
    "geometry_ok": false,
+   "source_created": true,
+   "wired": false,
+   "wired_to_input": null,
+   "wire_note": "sin inputs (generador o input por param)",
    "inputs": 0,
    "outputs": 1,
    "param_count": 8,
@@ -7776,6 +7858,7 @@
      "default": "default"
     }
    ],
+   "category": "sin_geometria_con_input",
    "name": "glslselectpop",
    "opType": "glslselect",
    "family": "POP"
@@ -7783,6 +7866,7 @@
   {
    "type": "gridPOP",
    "created": true,
+   "sources_created": 1,
    "error": null,
    "cooked": true,
    "has_errors": false,
@@ -7790,6 +7874,12 @@
    "numPoints": 400,
    "numPrims": 361,
    "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 41,
@@ -8041,6 +8131,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "gridpop",
    "opType": "grid",
    "family": "POP"
@@ -8048,13 +8139,20 @@
   {
    "type": "groupPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/grouppop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 53,
@@ -8378,6 +8476,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "grouppop",
    "opType": "group",
    "family": "POP"
@@ -8385,13 +8484,20 @@
   {
    "type": "histogramPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/histogrampop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 16,
@@ -8493,6 +8599,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "histogrampop",
    "opType": "histogram",
    "family": "POP"
@@ -8500,13 +8607,18 @@
   {
    "type": "importselectPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
    "has_errors": true,
-   "error_message": "Error: Import Select POP must be contained within a USD or FBX COMP, or have one specified in the Import Parent parameter (/project1/pop_matrix_live3/importselectpop)",
+   "error_message": "Error: Import Select POP must be contained within a USD or FBX COMP, or have one specified in the Import Parent parameter (/project1/pop_matrix_live4/importselectpop)",
    "numPoints": 0,
    "numPrims": 0,
    "geometry_ok": false,
+   "source_created": true,
+   "wired": false,
+   "wired_to_input": null,
+   "wire_note": "sin inputs (generador o input por param)",
    "inputs": 0,
    "outputs": 1,
    "param_count": 33,
@@ -8710,6 +8822,7 @@
      "default": "default"
     }
    ],
+   "category": "error_con_input",
    "name": "importselectpop",
    "opType": "importselect",
    "family": "POP"
@@ -8717,13 +8830,20 @@
   {
    "type": "inPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
    "has_errors": false,
    "error_message": null,
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 8,
@@ -8777,6 +8897,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "inpop",
    "opType": "in",
    "family": "POP"
@@ -8784,13 +8905,20 @@
   {
    "type": "limitPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/limitpop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 27,
@@ -8958,6 +9086,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "limitpop",
    "opType": "limit",
    "family": "POP"
@@ -8965,6 +9094,7 @@
   {
    "type": "linePOP",
    "created": true,
+   "sources_created": 1,
    "error": null,
    "cooked": true,
    "has_errors": false,
@@ -8972,6 +9102,10 @@
    "numPoints": 21,
    "numPrims": 1,
    "geometry_ok": true,
+   "source_created": true,
+   "wired": false,
+   "wired_to_input": null,
+   "wire_note": "sin inputs (generador o input por param)",
    "inputs": 0,
    "outputs": 1,
    "param_count": 36,
@@ -9193,6 +9327,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "linepop",
    "opType": "line",
    "family": "POP"
@@ -9200,13 +9335,20 @@
   {
    "type": "linebreakPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/linebreakpop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 3,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 21,
@@ -9338,6 +9480,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "linebreakpop",
    "opType": "linebreak",
    "family": "POP"
@@ -9345,13 +9488,20 @@
   {
    "type": "linedividePOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/linedividepop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 35,
@@ -9567,6 +9717,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "linedividepop",
    "opType": "linedivide",
    "family": "POP"
@@ -9574,13 +9725,20 @@
   {
    "type": "linemetricsPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/linemetricspop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 48,
@@ -9874,6 +10032,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "linemetricspop",
    "opType": "linemetrics",
    "family": "POP"
@@ -9881,13 +10040,20 @@
   {
    "type": "lineresamplePOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/lineresamplepop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 19,
@@ -10007,6 +10173,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "lineresamplepop",
    "opType": "lineresample",
    "family": "POP"
@@ -10014,13 +10181,20 @@
   {
    "type": "linesmoothPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/linesmoothpop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 35,
@@ -10236,6 +10410,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "linesmoothpop",
    "opType": "linesmooth",
    "family": "POP"
@@ -10243,13 +10418,21 @@
   {
    "type": "lookupattributePOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 2,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/lookupattributepop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0,
+    1
+   ],
+   "wire_note": null,
    "inputs": 2,
    "outputs": 1,
    "param_count": 25,
@@ -10405,6 +10588,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "lookupattributepop",
    "opType": "lookupatt",
    "family": "POP"
@@ -10412,13 +10596,20 @@
   {
    "type": "lookupchannelPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
    "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/lookupchannelpop)",
-   "numPoints": 0,
-   "numPrims": 0,
+   "error_message": "Error: CHOP not found (/project1/pop_matrix_live4/lookupchannelpop)",
+   "numPoints": 8,
+   "numPrims": 6,
    "geometry_ok": false,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 29,
@@ -10598,6 +10789,7 @@
      "default": "default"
     }
    ],
+   "category": "error_con_input",
    "name": "lookupchannelpop",
    "opType": "lookupchan",
    "family": "POP"
@@ -10605,13 +10797,20 @@
   {
    "type": "lookuptexturePOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/lookuptexturepop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 54,
@@ -10941,6 +11140,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "lookuptexturepop",
    "opType": "lookuptex",
    "family": "POP"
@@ -10948,13 +11148,20 @@
   {
    "type": "mathPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/mathpop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 30,
@@ -11140,6 +11347,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "mathpop",
    "opType": "math",
    "family": "POP"
@@ -11147,13 +11355,20 @@
   {
    "type": "mathcombinePOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: No input POP (/project1/pop_matrix_live3/mathcombinepop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 66,
@@ -11555,6 +11770,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "mathcombinepop",
    "opType": "mathcombine",
    "family": "POP"
@@ -11562,13 +11778,20 @@
   {
    "type": "mathmixPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: No input POP (/project1/pop_matrix_live3/mathmixpop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 35,
@@ -11784,6 +12007,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "mathmixpop",
    "opType": "mathmix",
    "family": "POP"
@@ -11791,13 +12015,20 @@
   {
    "type": "mergePOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: No input POP (/project1/pop_matrix_live3/mergepop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 13,
@@ -11881,6 +12112,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "mergepop",
    "opType": "merge",
    "family": "POP"
@@ -11888,13 +12120,21 @@
   {
    "type": "neighborPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 2,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/neighborpop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0,
+    1
+   ],
+   "wire_note": null,
    "inputs": 2,
    "outputs": 1,
    "param_count": 24,
@@ -12044,6 +12284,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "neighborpop",
    "opType": "neighbor",
    "family": "POP"
@@ -12051,13 +12292,20 @@
   {
    "type": "noisePOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/noisepop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 62,
@@ -12435,6 +12683,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "noisepop",
    "opType": "noise",
    "family": "POP"
@@ -12442,13 +12691,20 @@
   {
    "type": "normalPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/normalpop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 34,
@@ -12658,6 +12914,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "normalpop",
    "opType": "normal",
    "family": "POP"
@@ -12665,13 +12922,20 @@
   {
    "type": "normalizePOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/normalizepop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 38,
@@ -12905,6 +13169,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "normalizepop",
    "opType": "normalize",
    "family": "POP"
@@ -12912,13 +13177,20 @@
   {
    "type": "nullPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/nullpop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 6,
@@ -12960,6 +13232,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "nullpop",
    "opType": "null",
    "family": "POP"
@@ -12967,13 +13240,18 @@
   {
    "type": "oakselectPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
    "has_errors": false,
    "error_message": null,
    "numPoints": 0,
    "numPrims": 0,
    "geometry_ok": false,
+   "source_created": true,
+   "wired": false,
+   "wired_to_input": null,
+   "wire_note": "sin inputs (generador o input por param)",
    "inputs": 0,
    "outputs": 1,
    "param_count": 10,
@@ -13039,6 +13317,7 @@
      "default": "default"
     }
    ],
+   "category": "sin_geometria_con_input",
    "name": "oakselectpop",
    "opType": "oakselect",
    "family": "POP"
@@ -13046,13 +13325,20 @@
   {
    "type": "outPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
    "has_errors": false,
    "error_message": null,
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 9,
@@ -13112,6 +13398,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "outpop",
    "opType": "out",
    "family": "POP"
@@ -13119,13 +13406,20 @@
   {
    "type": "particlePOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/particlepop)",
+   "has_errors": false,
+   "error_message": null,
    "numPoints": 0,
    "numPrims": 0,
    "geometry_ok": false,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 53,
@@ -13449,6 +13743,7 @@
      "default": "default"
     }
    ],
+   "category": "sin_geometria_con_input",
    "name": "particlepop",
    "opType": "particle",
    "family": "POP"
@@ -13456,13 +13751,20 @@
   {
    "type": "patternPOP",
    "created": true,
+   "sources_created": 1,
    "error": null,
    "cooked": true,
    "has_errors": false,
    "error_message": null,
-   "numPoints": 100,
-   "numPrims": 1,
+   "numPoints": 8,
+   "numPrims": 6,
    "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 62,
@@ -13840,6 +14142,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "patternpop",
    "opType": "pattern",
    "family": "POP"
@@ -13847,13 +14150,20 @@
   {
    "type": "phaserPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/phaserpop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 27,
@@ -14021,6 +14331,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "phaserpop",
    "opType": "phaser",
    "family": "POP"
@@ -14028,6 +14339,7 @@
   {
    "type": "planePOP",
    "created": true,
+   "sources_created": 1,
    "error": null,
    "cooked": true,
    "has_errors": false,
@@ -14035,6 +14347,12 @@
    "numPoints": 400,
    "numPrims": 361,
    "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 25,
@@ -14190,6 +14508,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "planepop",
    "opType": "plane",
    "family": "POP"
@@ -14197,6 +14516,7 @@
   {
    "type": "pointPOP",
    "created": true,
+   "sources_created": 1,
    "error": null,
    "cooked": true,
    "has_errors": false,
@@ -14204,6 +14524,10 @@
    "numPoints": 1,
    "numPrims": 1,
    "geometry_ok": true,
+   "source_created": true,
+   "wired": false,
+   "wired_to_input": null,
+   "wire_note": "sin inputs (generador o input por param)",
    "inputs": 0,
    "outputs": 1,
    "param_count": 13,
@@ -14287,6 +14611,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "pointpop",
    "opType": "point",
    "family": "POP"
@@ -14294,6 +14619,7 @@
   {
    "type": "pointfileinPOP",
    "created": true,
+   "sources_created": 1,
    "error": null,
    "cooked": true,
    "has_errors": false,
@@ -14301,6 +14627,10 @@
    "numPoints": 49106,
    "numPrims": 49106,
    "geometry_ok": true,
+   "source_created": true,
+   "wired": false,
+   "wired_to_input": null,
+   "wire_note": "sin inputs (generador o input por param)",
    "inputs": 0,
    "outputs": 1,
    "param_count": 37,
@@ -14528,6 +14858,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "pointfileinpop",
    "opType": "pointfilein",
    "family": "POP"
@@ -14535,6 +14866,7 @@
   {
    "type": "pointgeneratorPOP",
    "created": true,
+   "sources_created": 1,
    "error": null,
    "cooked": true,
    "has_errors": false,
@@ -14542,6 +14874,10 @@
    "numPoints": 10000,
    "numPrims": 10000,
    "geometry_ok": true,
+   "source_created": true,
+   "wired": false,
+   "wired_to_input": null,
+   "wire_note": "sin inputs (generador o input por param)",
    "inputs": 0,
    "outputs": 1,
    "param_count": 43,
@@ -14805,6 +15141,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "pointgeneratorpop",
    "opType": "pointgen",
    "family": "POP"
@@ -14812,13 +15149,20 @@
   {
    "type": "polygonizePOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
    "has_errors": true,
-   "error_message": "Error: Invalid source TOP specified. (/project1/pop_matrix_live3/polygonizepop)",
-   "numPoints": 0,
-   "numPrims": 0,
+   "error_message": "Error: Input POP needs to have 3 dimensions, use Trace POP for POPs with 2 dimensions. (/project1/pop_matrix_live4/polygonizepop)",
+   "numPoints": 8,
+   "numPrims": 6,
    "geometry_ok": false,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 27,
@@ -14986,6 +15330,7 @@
      "default": "default"
     }
    ],
+   "category": "error_con_input",
    "name": "polygonizepop",
    "opType": "polygonize",
    "family": "POP"
@@ -14993,13 +15338,20 @@
   {
    "type": "primitivePOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
    "has_errors": false,
    "error_message": null,
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 27,
@@ -15167,6 +15519,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "primitivepop",
    "opType": "primitive",
    "family": "POP"
@@ -15174,13 +15527,20 @@
   {
    "type": "projectionPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/projectionpop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 27,
@@ -15348,6 +15708,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "projectionpop",
    "opType": "projection",
    "family": "POP"
@@ -15355,13 +15716,21 @@
   {
    "type": "proximityPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 2,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/proximitypop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 16,
+   "numPrims": 8,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0,
+    1
+   ],
+   "wire_note": null,
    "inputs": 2,
    "outputs": 1,
    "param_count": 22,
@@ -15499,6 +15868,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "proximitypop",
    "opType": "proximity",
    "family": "POP"
@@ -15506,13 +15876,20 @@
   {
    "type": "quantizePOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/quantizepop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 23,
@@ -15656,6 +16033,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "quantizepop",
    "opType": "quantize",
    "family": "POP"
@@ -15663,13 +16041,20 @@
   {
    "type": "randomPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/randompop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 43,
@@ -15933,6 +16318,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "randompop",
    "opType": "random",
    "family": "POP"
@@ -15940,13 +16326,21 @@
   {
    "type": "rayPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 2,
+   "error": null,
    "cooked": true,
    "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/raypop)",
-   "numPoints": 0,
-   "numPrims": 0,
+   "error_message": "Error: Attribute not found. (/project1/pop_matrix_live4/raypop)",
+   "numPoints": 8,
+   "numPrims": 6,
    "geometry_ok": false,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0,
+    1
+   ],
+   "wire_note": null,
    "inputs": 2,
    "outputs": 1,
    "param_count": 38,
@@ -16180,6 +16574,7 @@
      "default": "default"
     }
    ],
+   "category": "error_con_input",
    "name": "raypop",
    "opType": "ray",
    "family": "POP"
@@ -16187,6 +16582,7 @@
   {
    "type": "rectanglePOP",
    "created": true,
+   "sources_created": 1,
    "error": null,
    "cooked": true,
    "has_errors": false,
@@ -16194,6 +16590,12 @@
    "numPoints": 4,
    "numPrims": 1,
    "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 30,
@@ -16379,6 +16781,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "rectanglepop",
    "opType": "rectangle",
    "family": "POP"
@@ -16386,13 +16789,20 @@
   {
    "type": "rerangePOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/rerangepop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 23,
@@ -16536,6 +16946,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "rerangepop",
    "opType": "rerange",
    "family": "POP"
@@ -16543,13 +16954,20 @@
   {
    "type": "revolvePOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/revolvepop)",
+   "has_errors": false,
+   "error_message": null,
    "numPoints": 0,
    "numPrims": 0,
    "geometry_ok": false,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 15,
@@ -16645,6 +17063,7 @@
      "default": "default"
     }
    ],
+   "category": "sin_geometria_con_input",
    "name": "revolvepop",
    "opType": "revolve",
    "family": "POP"
@@ -16652,13 +17071,20 @@
   {
    "type": "selectPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
    "has_errors": false,
    "error_message": null,
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 10,
@@ -16724,6 +17150,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "selectpop",
    "opType": "select",
    "family": "POP"
@@ -16731,13 +17158,20 @@
   {
    "type": "skinPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/skinpop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 20,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 10,
@@ -16803,6 +17237,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "skinpop",
    "opType": "skin",
    "family": "POP"
@@ -16810,13 +17245,20 @@
   {
    "type": "skindeformPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
    "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/skindeformpop)",
-   "numPoints": 0,
-   "numPrims": 0,
+   "error_message": "Error: BonePathsAttrib attribute not found (/project1/pop_matrix_live4/skindeformpop)",
+   "numPoints": 8,
+   "numPrims": 6,
    "geometry_ok": false,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 22,
@@ -16954,6 +17396,7 @@
      "default": "default"
     }
    ],
+   "category": "error_con_input",
    "name": "skindeformpop",
    "opType": "skindeform",
    "family": "POP"
@@ -16961,13 +17404,18 @@
   {
    "type": "soptoPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
    "has_errors": false,
    "error_message": null,
    "numPoints": 0,
    "numPrims": 0,
    "geometry_ok": false,
+   "source_created": true,
+   "wired": false,
+   "wired_to_input": null,
+   "wire_note": "sin inputs (generador o input por param)",
    "inputs": 0,
    "outputs": 1,
    "param_count": 11,
@@ -17039,6 +17487,7 @@
      "default": "default"
     }
    ],
+   "category": "sin_geometria_con_input",
    "name": "soptopop",
    "opType": "sopto",
    "family": "POP"
@@ -17046,13 +17495,20 @@
   {
    "type": "sortPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/sortpop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 34,
@@ -17262,6 +17718,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "sortpop",
    "opType": "sort",
    "family": "POP"
@@ -17269,6 +17726,7 @@
   {
    "type": "spherePOP",
    "created": true,
+   "sources_created": 1,
    "error": null,
    "cooked": true,
    "has_errors": false,
@@ -17276,6 +17734,12 @@
    "numPoints": 252,
    "numPrims": 500,
    "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 42,
@@ -17533,6 +17997,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "spherepop",
    "opType": "sphere",
    "family": "POP"
@@ -17540,13 +18005,20 @@
   {
    "type": "sprinklePOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/sprinklepop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 10000,
+   "numPrims": 10000,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 19,
@@ -17666,6 +18138,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "sprinklepop",
    "opType": "sprinkle",
    "family": "POP"
@@ -17673,13 +18146,20 @@
   {
    "type": "subdividePOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/subdividepop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 26,
+   "numPrims": 48,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 10,
@@ -17745,6 +18225,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "subdividepop",
    "opType": "subdivide",
    "family": "POP"
@@ -17752,13 +18233,20 @@
   {
    "type": "switchPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
    "has_errors": false,
    "error_message": null,
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 16,
@@ -17860,6 +18348,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "switchpop",
    "opType": "switch",
    "family": "POP"
@@ -17867,6 +18356,7 @@
   {
    "type": "textPOP",
    "created": true,
+   "sources_created": 1,
    "error": null,
    "cooked": true,
    "has_errors": false,
@@ -17874,6 +18364,10 @@
    "numPoints": 2316,
    "numPrims": 772,
    "geometry_ok": true,
+   "source_created": true,
+   "wired": false,
+   "wired_to_input": null,
+   "wire_note": "sin inputs (generador o input por param)",
    "inputs": 0,
    "outputs": 1,
    "param_count": 50,
@@ -18179,6 +18673,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "textpop",
    "opType": "text",
    "family": "POP"
@@ -18186,13 +18681,20 @@
   {
    "type": "texturemapPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/texturemappop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 51,
@@ -18504,6 +19006,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "texturemappop",
    "opType": "texturemap",
    "family": "POP"
@@ -18511,13 +19014,20 @@
   {
    "type": "topologyPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/topologypop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 62,
@@ -18895,6 +19405,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "topologypop",
    "opType": "topology",
    "family": "POP"
@@ -18902,13 +19413,18 @@
   {
    "type": "toptoPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
    "has_errors": false,
    "error_message": null,
    "numPoints": 0,
    "numPrims": 0,
    "geometry_ok": false,
+   "source_created": true,
+   "wired": false,
+   "wired_to_input": null,
+   "wire_note": "sin inputs (generador o input por param)",
    "inputs": 0,
    "outputs": 1,
    "param_count": 67,
@@ -19316,6 +19832,7 @@
      "default": "default"
     }
    ],
+   "category": "sin_geometria_con_input",
    "name": "toptopop",
    "opType": "topto",
    "family": "POP"
@@ -19323,6 +19840,7 @@
   {
    "type": "torusPOP",
    "created": true,
+   "sources_created": 1,
    "error": null,
    "cooked": true,
    "has_errors": false,
@@ -19330,6 +19848,12 @@
    "numPoints": 800,
    "numPrims": 800,
    "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 32,
@@ -19527,6 +20051,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "toruspop",
    "opType": "torus",
    "family": "POP"
@@ -19534,13 +20059,20 @@
   {
    "type": "tracePOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
    "has_errors": true,
-   "error_message": "Error: Invalid source TOP specified. (/project1/pop_matrix_live3/tracepop)",
-   "numPoints": 0,
-   "numPrims": 0,
+   "error_message": "Error: Input POP needs to have 2 dimensions, use Polygonize POP for POPs with 3 dimensions. (/project1/pop_matrix_live4/tracepop)",
+   "numPoints": 8,
+   "numPrims": 6,
    "geometry_ok": false,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 33,
@@ -19744,6 +20276,7 @@
      "default": "default"
     }
    ],
+   "category": "error_con_input",
    "name": "tracepop",
    "opType": "trace",
    "family": "POP"
@@ -19751,13 +20284,20 @@
   {
    "type": "trailPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/trailpop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 8,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 37,
@@ -19985,6 +20525,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "trailpop",
    "opType": "trail",
    "family": "POP"
@@ -19992,13 +20533,21 @@
   {
    "type": "transformPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 2,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/transformpop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0,
+    1
+   ],
+   "wire_note": null,
    "inputs": 2,
    "outputs": 1,
    "param_count": 63,
@@ -20382,6 +20931,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "transformpop",
    "opType": "transform",
    "family": "POP"
@@ -20389,13 +20939,20 @@
   {
    "type": "triangulatePOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/triangulatepop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 11,
@@ -20467,6 +21024,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "triangulatepop",
    "opType": "triangulate",
    "family": "POP"
@@ -20474,13 +21032,20 @@
   {
    "type": "trigPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/trigpop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 21,
@@ -20612,6 +21177,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "trigpop",
    "opType": "trig",
    "family": "POP"
@@ -20619,6 +21185,7 @@
   {
    "type": "tubePOP",
    "created": true,
+   "sources_created": 1,
    "error": null,
    "cooked": true,
    "has_errors": false,
@@ -20626,6 +21193,12 @@
    "numPoints": 400,
    "numPrims": 360,
    "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 31,
@@ -20817,6 +21390,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "tubepop",
    "opType": "tube",
    "family": "POP"
@@ -20824,13 +21398,20 @@
   {
    "type": "twistPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Not enough sources specified (/project1/pop_matrix_live3/twistpop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
+   "source_created": true,
+   "wired": true,
+   "wired_to_input": [
+    0
+   ],
+   "wire_note": null,
    "inputs": 1,
    "outputs": 1,
    "param_count": 25,
@@ -20986,6 +21567,7 @@
      "default": "default"
     }
    ],
+   "category": "ok_con_input",
    "name": "twistpop",
    "opType": "twist",
    "family": "POP"
@@ -20993,13 +21575,18 @@
   {
    "type": "zedPOP",
    "created": true,
-   "error": "sin_geometria: numPoints()==0",
+   "sources_created": 1,
+   "error": null,
    "cooked": true,
    "has_errors": true,
-   "error_message": "Error: ZED TOP parameter must point to a ZED TOP. (/project1/pop_matrix_live3/zedpop)",
+   "error_message": "Error: ZED TOP parameter must point to a ZED TOP. (/project1/pop_matrix_live4/zedpop)",
    "numPoints": 0,
    "numPrims": 0,
    "geometry_ok": false,
+   "source_created": true,
+   "wired": false,
+   "wired_to_input": null,
+   "wire_note": "sin inputs (generador o input por param)",
    "inputs": 0,
    "outputs": 1,
    "param_count": 39,
@@ -21239,6 +21826,7 @@
      "default": "default"
     }
    ],
+   "category": "error_con_input",
    "name": "zedpop",
    "opType": "zed",
    "family": "POP"
