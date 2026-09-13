@@ -1,0 +1,115 @@
+{
+  "generated_at": "2026-09-12T23:11:45.074Z",
+  "td_build": "2025.32460",
+  "corpus": "C:\\Users\\Tolch\\Documents\\AI_Code\\Touchdesigner_MCP\\old\\mcp_td_v2\\Toe_Expand",
+  "tool": "td_import_toe_dir (parseToeDirScope + buildImportCode + verifyAgainstDump)",
+  "projects": [
+    {
+      "project": "Facet",
+      "why": "referencia ya validada (baseline)",
+      "toe_dir": "C:\\Users\\Tolch\\Documents\\AI_Code\\Touchdesigner_MCP\\old\\mcp_td_v2\\Toe_Expand\\Facet\\Facet.toe.dir",
+      "scope": "project1",
+      "ok": true,
+      "error": null,
+      "container": "/project1/toe_evid_facet_0912_200844",
+      "metrics": {
+        "dump_nodes": 6,
+        "dump_wires": 4,
+        "created": 6,
+        "not_created": 0,
+        "not_created_list": [],
+        "unsupported": [],
+        "wire_errors": [],
+        "wired": 4,
+        "params_set": 11,
+        "drift_params": 3,
+        "drift_sample": [
+          "line1.pt1posx: param not in live build",
+          "line1.pt1posy: param not in live build",
+          "line1.pt1posz: param not in live build"
+        ],
+        "present": 6,
+        "wired_ok_inputs": 6,
+        "clean_cook": 6,
+        "with_geometry": 6,
+        "reconstruction_pct": 100,
+        "clean_pct": 100,
+        "all_ok": true
+      },
+      "errors": [],
+      "geometry_signature": {
+        "facet1": {
+          "numPoints": 2,
+          "numPrims": 1
+        },
+        "facet2": {
+          "numPoints": 121,
+          "numPrims": 361
+        },
+        "grid1": {
+          "numPoints": 400,
+          "numPrims": 361
+        },
+        "line1": {
+          "numPoints": 21,
+          "numPrims": 1
+        },
+        "math1": {
+          "numPoints": 21,
+          "numPrims": 1
+        },
+        "quantize1": {
+          "numPoints": 400,
+          "numPrims": 361
+        }
+      },
+      "node_types": {
+        "POP:facet": 2,
+        "POP:grid": 1,
+        "POP:line": 1,
+        "POP:math": 1,
+        "POP:quantize": 1
+      }
+    },
+    {
+      "project": "Blending Attributes",
+      "why": "red chica, mezcla con mathmix/mathcombine",
+      "toe_dir": "C:\\Users\\Tolch\\Documents\\AI_Code\\Touchdesigner_MCP\\old\\mcp_td_v2\\Toe_Expand\\Blending Attributes\\Blending Attributes.toe.dir",
+      "scope": "project1",
+      "ok": false,
+      "error": "Request timed out after 180000ms: http://localhost:44444/exec"
+    },
+    {
+      "project": "CopyTemplateId.3",
+      "why": "copyPOP con plantillas + DATs popto",
+      "toe_dir": "C:\\Users\\Tolch\\Documents\\AI_Code\\Touchdesigner_MCP\\old\\mcp_td_v2\\Toe_Expand\\CopyTemplateId.3\\CopyTemplateId.3.toe.dir",
+      "scope": "project1",
+      "ok": false,
+      "error": "fetch failed"
+    },
+    {
+      "project": "fieldPOPtorus",
+      "why": "multi-familia: POPs + CHOPs + render TOPs + geo COMP",
+      "toe_dir": "C:\\Users\\Tolch\\Documents\\AI_Code\\Touchdesigner_MCP\\old\\mcp_td_v2\\Toe_Expand\\fieldPOPtorus\\fieldPOPtorus.toe.dir",
+      "scope": "project1",
+      "ok": false,
+      "error": "fetch failed"
+    },
+    {
+      "project": "RayPOP",
+      "why": "grande (33 ops), feedback + cache + ray",
+      "toe_dir": "C:\\Users\\Tolch\\Documents\\AI_Code\\Touchdesigner_MCP\\old\\mcp_td_v2\\Toe_Expand\\RayPOP\\RayPOP.toe.dir",
+      "scope": "project1",
+      "ok": false,
+      "error": "fetch failed"
+    },
+    {
+      "project": "LineStripsByAttribFourWays.5",
+      "why": "grande (37 ops), merge + sort + linebreak",
+      "toe_dir": "C:\\Users\\Tolch\\Documents\\AI_Code\\Touchdesigner_MCP\\old\\mcp_td_v2\\Toe_Expand\\LineStripsByAttribFourWays.5\\LineStripsByAttribFourWays.5.toe.dir",
+      "scope": "project1",
+      "ok": false,
+      "error": "fetch failed"
+    }
+  ]
+}

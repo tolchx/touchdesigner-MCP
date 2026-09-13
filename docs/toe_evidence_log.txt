@@ -1,0 +1,31 @@
+[ping] TD_OK 2025.32460
+
+=== Facet (referencia ya validada (baseline))
+   container: /project1/toe_evid_facet_0912_195852
+   metrics: {"dump_nodes":6,"dump_wires":4,"created":6,"not_created":0,"not_created_list":[],"wired":4,"params_set":11,"drift_params":3,"drift_sample":["line1.pt1posx: param not in live build","line1.pt1posy: param not in live build","line1.pt1posz: param not in live build"],"present":6,"wired_ok_inputs":6,"clean_cook":6,"with_geometry":6,"reconstruction_pct":100,"clean_pct":100,"all_ok":true}
+
+=== Blending Attributes (red chica, mezcla con mathmix/mathcombine)
+   ERROR: TD import error: Unknown operator type. Value:None Type:<class 'NoneType'>.
+
+=== CopyTemplateId.3 (copyPOP con plantillas + DATs popto)
+   container: /project1/toe_evid_copytemplateid_3_0912_195852
+   metrics: {"dump_nodes":15,"dump_wires":7,"created":15,"not_created":0,"not_created_list":[],"wired":7,"params_set":86,"drift_params":6,"drift_sample":["annotate1.Backcolorr: set failed: Cannot cast value to a numeric object.  Set .expr member instead. Value:'[r]\"' T","annotate1.Backcolorg: set failed: Cannot cast value to a numeric object.  Set .expr member instead. Value:'me.colo","annotate1.Backcolorb: set failed: Cannot cast value to a numeric object.  Set .expr member instead. Value:'\"' Type","annotate2.Backcolorr: set failed: Cannot cast value to a numeric object.  Set .expr member instead. Value:'[r]\"' T","annotate2.Backcolorg: set failed: Cannot cast value to a numeric object.  Set .expr member instead. Value:'me.colo","annotate2.Backcolorb: set failed: Cannot cast value to a numeric object.  Set .expr member instead. Value:'\"' Type"],"present":15,"wired_ok_inputs":15,"clean_cook":15,"with_geometry":9,"reconstruction_pct":100,"clean_pct":100,"all_ok":true}
+
+=== fieldPOPtorus (multi-familia: POPs + CHOPs + render TOPs + geo COMP)
+   ERROR: TD import error: Unknown operator type. Value:None Type:<class 'NoneType'>.
+
+=== RayPOP (grande (33 ops), feedback + cache + ray)
+   ERROR: TD import error: Unknown operator type. Value:None Type:<class 'NoneType'>.
+
+=== LineStripsByAttribFourWays.5 (grande (37 ops), merge + sort + linebreak)
+   ERROR: TD import error: Unknown operator type. Value:None Type:<class 'NoneType'>.
+
+JSON: C:\Users\Tolch\Documents\AI_Code\Touchdesigner_MCP\Main\docs\toe_replication_evidence.json
+
+=== RESUMEN
+  ✓ Facet: 6/6 nodos (100%), 4/4 wires, cook limpio 6/6, con geometría 6, params 11 (drift 3), all_ok=true
+  ✗ Blending Attributes: TD import error: Unknown operator type. Value:None Type:<class 'NoneType'>.
+  ✓ CopyTemplateId.3: 15/15 nodos (100%), 7/7 wires, cook limpio 15/15, con geometría 9, params 86 (drift 6), all_ok=true
+  ✗ fieldPOPtorus: TD import error: Unknown operator type. Value:None Type:<class 'NoneType'>.
+  ✗ RayPOP: TD import error: Unknown operator type. Value:None Type:<class 'NoneType'>.
+  ✗ LineStripsByAttribFourWays.5: TD import error: Unknown operator type. Value:None Type:<class 'NoneType'>.
