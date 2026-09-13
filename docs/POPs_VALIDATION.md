@@ -267,6 +267,22 @@ Estos POPs NO tienen errores pero tampoco geometría porque necesitan ser conect
 > Con el método v5 da 80: cada tipo tiene su categoría por EVIDENCIA (geometría real con input),
 > no por "no lanzó excepción".
 
+### Método v6 (implementado 2026-09-13, re-corrida pendiente de TD)
+
+Los 12 `sin_geometria_con_input` de v5 reciben ahora fuente de SU PROPIA FAMILIA en vez de
+un boxPOP que no pueden consumir: `choptoPOP←noiseCHOP`, `toptoPOP←noiseTOP`,
+`soptoPOP←sphereSOP`, `dattoPOP←tableDAT` (con filas), `revolvePOP←linePOP` (curva, no caras),
+`cacheblendPOP`/`cacheselectPOP←box→cachePOP`, `particlePOP←sprinklePOP+feedbackPOP` (in1 =
+estado del frame previo, 4 cooks), `alembicinPOP←alembicoutPOP` (escribe un `.abc` real),
+`glslselectPOP←boxPOP`. Los temporal-dependientes cocinan varios frames. Quedan en
+`sin_geometria_con_input` solo `dmxoutPOP` (salida DMX, sin input que genere geometría) y
+`oakselectPOP` (cámara OAK-D hardware) — ahora con evidencia, no por fuente equivocada.
+Efecto esperado: hasta 9 tipos podrían migrar a `ok_con_input` (≤89, dentro del guard +10
+del gate nocturno). Al re-corre la matriz y confirmar, promover nuevo baseline:
+`python toe/src/test_pop_matrix.py` → `tests/test_pop_matrix_baseline.py` → commit del JSON.
+La re-corrida quedó bloqueada: el bridge HTTP de TD sigue caído (puerto enlazado, TCP rechazado,
+verificado 2026-09-13); el script reporta `RESULT: TD_UNREACHABLE` (exit 3).
+
 ## Redes POP canónicas — test_pop_networks.py (pass rate actual)
 
 | Métrica | Valor | Fuente |
@@ -283,6 +299,39 @@ Redes validadas por la suite (verificación por evidencia: cook forzado + `error
 > última corrida de esta suite; re-corriendo `python toe/src/test_pop_networks.py` cuando TD
 > responda se refresca este número (la suite es idempotente: destruye y recrea su contenedor).
 > Si TD no responde, la suite ahora reporta `RESULT: TD_UNREACHABLE` (exit 3) en vez de tracebacks.
+
+## Baseline nocturna — CI falla si ok_con_input baja de 80
+
+`docs/pop_matrix.json` es el **baseline versionado** (80/101 `ok_con_input`, TD 2025.32460,
+corrida v5 del 12/09 con fuente boxPOP por input). El gate nocturno compara cada corrida
+fresca contra **git HEAD** (no contra el working tree), así que la comparación es estable:
+
+- **Falla CI** si `ok_con_input_count` baja del baseline (regresión de evidencia real).
+- **Falla CI** si sube más de +10 de golpe (corrida sospechosa — típicamente un gate roto
+  que ya no lee `errors()` tras el cook).
+- **Falla CI** si un tipo que era `ok_con_input` deja de crearse, o desaparece del run
+  (cambio de forma del build de TD).
+- **Falla CI** si TD está caído o el bridge colgado (puerto enlazado, TCP rechazado):
+  TD intesteable es build rojo, no pass silencioso.
+- Permite `SKIP_LIVE_REQUIRED=1` para corridas offline explícitas (skips, no pasa falso).
+
+Componentes:
+
+- `scripts/check_pop_matrix_baseline.py` — el gate (tests offline: `tests/test_pop_matrix_baseline.py`, 14 tests).
+- `.github/workflows/td-nightly.yml` — workflow nocturno (cron 04:00 UTC + manual):
+  - job `offline-gate` (GitHub-hosted): suite del checker + tests Node + integridad del baseline commiteado;
+  - job `live-gate` (runner `self-hosted, touchdesigner` en la máquina de TD): probe del bridge →
+    `python toe/src/test_pop_matrix.py --keep` → gate → artifact con el JSON fresco (14 días).
+
+Para activar el job live: registrar un runner self-hosted con labels `self-hosted, touchdesigner`
+en la máquina con TD abierto (API en 127.0.0.1:44444) y Python en PATH. Sin runner, el job
+queda en espera pero el job offline sigue corriendo cada noche.
+
+Para promover un nuevo baseline tras un upgrade de TD verificado:
+
+    python toe/src/test_pop_matrix.py          # regenera docs/pop_matrix.json
+    python tests/test_pop_matrix_baseline.py   # suite del checker en verde
+    git add docs/pop_matrix.json && git commit -m "data(pop-matrix): re-baseline after TD <build>"
 
 ## POPs presentes en TouchDesigner pero SIN página en la wiki
 
