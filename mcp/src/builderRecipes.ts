@@ -465,6 +465,8 @@ build_glsl_shader('/project1')
     "GOTCHA: sTD2DInputs[i] requires the input index to be connected. An un-connected input returns vec4(0) but won't error — leads to black outputs silently.",
     "GOTCHA: GLSL uniforms only appear as parameters AFTER the first successful shader compile. Check with hasattr(glsl.par, 'Paramname') before setting.",
     "GOTCHA: The shader must declare 'out vec4 fragColor;' at the top — this is the required output declaration for GLSL 1.5+ in TouchDesigner.",
+    "GOTCHA: This recipe is a glslTOP (PIXEL shader). The rules are different for glslPOP (POINT shader): output attrs are write-only, outputattrs only selects input-existing attrs, new attrs need Create Attributes, and the real compile error lives in the <name>_info infoDAT — see docs/GLSL_POP_RULES.md.",
+    "GOTCHA: For GLSL POPs use tool td_glsl_apply instead of hand-rolled builders: it pre-validates the shader (rejects output reads with the fix), auto-creates the attributes it writes and returns the infoDAT compiler log on failure. td_glsl_analyze statically checks a POP shader without touching TD.",
   ];
 
   return {
