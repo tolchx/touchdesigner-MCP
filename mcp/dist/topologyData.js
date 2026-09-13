@@ -4,6 +4,7 @@
  * Extracted from networkPlannerGraph.ts to separate data/logic from planning.
  */
 import { ensureKnowledgeLoaded, getOpsMap, getPopsMap } from "./knowledgeCache.js";
+import { getPopInfo } from "./popKnowledge.js";
 import { existsSync, readFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -181,6 +182,28 @@ export function inferOpTopology(opType, opData) {
     }
     if (opType === "copyPOP") {
         warnings.push("Needs a source geometry (input 0) and template geometry (input 1)");
+    }
+    // Matrix-evidence gating: only ok_con_input POPs should be recommended in
+    // generated networks (evidence: live run WITH a real source per input).
+    // Non-ok POPs keep their catalog entry (a user asking for them by name must
+    // still be served) but carry an explicit warning instead of a silent trap.
+    if (opType.endsWith("POP")) {
+        const popInfo = getPopInfo(opType);
+        if (popInfo && !popInfo.recommendedForNetworks) {
+            switch (popInfo.validationCategory) {
+                case "error_con_input":
+                    warnings.push("NOT recommended for generated networks: reported TD errors() when cooked even WITH a correct source (live matrix evidence) — prefer a validated alternative");
+                    break;
+                case "sin_geometria_con_input":
+                    warnings.push("NOT recommended for generated networks: cooks clean but produces 0 points with a POP source (cross-family input or output node)");
+                    break;
+                case "no_creable":
+                    warnings.push("NOT recommended: cannot be created via create() in this TD build");
+                    break;
+                default:
+                    break; // ok_con_input or unknown → no extra warning
+            }
+        }
     }
     // Connects-to inference
     const connectsTo = [];

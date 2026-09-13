@@ -26,6 +26,17 @@ export interface PopOperatorInfo {
     paramCount: number;
     /** REAL parameter names (eval names) read from the live build. */
     liveParams: string[];
+    /**
+     * Evidence category from the live POP matrix (docs/pop_matrix.json):
+     *   ok_con_input            — cooks clean WITH a real source, numPoints() > 0
+     *   error_con_input         — TD reports errors() after cook
+     *   sin_geometria_con_input — cooks clean but 0 points (cross-family input)
+     *   no_creable              — create() throws
+     * Only ok_con_input types should be recommended when building networks.
+     */
+    validationCategory: "ok_con_input" | "error_con_input" | "sin_geometria_con_input" | "no_creable" | null;
+    /** Shorthand: validationCategory === "ok_con_input". */
+    recommendedForNetworks: boolean;
 }
 /**
  * Load (and memoize) the POP knowledge base keyed by lowercased type name
@@ -52,3 +63,17 @@ export declare function formatUnknownParameterError(opType: string, invalid: Arr
 }>, validCount: number): string;
 /** Reset the memoized knowledge cache (used by tests). */
 export declare function resetPopKnowledgeCache(): void;
+/**
+ * Canonical POP types classified ok_con_input by the live matrix — cooks
+ * clean WITH a real source and produces geometry (numPoints() > 0). These
+ * are the only POP types network builders should recommend by default.
+ * Unknown-type names in the query are ignored (they simply don't match).
+ */
+export declare function listOkPopTypes(): string[];
+/** True when the type has live matrix evidence of ok_con_input behavior. */
+export declare function isRecommendedForNetworks(opType: string): boolean;
+/**
+ * Non-blocking advisory message for a POP type the evidence says NOT to use
+ * in generated networks (null when the type is ok or unknown to the KB).
+ */
+export declare function networkRecommendationWarning(opType: string): string | null;

@@ -33,6 +33,22 @@ export interface PopOperatorInfo {
   paramCount: number;
   /** REAL parameter names (eval names) read from the live build. */
   liveParams: string[];
+  /**
+   * Evidence category from the live POP matrix (docs/pop_matrix.json):
+   *   ok_con_input            — cooks clean WITH a real source, numPoints() > 0
+   *   error_con_input         — TD reports errors() after cook
+   *   sin_geometria_con_input — cooks clean but 0 points (cross-family input)
+   *   no_creable              — create() throws
+   * Only ok_con_input types should be recommended when building networks.
+   */
+  validationCategory:
+    | "ok_con_input"
+    | "error_con_input"
+    | "sin_geometria_con_input"
+    | "no_creable"
+    | null;
+  /** Shorthand: validationCategory === "ok_con_input". */
+  recommendedForNetworks: boolean;
 }
 
 // ─── Loading ────────────────────────────────────────────────────────────────
@@ -46,6 +62,8 @@ interface RawPopEntry {
   outputs: number;
   param_count: number;
   live_params: string[];
+  validation_category?: PopOperatorInfo["validationCategory"];
+  recommended_for_networks?: boolean;
 }
 
 function resolveKnowledgePath(): string | null {
@@ -97,6 +115,8 @@ export function loadPopKnowledge(): Map<string, PopOperatorInfo> {
         outputs: Number(e.outputs ?? 0),
         paramCount: Number(e.param_count ?? e.live_params.length),
         liveParams: e.live_params,
+        validationCategory: e.validation_category ?? null,
+        recommendedForNetworks: Boolean(e.recommended_for_networks),
       };
       map.set(e.type.toLowerCase(), info);
       // Corpus short-name alias: "circlePOP" → "circle". (The JSON `name`
@@ -204,4 +224,51 @@ export function formatUnknownParameterError(
 /** Reset the memoized knowledge cache (used by tests). */
 export function resetPopKnowledgeCache(): void {
   cachedKnowledge = null;
+}
+
+// ─── Matrix-evidence gating (only recommend ok_con_input POPs) ─────────────
+
+/**
+ * Canonical POP types classified ok_con_input by the live matrix — cooks
+ * clean WITH a real source and produces geometry (numPoints() > 0). These
+ * are the only POP types network builders should recommend by default.
+ * Unknown-type names in the query are ignored (they simply don't match).
+ */
+export function listOkPopTypes(): string[] {
+  return listPopTypes().filter((t) => {
+    const info = getPopInfo(t);
+    return info?.recommendedForNetworks === true;
+  });
+}
+
+/** True when the type has live matrix evidence of ok_con_input behavior. */
+export function isRecommendedForNetworks(opType: string): boolean {
+  return getPopInfo(opType)?.recommendedForNetworks === true;
+}
+
+/**
+ * Non-blocking advisory message for a POP type the evidence says NOT to use
+ * in generated networks (null when the type is ok or unknown to the KB).
+ */
+export function networkRecommendationWarning(opType: string): string | null {
+  const info = getPopInfo(opType);
+  if (!info || info.recommendedForNetworks) return null;
+  switch (info.validationCategory) {
+    case "error_con_input":
+      return (
+        `${opType} reports TD errors() when cooked even WITH a correct source ` +
+        `(live matrix evidence). Prefer a validated alternative; if you must ` +
+        `use it, satisfy its documented requirement first.`
+      );
+    case "sin_geometria_con_input":
+      return (
+        `${opType} cooks clean but produces 0 points with a POP source ` +
+        `(consumes another family or is an output node) — do not expect ` +
+        `geometry from it in a generated chain.`
+      );
+    case "no_creable":
+      return `${opType} cannot be created via create() in this TD build.`;
+    default:
+      return null;
+  }
 }

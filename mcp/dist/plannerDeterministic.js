@@ -4,6 +4,14 @@
  * Extracted from networkPlannerGraph.ts. Provides a keyword-matching
  * topology-aware planner used when LLM is unavailable.
  */
+import { getPopInfo, isRecommendedForNetworks, networkRecommendationWarning } from "./popKnowledge.js";
+/** Score penalty for POP types the live matrix does NOT classify ok_con_input. */
+const NOT_OK_POP_PENALTY = 4;
+/** True when the prompt names the type explicitly (e.g. "cacheselect" → cacheSelectPOP). */
+function explicitlyNamed(words, opType) {
+    const lower = opType.toLowerCase();
+    return words.some((w) => w.length >= 4 && lower.includes(w));
+}
 // ─── Cross-Family Compatibility ────────────────────────────────────────────
 /**
  * Returns true only if a connection between two operator families is valid
@@ -60,14 +68,46 @@ export function deterministicPlan(prompt, catalog, targetPath) {
             score += 1;
         if (words.some(w => ["pop", "particle", "point"].includes(w)) && topo.family === "POP")
             score += 2;
+        // Matrix-evidence preference: when a keyword matches BOTH a validated
+        // POP and a non-ok one, the ok_con_input type wins — unless the prompt
+        // named the non-ok type explicitly (user intent overrides the default).
+        if (topo.family === "POP"
+            && !isRecommendedForNetworks(topo.opType)
+            && !explicitlyNamed(words, topo.opType)) {
+            score -= NOT_OK_POP_PENALTY;
+        }
         if (score > 0) {
             matched.push({ topo, score });
         }
     });
     // Sort by score
     matched.sort((a, b) => b.score - a.score);
-    // 2. Pick the best operators (max 15 for reasonable graphs)
-    const selected = matched.slice(0, 15);
+    // 2. Pick the best operators (max 15 for reasonable graphs), then drop
+    //    POPs the matrix evidence rejects UNLESS the prompt named them
+    //    explicitly — those stay and carry an evidence warning.
+    const selected = matched.slice(0, 15).filter(({ topo }) => {
+        if (topo.family !== "POP")
+            return true;
+        // POPs absent from the validated KB are catalog noise (mangled doc slugs,
+        // non-operator entries) — never plan them. The KB covers every real POP
+        // type of the validated build.
+        const info = getPopInfo(topo.opType);
+        if (!info)
+            return false;
+        if (info.recommendedForNetworks)
+            return true;
+        // Evidence-backed non-ok POP: keep only on explicit request, with warning.
+        if (!explicitlyNamed(words, topo.opType))
+            return false;
+        // inferOpTopology already attaches the "NOT recommended..." evidence
+        // warning; only append the explicit variant when absent in either form.
+        const alreadyWarned = (topo.warnings || []).some((w) => w.startsWith("NOT recommended"));
+        const warn = networkRecommendationWarning(topo.opType);
+        if (warn && !alreadyWarned) {
+            topo.warnings = [...(topo.warnings || []), warn];
+        }
+        return true;
+    });
     // Add an output null if not already present
     const hasNull = selected.some(s => s.topo.opType.includes("null"));
     if (!hasNull && selected.length > 0) {
