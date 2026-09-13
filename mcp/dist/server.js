@@ -22,6 +22,8 @@ import { registerSafeModeTools } from "./tools/safeMode.js";
 import { registerEnhancedTools } from "./tools/enhanced.js";
 import { registerWebtoeTools } from "./tools/webtoe.js";
 import { registerPopValidationTools } from "./tools/popValidation.js";
+import { registerToeImportTools } from "./tools/toeImport.js";
+import { registerGlslApplyTools } from "./tools/glslApply.js";
 /**
  * Pre-load the operator knowledge base on startup (non-blocking).
  * Logs a warning on failure but does not prevent the server from starting.
@@ -60,6 +62,8 @@ async function registerAllTools(server, client) {
     await registerEnhancedTools(server, client);
     registerWebtoeTools(server, client);
     registerPopValidationTools(server, client);
+    registerToeImportTools(server, client);
+    registerGlslApplyTools(server, client);
 }
 /**
  * Create a fully configured TouchDesigner MCP server with all tools registered.
