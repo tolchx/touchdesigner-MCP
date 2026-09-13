@@ -1,7 +1,7 @@
 # MCP TouchDesigner
 
 **El servidor MCP más completo para TouchDesigner.**  
-92 herramientas, modo offline, tutoriales integrados, workflows reutilizables, dashboard Nexus, y más.
+97 herramientas, modo offline, tutoriales integrados, workflows reutilizables, dashboard Nexus, y más.
 
 Conecta Inteligencia Artificial con TouchDesigner usando el Model Context Protocol. Controla operadores, ejecuta scripts y construye redes completas con lenguaje natural.
 
@@ -11,7 +11,7 @@ Conecta Inteligencia Artificial con TouchDesigner usando el Model Context Protoc
 
 | Característica | Este MCP | iflow-mcp | 8beeeaaat | twozero |
 |---|---|---|---|---|
-|| **Tools** | **92** | 21 | 12 | 36 |
+|| **Tools** | **97** | 21 | 12 | 36 |
 | **Modo offline** (sin TD) | ✅ | ❌ | ❌ | ❌ |
 | **Tutoriales** | **15** | 14 | ❌ | Sí |
 | **Workflows** | **32** | 32 | ❌ | Sí |
@@ -47,7 +47,7 @@ Conecta Inteligencia Artificial con TouchDesigner usando el Model Context Protoc
 - Validación de parámetros antes de escribir: el MCP rechaza nombres inexistentes con sugerencias en lugar de fallar en silencio.
 - `/verify` recursivo por defecto: recorre los hijos de los COMP, atribuye cada error/warning a su operador y agrega estadísticas POP (`pop_stats` con puntos reales), con `?recurse=false` para el comportamiento legacy. Antes reportaba "healthy" en redes rotas.
 - **609 clases de la API de Python** documentadas offline.
-- **1155 tests offline** nativos de Node.js que garantizan que el MCP se ejecute de forma robusta e independiente de TD, más **45 tests offline del bridge en Python** (`tests/test_api_contract_offline.py` 22 + `tests/test_td_api_offline.py` 23, todos verdes), y **19 tests offline de sintaxis GLSL POP** (`tests/test_glsl_pop_offline.py`).
+- **1198 tests offline** nativos de Node.js que garantizan que el MCP se ejecute de forma robusta e independiente de TD, más **45 tests offline del bridge en Python** (`tests/test_api_contract_offline.py` 22 + `tests/test_td_api_offline.py` 23, todos verdes), y **19 tests offline de sintaxis GLSL POP** (`tests/test_glsl_pop_offline.py`).
 
 ### 📑 Documentación técnica
 | Documento | Contenido |
@@ -56,7 +56,10 @@ Conecta Inteligencia Artificial con TouchDesigner usando el Model Context Protoc
 | [`docs/POPs_VALIDATION.md`](docs/POPs_VALIDATION.md) | Cruce POP build ↔ wiki oficial, drift detectado y método de validación estricta en vivo (cook forzado + geometría) |
 | [`docs/POPs_CORRECTIONS.md`](docs/POPs_CORRECTIONS.md) | Correcciones verificadas en vivo (contratos de API, cableado multi-input) |
 | [`docs/API_CONTRACT_AUDIT.md`](docs/API_CONTRACT_AUDIT.md) | Auditoría de contratos de todos los endpoints del bridge HTTP |
+| [`docs/TOE_REPLICATION.md`](docs/TOE_REPLICATION.md) | Método verificado para replicar redes `.toe` desde texto plano (Toe_Expand), contratos reales y receta de wiring |
+| Tool `td_import_toe_dir` | Importa un `.toe.dir` de Toe_Expand y reconstruye la red en TD, con verificación por nodo contra el dump |
 | [`docs/GLSL_POP_RULES.md`](docs/GLSL_POP_RULES.md) | Reglas de GLSL POP verificadas en vivo (compilación, atributos, infoDAT) |
+| Suite `toe/src/test_glsl_pops.py` | 14 casos, uno por regla GLSL POP, para correr contra TD real (`localhost:44444`); deja el detalle por caso en `docs/glsl_pops_reference.json` al ejecutarla (sin TD reporta `TD_UNREACHABLE`, nunca inventa resultados) |
 | [`AGENTS.md`](AGENTS.md) | Reglas para agentes que operan TD vía este MCP |
 
 ### 🎓 Contenido educativo
@@ -285,7 +288,7 @@ git diff networks/mySystem.tdn
 
 ---
 
-## 📋 Tools disponibles (92)
+## 📋 Tools disponibles (97)
 
 ### 🔌 Requiere conexión TD (modo online)
 
@@ -367,6 +370,9 @@ git diff networks/mySystem.tdn
 
 | Tool | Descripción |
 |------|-------------|
+| `td_import_toe_dir` | Importar red desde Toe_Expand `.toe.dir` (parser + codegen `/exec` + verificación por nodo) |
+| `td_glsl_analyze` | Análisis estático de shaders GLSL POP (reglas 1-4: lectura de salida, Create Attributes, readwrite) — sin TD |
+| `td_glsl_apply` | Crear glslPOP que compila: pre-valida, crea atributos automáticamente, readwrite automático y log del infoDAT si falla |
 | `td_run_test` | Ejecutar test legacy |
 
 ---
@@ -394,7 +400,7 @@ node server.js
 
 ### Node.js — Offline tests
 ```bash
-# Suite de unit/integration tests offline (1155 tests nativos, 0 fallos)
+# Suite de unit/integration tests offline (1198 tests nativos, 0 fallos)
 cd mcp && npm run build && node --test
 
 # Suite de contrato del bridge Python (sin TD): 22 + 23 tests

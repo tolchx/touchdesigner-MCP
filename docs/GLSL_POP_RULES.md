@@ -1,8 +1,25 @@
 # GLSL POP — Reglas Verificadas en Vivo
 
 Fuente autoritativa: [Write a GLSL POP — Derivative wiki](https://docs.derivative.ca/Write_a_GLSL_POP).  
-Validadas en TouchDesigner 2025.32460. Suite de referencia: `toe/src/test_glsl_pops.py` (14/14).  
+Validadas en TouchDesigner 2025.32460. Suite de referencia: `toe/src/test_glsl_pops.py` — 14 casos, uno por regla/patrón de este doc; corre contra TD en vivo y deja el detalle en `docs/glsl_pops_reference.json` (requiere TD en localhost:44444; sin TD reporta `TD_UNREACHABLE`, nunca inventa resultados).  
 Nada de esto es suposición: cada regla se reprodujo contra el build real.
+
+## Flujo automático del MCP (red de seguridad en el camino de escritura)
+
+Las reglas de este documento están implementadas en el MCP para que **nadie tenga que recordarlas a mano**:
+
+- **`td_glsl_analyze`** — análisis estático puro (sin TD): detecta lectura de la salida (R1), guarda faltante `TDIndex()/TDNumElements()` (R2), atributos que hay que crear con la receta exacta `attr0name='Custom'`/`attr0customname`/`attr0numcomps` (R3) y necesidad de `outputaccess='readwrite'` (R4).
+- **`td_glsl_apply`** — el camino seguro para crear un glslPOP:
+  1. Pre-valida el shader; si lee la salida **lo rechaza antes de compilar** con el mensaje de Regla 1 y la corrección (`TDIn_P(0, id)`), en vez del opaco `Compile failed` de TD.
+  2. Escribe el shader en un textDAT `<nombre>_code` y crea el glslPOP.
+  3. Crea **automáticamente** los atributos que el shader escribe y no existen en la entrada (receta de Regla 3, un slot por atributo).
+  4. Setea `outputaccess='readwrite'` si el shader lee un atributo que también escribe (Regla 4).
+  5. Cablea la fuente (`src.outputConnectors[0].connect(glsl)`) si se pasa `source_path`.
+  6. Cocina y, si aun así falla la compilación, devuelve **dentro del error** el texto del infoDAT `<nombre>_info` (Regla 5) — el log real del compilador.
+
+El mismo criterio vive en el analizador de referencia Python (`GLSLSyntaxChecker` en `tests/test_glsl_pop_offline.py`) y está portado 1:1 en `mcp/src/tools/glslValidate.ts` (tests: `mcp/test/glslValidate.test.js`). No fork-ear la semántica: los tests son la especificación.
+
+Criterio de aceptación verificado: pedirle al MCP un GLSL POP que escribe `P` + `Cd` + un custom compila sin errores; un shader que lee la salida devuelve un error explicativo con la corrección sugerida.
 
 ## Regla 1 — La salida no se lee
 

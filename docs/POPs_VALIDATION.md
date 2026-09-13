@@ -12,7 +12,180 @@
 
 > **Importante:** `numPoints()` y `numPrims()` son MÉTODOS en la clase POP de TD, no propiedades. Usarlos como atributos devuelve un builtin y rompe comparaciones.
 
-## POPs por categoría de validación (corrida 2026-09-12)
+## Matriz estricta con fuente (corrida 2026-09-12 18:41, TD TouchDesigner 2025.32460)
+
+### Método v5 — cada POP bajo prueba recibe fuente boxPOP
+
+**Problema de la v3:** la matriz creaba cada POP **sin alimentarlo**, así que 68 tipos
+reportaban `Error: Not enough sources specified` o `Error: No input POP`: el dato medido
+era real pero no respondía la pregunta útil (¿el tipo funciona si lo usás bien?).
+
+**Método actual:** para cada tipo POP se crean fuentes `boxPOP` (2×2×2, div 4×4×4) —
+**una por cada input connector del tipo (hasta 3)** — y se conectan con la receta
+verificada `src.outputConnectors[0].connect(dst.inputConnectors[i])`. Después:
+`p.cook(force=True)` → `p.errors()` → `int(p.numPoints())` / `int(p.numPrims())`
+(**métodos**, no propiedades). Las fuentes no usadas se destruyen: la matriz queda legible.
+
+> La fuente por defecto del build (boxPOP) es válida para inputs de geometría; los errores
+> residuales son de tipos que exigen **otra familia** de input (CHOP, TOP, atributo especial)
+> o un contexto particular — ver tabla de errores.
+
+### Clasificación (4 categorías EXCLUYENTES — 101/101 tipos)
+
+| categoría | count | criterio |
+|---|---|---|
+| ✅ ok_con_input | 80 | cocina sin errores, sin excepciones, numPoints() > 0 |
+| ❌ error_con_input | 8 | TD reporta errors() después del cook (cada uno con motivo concreto) |
+| ➖ sin_geometria_con_input | 12 | cocina limpio pero numPoints() == 0 (inputs de otra familia u output puro) |
+| 🚫 no_creable | 1 | create() lanza excepción |
+
+### ✅ ok_con_input (80) — geometría real CON fuente
+
+| tipo | detalle |
+|---|---|
+| `accumulatePOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `alembicoutPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `analyzePOP` | in=1 out=1 · fuente→input[0] · pts=1 prims=1 |
+| `attributePOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `attributecombinePOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `attributeconvertPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `blendPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `boxPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `cachePOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `circlePOP` | in=1 out=1 · fuente→input[0] · pts=40 prims=1 |
+| `connectivityPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=1 |
+| `convertPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `copyPOP` | in=2 out=1 · fuente→input[0, 1] · pts=64 prims=48 |
+| `curvePOP` | in=1 out=1 · fuente→input[0] · pts=1000 prims=1 |
+| `deletePOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `dimensionPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `dmxfixturePOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `extrudePOP` | in=1 out=1 · fuente→input[0] · pts=32 prims=30 |
+| `facetPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `feedbackPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `fieldPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `fileinPOP` | in=0 out=1 · generador (sin fuente) · pts=80 prims=64 |
+| `fileoutPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `forceradialPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `glslPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `glsladvancedPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `glslcopyPOP` | in=2 out=1 · fuente→input[0, 1] · pts=64 prims=48 |
+| `gridPOP` | in=1 out=1 · fuente→input[0] · pts=400 prims=361 |
+| `groupPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `histogramPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `inPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `limitPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `linePOP` | in=0 out=1 · generador (sin fuente) · pts=21 prims=1 |
+| `linebreakPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=3 |
+| `linedividePOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `linemetricsPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `lineresamplePOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `linesmoothPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `lookupattributePOP` | in=2 out=1 · fuente→input[0, 1] · pts=8 prims=6 |
+| `lookuptexturePOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `mathPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `mathcombinePOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `mathmixPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `mergePOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `neighborPOP` | in=2 out=1 · fuente→input[0, 1] · pts=8 prims=6 |
+| `noisePOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `normalPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `normalizePOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `nullPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `outPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `patternPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `phaserPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `planePOP` | in=1 out=1 · fuente→input[0] · pts=400 prims=361 |
+| `pointPOP` | in=0 out=1 · generador (sin fuente) · pts=1 prims=1 |
+| `pointfileinPOP` | in=0 out=1 · generador (sin fuente) · pts=49106 prims=49106 |
+| `pointgeneratorPOP` | in=0 out=1 · generador (sin fuente) · pts=10000 prims=10000 |
+| `primitivePOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `projectionPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `proximityPOP` | in=2 out=1 · fuente→input[0, 1] · pts=16 prims=8 |
+| `quantizePOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `randomPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `rectanglePOP` | in=1 out=1 · fuente→input[0] · pts=4 prims=1 |
+| `rerangePOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `selectPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `skinPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=20 |
+| `sortPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `spherePOP` | in=1 out=1 · fuente→input[0] · pts=252 prims=500 |
+| `sprinklePOP` | in=1 out=1 · fuente→input[0] · pts=10000 prims=10000 |
+| `subdividePOP` | in=1 out=1 · fuente→input[0] · pts=26 prims=48 |
+| `switchPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `textPOP` | in=0 out=1 · generador (sin fuente) · pts=2316 prims=772 |
+| `texturemapPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `topologyPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `torusPOP` | in=1 out=1 · fuente→input[0] · pts=800 prims=800 |
+| `trailPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=8 |
+| `transformPOP` | in=2 out=1 · fuente→input[0, 1] · pts=8 prims=6 |
+| `triangulatePOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `trigPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+| `tubePOP` | in=1 out=1 · fuente→input[0] · pts=400 prims=360 |
+| `twistPOP` | in=1 out=1 · fuente→input[0] · pts=8 prims=6 |
+
+### ❌ error_con_input (8) — el motivo concreto, ya con fuente conectada
+
+| tipo | detalle |
+|---|---|
+| `cplusplusPOP` | in=1 · Error: Error reading file "" |
+| `importselectPOP` | in=0 · Error: Import Select POP must be contained within a USD or FBX COMP, or have one specified |
+| `lookupchannelPOP` | in=1 · Error: CHOP not found |
+| `polygonizePOP` | in=1 · Error: Input POP needs to have 3 dimensions, use Trace POP for POPs with 2 dimensions. |
+| `rayPOP` | in=2 · Error: Attribute not found. |
+| `skindeformPOP` | in=1 · Error: BonePathsAttrib attribute not found |
+| `tracePOP` | in=1 · Error: Input POP needs to have 2 dimensions, use Polygonize POP for POPs with 3 dimensions |
+| `zedPOP` | in=0 · Error: ZED TOP parameter must point to a ZED TOP. |
+
+### ➖ sin_geometria_con_input (12) — sin errores, requieren input de OTRA familia
+
+| tipo | detalle |
+|---|---|
+| `alembicinPOP` | in=0 · requiere TOP/DAT/SOP/CHOP/alembic |
+| `cacheblendPOP` | in=0 · requiere TOP/DAT/SOP/CHOP/alembic |
+| `cacheselectPOP` | in=0 · requiere TOP/DAT/SOP/CHOP/alembic |
+| `choptoPOP` | in=0 · requiere TOP/DAT/SOP/CHOP/alembic |
+| `dattoPOP` | in=0 · requiere TOP/DAT/SOP/CHOP/alembic |
+| `dmxoutPOP` | in=1 · wired=[0] pero pts=0 |
+| `glslselectPOP` | in=0 · requiere TOP/DAT/SOP/CHOP/alembic |
+| `oakselectPOP` | in=0 · requiere TOP/DAT/SOP/CHOP/alembic |
+| `particlePOP` | in=1 · wired=[0] pero pts=0 |
+| `revolvePOP` | in=1 · wired=[0] pero pts=0 |
+| `soptoPOP` | in=0 · requiere TOP/DAT/SOP/CHOP/alembic |
+| `toptoPOP` | in=0 · requiere TOP/DAT/SOP/CHOP/alembic |
+
+### 🚫 no_creable (1)
+
+| tipo | detalle |
+|---|---|
+| `engineoutPOP` | tdError: Invalid number or type of arguments. See help for details. Value:(<class 'td.engi |
+
+### Comparación con la corrida sin fuente (v3)
+
+| | v3 (sin fuente) | v5 (con fuente por input) |
+|---|---|---|
+| con geometría real | 17 | **80** |
+| con errores de TD | 68 | 8 |
+| sin geometría | 84 | 12 |
+| no creable | 1 | 1 |
+
+> En v3 los "errores" eran casi todos `Not enough sources specified` / `No input POP`:
+> el resultado medido era real pero trivial. En v5 los 8 errores
+> residuales son requisitos genuinos (CHOP, TOP 2D/3D, atributo de deformación, archivo,
+> contexto USD/FBX, device ZED/OAK), no falta de fuente.
+
+### Datos crudos
+- JSON: `docs/pop_matrix.json` (claves nuevas: `categories`, `ok_con_input_count`,
+  `no_creables`, `wired_count`, `multi_source_count`, `method`; se mantiene
+  `ok_real` como alias de `ok_con_input_count` para los consumers viejos).
+- Sandbox visible en TD: `/project1/pop_matrix_live4` (100 operadores, fuentes eliminadas salvo las conectadas).
+
+## POPs por categoría de validación (corrida v3 2026-09-12) — SUPERADO
+
+> ⚠️ **Superado por la Matriz estricta con fuente (método v5) de arriba.**
+> Esta sección se conserva como histórico: las categorías "Fixable / No aplicable / Con errores"
+> eran estimaciones hechas SIN fuente conectada (68 "errores" eran solo falta de input).
+> La clasificación por evidencia vigente está en la sección v5.
 
 ### ✅ OK real (con geometría después de cook forzado): 16/101
 
@@ -81,16 +254,35 @@ Estos POPs NO tienen errores pero tampoco geometría porque necesitan ser conect
 | "Import Select POP must be contained within a USD or FBX COMP" | importselectPOP | Mover a USD/FBX COMP |
 | engineoutPOP | create() falla con excepción | No creable en baseCOMP |
 
-## Estado del test test_pop_matrix.py
+## Estado del test test_pop_matrix.py (v5 — con fuente por input)
 
 - **Total POPs descubiertos:** 101 tipos
-- **Creados sin excepción:** 100/101 (engineoutPOP falla en create)
-- **OK real (con geometría):** 16/101 (solo POPs fuente geométrica con valores por defecto)
-- **Sin geometría (fixable con input):** ~55/101
-- **Sin geometría (no applicable):** ~13/101
-- **Con errores de TD:** ~68/101 (todos fixables con configuración adecuada)
+- **Creados sin excepción:** 100/101 (engineoutPOP falla en create → `no_creable`)
+- **ok_con_input:** 80/101 (cocina limpio + numPoints() > 0 CON fuente boxPOP conectada)
+- **error_con_input:** 8/101 (cada uno con motivo concreto: CHOP, TOP 2D/3D, atributo, archivo, contexto)
+- **sin_geometria_con_input:** 12/101 (requieren input de otra familia: TOP/DAT/SOP/CHOP/alembic)
+- **no_creable:** 1/101 (engineoutPOP)
 
-> **Nota:** El test actual valora `ok_real >= 16` como PASS porque los otros 84 tipos necesitan configuración específica (input, TOP, DAT, shader, etc.) que no es aplicable en un test de matriz simple. En producción, cada POP debe ser configurado según su propósito.
+> **Nota:** El test valora `ok_con_input >= 25` como PASS (la corrida sin fuente daba 17).
+> Con el método v5 da 80: cada tipo tiene su categoría por EVIDENCIA (geometría real con input),
+> no por "no lanzó excepción".
+
+## Redes POP canónicas — test_pop_networks.py (pass rate actual)
+
+| Métrica | Valor | Fuente |
+|---|---|---|
+| Última corrida real registrada | **10/10 redes OK** (100%), 29 conexiones, 0 errores TD | `docs/pop_networks.json` (2026-09-11T22:23, TD 2025.32460) |
+| Corrida posterior a la mejora de la matriz (v5, 2026-09-12) | **no ejecutada aún** — TD quedó inaccesible (bridge HTTP caído) desde la sesión del 12/09 | verificado 2026-09-13: puerto 44444 enlazado, TCP rechazado |
+
+Redes validadas por la suite (verificación por evidencia: cook forzado + `errors()` + conexiones reales + `/verify` del árbol):
+`basic_chain`, `copy_instancing`, `particles_solver`, `trail_line_strip`, `merge_switch`,
+`math_ops_chain`, `glsl_shader`, `line_divide_resample`, `feedback_loop`, `field_deform`.
+
+> Estas redes usan solo tipos clasificados `ok_con_input` en la matriz v5 (80/101), por lo que
+> el pass rate 10/10 es consistente con la matriz. El método de la matriz mejoró después de la
+> última corrida de esta suite; re-corriendo `python toe/src/test_pop_networks.py` cuando TD
+> responda se refresca este número (la suite es idempotente: destruye y recrea su contenedor).
+> Si TD no responde, la suite ahora reporta `RESULT: TD_UNREACHABLE` (exit 3) en vez de tracebacks.
 
 ## POPs presentes en TouchDesigner pero SIN página en la wiki
 

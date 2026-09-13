@@ -47,6 +47,7 @@ GET http://localhost:44444/verify?path=/project1
 10d. **Atributos WRITE-ONLY (Regla 4)**: leer un atributo que también se escribe da `'*' : can't read from writeonly object`. Para leerlo usar `outputaccess='readwrite'`.
 10e. **Error real del compilador (Regla 5)**: `errors()` solo dice 'Compile failed'. El log real está en el infoDAT `<nombre_glsl>_info`. Leer ese DAT para diagnosticar.
 10f. **API de POP (Regla 6)**: `numPoints`, `numPrims`, `bounds` y `points` son MÉTODOS: `p.numPoints()`, no atributos.
+10g. **Camino seguro automatizado**: las reglas 1-4 y el puntero al infoDAT están implementados en el MCP — usá `td_glsl_analyze` (chequeo estático, sin TD) y `td_glsl_apply` (crea el glslPOP con Create Attributes automáticos, readwrite automático, y si falla la compilación devuelve el log real de `<nombre>_info` dentro del error). No setees atributos a mano salvo que necesites algo que el tool no cubre.
 11. **Parameter names**: use `.eval()` names (e.g. `amp` not "Amplitude") — read with `/parameters` first
 12. **Multi-input wiring** (verified on 2025.32460 — `connect(dst, input_index)` FAILS with "Invalid number or type of arguments", both for POPs and TOPs):
     - Input 0 / dynamic inputs: `src.outputConnectors[0].connect(dst)`
