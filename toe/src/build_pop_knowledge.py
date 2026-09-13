@@ -111,6 +111,8 @@ def main() -> int:
         wiki_title = title_by_type.get(t)
         pr = param_report.get(t, {})
         u = usage_by_type.get(t.replace("POP", "pop").lower(), {}) or usage_by_type.get(t, {})
+        category = r.get("category")
+        geometry = {"numPoints": r.get("numPoints"), "numPrims": r.get("numPrims")}
         operators.append({
             "type": t,
             "name": r.get("name"),
@@ -122,6 +124,13 @@ def main() -> int:
             "param_count": r.get("param_count"),
             "errors": r.get("errors"),
             "warnings": r.get("warnings"),
+            # Evidencia de la matriz v5/v6: ok_con_input = cocina limpio CON fuente
+            # real + numPoints() > 0. El MCP solo recomienda tipos ok_con_input
+            # al construir redes POP.
+            "validation_category": category,
+            "recommended_for_networks": category == "ok_con_input",
+            "geometry": geometry,
+            "matrix_error": r.get("error_message") or r.get("error"),
             "live_params": live_params,
             "wiki": {
                 "page": wiki_title,
@@ -159,6 +168,8 @@ def main() -> int:
             "created_ok": sum(1 for o in operators if o["created_live"]),
             "documented_in_wiki": documented,
             "undocumented": len(operators) - documented,
+            "ok_con_input": sum(1 for o in operators if o.get("validation_category") == "ok_con_input"),
+            "recommended_for_networks": sum(1 for o in operators if o.get("recommended_for_networks")),
             "wiki_pages_total": len(titles),
             "patterns_pop_to_pop": len(patterns.get("edges", [])),
             "chains": len(patterns.get("chains", [])),
@@ -347,9 +358,11 @@ def main() -> int:
             print(f"[warn] FTS no actualizado: {type(e).__name__}: {e}")
 
     print(f"\nOK · operadores={len(operators)} (wiki={documented}, sin doc={len(operators)-documented})")
+    print(f"     ok_con_input={index['counts']['ok_con_input']} recomendados para redes={index['counts']['recommended_for_networks']}")
     print(f"     patrones={index['counts']['patterns_pop_to_pop']} · cadenas={index['counts']['chains']} · glsl={index['counts']['glsl_snippets']}")
-    print(f"     json → {KB_DIR}")
-    print(f"     doc  → {os.path.join(DOCS, 'POPs_KNOWLEDGE.md')}")
+    # ASCII-only paths: consolas Windows (cp1252) crashean con flechas Unicode
+    print(f"     json -> {KB_DIR}")
+    print(f"     doc  -> {os.path.join(DOCS, 'POPs_KNOWLEDGE.md')}")
     return 0
 
 

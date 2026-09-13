@@ -10,6 +10,8 @@
   "created_ok": 100,
   "documented_in_wiki": 100,
   "undocumented": 1,
+  "ok_con_input": 80,
+  "recommended_for_networks": 80,
   "wiki_pages_total": 106,
   "patterns_pop_to_pop": 1120,
   "chains": 80,

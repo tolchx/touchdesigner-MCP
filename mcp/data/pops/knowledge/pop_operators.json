@@ -11,6 +11,8 @@
    "created_ok": 100,
    "documented_in_wiki": 100,
    "undocumented": 1,
+   "ok_con_input": 80,
+   "recommended_for_networks": 80,
    "wiki_pages_total": 106,
    "patterns_pop_to_pop": 1120,
    "chains": 80,
@@ -840,8 +842,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 17,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "attrclass",
@@ -949,8 +958,15 @@
    "inputs": 0,
    "outputs": 1,
    "param_count": 33,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "sin_geometria_con_input",
+   "recommended_for_networks": false,
+   "geometry": {
+    "numPoints": 0,
+    "numPrims": 0
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "file",
@@ -1192,8 +1208,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 33,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "input",
@@ -1431,8 +1454,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 25,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 1,
+    "numPrims": 1
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "attrclass",
@@ -1642,8 +1672,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 38,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "attrclass",
@@ -1900,8 +1937,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 14,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "attrclass",
@@ -1996,8 +2040,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 12,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "convertop",
@@ -2090,8 +2141,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 21,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "blendtype",
@@ -2241,8 +2299,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 30,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "surftype",
@@ -2429,8 +2494,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 17,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "active",
@@ -2536,8 +2608,15 @@
    "inputs": 0,
    "outputs": 1,
    "param_count": 16,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "sin_geometria_con_input",
+   "recommended_for_networks": false,
+   "geometry": {
+    "numPoints": 0,
+    "numPrims": 0
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "cachepop",
@@ -2650,8 +2729,15 @@
    "inputs": 0,
    "outputs": 1,
    "param_count": 10,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "sin_geometria_con_input",
+   "recommended_for_networks": false,
+   "geometry": {
+    "numPoints": 0,
+    "numPrims": 0
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "cachepop",
@@ -2718,8 +2804,15 @@
    "inputs": 0,
    "outputs": 1,
    "param_count": 33,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "sin_geometria_con_input",
+   "recommended_for_networks": false,
+   "geometry": {
+    "numPoints": 0,
+    "numPrims": 0
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "chop",
@@ -2893,8 +2986,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 29,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 40,
+    "numPrims": 1
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "connectivity",
@@ -3065,8 +3165,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 12,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 1
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "surftype",
@@ -3159,8 +3266,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 7,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "convert",
@@ -3208,8 +3322,15 @@
    "inputs": 2,
    "outputs": 1,
    "param_count": 59,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 64,
+    "numPrims": 48
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "ncy",
@@ -3524,8 +3645,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 10,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "error_con_input",
+   "recommended_for_networks": false,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": "Error: Error reading file \"\" (/project1/pop_matrix_live4/cpluspluspop)",
    "live_params": [
     "pageindex",
     "plugin",
@@ -3592,8 +3720,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 48,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 1000,
+    "numPrims": 1
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "totallength",
@@ -3886,8 +4021,15 @@
    "inputs": 0,
    "outputs": 1,
    "param_count": 16,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "sin_geometria_con_input",
+   "recommended_for_networks": false,
+   "geometry": {
+    "numPoints": 0,
+    "numPrims": 0
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "pointsdat",
@@ -4016,8 +4158,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 47,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "invert",
@@ -4317,8 +4466,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 10,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "mode",
@@ -4385,8 +4541,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 30,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "active",
@@ -4603,8 +4766,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 34,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "sin_geometria_con_input",
+   "recommended_for_networks": false,
+   "geometry": {
+    "numPoints": 0,
+    "numPrims": 0
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "active",
@@ -4881,6 +5051,13 @@
    "param_count": null,
    "errors": null,
    "warnings": null,
+   "validation_category": "no_creable",
+   "recommended_for_networks": false,
+   "geometry": {
+    "numPoints": null,
+    "numPrims": null
+   },
+   "matrix_error": "tdError: Invalid number or type of arguments. See help for details. Value:(<class 'td.engineoutPOP'>, 'engineoutpop') Type:<class 'tuple'>.",
    "live_params": [],
    "wiki": {
     "page": null,
@@ -4911,8 +5088,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 19,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 32,
+    "numPrims": 30
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "group",
@@ -5060,8 +5244,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 19,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "group",
@@ -5217,8 +5408,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 16,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "targetpop",
@@ -5331,8 +5529,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 69,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "attrclass",
@@ -5662,8 +5867,15 @@
    "inputs": 0,
    "outputs": 1,
    "param_count": 14,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 80,
+    "numPrims": 64
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "file",
@@ -5750,8 +5962,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 27,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "type",
@@ -5957,8 +6176,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 48,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "specpop",
@@ -6230,8 +6456,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 85,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "computedat",
@@ -6739,8 +6972,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 143,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "computedat",
@@ -7594,8 +7834,15 @@
    "inputs": 2,
    "outputs": 1,
    "param_count": 73,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 64,
+    "numPrims": 48
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "ncy",
@@ -8080,8 +8327,15 @@
    "inputs": 0,
    "outputs": 1,
    "param_count": 8,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "sin_geometria_con_input",
+   "recommended_for_networks": false,
+   "geometry": {
+    "numPoints": 0,
+    "numPrims": 0
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "pop",
@@ -8138,8 +8392,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 41,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 400,
+    "numPrims": 361
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "surftype",
@@ -8333,8 +8594,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 53,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "grname",
@@ -8688,8 +8956,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 16,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "attrclass",
@@ -8804,8 +9079,15 @@
    "inputs": 0,
    "outputs": 1,
    "param_count": 33,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "error_con_input",
+   "recommended_for_networks": false,
+   "geometry": {
+    "numPoints": 0,
+    "numPrims": 0
+   },
+   "matrix_error": "Error: Import Select POP must be contained within a USD or FBX COMP, or have one specified in the Import Parent parameter (/project1/pop_matrix_live4/importselectpop)",
    "live_params": [
     "pageindex",
     "parent",
@@ -9047,8 +9329,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 8,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "label",
@@ -9105,8 +9394,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 27,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "attrclass",
@@ -9248,8 +9544,15 @@
    "inputs": 0,
    "outputs": 1,
    "param_count": 36,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 21,
+    "numPrims": 1
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "output",
@@ -9522,8 +9825,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 21,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 3
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "connecmode",
@@ -9681,8 +9991,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 35,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "divmethod",
@@ -9942,8 +10259,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 48,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "attrclass",
@@ -10215,8 +10539,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 19,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "resamplemethod",
@@ -10356,8 +10687,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 35,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "attrclass",
@@ -10619,8 +10957,15 @@
    "inputs": 2,
    "outputs": 1,
    "param_count": 25,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "attrclass",
@@ -10798,8 +11143,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 29,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "error_con_input",
+   "recommended_for_networks": false,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": "Error: CHOP not found (/project1/pop_matrix_live4/lookupchannelpop)",
    "live_params": [
     "pageindex",
     "attrclass",
@@ -10999,8 +11351,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 54,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "attrclass",
@@ -11202,8 +11561,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 30,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "attrclass",
@@ -11379,8 +11745,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 66,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "attrclass",
@@ -11732,8 +12105,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 35,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "attrclass",
@@ -11940,8 +12320,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 13,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "uniquegroupname",
@@ -12035,8 +12422,15 @@
    "inputs": 2,
    "outputs": 1,
    "param_count": 24,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "nebrtype",
@@ -12213,8 +12607,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 62,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "noiselookupattr",
@@ -12559,8 +12960,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 34,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "nml",
@@ -12790,8 +13198,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 38,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "attrclass",
@@ -12950,8 +13365,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 6,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "bypass",
@@ -12998,8 +13420,15 @@
    "inputs": 0,
    "outputs": 1,
    "param_count": 10,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "sin_geometria_con_input",
+   "recommended_for_networks": false,
+   "geometry": {
+    "numPoints": 0,
+    "numPrims": 0
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "active",
@@ -13074,8 +13503,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 9,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "selectpop",
@@ -13141,8 +13577,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 53,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "sin_geometria_con_input",
+   "recommended_for_networks": false,
+   "geometry": {
+    "numPoints": 0,
+    "numPrims": 0
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "targetpop",
@@ -13487,8 +13930,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 62,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "numpoints",
@@ -13725,8 +14175,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 27,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "attrclass",
@@ -13867,8 +14324,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 25,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 400,
+    "numPrims": 361
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "surftype",
@@ -14018,8 +14482,15 @@
    "inputs": 0,
    "outputs": 1,
    "param_count": 13,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 1,
+    "numPrims": 1
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "createp",
@@ -14115,8 +14586,15 @@
    "inputs": 0,
    "outputs": 1,
    "param_count": 37,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 49106,
+    "numPrims": 49106
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "file",
@@ -14384,8 +14862,15 @@
    "inputs": 0,
    "outputs": 1,
    "param_count": 43,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 10000,
+    "numPrims": 10000
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "shape",
@@ -14574,8 +15059,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 27,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "error_con_input",
+   "recommended_for_networks": false,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": "Error: Input POP needs to have 3 dimensions, use Trace POP for POPs with 2 dimensions. (/project1/pop_matrix_live4/polygonizepop)",
    "live_params": [
     "pageindex",
     "inputattrscope",
@@ -14758,8 +15250,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 27,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "keep",
@@ -14942,8 +15441,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 27,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "attrclass",
@@ -15126,8 +15632,15 @@
    "inputs": 2,
    "outputs": 1,
    "param_count": 22,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 16,
+    "numPrims": 8
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "maxdist",
@@ -15294,8 +15807,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 23,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "attrclass",
@@ -15429,8 +15949,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 43,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "extrapts",
@@ -15685,8 +16212,15 @@
    "inputs": 2,
    "outputs": 1,
    "param_count": 38,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "error_con_input",
+   "recommended_for_networks": false,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": "Error: Attribute not found. (/project1/pop_matrix_live4/raypop)",
    "live_params": [
     "pageindex",
     "rayattrib",
@@ -15933,8 +16467,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 30,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 4,
+    "numPrims": 1
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "surftype",
@@ -16114,8 +16655,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 23,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "attrclass",
@@ -16249,8 +16797,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 15,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "sin_geometria_con_input",
+   "recommended_for_networks": false,
+   "geometry": {
+    "numPoints": 0,
+    "numPrims": 0
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "axis",
@@ -16348,8 +16903,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 10,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "pop",
@@ -16424,8 +16986,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 10,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 20
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "skinops",
@@ -16500,8 +17069,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 22,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "error_con_input",
+   "recommended_for_networks": false,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": "Error: BonePathsAttrib attribute not found (/project1/pop_matrix_live4/skindeformpop)",
    "live_params": [
     "pageindex",
     "mode",
@@ -16654,8 +17230,15 @@
    "inputs": 0,
    "outputs": 1,
    "param_count": 11,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "sin_geometria_con_input",
+   "recommended_for_networks": false,
+   "geometry": {
+    "numPoints": 0,
+    "numPrims": 0
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "sop",
@@ -16739,8 +17322,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 34,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "ptmethod",
@@ -16940,8 +17530,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 42,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 252,
+    "numPrims": 500
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "type",
@@ -17206,8 +17803,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 19,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 10000,
+    "numPrims": 10000
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "createpointprim",
@@ -17341,8 +17945,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 10,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 26,
+    "numPrims": 48
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "iterations",
@@ -17417,8 +18028,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 16,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "index",
@@ -17531,8 +18149,15 @@
    "inputs": 0,
    "outputs": 1,
    "param_count": 50,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 2316,
+    "numPrims": 772
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "connectivity",
@@ -17823,8 +18448,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 51,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "group",
@@ -18062,8 +18694,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 62,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "maxpointsmode",
@@ -18462,8 +19101,15 @@
    "inputs": 0,
    "outputs": 1,
    "param_count": 67,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "sin_geometria_con_input",
+   "recommended_for_networks": false,
+   "geometry": {
+    "numPoints": 0,
+    "numPrims": 0
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "rgba",
@@ -18774,8 +19420,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 32,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 800,
+    "numPrims": 800
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "surftype",
@@ -18958,8 +19611,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 33,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "error_con_input",
+   "recommended_for_networks": false,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": "Error: Input POP needs to have 2 dimensions, use Polygonize POP for POPs with 3 dimensions. (/project1/pop_matrix_live4/tracepop)",
    "live_params": [
     "pageindex",
     "inputattrscope",
@@ -19188,8 +19848,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 37,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 8
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "active",
@@ -19393,8 +20060,15 @@
    "inputs": 2,
    "outputs": 1,
    "param_count": 63,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "mode",
@@ -19793,8 +20467,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 11,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "mode",
@@ -19878,8 +20559,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 21,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "attrclass",
@@ -20023,8 +20711,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 31,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 400,
+    "numPrims": 360
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "surftype",
@@ -20213,8 +20908,15 @@
    "inputs": 1,
    "outputs": 1,
    "param_count": 25,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
+   "geometry": {
+    "numPoints": 8,
+    "numPrims": 6
+   },
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "attrclass",
@@ -20371,8 +21073,15 @@
    "inputs": 0,
    "outputs": 1,
    "param_count": 39,
-   "errors": "",
-   "warnings": "",
+   "errors": null,
+   "warnings": null,
+   "validation_category": "error_con_input",
+   "recommended_for_networks": false,
+   "geometry": {
+    "numPoints": 0,
+    "numPrims": 0
+   },
+   "matrix_error": "Error: ZED TOP parameter must point to a ZED TOP. (/project1/pop_matrix_live4/zedpop)",
    "live_params": [
     "pageindex",
     "active",
