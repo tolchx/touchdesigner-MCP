@@ -13,11 +13,18 @@ y clasifica por evidencia en 4 categorías EXCLUYENTES:
   - no_creable              : create() lanza excepción (ej. engineoutPOP)
 
 Método (verificado en vivo, docs/POPs_VALIDATION.md):
-  - cada POP bajo prueba recibe SIEMPRE una fuente boxPOP aguas arriba
-    por CADA input connector (hasta 3): evita "Not enough sources" en
-    multi-input reales (rayPOP, lookupattributePOP, mathcombinePOP...)
+  - cada POP bajo prueba recibe SIEMPRE una fuente aguas arriba por CADA
+    input connector (hasta 3): evita "Not enough sources" en multi-input reales
+  - v6: los sin_geometria de v5 reciben fuente de SU PROPIA FAMILIA:
+      choptoPOP<-noiseCHOP, toptoPOP<-noiseTOP, soptoPOP<-sphereSOP,
+      dattoPOP<-tableDAT, revolvePOP<-linePOP (curva, no caras),
+      cacheblend/cacheselect<-box->cachePOP, particlePOP<-sprinkle+feedback
+      (in1 = estado previo), alembicinPOP<-alembicoutPOP escribe un .abc real
+    Los temporal-dependientes (cache*, particle) cocinan varios frames.
+    dmxoutPOP (salida DMX) y oakselectPOP (cámara OAK-D hardware) no tienen
+    input que genere geometría: quedan en sin_geometria_con_input con evidencia.
   - cableado verificado: src.outputConnectors[0].connect(dst.inputConnectors[i])
-  - después de crear/conectar: p.cook(force=True), luego p.errors()
+  - después de crear/conectar: p.cook(force=True) x cook_frames, luego p.errors()
   - geometría con int(p.numPoints()) e int(p.numPrims())  (MÉTODOS, no propiedades)
 
 NO toca operadores existentes de /project1: todo vive dentro de un sandbox baseCOMP.
@@ -49,7 +56,7 @@ DOCS_DIR = os.path.join(REPO_ROOT, "docs")
 JSON_OUT = os.path.join(DOCS_DIR, "pop_matrix.json")
 
 SANDBOX_PARENT = "/project1"
-SANDBOX_NAME = "pop_matrix_live4"
+SANDBOX_NAME = "pop_matrix_live5"
 SANDBOX_PATH = f"{SANDBOX_PARENT}/{SANDBOX_NAME}"
 
 GRID_COLS = 12
@@ -74,9 +81,37 @@ if op(SB):
 sb = parent.create(baseCOMP, "{SANDBOX_NAME}")
 sb.nodeX = -2600
 sb.nodeY = 1500
-sb.comment = "POP matrix v4: cada POP alimentado desde boxPOP; clasificación por evidencia"
+sb.comment = "POP matrix v6: fuente por input (boxPOP default, familia propia para cross-family); clasificacion por evidencia"
 
 types = sorted([n for n in dir(td) if n.endswith("POP") and n != "POP"])
+
+def _box_pars(s):
+    try:
+        s.par.sizex = 2
+        s.par.sizey = 2
+        s.par.sizez = 2
+        s.par.divx = 4
+        s.par.divy = 4
+        s.par.divz = 4
+    except Exception:
+        pass
+
+# v6: fuente propia por familia para los sin_geometria de v5.
+SPECIAL = {{
+    "choptoPOP": {{"cls": "noiseCHOP"}},
+    "toptoPOP": {{"cls": "noiseTOP"}},
+    "soptoPOP": {{"cls": "sphereSOP"}},
+    "dattoPOP": {{"cls": "tableDAT", "fill": "dat"}},
+    "revolvePOP": {{"cls": "linePOP"}},
+    "glslselectPOP": {{"cls": "boxPOP"}},
+    "particlePOP": {{"cls": "sprinklePOP", "feedback": True, "cook_frames": 4}},
+    "cacheblendPOP": {{"chain": "cachePOP", "cook_frames": 4}},
+    "cacheselectPOP": {{"chain": "cachePOP", "cook_frames": 4}},
+    "alembicinPOP": {{"alembic": True, "cook_frames": 2}},
+    # dmxoutPOP / oakselectPOP: salida DMX y cámara OAK-D — sin input que
+    # produzca geometría; quedan en sin_geometria_con_input con evidencia.
+}}
+
 results = []
 for i, t in enumerate(types):
     row, col = i // GRID_COLS, i % GRID_COLS
@@ -104,31 +139,70 @@ for i, t in enumerate(types):
         "category": None,
     }}
     srcs = []
+    spec = SPECIAL.get(t, {{}})
+    alembic_file = None
     try:
-        # 1) fuentes SIEMPRE: una boxPOP subdividida por input connector (hasta 3).
-        #    Los generadores (0 inputs) crean igual una fuente, que se destruye al final.
+        # 1) fuentes SIEMPRE. Default: una boxPOP subdividida por input connector
+        #    (hasta 3). v6: SPECIAL da fuente de la familia correcta.
         probe = sb.create(getattr(td, t), short)
         n_in = len(probe.inputConnectors)
         n_src = max(1, min(n_in, 3))
         probe.destroy()
-        for k in range(n_src):
-            sname = "src_%s_%d" % (short, k) if n_src > 1 else "src_" + short
-            s = sb.create(td.boxPOP, sname)
-            s.nodeX = cell_x
-            s.nodeY = cell_y - k * 120
+        if spec.get("chain"):
+            box = sb.create(td.boxPOP, "src_%s_box" % short)
+            box.nodeX = cell_x
+            box.nodeY = cell_y - 120
+            _box_pars(box)
+            box.cook(force=True)
+            chain = sb.create(getattr(td, spec["chain"]), "src_%s_chain" % short)
+            box.outputConnectors[0].connect(chain)
+            for _f in range(int(spec.get("cook_frames", 1))):
+                chain.cook(force=True)
+            srcs.append(chain)
+        elif spec.get("alembic"):
+            outf = project.folder + "/pop_matrix_alembic.abc"
+            aout = sb.create(td.alembicoutPOP, "src_alembicout")
             try:
-                s.par.sizex = 2
-                s.par.sizey = 2
-                s.par.sizez = 2
-                s.par.divx = 4
-                s.par.divy = 4
-                s.par.divz = 4
+                aout.par.file = outf
             except Exception:
-                pass  # params defensivos: si el build cambió nombres, la fuente queda default
+                pass
+            bx = sb.create(td.boxPOP, "src_alembicin_box")
+            _box_pars(bx)
+            bx.outputConnectors[0].connect(aout)
+            aout.cook(force=True)
+            srcs.append(aout)
+            alembic_file = outf
+        elif spec.get("cls"):
+            s = sb.create(getattr(td, spec["cls"]), "src_" + short)
+            s.nodeX = cell_x
+            s.nodeY = cell_y
+            if spec.get("fill") == "dat":
+                try:
+                    s.text = "0 0 0\\n1 0 0\\n0 1 0\\n0 0 1\\n"
+                except Exception:
+                    pass
+            elif spec.get("cls") == "noiseCHOP":
+                try:
+                    s.par.amp = 1
+                except Exception:
+                    pass
             s.cook(force=True)
             srcs.append(s)
+        else:
+            for k in range(n_src):
+                sname = "src_%s_%d" % (short, k) if n_src > 1 else "src_" + short
+                s = sb.create(td.boxPOP, sname)
+                s.nodeX = cell_x
+                s.nodeY = cell_y - k * 120
+                _box_pars(s)
+                s.cook(force=True)
+                srcs.append(s)
         entry["source_created"] = True
         entry["sources_created"] = len(srcs)
+        if spec:
+            entry["source_kind"] = (spec.get("chain") or
+                                    ("alembic" if spec.get("alembic") else
+                                     spec.get("cls") or "default_box"))
     except Exception as e:
         entry["error"] = "source_create_exception: %s" % str(e)
 
@@ -165,11 +239,32 @@ for i, t in enumerate(types):
         except Exception as we:
             entry["wire_note"] = "wire_exception: %s" % str(we)
 
+        # v6: feedback loop para el solver particlePOP (in1 = estado del frame previo)
+        if spec.get("feedback"):
+            try:
+                fb = sb.create(td.feedbackPOP, "src_%s_fb" % short)
+                if len(o.inputConnectors) > 1:
+                    fb.outputConnectors[0].connect(o.inputConnectors[1])
+                try:
+                    fb.par.targetpop = o.name
+                except Exception:
+                    pass
+                entry["feedback_wired"] = True
+            except Exception as fe:
+                entry["wire_note"] = (entry.get("wire_note") or "") + " | feedback: %s" % str(fe)
+        # v6: alembicinPOP apunta al .abc real escrito por alembicoutPOP
+        if spec.get("alembic") and alembic_file:
+            try:
+                o.par.file = alembic_file
+            except Exception:
+                pass
+
         # 3) VALIDACIÓN REAL: cook forzado + errores + geometría
         try:
             fn = getattr(o, "cook", None)
             if callable(fn):
-                fn(force=True)
+                for _cf in range(max(1, int(spec.get("cook_frames", 1)))):
+                    fn(force=True)
             entry["cooked"] = True
         except Exception as e:
             entry["error"] = "cook_exception: %s" % str(e)
@@ -218,7 +313,11 @@ data = {{
     "generated_at": datetime.datetime.now().isoformat(timespec="seconds"),
     "td_build": app.product + " " + app.build,
     "sandbox": SB,
-    "method": "cada POP bajo prueba recibe una fuente boxPOP (2x2x2, div 4) conectada a input[0]; "
+    "method": "v6: cada POP bajo prueba recibe fuente por input — default boxPOP (2x2x2, div 4); "
+              "los sin_geometria de v5 reciben fuente de su propia familia "
+              "(choptoPOP<-noiseCHOP, toptoPOP<-noiseTOP, soptoPOP<-sphereSOP, dattoPOP<-tableDAT, "
+              "revolvePOP<-linePOP, cacheblend/cacheselect<-box->cachePOP, particlePOP<-sprinkle+feedback, "
+              "alembicinPOP<-alembicoutPOP escribe .abc real); cook múltiple para ops temporales; "
               "cook(force=True) + errors() + numPoints()/numPrims() (métodos); "
               "clasificación excluyente ok_con_input / error_con_input / sin_geometria_con_input / no_creable",
     "type_count": len(types),
@@ -258,6 +357,11 @@ def main() -> int:
     res = TestResult()
 
     res.step("API responde", td.ping(), f"{args.host}:{args.port}")
+    if not td.ping():
+        print("TD no responde en http://%s:%s — no se puede correr la matriz en vivo."
+              % (args.host, args.port))
+        print("RESULT: TD_UNREACHABLE")
+        return 3
 
     t0 = time.time()
     out = td.exec(build_matrix_code(SANDBOX_PATH, JSON_OUT))

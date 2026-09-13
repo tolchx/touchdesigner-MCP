@@ -229,6 +229,11 @@ def main() -> int:
     td = TDClient(args.host, args.port)
     res = TestResult()
     res.step("API responde", td.ping(), f"{args.host}:{args.port}")
+    if not td.ping():
+        print("TD no responde en http://%s:%s — no se puede correr la suite en vivo."
+              % (args.host, args.port))
+        print("RESULT: TD_UNREACHABLE")
+        return 3
 
     t0 = time.time()
     out = td.exec(build_code("pop_networks_live", args.grid))
