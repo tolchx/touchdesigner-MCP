@@ -1,0 +1,95 @@
+# Nightly TouchDesigner live check — POP matrix baseline gate.
+#
+# Runs the live POP matrix on the TD machine (self-hosted runner), then gates
+# the result against the GIT baseline (docs/pop_matrix.json at HEAD):
+#   - CI FAILS if ok_con_input drops below the committed baseline (80 as of
+#     TD 2025.32460, 101 types — see docs/POPs_VALIDATION.md)
+#   - CI FAILS if TD is unreachable or the bridge is wedged (port bound but
+#     refused) — an untestable TD is a red build, not a silent pass
+#   - CI FAILS on implausible gains (>+10) or types that stop creating
+#   - Artifacts: the fresh matrix JSON + gate log, 14 days retention
+#
+# Requires: a self-hosted runner on the TD machine (Windows, TouchDesigner
+# running with the HTTP API on 127.0.0.1:44444, Python on PATH). Until that
+# runner exists, this workflow shows as "waiting for runner" — the offline
+# part of the gate runs in the scheduled-offline job below so regressions in
+# the checker itself are still caught nightly.
+
+name: td-nightly-pop-matrix
+
+on:
+  schedule:
+    - cron: "0 4 * * *" # 04:00 UTC nightly
+  workflow_dispatch: {} # manual trigger for debugging
+
+jobs:
+  # ── Offline leg: always runs (GitHub-hosted) ────────────────────────────────
+  # Catches checker regressions and baseline corruption without a TD machine.
+  offline-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Offline suite (checker tests + Node tests)
+        run: |
+          python -m pytest tests/test_pop_matrix_baseline.py -q 2>/dev/null || \
+            python -m unittest tests.test_pop_matrix_baseline -v
+          cd mcp && npm ci && npm run build && node --test
+
+      - name: Baseline integrity (committed JSON is structurally valid)
+        run: |
+          python - <<'EOF'
+          import json, subprocess, sys
+          out = subprocess.run(
+              ["git", "show", "HEAD:docs/pop_matrix.json"],
+              capture_output=True, text=True, check=True).stdout
+          d = json.loads(out)
+          sys.path.insert(0, ".")
+          from scripts.check_pop_matrix_baseline import _validate
+          _validate(d, "baseline")
+          print(f"baseline ok: ok_con_input={d['ok_con_input_count']} "
+                f"types={d['type_count']} build={d['td_build']}")
+          EOF
+
+  # ── Live leg: self-hosted runner on the TD machine ──────────────────────────
+  live-gate:
+    runs-on: [self-hosted, touchdesigner]
+    needs: offline-gate
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Probe TD bridge (fail fast if wedged or down)
+        shell: pwsh
+        run: |
+          $ok = $false
+          for ($i = 0; $i -lt 3; $i++) {
+            try {
+              $r = Invoke-WebRequest -Uri "http://127.0.0.1:44444/info" `
+                -TimeoutSec 10 -UseBasicParsing
+              if ($r.StatusCode -eq 200 -and $r.Content.Length -gt 0) { $ok = $true; break }
+            } catch { Start-Sleep -Seconds 10 }
+          }
+          if (-not $ok) {
+            Write-Host "##vso[task.logissue type=error]TD bridge unreachable on 127.0.0.1:44444 — restart TouchDesigner (check for modal dialogs) and re-run."
+            exit 1
+          }
+
+      - name: Run live POP matrix (fresh evidence)
+        run: python toe/src/test_pop_matrix.py --keep
+
+      - name: Gate against git baseline
+        run: python scripts/check_pop_matrix_baseline.py --live docs/pop_matrix.json
+
+      - name: Upload matrix artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pop-matrix-${{ github.run_id }}
+          path: |
+            docs/pop_matrix.json
+          retention-days: 14
+          if-no-files-found: error
