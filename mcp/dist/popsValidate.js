@@ -320,12 +320,12 @@ build_pop_sphere_transform_trail('/project1')`,
         complexity: "advanced",
         operators: [
             { id: "box", opType: "boxPOP", label: "box_src", purpose: "Geometry source (GLSL POP requires a POP input)" },
-            { id: "glsl1", opType: "glslPOP", label: "glsl_1", purpose: "First compute pass — displaces points" },
-            { id: "glsl2", opType: "glslPOP", label: "glsl_2", purpose: "Second compute pass — chained glsl→glsl" },
+            { id: "glsl1", opType: "glslPOP", label: "glsl_1", purpose: "First compute pass — displaces points (shader source lives in textDAT glsl_1_code, see pythonBuilder)" },
+            { id: "glsl2", opType: "glslPOP", label: "glsl_2", purpose: "Second compute pass — chained glsl→glsl (textDAT glsl_2_code)" },
             { id: "out", opType: "nullPOP", label: "out_glsl", purpose: "Stable output node" },
         ],
         connections: [
-            { from: "box", to: "glsl1", inputIndex: 0, note: "GLSL POP needs a POP input (verified: boxPOP source)" },
+            { from: "box", to: "glsl1", inputIndex: 0, note: "GLSL POP needs a POP input (verified: boxPOP source). NOTE: computedat is a DAT path reference, not a connector wire — create the textDAT first" },
             { from: "glsl1", to: "glsl2", inputIndex: 0, note: "glsl→glsl: 140 occurrences" },
             { from: "glsl2", to: "out", inputIndex: 0, note: "glsl→null: 50 occurrences" },
         ],
@@ -333,28 +333,59 @@ build_pop_sphere_transform_trail('/project1')`,
             { opId: "box", paramName: "sizex", value: 0.05, note: "Box size X (top corpus write: sizex hits=4)" },
             { opId: "box", paramName: "sizey", value: 0.05, note: "Box size Y (corpus: sizey hits=4)" },
             { opId: "glsl1", paramName: "outputattrs", value: "P", note: "Output attributes — REQUIRED for position writes (verified live: outputattrs='P')" },
+            { opId: "glsl1", paramName: "computedat", value: "glsl_1_code", note: "Shader DAT for pass 1 — the DAT must exist with content first" },
             { opId: "glsl2", paramName: "outputattrs", value: "P", note: "Second pass also writes P" },
+            { opId: "glsl2", paramName: "computedat", value: "glsl_2_code", note: "Shader DAT for pass 2" },
         ],
         pythonBuilder: `# pop-box-glsl-chain (corpus: box > glsl > glsl, x140)
-# Verified rules: GLSL POP requires a POP input (boxPOP) and
-# outputattrs='P' declared to write positions.
+# Verified rules (docs/GLSL_POP_RULES.md):
+#   R1: never read the output P — read the input via TDIn_P(0, id)
+#   R2: canonical guard  const uint id = TDIndex(); if (id >= TDNumElements()) return;
+#   R3: outputattrs only selects attrs that exist on the input; new attrs
+#       need Create Attributes (attr0name='Custom' + attr0customname + attr0numcomps)
+# For ARBITRARY shaders prefer tool td_glsl_apply — it pre-validates the
+# shader, auto-creates attributes and returns the infoDAT compiler log on
+# failure instead of TD's opaque "Compile failed".
+GLSL_1 = """
+void main(){
+    const uint id = TDIndex();
+    if (id >= TDNumElements()) return;
+    P[id] = TDIn_P(0, id) * 1.5;
+}
+"""
+GLSL_2 = """
+void main(){
+    const uint id = TDIndex();
+    if (id >= TDNumElements()) return;
+    P[id] = TDIn_P(0, id) * 1.001;
+}
+"""
+
 def build_pop_box_glsl_chain(parent):
     parent = op(parent)
     box = parent.create(boxPOP, 'box_src')
     box.par.sizex = 0.05
     box.par.sizey = 0.05
     box.par.sizez = 0.01
+    # Shader DATs FIRST: computedat pointing at a missing DAT = red error.
+    shader1 = parent.create(textDAT, 'glsl_1_code')
+    shader1.text = GLSL_1
     glsl1 = parent.create(glslPOP, 'glsl_1')
     box.outputConnectors[0].connect(glsl1)
     glsl1.par.outputattrs = 'P'
-    glsl1.par.computedat = 'glsl_1_compute'
+    glsl1.par.computedat = shader1.name
+    shader2 = parent.create(textDAT, 'glsl_2_code')
+    shader2.text = GLSL_2
     glsl2 = parent.create(glslPOP, 'glsl_2')
     glsl1.outputConnectors[0].connect(glsl2)  # glsl→glsl chaining
     glsl2.par.outputattrs = 'P'
+    glsl2.par.computedat = shader2.name
     out = parent.create(nullPOP, 'out_glsl')
     glsl2.outputConnectors[0].connect(out)
     box.nodeX = -900;   box.nodeY = 0
+    shader1.nodeX = -600; shader1.nodeY = 150
     glsl1.nodeX = -600; glsl1.nodeY = 0
+    shader2.nodeX = -300; shader2.nodeY = 150
     glsl2.nodeX = -300; glsl2.nodeY = 0
     out.nodeX = 0;      out.nodeY = 0
     return out
