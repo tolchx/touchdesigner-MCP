@@ -144,10 +144,24 @@ class TouchDesignerAPI:
             if uri == "/instances" and method == "GET":
                 return self._handle_instances(response)
 
-            # GET /operators - Operators at specified path
+            # GET /operators - Operators at specified path (paginated)
             if uri.startswith("/operators") and method == "GET":
                 path = unquote(pars.get("path", "/"))
-                return self._handle_operators(path, response)
+                try:
+                    limit = self._parse_positive_int(pars.get("limit", "500"), default=500)
+                except ValueError as e:
+                    response["statusCode"] = 400
+                    response["statusReason"] = "Bad Request"
+                    response["data"] = json.dumps({"error": str(e), "hint": "Use ?limit=N&offset=N (N integer >= 1)"})
+                    return self._send_response(response)
+                try:
+                    offset = self._parse_nonnegative_int(pars.get("offset", "0"), default=0)
+                except ValueError as e:
+                    response["statusCode"] = 400
+                    response["statusReason"] = "Bad Request"
+                    response["data"] = json.dumps({"error": str(e), "hint": "Use ?limit=N&offset=N (N integer >= 0)"})
+                    return self._send_response(response)
+                return self._handle_operators(path, response, limit=limit, offset=offset)
 
             # GET /parameters - Parameters for operator
             if uri.startswith("/parameters") and method == "GET":
@@ -160,13 +174,27 @@ class TouchDesignerAPI:
             if uri.startswith("/parameters/set") and method == "POST":
                 return self._handle_parameters_set(request, response)
 
-            # GET /connections - Connection graph for operator or children
+            # GET /connections - Connection graph for operator or children (paginated)
             if uri.startswith("/connections") and method == "GET":
                 path = unquote(pars.get("path", "/"))
                 recurse = pars.get("recurse", "0") in ("1", "true", "True")
-                return self._handle_connections(path, recurse, response)
+                try:
+                    limit = self._parse_positive_int(pars.get("limit", "500"), default=500)
+                except ValueError as e:
+                    response["statusCode"] = 400
+                    response["statusReason"] = "Bad Request"
+                    response["data"] = json.dumps({"error": str(e), "hint": "Use ?limit=N&offset=N (N integer >= 1)"})
+                    return self._send_response(response)
+                try:
+                    offset = self._parse_nonnegative_int(pars.get("offset", "0"), default=0)
+                except ValueError as e:
+                    response["statusCode"] = 400
+                    response["statusReason"] = "Bad Request"
+                    response["data"] = json.dumps({"error": str(e), "hint": "Use ?limit=N&offset=N (N integer >= 0)"})
+                    return self._send_response(response)
+                return self._handle_connections(path, recurse, response, limit=limit, offset=offset)
 
-            # GET /find - Find operators by query/name/family/type
+            # GET /find - Find operators by query/name/family/type (paginated)
             if uri.startswith("/find") and method == "GET":
                 return self._handle_find(request, response)
 
@@ -946,8 +974,12 @@ class TouchDesignerAPI:
     # GET /operators
     # -------------------------------------------------------------------------
 
-    def _handle_operators(self, path: str, response: dict) -> dict:
-        """Handle GET /operators request."""
+    def _handle_operators(self, path: str, response: dict, limit: int = 500, offset: int = 0) -> dict:
+        """Handle GET /operators request.
+
+        Supports pagination via limit/offset query params (default limit 500,
+        so existing clients that read the whole list see no behavioural change).
+        """
         try:
             target = op(path)  # type: ignore
             if target is None:
@@ -956,14 +988,34 @@ class TouchDesignerAPI:
                 response["data"] = json.dumps({"error": f"Operator not found: {path}"})
                 return self._send_response(response)
 
-            operators = [
+            all_ops = [
                 {"name": child.name, "type": child.type, "opType": child.OPType}
                 for child in target.children
             ]
+            total = len(all_ops)
+            start = max(0, offset)
+            end = start + limit if limit >= 0 else total
+            page = all_ops[start:end]
+            returned = len(page)
+            # truncated: compare what was *actually returned* to total, not
+            # start+limit (which would claim more pages exist after a partial tail).
+            truncated = (start + returned) < total
 
             response["statusCode"] = 200
             response["statusReason"] = "OK"
-            response["data"] = json.dumps({"path": path, "operators": operators})
+            response["data"] = json.dumps({
+                "path": path,
+                "total": total,
+                "returned": returned,
+                "limit": limit,
+                "offset": offset,
+                "truncated": truncated,
+                "operators": page,
+            })
+        except ValueError as e:
+            response["statusCode"] = 400
+            response["statusReason"] = "Bad Request"
+            response["data"] = json.dumps({"error": str(e)})
         except Exception as e:
             response["statusCode"] = 500
             response["statusReason"] = "Internal Server Error"
@@ -3215,6 +3267,18 @@ else:
             return maximum
         return value
 
+    def _parse_nonnegative_int(self, raw_value, default: int, maximum: int | None = None) -> int:
+        try:
+            value = int(raw_value)
+        except Exception:
+            raise ValueError(f"Expected non-negative integer value, got: {raw_value!r}")
+
+        if value < 0:
+            raise ValueError(f"Expected integer >= 0, got: {value}")
+        if maximum is not None and value > maximum:
+            return maximum
+        return value
+
     # -------------------------------------------------------------------------
     # GET /parameters
     # -------------------------------------------------------------------------
@@ -3590,7 +3654,12 @@ else:
             "outputs": outputs,
         }
 
-    def _handle_connections(self, path: str, recurse: bool, response: dict) -> dict:
+    def _handle_connections(self, path: str, recurse: bool, response: dict, limit: int = 500, offset: int = 0) -> dict:
+        """GET /connections with pagination support.
+
+        Default limit 500 preserves existing behaviour for clients that fetch the
+        full graph; offset/limit let clients page through very large networks.
+        """
         try:
             target = op(path)  # type: ignore
             if target is None:
@@ -3605,11 +3674,25 @@ else:
                 nodes = self._iter_descendants(target, include_self=False)
                 nodes.insert(0, target)
 
-            result = [self._serialize_operator(node) for node in nodes]
+            all_ops = [self._serialize_operator(node) for node in nodes]
+            total = len(all_ops)
+            start = max(0, offset)
+            end = start + limit if limit >= 0 else total
+            page = all_ops[start:end]
+            returned = len(page)
 
             response["statusCode"] = 200
             response["statusReason"] = "OK"
-            response["data"] = json.dumps({"path": target.path, "recurse": recurse, "operators": result}, ensure_ascii=False)
+            response["data"] = json.dumps({
+                "path": target.path,
+                "recurse": recurse,
+                "total": total,
+                "returned": returned,
+                "limit": limit,
+                "offset": offset,
+                "truncated": (start + returned) < total,
+                "operators": page,
+            }, ensure_ascii=False)
         except Exception as e:
             response["statusCode"] = 500
             response["statusReason"] = "Internal Server Error"
@@ -3630,7 +3713,8 @@ else:
             family = unquote(pars.get("family", "")).strip().upper()
             op_type = unquote(pars.get("opType", "")).strip().lower()
             recursive = pars.get("recursive", "1") in ("1", "true", "True")
-            limit = self._parse_positive_int(pars.get("limit", "50"), default=50, maximum=200)
+            limit = self._parse_positive_int(pars.get("limit", "500"), default=500, maximum=5000)
+            offset = self._parse_nonnegative_int(pars.get("offset", "0"), default=0)
 
             base = op(base_path)  # type: ignore
             if base is None:
@@ -3666,8 +3750,8 @@ else:
                     "opType": node.OPType,
                     "family": getattr(node, "family", None),
                 })
-                if len(matches) >= limit:
-                    break
+            total = len(matches)
+            page = matches[offset:offset + limit]
 
             response["statusCode"] = 200
             response["statusReason"] = "OK"
@@ -3679,7 +3763,12 @@ else:
                     "family": family or None,
                     "opType": op_type or None,
                     "recursive": recursive,
-                    "results": matches,
+                    "total": total,
+                    "returned": len(page),
+                    "limit": limit,
+                    "offset": offset,
+                    "truncated": (offset + len(page)) < total,
+                    "results": page,
                 },
                 ensure_ascii=False,
             )

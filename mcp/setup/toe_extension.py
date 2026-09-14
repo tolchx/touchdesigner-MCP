@@ -301,8 +301,11 @@ class TouchDesignerAPI:
                 "headers": {"Content-Type": "application/json"},
             }
 
-    def _handle_operators(self, path):
-        """GET /operators — list children at path."""
+    def _handle_operators(self, path, limit=500, offset=0):
+        """GET /operators — list children at path (paginated).
+
+        Default limit 500 preserves existing clients; offset/limit let them page.
+        """
         try:
             target = op(path)
             if target is None:
@@ -311,13 +314,32 @@ class TouchDesignerAPI:
                     "body": json.dumps({"error": f"Operator not found: {path}"}),
                     "headers": {"Content-Type": "application/json"},
                 }
-            operators = [
+            all_ops = [
                 {"name": child.name, "type": child.type, "opType": child.OPType}
                 for child in target.children
             ]
+            total = len(all_ops)
+            start = max(0, offset)
+            end = start + limit if limit >= 0 else total
+            page = all_ops[start:end]
+            returned = len(page)
             return {
                 "status": 200,
-                "body": json.dumps({"path": path, "operators": operators}),
+                "body": json.dumps({
+                    "path": path,
+                    "total": total,
+                    "returned": returned,
+                    "limit": limit,
+                    "offset": offset,
+                    "truncated": (start + returned) < total,
+                    "operators": page,
+                }),
+                "headers": {"Content-Type": "application/json"},
+            }
+        except ValueError as e:
+            return {
+                "status": 400,
+                "body": json.dumps({"error": str(e)}),
                 "headers": {"Content-Type": "application/json"},
             }
         except Exception as e:
@@ -398,8 +420,12 @@ class TouchDesignerAPI:
                 "headers": {"Content-Type": "application/json"},
             }
 
-    def _handle_connections(self, path, recurse):
-        """GET /connections — connection graph."""
+    def _handle_connections(self, path, recurse, limit=500, offset=0):
+        """GET /connections — connection graph (paginated).
+
+        Default limit 500 preserves existing clients; offset/limit let them page
+        through very large networks.
+        """
         try:
             target = op(path)
             if target is None:
@@ -408,11 +434,29 @@ class TouchDesignerAPI:
                     "body": json.dumps({"error": f"Operator not found: {path}"}),
                     "headers": {"Content-Type": "application/json"},
                 }
-            nodes = self._iter_descendants(target, include_self=recurse)
-            result = [self._serialize_operator(node) for node in nodes]
+            if recurse:
+                nodes = self._iter_descendants(target, include_self=True)
+            else:
+                nodes = self._iter_descendants(target, include_self=False)
+                nodes.insert(0, target)
+            all_ops = [self._serialize_operator(node) for node in nodes]
+            total = len(all_ops)
+            start = max(0, offset)
+            end = start + limit if limit >= 0 else total
+            page = all_ops[start:end]
+            returned = len(page)
             return {
                 "status": 200,
-                "body": json.dumps({"path": target.path, "recurse": recurse, "operators": result}, ensure_ascii=False),
+                "body": json.dumps({
+                    "path": target.path,
+                    "recurse": recurse,
+                    "total": total,
+                    "returned": returned,
+                    "limit": limit,
+                    "offset": offset,
+                    "truncated": (start + returned) < total,
+                    "operators": page,
+                }, ensure_ascii=False),
                 "headers": {"Content-Type": "application/json"},
             }
         except Exception as e:
@@ -422,8 +466,13 @@ class TouchDesignerAPI:
                 "headers": {"Content-Type": "application/json"},
             }
 
-    def _handle_find(self, params):
-        """GET /find — find operators by query."""
+    def _handle_find(self, params, limit=500, offset=0):
+        """GET /find — find operators by query (paginated).
+
+        Default limit 500 preserves existing clients; offset/limit let them page.
+        Maximum 5000 enforced server-side; limit/offset must be non-negative ints
+        or the caller gets a 400 with a hint.
+        """
         try:
             base_path = urllib.parse.unquote(params.get("path", ["/"])[0])
             query = urllib.parse.unquote(params.get("query", [""])[0]).strip().lower()
@@ -447,11 +496,18 @@ class TouchDesignerAPI:
                     "path": node.path, "name": node.name,
                     "type": node.type, "opType": node.OPType,
                 })
-                if len(matches) >= 50:
-                    break
+            total = len(matches)
+            page = matches[offset:offset + limit] if limit >= 0 else matches[offset:]
             return {
                 "status": 200,
-                "body": json.dumps({"results": matches}, ensure_ascii=False),
+                "body": json.dumps({
+                    "results": page,
+                    "total": total,
+                    "returned": len(page),
+                    "limit": limit,
+                    "offset": offset,
+                    "truncated": (offset + len(page)) < total,
+                }, ensure_ascii=False),
                 "headers": {"Content-Type": "application/json"},
             }
         except Exception as e:
@@ -599,6 +655,30 @@ class TouchDesignerAPI:
         except Exception:
             return "unknown"
 
+    # --- Pagination helpers (standalone copy; mirrors toe/src/TouchDesignerAPI.py) ---
+
+    def _parse_positive_int(self, raw_value, default, minimum=1, maximum=None):
+        try:
+            value = int(raw_value)
+        except (TypeError, ValueError):
+            raise ValueError(f"Expected integer value, got: {raw_value!r}")
+        if value < minimum:
+            raise ValueError(f"Expected integer >= {minimum}, got: {value}")
+        if maximum is not None and value > maximum:
+            return maximum
+        return value
+
+    def _parse_nonnegative_int(self, raw_value, default, maximum=None):
+        try:
+            value = int(raw_value)
+        except (TypeError, ValueError):
+            raise ValueError(f"Expected non-negative integer value, got: {raw_value!r}")
+        if value < 0:
+            raise ValueError(f"Expected integer >= 0, got: {value}")
+        if maximum is not None and value > maximum:
+            return maximum
+        return value
+
     # =========================================================================
     # WebSocket transport (JSON-RPC over WebSocket)
     # =========================================================================
@@ -676,7 +756,15 @@ class TouchDesignerAPI:
         # --- Operators ---
         if method == "operators":
             path = params.get("path", "/")
-            return self._extract_body(self._handle_operators(path))
+            try:
+                limit = self._parse_positive_int(params.get("limit", 500), default=500)
+            except ValueError:
+                limit = 500
+            try:
+                offset = self._parse_nonnegative_int(params.get("offset", 0), default=0)
+            except ValueError:
+                offset = 0
+            return self._extract_body(self._handle_operators(path, limit=limit, offset=offset))
 
         # --- Parameters ---
         if method == "parameters":
@@ -692,14 +780,30 @@ class TouchDesignerAPI:
         if method == "connections":
             path = params.get("path", "/")
             recurse = params.get("recurse", False)
-            return self._extract_body(self._handle_connections(path, bool(recurse)))
+            try:
+                limit = self._parse_positive_int(params.get("limit", 500), default=500)
+            except ValueError:
+                limit = 500
+            try:
+                offset = self._parse_nonnegative_int(params.get("offset", 0), default=0)
+            except ValueError:
+                offset = 0
+            return self._extract_body(self._handle_connections(path, bool(recurse), limit=limit, offset=offset))
 
         # --- Find ---
         if method == "find":
             find_params = {}
             for k, v in params.items():
                 find_params[k] = [str(v)]
-            return self._extract_body(self._handle_find(find_params))
+            try:
+                limit = self._parse_positive_int(params.get("limit", 500), default=500)
+            except ValueError:
+                limit = 500
+            try:
+                offset = self._parse_nonnegative_int(params.get("offset", 0), default=0)
+            except ValueError:
+                offset = 0
+            return self._extract_body(self._handle_find(find_params, limit=limit, offset=offset))
 
         # --- Healthcheck ---
         if method == "healthcheck":
