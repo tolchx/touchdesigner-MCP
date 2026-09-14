@@ -45,10 +45,11 @@ Conecta Inteligencia Artificial con TouchDesigner usando el Model Context Protoc
 - **1120 patrones de conexión POP→POP** y **80 cadenas** minados de 102 proyectos `.toe` descomprimidos a texto plano, con el uso real de cada parámetro ([patrones](docs/POPs_KNOWLEDGE.md)).
 - **62 shaders GLSL POP** indexados con su código.
 - Validación de parámetros antes de escribir: el MCP rechaza nombres inexistentes con sugerencias en lugar de fallar en silencio.
+- **Paginación segura en las lecturas grandes**: `GET /operators`, `GET /find` y `GET /connections` aceptan `?limit=N&offset=N` (default `limit=500`, techo `5000`) y suman a la respuesta `total`, `returned`, `limit`, `offset` y `truncated` sin romper a los clientes que leían la lista completa; `limit`/`offset` no numéricos o negativos → `400` con `hint`, y `offset` más allá del total → lista vacía con el `total` real (`docs/API_CONTRACT_AUDIT.md`).
 - `/verify` recursivo por defecto: recorre los hijos de los COMP, atribuye cada error/warning a su operador y agrega estadísticas POP (`pop_stats` con puntos reales), con `?recurse=false` para el comportamiento legacy. Antes reportaba "healthy" en redes rotas.
 - **609 clases de la API de Python** documentadas offline.
 - **Gating por evidencia de la matriz POP**: de los 101 tipos POP, **80 están clasificados `ok_con_input`** (cocinan limpio CON fuente real y producen geometría — `docs/pop_matrix.json`, TD 2025.32460); el planner y el catálogo de topología recomiendan esos por defecto y advierten sobre los 21 restantes (8 con `errors()`, 12 sin geometría, 1 no creable) salvo que el pedido los nombre explícitamente (`isRecommendedForNetworks` / `networkRecommendationWarning`).
-- **1208 tests offline** nativos de Node.js que garantizan que el MCP se ejecute de forma robusta e independiente de TD, más **45 tests offline del bridge en Python** (`tests/test_api_contract_offline.py` 22 + `tests/test_td_api_offline.py` 23, todos verdes), **19 tests offline de sintaxis GLSL POP** (`tests/test_glsl_pop_offline.py`) y **14 tests del gate del baseline POP** (`tests/test_pop_matrix_baseline.py`).
+- **1208 tests offline** nativos de Node.js que garantizan que el MCP se ejecute de forma robusta e independiente de TD, más **73 tests offline del bridge en Python** (`tests/test_api_contract_offline.py` 39 + `tests/test_td_api_offline.py` 34, todos verdes), **19 tests offline de sintaxis GLSL POP** (`tests/test_glsl_pop_offline.py`) y **14 tests del gate del baseline POP** (`tests/test_pop_matrix_baseline.py`).
 
 ### 📑 Documentación técnica
 | Documento | Contenido |
@@ -310,9 +311,9 @@ git diff networks/mySystem.tdn
 | `td_network_plan` | Planificar y aplicar redes desde prompt |
 | `td_pane` | Estado del panel del network editor |
 | `td_selection` | Operadores seleccionados |
-| `td_operators` | Listar hijos de un path |
-| `td_find` | Buscar operadores |
-| `td_connections` | Inspeccionar conexiones |
+| `td_operators` | Listar hijos de un path (paginado: `?limit`, `?offset`) |
+| `td_find` | Buscar operadores (paginado: `?limit`, `?offset`) |
+| `td_connections` | Inspeccionar conexiones (paginado: `?limit`, `?offset`) |
 | `td_get_errors` | Errores y warnings |
 | `td_healthcheck` | Validar red |
 | `td_get_node_detail` | Info detallada de operador |
@@ -405,7 +406,7 @@ node server.js
 # Suite de unit/integration tests offline (1208 tests nativos, 0 fallos)
 cd mcp && npm run build && node --test
 
-# Suite de contrato del bridge Python (sin TD): 22 + 23 tests
+# Suite de contrato del bridge Python (sin TD): 39 + 34 tests
 python tests/test_api_contract_offline.py
 python tests/test_td_api_offline.py
 

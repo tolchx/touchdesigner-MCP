@@ -22,10 +22,10 @@ For each route I list **método**, **ruta**, **dónde se leen los args** (`pars`
 | 6 | GET | `/info` | — | `{build, version, product?, commercial, platform, osVersion?, release, projectPath?, projectFPS?}` (ver nota abajo) | `_handle_info` |
 | 7 | GET | `/editor/pane` | — | `{networkPath, x, y, zoom}` o `null` | `_handle_editor_pane` |
 | 8 | GET | `/editor/selection` | — | `{operators:[ {path,name,type,opType,family} ]}` | `_handle_editor_selection` |
-| 9 | GET | `/operators?path=/…` | `pars.path` (query) | `{path, operators:[ {name,type,opType} ]}` | `_handle_operators` |
+| 9 | GET | `/operators?path=/…&limit=N&offset=N` | `pars.path` (query), `pars.limit`, `pars.offset` | `{path, total, returned, limit, offset, truncated, operators:[ {name,type,opType} ]}`; default `limit=500` (cmp. anterior `50`), `offset=0`; limit>5000 cap 5000 e informa; offset>total → lista vacía + total real; limit/offset no numéricos o negativos → 400 + `hint` | `_handle_operators` |
 | 10 | GET | `/parameters?path=/…&names=a,b` | `pars.path`, `pars.names` (csv) | `{path, operator, parameters:[…], missing:[…]}` | `_handle_parameters_get` |
-| 11 | GET | `/connections?path=/…&recurse=0/1` | `pars.path`, `pars.recurse` | `{path, recurse, operators:[…]}` | `_handle_connections` |
-| 12 | GET | `/find?path=/…&query=…&name=…&family=…&opType=…&recursive=0/1&limit=N` | `pars.*` | `{path, query, name, family, opType, recursive, results:[…]}` | `_handle_find` |
+| 11 | GET | `/connections?path=/…&recurse=0/1&limit=N&offset=N` | `pars.path`, `pars.recurse`, `pars.limit`, `pars.offset` | `{path, recurse, total, returned, limit, offset, truncated, operators:[…]}`; misma semántica de paginación que /operators | `_handle_connections` |
+| 12 | GET | `/find?path=/…&query=…&name=…&family=…&opType=…&recursive=0/1&limit=N&offset=N` | `pars.*` | `{path, query, name, family, opType, recursive, total, returned, limit, offset, truncated, results:[…]}`; default `limit=500` (antes 50); misma semántica de paginación | `_handle_find` |
 | 13 | GET | `/healthcheck?path=/…&recurse=0/1` | `pars.path`, `pars.recurse` | `{path, recurse, ok, issueCount, issues:[…], operators:[…]}` (force-cookiea cada op) | `_handle_healthcheck` |
 | 14 | GET | `/get_errors?path=/…&recurse=0/1` | `pars.path`, `pars.recurse` | idéntico a `/healthcheck` (alias, siempre recursivo por defecto) | `_handle_get_errors` → `_handle_healthcheck` |
 | 15 | GET | `/get_node_detail?path=/…&recurse=0/1` | `pars.path`, `pars.recurse` | `{success, data:{ path,name,type,pars:[…],inputs:[…],viewer?,children? }}` (ejecuta codegen) | `_handle_get_node_detail` |
@@ -85,6 +85,7 @@ For each route I list **método**, **ruta**, **dónde se leen los args** (`pars`
 > - `/screenshot` GET (`_handle_screenshot(path, max_size)`): captura el TOP indicado por `path` con opción `max_size`. Es un endpoint separado del POST.
 > - `/glsl_reload` y `/glsl_update`: el código está implementado pero **no he verificado su firma exacta de payload** en esta auditoría — ver notas "a verificar" abajo.
 > - `/param_presets` GET: el handler lo lee de `request` (no de `pars`/query) — como GET estándar no tiene body, esto es **HUERFANO** desde un cliente HTTP normal (ver notas).
+> - **Paginación (TD-MCP #04):** `GET /operators`, `GET /connections` y `GET /find` aceptan ahora `?limit=N&offset=N` (default `limit=500`, `offset=0`, máximo `limit=5000` — el 500 por defecto preserva a los clientes actuales que leen la respuesta completa). La respuesta conserva sus claves existentes y **añade** `total`, `returned`, `limit`, `offset`, `truncated` (bool). Invalidación: limit/offset no numéricos o negativos → `400` con `hint`; `offset > total` → lista vacía + `total` real (no error); `limit > 5000` → cap a 5000 y se informa. El `.tox` standalone (`mcp/setup/toe_extension.py`) incluye la misma lógica. Ver implementación en `toe/src/TouchDesignerAPI.py` + `mcp/setup/toe_extension.py` y tests en `tests/test_api_contract_offline.py` + `tests/test_td_api_offline.py`.
 
 ---
 
