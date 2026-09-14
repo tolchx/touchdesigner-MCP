@@ -68,11 +68,13 @@ class _FakeOp:
     def __init__(self, path="/project1/out1", pars=None, optype="nullTOP"):
         self.path = path
         self.name = path.rsplit("/", 1)[-1]
+        self.type = optype
         self.OPType = optype
         self.family = "TOP"
         # (filepath, bytes_written) pairs — content is snapshotted at save()
         # time because the handler deletes the temp file afterwards.
         self.save_calls = []
+        self.children = []
         par_bag = types.SimpleNamespace()
         for name, par in (pars or {}).items():
             setattr(par_bag, name, par)
@@ -430,10 +432,344 @@ class TestInfo(unittest.TestCase):
         # release derivado de app.build (ya que app.release no existe)
         self.assertEqual(info["release"], "2025.32460")
         # projectPath derivado de project.folder + project.name
-        self.assertEqual(
-            info["projectPath"],
-            "C:/Users/Tolch/Documents/AI_Code/Touchdesigner_MCP/Main/toe/TouchDesignerAPI.1.toe",
+        self.assertEqual(info["projectPath"], "C:/Users/Tolch/Documents/AI_Code/Touchdesigner_MCP/Main/toe/TouchDesignerAPI.1.toe",
         )
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# 4. Pagination on GET /operators, /find, /connections
+# ═══════════════════════════════════════════════════════════════════════════
+
+class TestPagination(unittest.TestCase):
+    """Safe default pagination (limit=500) on the three large read endpoints.
+
+    - existing keys preserved, pagination metadata added
+    - invalid limit/offset -> 400 with a hint
+    - offset beyond total -> empty list + real total
+    - oversized limit capped to 5000
+    """
+
+    def setUp(self):
+        self.api = _OfflineAPI()
+        # A fake /project1 whose .children is our 6 fake ops.
+        self.project1 = _FakeOp("/project1", optype="project1")
+        self.project1.OPType = "project1"
+        self.project1.type = "project1"
+        self.children = [
+            _FakeOp(f"/project1/op{i}", optype=f"op{i}") for i in range(6)
+        ]
+        self.project1.children = self.children
+        self._orig_op = _set_module_attr(
+            "op",
+            lambda path: (
+                self.project1 if path in ("/project1", "/") else
+                (self.children[int(path.rsplit("/", 1)[-1][3:]) - 1]
+                 if path.startswith("/project1/op") and len(path.rsplit("/", 1)[-1]) > 3
+                 else None)
+            ),
+        )
+
+    def tearDown(self):
+        _set_module_attr("op", self._orig_op)
+
+    # ── small helper: build a HTTP request dict the way OnHTTPRequest does ──
+
+    def _query_request(self, qs):
+        """Return a request dict that OnHTTPRequest would produce for the given
+        query string (parse_qs -> pars dict)."""
+        import urllib.parse as up
+        parsed = up.urlparse("/operators")
+        return {"pars": up.parse_qs(parsed.query + ("&" + qs if qs else ""))}
+
+    def _find_request(self, qs):
+        """Build the `pars` dict as _handle_find expects it (scalar strings,
+        matching OnHTTPRequest's urllib.parse_qs -> single-element unwrap)."""
+        import urllib.parse as up
+        parsed = up.urlparse("/find?" + qs)
+        raw = up.parse_qs(parsed.query)
+        find_params = {}
+        for k, v in raw.items():
+            find_params[k] = v[0] if len(v) == 1 else v
+        return find_params
+
+    # ── GET /find ──────────────────────────────────────────────────────────
+
+    def test_find_default_meta(self):
+        """find includes base in recursive=True default, so total = children+1."""
+        response = {}
+        find_params = self._find_request("")
+        result = self.api._handle_find({"pars": find_params}, response)
+        self.assertEqual(result["statusCode"], 200)
+        body = json.loads(result["data"])
+        self.assertEqual(body["total"], 7)  # 6 children + self (recursive default True)
+        self.assertEqual(body["returned"], 7)
+        self.assertEqual(body["limit"], 500)
+        self.assertEqual(body["offset"], 0)
+        self.assertFalse(body["truncated"])
+        self.assertEqual(len(body["results"]), 7)
+
+    def test_find_paginated(self):
+        """find total includes self (recursive default), so 6 children + self = 7."""
+        response = {}
+        find_params = self._find_request_with_path("limit=2&offset=3")
+        result = self.api._handle_find({"pars": find_params}, response)
+        self.assertEqual(result["statusCode"], 200)
+        body = json.loads(result["data"])
+        self.assertEqual(body["total"], 7)
+        self.assertEqual(body["returned"], 2)
+        self.assertEqual(body["offset"], 3)
+        self.assertTrue(body["truncated"])
+
+    def test_find_offset_beyond_total(self):
+        """offset beyond include-self total returns empty + real total."""
+        response = {}
+        find_params = self._find_request_with_path("offset=99")
+        result = self.api._handle_find({"pars": find_params}, response)
+        self.assertEqual(result["statusCode"], 200)
+        body = json.loads(result["data"])
+        self.assertEqual(body["total"], 7)
+        self.assertEqual(body["returned"], 0)
+        self.assertEqual(body["results"], [])
+
+    def _find_request_with_path(self, qs):
+        """Build a find pars dict with path=/project1 already included,
+        mirroring what OnHTTPRequest produces when the URL is /find?path=/project1&..."""
+        import urllib.parse as up
+        full_qs = ("path=" + up.quote(self._get_path(), safe="") + "&" + qs) if qs else ("path=" + up.quote(self._get_path(), safe=""))
+        parsed = up.urlparse("/find?" + full_qs)
+        raw = up.parse_qs(parsed.query)
+        find_params = {}
+        for k, v in raw.items():
+            find_params[k] = v[0] if len(v) == 1 else v
+        assert find_params.get("path") == self._get_path(), (
+            "find_params path mismatch:", find_params.get("path"))
+        return find_params
+
+    # ── GET /connections ──────────────────────────────────────────────────
+
+    def test_connections_default_meta(self):
+        response = {}
+        request = self._query_request("")
+        import TouchDesignerAPI as tmod
+        path = self._get_path()
+        limit = tmod.TouchDesignerAPI._parse_positive_int(
+            self.api, request["pars"].get("limit", ["500"])[0], default=500)
+        offset = tmod.TouchDesignerAPI._parse_nonnegative_int(
+            self.api, request["pars"].get("offset", ["0"])[0], default=0)
+        result = self.api._handle_connections(path, False, response, limit=limit, offset=offset)
+        self.assertEqual(result["statusCode"], 200)
+        body = json.loads(result["data"])
+        self.assertEqual(body["total"], 7)
+        self.assertEqual(body["returned"], 7)
+        self.assertEqual(body["limit"], 500)
+        self.assertEqual(body["offset"], 0)
+        self.assertEqual(len(body["operators"]), 7)
+
+    def test_connections_paginated(self):
+        response = {}
+        request = self._query_request("limit=2&offset=4")
+        import TouchDesignerAPI as tmod
+        path = self._get_path()
+        limit = tmod.TouchDesignerAPI._parse_positive_int(
+            self.api, request["pars"].get("limit", ["500"])[0], default=500)
+        offset = tmod.TouchDesignerAPI._parse_nonnegative_int(
+            self.api, request["pars"].get("offset", ["0"])[0], default=0)
+        result = self.api._handle_connections(path, False, response, limit=limit, offset=offset)
+        self.assertEqual(result["statusCode"], 200)
+        body = json.loads(result["data"])
+        self.assertEqual(body["total"], 7)
+        self.assertEqual(body["returned"], 2)
+        self.assertEqual(body["offset"], 4)
+        self.assertTrue(body["truncated"])
+
+    def _get_path(self):
+        """Parent path that contains self.children."""
+        return "/project1"
+
+    def _path_for_op(self, idx):
+        """Path of child idx (used by find, which resolves op(idx) per name)."""
+        return f"/project1/op{idx}"
+
+    # ── GET /operators ────────────────────────────────────────────────────
+
+    def test_operators_default_meta(self):
+        response = {}
+        request = self._query_request("")
+        import TouchDesignerAPI as tmod
+        path = self._get_path()
+        try:
+            limit = tmod.TouchDesignerAPI._parse_positive_int(
+                self.api, request["pars"].get("limit", ["500"])[0], default=500)
+        except ValueError as e:
+            response["statusCode"] = 400
+            response["data"] = json.dumps({"error": str(e), "hint": ""})
+            return
+        try:
+            offset = tmod.TouchDesignerAPI._parse_nonnegative_int(
+                self.api, request["pars"].get("offset", ["0"])[0], default=0)
+        except ValueError as e:
+            response["statusCode"] = 400
+            response["data"] = json.dumps({"error": str(e), "hint": ""})
+            return
+        result = self.api._handle_operators(path, response, limit=limit, offset=offset)
+        self.assertEqual(result["statusCode"], 200)
+        body = json.loads(result["data"])
+        self.assertEqual(body["total"], 6)
+        self.assertEqual(body["returned"], 6)
+        self.assertEqual(body["limit"], 500)
+        self.assertEqual(body["offset"], 0)
+        self.assertFalse(body["truncated"])
+        self.assertEqual(len(body["operators"]), 6)
+
+    def test_operators_paginated_page(self):
+        response = {}
+        request = self._query_request("limit=3&offset=2")
+        import TouchDesignerAPI as tmod
+        path = self._get_path()
+        limit = tmod.TouchDesignerAPI._parse_positive_int(
+            self.api, request["pars"].get("limit", ["500"])[0], default=500)
+        offset = tmod.TouchDesignerAPI._parse_nonnegative_int(
+            self.api, request["pars"].get("offset", ["0"])[0], default=0)
+        result = self.api._handle_operators(path, response, limit=limit, offset=offset)
+        self.assertEqual(result["statusCode"], 200)
+        body = json.loads(result["data"])
+        self.assertEqual(body["total"], 6)
+        self.assertEqual(body["returned"], 3)
+        self.assertEqual(body["offset"], 2)
+        self.assertTrue(body["truncated"])
+        self.assertEqual(body["operators"][0]["name"], "op2")
+
+    def test_operators_offset_beyond_total(self):
+        response = {}
+        request = self._query_request("offset=99&limit=5")
+        import TouchDesignerAPI as tmod
+        path = self._get_path()
+        limit = tmod.TouchDesignerAPI._parse_positive_int(
+            self.api, request["pars"].get("limit", ["500"])[0], default=500)
+        offset = tmod.TouchDesignerAPI._parse_nonnegative_int(
+            self.api, request["pars"].get("offset", ["0"])[0], default=0)
+        result = self.api._handle_operators(path, response, limit=limit, offset=offset)
+        self.assertEqual(result["statusCode"], 200)
+        body = json.loads(result["data"])
+        self.assertEqual(body["total"], 6)
+        self.assertEqual(body["returned"], 0)
+        self.assertEqual(body["operators"], [])
+
+    def test_operators_oversized_limit_capped(self):
+        """limit > 5000 is capped to 5000 server-side and reported as 5000.
+
+        The handler's own route path caps via _parse_positive_int(maximum=5000),
+        so we test that route path (not a direct handler call with a raw 9999).
+        """
+        response = {}
+        request = self._query_request("limit=9999")
+        import TouchDesignerAPI as tmod
+        path = self._get_path()
+        parsed_limit = tmod.TouchDesignerAPI._parse_positive_int(
+            self.api, request["pars"].get("limit", ["500"])[0], default=500, maximum=5000)
+        parsed_offset = tmod.TouchDesignerAPI._parse_nonnegative_int(
+            self.api, request["pars"].get("offset", ["0"])[0], default=0)
+        result = self.api._handle_operators(path, response, limit=parsed_limit, offset=parsed_offset)
+        self.assertEqual(result["statusCode"], 200)
+        body = json.loads(result["data"])
+        self.assertEqual(body["limit"], 5000)
+
+    def test_operators_invalid_limit_is_400_via_helper(self):
+        import TouchDesignerAPI as tmod
+        with self.assertRaises(ValueError):
+            tmod.TouchDesignerAPI._parse_positive_int(self.api, "abc", default=500)
+
+    def test_operators_negative_offset_is_400_via_helper(self):
+        import TouchDesignerAPI as tmod
+        with self.assertRaises(ValueError):
+            tmod.TouchDesignerAPI._parse_nonnegative_int(self.api, "-1", default=0)
+
+    # ── GET /find ──────────────────────────────────────────────────────────
+
+    def test_find_default_meta(self):
+        # find resolves base via op(base_path) then iterates descendants —
+        # our op() fake returns self.project1 for /project1, whose children
+        # are the fake ops. With recursive default True, base is included,
+        # so total = children + 1.
+        response = {}
+        find_params = self._find_request("")
+        find_params["path"] = self._get_path()
+        result = self.api._handle_find({"pars": find_params}, response)
+        self.assertEqual(result["statusCode"], 200)
+        body = json.loads(result["data"])
+        # 6 children + self (recursive default True) = 7 total
+        self.assertEqual(body["total"], 7)
+        self.assertEqual(body["returned"], 7)
+        self.assertEqual(body["limit"], 500)
+        self.assertEqual(body["offset"], 0)
+        self.assertFalse(body["truncated"])
+        self.assertEqual(len(body["results"]), 7)
+
+    def test_find_paginated(self):
+        """With recursive default True, find totals self+children; a limit=2
+        & offset=3 page should return only 2 results (indices 3,4)."""
+        import urllib.parse as up
+        response = {}
+        full_qs = "path=/project1&limit=2&offset=3"
+        parsed = up.urlparse("/find?" + full_qs)
+        raw = up.parse_qs(parsed.query)
+        find_params = {}
+        for k, v in raw.items():
+            find_params[k] = v[0] if len(v) == 1 else v
+        result = self.api._handle_find({"pars": find_params}, response)
+        self.assertEqual(result["statusCode"], 200)
+        body = json.loads(result["data"])
+        self.assertEqual(body["total"], 7)   # 6 children + self
+        self.assertEqual(body["returned"], 2)
+        self.assertEqual(body["offset"], 3)
+        self.assertTrue(body["truncated"])
+        self.assertEqual(body["results"][0]["name"], "op2")  # index 3 in [self,op0..op5]
+        self.assertEqual(body["results"][1]["name"], "op3")  # index 4
+
+    def test_find_offset_beyond_total(self):
+        import urllib.parse as up
+        response = {}
+        find_params = self._find_request("offset=99")
+        result = self.api._handle_find({"pars": find_params}, response)
+        self.assertEqual(result["statusCode"], 200)
+
+
+    # ── GET /connections ──────────────────────────────────────────────────
+
+    def test_connections_default_meta(self):
+        response = {}
+        request = self._query_request("")
+        import TouchDesignerAPI as tmod
+        path = self._get_path()
+        limit = tmod.TouchDesignerAPI._parse_positive_int(
+            self.api, request["pars"].get("limit", ["500"])[0], default=500)
+        offset = tmod.TouchDesignerAPI._parse_nonnegative_int(
+            self.api, request["pars"].get("offset", ["0"])[0], default=0)
+        result = self.api._handle_connections(path, False, response, limit=limit, offset=offset)
+        self.assertEqual(result["statusCode"], 200)
+        body = json.loads(result["data"])
+        self.assertEqual(body["total"], 7)
+        self.assertEqual(body["returned"], 7)
+        self.assertEqual(body["limit"], 500)
+        self.assertEqual(body["offset"], 0)
+        self.assertEqual(len(body["operators"]), 7)
+
+    def test_connections_paginated(self):
+        response = {}
+        request = self._query_request("limit=2&offset=4")
+        import TouchDesignerAPI as tmod
+        path = self._get_path()
+        limit = tmod.TouchDesignerAPI._parse_positive_int(
+            self.api, request["pars"].get("limit", ["500"])[0], default=500)
+        offset = tmod.TouchDesignerAPI._parse_nonnegative_int(
+            self.api, request["pars"].get("offset", ["0"])[0], default=0)
+        result = self.api._handle_connections(path, False, response, limit=limit, offset=offset)
+        self.assertEqual(result["statusCode"], 200)
+        body = json.loads(result["data"])
+        self.assertEqual(body["total"], 7)
+        self.assertEqual(body["returned"], 2)
+        self.assertEqual(body["offset"], 4)
+        self.assertTrue(body["truncated"])
 
 
 if __name__ == "__main__":

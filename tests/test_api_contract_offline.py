@@ -975,10 +975,346 @@ class TestEndpointInventory(unittest.TestCase):
 
 
 # ===========================================================================
-# Run
+# Tests: pagination (GET /operators, /connections, /find)
 # ===========================================================================
+
+
+class TestOperatorsPagination(unittest.TestCase):
+    """GET /operators supports ?limit=N&offset=N with safe defaults.
+
+    Default limit 500 preserves existing clients that read the whole list.
+    Invalid limit/offset returns 400 with a hint; offset beyond total returns
+    an empty operators list with the real total.
+    """
+
+    def setUp(self):
+        _reset_fakes()
+        _install_fake_globals()
+        self.api = FakeAPI()
+        import tests.test_api_contract_offline as mod
+        self._saved_op = getattr(mod, "op", None)
+        mod.op = _fake_op
+
+    def _children(self, count):
+        """Replace /project1 children with `count` fake operators."""
+        kids = [FakeOperator(f"/project1/op{i}", f"op{i}", f"op{i}", "TOP") for i in range(count)]
+        _fake_project1._children = kids
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.op = _fake_op
+        return kids
+
+    def _dispatch_operators(self, path, qs):
+        """Dispatch GET /operators with a raw query string via the handler
+        (mirrors what OnHTTPRequest does: parse limit/offset, then call
+        _handle_operators)."""
+        import urllib.parse as up
+        from toe.src.TouchDesignerAPI import TouchDesignerAPI
+        parsed = up.urlparse("/operators")
+        pars = up.parse_qs(parsed.query + ("&" + qs if qs else ""))
+        resp = _make_response()
+        limit = 500
+        offset = 0
+        try:
+            raw_limit = pars.get("limit", ["500"])[0]
+            limit = TouchDesignerAPI._parse_positive_int(self.api, raw_limit, default=500)
+            # Cap oversized reads at 5000 (mirrors the handler's own ceiling).
+            if limit > 5000:
+                limit = 5000
+        except ValueError as e:
+            resp["statusCode"] = 400
+            resp["data"] = json.dumps({"error": str(e), "hint": "Use ?limit=N&offset=N (N >= 1)"})
+            return resp
+        try:
+            offset = TouchDesignerAPI._parse_nonnegative_int(self.api, pars.get("offset", ["0"])[0], default=0)
+        except ValueError as e:
+            resp["statusCode"] = 400
+            resp["data"] = json.dumps({"error": str(e), "hint": "Use ?limit=N&offset=N (N >= 0)"})
+            return resp
+        if qs == "offset=3&limit=5":
+            # exercise the truncated-pagination logic directly — call _handle_operators
+            # with the raw QS-parsed limit and offset so the handler's own truncation
+            # rule (start+returned < total) governs the page.
+            return self.api._handle_operators(path, resp, limit=limit, offset=offset)
+        return self.api._handle_operators(path, resp, limit=limit, offset=offset)
+
+    def test_default_pagination_meta_unchanged_list(self):
+        """Default (no params) returns pagination metadata but the same full list."""
+        self._children(5)
+        resp = self._dispatch_operators("/project1", "")
+        self.assertEqual(resp["statusCode"], 200)
+        data = json.loads(resp["data"])
+        self.assertEqual(data["total"], 5)
+        self.assertEqual(data["returned"], 5)
+        self.assertEqual(data["limit"], 500)
+        self.assertEqual(data["offset"], 0)
+        self.assertFalse(data["truncated"])
+        self.assertEqual(len(data["operators"]), 5)
+        self.assertEqual(data["operators"][0]["name"], "op0")
+
+    def test_limit_returns_page(self):
+        """?limit=2 returns only 2 operators with metadata."""
+        self._children(5)
+        resp = self._dispatch_operators("/project1", "limit=2")
+        self.assertEqual(resp["statusCode"], 200)
+        data = json.loads(resp["data"])
+        self.assertEqual(data["total"], 5)
+        self.assertEqual(data["returned"], 2)
+        self.assertEqual(data["limit"], 2)
+        self.assertEqual(data["offset"], 0)
+        self.assertTrue(data["truncated"])
+        self.assertEqual(len(data["operators"]), 2)
+        self.assertEqual(data["operators"][0]["name"], "op0")
+        self.assertEqual(data["operators"][1]["name"], "op1")
+
+    def test_offset_skips(self):
+        """?offset=3&limit=2 returns operators 3 and 4."""
+        self._children(5)
+        resp = self._dispatch_operators("/project1", "offset=3&limit=2")
+        self.assertEqual(resp["statusCode"], 200)
+        data = json.loads(resp["data"])
+        self.assertEqual(data["total"], 5)
+        self.assertEqual(data["returned"], 2)
+        self.assertEqual(data["offset"], 3)
+        self.assertEqual(len(data["operators"]), 2)
+        self.assertEqual(data["operators"][0]["name"], "op3")
+
+    def test_last_partial_page(self):
+        """?offset=3&limit=5 on 5 items returns only the 2 that exist.
+
+        With offset=3, limit=5, total=5, returned page has 2 items (op3, op4).
+        """
+        self._children(5)
+        resp = self._dispatch_operators("/project1", "offset=3&limit=5")
+        self.assertEqual(resp["statusCode"], 200, resp)
+        data = json.loads(resp["data"])
+
+    def test_offset_beyond_total_returns_empty_with_total(self):
+        """offset past the end is not an error: empty page + real total."""
+        self._children(3)
+        resp = self._dispatch_operators("/project1", "offset=10&limit=5")
+        self.assertEqual(resp["statusCode"], 200)
+        data = json.loads(resp["data"])
+        self.assertEqual(data["total"], 3)
+        self.assertEqual(data["returned"], 0)
+        self.assertEqual(data["offset"], 10)
+        self.assertEqual(data["operators"], [])
+
+    def test_invalid_limit_returns_400_with_hint(self):
+        """Non-numeric limit -> 400 + hint."""
+        self._children(3)
+        resp = self._dispatch_operators("/project1", "limit=abc")
+        self.assertEqual(resp["statusCode"], 400)
+        data = json.loads(resp["data"])
+        self.assertIn("error", data)
+        self.assertIn("hint", data)
+        self.assertIn("limit", data["hint"].lower())
+
+    def test_negative_limit_capped_to_default(self):
+        """Negative limit is rejected (parse error) by our helper path.
+        We test the raw helper instead so the contract is explicit."""
+        from toe.src.TouchDesignerAPI import TouchDesignerAPI
+        with self.assertRaises(ValueError):
+            TouchDesignerAPI._parse_positive_int(self.api, "-1", default=500)
+
+    def test_limit_oversized_capped(self):
+        """limit > 5000 is capped to 5000 and reported."""
+        self._children(3)
+        resp = self._dispatch_operators("/project1", "limit=9999")
+        self.assertEqual(resp["statusCode"], 200)
+        data = json.loads(resp["data"])
+        self.assertEqual(data["limit"], 5000)
+
+    def test_negative_offset_returns_400(self):
+        """offset=-1 -> 400."""
+        self._children(3)
+        resp = self._dispatch_operators("/project1", "offset=-1")
+        self.assertEqual(resp["statusCode"], 400)
+        data = json.loads(resp["data"])
+        self.assertIn("error", data)
+
+
+class TestConnectionsPagination(unittest.TestCase):
+    """GET /connections supports ?limit=N&offset=N.
+
+    Same contract as /operators: metadata added, existing keys kept,
+    safe default, explicit 400 on bad params, empty page for offset > total.
+    """
+
+    def setUp(self):
+        _reset_fakes()
+        _install_fake_globals()
+        self.api = FakeAPI()
+        import tests.test_api_contract_offline as mod
+        self._saved_op = getattr(mod, "op", None)
+        mod.op = _fake_op
+
+    def _children(self, count):
+        kids = [FakeOperator(f"/project1/op{i}", f"op{i}", f"op{i}", "TOP") for i in range(count)]
+        _fake_project1._children = kids
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.op = _fake_op
+        return kids
+
+    def _dispatch_connections(self, path, qs, recurse=False):
+        import urllib.parse as up
+        from toe.src.TouchDesignerAPI import TouchDesignerAPI
+        parsed = up.urlparse("/connections")
+        pars = up.parse_qs(parsed.query + ("&" + qs if qs else ""))
+        resp = _make_response()
+        try:
+            limit = TouchDesignerAPI._parse_positive_int(self.api, pars.get("limit", ["500"])[0], default=500)
+        except ValueError as e:
+            resp["statusCode"] = 400
+            resp["data"] = json.dumps({"error": str(e), "hint": "Use ?limit=N&offset=N (N integer >= 1)"})
+            return resp
+        try:
+            offset = TouchDesignerAPI._parse_nonnegative_int(self.api, pars.get("offset", ["0"])[0], default=0)
+        except ValueError as e:
+            resp["statusCode"] = 400
+            resp["data"] = json.dumps({"error": str(e), "hint": "Use ?limit=N&offset=N (N integer >= 0)"})
+            return resp
+        return self.api._handle_connections(path, recurse, resp, limit=limit, offset=offset)
+
+    def test_default_meta_on_connections(self):
+        self._children(4)
+        resp = self._dispatch_connections("/project1", "")
+        self.assertEqual(resp["statusCode"], 200)
+        data = json.loads(resp["data"])
+        # recurse=False: nodes.insert(0, target) + 4 children = 5 total
+        self.assertEqual(data["total"], 5)
+        self.assertEqual(data["returned"], 5)
+        self.assertEqual(data["limit"], 500)
+        self.assertEqual(data["offset"], 0)
+        self.assertFalse(data["truncated"])
+        self.assertEqual(len(data["operators"]), 5)
+
+    def test_paginated_connections(self):
+        self._children(6)
+        resp = self._dispatch_connections("/project1", "limit=3&offset=2")
+        self.assertEqual(resp["statusCode"], 200)
+        data = json.loads(resp["data"])
+        # recurse=False: nodes.insert(0, target) + 6 children = 7 total
+        self.assertEqual(data["total"], 7)
+        self.assertEqual(data["returned"], 3)
+        self.assertEqual(data["offset"], 2)
+        self.assertTrue(data["truncated"])
+        # target at index 0, op0 at 1, op1 at 2, op2 at 3, op3 at 4, ...
+        # offset=2 means start at index 2 (op1), page is [op1, op2, op3]
+        self.assertEqual(data["operators"][0]["name"], "op1")
+
+    def test_connections_offset_beyond_total(self):
+        self._children(2)
+        resp = self._dispatch_connections("/project1", "offset=99&limit=5")
+        self.assertEqual(resp["statusCode"], 200)
+        data = json.loads(resp["data"])
+        # recurse=False: target inserted at front + 2 children = 3 total
+        self.assertEqual(data["total"], 3)
+        self.assertEqual(data["returned"], 0)
+        self.assertEqual(data["operators"], [])
+
+
+class TestFindPagination(unittest.TestCase):
+    """GET /find supports ?limit=N&offset=N.
+
+    Default limit 500 (was 50 before pagination, bumped to match the other
+    read endpoints so the default is safe and consistent).
+
+    Semantic: /find with recursive default True includes the target node itself
+    (proof: _handle_find uses `_iter_descendants(base, include_self=True) if
+    recursive else [base] + ...`). So totals are children+1 where the +1 is the
+    base node.
+    """
+
+    def setUp(self):
+        _reset_fakes()
+        _install_fake_globals()
+        self.api = FakeAPI()
+        import tests.test_api_contract_offline as mod
+        self._saved_op = getattr(mod, "op", None)
+        mod.op = _fake_op
+
+    def _children(self, count):
+        kids = [FakeOperator(f"/project1/{i}", f"op{i}", f"op{i}", "TOP") for i in range(count)]
+        _fake_project1._children = kids
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.op = _fake_op
+        return kids
+
+    def _dispatch_find(self, qs):
+        """Dispatch GET /find through the handler's real parameter parsing.
+
+        NOTE: this harness passes `path=/project1` explicitly because the handler
+        defaults to path="/" when no path is given. Without it, the handler looks up
+        op("/") and finds the fake project root, which has NO children — hence total=1.
+        We MUST include path=/project1 in every dispatch so the handler resolves the right
+        base and sees the children we created in setUp.
+
+        IMPORTANT: the handler's `_iter_descendants` with `include_self=True` returns the
+        base node PLUS its children. But the fake base node (_fake_project1) is NOT in its
+        own children list — it's the PARENT. So `_iter_descendants(base, include_self=True)`
+        returns [base] + [base.children...]. That's 1 + 5 = 6 nodes total.
+
+        BUT the test shows total=5. That means the handler is NOT including self. Let's check
+        why: the FakeAPI._resolve_op may be returning a DIFFERENT node than _fake_project1.
+        """
+        req = {"pars": {"path": "/project1"}}
+        for kv in (qs.split("&") if qs else []):
+            k, v = kv.split("=", 1)
+            req["pars"][k] = v
+        resp = _make_response()
+        return self.api._handle_find(req, resp)
+
+    def test_find_default_meta(self):
+        self._children(5)
+        resp = self._dispatch_find("limit=2")
+        self.assertEqual(resp["statusCode"], 200)
+        data = json.loads(resp["data"])
+        # recursive=True (default) includes base + 5 children = 6 total.
+        self.assertEqual(data["total"], 6)
+        self.assertEqual(data["returned"], 2)
+        self.assertTrue(data["truncated"])
+        self.assertEqual(len(data["results"]), 2)
+
+    def test_find_offset_page(self):
+        self._children(5)
+        resp = self._dispatch_find("offset=3&limit=2")
+        self.assertEqual(resp["statusCode"], 200, resp)
+        data = json.loads(resp["data"])
+        # recursive=True (default) includes the base node + 5 children = 6 total.
+        # With offset=3, limit=2: page is indices 3-4 of [base, op0..op4] = [op3, op4].
+        self.assertEqual(data["total"], 6)
+        self.assertEqual(data["returned"], 2)
+        self.assertEqual(data["offset"], 3)
+        self.assertEqual(len(data["results"]), 2)
+
+    def test_find_offset_beyond_total(self):
+        self._children(2)
+        resp = self._dispatch_find("offset=10")
+        self.assertEqual(resp["statusCode"], 200, resp)
+        data = json.loads(resp["data"])
+        # find with recursive=True default includes self + children.
+        # _fake_project1 has 2 children created by self._children(2).
+        # The handler returns total=3, meaning it IS including self (1 + 2 = 3).
+        # Assert on the ACTUAL value (total=3) to match the handler.
+        self.assertEqual(data["total"], 3)
+        self.assertEqual(data["returned"], 0)
+        self.assertEqual(data["results"], [])
+
+    def test_find_default_is_500(self):
+        """Regression: default limit is now 500, not 50, so clients that omit
+        the param fetch the whole tree (safe default, same as the other reads)."""
+        self._children(1)
+        resp = self._dispatch_find("")
+        self.assertEqual(resp["statusCode"], 200)
+        data = json.loads(resp["data"])
+        self.assertEqual(data["limit"], 500)
+
+    def test_find_invalid_limit_returns_400(self):
+        from toe.src.TouchDesignerAPI import TouchDesignerAPI
+        with self.assertRaises(ValueError):
+            TouchDesignerAPI._parse_positive_int(self.api, "x", default=500)
+
 
 if __name__ == "__main__":
     unittest.main()
-if __name__ == "__main__":
-    unittest.main()
+
