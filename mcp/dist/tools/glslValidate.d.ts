@@ -46,6 +46,26 @@ export interface GlslAnalysis {
 export declare function analyzeGlslShader(code: string): GlslAnalysis;
 /** R3 recipe: Create Attributes parameters for one attribute (None → builtin). */
 export declare function buildCreateAttrParams(attr: string): Record<string, string | number>;
+export interface GlslTopAnalysis {
+    has_fragcolor_out: boolean;
+    bad_uv_swizzles: string[];
+    has_main: boolean;
+    uses_uniform0name_risk: boolean;
+    errors: string[];
+    warnings: string[];
+}
+/**
+ * Analyze a GLSL TOP pixel shader before it reaches TD (pure function).
+ * Rules from docs/GLSL_TOP_RULES.md (all verified live on TD 2025.31760):
+ *   T1: explicit `out vec4 fragColor` declaration.
+ *   T2: vUV swizzles are .st/.xy — .uv/.uv1/.texcoord do NOT compile (probe G).
+ *   T4: uniforms are bound via vec0-star/const0-star/matrix0/ac0 families — there is NO
+ *       uniform0name on glslTOP (probe D); flag it when the creation code tries.
+ *   T9: real compile errors live in `<name>_info` (probe A).
+ */
+export declare function analyzeGlslTopShader(code: string, creationCode?: string): GlslTopAnalysis;
+/** TOP pre-validation: blocking errors or null when safe. */
+export declare function preValidateTopShader(code: string, creationCode?: string): string[] | null;
 /**
  * Pre-validation for the apply flow: returns blocking errors (R1 / no main)
  * that must stop the write, or null when safe to proceed.

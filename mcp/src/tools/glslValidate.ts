@@ -139,6 +139,88 @@ export function buildCreateAttrParams(
   };
 }
 
+// ─── GLSL TOP analysis (docs/GLSL_TOP_RULES.md, verified live 2026-09-17) ───
+
+export interface GlslTopAnalysis {
+  has_fragcolor_out: boolean;
+  bad_uv_swizzles: string[];
+  has_main: boolean;
+  uses_uniform0name_risk: boolean;
+  errors: string[];
+  warnings: string[];
+}
+
+const BAD_UV_RE = /vUV\.(uv1?|texcoord)\b/g;
+
+/**
+ * Analyze a GLSL TOP pixel shader before it reaches TD (pure function).
+ * Rules from docs/GLSL_TOP_RULES.md (all verified live on TD 2025.31760):
+ *   T1: explicit `out vec4 fragColor` declaration.
+ *   T2: vUV swizzles are .st/.xy — .uv/.uv1/.texcoord do NOT compile (probe G).
+ *   T4: uniforms are bound via vec0-star/const0-star/matrix0/ac0 families — there is NO
+ *       uniform0name on glslTOP (probe D); flag it when the creation code tries.
+ *   T9: real compile errors live in `<name>_info` (probe A).
+ */
+export function analyzeGlslTopShader(code: string, creationCode?: string): GlslTopAnalysis {
+  const normalized = code.replace(/\r\n/g, "\n");
+  const errors: string[] = [];
+  const warnings: string[] = [];
+
+  const has_fragcolor_out =
+    /\bout\s+vec4\s+fragColor\b/.test(normalized) ||
+    /layout\s*\([^)]*location\s*=\s*0[^)]*\)\s*out\s+vec4\s+fragColor\b/.test(normalized);
+  if (!has_fragcolor_out) {
+    errors.push(
+      "Regla TOP 1 (GLSL_TOP_RULES.md): falta 'out vec4 fragColor;' — el pixel shader " +
+        "debe declarar su salida: layout(location = 0) out vec4 fragColor;"
+    );
+  }
+
+  const bad_uv_swizzles = [...new Set(
+    [...normalized.matchAll(BAD_UV_RE)].map((m) => "vUV." + m[1])
+  )];
+  if (bad_uv_swizzles.length > 0) {
+    errors.push(
+      "Regla TOP 2 (GLSL_TOP_RULES.md): " + bad_uv_swizzles.join(", ") +
+        " NO compila ('unknown swizzle selection', probe G). Corrección: usá vUV.st o vUV.xy."
+    );
+  }
+
+  const has_main = /void\s+main\s*\(/.test(normalized);
+  if (!has_main) {
+    errors.push("falta 'void main()' — no es un pixel shader TOP válido");
+  }
+
+  const uses_uniform0name_risk =
+    !!creationCode && /uniform\d+name/.test(creationCode) &&
+    !/vec\d+name|const\d+name|matrix\d+name|ac\d+name/.test(creationCode);
+  if (uses_uniform0name_risk) {
+    errors.push(
+      "Regla TOP 4 (GLSL_TOP_RULES.md, probe D): en glslTOP NO existe uniform0name " +
+        "(eso es del glslPOP). Bind de uniforms: vec0name+vec0valuex/y/z/w (vec), " +
+        "const0name+const0value (float), matrix0value (mat4), ac0* (alimentado por CHOP)."
+    );
+  }
+
+  if (/uTD2DInfos\[\d+\]\.res\.zw/.test(normalized)) {
+    // correct aspect idiom — nothing to flag
+  }
+  if (/texture\s*\(\s*sTD2DInputs\[\d+\]\s*,\s*vUV\./.test(normalized)) {
+    warnings.push(
+      "lee sTD2DInputs con vUV — en redes de feedback el buffer no avanza con " +
+        "cook(force=True) scripteado (Regla TOP 10); requiere frames reales"
+    );
+  }
+
+  return { has_fragcolor_out, bad_uv_swizzles, has_main, uses_uniform0name_risk, errors, warnings };
+}
+
+/** TOP pre-validation: blocking errors or null when safe. */
+export function preValidateTopShader(code: string, creationCode?: string): string[] | null {
+  const a = analyzeGlslTopShader(code, creationCode);
+  return a.errors.length > 0 ? a.errors : null;
+}
+
 /**
  * Pre-validation for the apply flow: returns blocking errors (R1 / no main)
  * that must stop the write, or null when safe to proceed.
