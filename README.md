@@ -64,7 +64,7 @@ Conecta Inteligencia Artificial con TouchDesigner usando el Model Context Protoc
 | [`docs/GLSL_POP_RULES.md`](docs/GLSL_POP_RULES.md) | Reglas de GLSL POP verificadas en vivo (compilación, atributos, infoDAT) |
 | Suite `toe/src/test_glsl_pops.py` | 14 casos, uno por regla GLSL POP, para correr contra TD real (`localhost:44444`); deja el detalle por caso en `docs/glsl_pops_reference.json` al ejecutarla (sin TD reporta `TD_UNREACHABLE`, nunca inventa resultados) |
 | [`AGENTS.md`](AGENTS.md) | Reglas para agentes que operan TD vía este MCP |
-| `scripts/check_pop_matrix_baseline.py` + [`.github/workflows/td-nightly.yml`](.github/workflows/td-nightly.yml) | Gate nocturno del baseline POP: falla CI si `ok_con_input` baja de 80, sube más de +10, un tipo validado deja de crearse o TD está inalcanzable (14 tests offline del checker) |
+| `scripts/check_pop_matrix_baseline.py` + [`.github/workflows/td-nightly.yml`](.github/workflows/td-nightly.yml) | Gate nocturno del baseline POP: falla CI si `ok_con_input` baja de 89, sube más de +10, un tipo validado deja de crearse o TD está inalcanzable; tras un PASS auto-commitea el JSON cuando solo cambió metadata del build (19 tests offline del checker) |
 
 ### 🎓 Contenido educativo
 - **15 tutoriales interactivos** — desde beginner hasta nivel experto.

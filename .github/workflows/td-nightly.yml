@@ -7,6 +7,9 @@
 #   - CI FAILS if TD is unreachable or the bridge is wedged (port bound but
 #     refused) — an untestable TD is a red build, not a silent pass
 #   - CI FAILS on implausible gains (>+10) or types that stop creating
+#   - After a PASS, auto-commits the fresh JSON when ONLY metadata moved
+#     (build/generated_at/sandbox) — real evidence changes are never
+#     auto-committed and block adoption until reviewed
 #   - Artifacts: the fresh matrix JSON + gate log, 14 days retention
 #
 # Requires: a self-hosted runner on the TD machine (Windows, TouchDesigner
@@ -81,8 +84,15 @@ jobs:
       - name: Run live POP matrix (fresh evidence)
         run: python toe/src/test_pop_matrix.py --keep
 
-      - name: Gate against git baseline
+      - name: Gate against git baseline (auto-commits metadata-only refreshes)
         run: python scripts/check_pop_matrix_baseline.py --live docs/pop_matrix.json
+
+      - name: Push metadata-only baseline refresh
+        # The gate commits docs/pop_matrix.json itself when only per-run
+        # metadata moved; this pushes that commit so tomorrow's nightly
+        # compares against current metadata. Evidence changes gate-fail before
+        # this step, so nothing questionable is ever pushed.
+        run: git push origin HEAD
 
       - name: Upload matrix artifact
         if: always()

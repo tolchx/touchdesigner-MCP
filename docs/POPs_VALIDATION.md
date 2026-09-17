@@ -342,11 +342,20 @@ fresca contra **git HEAD** (no contra el working tree), así que la comparación
 
 Componentes:
 
-- `scripts/check_pop_matrix_baseline.py` — el gate (tests offline: `tests/test_pop_matrix_baseline.py`, 14 tests).
+- `scripts/check_pop_matrix_baseline.py` — el gate (tests offline: `tests/test_pop_matrix_baseline.py`, 19 tests).
 - `.github/workflows/td-nightly.yml` — workflow nocturno (cron 04:00 UTC + manual):
   - job `offline-gate` (GitHub-hosted): suite del checker + tests Node + integridad del baseline commiteado;
   - job `live-gate` (runner `self-hosted, touchdesigner` en la máquina de TD): probe del bridge →
     `python toe/src/test_pop_matrix.py --keep` → gate → artifact con el JSON fresco (14 días).
+- **Auto-commit de metadata (después de un PASS):** si el JSON fresco difiere del baseline
+  commiteado pero la EVIDENCIA es idéntica (mismo `type_count` y misma categoría por tipo —
+  solo se movieron `generated_at`/`td_build`/`sandbox`/`method`), el gate lo commitea él mismo
+  (`chore(pop-matrix): refresh baseline metadata ...`) y el workflow lo pushea, de modo que la
+  próxima noche compara contra metadata corriente. Un cambio de EVIDENCIA (cualquier movimiento
+  de categoría, tipo nuevo o desaparecido) NUNCA se auto-commitea: el gate lo reporta como
+  `evidence-changed` y exige revisión manual del commit para adoptar el nuevo baseline.
+  Clasificador puro testeado offline (`classify_run`: `identical` / `metadata-only` /
+  `evidence-changed`); en corridas locales, `--no-autocommit` desactiva el comportamiento.
 
 Para activar el job live: registrar un runner self-hosted con labels `self-hosted, touchdesigner`
 en la máquina con TD abierto (API en 127.0.0.1:44444) y Python en PATH. Sin runner, el job
