@@ -208,7 +208,32 @@ print(g.errors())                    # vacío = compiló
 - Suite de referencia POP: `toe/src/test_glsl_pops.py` (14/14) — modelo para una
   futura suite `test_glsl_tops.py` usando `numpyArray()` (Regla 12) como assert.
 
+## Tooling (MCP)
+
+- **Analizador TOP**: `analyzeGlslTopShader()` / `preValidateTopShader()` en
+  `mcp/src/tools/glslValidate.ts` — chequea Reglas TOP 1, 2, 4 (con el código de
+  creación), 9 y 10 antes de llegar a TD (puro, sin I/O).
+- **Recipes visuales**: `GLSL_TOP_RECIPES` + `buildGlslTopRecipeCode()` en
+  `mcp/src/tools/glslTopRecipes.ts` — 7 recetas derivadas de conceptos de Book of
+  Shaders (círculo SDF, value noise, fBm, grid, ripple, feedback trails,
+  reaction-diffusion) reescritas en los idioms de este doc, con builder de
+  Python para un solo `/exec` (creación + uniforms vec0/const0 + cook + lectura
+  de píxeles). Tests: `mcp/test/glslTopRecipes.test.js` (18).
+- **Verificación en vivo**: `python scripts/live/run_all.py` (crea y cocina las
+  7 redes, guarda `scripts/live/live_reports.json`) y `python
+  scripts/live/verify_visuals.py` (asserts a nivel de píxel: spans del círculo,
+  transiciones de la grilla, varianza del noise, anillos del ripple, wiring de
+  las dos de feedback). Corrida 17/09/26: 7/7 CLEAN + visual ALL OK sobre TD
+  2025.31760.
+
 ## Historial
 
 - **2026-09-17** — v1: 12 reglas verificadas en vivo (probes A–Z), TD
   2025.31760. Feedback marcado como limitación de cooking scripteado (Regla 10).
+- **2026-09-17** — v1.1: analizador TOP + 7 recipes + verificación visual en
+  vivo 7/7. Nota empírica nueva: un glslTOP creado por script puede quedar con
+  output negro (sin errores de compilación ni de cook) si el shader se escribe
+  en el DAT después de crear el nodo con uniforms seteados; al recrear el nodo
+  con el DAT ya poblado el mismo shader produce el resultado esperado en el
+  primer cook. Síntoma a vigilar en generadores (grupos de ops creados en lote
+  seguidos de un cook único).
