@@ -1470,6 +1470,120 @@ def _make_dat():
     return object()
 
 
+class TestMetricsContract(unittest.TestCase):
+    """HTTP contract of GET /metrics, dispatched through the REAL OnHTTPRequest.
+
+    Semantics (backlog item 06):
+    - fixed, ADDITIVE key set; null (not 0, not invented) when a signal is
+      unavailable on the running build
+    - dynamic payload: NEVER cached (no "cache" key, no cache entry)
+    - every routed request records server-side latency under its route key
+      (no query string), /metrics itself included
+    """
+
+    def setUp(self):
+        _reset_fakes()
+        _install_fake_globals()
+        self.api = FakeAPI()
+        import tests.test_api_contract_offline as mod
+        self._saved_op = getattr(mod, "op", None)
+        mod.op = _fake_op
+        # Small fixed tree: 1 COMP + 2 POPs (1 with an error) + 1 TOP
+        pop_bad = FakeOperator("/project1/bad", "bad", "glsl", "POP")
+        pop_bad._errors = "Compile failed"
+        pop_bad._cook_time = 7.5
+        pop_ok = FakeOperator("/project1/box", "box", "box", "POP")
+        pop_ok._cook_time = 0.5
+        top = FakeOperator("/project1/n", "n", "noise", "TOP")
+        _fake_project1._children = [
+            FakeOperator("/project1/comp", "comp", "geo", "COMP"),
+            pop_bad, pop_ok, top,
+        ]
+        # Wire the real TD hierarchy: "/" contains project1 (the /metrics walk
+        # starts at op('/'), which in live TD is the root COMP).
+        _fake_root._children = [_fake_project1]
+
+    def tearDown(self):
+        import tests.test_api_contract_offline as mod
+        mod.op = self._saved_op
+
+    def _get(self, uri, route=None):
+        import urllib.parse as up
+        parsed = up.urlparse(uri)
+        pars = {k: v[0] for k, v in up.parse_qs(parsed.query).items()}
+        request = {
+            "method": "GET",
+            "uri": route if route is not None else uri,
+            "pars": pars,
+        }
+        response = _make_response()
+        result = self.api.OnHTTPRequest(object(), request, response)
+        return result, json.loads(result["data"])
+
+    def test_fixed_additive_key_set(self):
+        _, data = self._get("/metrics", route="/metrics")
+        expected = {
+            "fps", "td_build", "total_ops", "ops_by_family", "other_ops",
+            "cooking_count", "error_count", "warning_count", "pop_stats",
+            "readCache", "endpoint_times",
+        }
+        self.assertEqual(set(data.keys()), expected)
+
+    def test_counts_reflect_the_fake_tree(self):
+        _, data = self._get("/metrics", route="/metrics")
+        # root + project1 + COMP + 2 POPs + 1 TOP = 6
+        self.assertEqual(data["total_ops"], 6)
+        self.assertEqual(data["ops_by_family"]["POP"], 2)
+        self.assertEqual(data["ops_by_family"]["COMP"], 3)
+        self.assertEqual(data["ops_by_family"]["TOP"], 1)
+        self.assertEqual(data["error_count"], 1)
+        self.assertEqual(data["pop_stats"]["pop_total"], 2)
+        self.assertEqual(data["pop_stats"]["pop_errors"], 1)
+        self.assertEqual(data["pop_stats"]["pop_slowest"]["cookTime_ms"], 7.5)
+
+    def test_never_cached_and_no_cache_tag(self):
+        _, first = self._get("/metrics", route="/metrics")
+        self.assertNotIn("cache", first, "/metrics is dynamic — no cache tag")
+        _, second = self._get("/metrics", route="/metrics")
+        self.assertNotIn("cache", second)
+        self.assertEqual(self.api._cache, {})
+
+    def test_readcache_counters_are_reported(self):
+        # Warm the read cache via /operators so counters are non-zero.
+        self._get("/operators?path=/project1", route="/operators")
+        self._get("/operators?path=/project1", route="/operators")
+        _, data = self._get("/metrics", route="/metrics")
+        self.assertEqual(data["readCache"]["hits"], 1)
+        self.assertEqual(data["readCache"]["misses"], 1)
+        self.assertGreaterEqual(data["readCache"]["entries"], 1)
+
+    def test_endpoint_times_self_measuring(self):
+        # Inherent one-request lag: the current request's own latency is
+        # recorded AFTER its payload is serialized, so the first /metrics
+        # response cannot contain itself; every subsequent one does.
+        self._get("/metrics", route="/metrics")
+        _, data = self._get("/metrics", route="/metrics")
+        et = data["endpoint_times"]
+        self.assertIn("/metrics", et, "/metrics must measure itself")
+        self.assertGreaterEqual(et["/metrics"]["n"], 1)
+        self.assertGreaterEqual(et["/metrics"]["median_ms"], 0.0)
+
+    def test_cooking_count_null_without_signal(self):
+        # FakeOperator never sets `cooking` -> the whole tree lacks the signal.
+        _, data = self._get("/metrics", route="/metrics")
+        self.assertIsNone(data["cooking_count"])
+
+    def test_fps_is_real_value_from_fake_project(self):
+        _, data = self._get("/metrics", route="/metrics")
+        self.assertEqual(data["fps"], 60.0)
+
+    def test_latency_recorded_for_other_routes_too(self):
+        self._get("/operators?path=/project1", route="/operators")
+        _, data = self._get("/metrics", route="/metrics")
+        self.assertIn("/operators", data["endpoint_times"])
+        self.assertEqual(data["endpoint_times"]["/operators"]["n"], 1)
+
+
 if __name__ == "__main__":
     unittest.main()
 

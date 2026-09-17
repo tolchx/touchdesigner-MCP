@@ -909,5 +909,185 @@ class TestReadCache(unittest.TestCase):
         self.assertEqual(bare._cache_misses, 0)
 
 
+# ═════════════════════════════════════════════════════════════════════════
+# 9. GET /metrics — bridge + project metrics
+# ═════════════════════════════════════════════════════════════════════════
+
+class _MetricsOp(_FakeOp):
+    """Fake op with the extra signals /metrics reads (family, cooking,
+    errors/warnings, cookTime, children)."""
+
+    def __init__(self, path, optype="nullTOP", family="TOP", children=None,
+                 errors="", warnings="", cooktime=None, cooking=None):
+        super().__init__(path, optype=optype)
+        self.family = family
+        self.children = list(children or [])
+        self._errors = errors
+        self._warnings = warnings
+        self._cooktime = cooktime
+        if cooking is not None:
+            self.cooking = cooking
+
+    def errors(self, recurse=False):
+        return self._errors
+
+    def warnings(self, recurse=False):
+        return self._warnings
+
+    @property
+    def cookTime(self):
+        return self._cooktime
+
+
+class TestMetrics(unittest.TestCase):
+    """GET /metrics — the single-walk metrics handler.
+
+    Semantics (mirror of toe/src/TouchDesignerAPI.py::_handle_metrics):
+    - one recursive walk from "/" collects counts by family, error/warning
+      counts (same per-op criteria as /verify), pop_stats with slowest POP
+    - `cooking_count` is best-effort: null unless at least one op exposes the
+      attribute (it does NOT exist on POPs in TD 2025.31760)
+    - endpoint_times keeps the last 20 latencies per route
+    - the payload is never cached (dynamic by nature)
+    """
+
+    def setUp(self):
+        self.api = _OfflineAPI()
+
+    def _build_tree(self):
+        pops = [
+            _MetricsOp("/project1/g/box", "box", "POP", cooktime=1.5),
+            _MetricsOp("/project1/g/bad", "glsl", "POP", errors="Compile failed", cooktime=9.25),
+            _MetricsOp("/project1/g/pts", "particle", "POP", cooking=True, cooktime=0.4),
+        ]
+        geo = _MetricsOp("/project1/g", "geo", "COMP", children=pops)
+        tops = [
+            _MetricsOp("/project1/t/noise", "noise", "TOP", warnings="deprecated"),
+            _MetricsOp("/project1/t/blur", "blur", "TOP"),
+        ]
+        root = _MetricsOp("/project1", "project1", "COMP", children=[geo] + tops)
+        return root
+
+    def _call_metrics(self, root):
+        response = {}
+        result = self.api._handle_metrics(response)
+        self.assertEqual(response["statusCode"], 200)
+        self.assertIs(result, response)
+        return json.loads(response["data"])
+
+    def test_shape_has_all_fixed_keys(self):
+        root = self._build_tree()
+        self._orig_op = _set_module_attr("op", lambda path: root if path == "/" else None)
+        try:
+            data = self._call_metrics(root)
+        finally:
+            _set_module_attr("op", self._orig_op)
+        expected = {
+            "fps", "td_build", "total_ops", "ops_by_family", "other_ops",
+            "cooking_count", "error_count", "warning_count", "pop_stats",
+            "readCache", "endpoint_times",
+        }
+        self.assertEqual(set(data.keys()), expected)
+
+    def test_walk_counts_families_and_errors(self):
+        root = self._build_tree()
+        self._orig_op = _set_module_attr("op", lambda path: root if path == "/" else None)
+        try:
+            data = self._call_metrics(root)
+        finally:
+            _set_module_attr("op", self._orig_op)
+        # /project1 + geo + 3 POPs + 2 TOPs = 7
+        self.assertEqual(data["total_ops"], 7)
+        self.assertEqual(data["ops_by_family"]["POP"], 3)
+        self.assertEqual(data["ops_by_family"]["TOP"], 2)
+        self.assertEqual(data["ops_by_family"]["COMP"], 2)
+        self.assertEqual(data["error_count"], 1)
+        self.assertEqual(data["warning_count"], 1)
+        self.assertEqual(data["pop_stats"]["pop_total"], 3)
+        self.assertEqual(data["pop_stats"]["pop_errors"], 1)
+        self.assertEqual(data["pop_stats"]["pop_slowest"],
+                         {"path": "/project1/g/bad", "cookTime_ms": 9.25})
+
+    def test_cooking_count_null_when_no_op_exposes_it(self):
+        root = _MetricsOp("/project1", "project1", "COMP", children=[
+            _MetricsOp("/project1/a", "box", "POP"),
+        ])
+        self._orig_op = _set_module_attr("op", lambda path: root if path == "/" else None)
+        try:
+            data = self._call_metrics(root)
+        finally:
+            _set_module_attr("op", self._orig_op)
+        self.assertIsNone(data["cooking_count"],
+                          "no op exposed `cooking` -> explicit null, not 0")
+
+    def test_cooking_count_counted_when_exposed(self):
+        root = self._build_tree()
+        self._orig_op = _set_module_attr("op", lambda path: root if path == "/" else None)
+        try:
+            data = self._call_metrics(root)
+        finally:
+            _set_module_attr("op", self._orig_op)
+        self.assertEqual(data["cooking_count"], 1)  # only the particle op
+
+    def test_fps_null_without_project(self):
+        root = _MetricsOp("/project1", "project1", "COMP")
+        self._orig_op = _set_module_attr("op", lambda path: root if path == "/" else None)
+        self._orig_project = _set_module_attr("project", types.SimpleNamespace())
+        try:
+            data = self._call_metrics(root)
+        finally:
+            _set_module_attr("op", self._orig_op)
+            _set_module_attr("project", self._orig_project)
+        self.assertIsNone(data["fps"])
+
+    def test_fps_from_project_cookrate(self):
+        root = _MetricsOp("/project1", "project1", "COMP")
+        self._orig_op = _set_module_attr("op", lambda path: root if path == "/" else None)
+        self._orig_project = _set_module_attr(
+            "project", types.SimpleNamespace(cookRate=59.94))
+        try:
+            data = self._call_metrics(root)
+        finally:
+            _set_module_attr("op", self._orig_op)
+            _set_module_attr("project", self._orig_project)
+        self.assertEqual(data["fps"], 59.94)
+
+    def test_endpoint_times_recorded_and_summarized(self):
+        self.api._record_endpoint_time("/operators?path=/a&limit=1", 10.0)
+        self.api._record_endpoint_time("/operators?path=/b", 30.0)
+        self.api._record_endpoint_time("/operators", 20.0)  # same route, no query
+        self.api._record_endpoint_time("/verify", 5.0)
+        root = _MetricsOp("/project1", "project1", "COMP")
+        self._orig_op = _set_module_attr("op", lambda path: root if path == "/" else None)
+        try:
+            data = self._call_metrics(root)
+        finally:
+            _set_module_attr("op", self._orig_op)
+        et = data["endpoint_times"]
+        self.assertEqual(set(et.keys()), {"/operators", "/verify"})
+        self.assertEqual(et["/operators"]["n"], 3)
+        self.assertEqual(et["/operators"]["median_ms"], 20.0)
+        self.assertEqual(et["/operators"]["max_ms"], 30.0)
+        self.assertEqual(et["/verify"]["n"], 1)
+
+    def test_endpoint_times_ring_buffer_keeps_last_20(self):
+        for i in range(25):
+            self.api._record_endpoint_time("/x", float(i))
+        self.api._ensure_endpoint_times()
+        buf = self.api._endpoint_times["/x"]
+        self.assertEqual(len(buf), 20)
+        self.assertEqual(min(buf), 5.0)  # oldest kept value is #5 (0..4 dropped)
+
+    def test_metrics_is_not_cached(self):
+        root = _MetricsOp("/project1", "project1", "COMP")
+        self._orig_op = _set_module_attr("op", lambda path: root if path == "/" else None)
+        try:
+            self._call_metrics(root)
+            self._call_metrics(root)
+        finally:
+            _set_module_attr("op", self._orig_op)
+        self.assertEqual(self.api._cache, {}, "/metrics must bypass the read cache")
+
+
 if __name__ == "__main__":
     unittest.main()
