@@ -167,7 +167,11 @@ CHK_BOUNDS = """    def _flat(v, acc=None):
         bs, bo = [], []
     _check('bounds_available', bool(bs) and bool(bo), "src=%s out=%s raw=%s" % (bs[:3] if bs else '?', bo[:3] if bo else '?', raw[:80]))
     if bs and bo:
-        _check('bounds_shifted', max(bo) > max(bs) + 1.5, "max src=%.4f out=%.4f" % (max(bs), max(bo)))
+        # Compare centers: _flat() includes size components, so max() over the
+        # flat list can equal exactly (e.g. max_out=2.5 vs max_src=1.0+1.5),
+        # making a strict '>' flip to False on the boundary. Center shift of
+        # exactly +2.0 in X is deterministic and unambiguous.
+        _check('bounds_shifted', abs(bo[6] - bs[6] - 2.0) < 0.01, "center src=%.4f out=%.4f (flat[6])" % (bs[6], bo[6]))
 """
 
 

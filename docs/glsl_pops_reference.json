@@ -1,0 +1,268 @@
+{
+  "timestamp": "20260916_173238",
+  "td_build": "TouchDesigner 2025.31760",
+  "suite_root": "/project1/glsl_ref_20260916_173238",
+  "source": "docs/GLSL_POP_RULES.md",
+  "passed": 14,
+  "total": 14,
+  "cases": [
+    {
+      "case": "c01_r1_output_read_fails",
+      "ok": true,
+      "errors": [],
+      "checks": [
+        {
+          "name": "compile_failed_as_expected",
+          "ok": true,
+          "detail": "  Error: Compile failed (/project1/glsl_ref_20260916_173238/c01_r1_output_read_fails/glsl1)"
+        },
+        {
+          "name": "infodat_present",
+          "ok": true,
+          "detail": "\n=============\nCompute Shader Compile Results:\nERROR: /project1/glsl_ref_20260916_173238/c01_r1_output_read_fails/shader_code:4: '*' : can't read from writeonly object:  \nERROR: 1 compilation errors. "
+        }
+      ]
+    },
+    {
+      "case": "c02_r1_input_read_compiles",
+      "ok": true,
+      "errors": [],
+      "checks": [
+        {
+          "name": "no_errors",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "has_points",
+          "ok": true,
+          "detail": "8"
+        }
+      ]
+    },
+    {
+      "case": "c03_r2_canonical_pattern",
+      "ok": true,
+      "errors": [],
+      "checks": [
+        {
+          "name": "no_errors",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "has_points",
+          "ok": true,
+          "detail": "8"
+        },
+        {
+          "name": "points_match_source",
+          "ok": true,
+          "detail": "8 -> 8"
+        }
+      ]
+    },
+    {
+      "case": "c04_r3_new_attr_without_create_fails",
+      "ok": true,
+      "errors": [],
+      "checks": [
+        {
+          "name": "compile_failed_as_expected",
+          "ok": true,
+          "detail": "  Error: Compile failed (/project1/glsl_ref_20260916_173238/c04_r3_new_attr_without_create_fails/glsl1)"
+        },
+        {
+          "name": "infodat_present",
+          "ok": true,
+          "detail": "\n=============\nCompute Shader Compile Results:\nERROR: /project1/glsl_ref_20260916_173238/c04_r3_new_attr_without_create_fails/shader_code:6: 'Cd' : undeclared identifier \nERROR: 1 compilation errors. "
+        }
+      ]
+    },
+    {
+      "case": "c05_r3_create_attrs_Cd_compiles",
+      "ok": true,
+      "errors": [],
+      "checks": [
+        {
+          "name": "no_errors",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "has_points",
+          "ok": true,
+          "detail": "8"
+        }
+      ]
+    },
+    {
+      "case": "c06_r3_attr0name_direct_fails",
+      "ok": true,
+      "errors": [],
+      "checks": [
+        {
+          "name": "compile_failed_as_expected",
+          "ok": true,
+          "detail": "  Error: Compile failed (/project1/glsl_ref_20260916_173238/c06_r3_attr0name_direct_fails/glsl1)"
+        },
+        {
+          "name": "infodat_present",
+          "ok": true,
+          "detail": "\n=============\nCompute Shader Compile Results:\nERROR: /project1/glsl_ref_20260916_173238/c06_r3_attr0name_direct_fails/shader_code:6: 'Cd' : undeclared identifier \nERROR: 1 compilation errors.  No cod"
+        }
+      ]
+    },
+    {
+      "case": "c07_r4_writeonly_read_fails",
+      "ok": true,
+      "errors": [],
+      "checks": [
+        {
+          "name": "compile_failed_as_expected",
+          "ok": true,
+          "detail": "  Error: Compile failed (/project1/glsl_ref_20260916_173238/c07_r4_writeonly_read_fails/glsl1)"
+        },
+        {
+          "name": "infodat_present",
+          "ok": true,
+          "detail": "\n=============\nCompute Shader Compile Results:\nERROR: /project1/glsl_ref_20260916_173238/c07_r4_writeonly_read_fails/shader_code:5: '+' : can't read from writeonly object:  \nERROR: 1 compilation error"
+        },
+        {
+          "name": "writeonly_in_info",
+          "ok": true,
+          "detail": "\n=============\nCompute Shader Compile Results:\nERROR: /project1/glsl_ref_20260916_173238/c07_r4_writeonly_read_fails/shader_code:5: '+' : can't read from writeonly object:  \nERROR: 1 compilation error"
+        }
+      ]
+    },
+    {
+      "case": "c08_r4_readwrite_compiles",
+      "ok": true,
+      "errors": [],
+      "checks": [
+        {
+          "name": "no_errors",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "has_points",
+          "ok": true,
+          "detail": "8"
+        }
+      ]
+    },
+    {
+      "case": "c09_r5_infodat_has_real_error",
+      "ok": true,
+      "errors": [],
+      "checks": [
+        {
+          "name": "errors_report_compile",
+          "ok": true,
+          "detail": "  Error: Compile failed (/project1/glsl_ref_20260916_173238/c09_r5_infodat_has_real_error/glsl1)"
+        },
+        {
+          "name": "infodat_richer",
+          "ok": true,
+          "detail": "\n=============\nCompute Shader Compile Results:\nERROR: /project1/glsl_ref_20260916_173238/c09_r5_infodat_has_real_error/shader_code:4: '' :  syntax error, unexpected SEMICOLON\nERROR: 1 compilation erro"
+        }
+      ]
+    },
+    {
+      "case": "c10_r6_numpoints_is_method",
+      "ok": true,
+      "errors": [],
+      "checks": [
+        {
+          "name": "numPoints_callable",
+          "ok": true,
+          "detail": "<class 'builtin_function_or_method'>"
+        },
+        {
+          "name": "numPoints_int",
+          "ok": true,
+          "detail": "8"
+        },
+        {
+          "name": "numPrims_int",
+          "ok": true,
+          "detail": "6"
+        }
+      ]
+    },
+    {
+      "case": "c11_r6_numpoints_attr_not_number",
+      "ok": true,
+      "errors": [],
+      "checks": [
+        {
+          "name": "attr_int_raises",
+          "ok": true,
+          "detail": "int(glsl.numPoints) no debe funcionar"
+        },
+        {
+          "name": "attr_is_builtin",
+          "ok": true,
+          "detail": "<class 'builtin_function_or_method'>"
+        }
+      ]
+    },
+    {
+      "case": "c12_chained_glsl_glsl",
+      "ok": true,
+      "errors": [],
+      "checks": [
+        {
+          "name": "glsl1_clean",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "glsl2_clean",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "points_preserved",
+          "ok": true,
+          "detail": "8 -> 8"
+        }
+      ]
+    },
+    {
+      "case": "c13_full_example_P_Cd_custom",
+      "ok": true,
+      "errors": [],
+      "checks": [
+        {
+          "name": "no_errors",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "has_points",
+          "ok": true,
+          "detail": "8"
+        }
+      ]
+    },
+    {
+      "case": "c14_bounds_displacement",
+      "ok": true,
+      "errors": [],
+      "checks": [
+        {
+          "name": "bounds_available",
+          "ok": true,
+          "detail": "src=[-0.5, -0.5, -0.5] out=[1.5, -0.5, -0.5] raw=Bounds(min=type:tdu.Position x:1.5 y:-0.5 z:-0.5, max=type:tdu.Position x:2.5 y:"
+        },
+        {
+          "name": "bounds_shifted",
+          "ok": true,
+          "detail": "center src=0.0000 out=2.0000 (flat[6])"
+        }
+      ]
+    }
+  ]
+}
