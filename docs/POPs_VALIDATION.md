@@ -403,6 +403,49 @@ Fuente autoritativa: plantillas `{{Parameter}}` de la wiki (`parLabel` + `parNam
 | Normalize POP | 17 | 10 | attrdefaultval, bias, exp |
 | Math POP | 21 | 13 | attrdefaultval, fromhigh, fromlow |
 | Point Generator POP | 21 | 13 | p, pointa, pointb |
+
+## Corrida v7 (2026-09-17, TD 2025.31760) — fuentes específicas por tipo
+
+Extensión de la v6: los POPs que se alimentan por **par-path** (0 inputs) y los
+que requieren setups especiales reciben su fuente real. Resultado: **89/97
+`ok_con_input`** (v6: 78). Quedan fuera 8, todos con dependencias externas
+legítimas:
+
+| tipo | categoría | razón medida |
+|---|---|---|
+| alembicinPOP | error_con_input | requiere archivo .abc real (esta build no tiene alembicoutPOP) |
+| cplusplusPOP | error_con_input | requiere plugin C++ compilado (`Error reading file ""`) |
+| importselectPOP | error_con_input | requiere COMP USD/FBX con red cargada (`Invalid geometry name` en usdCOMP vacío) |
+| skindeformPOP | error_con_input | requiere red de rig/bones (`BonePathsAttrib attribute not found`) |
+| zedPOP | error_con_input | requiere SDK ZED (`TensorRT is not found`) |
+| dmxoutPOP | sin_geometria_con_input | salida DMX (hardware), no genera geometría |
+| oakselectPOP | sin_geometria_con_input | cámara OAK-D (hardware), no genera geometría |
+| engineoutPOP | no_creable | `create()` lanza `Invalid number or type of arguments` |
+
+### Recetas validadas en vivo (v7) — todas con 0 errores y numPoints()>0
+
+| POP bajo prueba | fuente | cableado |
+|---|---|---|
+| choptoPOP | noiseCHOP | par `chop=<path>` (0 inputs) |
+| toptoPOP | noiseTOP | par `input0top=<path>` (0 inputs) |
+| soptoPOP | sphereSOP | par `sop=<path>` (0 inputs) |
+| dattoPOP | tableDAT con texto | par `pointsdat=<path>` (0 inputs) |
+| lookupchannelPOP | noiseCHOP + boxPOP | par `chop=<path>` **y** input0 POP |
+| polygonizePOP | noiseTOP | par `top=<path>` (0 inputs) |
+| cacheblendPOP / cacheselectPOP | box→cachePOP | par `cachepop=<path>` (0 inputs) |
+| particlePOP | boxPOP + feedbackPOP en input1 | input0 + `initializepulse.pulse()` + `preroll=2.0` |
+| rayPOP | box→normalPOP (input0, N real) + spherePOP (input1) | 2 inputs fijos |
+| glslselectPOP | glsladvancedPOP con `extraout=True`, `extraout0name='myout'`, `extraout0pop=<boxPOP>` | par `pop=<path>` + `name='myout'` |
+
+Notas de la corrida v7:
+
+- El descubrimiento clave: **8 POPs no tienen inputs** — se alimentan por
+  parámetro tipo OP (`chop`, `sop`, `pointsdat`, `top`, `cachepop`, `pop`).
+- glslselectPOP solo acepta **outputs con nombre**: el glslPOP básico no nombra
+  su output (0 puntos sin error, nombres arbitrarios → `Invalid Output Name`);
+  la vía viva es glsladvancedPOP + extra outputs (Regla 5: el diagnóstico real
+  salió del infoDAT `*_info`, que mostró `'P' : undeclared identifier` para el
+  shader escrito a mano en glsladvancedPOP).
 | Quantize POP | 14 | 9 | attrdefaultval, quantcompare, quantize |
 | ReRange POP | 14 | 9 | attrdefaultval, fromhigh, fromlow |
 | Grid POP | 21 | 14 | line, plane, r |

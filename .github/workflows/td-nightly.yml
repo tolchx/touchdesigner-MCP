@@ -2,8 +2,8 @@
 #
 # Runs the live POP matrix on the TD machine (self-hosted runner), then gates
 # the result against the GIT baseline (docs/pop_matrix.json at HEAD):
-#   - CI FAILS if ok_con_input drops below the committed baseline (80 as of
-#     TD 2025.32460, 101 types — see docs/POPs_VALIDATION.md)
+#   - CI FAILS if ok_con_input drops below the committed baseline (89 as of
+#     TD 2025.31760, 97 types — see docs/POPs_VALIDATION.md)
 #   - CI FAILS if TD is unreachable or the bridge is wedged (port bound but
 #     refused) — an untestable TD is a red build, not a silent pass
 #   - CI FAILS on implausible gains (>+10) or types that stop creating
