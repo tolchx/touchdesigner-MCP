@@ -29,7 +29,7 @@ export interface GlslTopRecipe {
   glsl: string;
   /** uniforms the shader declares, bound via vec0/const0 families */
   uniforms: Array<{
-    /** python par name on glslTOP: vec0name | const0name */
+    /** python par name on glslTOP: vec0name (vec0 does NOT bind scripted; verified) */
     namePar: string;
     uniformName: string;
     /** python par carrying the value: vec0valuex | const0value */
@@ -48,7 +48,7 @@ const OUT = "layout(location = 0) out vec4 fragColor;\n";
 
 // t1 circle_sdf — smoothstep circle, aspect-correct (Regla TOP 7 / probe I)
 const T1_GLSL = `${OUT}
-uniform float u_radius;      // const0name='u_radius', const0value=0.42
+uniform float u_radius;      // vec0name='u_radius', vec0valuex=0.42 (const0 does NOT bind scripted)
 
 void main() {
     vec2 p = vUV.st - 0.5;
@@ -61,7 +61,7 @@ void main() {
 // t2 value_noise — hash + value noise 2D, animated with u_time
 const T2_GLSL = `${OUT}
 uniform float u_time;        // vec0name='u_time', vec0valuex=<seconds>
-uniform float u_scale;       // const0name='u_scale', const0value=8.0
+uniform float u_scale;       // vec0name2='u_scale', vec0valuex2=8.0
 
 float hash(vec2 p) {
     return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
@@ -156,7 +156,7 @@ void main() {
 
 // t6 feedback_trails — feedback loop (wiring verified; content realtime-only, T10)
 const T6_GLSL = `${OUT}
-uniform float u_decay;       // const0name='u_decay', const0value=0.95
+uniform float u_decay;       // vec0name='u_decay', vec0valuex=0.95
 
 void main() {
     vec2 p = vUV.st - 0.5;
@@ -197,7 +197,7 @@ export const GLSL_TOP_RECIPES: GlslTopRecipe[] = [
     category: "shapes",
     glsl: T1_GLSL,
     uniforms: [
-      { namePar: "const0name", uniformName: "u_radius", valuePar: "const0value", value: 0.42 },
+      { namePar: "vec0name", uniformName: "u_radius", valuePar: "vec0valuex", value: 0.42 },
     ],
     resolution: { w: 256, h: 256 },
     liveCheck:
@@ -212,7 +212,7 @@ export const GLSL_TOP_RECIPES: GlslTopRecipe[] = [
     glsl: T2_GLSL,
     uniforms: [
       { namePar: "vec0name", uniformName: "u_time", valuePar: "vec0valuex", value: 0.0 },
-      { namePar: "const0name", uniformName: "u_scale", valuePar: "const0value", value: 8.0 },
+      { namePar: "vec0name2", uniformName: "u_scale", valuePar: "vec0valuex2", value: 8.0 },
     ],
     resolution: { w: 256, h: 256 },
     liveCheck:
@@ -227,7 +227,7 @@ export const GLSL_TOP_RECIPES: GlslTopRecipe[] = [
     glsl: T3_GLSL,
     uniforms: [
       { namePar: "vec0name", uniformName: "u_time", valuePar: "vec0valuex", value: 0.0 },
-      { namePar: "const0name", uniformName: "u_scale", valuePar: "const0value", value: 3.0 },
+      { namePar: "vec0name2", uniformName: "u_scale", valuePar: "vec0valuex2", value: 3.0 },
     ],
     resolution: { w: 256, h: 256 },
     liveCheck:
@@ -241,7 +241,7 @@ export const GLSL_TOP_RECIPES: GlslTopRecipe[] = [
     category: "pattern",
     glsl: T4_GLSL,
     uniforms: [
-      { namePar: "const0name", uniformName: "u_scale", valuePar: "const0value", value: 8.0 },
+      { namePar: "vec0name2", uniformName: "u_scale", valuePar: "vec0valuex2", value: 8.0 },
     ],
     resolution: { w: 256, h: 256 },
     liveCheck:
@@ -270,7 +270,7 @@ export const GLSL_TOP_RECIPES: GlslTopRecipe[] = [
     category: "feedback",
     glsl: T6_GLSL,
     uniforms: [
-      { namePar: "const0name", uniformName: "u_decay", valuePar: "const0value", value: 0.95 },
+      { namePar: "vec0name", uniformName: "u_decay", valuePar: "vec0valuex", value: 0.95 },
     ],
     resolution: { w: 256, h: 256 },
     liveCheck:
@@ -306,13 +306,14 @@ export const GLSL_TOP_RECIPES: GlslTopRecipe[] = [
 export function buildGlslTopRecipeCode(recipe: GlslTopRecipe, parentPath: string, prefix: string): string {
   const shaderLiteral = JSON.stringify(recipe.glsl);
   const safePrefix = sanitizeNodeName(prefix);
-  const uniLines = recipe.uniforms
-    .map(
-      (u) =>
-        `    _set_par(g, ${JSON.stringify(u.namePar)}, ${JSON.stringify(u.uniformName)})\n` +
-        `    _set_par(g, ${JSON.stringify(u.valuePar)}, ${JSON.stringify(u.value)})`
-    )
-    .join("\n");
+  const uniLines = (nodeVar: string, indent: string) =>
+    recipe.uniforms
+      .map(
+        (u) =>
+          `${indent}_set_par(${nodeVar}, ${JSON.stringify(u.namePar)}, ${JSON.stringify(u.uniformName)})\n` +
+          `${indent}_set_par(${nodeVar}, ${JSON.stringify(u.valuePar)}, ${JSON.stringify(u.value)})`
+      )
+      .join("\n");
   const feedbackBlock = recipe.realtimeOnly
     ? `
     try:
@@ -346,7 +347,7 @@ try:
     g.par.outputresolution = "custom"
     g.par.resolutionw = ${recipe.resolution.w}
     g.par.resolutionh = ${recipe.resolution.h}
-${uniLines}
+${uniLines("g", "    ")}
     g.nodeX = -400
     g.nodeY = 400
     res["created"].append(g.path)
@@ -370,6 +371,36 @@ ${feedbackBlock}
             "min": round(float(arr.min()), 4),
             "max": round(float(arr.max()), 4),
         }
+        # Known issue (GLSL_TOP_RULES v1.1): a script-created glslTOP can stay
+        # persistently black when the shader DAT is written after node creation.
+        # Workaround: destroy + recreate with the DAT already populated and
+        # re-apply the uniforms, all inside the same /exec.
+        if arr.max() <= 0.001 and not res["td_errors"] and not res.get("infoDAT_has_ERROR"):
+            gname = g.name
+            g.destroy()
+            g2 = parent.create(td.glslTOP, gname)
+            g2.par.pixeldat = code.name
+            g2.par.outputresolution = "custom"
+            g2.par.resolutionw = ${recipe.resolution.w}
+            g2.par.resolutionh = ${recipe.resolution.h}
+${uniLines("g2", "            ")}
+            g2.nodeX = -400
+            g2.nodeY = 400
+            g2.cook(force=True)
+            arr2 = g2.numpyArray()
+            if arr2.max() > 0.001:
+                h2 = arr2.shape[0]; w2 = arr2.shape[1]
+                res["pixels"] = {
+                    "center": [round(float(v), 4) for v in arr2[h2 // 2][w2 // 2][:3]],
+                    "corner": [round(float(v), 4) for v in arr2[4][4][:3]],
+                    "right_edge_mid": [round(float(v), 4) for v in arr2[h2 // 2][w2 - 2][:3]],
+                    "min": round(float(arr2.min()), 4),
+                    "max": round(float(arr2.max()), 4),
+                }
+                res["recreated"] = True
+            else:
+                res["errors"].append("recreate workaround did not fix black output")
+
     except Exception as _ne:
         res["errors"].append("numpy: " + str(_ne)[:120])
 except Exception as _e:

@@ -25,6 +25,7 @@ import { registerWebtoeTools } from "./tools/webtoe.js";
 import { registerPopValidationTools } from "./tools/popValidation.js";
 import { registerToeImportTools } from "./tools/toeImport.js";
 import { registerGlslApplyTools } from "./tools/glslApply.js";
+import { registerGlslTopTools } from "./tools/glslTopApply.js";
 
 /**
  * Pre-load the operator knowledge base on startup (non-blocking).
@@ -69,6 +70,7 @@ async function registerAllTools(
   registerPopValidationTools(server, client);
   registerToeImportTools(server, client);
   registerGlslApplyTools(server, client);
+  registerGlslTopTools(server, client);
 }
 
 /**

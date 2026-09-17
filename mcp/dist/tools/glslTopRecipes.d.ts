@@ -26,7 +26,7 @@ export interface GlslTopRecipe {
     glsl: string;
     /** uniforms the shader declares, bound via vec0/const0 families */
     uniforms: Array<{
-        /** python par name on glslTOP: vec0name | const0name */
+        /** python par name on glslTOP: vec0name (vec0 does NOT bind scripted; verified) */
         namePar: string;
         uniformName: string;
         /** python par carrying the value: vec0valuex | const0value */
