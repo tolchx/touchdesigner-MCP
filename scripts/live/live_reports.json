@@ -1,0 +1,240 @@
+{
+ "vis_circle_sdf.py": {
+  "recipe": "top-circle-sdf",
+  "errors": [],
+  "created": [
+   "/project1/vis_circle_sdf_code1",
+   "/project1/vis_circle_sdf1"
+  ],
+  "pixels": {
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "corner": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "right_edge_mid": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "min": 0.0,
+   "max": 1.0
+  },
+  "feedback": null,
+  "td_errors": "",
+  "res": [
+   256,
+   256
+  ],
+  "infoDAT_has_ERROR": false
+ },
+ "vis_fbm_layers.py": {
+  "recipe": "top-fbm-layers",
+  "errors": [],
+  "created": [
+   "/project1/vis_fbm_layers_code1",
+   "/project1/vis_fbm_layers1"
+  ],
+  "pixels": {
+   "center": [
+    0.3176,
+    0.3176,
+    0.3176
+   ],
+   "corner": [
+    0.5529,
+    0.5529,
+    0.5529
+   ],
+   "right_edge_mid": [
+    0.4392,
+    0.4392,
+    0.4392
+   ],
+   "min": 0.2078,
+   "max": 1.0
+  },
+  "feedback": null,
+  "td_errors": "",
+  "res": [
+   256,
+   256
+  ],
+  "infoDAT_has_ERROR": false
+ },
+ "vis_feedback_trails.py": {
+  "recipe": "top-feedback-trails",
+  "errors": [],
+  "created": [
+   "/project1/vis_feedback_trails_code1",
+   "/project1/vis_feedback_trails1"
+  ],
+  "pixels": {
+   "center": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "corner": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "right_edge_mid": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "min": 0.0,
+   "max": 1.0
+  },
+  "feedback": "wired (content realtime-only, Regla TOP 10)",
+  "td_errors": "",
+  "res": [
+   256,
+   256
+  ],
+  "infoDAT_has_ERROR": false
+ },
+ "vis_grid_pattern.py": {
+  "recipe": "top-grid-pattern",
+  "errors": [],
+  "created": [
+   "/project1/vis_grid_pattern_code1",
+   "/project1/vis_grid_pattern1"
+  ],
+  "pixels": {
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "corner": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "right_edge_mid": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "min": 0.0,
+   "max": 1.0
+  },
+  "feedback": null,
+  "td_errors": "",
+  "res": [
+   256,
+   256
+  ],
+  "infoDAT_has_ERROR": false
+ },
+ "vis_reaction_diffusion.py": {
+  "recipe": "top-reaction-diffusion",
+  "errors": [],
+  "created": [
+   "/project1/vis_reaction_diffusion_code1",
+   "/project1/vis_reaction_diffusion1"
+  ],
+  "pixels": {
+   "center": [
+    0.0196,
+    0.0196,
+    0.0196
+   ],
+   "corner": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "right_edge_mid": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "min": 0.0,
+   "max": 1.0
+  },
+  "feedback": "wired (content realtime-only, Regla TOP 10)",
+  "td_errors": "",
+  "res": [
+   256,
+   256
+  ],
+  "infoDAT_has_ERROR": false
+ },
+ "vis_uv_ripple.py": {
+  "recipe": "top-uv-ripple",
+  "errors": [],
+  "created": [
+   "/project1/vis_uv_ripple_code1",
+   "/project1/vis_uv_ripple1"
+  ],
+  "pixels": {
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "corner": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "right_edge_mid": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "min": 0.0,
+   "max": 1.0
+  },
+  "feedback": null,
+  "td_errors": "",
+  "res": [
+   256,
+   256
+  ],
+  "infoDAT_has_ERROR": false
+ },
+ "vis_value_noise.py": {
+  "recipe": "top-value-noise",
+  "errors": [],
+  "created": [
+   "/project1/vis_value_noise_code1",
+   "/project1/vis_value_noise1"
+  ],
+  "pixels": {
+   "center": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "corner": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "right_edge_mid": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "min": 0.0,
+   "max": 1.0
+  },
+  "feedback": null,
+  "td_errors": "",
+  "res": [
+   256,
+   256
+  ],
+  "infoDAT_has_ERROR": false
+ }
+}
