@@ -63,21 +63,28 @@ void main(){ fragColor = vec4(vUV.st, 0.0, 1.0); }
 3. **`outputaccess` existe pero su semántica difiere** (TOP: lectura del output
    en compute; verificar con compute antes de documentar más).
 
-## Regla 5 — Uniforms: el mecanismo del glslTOP es `vec0*` / `const0*` / `matrix0*` / arrays CHOP
+## Regla 5 — Uniforms: familias INDEXADAS `vec0..vec3` / `const0..N` (no sufijos)
 
 **NO existe `uniform0name`/`uniform0value`** en glslTOP (eso es del glslPOP).
 - **Evidencia (D)**: `g.par.uniform0name = "u_scale"` →
   `tdAttributeError: 'td.ParCollection' object has no attribute 'uniform0name'`.
-- Mecanismo real (dump de pars con uniform/value/const del nodo vivo):
-  - `vec0name` + `vec0valuex/y/z/w` → `uniform vecN u_nombre`
-  - `const0name` + `const0value` → `uniform float u_nombre`
-    **CORRECCIÓN v1.2 (verificada en vivo 2026-09-17, `scripts/live/uniform_cross.py`):
-    bajo creación scripteada `const0name/const0value` NO bindea** — el uniform
-    `float` llega con valor 0 (círculo SDF degradado a pantalla blanca).
-    Usar SIEMPRE la familia `vec0*` aunque el shader declare `uniform float`:
-    el tipo del par mapea al uniform por NOMBRE y funciona
-    (`float_via_vec0`: blancos 23–232 ≈ 0.42×256 exacto; `float_via_const0`:
-    negros). `vec0name2/vec0valuex2` para un segundo uniform.
+- Mecanismo real (verificado en vivo 17/09/26, probe `mx_probe`):
+  - `vec0name`+`vec0valuex/y/z/w`, `vec1name`+`vec1valuex`, … `vec3*` →
+    `uniform vecN u_nombre` (cada familia de shader UNA entrada de la página)
+  - `const0name`+`const0value`, `const1name`+`const1value`, … → float
+  - `matrix0value`, `matrix1value`, … → mat4
+  - `ac0*` → uniform alimentado por CHOP
+  - **NO existen** `vec0name2`/`vec0valuex2` (sufijo al estilo POP):
+    `tdAttributeError`. El segundo uniform de un shader va en `vec1*`, el
+    tercero en `vec2*`, etc. Verificación numérica (probe `m2_probe`):
+    shader `f(x,y)=x*u_a+y*u_b` con `vec0={u_a,0.3}`, `vec1={u_b,0.6}` →
+    `r_mid=0.6`, `top_mid=0.153` exactos.
+    **CORRECCIÓN v1.2 (uniform_cross.py): bajo creación scripteada
+    `const0name/const0value` NO bindea** — el uniform `float` llega con
+    valor 0 (círculo SDF degradado a pantalla blanca). Usar SIEMPRE la
+    familia `vec*` aunque el shader declare `uniform float`: el par mapea
+    al uniform por NOMBRE y funciona (`float_via_vec0`: blancos 23–232 ≈
+    0.42×256 exacto; `float_via_const0`: negros).
   - `matrix0value` → `uniform mat4 u_nombre`
   - `ac0name/ac0initvalue/ac0singlevalue/ac0chopvalue` → uniform alimentado por CHOP
   - `loaduniformnames` (pulse): reescanea el shader; **no crea pars nuevos**
@@ -261,3 +268,19 @@ print(g.errors())                    # vacío = compiló
   Evidencia: `scripts/live/uniform_cross.py` (float_via_vec0 OK /
   float_via_const0 negro) y aceptación de las 5 recipes estáticas vía el tool
   con píxeles verificados (círculo centro 1.0 / esquina 0.0).
+- **2026-09-17** — v1.3: **causa raíz del stale-first-cook re-clasificada**.
+  80+ creaciones de sonda (`first_cook_probe.py`: 6 variantes de orden
+  DAT/uniform/resolución × repeticiones; `first_cook_repro.py`: builder
+  exacto × repeticiones) **no reprodujeron el negro ni una vez con TD
+  renderizando activamente** (60 fps, `absTime.frame` avanzando) — la
+  condición NO es determinista por orden de creación: es un estado de render
+  transitorio (probablemente ligado a la actividad de la ventana TD) que se
+  observa solo en sesiones con render intermitente. **Policy never-black del
+  builder**: tras el primer cook, si `max(píxeles) ≤ 0.001` sin errores TD ni
+  infoDAT ERROR, se repara EN LUGAR en cascada — (1) re-cook tras reescribir
+  `pixeldat`, (2) destroy + recreate con DAT poblado (v1.1) — y la garantía
+  es el pixel check final, no el orden. Además la regresión en vivo
+  (`first_cook_regression.py`) destapó y corrigió un bug real: los
+  segundos uniforms NO van en `vec0name2` (no existe, error
+  `tdAttributeError`) sino en la **familia indexada `vec1*`** (Regla 5
+  actualizada con verificación numérica).
