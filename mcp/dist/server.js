@@ -25,6 +25,7 @@ import { registerPopValidationTools } from "./tools/popValidation.js";
 import { registerToeImportTools } from "./tools/toeImport.js";
 import { registerGlslApplyTools } from "./tools/glslApply.js";
 import { registerGlslTopTools } from "./tools/glslTopApply.js";
+import { registerGlslCurriculumTools } from "./tools/glslCurriculum.js";
 /**
  * Pre-load the operator knowledge base on startup (non-blocking).
  * Logs a warning on failure but does not prevent the server from starting.
@@ -66,6 +67,7 @@ async function registerAllTools(server, client) {
     registerToeImportTools(server, client);
     registerGlslApplyTools(server, client);
     registerGlslTopTools(server, client);
+    registerGlslCurriculumTools(server);
 }
 /**
  * Create a fully configured TouchDesigner MCP server with all tools registered.

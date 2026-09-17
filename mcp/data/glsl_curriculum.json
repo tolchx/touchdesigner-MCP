@@ -1,0 +1,349 @@
+{
+  "entries": [
+    {
+      "concepto": "Mover cada punto con senos dependientes de su posición y el tiempo: el 'hola mundo' del displacement en glslPOP.",
+      "efectos_visuales": [
+        "olas en mallas",
+        "respiración de superficies"
+      ],
+      "familia": "POP",
+      "fuente_citada": "corpus local verificado (glsl_files/, suite 14/14 TD 2025.31760)",
+      "id": "pop-01-wave-displacement",
+      "params_nodo": {
+        "node": "glslPOP",
+        "outputattrs": "P (input-existing attrs only; Create Attributes for new)",
+        "readwrite": "outputaccess='readwrite' when the shader reads what it writes",
+        "shader_dat": "computedat"
+      },
+      "prerequisitos": [
+        "tdedu-glsl-pop-compute"
+      ],
+      "shader_td": "glsl_files/pop_01_wave.glsl",
+      "titulo_es": "Desplazamiento sinusoidal (POP)"
+    },
+    {
+      "concepto": "Convertir posición en fase de matiz y animarla: colorear geometría sin texturas, con la fórmula HSV->RGB de mat4.",
+      "efectos_visuales": [
+        "arcoíris por posición",
+        "degradados animados en Cd"
+      ],
+      "familia": "POP",
+      "fuente_citada": "corpus local verificado (glsl_files/, suite 14/14 TD 2025.31760)",
+      "id": "pop-02-color-hsv",
+      "params_nodo": {
+        "node": "glslPOP",
+        "outputattrs": "P (input-existing attrs only; Create Attributes for new)",
+        "readwrite": "outputaccess='readwrite' when the shader reads what it writes",
+        "shader_dat": "computedat"
+      },
+      "prerequisitos": [
+        "pop-01-wave-displacement"
+      ],
+      "shader_td": "glsl_files/pop_10_color_cycle.glsl",
+      "titulo_es": "Color por posición: ciclo de matiz (POP)"
+    },
+    {
+      "concepto": "El mismo fBm del TOP aplicado a P: nubes volumétricas de puntos. TDSimplexNoise ya está disponible en TD; el loop de octavas es igual.",
+      "efectos_visuales": [
+        "terrenos de puntos",
+        "deformación orgánica de mallas"
+      ],
+      "familia": "POP",
+      "fuente_citada": "corpus local verificado (glsl_files/, suite 14/14 TD 2025.31760)",
+      "id": "pop-03-noise-displacement",
+      "params_nodo": {
+        "node": "glslPOP",
+        "outputattrs": "P (input-existing attrs only; Create Attributes for new)",
+        "readwrite": "outputaccess='readwrite' when the shader reads what it writes",
+        "shader_dat": "computedat"
+      },
+      "prerequisitos": [
+        "pop-01-wave-displacement",
+        "top-03-fbm-layers"
+      ],
+      "shader_td": "glsl_files/pop_07_fractal.glsl",
+      "titulo_es": "Ruido simplex y fBm en geometría (POP)"
+    },
+    {
+      "concepto": "atan() da el ángulo de cada punto; rotarlo según el radio crea vórtices. Es la sección Matrices del libro aplicada a geometría.",
+      "efectos_visuales": [
+        "remolinos",
+        "galaxias",
+        "transiciones en espiral"
+      ],
+      "familia": "POP",
+      "fuente_citada": "corpus local verificado (glsl_files/, suite 14/14 TD 2025.31760)",
+      "id": "pop-04-matrices-motion",
+      "params_nodo": {
+        "node": "glslPOP",
+        "outputattrs": "P (input-existing attrs only; Create Attributes for new)",
+        "readwrite": "outputaccess='readwrite' when the shader reads what it writes",
+        "shader_dat": "computedat"
+      },
+      "prerequisitos": [
+        "pop-01-wave-displacement"
+      ],
+      "shader_td": "glsl_files/pop_03_spiral.glsl",
+      "titulo_es": "Matrices en 3D: espiral y vórtice (POP)"
+    },
+    {
+      "concepto": "Anillos que viajan desde el centro desplazando P: el ripple TOP traducido a geometría, útil para impactos y pulsos.",
+      "efectos_visuales": [
+        "ondas de choque",
+        "pulsos radiales sincronizados"
+      ],
+      "familia": "POP",
+      "fuente_citada": "corpus local verificado (glsl_files/, suite 14/14 TD 2025.31760)",
+      "id": "pop-05-image-ripple",
+      "params_nodo": {
+        "node": "glslPOP",
+        "outputattrs": "P (input-existing attrs only; Create Attributes for new)",
+        "readwrite": "outputaccess='readwrite' when the shader reads what it writes",
+        "shader_dat": "computedat"
+      },
+      "prerequisitos": [
+        "pop-01-wave-displacement",
+        "top-05-patterns-matrices"
+      ],
+      "shader_td": "glsl_files/pop_09_ripple.glsl",
+      "titulo_es": "Movimiento: ondas radiales en puntos (POP)"
+    },
+    {
+      "concepto": "Slide deck 'GLSL POP Compute Shaders': kernels GPU y manipulación directa de atributos. Es el puente entre los conceptos TOP (píxel) y POP (punto): mismas matemáticas, distinto target.",
+      "efectos_visuales": [
+        "displacement de puntos en GPU",
+        "base para simular en POPs"
+      ],
+      "familia": "POP",
+      "fuente_citada": "https://tolchx.com/td-edu/notebooklm/slider.html (deck GLSL POP Compute Shaders, slides-experimentales/glsl-pop-compute-shaders.pdf)",
+      "id": "tdedu-glsl-pop-compute",
+      "params_nodo": {
+        "node": "glslPOP",
+        "outputattrs": "P (input-existing attrs only; Create Attributes for new)",
+        "readwrite": "outputaccess='readwrite' when the shader reads what it writes",
+        "shader_dat": "computedat"
+      },
+      "prerequisitos": [
+        "top-01-shapes-sdf"
+      ],
+      "shader_td": "glsl_files/pop_01_wave.glsl",
+      "titulo_es": "GLSL POP: shaders compute (td-edu)"
+    },
+    {
+      "concepto": "Deck 'GPU POP Simulations': fluidos, partículas y dinámica de cuerpos corriendo en POPs. Conectar con el feedback TOP para entender el patrón ping-pong en dos familias.",
+      "efectos_visuales": [
+        "partículas con fuerzas",
+        "simulaciones estables"
+      ],
+      "familia": "POP",
+      "fuente_citada": "https://tolchx.com/td-edu/notebooklm/slider.html (deck GPU POP Simulations)",
+      "id": "tdedu-gpu-pop-simulations",
+      "params_nodo": {
+        "node": "glslPOP",
+        "outputattrs": "P (input-existing attrs only; Create Attributes for new)",
+        "readwrite": "outputaccess='readwrite' when the shader reads what it writes",
+        "shader_dat": "computedat"
+      },
+      "prerequisitos": [
+        "tdedu-glsl-pop-compute",
+        "top-06-motion-feedback-trails"
+      ],
+      "shader_td": "glsl_files/pop_05_feedback.glsl",
+      "titulo_es": "Simulaciones GPU con POPs (td-edu)"
+    },
+    {
+      "concepto": "Una forma es una distancia: mide cuánto falta para el borde y suaviza con smoothstep. El aspect ratio se corrige multiplicando p.x por la proporción (Regla TOP 7) para que el círculo no sea elipse.",
+      "efectos_visuales": [
+        "círculos y anillos nítidos",
+        "máscaras para mezclar capas",
+        "botones y HUD"
+      ],
+      "familia": "TOP",
+      "fuente_citada": "https://thebookofshaders.com/07/?lan=es",
+      "id": "top-01-shapes-sdf",
+      "params_nodo": {
+        "node": "glslTOP",
+        "resolution": "outputresolution='custom' + resolutionw/h",
+        "shader_dat": "pixeldat",
+        "uniform_bind": "vec0name / vec0valuex (const0 does NOT bind scripted)"
+      },
+      "prerequisitos": [],
+      "shader_td": "glsl_files/recipe_t1_circle_sdf.glsl",
+      "titulo_es": "Formas básicas con SDF (círculo)"
+    },
+    {
+      "concepto": "Random por celda + interpolación suave = textura orgánica sin repeticiones visibles. Es el ladrillo de casi todo visual procedural.",
+      "efectos_visuales": [
+        "texturas de grano",
+        "variación orgánica de brillo",
+        "semilla de displacements"
+      ],
+      "familia": "TOP",
+      "fuente_citada": "https://thebookofshaders.com/11/?lan=es",
+      "id": "top-02-random-noise",
+      "params_nodo": {
+        "node": "glslTOP",
+        "resolution": "outputresolution='custom' + resolutionw/h",
+        "shader_dat": "pixeldat",
+        "uniform_bind": "vec0name / vec0valuex (const0 does NOT bind scripted)"
+      },
+      "prerequisitos": [
+        "top-01-shapes-sdf"
+      ],
+      "shader_td": "glsl_files/recipe_t2_value_noise.glsl",
+      "titulo_es": "Ruido de valor (random + interpolación)"
+    },
+    {
+      "concepto": "Sumar octavas de ruido (freq ×2, amp ×0.5) simula la autosimilitud de la naturaleza. Desplazar la entrada con otro ruido (domain warp) rompe la simetría y genera nubes creíbles.",
+      "efectos_visuales": [
+        "nubes y humo",
+        "terrenos",
+        "máscaras orgánicas"
+      ],
+      "familia": "TOP",
+      "fuente_citada": "https://thebookofshaders.com/13/?lan=es",
+      "id": "top-03-fbm-layers",
+      "params_nodo": {
+        "node": "glslTOP",
+        "resolution": "outputresolution='custom' + resolutionw/h",
+        "shader_dat": "pixeldat",
+        "uniform_bind": "vec0name / vec0valuex (const0 does NOT bind scripted)"
+      },
+      "prerequisitos": [
+        "top-02-random-noise"
+      ],
+      "shader_td": "glsl_files/recipe_t3_fbm_layers.glsl",
+      "titulo_es": "fBm: ruido fractal en capas (domain warp)"
+    },
+    {
+      "concepto": "fract() repite el espacio en celdas; dentro de cada celda dibujás lo que quieras. La base de matrices, mosaicos y toda retícula visual.",
+      "efectos_visuales": [
+        "grillas y mosaicos",
+        "LED walls",
+        "texturas repetibles"
+      ],
+      "familia": "TOP",
+      "fuente_citada": "https://thebookofshaders.com/09/?lan=es",
+      "id": "top-04-patterns-grid",
+      "params_nodo": {
+        "node": "glslTOP",
+        "resolution": "outputresolution='custom' + resolutionw/h",
+        "shader_dat": "pixeldat",
+        "uniform_bind": "vec0name / vec0valuex (const0 does NOT bind scripted)"
+      },
+      "prerequisitos": [
+        "top-01-shapes-sdf"
+      ],
+      "shader_td": "glsl_files/recipe_t4_grid_pattern.glsl",
+      "titulo_es": "Patrones: grillas y multiplicidad"
+    },
+    {
+      "concepto": "La distancia al centro convertida en fase (sin(d*k - t)) produce anillos que viajan: el patrón más leído desde el Book of Shaders.",
+      "efectos_visuales": [
+        "ripples y ondas",
+        "pulso radial sincronizable con audio"
+      ],
+      "familia": "TOP",
+      "fuente_citada": "https://thebookofshaders.com/09/?lan=es",
+      "id": "top-05-patterns-matrices",
+      "params_nodo": {
+        "node": "glslTOP",
+        "resolution": "outputresolution='custom' + resolutionw/h",
+        "shader_dat": "pixeldat",
+        "uniform_bind": "vec0name / vec0valuex (const0 does NOT bind scripted)"
+      },
+      "prerequisitos": [
+        "top-01-shapes-sdf"
+      ],
+      "shader_td": "glsl_files/recipe_t5_uv_ripple.glsl",
+      "titulo_es": "Matrices: ondas radiales y coordenadas"
+    },
+    {
+      "concepto": "El frame anterior vuelve a entrar como input: mezclarlo con un decaimiento produce estelas. En TD el loop es glslTOP ↔ feedbackTOP. El contenido evoluciona solo con frames reales (Regla TOP 10: el swap del buffer no se compromete con cook(force=True)).",
+      "efectos_visuales": [
+        "estelas de partículas",
+        "motion blur creativo",
+        "echo visuals"
+      ],
+      "familia": "TOP",
+      "fuente_citada": "https://thebookofshaders.com/13/?lan=es",
+      "id": "top-06-motion-feedback-trails",
+      "params_nodo": {
+        "feedback": "glslTOP -> feedbackTOP -> glslTOP; realtime-only",
+        "node": "glslTOP",
+        "resolution": "outputresolution='custom' + resolutionw/h",
+        "shader_dat": "pixeldat",
+        "uniform_bind": "vec0name / vec0valuex (const0 does NOT bind scripted)"
+      },
+      "prerequisitos": [
+        "top-01-shapes-sdf"
+      ],
+      "shader_td": "glsl_files/recipe_t6_feedback_trails.glsl",
+      "titulo_es": "Movimiento: estelas con feedback"
+    },
+    {
+      "concepto": "Dos 'químicos' que se difunden y reaccionan generan texturas de organismo. La aproximación de una pasada advecta el frame previo con un laplaciano: en TD realimenta con feedbackTOP y evoluciona en frames reales (Regla TOP 10).",
+      "efectos_visuales": [
+        "pieles orgánicas",
+        "corales y manchas",
+        "texturas evolutivas"
+      ],
+      "familia": "TOP",
+      "fuente_citada": "https://thebookofshaders.com/13/?lan=es",
+      "id": "top-07-generative-reaction-diffusion",
+      "params_nodo": {
+        "feedback": "glslTOP -> feedbackTOP -> glslTOP; realtime-only",
+        "node": "glslTOP",
+        "resolution": "outputresolution='custom' + resolutionw/h",
+        "shader_dat": "pixeldat",
+        "uniform_bind": "vec0name / vec0valuex (const0 does NOT bind scripted)"
+      },
+      "prerequisitos": [
+        "top-03-fbm-layers",
+        "top-06-motion-feedback-trails"
+      ],
+      "shader_td": "glsl_files/recipe_t7_reaction_diffusion.glsl",
+      "titulo_es": "Generativos: reacción-difusión (aprox. 1 pasada)"
+    },
+    {
+      "concepto": "Leer el vecindario del píxel con uTD2DInfos[0].res.zw como paso y combinar con pesos produce blur, bordes y glow. El corpus ya tiene la cadena completa verificada.",
+      "efectos_visuales": [
+        "detección de bordes",
+        "blur",
+        "glow compuesto"
+      ],
+      "familia": "TOP",
+      "fuente_citada": "https://thebookofshaders.com/05/?lan=es",
+      "id": "top-08-image-processing",
+      "params_nodo": {
+        "input": "sTD2DInputs[0] + uTD2DInfos[0].res.zw como texel step",
+        "node": "glslTOP",
+        "resolution": "outputresolution='custom' + resolutionw/h",
+        "shader_dat": "pixeldat",
+        "uniform_bind": "vec0name / vec0valuex (const0 does NOT bind scripted)"
+      },
+      "prerequisitos": [
+        "top-01-shapes-sdf"
+      ],
+      "shader_td": "glsl_files/top_edge_detect.glsl",
+      "titulo_es": "Procesamiento de imagen: convoluciones (Sobel)"
+    }
+  ],
+  "metadata": {
+    "counts": {
+      "by_familia": {
+        "POP": 7,
+        "TOP": 8
+      },
+      "entries": 15
+    },
+    "generated_at": "2026-09-17",
+    "sources": [
+      "glsl_files/ (62 shaders locales verificados, suite 14/14)",
+      "docs/glsl_pops_reference.json (evidencia de suite en vivo)",
+      "https://thebookofshaders.com/?lan=es (conceptos y matemática, citados por capítulo)",
+      "https://tolchx.com/td-edu/ (lecciones y slide decks propios)"
+    ],
+    "td_build": "TouchDesigner 2025.31760"
+  }
+}
