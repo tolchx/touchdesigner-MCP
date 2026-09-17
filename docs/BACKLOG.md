@@ -5,7 +5,7 @@
 > **espejo trackeado** para que el historial del repo preserve qué se completó, cómo y
 > con qué evidencia, y para que los scopes cerrados de tareas encoladas sean citables.
 >
-> Última sincronización: **2026-09-17** (después de `8e5bc55`, ítems 04–06 y 17 cerrados).
+> Última sincronización: **2026-09-17** (después de `d3e3327`; ítems 04–06 y 17 cerrados, 31–32 encolados).
 > Al cerrar cada ítem en el ciclo diario, actualizar acá la casilla correspondiente.
 
 ## Mejoras de API / bridge
@@ -18,6 +18,8 @@
 - [x] 06. `/metrics` — métricas en JSON: fps (`project.cookRate`), conteo total y por familia, errores/warnings con los criterios de `/verify`, `pop_stats` (POP más lento), `readCache` y latencias server-side por ruta (`endpoint_times`, buffer 20). Un solo walk, nunca cacheado, `null` explícito si la señal no existe. Implementado en `toe/src/TouchDesignerAPI.py` + espejo en `mcp/setup/toe_extension.py`; verificado en vivo (TD 2025.31760, 33473 ops). Contrato campo por campo en `docs/API_REFERENCE.md`. Suites 17/09/26: Node **1208/0**, contrato **56 OK**, bridge **49 OK**, GLSL **19 OK**, gate **19 OK**. Commits `4bdcff1` + `b70c6c8` + `8e5bc55`.
 - [ ] 07. `/diff` — comparar dos estados de red (o la red actual contra un `.toe` de referencia) y devolver diferencias legibles — **scope cerrado, ver [Cola](#cola-de-ejecución-queue)**
 - [ ] 08. Modo dry-run — flag `?dry_run=1` en los POST de escritura que devuelve qué haría sin aplicarlo
+- [ ] 31. GLSL TOP tooling — extender `mcp/src/tools/glslValidate.ts` con modo TOP (detecta `vUV.uv`, uniforms por `uniform0name` inexistente, falta de `pixeldat`) y templates TOP enrutados por la red de seguridad, fundado en `docs/GLSL_TOP_RULES.md` (12 reglas verificadas en vivo 17/09/26, commit `d3e3327`) — **scope cerrado en `.freebuff_tasks/queue/31_glsl_top_tooling.txt`**
+- [ ] 32. Currículo GLSL para visuales — ingesta de thebookofshaders.com (es) y tolchx.com/td-edu a `mcp/data/` como `glsl_curriculum.json` (concepto → shader en idioms TD verificados → parámetros → receta), con tool de consulta para agentes — **scope cerrado en `.freebuff_tasks/queue/32_glsl_curriculum.txt`**
 - [ ] 09. Undo/redo en el bridge — historial de cambios por request con `/undo` y `/redo`
 
 ## Tests y calidad
