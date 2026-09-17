@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """
 Offline tests for scripts/check_pop_matrix_baseline.py — no TD, no git needed
-(check() and _validate() are pure functions over dicts).
+(check()/_validate()/classify_run() are pure functions over dicts).
 
 Covers: baseline regression, exact match, modest improvement, implausible
 gain, types that stop creating, missing types, malformed JSON structures,
-and the git-baseline loader.
+the git-baseline loader, and the auto-commit classifier (identical /
+metadata-only / evidence-changed).
 """
 
 import os
@@ -20,6 +21,7 @@ if REPO_ROOT not in sys.path:
 from scripts.check_pop_matrix_baseline import (  # noqa: E402
     _validate,
     check,
+    classify_run,
 )
 
 
@@ -147,6 +149,53 @@ class TestValidate(unittest.TestCase):
         with self.assertRaises(SystemExit) as cm:
             _validate(m, "test")
         self.assertIn("mismatch", str(cm.exception))
+
+
+class TestClassifyRun(unittest.TestCase):
+    """The auto-commit classifier: evidence fingerprint vs per-run metadata."""
+
+    def setUp(self):
+        self.base = make_matrix(
+            ["boxPOP", "gridPOP", "spherePOP", "linePOP", "noisePOP"],
+            extra_error=["rayPOP"], extra_singeo=["particlePOP"],
+            nocreate=["engineoutPOP"],
+        )
+
+    def test_identical_copy_is_identical(self):
+        import json as _json
+        live = _json.loads(_json.dumps(self.base))
+        self.assertEqual(classify_run(self.base, live), "identical")
+
+    def test_metadata_only_change_is_metadata_only(self):
+        import json as _json
+        live = _json.loads(_json.dumps(self.base))
+        live["generated_at"] = "2099-01-01T00:00:00"
+        live["sandbox"] = "/project1/other_sandbox"
+        self.assertEqual(classify_run(self.base, live), "metadata-only")
+
+    def test_build_change_alone_is_metadata_only(self):
+        import json as _json
+        live = _json.loads(_json.dumps(self.base))
+        live["td_build"] = "TouchDesigner 2026.10000"
+        # Same categories — a metadata refresh even across builds, as long as
+        # no type moved. (A build change WITH category moves hits the branch
+        # below: evidence-changed.)
+        self.assertEqual(classify_run(self.base, live), "metadata-only")
+
+    def test_category_move_is_evidence_changed(self):
+        import json as _json
+        live = _json.loads(_json.dumps(self.base))
+        live["results"][0]["category"] = "error_con_input"
+        live["categories"]["ok_con_input"][0] = "circlePOP"
+        self.assertEqual(classify_run(self.base, live), "evidence-changed")
+
+    def test_new_or_vanished_type_is_evidence_changed(self):
+        import json as _json
+        live = _json.loads(_json.dumps(self.base))
+        extra = dict(live["results"][0])
+        extra["type"] = "brandnewPOP"
+        live["results"].append(extra)
+        self.assertEqual(classify_run(self.base, live), "evidence-changed")
 
 
 class TestGitBaselineLoader(unittest.TestCase):

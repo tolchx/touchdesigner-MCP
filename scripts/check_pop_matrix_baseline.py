@@ -47,6 +47,63 @@ import sys
 DEFAULT_MATRIX = "docs/pop_matrix.json"
 MAX_OK_GAIN = 10
 
+# Per-run fields that carry NO evidence: they change every run or on a TD
+# rebuild without any category moving. When ONLY these differ, the fresh JSON
+# is auto-committed so the baseline metadata stays current.
+METADATA_KEYS = ("generated_at", "td_build", "sandbox", "method")
+
+
+def evidence_fingerprint(d: dict) -> dict:
+    """The evidence-bearing core of a matrix: type_count + per-type category.
+
+    Two runs with equal fingerprints classify the same POP types identically —
+    exactly what the gate protects — so a fingerprint difference means real
+    evidence change (a type moved category, appeared, or vanished).
+    """
+    return {
+        "type_count": d.get("type_count"),
+        "types": {
+            r.get("type"): r.get("category")
+            for r in d.get("results", [])
+            if r.get("type") is not None
+        },
+    }
+
+
+def classify_run(baseline: dict, live: dict) -> str:
+    """Classify a fresh run against the baseline."""
+    if evidence_fingerprint(baseline) != evidence_fingerprint(live):
+        return "evidence-changed"
+    if all(baseline.get(k) == live.get(k) for k in METADATA_KEYS):
+        return "identical"
+    return "metadata-only"
+
+
+def autocommit_metadata(path: str, live: dict) -> bool:
+    """Commit the fresh JSON when it differs from HEAD. Returns True on commit.
+
+    Uses a fixed bot identity via `git -c` (no config mutation), commits ONLY
+    the matrix file, and never pushes.
+    """
+    head = subprocess.run(
+        ["git", "show", f"HEAD:{path}"],
+        capture_output=True, text=True, encoding="utf-8",
+    )
+    with open(path, encoding="utf-8") as f:
+        current = f.read()
+    if head.returncode == 0 and head.stdout == current:
+        return False  # already committed
+    subprocess.run(["git", "add", path], check=True)
+    subprocess.run(
+        ["git", "-c", "user.name=pop-matrix-bot",
+         "-c", "user.email=bot@users.noreply.github.com",
+         "commit", "-m",
+         "chore(pop-matrix): refresh baseline metadata for %s (evidence unchanged)"
+         % live.get("td_build", "unknown build")],
+        check=True, capture_output=True, text=True, encoding="utf-8",
+    )
+    return True
+
 
 def _load_git_baseline(path: str) -> dict:
     """Read the matrix from git HEAD (the committed baseline)."""
@@ -176,6 +233,8 @@ def main() -> int:
                     help="freshly generated matrix (default: docs/pop_matrix.json)")
     ap.add_argument("--baseline-path", default=DEFAULT_MATRIX,
                     help="repo-relative path read from git HEAD for the baseline")
+    ap.add_argument("--no-autocommit", action="store_true",
+                    help="never git-commit the fresh JSON (local runs)")
     args = ap.parse_args()
 
     baseline = _load_git_baseline(args.baseline_path)
@@ -199,6 +258,23 @@ def main() -> int:
     base_n = baseline["ok_con_input_count"]
     print("\nPOP MATRIX BASELINE GATE: PASS "
           f"(ok_con_input {live_n} vs baseline {base_n})")
+
+    kind = classify_run(baseline, live)
+    if kind == "evidence-changed":
+        print("  NOTE: evidence changed (a category moved) — the fresh JSON "
+              "is NOT auto-committed; review the recipes and commit it manually "
+              "to adopt it as the new baseline.")
+    elif kind == "metadata-only" and not args.no_autocommit:
+        try:
+            if autocommit_metadata(args.live, live):
+                print("  AUTO-COMMIT: only metadata moved (%s); fresh JSON "
+                      "committed as the new baseline."
+                      % ", ".join(k for k in METADATA_KEYS
+                                  if baseline.get(k) != live.get(k)))
+            else:
+                print("  AUTO-COMMIT: fresh JSON already matches HEAD — nothing to commit.")
+        except (subprocess.CalledProcessError, OSError) as e:
+            print(f"  WARNING: auto-commit failed ({e}); JSON left uncommitted.")
     return 0
 
 
