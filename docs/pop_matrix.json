@@ -1,13 +1,13 @@
 {
- "generated_at": "2026-09-16T17:32:57",
+ "generated_at": "2026-09-17T00:51:34",
  "td_build": "TouchDesigner 2025.31760",
  "sandbox": "/project1/pop_matrix_live5",
- "method": "v6: cada POP bajo prueba recibe fuente por input — default boxPOP (2x2x2, div 4); los sin_geometria de v5 reciben fuente de su propia familia (choptoPOP<-noiseCHOP, toptoPOP<-noiseTOP, soptoPOP<-sphereSOP, dattoPOP<-tableDAT, revolvePOP<-linePOP, cacheblend/cacheselect<-box->cachePOP, particlePOP<-sprinkle+feedback, alembicinPOP<-alembicoutPOP escribe .abc real); cook múltiple para ops temporales; cook(force=True) + errors() + numPoints()/numPrims() (métodos); clasificación excluyente ok_con_input / error_con_input / sin_geometria_con_input / no_creable",
+ "method": "v7: cada POP bajo prueba recibe fuente por input (boxPOP default, hasta 3) O por par-path cuando tiene 0 inputs (choptoPOP<-noiseCHOP.par.chop, toptoPOP<-noiseTOP.par.input0top, soptoPOP<-sphereSOP.par.sop, dattoPOP<-tableDAT.par.pointsdat, lookupchannelPOP<-noiseCHOP.par.chop, polygonizePOP<-noiseTOP.par.top, cacheblend/cacheselect<-box->cachePOP.par.cachepop, glslselectPOP<-glsladvancedPOP(extraout0name+extraout0pop).par.pop); particlePOP con boxPOP+preroll; rayPOP con box->normalPOP(N real)+spherePOP; cook multiple para ops temporales; cook(force=True) + errors() + numPoints()/numPrims() (metodos); clasificacion excluyente ok_con_input / error_con_input / sin_geometria_con_input / no_creable",
  "type_count": 97,
  "created_ok": 96,
  "created_fail": 1,
- "ok_con_input_count": 78,
- "ok_real": 78,
+ "ok_con_input_count": 89,
+ "ok_real": 89,
  "categories": {
   "ok_con_input": [
    "accumulatePOP",
@@ -18,11 +18,15 @@
    "blendPOP",
    "boxPOP",
    "cachePOP",
+   "cacheblendPOP",
+   "cacheselectPOP",
+   "choptoPOP",
    "circlePOP",
    "connectivityPOP",
    "convertPOP",
    "copyPOP",
    "curvePOP",
+   "dattoPOP",
    "deletePOP",
    "dimensionPOP",
    "dmxfixturePOP",
@@ -36,6 +40,7 @@
    "glslPOP",
    "glsladvancedPOP",
    "glslcopyPOP",
+   "glslselectPOP",
    "gridPOP",
    "groupPOP",
    "histogramPOP",
@@ -48,6 +53,7 @@
    "lineresamplePOP",
    "linesmoothPOP",
    "lookupattributePOP",
+   "lookupchannelPOP",
    "lookuptexturePOP",
    "mathPOP",
    "mathcombinePOP",
@@ -59,22 +65,26 @@
    "normalizePOP",
    "nullPOP",
    "outPOP",
+   "particlePOP",
    "patternPOP",
    "phaserPOP",
    "planePOP",
    "pointPOP",
    "pointfileinPOP",
    "pointgeneratorPOP",
+   "polygonizePOP",
    "primitivePOP",
    "projectionPOP",
    "proximityPOP",
    "quantizePOP",
    "randomPOP",
+   "rayPOP",
    "rectanglePOP",
    "rerangePOP",
    "revolvePOP",
    "selectPOP",
    "skinPOP",
+   "soptoPOP",
    "sortPOP",
    "spherePOP",
    "sprinklePOP",
@@ -82,6 +92,7 @@
    "switchPOP",
    "texturemapPOP",
    "topologyPOP",
+   "toptoPOP",
    "torusPOP",
    "trailPOP",
    "transformPOP",
@@ -93,38 +104,20 @@
    "alembicinPOP",
    "cplusplusPOP",
    "importselectPOP",
-   "lookupchannelPOP",
-   "particlePOP",
-   "polygonizePOP",
-   "rayPOP",
    "skindeformPOP",
    "zedPOP"
   ],
   "sin_geometria_con_input": [
-   "cacheblendPOP",
-   "cacheselectPOP",
-   "choptoPOP",
-   "dattoPOP",
    "dmxoutPOP",
-   "glslselectPOP",
-   "oakselectPOP",
-   "soptoPOP",
-   "toptoPOP"
+   "oakselectPOP"
   ],
   "no_creable": [
    "engineoutPOP"
   ]
  },
  "sin_geometria": [
-  "cacheblendPOP",
-  "cacheselectPOP",
-  "choptoPOP",
-  "dattoPOP",
   "dmxoutPOP",
-  "glslselectPOP",
-  "oakselectPOP",
-  "soptoPOP",
-  "toptoPOP"
+  "oakselectPOP"
  ],
  "con_errores": [
   {
@@ -138,22 +131,6 @@
   {
    "type": "importselectPOP",
    "message": "Error: Import Select POP must be contained within a USD or FBX COMP, or have one specified in the Import Parent parameter (/project1/pop_matrix_live5/importselectpop)"
-  },
-  {
-   "type": "lookupchannelPOP",
-   "message": "Error: CHOP not found (/project1/pop_matrix_live5/lookupchannelpop)"
-  },
-  {
-   "type": "particlePOP",
-   "message": "Error: Input requires P attribute (/project1/pop_matrix_live5/particlepop)"
-  },
-  {
-   "type": "polygonizePOP",
-   "message": "Error: Invalid source TOP specified. (/project1/pop_matrix_live5/polygonizepop)\n  Error: Unable to obtain texture from source TOP (/project1/pop_matrix_live5/polygonizepop)"
-  },
-  {
-   "type": "rayPOP",
-   "message": "Error: Attribute not found. (/project1/pop_matrix_live5/raypop)"
   },
   {
    "type": "skindeformPOP",
@@ -1545,9 +1522,9 @@
    "cooked": true,
    "has_errors": false,
    "error_message": null,
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
    "source_created": true,
    "wired": false,
    "wired_to_input": null,
@@ -1653,11 +1630,12 @@
      "default": "default"
     }
    ],
-   "category": "sin_geometria_con_input",
+   "category": "ok_con_input",
    "source_kind": "cachePOP",
    "name": "cacheblendpop",
    "opType": "cacheblend",
-   "family": "POP"
+   "family": "POP",
+   "par_wired": "cachepop=/project1/pop_matrix_live5/src_cacheblendpop_chain"
   },
   {
    "type": "cacheselectPOP",
@@ -1667,9 +1645,9 @@
    "cooked": true,
    "has_errors": false,
    "error_message": null,
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
    "source_created": true,
    "wired": false,
    "wired_to_input": null,
@@ -1739,11 +1717,12 @@
      "default": "default"
     }
    ],
-   "category": "sin_geometria_con_input",
+   "category": "ok_con_input",
    "source_kind": "cachePOP",
    "name": "cacheselectpop",
    "opType": "cacheselect",
-   "family": "POP"
+   "family": "POP",
+   "par_wired": "cachepop=/project1/pop_matrix_live5/src_cacheselectpop_chain"
   },
   {
    "type": "choptoPOP",
@@ -1753,9 +1732,9 @@
    "cooked": true,
    "has_errors": false,
    "error_message": null,
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "numPoints": 600,
+   "numPrims": 1,
+   "geometry_ok": true,
    "source_created": true,
    "wired": false,
    "wired_to_input": null,
@@ -1963,11 +1942,12 @@
      "default": "default"
     }
    ],
-   "category": "sin_geometria_con_input",
+   "category": "ok_con_input",
    "source_kind": "noiseCHOP",
    "name": "choptopop",
    "opType": "chopto",
-   "family": "POP"
+   "family": "POP",
+   "par_wired": "chop=/project1/pop_matrix_live5/src_choptopop"
   },
   {
    "type": "circlePOP",
@@ -3130,9 +3110,9 @@
    "cooked": true,
    "has_errors": false,
    "error_message": null,
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "numPoints": 3,
+   "numPrims": 3,
+   "geometry_ok": true,
    "source_created": true,
    "wired": false,
    "wired_to_input": null,
@@ -3238,11 +3218,12 @@
      "default": "default"
     }
    ],
-   "category": "sin_geometria_con_input",
+   "category": "ok_con_input",
    "source_kind": "tableDAT",
    "name": "dattopop",
    "opType": "datto",
-   "family": "POP"
+   "family": "POP",
+   "par_wired": "pointsdat=/project1/pop_matrix_live5/src_dattopop"
   },
   {
    "type": "deletePOP",
@@ -7388,9 +7369,9 @@
    "cooked": true,
    "has_errors": false,
    "error_message": null,
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "numPoints": 8,
+   "numPrims": 6,
+   "geometry_ok": true,
    "source_created": true,
    "wired": false,
    "wired_to_input": null,
@@ -7448,11 +7429,12 @@
      "default": "default"
     }
    ],
-   "category": "sin_geometria_con_input",
-   "source_kind": "boxPOP",
+   "category": "ok_con_input",
+   "source_kind": "glsladvanced_extraout",
    "name": "glslselectpop",
    "opType": "glslselect",
-   "family": "POP"
+   "family": "POP",
+   "par_wired": "pop=/project1/pop_matrix_live5/src_glslselectpop_adv"
   },
   {
    "type": "gridPOP",
@@ -10184,17 +10166,17 @@
    "sources_created": 1,
    "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: CHOP not found (/project1/pop_matrix_live5/lookupchannelpop)",
+   "has_errors": false,
+   "error_message": null,
    "numPoints": 8,
    "numPrims": 6,
-   "geometry_ok": false,
+   "geometry_ok": true,
    "source_created": true,
    "wired": true,
    "wired_to_input": [
     0
    ],
-   "wire_note": null,
+   "wire_note": "wire_exception: Invalid number or type of arguments. See help for details. Value:type:Connector path:/project1/pop_matrix_live5/lookupchannelpop index:0 direction:input Type:<class 'td.Connector'>.",
    "inputs": 1,
    "outputs": 1,
    "param_count": 29,
@@ -10374,10 +10356,12 @@
      "default": "default"
     }
    ],
-   "category": "error_con_input",
+   "category": "ok_con_input",
+   "source_kind": "noiseCHOP",
    "name": "lookupchannelpop",
    "opType": "lookupchan",
-   "family": "POP"
+   "family": "POP",
+   "par_wired": "chop=/project1/pop_matrix_live5/src_lookupchannelpop"
   },
   {
    "type": "lookuptexturePOP",
@@ -12994,11 +12978,11 @@
    "sources_created": 1,
    "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Input requires P attribute (/project1/pop_matrix_live5/particlepop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 2,
+   "numPrims": 2,
+   "geometry_ok": true,
    "source_created": true,
    "wired": true,
    "wired_to_input": [
@@ -13310,11 +13294,12 @@
      "default": "default"
     }
    ],
-   "category": "error_con_input",
-   "source_kind": "sprinklePOP",
+   "category": "ok_con_input",
+   "source_kind": "boxPOP",
    "name": "particlepop",
    "opType": "particle",
    "family": "POP",
+   "par_wired": "preroll=2.0",
    "feedback_wired": true
   },
   {
@@ -14715,11 +14700,11 @@
    "sources_created": 1,
    "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Invalid source TOP specified. (/project1/pop_matrix_live5/polygonizepop)\n  Error: Unable to obtain texture from source TOP (/project1/pop_matrix_live5/polygonizepop)",
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "has_errors": false,
+   "error_message": null,
+   "numPoints": 5414,
+   "numPrims": 5414,
+   "geometry_ok": true,
    "source_created": true,
    "wired": false,
    "wired_to_input": null,
@@ -14831,10 +14816,12 @@
      "default": "default"
     }
    ],
-   "category": "error_con_input",
+   "category": "ok_con_input",
+   "source_kind": "noiseTOP",
    "name": "polygonizepop",
    "opType": "polygonize",
-   "family": "POP"
+   "family": "POP",
+   "par_wired": "top=/project1/pop_matrix_live5/src_polygonizepop"
   },
   {
    "type": "primitivePOP",
@@ -15830,11 +15817,11 @@
    "sources_created": 2,
    "error": null,
    "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Attribute not found. (/project1/pop_matrix_live5/raypop)",
+   "has_errors": false,
+   "error_message": null,
    "numPoints": 8,
    "numPrims": 6,
-   "geometry_ok": false,
+   "geometry_ok": true,
    "source_created": true,
    "wired": true,
    "wired_to_input": [
@@ -16075,7 +16062,8 @@
      "default": "default"
     }
    ],
-   "category": "error_con_input",
+   "category": "ok_con_input",
+   "source_kind": "normalPOP+",
    "name": "raypop",
    "opType": "ray",
    "family": "POP"
@@ -16911,9 +16899,9 @@
    "cooked": true,
    "has_errors": false,
    "error_message": null,
-   "numPoints": 0,
+   "numPoints": 722,
    "numPrims": 0,
-   "geometry_ok": false,
+   "geometry_ok": true,
    "source_created": true,
    "wired": false,
    "wired_to_input": null,
@@ -16989,11 +16977,12 @@
      "default": "default"
     }
    ],
-   "category": "sin_geometria_con_input",
+   "category": "ok_con_input",
    "source_kind": "sphereSOP",
    "name": "soptopop",
    "opType": "sopto",
-   "family": "POP"
+   "family": "POP",
+   "par_wired": "sop=/project1/pop_matrix_live5/src_soptopop"
   },
   {
    "type": "sortPOP",
@@ -18596,9 +18585,9 @@
    "cooked": true,
    "has_errors": false,
    "error_message": null,
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "numPoints": 65536,
+   "numPrims": 65536,
+   "geometry_ok": true,
    "source_created": true,
    "wired": false,
    "wired_to_input": null,
@@ -19010,11 +18999,12 @@
      "default": "default"
     }
    ],
-   "category": "sin_geometria_con_input",
+   "category": "ok_con_input",
    "source_kind": "noiseTOP",
    "name": "toptopop",
    "opType": "topto",
-   "family": "POP"
+   "family": "POP",
+   "par_wired": "input0top=/project1/pop_matrix_live5/src_toptopop"
   },
   {
    "type": "torusPOP",

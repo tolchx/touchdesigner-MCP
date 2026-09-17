@@ -11,8 +11,8 @@
    "created_ok": 96,
    "documented_in_wiki": 96,
    "undocumented": 1,
-   "ok_con_input": 78,
-   "recommended_for_networks": 78,
+   "ok_con_input": 89,
+   "recommended_for_networks": 89,
    "wiki_pages_total": 106,
    "patterns_pop_to_pop": 1120,
    "chains": 80,
@@ -2344,11 +2344,11 @@
    "param_count": 16,
    "errors": null,
    "warnings": null,
-   "validation_category": "sin_geometria_con_input",
-   "recommended_for_networks": false,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
    "geometry": {
-    "numPoints": 0,
-    "numPrims": 0
+    "numPoints": 8,
+    "numPrims": 6
    },
    "matrix_error": null,
    "live_params": [
@@ -2465,11 +2465,11 @@
    "param_count": 10,
    "errors": null,
    "warnings": null,
-   "validation_category": "sin_geometria_con_input",
-   "recommended_for_networks": false,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
    "geometry": {
-    "numPoints": 0,
-    "numPrims": 0
+    "numPoints": 8,
+    "numPrims": 6
    },
    "matrix_error": null,
    "live_params": [
@@ -2540,11 +2540,11 @@
    "param_count": 33,
    "errors": null,
    "warnings": null,
-   "validation_category": "sin_geometria_con_input",
-   "recommended_for_networks": false,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
    "geometry": {
-    "numPoints": 0,
-    "numPrims": 0
+    "numPoints": 600,
+    "numPrims": 1
    },
    "matrix_error": null,
    "live_params": [
@@ -3757,11 +3757,11 @@
    "param_count": 16,
    "errors": null,
    "warnings": null,
-   "validation_category": "sin_geometria_con_input",
-   "recommended_for_networks": false,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
    "geometry": {
-    "numPoints": 0,
-    "numPrims": 0
+    "numPoints": 3,
+    "numPrims": 3
    },
    "matrix_error": null,
    "live_params": [
@@ -8052,11 +8052,11 @@
    "param_count": 8,
    "errors": null,
    "warnings": null,
-   "validation_category": "sin_geometria_con_input",
-   "recommended_for_networks": false,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
    "geometry": {
-    "numPoints": 0,
-    "numPrims": 0
+    "numPoints": 8,
+    "numPrims": 6
    },
    "matrix_error": null,
    "live_params": [
@@ -10867,13 +10867,13 @@
    "param_count": 29,
    "errors": null,
    "warnings": null,
-   "validation_category": "error_con_input",
-   "recommended_for_networks": false,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
    "geometry": {
     "numPoints": 8,
     "numPrims": 6
    },
-   "matrix_error": "Error: CHOP not found (/project1/pop_matrix_live5/lookupchannelpop)",
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "attrclass",
@@ -13301,13 +13301,13 @@
    "param_count": 50,
    "errors": null,
    "warnings": null,
-   "validation_category": "error_con_input",
-   "recommended_for_networks": false,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
    "geometry": {
-    "numPoints": 0,
-    "numPrims": 0
+    "numPoints": 2,
+    "numPrims": 2
    },
-   "matrix_error": "Error: Input requires P attribute (/project1/pop_matrix_live5/particlepop)",
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "targetpop",
@@ -14779,13 +14779,13 @@
    "param_count": 17,
    "errors": null,
    "warnings": null,
-   "validation_category": "error_con_input",
-   "recommended_for_networks": false,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
    "geometry": {
-    "numPoints": 0,
-    "numPrims": 0
+    "numPoints": 5414,
+    "numPrims": 5414
    },
-   "matrix_error": "Error: Invalid source TOP specified. (/project1/pop_matrix_live5/polygonizepop)\n  Error: Unable to obtain texture from source TOP (/project1/pop_matrix_live5/polygonizepop)",
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "top",
@@ -15922,13 +15922,13 @@
    "param_count": 38,
    "errors": null,
    "warnings": null,
-   "validation_category": "error_con_input",
-   "recommended_for_networks": false,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
    "geometry": {
     "numPoints": 8,
     "numPrims": 6
    },
-   "matrix_error": "Error: Attribute not found. (/project1/pop_matrix_live5/raypop)",
+   "matrix_error": null,
    "live_params": [
     "pageindex",
     "rayattrib",
@@ -16940,10 +16940,10 @@
    "param_count": 11,
    "errors": null,
    "warnings": null,
-   "validation_category": "sin_geometria_con_input",
-   "recommended_for_networks": false,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
    "geometry": {
-    "numPoints": 0,
+    "numPoints": 722,
     "numPrims": 0
    },
    "matrix_error": null,
@@ -18512,11 +18512,11 @@
    "param_count": 67,
    "errors": null,
    "warnings": null,
-   "validation_category": "sin_geometria_con_input",
-   "recommended_for_networks": false,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
    "geometry": {
-    "numPoints": 0,
-    "numPrims": 0
+    "numPoints": 65536,
+    "numPrims": 65536
    },
    "matrix_error": null,
    "live_params": [
