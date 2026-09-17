@@ -81,7 +81,7 @@ if op(SB):
 sb = parent.create(baseCOMP, "{SANDBOX_NAME}")
 sb.nodeX = -2600
 sb.nodeY = 1500
-sb.comment = "POP matrix v6: fuente por input (boxPOP default, familia propia para cross-family); clasificacion por evidencia"
+sb.comment = "POP matrix v7: fuente por input O por par-path (0-input); clasificacion por evidencia"
 
 types = sorted([n for n in dir(td) if n.endswith("POP") and n != "POP"])
 
@@ -97,19 +97,28 @@ def _box_pars(s):
         pass
 
 # v6: fuente propia por familia para los sin_geometria de v5.
+# v7: los que se alimentan por PAR (0 inputs) reciben la fuente via par-path;
+#     particlePOP requiere preroll para avanzar la sim; rayPOP requiere N real
+#     (normalPOP) en input0; glslselectPOP requiere un output con nombre
+#     (extraout0name en glsladvancedPOP, contenido via extraout0pop).
 SPECIAL = {{
-    "choptoPOP": {{"cls": "noiseCHOP"}},
-    "toptoPOP": {{"cls": "noiseTOP"}},
-    "soptoPOP": {{"cls": "sphereSOP"}},
-    "dattoPOP": {{"cls": "tableDAT", "fill": "dat"}},
+    "choptoPOP": {{"cls": "noiseCHOP", "par": "chop"}},
+    "toptoPOP": {{"cls": "noiseTOP", "par": "input0top", "cook_frames": 2}},
+    "soptoPOP": {{"cls": "sphereSOP", "par": "sop"}},
+    "dattoPOP": {{"cls": "tableDAT", "par": "pointsdat", "fill": "dat"}},
     "revolvePOP": {{"cls": "linePOP"}},
-    "glslselectPOP": {{"cls": "boxPOP"}},
-    "particlePOP": {{"cls": "sprinklePOP", "feedback": True, "cook_frames": 4}},
-    "cacheblendPOP": {{"chain": "cachePOP", "cook_frames": 4}},
-    "cacheselectPOP": {{"chain": "cachePOP", "cook_frames": 4}},
+    "lookupchannelPOP": {{"cls": "noiseCHOP", "par": "chop", "extra_box": True, "cook_frames": 2}},
+    "polygonizePOP": {{"cls": "noiseTOP", "par": "top", "cook_frames": 2}},
+    "cacheblendPOP": {{"chain": "cachePOP", "par": "cachepop", "cook_frames": 4}},
+    "cacheselectPOP": {{"chain": "cachePOP", "par": "cachepop", "cook_frames": 4}},
+    "particlePOP": {{"cls": "boxPOP", "feedback": True, "preroll": 2.0, "cook_frames": 8}},
+    "rayPOP": {{"ray": True, "cook_frames": 2}},
+    "glslselectPOP": {{"named_output": True, "par": "pop", "select_name": "myout", "extraout_name": "myout", "cook_frames": 2}},
     "alembicinPOP": {{"alembic": True, "cook_frames": 2}},
-    # dmxoutPOP / oakselectPOP: salida DMX y cámara OAK-D — sin input que
-    # produzca geometría; quedan en sin_geometria_con_input con evidencia.
+    # dmxoutPOP / oakselectPOP: salida DMX y camara OAK-D — sin input que
+    # produzca geometria; quedan en sin_geometria_con_input con evidencia.
+    # importselectPOP / zedPOP / cplusplusPOP: requieren assets/sistemas
+    # externos (red USD, SDK ZED, plugin C++) — error_con_input con evidencia.
 }}
 
 results = []
@@ -148,7 +157,46 @@ for i, t in enumerate(types):
         n_in = len(probe.inputConnectors)
         n_src = max(1, min(n_in, 3))
         probe.destroy()
-        if spec.get("chain"):
+        if spec.get("ray"):
+            # rayPOP: input0 necesita N real (normalPOP); input1 objetivo.
+            bx = sb.create(td.boxPOP, "src_%s_box" % short)
+            bx.nodeX = cell_x
+            bx.nodeY = cell_y - 120
+            _box_pars(bx)
+            nrm = sb.create(td.normalPOP, "src_%s_norm" % short)
+            bx.outputConnectors[0].connect(nrm)
+            nrm.cook(force=True)
+            srcs.append(nrm)
+            tgt = sb.create(td.spherePOP, "src_%s_tgt" % short)
+            _box_pars(tgt)
+            tgt.cook(force=True)
+            srcs.append(tgt)
+        elif spec.get("named_output"):
+            # glslselectPOP: selecciona un output CON NOMBRE de un glslPOP.
+            # Receta viva: glsladvancedPOP con extraout0name + extraout0pop
+            # apuntando a un boxPOP (sin shader custom), y el par 'pop' del
+            # glslselectPOP apunta al glsladvancedPOP.
+            bx = sb.create(td.boxPOP, "src_%s_box" % short)
+            bx.nodeX = cell_x
+            bx.nodeY = cell_y - 120
+            _box_pars(bx)
+            bx.cook(force=True)
+            ga = sb.create(td.glsladvancedPOP, "src_%s_adv" % short)
+            ga.nodeX = cell_x
+            ga.nodeY = cell_y
+            _box_pars(ga)
+            bx.outputConnectors[0].connect(ga)
+            try:
+                ga.par.extraout = True
+                ga.par.extraout0name = spec.get("extraout_name", "myout")
+                ga.par.extraout0pop = bx.path
+            except Exception:
+                pass
+            for _f in range(int(spec.get("cook_frames", 1))):
+                ga.cook(force=True)
+            spec["par_set"] = ga.path
+            srcs.append(ga)
+        elif spec.get("chain"):
             box = sb.create(td.boxPOP, "src_%s_box" % short)
             box.nodeX = cell_x
             box.nodeY = cell_y - 120
@@ -158,6 +206,8 @@ for i, t in enumerate(types):
             box.outputConnectors[0].connect(chain)
             for _f in range(int(spec.get("cook_frames", 1))):
                 chain.cook(force=True)
+            if spec.get("par"):
+                spec["par_set"] = chain.path
             srcs.append(chain)
         elif spec.get("alembic"):
             outf = project.folder + "/pop_matrix_alembic.abc"
@@ -187,6 +237,8 @@ for i, t in enumerate(types):
                 except Exception:
                     pass
             s.cook(force=True)
+            if spec.get("par"):
+                spec["par_set"] = s.path
             srcs.append(s)
         else:
             for k in range(n_src):
@@ -202,6 +254,8 @@ for i, t in enumerate(types):
         if spec:
             entry["source_kind"] = (spec.get("chain") or
                                     ("alembic" if spec.get("alembic") else
+                                     "glsladvanced_extraout" if spec.get("named_output") else
+                                     "normalPOP+" if spec.get("ray") else
                                      spec.get("cls") or "default_box"))
     except Exception as e:
         entry["error"] = "source_create_exception: %s" % str(e)
@@ -238,6 +292,47 @@ for i, t in enumerate(types):
                 entry["wire_note"] = "sin fuente disponible"
         except Exception as we:
             entry["wire_note"] = "wire_exception: %s" % str(we)
+
+        # v7: los 0-input se alimentan por par-path (SPECIAL['par']);
+        #     lookupchannelPOP necesita input0 POP ademas del CHOP;
+        #     particlePOP avanza la sim con initializepulse + preroll.
+        if spec.get("extra_box"):
+            try:
+                eb = sb.create(td.boxPOP, "src_%s_ebox" % short)
+                eb.nodeX = cell_x - 130
+                eb.nodeY = cell_y - 120
+                _box_pars(eb)
+                eb.cook(force=True)
+                if len(o.inputConnectors) > 0:
+                    eb.outputConnectors[0].connect(o.inputConnectors[0])
+                    entry["wired"] = True
+                    entry["wired_to_input"] = [0]
+            except Exception:
+                pass
+        try:
+            if spec.get("par") and spec.get("par_set"):
+                try:
+                    o.par[spec["par"]] = spec["par_set"]
+                    entry["par_wired"] = "%s=%s" % (spec["par"], spec["par_set"])
+                except Exception as pe:
+                    entry["wire_note"] = (entry.get("wire_note") or "") + " | par %s: %s" % (spec["par"], pe)
+            if spec.get("select_name"):
+                try:
+                    o.par.name = spec["select_name"]
+                except Exception as pe:
+                    entry["wire_note"] = (entry.get("wire_note") or "") + " | name: %s" % str(pe)
+            if spec.get("preroll"):
+                try:
+                    o.par.initializepulse.pulse()
+                except Exception:
+                    pass
+                try:
+                    o.par.preroll = spec["preroll"]
+                    entry["par_wired"] = "preroll=%s" % spec["preroll"]
+                except Exception as pe:
+                    entry["wire_note"] = (entry.get("wire_note") or "") + " | preroll: %s" % str(pe)
+        except Exception as we2:
+            entry["wire_note"] = (entry.get("wire_note") or "") + " | v7: %s" % str(we2)
 
         # v6: feedback loop para el solver particlePOP (in1 = estado del frame previo)
         if spec.get("feedback"):
@@ -313,13 +408,14 @@ data = {{
     "generated_at": datetime.datetime.now().isoformat(timespec="seconds"),
     "td_build": app.product + " " + app.build,
     "sandbox": SB,
-    "method": "v6: cada POP bajo prueba recibe fuente por input — default boxPOP (2x2x2, div 4); "
-              "los sin_geometria de v5 reciben fuente de su propia familia "
-              "(choptoPOP<-noiseCHOP, toptoPOP<-noiseTOP, soptoPOP<-sphereSOP, dattoPOP<-tableDAT, "
-              "revolvePOP<-linePOP, cacheblend/cacheselect<-box->cachePOP, particlePOP<-sprinkle+feedback, "
-              "alembicinPOP<-alembicoutPOP escribe .abc real); cook múltiple para ops temporales; "
-              "cook(force=True) + errors() + numPoints()/numPrims() (métodos); "
-              "clasificación excluyente ok_con_input / error_con_input / sin_geometria_con_input / no_creable",
+    "method": "v7: cada POP bajo prueba recibe fuente por input (boxPOP default, hasta 3) O por "
+              "par-path cuando tiene 0 inputs (choptoPOP<-noiseCHOP.par.chop, toptoPOP<-noiseTOP.par.input0top, "
+              "soptoPOP<-sphereSOP.par.sop, dattoPOP<-tableDAT.par.pointsdat, lookupchannelPOP<-noiseCHOP.par.chop, "
+              "polygonizePOP<-noiseTOP.par.top, cacheblend/cacheselect<-box->cachePOP.par.cachepop, "
+              "glslselectPOP<-glsladvancedPOP(extraout0name+extraout0pop).par.pop); particlePOP con boxPOP+preroll; "
+              "rayPOP con box->normalPOP(N real)+spherePOP; cook multiple para ops temporales; "
+              "cook(force=True) + errors() + numPoints()/numPrims() (metodos); "
+              "clasificacion excluyente ok_con_input / error_con_input / sin_geometria_con_input / no_creable",
     "type_count": len(types),
     "created_ok": sum(1 for r in results if r["created"]),
     "created_fail": sum(1 for r in results if not r["created"]),
