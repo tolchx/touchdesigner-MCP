@@ -152,10 +152,13 @@ class TestValidate(unittest.TestCase):
 class TestGitBaselineLoader(unittest.TestCase):
     def test_load_git_baseline_reads_head(self):
         from scripts.check_pop_matrix_baseline import _load_git_baseline
-        # The real repo has docs/pop_matrix.json committed at HEAD with ok=80
+        # The committed docs/pop_matrix.json at HEAD must load; verify its
+        # internal consistency instead of hardcoding a count (the matrix is
+        # regenerated per TD build, e.g. 101/80 on 2025.32460, 97/89 on .31760).
         baseline = _load_git_baseline("docs/pop_matrix.json")
-        self.assertEqual(baseline["ok_con_input_count"], 80)
-        self.assertEqual(baseline["type_count"], 101)
+        self.assertGreater(baseline["ok_con_input_count"], 0)
+        self.assertGreater(baseline["type_count"], 0)
+        self.assertLessEqual(baseline["ok_con_input_count"], baseline["type_count"])
 
     def test_load_git_baseline_missing_file_exits(self):
         from scripts.check_pop_matrix_baseline import _load_git_baseline

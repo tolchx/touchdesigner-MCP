@@ -3,7 +3,7 @@
  * so network builders recommend ONLY ok_con_input POP types.
  *
  *   - pop_operators.json carries validation_category / recommended_for_networks
- *     per type, and the counts match docs/pop_matrix.json (80/12/8/1)
+ *     per type, and the counts match docs/pop_matrix.json (89/5/2/1)
  *   - popKnowledge.ts exposes listOkPopTypes / isRecommendedForNetworks /
  *     networkRecommendationWarning
  *   - topologyData's inferOpTopology warns for non-ok POPs (planner prompt)
@@ -104,11 +104,11 @@ describe("popKnowledge recommendation API", () => {
     assert.equal(box.recommendedForNetworks, true);
   });
 
-  it("listOkPopTypes: 78 types, includes boxPOP, excludes all non-ok", () => {
+  it("listOkPopTypes: 89 types, includes boxPOP, excludes all non-ok", () => {
     const ok = listOkPopTypes();
-    assert.equal(ok.length, 78);
+    assert.equal(ok.length, 89);
     assert.ok(ok.includes("boxPOP"));
-    assert.ok(!ok.includes("particlePOP")); // error_con_input on 2025.31760
+    assert.ok(!ok.includes("zedPOP")); // error_con_input (needs ZED SDK)
     assert.ok(!ok.includes("engineoutPOP")); // no_creable
     assert.ok(!ok.includes("cplusplusPOP")); // error_con_input
   });
@@ -121,8 +121,8 @@ describe("popKnowledge recommendation API", () => {
   it("non-ok types get an explanatory recommendation warning; ok types get none", () => {
     assert.equal(networkRecommendationWarning("boxPOP"), null);
     assert.match(
-      networkRecommendationWarning("particlePOP") ?? "",
-      /errors\(\)/, // error_con_input on 2025.31760 (was sin_geometria on 2025.32460)
+      networkRecommendationWarning("zedPOP") ?? "",
+      /errors\(\)/, // error_con_input (needs ZED SDK; particlePOP is ok since v7)
     );
     assert.match(
       networkRecommendationWarning("cplusplusPOP") ?? "",
@@ -140,10 +140,10 @@ describe("popKnowledge recommendation API", () => {
 
 describe("planner integration: only ok_con_input POPs recommended", () => {
   it("inferOpTopology warns for non-ok POPs, stays silent for ok ones", () => {
-    const bad = inferOpTopology("particlePOP", {});
+    const bad = inferOpTopology("zedPOP", {});
     assert.ok(
       bad.warnings.some((w) => w.includes("NOT recommended")),
-      "particlePOP must carry the NOT-recommended warning",
+      "zedPOP must carry the NOT-recommended warning",
     );
     const good = inferOpTopology("boxPOP", {});
     assert.ok(
@@ -169,15 +169,15 @@ describe("planner integration: only ok_con_input POPs recommended", () => {
     }
   });
 
-  it("explicit request for a non-ok POP still plans it, with a warning", () => {
+  it("explicit request for a previously non-ok POP still plans it", () => {
     const plan = deterministicPlan(
       "particlePOP particle system",
       buildTopologyCatalog(),
       "/project1",
     );
     const particle = plan.nodes.find((n) => n.opType === "particlePOP");
-    // The catalog entry must exist for explicit requests; the warning path is
-    // exercised via inferOpTopology above (particlePOP carries NOT-recommended).
+    // particlePOP became ok_con_input in v7 (boxPOP source + preroll); the
+    // warning path for genuinely non-ok types is exercised via inferOpTopology.
     assert.ok(particle, "explicit request must still plan particlePOP");
   });
 });
