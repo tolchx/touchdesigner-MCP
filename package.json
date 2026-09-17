@@ -10,7 +10,7 @@
     "webapp"
   ],
   "scripts": {
-    "build": "npm -w api run build && esbuild mcp/src/index.ts mcp/src/chat.ts mcp/src/lib.ts mcp/src/bench.ts mcp/src/popsBuild.ts mcp/src/opsBuild.ts mcp/src/promptLint.ts --bundle --platform=node --format=esm --outdir=mcp/dist --external:dotenv --external:dotenv/config",
+    "build": "npm -w api run build && esbuild mcp/src/index.ts mcp/src/chat.ts mcp/src/lib.ts mcp/src/bench.ts mcp/src/popsBuild.ts mcp/src/opsBuild.ts mcp/src/promptLint.ts --bundle --platform=node --format=esm --outdir=mcp/dist --external:dotenv --external:dotenv/config --external:undici",
     "build:watch": "esbuild mcp/src/index.ts mcp/src/chat.ts mcp/src/lib.ts mcp/src/bench.ts mcp/src/popsBuild.ts mcp/src/opsBuild.ts mcp/src/promptLint.ts --bundle --platform=node --format=esm --outdir=mcp/dist --external:dotenv --external:dotenv/config --watch",
     "test": "node mcp/test_smoke.mjs",
     "ci": "node mcp/test_ci.mjs",
