@@ -103,3 +103,44 @@ always hit.
 | `mcp/setup/toe_extension.py` | Standalone copy shipped in the .tox — kept in sync by hand (same keys, same invalidation, same tags) |
 | `tests/test_td_api_offline.py` | Handler-level cache tests (call-counting, invalidation, no_cache, lazy init) |
 | `tests/test_api_contract_offline.py` | HTTP-level contract tests through the real `OnHTTPRequest` |
+
+# Keep-alive HTTP client + loopback normalization (TDClient)
+
+The MCP client (`api/src/index.ts`) previously used the global `fetch` with
+`host = "localhost"` default: every request paid a fresh TCP handshake, and on
+Windows the `localhost` resolver stall added up to ~2 s per request (observed
+live during the cache measurements above with `urllib`).
+
+Changes (2026-09-17):
+
+- **Host normalization:** `localhost` → `127.0.0.1` in `TDClient` and
+  `TDWebSocketClient` (constructor default + `TDAPI_HOST` env). Explicit hosts
+  (a remote TD machine) pass through untouched. The bridge only listens on
+  IPv4 loopback, so this is always correct.
+- **Keep-alive pool:** the HTTP transport dispatches through a shared undici
+  `Agent` (`keepAliveMaxTimeout: 10s`, `connections: 4`). undici ≥6 keeps
+  connections alive by default; the shared agent owns the pool so every call
+  reuses a warm socket.
+- The bridge already honors persistence: `HTTP/1.1` + `Connection: Keep-Alive`
+  headers, verified with two sequential requests on one `http.client`
+  connection (second response served on the same socket), and 4 sockets
+  `ESTABLISHED` in `netstat` while a client process held the pool open.
+
+## Client benchmark (scripts/bench_keepalive.mjs, live TD 2025.31760, N=7)
+
+| Case | median | min | max |
+|---|---|---|---|
+| A `localhost` + global fetch (old default) | 16.6 ms | 15.9 ms | 17.5 ms |
+| B `127.0.0.1` + global fetch (no pool) | 16.6 ms | 16.4 ms | 17.0 ms |
+| C `TDClient` (undici keep-alive + 127.0.0.1) | 16.8 ms | 16.2 ms | 17.1 ms |
+
+Honest reading: with **Node** the DNS stall never materialized (undici's
+resolver is fast) and at this scale TD's frame clock (~16.7 ms @ 60 FPS)
+dominates, so A/B/C medians overlap. The win is structural, not per-request:
+no TCP handshake per call (matters for tool batches of tens of calls), no OS
+resolver in the path (the ~2 s stall was real for Python `urllib` on this
+machine and remains possible under memory/adapters changes), and a bounded
+socket pool. The cache measurements above are the ones that show real latency
+wins; this change removes per-request overhead variance from the client side.
+
+Reproduce: `node scripts/bench_keepalive.mjs` (requires TD on 127.0.0.1:44444).
