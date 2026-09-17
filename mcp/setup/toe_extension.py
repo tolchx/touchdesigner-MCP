@@ -58,6 +58,26 @@ class TouchDesignerAPI:
         self._cache_hits = 0
         self._cache_misses = 0
 
+    # ── Server-side endpoint latency tracking (GET /metrics) ─────────────
+    # Mirror of toe/src/TouchDesignerAPI.py (same buffers, same route keys).
+
+    def _ensure_endpoint_times(self):
+        """Lazy-init the per-route latency ring buffers."""
+        if not hasattr(self, "_endpoint_times"):
+            self._endpoint_times = {}  # route -> deque(maxlen=20) of ms
+
+    def _endpoint_route(self, uri):
+        """Normalize a request URI to its route key (no query string)."""
+        return (uri or "").split("?", 1)[0] or "/"
+
+    def _record_endpoint_time(self, uri, elapsed_ms):
+        """Record one request latency for its route (keeps the last 20)."""
+        self._ensure_endpoint_times()
+        route = self._endpoint_route(uri)
+        from collections import deque
+        buf = self._endpoint_times.setdefault(route, deque(maxlen=20))
+        buf.append(round(float(elapsed_ms), 3))
+
     def _cache_wrap(self, endpoint, path, recurse, limit, offset, build_fn, no_cache=False):
         """Read-through cache for the expensive GET handlers.
 
@@ -140,6 +160,19 @@ class TouchDesignerAPI:
         body = request.get("body", "")
         headers = request.get("headers", {})
 
+        _t0 = time.perf_counter()
+        try:
+            return self._route_request(dat, request, method, path, body, headers)
+        finally:
+            # Latency for every routed request, exactly once, on the single
+            # guaranteed exit (mirror of toe/src/TouchDesignerAPI.py).
+            try:
+                self._record_endpoint_time(path, (time.perf_counter() - _t0) * 1000.0)
+            except Exception:
+                pass
+
+    def _route_request(self, dat, request, method, path, body, headers):
+        """Route ladder (split from handle_request so the caller can time it)."""
         self._debug_print(f">>> {method} {path}")
 
         if method in ("POST", "PUT", "DELETE"):
@@ -159,6 +192,8 @@ class TouchDesignerAPI:
                 return self._handle_task_status(path)
             elif path == "/health":
                 return {"status": 200, "body": json.dumps({"status": "ok"})}
+            elif path == "/metrics" and method == "GET":
+                return self._handle_metrics()
             elif path == "/editor/pane" and method == "GET":
                 return self._handle_editor_pane()
             elif path == "/editor/selection" and method == "GET":
@@ -266,6 +301,143 @@ class TouchDesignerAPI:
     # =========================================================================
     # HTTP handlers
     # =========================================================================
+
+    def _handle_metrics(self):
+        """GET /metrics — real TD + bridge metrics (dynamic, NEVER cached).
+
+        Mirror of toe/src/TouchDesignerAPI.py::_handle_metrics. This copy runs
+        inside TD, so the walk is direct Python instead of an /exec round-trip.
+        Every unavailable signal is an explicit null; nothing is estimated.
+        """
+        try:
+            try:
+                fps = round(float(project.cookRate), 2)
+            except Exception:
+                fps = None
+
+            families = ("COMP", "TOP", "CHOP", "SOP", "POP", "DAT", "MAT")
+            by_family = {f: 0 for f in families}
+            total_ops = 0
+            other_ops = 0
+            cooking_count = 0
+            cooking_seen = False
+            error_count = 0
+            warning_count = 0
+            pop_total = 0
+            pop_errors = 0
+            pop_slowest = None
+
+            # One recursive walk from "/" (same criteria as /verify: per-op
+            # errors()/warnings(), no recursion into messages).
+            def walk(n, depth=0):
+                nonlocal total_ops, other_ops, cooking_count, cooking_seen
+                nonlocal error_count, warning_count
+                nonlocal pop_total, pop_errors, pop_slowest
+                if n is None or depth > 30:
+                    return
+                try:
+                    total_ops += 1
+                    fam = getattr(n, "family", None)
+                    if fam in by_family:
+                        by_family[fam] += 1
+                    else:
+                        other_ops += 1
+                    try:
+                        ck = getattr(n, "cooking", None)
+                        if ck is not None:
+                            cooking_seen = True
+                            if ck:
+                                cooking_count += 1
+                    except Exception:
+                        pass
+                    try:
+                        errs = n.errors(recurse=False)
+                    except Exception:
+                        errs = ""
+                    try:
+                        warns = n.warnings(recurse=False)
+                    except Exception:
+                        warns = ""
+                    if isinstance(errs, str) and errs.strip():
+                        error_count += 1
+                    elif isinstance(errs, (list, tuple)):
+                        error_count += sum(1 for e in errs if str(e).strip())
+                    if isinstance(warns, str) and warns.strip():
+                        warning_count += 1
+                    elif isinstance(warns, (list, tuple)):
+                        warning_count += sum(1 for w in warns if str(w).strip())
+                    if fam == "POP":
+                        pop_total += 1
+                        if errs:
+                            pop_errors += 1
+                        try:
+                            ct = n.cookTime
+                            if ct is not None and (pop_slowest is None or float(ct) > pop_slowest["cookTime_ms"]):
+                                pop_slowest = {"path": n.path, "cookTime_ms": round(float(ct), 3)}
+                        except Exception:
+                            pass
+                except Exception:
+                    pass
+                try:
+                    for c in n.children:
+                        walk(c, depth + 1)
+                except Exception:
+                    pass
+
+            try:
+                root = op("/")
+            except Exception:
+                root = None
+            walk(root)
+
+            if not hasattr(self, "_cache"):
+                self._cache = {}
+                self._cache_hits = 0
+                self._cache_misses = 0
+            self._ensure_endpoint_times()
+            endpoint_times = {}
+            for route, buf in sorted(self._endpoint_times.items()):
+                vals = sorted(buf)
+                n = len(vals)
+                median = vals[n // 2] if n % 2 else (vals[n // 2 - 1] + vals[n // 2]) / 2.0
+                endpoint_times[route] = {
+                    "n": n,
+                    "median_ms": round(float(median), 3),
+                    "max_ms": round(float(vals[-1]), 3),
+                }
+
+            body = {
+                "fps": fps,
+                "td_build": self._get_td_build(),
+                "total_ops": total_ops,
+                "ops_by_family": by_family,
+                "other_ops": other_ops,
+                "cooking_count": cooking_count if cooking_seen else None,
+                "error_count": error_count,
+                "warning_count": warning_count,
+                "pop_stats": {
+                    "pop_total": pop_total,
+                    "pop_errors": pop_errors,
+                    "pop_slowest": pop_slowest,
+                },
+                "readCache": {
+                    "hits": self._cache_hits,
+                    "misses": self._cache_misses,
+                    "entries": len(self._cache),
+                },
+                "endpoint_times": endpoint_times,
+            }
+            return {
+                "status": 200,
+                "body": json.dumps(body, ensure_ascii=False),
+                "headers": {"Content-Type": "application/json"},
+            }
+        except Exception as e:
+            return {
+                "status": 500,
+                "body": json.dumps({"error": str(e)}),
+                "headers": {"Content-Type": "application/json"},
+            }
 
     def _handle_info(self):
         """Devuelve información del entorno TouchDesigner."""

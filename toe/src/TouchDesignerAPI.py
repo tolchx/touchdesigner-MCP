@@ -116,6 +116,26 @@ class TouchDesignerAPI:
         )
         return response
 
+    # ── Server-side endpoint latency tracking (GET /metrics) ───────────────
+
+    def _ensure_endpoint_times(self):
+        """Lazy-init the per-route latency ring buffers so instances built
+        without __init__ (test harnesses) work without patching."""
+        if not hasattr(self, "_endpoint_times"):
+            self._endpoint_times = {}  # route -> deque(maxlen=20) of ms
+
+    def _endpoint_route(self, uri: str) -> str:
+        """Normalize a request URI to its route key (no query string)."""
+        return (uri or "").split("?", 1)[0] or "/"
+
+    def _record_endpoint_time(self, uri: str, elapsed_ms: float):
+        """Record one request latency for its route (keeps the last 20)."""
+        self._ensure_endpoint_times()
+        route = self._endpoint_route(uri)
+        from collections import deque
+        buf = self._endpoint_times.setdefault(route, deque(maxlen=20))
+        buf.append(round(float(elapsed_ms), 3))
+
     def OnHTTPRequest(self, dat, request: dict, response: dict) -> dict:
         """Handle incoming HTTP requests."""
         # ── CORS Headers — always set, even on errors ──
@@ -139,6 +159,11 @@ class TouchDesignerAPI:
                 # /exec can change anything, so blanket invalidation is the
                 # only safe policy (backlog item 05).
                 self._invalidate_cache()
+
+            # Server-side latency tracking for GET /metrics: the whole
+            # dispatch is timed per route (no query string), /metrics itself
+            # included so it is self-measuring.
+            _t0 = time.perf_counter()
 
             self._debug_print(f">>> {method} {uri}", pars if pars else "")
 
@@ -215,6 +240,10 @@ class TouchDesignerAPI:
                     response,
                     no_cache=no_cache,
                 )
+
+            # GET /metrics - Bridge + project metrics (dynamic, NEVER cached)
+            if uri == "/metrics" and method == "GET":
+                return self._handle_metrics(response)
 
             # GET /events - Server-Sent Events (SSE) stream
             if uri == "/events" and method == "GET":
@@ -500,6 +529,13 @@ class TouchDesignerAPI:
             response["statusReason"] = "Internal Server Error"
             response["data"] = json.dumps({"error": str(e), "traceback": traceback.format_exc()})
             return self._send_response(response)
+        finally:
+            # Record latency for every routed request (success and handled
+            # error alike) — exactly once, on the single guaranteed exit.
+            try:
+                self._record_endpoint_time(uri, (time.perf_counter() - _t0) * 1000.0)
+            except Exception:
+                pass
 
 
     def _verify_iter_safe(self, target):
@@ -1435,6 +1471,145 @@ print(json.dumps({{'success':True,'opType':'{op_type}','available':exists}}))
         except:
             pass
         return detail
+
+    # =========================================================================
+    # GET /metrics — bridge + project metrics (dynamic, never cached)
+    # =========================================================================
+
+    def _handle_metrics(self, response: dict) -> dict:
+        """GET /metrics — real TD + bridge metrics in one JSON payload.
+
+        One recursive walk from "/" collects everything (counts by family,
+        errors/warnings per the same criteria /verify uses, pop_stats with the
+        slowest POP). Nothing is cached: the payload is dynamic by nature and
+        every field is `null` when the underlying signal is unavailable.
+        """
+        try:
+            code = r'''import json
+out = {}
+# fps: project.cookRate is the only reliable signal on this build
+try:
+    out["fps"] = round(float(project.cookRate), 2)
+except Exception:
+    out["fps"] = None
+
+FAMILIES = ("COMP", "TOP", "CHOP", "SOP", "POP", "DAT", "MAT")
+by_family = {f: 0 for f in FAMILIES}
+out["total_ops"] = 0
+out["other_ops"] = 0
+cooking_count = 0
+cooking_seen = False
+error_count = 0
+warning_count = 0
+pop_total = 0
+pop_errors = 0
+pop_slowest = None
+
+def walk(n, depth=0):
+    global error_count, warning_count, cooking_count, cooking_seen
+    global pop_total, pop_errors, pop_slowest
+    if n is None or depth > 30:
+        return
+    try:
+        out["total_ops"] = out["total_ops"] + 1
+        fam = getattr(n, "family", None)
+        if fam in by_family:
+            by_family[fam] += 1
+        else:
+            out["other_ops"] = out["other_ops"] + 1
+        # best-effort "cooking" signal: only counted when an op exposes it
+        try:
+            ck = getattr(n, "cooking", None)
+            if ck is not None:
+                cooking_seen = True
+                if ck:
+                    cooking_count += 1
+        except Exception:
+            pass
+        try:
+            errs = n.errors(recurse=False)
+        except Exception:
+            errs = ""
+        try:
+            warns = n.warnings(recurse=False)
+        except Exception:
+            warns = ""
+        if isinstance(errs, str) and errs.strip():
+            error_count += 1
+        elif isinstance(errs, (list, tuple)):
+            error_count += sum(1 for e in errs if str(e).strip())
+        if isinstance(warns, str) and warns.strip():
+            warning_count += 1
+        elif isinstance(warns, (list, tuple)):
+            warning_count += sum(1 for w in warns if str(w).strip())
+        if fam == "POP":
+            pop_total += 1
+            if errs:
+                pop_errors += 1
+            try:
+                ct = n.cookTime
+                if ct is not None and (pop_slowest is None or float(ct) > pop_slowest["cookTime_ms"]):
+                    pop_slowest = {"path": n.path, "cookTime_ms": round(float(ct), 3)}
+            except Exception:
+                pass
+    except Exception:
+        pass
+    try:
+        for c in n.children:
+            walk(c, depth + 1)
+    except Exception:
+        pass
+
+walk(op('/'))
+out["ops_by_family"] = {k: v for k, v in by_family.items()}
+out["cooking_count"] = cooking_count if cooking_seen else None
+out["error_count"] = error_count
+out["warning_count"] = warning_count
+out["pop_stats"] = {
+    "pop_total": pop_total,
+    "pop_errors": pop_errors,
+    "pop_slowest": pop_slowest,
+}
+print(json.dumps(out))
+'''
+            result = self._execute_python_robust(code)
+            try:
+                data = json.loads(result.get("output", "{}"))
+            except (json.JSONDecodeError, TypeError):
+                data = {"error": "metrics walk failed", "detail": str(result)[:400]}
+            # Build/version from /info's own logic (same normalization)
+            try:
+                data["td_build"] = app.build
+            except Exception:
+                data["td_build"] = None
+            # readCache counters (same lazy-init contract as /info)
+            self._ensure_cache()
+            data["readCache"] = {
+                "hits": self._cache_hits,
+                "misses": self._cache_misses,
+                "entries": len(self._cache),
+            }
+            # Endpoint latency ring buffers (last 20 per route)
+            self._ensure_endpoint_times()
+            endpoint_times = {}
+            for route, buf in sorted(self._endpoint_times.items()):
+                vals = sorted(buf)
+                n = len(vals)
+                median = vals[n // 2] if n % 2 else (vals[n // 2 - 1] + vals[n // 2]) / 2.0
+                endpoint_times[route] = {
+                    "n": n,
+                    "median_ms": round(float(median), 3),
+                    "max_ms": round(float(vals[-1]), 3),
+                }
+            data["endpoint_times"] = endpoint_times
+            response["statusCode"] = 200
+            response["statusReason"] = "OK"
+            response["data"] = json.dumps(data, ensure_ascii=False)
+        except Exception as e:
+            response["statusCode"] = 500
+            response["statusReason"] = "Internal Server Error"
+            response["data"] = json.dumps({"error": str(e)})
+        return self._send_response(response)
 
     # =========================================================================
     # GET /audit/performance
