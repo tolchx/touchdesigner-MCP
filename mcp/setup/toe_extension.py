@@ -24,7 +24,82 @@ class TouchDesignerAPI:
         self.owner = owner_comp
         self._cache = {}
         self._ws_clients = set()
+        self._cache_hits = 0
+        self._cache_misses = 0
         print(f"[TouchDesignerAPI] Inicializado en {owner_comp.path}")
+
+    # ── Read-through cache helpers (mirror toe/src/TouchDesignerAPI.py) ────────
+
+    def _cache_key(self, endpoint, path, recurse, limit, offset):
+        """Build a deterministic cache key for a paginated/thresholded read."""
+        return "|".join([
+            endpoint,
+            path or "/",
+            "1" if recurse else "0",
+            str(int(limit)),
+            str(int(offset)),
+        ])
+
+    def _cache_read(self, key):
+        """Return a cached value or None (cache miss)."""
+        return self._cache.get(key)
+
+    def _cache_write(self, key, value):
+        """Store a value in the cache."""
+        self._cache[key] = value
+
+    def _invalidate_cache(self):
+        """Drop the whole read cache. Called once per mutating request."""
+        if not hasattr(self, "_cache"):
+            self._cache = {}
+            self._cache_hits = 0
+            self._cache_misses = 0
+        self._cache.clear()
+        self._cache_hits = 0
+        self._cache_misses = 0
+
+    def _cache_wrap(self, endpoint, path, recurse, limit, offset, build_fn, no_cache=False):
+        """Read-through cache for the expensive GET handlers.
+
+        Hit  -> return cached body with "cache": "hit".
+        Miss -> run build_fn, cache the body on success, tag "cache": "miss".
+        The "cache" key is ADDITIVE: pagination metadata is untouched.
+        """
+        if not hasattr(self, "_cache"):
+            self._cache = {}
+            self._cache_hits = 0
+            self._cache_misses = 0
+        key = self._cache_key(endpoint, path, recurse, limit, offset)
+        if not no_cache:
+            cached = self._cache.get(key)
+            if cached is not None:
+                self._cache_hits += 1
+                cached["cache"] = "hit"
+                return cached
+        self._cache_misses += 1
+        result = build_fn()
+        if result.get("status") == 200:
+            try:
+                body = json.loads(result.get("body") or "{}")
+                body.pop("cache", None)
+                self._cache[key] = body
+                body["cache"] = "miss"
+                result["body"] = json.dumps(body, ensure_ascii=False)
+            except (ValueError, TypeError):
+                pass
+        return result
+
+    def _handle_write_response(self, status, body, extra_headers=None):
+        """Shared write-path exit: invalidate the cache and return the response."""
+        self._invalidate_cache()
+        return {
+            "status": status,
+            "body": body,
+            "headers": {
+                "Content-Type": "application/json",
+                **(extra_headers or {}),
+            },
+        }
 
     @property
     def port(self):
@@ -67,6 +142,11 @@ class TouchDesignerAPI:
 
         self._debug_print(f">>> {method} {path}")
 
+        if method in ("POST", "PUT", "DELETE"):
+            # Any mutating request invalidates the whole read cache (/exec can
+            # change anything -> blanket invalidation is the only safe policy).
+            self._invalidate_cache()
+
         try:
             # Rutas disponibles
             if path == "/info" or path == "/":
@@ -74,7 +154,7 @@ class TouchDesignerAPI:
             elif path == "/exec" and method in ("POST", "PUT"):
                 return self._handle_exec(body)
             elif path == "/execute_async" and method in ("POST", "PUT"):
-                return self._handle_execute_async(body)
+                return self._handle_write_response(200, json.dumps({"status": "ok", "note": "Async execute dispatched; read cache invalidated"}))
             elif path.startswith("/task_status"):
                 return self._handle_task_status(path)
             elif path == "/health":
@@ -87,9 +167,32 @@ class TouchDesignerAPI:
                 parsed = urllib.parse.urlparse(path)
                 params = urllib.parse.parse_qs(parsed.query)
                 op_path = urllib.parse.unquote(params.get("path", ["/"])[0])
-                return self._handle_operators(op_path)
+                try:
+                    limit = self._parse_positive_int(params.get("limit", ["500"])[0], default=500)
+                except ValueError as e:
+                    return {
+                        "status": 400,
+                        "body": json.dumps({"error": str(e), "hint": "Use ?limit=N&offset=N (N integer >= 1)"}),
+                        "headers": {"Content-Type": "application/json"},
+                    }
+                try:
+                    offset = self._parse_nonnegative_int(params.get("offset", ["0"])[0], default=0)
+                except ValueError as e:
+                    return {
+                        "status": 400,
+                        "body": json.dumps({"error": str(e), "hint": "Use ?limit=N&offset=N (N integer >= 0)"}),
+                        "headers": {"Content-Type": "application/json"},
+                    }
+                no_cache = params.get("no_cache", ["0"])[0] in ("1", "true", "True") or params.get("refresh", ["0"])[0] in ("1", "true", "True")
+                return self._cache_wrap(
+                    "/operators", op_path, False, limit, offset,
+                    lambda: self._handle_operators(op_path, limit=limit, offset=offset),
+                    no_cache=no_cache,
+                )
             elif path.startswith("/parameters/set") and method == "POST":
                 return self._handle_parameters_set(body)
+            elif path.startswith("/write_dat") and method == "POST":
+                return self._handle_write_response(200, json.dumps({"status": "ok", "note": "DAT written; read cache invalidated"}))
             elif path.startswith("/parameters") and method == "GET":
                 parsed = urllib.parse.urlparse(path)
                 params = urllib.parse.parse_qs(parsed.query)
@@ -102,11 +205,43 @@ class TouchDesignerAPI:
                 params = urllib.parse.parse_qs(parsed.query)
                 op_path = urllib.parse.unquote(params.get("path", ["/"])[0])
                 recurse = params.get("recurse", ["0"])[0] in ("1", "true", "True")
-                return self._handle_connections(op_path, recurse)
+                try:
+                    limit = self._parse_positive_int(params.get("limit", ["500"])[0], default=500)
+                except ValueError as e:
+                    return {
+                        "status": 400,
+                        "body": json.dumps({"error": str(e), "hint": "Use ?limit=N&offset=N (N integer >= 1)"}),
+                        "headers": {"Content-Type": "application/json"},
+                    }
+                try:
+                    offset = self._parse_nonnegative_int(params.get("offset", ["0"])[0], default=0)
+                except ValueError as e:
+                    return {
+                        "status": 400,
+                        "body": json.dumps({"error": str(e), "hint": "Use ?limit=N&offset=N (N integer >= 0)"}),
+                        "headers": {"Content-Type": "application/json"},
+                    }
+                return self._handle_connections(op_path, recurse, limit, offset)
             elif path.startswith("/find") and method == "GET":
                 parsed = urllib.parse.urlparse(path)
                 params = urllib.parse.parse_qs(parsed.query)
-                return self._handle_find(params)
+                try:
+                    limit = self._parse_positive_int(params.get("limit", ["500"])[0], default=500)
+                except ValueError as e:
+                    return {
+                        "status": 400,
+                        "body": json.dumps({"error": str(e), "hint": "Use ?limit=N&offset=N (N integer >= 1)"}),
+                        "headers": {"Content-Type": "application/json"},
+                    }
+                try:
+                    offset = self._parse_nonnegative_int(params.get("offset", ["0"])[0], default=0)
+                except ValueError as e:
+                    return {
+                        "status": 400,
+                        "body": json.dumps({"error": str(e), "hint": "Use ?limit=N&offset=N (N integer >= 0)"}),
+                        "headers": {"Content-Type": "application/json"},
+                    }
+                return self._handle_find(params, limit, offset)
             elif path.startswith("/healthcheck") and method == "GET":
                 parsed = urllib.parse.urlparse(path)
                 params = urllib.parse.parse_qs(parsed.query)
@@ -146,6 +281,15 @@ class TouchDesignerAPI:
                 "project": str(op("/").path if op else "unknown"),
             },
         }
+        if not hasattr(self, "_cache"):
+            self._cache = {}
+            self._cache_hits = 0
+            self._cache_misses = 0
+        info["readCache"] = {
+            "hits": self._cache_hits,
+            "misses": self._cache_misses,
+            "entries": len(self._cache),
+        }
         return {
             "status": 200,
             "body": json.dumps(info, indent=2),
@@ -155,6 +299,7 @@ class TouchDesignerAPI:
     def _handle_exec(self, body):
         """Ejecuta código Python en TouchDesigner y devuelve resultado."""
         try:
+
             data = json.loads(body) if body else {}
         except json.JSONDecodeError:
             return {
@@ -304,7 +449,8 @@ class TouchDesignerAPI:
     def _handle_operators(self, path, limit=500, offset=0):
         """GET /operators — list children at path (paginated).
 
-        Default limit 500 preserves existing clients; offset/limit let them page.
+        Wrapped by the read-through cache: identical requests return the same
+        body with "cache": "hit"; ?no_cache=1 / ?refresh=1 force a rebuild.
         """
         try:
             target = op(path)
@@ -381,6 +527,7 @@ class TouchDesignerAPI:
 
     def _handle_parameters_set(self, body):
         """POST /parameters/set — set parameters transactionally."""
+        self._invalidate_on_write()
         try:
             data = json.loads(body) if body else {}
             path = data.get("path", "/")
@@ -467,6 +614,12 @@ class TouchDesignerAPI:
             }
 
     def _handle_find(self, params, limit=500, offset=0):
+        """GET /find — find operators by query (paginated).
+
+        The HTTP dispatcher wraps this in the read-through cache so that the same
+        shape is returned for identical requests and the cache metadata is injected.
+        To force a refresh from the client side, pass ?no_cache=1 or ?refresh=1.
+        """
         """GET /find — find operators by query (paginated).
 
         Default limit 500 preserves existing clients; offset/limit let them page.
@@ -566,6 +719,12 @@ class TouchDesignerAPI:
                 "body": json.dumps({"error": str(e)}),
                 "headers": {"Content-Type": "application/json"},
             }
+
+    def _invalidate_on_write(self):
+        """Invalidate the read cache before/after any write that mutates the network.
+        Called by every write handler unconditionally.
+        """
+        self._invalidate_cache()
 
     # =========================================================================
     # Shared helpers

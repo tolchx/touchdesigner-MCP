@@ -1,5 +1,6 @@
 """TouchDesigner HTTP API Extension.
 
+
 Provides a simple HTTP API for executing Python code and querying editor state.
 """
 
@@ -24,6 +25,14 @@ class TouchDesignerAPI:
     def __init__(self, ownerComp):
         self.ownerComp = ownerComp
         
+        # ── In-memory read cache for the two expensive GET endpoints ──────────
+        # Keyed by (endpoint, path, recurrence, limit, offset) so plain paginated
+        # reads return the same shape they always did. Writes invalidate the whole
+        # cache (cheap on a single machine) via _invalidate_cache().
+        self._cache = {}
+        self._cache_hits = 0
+        self._cache_misses = 0
+        
         # Phase 1 & 2: Asynchronous Foundations & Queue Manager
         try:
             self.threadManager = op.TDResources.ThreadManager
@@ -32,6 +41,69 @@ class TouchDesignerAPI:
             
         self.clientQueue = td_utils.ClientQueueManager()
         self.activeTasks = {}  # Store active tasks by ID
+
+    # ── Read-through cache (GET /operators and GET /verify) ─────────────────
+
+    def _ensure_cache(self):
+        """Lazy-init cache state so instances built without __init__ work."""
+        if not hasattr(self, "_cache"):
+            self._cache = {}
+            self._cache_hits = 0
+            self._cache_misses = 0
+
+    def _cache_key(self, endpoint: str, path: str, recurse: bool, limit: int, offset: int) -> str:
+        """Build a deterministic cache key for a paginated read request."""
+        return "|".join([
+            endpoint,
+            path or "/",
+            "1" if recurse else "0",
+            str(int(limit)),
+            str(int(offset)),
+        ])
+
+    def _invalidate_cache(self):
+        """Drop the whole read cache. Called once per mutating request."""
+        self._ensure_cache()
+        self._cache.clear()
+        self._cache_hits = 0
+        self._cache_misses = 0
+
+    def _cache_wrap(self, endpoint: str, path: str, recurse: bool, limit: int, offset: int,
+                    build_fn, response: dict, no_cache: bool = False) -> dict:
+        """Read-through cache for the expensive GET handlers.
+
+        Hit  -> respond from the cached body with "cache": "hit".
+        Miss -> run build_fn (fills `response`), cache the body on 200, and
+        tag it "cache": "miss". Non-200 responses are never cached.
+
+        `no_cache` (?no_cache=1 / ?refresh=1) skips lookup but still rebuilds
+        and refreshes the entry. The "cache" key is ADDITIVE: the pagination
+        contract (total/returned/limit/offset/truncated) is untouched.
+        """
+        self._ensure_cache()
+        key = self._cache_key(endpoint, path, recurse, limit, offset)
+        if not no_cache:
+            cached = self._cache.get(key)
+            if cached is not None:
+                self._cache_hits += 1
+                cached["cache"] = "hit"
+                response["statusCode"] = 200
+                response["statusReason"] = "OK"
+                response["data"] = json.dumps(cached, ensure_ascii=False)
+                return self._send_response(response)
+        self._cache_misses += 1
+        result = build_fn()
+        if response.get("statusCode") == 200:
+            try:
+                body = json.loads(response.get("data") or "{}")
+                body.pop("cache", None)
+                self._cache[key] = body
+                body["cache"] = "miss"
+                response["data"] = json.dumps(body, ensure_ascii=False)
+            except (ValueError, TypeError):
+                pass
+        return result
+
 
     def _debug_print(self, *args, **kwargs):
         if parent().par.Debug.eval():
@@ -61,6 +133,12 @@ class TouchDesignerAPI:
             uri = request.get("uri", "")
             method = request.get("method", "")
             pars = request.get("pars", {})
+
+            if method in ("POST", "PUT", "DELETE"):
+                # Any mutating request invalidates the whole read cache:
+                # /exec can change anything, so blanket invalidation is the
+                # only safe policy (backlog item 05).
+                self._invalidate_cache()
 
             self._debug_print(f">>> {method} {uri}", pars if pars else "")
 
@@ -130,7 +208,13 @@ class TouchDesignerAPI:
             if uri == "/verify" and method == "GET":
                 path = unquote(pars.get("path", "/project1"))
                 recurse = pars.get("recurse", "1") in ("1", "true", "True")
-                return self._handle_verify_impl(path, recurse, response)
+                no_cache = pars.get("no_cache", "0") in ("1", "true", "True") or pars.get("refresh", "0") in ("1", "true", "True")
+                return self._cache_wrap(
+                    "/verify", path, recurse, 0, 0,
+                    lambda: self._handle_verify_impl(path, recurse, response),
+                    response,
+                    no_cache=no_cache,
+                )
 
             # GET /events - Server-Sent Events (SSE) stream
             if uri == "/events" and method == "GET":
@@ -161,7 +245,13 @@ class TouchDesignerAPI:
                     response["statusReason"] = "Bad Request"
                     response["data"] = json.dumps({"error": str(e), "hint": "Use ?limit=N&offset=N (N integer >= 0)"})
                     return self._send_response(response)
-                return self._handle_operators(path, response, limit=limit, offset=offset)
+                no_cache = pars.get("no_cache", "0") in ("1", "true", "True") or pars.get("refresh", "0") in ("1", "true", "True")
+                return self._cache_wrap(
+                    "/operators", path, False, limit, offset,
+                    lambda: self._handle_operators(path, response, limit=limit, offset=offset),
+                    response,
+                    no_cache=no_cache,
+                )
 
             # GET /parameters - Parameters for operator
             if uri.startswith("/parameters") and method == "GET":
@@ -556,6 +646,7 @@ class TouchDesignerAPI:
         response["data"] = json.dumps(result, ensure_ascii=False)
         return self._send_response(response)
 
+
     # -------------------------------------------------------------------------
     # GET /info
     # -------------------------------------------------------------------------
@@ -643,6 +734,12 @@ class TouchDesignerAPI:
             except Exception:
                 pass
 
+            self._ensure_cache()
+            info["readCache"] = {
+                "hits": self._cache_hits,
+                "misses": self._cache_misses,
+                "entries": len(self._cache),
+            }
             response["statusCode"] = 200
             response["statusReason"] = "OK"
             response["data"] = json.dumps(info, ensure_ascii=False)
