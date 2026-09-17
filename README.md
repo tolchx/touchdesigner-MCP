@@ -50,7 +50,8 @@ Conecta Inteligencia Artificial con TouchDesigner usando el Model Context Protoc
 - **609 clases de la API de Python** documentadas offline.
 - **Gating por evidencia de la matriz POP**: de los 97 tipos POP (TD 2025.31760), **89 están clasificados `ok_con_input`** (cocinan limpio CON fuente real y producen geometría — `docs/pop_matrix.json`, método v7 con fuentes par-path y recetas específicas); el planner y el catálogo de topología recomiendan esos por defecto y advierten sobre los 8 restantes (5 con `errors()` por dependencias externas —USD, ZED SDK, C++—, 2 de hardware sin geometría, 1 no creable) salvo que el pedido los nombre explícitamente (`isRecommendedForNetworks` / `networkRecommendationWarning`).
 - **Caché de lectura con invalidación por escritura** (backlog #05): `GET /operators` y `GET /verify` cachean el body de respuestas 200 por `(endpoint, path, recurse, limit, offset)`; toda petición `POST`/`PUT`/`DELETE` invalida el caché completo antes de rutear (`/exec` puede cambiar cualquier cosa → invalidación total). Cada respuesta suma la clave **aditiva** `"cache": "hit"|"miss"`, y `/info` expone `readCache {hits, misses, entries}`. Escape hatch: `?no_cache=1` o `?refresh=1` fuerza reconstrucción y refresca la entrada; los errores (non-200) nunca se cachean. Método y mediciones en vivo: `docs/PERFORMANCE.md`.
-- **1208 tests offline** nativos de Node.js que garantizan que el MCP se ejecute de forma robusta e independiente de TD, más **88 tests offline del bridge en Python** (`tests/test_api_contract_offline.py` 48 + `tests/test_td_api_offline.py` 40, todos verdes), **19 tests offline de sintaxis GLSL POP** (`tests/test_glsl_pop_offline.py`) y **14 tests del gate del baseline POP** (`tests/test_pop_matrix_baseline.py`).
+- **Endpoint `/metrics`** (backlog #06): fps (`project.cookRate`), conteo de operadores totales y por familia, errores/warnings con los mismos criterios que `/verify`, `pop_stats` con el POP más lento, contadores del read-cache y **latencias server-side por ruta** (`endpoint_times`, buffer de 20 por ruta). Un solo walk, nunca cacheado, `null` explícito cuando una señal no existe en la build (p.ej. `cooking` en POPs) — [API_REFERENCE.md](docs/API_REFERENCE.md).
+- **1208 tests offline** nativos de Node.js que garantizan que el MCP se ejecute de forma robusta e independiente de TD, más **105 tests offline del bridge en Python** (`tests/test_api_contract_offline.py` 56 + `tests/test_td_api_offline.py` 49, todos verdes), **19 tests offline de sintaxis GLSL POP** (`tests/test_glsl_pop_offline.py`) y **19 tests del gate del baseline POP** (`tests/test_pop_matrix_baseline.py`).
 
 ### 📑 Documentación técnica
 | Documento | Contenido |
@@ -407,7 +408,7 @@ node server.js
 # Suite de unit/integration tests offline (1208 tests nativos, 0 fallos)
 cd mcp && npm run build && node --test
 
-# Suite de contrato del bridge Python (sin TD): 39 + 34 tests
+# Suite de contrato del bridge Python (sin TD): 56 + 49 tests
 python tests/test_api_contract_offline.py
 python tests/test_td_api_offline.py
 
