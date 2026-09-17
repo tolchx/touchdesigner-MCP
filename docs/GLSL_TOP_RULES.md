@@ -71,6 +71,13 @@ void main(){ fragColor = vec4(vUV.st, 0.0, 1.0); }
 - Mecanismo real (dump de pars con uniform/value/const del nodo vivo):
   - `vec0name` + `vec0valuex/y/z/w` → `uniform vecN u_nombre`
   - `const0name` + `const0value` → `uniform float u_nombre`
+    **CORRECCIÓN v1.2 (verificada en vivo 2026-09-17, `scripts/live/uniform_cross.py`):
+    bajo creación scripteada `const0name/const0value` NO bindea** — el uniform
+    `float` llega con valor 0 (círculo SDF degradado a pantalla blanca).
+    Usar SIEMPRE la familia `vec0*` aunque el shader declare `uniform float`:
+    el tipo del par mapea al uniform por NOMBRE y funciona
+    (`float_via_vec0`: blancos 23–232 ≈ 0.42×256 exacto; `float_via_const0`:
+    negros). `vec0name2/vec0valuex2` para un segundo uniform.
   - `matrix0value` → `uniform mat4 u_nombre`
   - `ac0name/ac0initvalue/ac0singlevalue/ac0chopvalue` → uniform alimentado por CHOP
   - `loaduniformnames` (pulse): reescanea el shader; **no crea pars nuevos**
@@ -217,8 +224,14 @@ print(g.errors())                    # vacío = compiló
   `mcp/src/tools/glslTopRecipes.ts` — 7 recetas derivadas de conceptos de Book of
   Shaders (círculo SDF, value noise, fBm, grid, ripple, feedback trails,
   reaction-diffusion) reescritas en los idioms de este doc, con builder de
-  Python para un solo `/exec` (creación + uniforms vec0/const0 + cook + lectura
-  de píxeles). Tests: `mcp/test/glslTopRecipes.test.js` (18).
+  Python para un solo `/exec` (creación + uniforms vec0 + cook + recreación
+  automática si sale negro + lectura de píxeles). Tests:
+  `mcp/test/glslTopRecipes.test.js` (18).
+- **Tools MCP** (`mcp/src/tools/glslTopApply.ts`):
+  - `td_glsl_top_analyze` — análisis estático + pre-validación TOP sin TD
+    (T1/T2/T4/T9, mismo motor que el apply de POPs).
+  - `td_glsl_top_recipe` — crea una recipe por id a través de la red de
+    seguridad, con auto-recreación v1.1 y reporte de píxeles.
 - **Verificación en vivo**: `python scripts/live/run_all.py` (crea y cocina las
   7 redes, guarda `scripts/live/live_reports.json`) y `python
   scripts/live/verify_visuals.py` (asserts a nivel de píxel: spans del círculo,
@@ -237,3 +250,11 @@ print(g.errors())                    # vacío = compiló
   con el DAT ya poblado el mismo shader produce el resultado esperado en el
   primer cook. Síntoma a vigilar en generadores (grupos de ops creados en lote
   seguidos de un cook único).
+- **2026-09-17** — v1.2: tools MCP `td_glsl_top_analyze` y
+  `td_glsl_top_recipe` (`mcp/src/tools/glslTopApply.ts`). Hallazgo nuevo que
+  corrige la Regla 5: `const0name/const0value` NO bindea bajo creación
+  scripteada — el builder ahora usa la familia `vec0*` para todos los
+  uniforms y aplica auto-recreación (v1.1) si el primer cook sale negro.
+  Evidencia: `scripts/live/uniform_cross.py` (float_via_vec0 OK /
+  float_via_const0 negro) y aceptación de las 5 recipes estáticas vía el tool
+  con píxeles verificados (círculo centro 1.0 / esquina 0.0).
