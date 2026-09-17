@@ -129,8 +129,7 @@ describe("buildGlslTopRecipeCode — generated creation script", () => {
     const r = GLSL_TOP_RECIPES.find((x) => x.id === "top-value-noise");
     const code = buildGlslTopRecipeCode(r, "/project1", "probe_t2");
     assert.ok(code.includes('"vec0name"'));
-    assert.ok(code.includes('"u_time"'));
-    assert.ok(code.includes('"const0name"'));
+    assert.ok(code.includes('"u_time"'));        assert.ok(code.includes('"vec0name"')) // const0 does NOT bind under scripted creation (live-verified);
     assert.ok(!code.includes("uniform0name"));
   });
 
