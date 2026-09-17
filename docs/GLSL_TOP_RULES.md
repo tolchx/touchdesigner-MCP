@@ -162,6 +162,47 @@ Los uniforms se setean por las familias `vec0*/const0*/matrix0*/ac0*` (Regla 5).
 
 ## Regla 12 — Lectura de píxeles para tests: `numpyArray()`
 
+### Receta de validación realtime (feedback TOP) — verificada 17/09/26
+
+Metodología completa para verificar contenido evolutivo (RD, estelas,
+ping-pong) con TD 2025.31760 vía el MCP. Protocolo implementado en
+`scripts/live/realtime_validation.py` (exit 0 = protocolo corrido, verdict
+JSON; nunca inventa resultados).
+
+**Gates previos (los 3 deben dar PASS antes de interpretar snapshots):**
+1. **Frames reales**: dos lecturas de `absTime.frame` separadas ~1 s deben
+   diferir (en la sesión del 17/09: 2.757M → +61 frames). Con frames
+   congelados NO se puede validar realtime — abortar.
+2. **Auto-cook hands-off**: un `timerCHOP` con `start` pulsado debe avanzar
+   su `cookFrame` entre lecturas sin tocarlo (`84 → 145` medido). TD cocina
+   a lo largo de los frames aunque nada lo consulte.
+3. **Latch de feedback**: leer `fb.numpyArray()` dos veces hands-off →
+   buffer CONSTANTE (`fb_mean 0.0` en todas las lecturas). **Hallazgo
+   central (sondas `rd_mechanism*`, `fb_top_par_probe`,
+   `screenshot_latch_probe`)**: ni wiring por conectores, ni
+   `fb.par.top = <nodo>`, ni `delayframes`, ni `viewer=True` en los nodos,
+   ni `cook(force=True)` repetidos, ni `/screenshot` del nodo logran
+   commitear el swap del buffer del feedbackTOP cuando la sesión TD no
+   tiene la red pintándose en vivo (viewer de network sin pain activo de la
+   cadena). El buffer queda en su estado inicial (típicamente negro) o en
+   el último latch.
+
+**Snapshot protocol (cuando hay contenido):** 3 snapshots t0 / t+1 s /
+t+2.5 s de `mean`, `max` y `active px` del canal de color; EVOLVES = algún
+metric difiere > 1e-4. **Contraste obligatorio**: dos `cook(force=True)`
+dentro del MISMO `/exec` deben dar lecturas idénticas — si no son
+idénticas, las lecturas ven pasos de simulación nuevos y el contrast está
+mal construido.
+
+**Veredicto de esta sesión (TD 2025.31760, frames reales + auto-cook
+activos):** `evolves_via_mcp: false`, `forced_cook_static: true`. La
+validación de contenido realtime por la API requiere una sesión TD con la
+cadena **pintándose en vivo** (ventana perform abierta, o la red visible con
+paint continuo); desde `/exec` aislado el swap no se commitea. Para CI
+headless: validar wiring + compilación + contenido estático (las recipes
+de feedback quedan marcadas `realtimeOnly`), y dejar la validación
+evolutiva como paso manual con esta receta.
+
 - **Evidencia (B)**: `g.numpyArray()` → `shape=(H, W, 4)`, valores float
   0..1 (8-bit normalizado: 0.698 = 178/255).
 - Fila 0 ↔ uv.y=0 (Regla 3). Útil para asserts de suite: bordes, centro,
