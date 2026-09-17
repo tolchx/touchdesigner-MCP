@@ -212,6 +212,9 @@ print(g.errors())                    # vacío = compiló
   usan `gl_FragColor` GLSL crudo: traducir a los idioms de este doc (Reglas 1, 2, 7).
 - Curriculum propio: https://tolchx.com/td-edu/ (módulo GLSL Shaders y POPs
   Academy) — para ingesta a la KB del MCP.
+- **Currículo GLSL del MCP** (`mcp/data/glsl_curriculum.json`, generado por
+  `scripts/ingest_glsl_curriculum.py`): ejemplos TOP/POP en idioms de este doc
+  con fuentes citadas; consultable offline con la tool `td_glsl_curriculum`.
 - Suite de referencia POP: `toe/src/test_glsl_pops.py` (14/14) — modelo para una
   futura suite `test_glsl_tops.py` usando `numpyArray()` (Regla 12) como assert.
 

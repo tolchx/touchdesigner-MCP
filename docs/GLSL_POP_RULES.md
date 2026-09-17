@@ -195,3 +195,10 @@ num_prims = int(glsl.numPrims())
 ```
 
 Si `errors()` está vacío y `numPoints() > 0`, el shader compiló y produce geometría.
+
+## Currículo GLSL del MCP
+
+Ejemplos POP en idioms de este doc, con fuentes citadas (Book of Shaders por
+capítulo, corpus local verificado y td-edu), viven en
+`mcp/data/glsl_curriculum.json` — generado por `scripts/ingest_glsl_curriculum.py`
+y consultable offline con la tool `td_glsl_curriculum`.
