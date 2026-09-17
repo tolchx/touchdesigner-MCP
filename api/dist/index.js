@@ -10,11 +10,37 @@
 // Imports
 // -----------------------------------------------------------------------------
 import { PythonBuilder as Py } from "./pythonBuilder.js";
+import { Agent, fetch as undiciFetch } from "undici";
+// Shared keep-alive agent for the HTTP transport. The TD bridge answers on the
+// loopback interface; a pooled connection avoids the per-request TCP handshake
+// (and, when the caller passes "localhost", the ~2s IPv6 lookup stall on
+// Windows). The host is normalized to 127.0.0.1 in the constructor, and the
+// agent coalesces connections per origin so every request reuses the socket.
+const KEEPALIVE_AGENT = new Agent({
+    // undici >=6 keeps connections alive by default; the shared agent just owns
+    // the pool (idle socket kept ~10s, up to 4 parallel calls).
+    keepAliveMaxTimeout: 10_000,
+    connections: 4,
+});
 // -----------------------------------------------------------------------------
 // Internal error helpers to avoid instanceof issues across realms
 // -----------------------------------------------------------------------------
 function isAbortError(e) {
-    return e instanceof DOMException && e.name === "AbortError";
+    return ((e instanceof DOMException && e.name === "AbortError") ||
+        (e instanceof Error && e.name === "AbortError"));
+}
+/**
+ * Normalize a configured host to a literal IPv4 loopback when the caller (or
+ * the environment) asked for "localhost". On Windows, resolving localhost
+ * through the OS resolver can add a multi-second stall per request (AAAA
+ * lookup first); the TD bridge only ever listens on IPv4 loopback, so 127.0.0.1
+ * is always the right answer. Explicit hosts other than "localhost" pass
+ * through untouched (e.g. a remote TD machine's hostname/IP).
+ */
+function normalizeHost(host) {
+    if (host === "localhost")
+        return "127.0.0.1";
+    return host;
 }
 // -----------------------------------------------------------------------------
 // TDClient
@@ -51,7 +77,7 @@ export class TDClient {
         return this._lastKnownConnected;
     }
     constructor(options = {}) {
-        const host = options.host ?? process.env.TDAPI_HOST ?? "localhost";
+        const host = normalizeHost(options.host ?? process.env.TDAPI_HOST ?? "localhost");
         const port = options.port ?? parseInt(process.env.TDAPI_PORT ?? "44444", 10);
         this.host = host;
         this.port = port;
@@ -173,7 +199,9 @@ export class TDClient {
         const controller = new AbortController();
         const timer = setTimeout(() => controller.abort(), timeout);
         try {
-            const response = await fetch(url, {
+            // Keep-alive dispatch: reuse a pooled loopback connection instead of
+            // paying a fresh TCP handshake (plus any localhost→IPv6 stall) per call.
+            const response = await undiciFetch(url, {
                 method: options.method ?? "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -181,6 +209,7 @@ export class TDClient {
                 },
                 body: options.body,
                 signal: controller.signal,
+                dispatcher: KEEPALIVE_AGENT,
             });
             if (!response.ok) {
                 let bodyText = "";

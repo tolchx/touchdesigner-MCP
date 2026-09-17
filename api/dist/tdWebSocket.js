@@ -30,7 +30,9 @@ export class TDWebSocketClient {
     /** Callback when connection state changes. */
     onConnectionChange = null;
     constructor(options = {}) {
-        const host = options.host ?? process.env.TDAPI_HOST ?? "localhost";
+        // Normalize localhost → 127.0.0.1: the TD bridge only listens on IPv4
+        // loopback and the OS resolver can stall multi-second on AAAA lookups.
+        const host = (options.host ?? process.env.TDAPI_HOST ?? "localhost").replace(/^localhost$/, "127.0.0.1");
         const port = options.port ?? parseInt(process.env.TDAPI_PORT ?? "44444", 10);
         this.wsUrl =
             options.wsUrl ?? `ws://${host}:${port}`;
