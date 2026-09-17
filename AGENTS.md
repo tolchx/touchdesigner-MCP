@@ -57,6 +57,11 @@ GET http://localhost:44444/verify?path=/project1
     - copyPOP has 2 fixed inputs: [0]=geometry, [1]=template
 13. **7 operator families**: COMP (🔵), TOP (🟢), CHOP (🟡), SOP (🟠), POP (🔴), DAT (🟣), MAT (⚪) — see `mcp_reference/OPERATOR_FAMILIES.md`
 14. **COMP and MAT exist!**: COMPs (baseCOMP, geometryCOMP, etc.) son contenedores de redes; MATs (phongMAT, pbrMAT, glslMAT, etc.) son materiales asignados a geometryCOMP
+15. **Read cache en `/operators` y `/verify`** (verificado en vivo en 2025.31760 — backlog #05):
+    - Confiá en `"cache": "hit"`: la respuesta cacheada tiene las MISMAS claves y semántica que una lectura fresca (paginación `total/returned/limit/offset/truncated` intacta) y no re-recorre la red.
+    - NO invalides nada a mano: toda escritura (`POST /exec`, `/parameters/set`, `/create`, `/connect`, `/disconnect`, `/delete`, copy, glsl_*, import…) vacía el caché completo ANTES de ejecutarse, así que tu primera lectura después de escribir siempre vuelve `"cache": "miss"` y refleja el cambio (nada de datos rancios).
+    - Si la red cambia por fuera de tus escrituras (el usuario edita, una sim anima, otros clientes escriben), leé con `?no_cache=1` (o `?refresh=1`) para forzar una lectura fresca que además refresca la entrada.
+    - `/info` expone `readCache {hits, misses, entries}`; los errores (non-200) nunca se cachean. Método y mediciones: `docs/PERFORMANCE.md` · contrato: `docs/API_CONTRACT_AUDIT.md`.
 
 ## Example: Create a GLSL POP
 ```python
