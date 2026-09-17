@@ -374,12 +374,16 @@ class TestInfo(unittest.TestCase):
         used to be null because the handler read non-existent attributes."""
         response, info = self._call()
         self.assertEqual(response["statusCode"], 200)
-        # Shape completo — todas las claves presentes con tipos correctos
+        # Shape completo — todas las claves presentes con tipos correctos.
+        # "readCache" (hits/misses/entries) es aditiva desde el item 05 del backlog.
         expected_keys = {
             "build", "version", "product", "commercial", "platform",
-            "osVersion", "release", "projectPath", "projectFPS",
+            "osVersion", "release", "projectPath", "projectFPS", "readCache",
         }
         self.assertEqual(set(info.keys()), expected_keys)
+        self.assertIsInstance(info["readCache"], dict)
+        self.assertEqual(
+            set(info["readCache"].keys()), {"hits", "misses", "entries"})
         self.assertIsInstance(info["build"], str)
         self.assertIsInstance(info["product"], str)
         self.assertIsInstance(info["commercial"], bool)
@@ -770,6 +774,139 @@ class TestPagination(unittest.TestCase):
         self.assertEqual(body["returned"], 2)
         self.assertEqual(body["offset"], 4)
         self.assertTrue(body["truncated"])
+
+
+# ═════════════════════════════════════════════════════════════════════════
+# Read-through cache (backlog item 05): GET /operators + GET /verify
+# ═════════════════════════════════════════════════════════════════════════
+
+class TestReadCache(unittest.TestCase):
+    """Cache semantics for the two expensive GET endpoints.
+
+    - identical reads hit the cache and do NOT re-traverse (op-call counter
+      stays flat between the two calls)
+    - every mutating request (POST/PUT/DELETE) invalidates the whole cache,
+      so the next read is a miss and reflects the change (no stale data)
+    - ?no_cache=1 / ?refresh=1 skip the lookup but refresh the entry
+    - pagination metadata is identical between hit and miss (additive key only)
+    """
+
+    def setUp(self):
+        self.api = _OfflineAPI()
+        self.project1 = _FakeOp("/project1", optype="project1")
+        self.project1.children = [
+            _FakeOp(f"/project1/op{i}", optype=f"op{i}") for i in range(5)
+        ]
+        self._orig_op = _set_module_attr("op", lambda path: self.project1 if path in ("/project1", "/") else None)
+        # lazy-init the cache state exactly like the live extension would
+        self.api._invalidate_cache()
+
+    def tearDown(self):
+        _set_module_attr("op", self._orig_op)
+
+    def _get_operators(self):
+        response = {}
+        result = self.api._handle_operators("/project1", response)
+        self.assertEqual(result["statusCode"], 200)
+        return json.loads(result["data"])
+
+    def _wrap_operators(self, no_cache=False):
+        """Route through the same read-through wrapper OnHTTPRequest uses."""
+        response = {}
+        result = self.api._cache_wrap(
+            "/operators", "/project1", False, 500, 0,
+            lambda: self.api._handle_operators("/project1", response),
+            response, no_cache=no_cache,
+        )
+        self.assertEqual(result["statusCode"], 200)
+        return json.loads(result["data"])
+
+    def test_second_identical_read_is_hit_without_retraversal(self):
+        """Two identical reads: first miss, second hit, traversal happens once."""
+        calls = {"n": 0}
+
+        class _CountingList(list):
+            def __iter__(self):
+                calls["n"] += 1
+                return list.__iter__(self)
+
+        self.project1.children = _CountingList(self.project1.children)
+        first = self._wrap_operators()
+        self.assertEqual(first["cache"], "miss")
+        self.assertEqual(calls["n"], 1)
+        second = self._wrap_operators()
+        self.assertEqual(second["cache"], "hit")
+        self.assertEqual(calls["n"], 1, "cache hit must not re-traverse children")
+
+    def test_hit_body_matches_miss_body(self):
+        """Pagination metadata is identical between miss and hit."""
+        first = self._wrap_operators()
+        second = self._wrap_operators()
+        self.assertEqual(first["cache"], "miss")
+        self.assertEqual(second["cache"], "hit")
+        for key in ("path", "total", "returned", "limit", "offset", "truncated", "operators"):
+            self.assertEqual(first[key], second[key], key)
+
+    def test_post_invalidates_and_next_read_reflects_change(self):
+        """A write (any POST/PUT/DELETE) drops the cache: next read is a miss
+        and shows the new operator (no stale data)."""
+        first = self._wrap_operators()
+        self.assertEqual(first["cache"], "miss")
+        self.assertEqual(first["total"], 5)
+
+        self.project1.children.append(_FakeOp("/project1/opNEW", optype="opNEW"))
+
+        # Simulate exactly what OnHTTPRequest does for every mutating request.
+        self.api._invalidate_cache()
+
+        second = self._wrap_operators()
+        self.assertEqual(second["cache"], "miss", "write must invalidate the cached entry")
+        self.assertEqual(second["total"], 6)
+        self.assertTrue(any(op["name"] == "opNEW" for op in second["operators"]))
+
+    def test_no_cache_flag_forces_rebuild_and_refreshes_entry(self):
+        """?no_cache=1 skips the lookup, rebuilds, and refreshes the entry so
+        the following plain read is a hit with fresh data."""
+        first = self._wrap_operators()
+        self.assertEqual(first["cache"], "miss")
+
+        self.project1.children.append(_FakeOp("/project1/opNEW", optype="opNEW"))
+        self.api._invalidate_cache()
+
+        # Warm the cache again (miss), then force-refresh.
+        warmed = self._wrap_operators()
+        self.assertEqual(warmed["cache"], "miss")
+        self.assertEqual(warmed["total"], 6)
+
+        self.project1.children.append(_FakeOp("/project1/opNEW2", optype="opNEW2"))
+        refreshed = self._wrap_operators(no_cache=True)
+        self.assertEqual(refreshed["cache"], "miss")
+        self.assertEqual(refreshed["total"], 7)
+
+        # The forced refresh replaced the entry: next plain read is a hit.
+        after = self._wrap_operators()
+        self.assertEqual(after["cache"], "hit")
+        self.assertEqual(after["total"], 7)
+
+    def test_error_responses_are_never_cached(self):
+        """A 404 read is not stored; fixing the path makes the next read a miss
+        that succeeds (no cached error)."""
+        response = {}
+        result = self.api._handle_operators("/project1/missing", response)
+        self.assertEqual(result["statusCode"], 404)
+        # The 404 came from the handler directly (no wrap), so the cache must
+        # still be empty for that key.
+        key = self.api._cache_key("/operators", "/project1/missing", False, 500, 0)
+        self.assertNotIn(key, self.api._cache)
+
+    def test_ensure_cache_lazy_init(self):
+        """Instances built without __init__ still get cache state on first use."""
+        bare = _OfflineAPI()
+        self.assertFalse(hasattr(bare, "_cache"))
+        bare._invalidate_cache()
+        self.assertEqual(bare._cache, {})
+        self.assertEqual(bare._cache_hits, 0)
+        self.assertEqual(bare._cache_misses, 0)
 
 
 if __name__ == "__main__":

@@ -116,6 +116,7 @@ class FakeOperator:
         self.nodeX = 0
         self.nodeY = 0
         self._children = []
+        self._children_reads = 0
         self._expr_obj = None
 
     # POP semantics helpers (used by verify handler tests)
@@ -188,6 +189,7 @@ class FakeOperator:
 
     @property
     def children(self):
+        self._children_reads += 1
         return self._children
 
     def findChildren(self):
@@ -1313,6 +1315,159 @@ class TestFindPagination(unittest.TestCase):
         from toe.src.TouchDesignerAPI import TouchDesignerAPI
         with self.assertRaises(ValueError):
             TouchDesignerAPI._parse_positive_int(self.api, "x", default=500)
+
+
+# ===========================================================================
+# Tests: read-through cache on GET /operators and GET /verify (item 05)
+# ===========================================================================
+
+
+class TestReadCacheContract(unittest.TestCase):
+    """HTTP-level contract of the read-through cache.
+
+    Dispatched through the REAL OnHTTPRequest so the whole path is exercised:
+    query parsing, write invalidation, wrap, and serialization.
+
+    Semantics:
+    - "cache" is "miss" on first read and "hit" on identical repeats (additive
+      key; pagination metadata must not change)
+    - every POST/PUT/DELETE invalidates the whole cache before routing
+    - ?no_cache=1 / ?refresh=1 skip the lookup but refresh the entry
+    - non-200 responses are never cached
+    """
+
+    def setUp(self):
+        _reset_fakes()
+        _install_fake_globals()
+        self.api = FakeAPI()
+        import tests.test_api_contract_offline as mod
+        self._saved_op = getattr(mod, "op", None)
+        mod.op = _fake_op
+        _fake_project1._children = [
+            FakeOperator(f"/project1/op{i}", f"op{i}", f"op{i}", "TOP")
+            for i in range(4)
+        ]
+
+    def tearDown(self):
+        import tests.test_api_contract_offline as mod
+        mod.op = self._saved_op
+
+    def _request(self, uri, method="GET", body="", route=None):
+        import urllib.parse as up
+        parsed = up.urlparse(uri)
+        pars = {k: v[0] for k, v in up.parse_qs(parsed.query).items()}
+        request = {
+            "method": method,
+            # OnHTTPRequest matches /verify by exact uri, so `route` lets a
+            # test strip the query string from the routing key while keeping
+            # the parsed pars.
+            "uri": route if route is not None else uri,
+            "pars": pars,
+        }
+        if body:
+            request["data"] = body
+        return request
+
+    def _call(self, uri, method="GET", body="", route=None):
+        response = _make_response()
+        result = self.api.OnHTTPRequest(
+            object(),  # webserver DAT stub: OnHTTPRequest never reads it
+            self._request(uri, method=method, body=body, route=route),
+            response,
+        )
+        return result
+
+    def _get(self, uri, route=None):
+        result = self._call(uri, route=route)
+        return result, json.loads(result["data"])
+
+    def test_hit_after_miss_no_retraversal(self):
+        _fake_project1._children_reads = 0
+        _, first = self._get("/operators?path=/project1")
+        self.assertEqual(first["cache"], "miss")
+        self.assertEqual(first["total"], 4)
+        reads_after_miss = _fake_project1._children_reads
+        _, second = self._get("/operators?path=/project1")
+        self.assertEqual(second["cache"], "hit")
+        self.assertEqual(
+            _fake_project1._children_reads, reads_after_miss,
+            "hit must not re-read children")
+
+    def test_pagination_meta_identical_on_hit(self):
+        self._get("/operators?path=/project1&limit=2")
+        _, hit = self._get("/operators?path=/project1&limit=2")
+        self.assertEqual(hit["cache"], "hit")
+        self.assertEqual(hit["limit"], 2)
+        self.assertEqual(hit["returned"], 2)
+        self.assertTrue(hit["truncated"])
+
+    def test_post_invalidates_whole_cache(self):
+        self._get("/operators?path=/project1")
+        self._get("/operators?path=/project1")
+        self.assertGreater(self.api._cache_hits, 0)
+
+        post = self._call("/exec", method="POST", body='{"code": "pass"}')
+        self.assertEqual(post["statusCode"], 200)
+        # Blanket invalidation: nothing cached, counters reset.
+        self.assertEqual(self.api._cache, {})
+        self.assertEqual(self.api._cache_hits, 0)
+        self.assertEqual(self.api._cache_misses, 0)
+
+        _, after = self._get("/operators?path=/project1")
+        self.assertEqual(after["cache"], "miss")
+
+    def test_post_changes_are_visible_after_invalidation(self):
+        self._get("/operators?path=/project1")
+        _fake_project1._children.append(
+            FakeOperator("/project1/opNEW", "opNEW", "opNEW", "TOP"))
+        self._call("/exec", method="POST", body='{"code": "pass"}')
+        _, after = self._get("/operators?path=/project1")
+        self.assertEqual(after["cache"], "miss")
+        self.assertEqual(after["total"], 5)
+        self.assertTrue(any(o["name"] == "opNEW" for o in after["operators"]))
+
+    def test_no_cache_flag_skips_lookup_and_refreshes(self):
+        self._get("/operators?path=/project1")
+        _, forced = self._get("/operators?path=/project1&no_cache=1")
+        self.assertEqual(forced["cache"], "miss")
+        _, again = self._get("/operators?path=/project1")
+        self.assertEqual(again["cache"], "hit")
+
+    def test_refresh_flag_also_forces(self):
+        self._get("/operators?path=/project1")
+        _, forced = self._get("/operators?path=/project1&refresh=1")
+        self.assertEqual(forced["cache"], "miss")
+
+    def test_404_is_not_cached(self):
+        _, missing = self._get("/operators?path=/project1/missing")
+        self.assertEqual(missing["error"], "Operator not found: /project1/missing")
+        _, again = self._get("/operators?path=/project1/missing")
+        self.assertNotIn("cache", again)
+
+    def test_verify_cache_roundtrip(self):
+        _, first = self._get("/verify?path=/project1&recurse=0", route="/verify")
+        self.assertEqual(first["cache"], "miss")
+        _, second = self._get("/verify?path=/project1&recurse=0", route="/verify")
+        self.assertEqual(second["cache"], "hit")
+        # Same body except for the additive cache tag.
+        first.pop("cache")
+        second.pop("cache")
+        self.assertEqual(first, second)
+
+    def test_info_reports_readcache_counters(self):
+        self._get("/operators?path=/project1")  # 1 miss
+        self._get("/operators?path=/project1")  # 1 hit
+        _, info = self._get("/info")
+        rc = info.get("readCache")
+        self.assertIsInstance(rc, dict)
+        self.assertEqual(rc["hits"], 1)
+        self.assertEqual(rc["misses"], 1)
+        self.assertEqual(rc["entries"], 1)
+
+
+def _make_dat():
+    """OnHTTPRequest's first arg (the webserver DAT) is unused; pass a stub."""
+    return object()
 
 
 if __name__ == "__main__":
