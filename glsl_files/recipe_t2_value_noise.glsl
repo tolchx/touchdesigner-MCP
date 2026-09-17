@@ -1,7 +1,7 @@
 layout(location = 0) out vec4 fragColor;
 
 uniform float u_time;        // vec0name='u_time', vec0valuex=<seconds>
-uniform float u_scale;       // vec0name2='u_scale', vec0valuex2=8.0
+uniform float u_scale;       // vec1name='u_scale', vec1valuex=8.0
 
 float hash(vec2 p) {
     return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);

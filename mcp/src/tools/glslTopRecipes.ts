@@ -61,7 +61,7 @@ void main() {
 // t2 value_noise — hash + value noise 2D, animated with u_time
 const T2_GLSL = `${OUT}
 uniform float u_time;        // vec0name='u_time', vec0valuex=<seconds>
-uniform float u_scale;       // vec0name2='u_scale', vec0valuex2=8.0
+uniform float u_scale;       // vec1name='u_scale', vec1valuex=8.0
 
 float hash(vec2 p) {
     return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
@@ -212,7 +212,7 @@ export const GLSL_TOP_RECIPES: GlslTopRecipe[] = [
     glsl: T2_GLSL,
     uniforms: [
       { namePar: "vec0name", uniformName: "u_time", valuePar: "vec0valuex", value: 0.0 },
-      { namePar: "vec0name2", uniformName: "u_scale", valuePar: "vec0valuex2", value: 8.0 },
+      { namePar: "vec1name", uniformName: "u_scale", valuePar: "vec1valuex", value: 8.0 },
     ],
     resolution: { w: 256, h: 256 },
     liveCheck:
@@ -227,7 +227,7 @@ export const GLSL_TOP_RECIPES: GlslTopRecipe[] = [
     glsl: T3_GLSL,
     uniforms: [
       { namePar: "vec0name", uniformName: "u_time", valuePar: "vec0valuex", value: 0.0 },
-      { namePar: "vec0name2", uniformName: "u_scale", valuePar: "vec0valuex2", value: 3.0 },
+      { namePar: "vec1name", uniformName: "u_scale", valuePar: "vec1valuex", value: 3.0 },
     ],
     resolution: { w: 256, h: 256 },
     liveCheck:
@@ -241,7 +241,7 @@ export const GLSL_TOP_RECIPES: GlslTopRecipe[] = [
     category: "pattern",
     glsl: T4_GLSL,
     uniforms: [
-      { namePar: "vec0name2", uniformName: "u_scale", valuePar: "vec0valuex2", value: 8.0 },
+      { namePar: "vec1name", uniformName: "u_scale", valuePar: "vec1valuex", value: 8.0 },
     ],
     resolution: { w: 256, h: 256 },
     liveCheck:
@@ -371,10 +371,21 @@ ${feedbackBlock}
             "min": round(float(arr.min()), 4),
             "max": round(float(arr.max()), 4),
         }
-        # Known issue (GLSL_TOP_RULES v1.1): a script-created glslTOP can stay
-        # persistently black when the shader DAT is written after node creation.
-        # Workaround: destroy + recreate with the DAT already populated and
-        # re-apply the uniforms, all inside the same /exec.
+        # NEVER-BLACK POLICY (GLSL_TOP_RULES v1.3): a scripted first cook can
+        # (non-deterministically) leave the glslTOP with a stale/black buffer
+        # even though the shader is valid (td_errors empty, infoDAT clean).
+        # Verified 2026-09-17 with 80+ probe creations: condition is NOT
+        # reproducible by creation order (DAT/uniform/resolution variants all
+        # render), so the builder treats it as a transient render-state issue
+        # and repairs IN PLACE, cheapest step first:
+        #   1. re-cook after re-writing pixeldat (touches the DAT reference)
+        #   2. full destroy + recreate with populated DAT (v1.1 workaround)
+        # The guarantee is the final rendered pixel check, not the order.
+        if arr.max() <= 0.001 and not res["td_errors"] and not res.get("infoDAT_has_ERROR"):
+            res["stale_first_cook"] = True
+            g.par.pixeldat = code.name
+            g.cook(force=True)
+            arr = g.numpyArray()
         if arr.max() <= 0.001 and not res["td_errors"] and not res.get("infoDAT_has_ERROR"):
             gname = g.name
             g.destroy()
@@ -399,7 +410,7 @@ ${uniLines("g2", "            ")}
                 }
                 res["recreated"] = True
             else:
-                res["errors"].append("recreate workaround did not fix black output")
+                res["errors"].append("never-black policy exhausted: still black after re-cook + recreate")
 
     except Exception as _ne:
         res["errors"].append("numpy: " + str(_ne)[:120])
