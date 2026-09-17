@@ -1,7 +1,7 @@
 # Conocimiento POP — validado y con fuentes
 
-- Build validado: **TouchDesigner 2025.32460** · POPs creados en vivo: **100/101**
-- Documentados en la wiki oficial: **100** · sin página oficial: **1**
+- Build validado: **TouchDesigner 2025.31760** · POPs creados en vivo: **96/97**
+- Documentados en la wiki oficial: **96** · sin página oficial: **1**
 - Patrones POP→POP extraídos de proyectos reales: **1120** · GLSL indexados: **62**
 
 > **Regla:** cada dato lleva su fuente. `oficial` = wiki Derivative · `live-verified` = probado contra TD real · `empirico` = extraído de .toe (no normativo).
@@ -26,20 +26,19 @@
 | `sprinklePOP` | ✅ | 19 | 1/1 | 0 |
 | `patternPOP` | ✅ | 62 | 1/1 | 0 |
 | `randomPOP` | ✅ | 43 | 1/1 | 0 |
-| `textPOP` | ✅ | 50 | 0/1 | 0 |
 | `torusPOP` | ✅ | 32 | 1/1 | 0 |
 | `revolvePOP` | ✅ | 15 | 1/1 | 0 |
-| `extrudePOP` | ✅ | 19 | 1/1 | 0 |
-| `fileinPOP` | ✅ | 14 | 0/1 | 0 |
+| `extrudePOP` | ✅ | 14 | 1/1 | 0 |
+| `fileinPOP` | ✅ | 12 | 0/1 | 0 |
 | `pointfileinPOP` | ✅ | 37 | 0/1 | 0 |
-| `alembicinPOP` | ✅ | 33 | 0/1 | 0 |
+| `alembicinPOP` | ✅ | 14 | 0/1 | 0 |
 | `toptoPOP` | ✅ | 67 | 0/1 | 0 |
 | `choptoPOP` | ✅ | 33 | 0/1 | 0 |
 | `dattoPOP` | ✅ | 16 | 0/1 | 0 |
 | `soptoPOP` | ✅ | 11 | 0/1 | 0 |
 | `cplusplusPOP` | ✅ | 10 | 1/1 | 0 |
 | `glslPOP` | ✅ | 85 | 1/1 | 0 |
-| `glsladvancedPOP` | ✅ | 143 | 1/1 | 0 |
+| `glsladvancedPOP` | ✅ | 139 | 1/1 | 0 |
 | `glslcopyPOP` | ✅ | 73 | 2/1 | 0 |
 | `glslselectPOP` | ✅ | 8 | 0/1 | 0 |
 
@@ -69,8 +68,7 @@
 | `lookuptexturePOP` | ✅ | 54 | 1/1 | 0 |
 | `texturemapPOP` | ✅ | 51 | 1/1 | 0 |
 | `convertPOP` | ✅ | 7 | 1/1 | 0 |
-| `triangulatePOP` | ✅ | 11 | 1/1 | 0 |
-| `polygonizePOP` | ✅ | 27 | 1/1 | 0 |
+| `polygonizePOP` | ✅ | 17 | 0/1 | 0 |
 | `projectionPOP` | ✅ | 27 | 1/1 | 0 |
 | `rayPOP` | ✅ | 38 | 2/1 | 0 |
 | `revolvePOP` | ✅ | 15 | 1/1 | 0 |
@@ -91,7 +89,7 @@
 | `groupPOP` | ✅ | 53 | 1/1 | 0 |
 | `deletePOP` | ✅ | 47 | 1/1 | 0 |
 | `sortPOP` | ✅ | 34 | 1/1 | 0 |
-| `cachePOP` | ✅ | 17 | 1/1 | 0 |
+| `cachePOP` | ✅ | 16 | 1/1 | 0 |
 | `cacheblendPOP` | ✅ | 16 | 0/1 | 0 |
 | `cacheselectPOP` | ✅ | 10 | 0/1 | 0 |
 | `feedbackPOP` | ✅ | 16 | 1/1 | 0 |
@@ -103,17 +101,16 @@
 | `analyzePOP` | ✅ | 25 | 1/1 | 0 |
 | `primitivePOP` | ✅ | 27 | 1/1 | 0 |
 | `trailPOP` | ✅ | 37 | 1/1 | 0 |
-| `particlePOP` | ✅ | 53 | 1/1 | 0 |
+| `particlePOP` | ✅ | 50 | 1/1 | 0 |
 | `forceradialPOP` | ✅ | 48 | 1/1 | 0 |
-| `phaserPOP` | ✅ | 27 | 1/1 | 0 |
+| `phaserPOP` | ✅ | 26 | 1/1 | 0 |
 | `skinPOP` | ✅ | 10 | 1/1 | 0 |
 | `accumulatePOP` | ✅ | 17 | 1/1 | 0 |
 | `linebreakPOP` | ✅ | 21 | 1/1 | 0 |
 | `linedividePOP` | ✅ | 35 | 1/1 | 0 |
 | `linemetricsPOP` | ✅ | 48 | 1/1 | 0 |
-| `lineresamplePOP` | ✅ | 19 | 1/1 | 0 |
+| `lineresamplePOP` | ✅ | 18 | 1/1 | 0 |
 | `linesmoothPOP` | ✅ | 35 | 1/1 | 0 |
-| `tracePOP` | ✅ | 33 | 1/1 | 0 |
 | `zedPOP` | ✅ | 39 | 0/1 | 0 |
 
 ### I/O y dispositivos
@@ -124,7 +121,6 @@
 | `inPOP` | ✅ | 8 | 1/1 | 0 |
 | `outPOP` | ✅ | 9 | 1/1 | 0 |
 | `fileoutPOP` | ✅ | 27 | 1/1 | 0 |
-| `alembicoutPOP` | ✅ | 33 | 1/1 | 0 |
 | `dmxoutPOP` | ✅ | 34 | 1/1 | 0 |
 | `dmxfixturePOP` | ✅ | 30 | 1/1 | 0 |
 | `engineoutPOP` | — | None | None/None | 0 |

@@ -45,12 +45,12 @@ function loadRawPopOperators() {
 // ═══════════════════════════════════════════════════════════════════════════
 
 describe("popKnowledge — knowledge base", () => {
-  it("loads the 101 validated POP types", () => {
+  it("loads the validated POP types (97 on TD 2025.31760)", () => {
     resetPopKnowledgeCache();
     const kb = loadPopKnowledge();
     const types = listPopTypes();
-    assert.equal(types.length, 101);
-    assert.ok(kb.size >= 101);
+    assert.equal(types.length, 97);
+    assert.ok(kb.size >= 97);
   });
 
   it("exposes real build parameter names for circlePOP", () => {

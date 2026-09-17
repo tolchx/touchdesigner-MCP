@@ -1,18 +1,18 @@
 {
  "index": {
-  "td_build": "TouchDesigner 2025.32460",
+  "td_build": "TouchDesigner 2025.31760",
   "generated_from": {
    "live": "docs/pop_matrix.json",
    "wiki": "https://docs.derivative.ca/api.php?action=query&list=categorymembers&cmtitle=Category:POPs",
    "corpus": "C:\\Users\\Tolch\\Documents\\AI_Code\\Touchdesigner_MCP\\old\\mcp_td_v3\\Toe_Expand"
   },
   "counts": {
-   "pop_types_live": 101,
-   "created_ok": 100,
-   "documented_in_wiki": 100,
+   "pop_types_live": 97,
+   "created_ok": 96,
+   "documented_in_wiki": 96,
    "undocumented": 1,
-   "ok_con_input": 80,
-   "recommended_for_networks": 80,
+   "ok_con_input": 78,
+   "recommended_for_networks": 78,
    "wiki_pages_total": 106,
    "patterns_pop_to_pop": 1120,
    "chains": 80,
@@ -954,48 +954,29 @@
    "name": "alembicinpop",
    "family": "POP",
    "created_live": true,
-   "create_error": null,
+   "create_error": "source_create_exception: module 'td' has no attribute 'alembicoutPOP'",
    "inputs": 0,
    "outputs": 1,
-   "param_count": 33,
+   "param_count": 14,
    "errors": null,
    "warnings": null,
-   "validation_category": "sin_geometria_con_input",
+   "validation_category": "error_con_input",
    "recommended_for_networks": false,
    "geometry": {
-    "numPoints": 0,
-    "numPrims": 0
+    "numPoints": 8,
+    "numPrims": 12
    },
-   "matrix_error": null,
+   "matrix_error": "source_create_exception: module 'td' has no attribute 'alembicoutPOP'",
    "live_params": [
     "pageindex",
     "file",
     "objectpath",
-    "loadtype",
     "xform",
+    "time",
+    "timeunit",
+    "fps",
     "interp",
     "loadfile",
-    "shiftanimationstart",
-    "sampleratemode",
-    "samplerate",
-    "playmode",
-    "initialize",
-    "start",
-    "play",
-    "speed",
-    "cue",
-    "cuepulse",
-    "cuepoint",
-    "cuepointunit",
-    "index",
-    "indexunit",
-    "trim",
-    "tstart",
-    "tstartunit",
-    "tend",
-    "tendunit",
-    "textendleft",
-    "textendright",
     "bypass",
     "freeextragpumem",
     "delinputattrs",
@@ -1186,252 +1167,6 @@
       "wiki_type": "Menu",
       "live_style": "Menu",
       "default": "cycle"
-     }
-    ]
-   },
-   "empirical_usage": {
-    "writes": null,
-    "top_params": []
-   },
-   "sources": {
-    "existence": "live TD + wiki oficial",
-    "params": "live TD (nombres eval reales)",
-    "usage": "corpus .toe (empírico)"
-   }
-  },
-  {
-   "type": "alembicoutPOP",
-   "name": "alembicoutpop",
-   "family": "POP",
-   "created_live": true,
-   "create_error": null,
-   "inputs": 1,
-   "outputs": 1,
-   "param_count": 33,
-   "errors": null,
-   "warnings": null,
-   "validation_category": "ok_con_input",
-   "recommended_for_networks": true,
-   "geometry": {
-    "numPoints": 8,
-    "numPrims": 6
-   },
-   "matrix_error": null,
-   "live_params": [
-    "pageindex",
-    "input",
-    "input0pop",
-    "input0blockname",
-    "input0idname",
-    "input0velname",
-    "input0ptattrname",
-    "input0vertattrname",
-    "input0primattrname",
-    "uniquesuff",
-    "n",
-    "leadingzerosdigits",
-    "file",
-    "fps",
-    "limitlength",
-    "length",
-    "lengthunit",
-    "record",
-    "recordpulse",
-    "pause",
-    "addframepulse",
-    "maxactive",
-    "includeprim",
-    "texcoordattrib",
-    "outputcolorspace",
-    "unchangedtopo",
-    "abcfps",
-    "abc3dtex",
-    "bypass",
-    "freeextragpumem",
-    "delinputattrs",
-    "parmcolorspace",
-    "parmreferencewhite"
-   ],
-   "wiki": {
-    "page": "Alembic Out POP",
-    "url": "https://docs.derivative.ca/Alembic_Out_POP",
-    "documented": true,
-    "param_match_pct": 87.5,
-    "wiki_params_total": 24,
-    "params_confirmados": 21,
-    "params_drift_doc_sin_build": [
-     "addframe",
-     "input0objname",
-     "unchangedtopology"
-    ],
-    "param_mapping": [
-     {
-      "wiki_label": "Input",
-      "eval": "input",
-      "live_label": "Input",
-      "wiki_type": "Sequence",
-      "live_style": "Sequence",
-      "default": "0"
-     },
-     {
-      "wiki_label": "Ids Attribute",
-      "eval": "input0idname",
-      "live_label": "Ids Attribute",
-      "wiki_type": "String",
-      "live_style": "StrMenu",
-      "default": ""
-     },
-     {
-      "wiki_label": "Velocity Attribute",
-      "eval": "input0velname",
-      "live_label": "Velocity Attribute",
-      "wiki_type": "String",
-      "live_style": "StrMenu",
-      "default": ""
-     },
-     {
-      "wiki_label": "Point Attribute Name",
-      "eval": "input0ptattrname",
-      "live_label": "Point Attribute Name",
-      "wiki_type": "String",
-      "live_style": "Str",
-      "default": "*"
-     },
-     {
-      "wiki_label": "Vertex Attribute Name",
-      "eval": "input0vertattrname",
-      "live_label": "Vert Attribute Name",
-      "wiki_type": "String",
-      "live_style": "Str",
-      "default": "*"
-     },
-     {
-      "wiki_label": "Prim Attribute Name",
-      "eval": "input0primattrname",
-      "live_label": "Prim Attribute Name",
-      "wiki_type": "String",
-      "live_style": "Str",
-      "default": "*"
-     },
-     {
-      "wiki_label": "Unique Suffix",
-      "eval": "uniquesuff",
-      "live_label": "Unique Suffix",
-      "wiki_type": "Toggle",
-      "live_style": "Toggle",
-      "default": "False"
-     },
-     {
-      "wiki_label": "N",
-      "eval": "n",
-      "live_label": "N",
-      "wiki_type": "Int",
-      "live_style": "Int",
-      "default": "0"
-     },
-     {
-      "wiki_label": "Leading Zeros Digits",
-      "eval": "leadingzerosdigits",
-      "live_label": "Leading Zeros Digits",
-      "wiki_type": "Int",
-      "live_style": "Int",
-      "default": "1"
-     },
-     {
-      "wiki_label": "File",
-      "eval": "file",
-      "live_label": "File",
-      "wiki_type": "File",
-      "live_style": "File",
-      "default": "popout$N.$SI.abc"
-     },
-     {
-      "wiki_label": "FPS",
-      "eval": "fps",
-      "live_label": "FPS",
-      "wiki_type": "Float",
-      "live_style": "Float",
-      "default": "0.0"
-     },
-     {
-      "wiki_label": "Limit Length",
-      "eval": "limitlength",
-      "live_label": "Limit Length",
-      "wiki_type": "Toggle",
-      "live_style": "Toggle",
-      "default": "False"
-     },
-     {
-      "wiki_label": "Length",
-      "eval": "length",
-      "live_label": "Length",
-      "wiki_type": "Float",
-      "live_style": "Float",
-      "default": "600.0"
-     },
-     {
-      "wiki_label": "Record",
-      "eval": "record",
-      "live_label": "Record",
-      "wiki_type": "Toggle",
-      "live_style": "Toggle",
-      "default": "False"
-     },
-     {
-      "wiki_label": "Record Pulse",
-      "eval": "recordpulse",
-      "live_label": "Pulse",
-      "wiki_type": "Pulse",
-      "live_style": "Pulse",
-      "default": "False"
-     },
-     {
-      "wiki_label": "Pause",
-      "eval": "pause",
-      "live_label": "Pause",
-      "wiki_type": "Toggle",
-      "live_style": "Toggle",
-      "default": "False"
-     },
-     {
-      "wiki_label": "Max Active Saves",
-      "eval": "maxactive",
-      "live_label": "Max Active Saves",
-      "wiki_type": "Int",
-      "live_style": "Int",
-      "default": "8"
-     },
-     {
-      "wiki_label": "Include Primitives",
-      "eval": "includeprim",
-      "live_label": "Include Primitives",
-      "wiki_type": "Toggle",
-      "live_style": "Toggle",
-      "default": "True"
-     },
-     {
-      "wiki_label": "Tex Coord Attribute",
-      "eval": "texcoordattrib",
-      "live_label": "Tex Coord Attribute",
-      "wiki_type": "Str",
-      "live_style": "Str",
-      "default": "Tex"
-     },
-     {
-      "wiki_label": "Samples per Second",
-      "eval": "abcfps",
-      "live_label": "Samples per Second",
-      "wiki_type": "Float",
-      "live_style": "Float",
-      "default": "0.0"
-     },
-     {
-      "wiki_label": "Export 3D Texture Coord",
-      "eval": "abc3dtex",
-      "live_label": "Export 3D Texture Coord",
-      "wiki_type": "Toggle",
-      "live_style": "Toggle",
-      "default": "False"
      }
     ]
    },
@@ -2493,7 +2228,7 @@
    "create_error": null,
    "inputs": 1,
    "outputs": 1,
-   "param_count": 17,
+   "param_count": 16,
    "errors": null,
    "warnings": null,
    "validation_category": "ok_con_input",
@@ -2507,7 +2242,6 @@
     "pageindex",
     "active",
     "activepulse",
-    "alwayscook",
     "cachesize",
     "step",
     "stepunit",
@@ -3653,7 +3387,7 @@
     "numPoints": 8,
     "numPrims": 6
    },
-   "matrix_error": "Error: Error reading file \"\" (/project1/pop_matrix_live4/cpluspluspop)",
+   "matrix_error": "Error: Error reading file \"\" (/project1/pop_matrix_live5/cpluspluspop)",
    "live_params": [
     "pageindex",
     "plugin",
@@ -5087,7 +4821,7 @@
    "create_error": null,
    "inputs": 1,
    "outputs": 1,
-   "param_count": 19,
+   "param_count": 14,
    "errors": null,
    "warnings": null,
    "validation_category": "ok_con_input",
@@ -5100,18 +4834,13 @@
    "live_params": [
     "pageindex",
     "group",
-    "axis",
     "distance",
-    "taper",
-    "peredge",
+    "usedistanceattr",
+    "distanceattr",
+    "inset",
+    "keepconnected",
     "maxprimsperpoint",
-    "normal",
     "cpureadback",
-    "map",
-    "map0op",
-    "map0element",
-    "map0parm",
-    "map0combineop",
     "bypass",
     "freeextragpumem",
     "delinputattrs",
@@ -5866,7 +5595,7 @@
    "create_error": null,
    "inputs": 0,
    "outputs": 1,
-   "param_count": 14,
+   "param_count": 12,
    "errors": null,
    "warnings": null,
    "validation_category": "ok_con_input",
@@ -5880,8 +5609,6 @@
     "pageindex",
     "file",
     "flipfacing",
-    "loadcolor",
-    "triangulate",
     "refresh",
     "refreshpulse",
     "inputcolorspace",
@@ -5974,6 +5701,7 @@
    "live_params": [
     "pageindex",
     "type",
+    "scenefiletype",
     "objectfiletype",
     "uniquesuff",
     "n",
@@ -5984,9 +5712,8 @@
     "length",
     "lengthunit",
     "record",
-    "recordpulse",
     "pause",
-    "addframepulse",
+    "addframe",
     "maxactive",
     "includeprim",
     "texcoordattrib",
@@ -6971,7 +6698,7 @@
    "create_error": null,
    "inputs": 1,
    "outputs": 1,
-   "param_count": 143,
+   "param_count": 139,
    "errors": null,
    "warnings": null,
    "validation_category": "ok_con_input",
@@ -7116,10 +6843,6 @@
     "const",
     "const0name",
     "const0value",
-    "asname",
-    "colpop",
-    "buildflag",
-    "opaquecolgeo",
     "bypass",
     "freeextragpumem",
     "delinputattrs",
@@ -9087,7 +8810,7 @@
     "numPoints": 0,
     "numPrims": 0
    },
-   "matrix_error": "Error: Import Select POP must be contained within a USD or FBX COMP, or have one specified in the Import Parent parameter (/project1/pop_matrix_live4/importselectpop)",
+   "matrix_error": "Error: Import Select POP must be contained within a USD or FBX COMP, or have one specified in the Import Parent parameter (/project1/pop_matrix_live5/importselectpop)",
    "live_params": [
     "pageindex",
     "parent",
@@ -9555,7 +9278,6 @@
    "matrix_error": null,
    "live_params": [
     "pageindex",
-    "output",
     "multiplelinestrips",
     "interpmethodpersegment",
     "interpmethod",
@@ -9574,6 +9296,7 @@
     "attr0value1",
     "attr0value2",
     "attr0value3",
+    "output",
     "divmethod",
     "divs",
     "dist",
@@ -10538,7 +10261,7 @@
    "create_error": null,
    "inputs": 1,
    "outputs": 1,
-   "param_count": 19,
+   "param_count": 18,
    "errors": null,
    "warnings": null,
    "validation_category": "ok_con_input",
@@ -10555,7 +10278,6 @@
     "resamplemindist",
     "resamplemaxdist",
     "resampleminmaxbias",
-    "interpolation",
     "usectrlpoints",
     "ctrlpointsattr",
     "indvarattr",
@@ -11151,7 +10873,7 @@
     "numPoints": 8,
     "numPrims": 6
    },
-   "matrix_error": "Error: CHOP not found (/project1/pop_matrix_live4/lookupchannelpop)",
+   "matrix_error": "Error: CHOP not found (/project1/pop_matrix_live5/lookupchannelpop)",
    "live_params": [
     "pageindex",
     "attrclass",
@@ -12618,7 +12340,7 @@
    "matrix_error": null,
    "live_params": [
     "pageindex",
-    "noiselookupattr",
+    "noiselookupattrib",
     "type",
     "noisesize",
     "seed",
@@ -13576,16 +13298,16 @@
    "create_error": null,
    "inputs": 1,
    "outputs": 1,
-   "param_count": 53,
+   "param_count": 50,
    "errors": null,
    "warnings": null,
-   "validation_category": "sin_geometria_con_input",
+   "validation_category": "error_con_input",
    "recommended_for_networks": false,
    "geometry": {
     "numPoints": 0,
     "numPrims": 0
    },
-   "matrix_error": null,
+   "matrix_error": "Error: Input requires P attribute (/project1/pop_matrix_live5/particlepop)",
    "live_params": [
     "pageindex",
     "targetpop",
@@ -13601,9 +13323,6 @@
     "lifeunit",
     "lifevariance",
     "randomseed",
-    "timeintegration",
-    "jitterbirthtime",
-    "jitterbirthpos",
     "initvelocityx",
     "initvelocityy",
     "initvelocityz",
@@ -14174,7 +13893,7 @@
    "create_error": null,
    "inputs": 1,
    "outputs": 1,
-   "param_count": 27,
+   "param_count": 26,
    "errors": null,
    "warnings": null,
    "validation_category": "ok_con_input",
@@ -14189,7 +13908,6 @@
     "attrclass",
     "phaseattrscope",
     "fract",
-    "extend",
     "parsize",
     "edge0",
     "reversephase0",
@@ -15056,39 +14774,29 @@
    "family": "POP",
    "created_live": true,
    "create_error": null,
-   "inputs": 1,
+   "inputs": 0,
    "outputs": 1,
-   "param_count": 27,
+   "param_count": 17,
    "errors": null,
    "warnings": null,
    "validation_category": "error_con_input",
    "recommended_for_networks": false,
    "geometry": {
-    "numPoints": 8,
-    "numPrims": 6
+    "numPoints": 0,
+    "numPrims": 0
    },
-   "matrix_error": "Error: Input POP needs to have 3 dimensions, use Trace POP for POPs with 2 dimensions. (/project1/pop_matrix_live4/polygonizepop)",
+   "matrix_error": "Error: Invalid source TOP specified. (/project1/pop_matrix_live5/polygonizepop)\n  Error: Unable to obtain texture from source TOP (/project1/pop_matrix_live5/polygonizepop)",
    "live_params": [
     "pageindex",
-    "inputattrscope",
-    "posattrib",
     "top",
-    "channel",
     "resmult",
     "inside",
     "threshold",
     "extend",
+    "twodimensions",
     "uniquepoints",
-    "rerangep",
-    "tolow0",
-    "tolow1",
-    "tolow2",
-    "tohigh0",
-    "tohigh1",
-    "tohigh2",
     "nmlmethod",
     "nmlstepmul",
-    "texture",
     "allocfract",
     "cpureadback",
     "bypass",
@@ -16220,7 +15928,7 @@
     "numPoints": 8,
     "numPrims": 6
    },
-   "matrix_error": "Error: Attribute not found. (/project1/pop_matrix_live4/raypop)",
+   "matrix_error": "Error: Attribute not found. (/project1/pop_matrix_live5/raypop)",
    "live_params": [
     "pageindex",
     "rayattrib",
@@ -16485,8 +16193,8 @@
     "distfromcam",
     "cameraaspectx",
     "cameraaspecty",
-    "sizeu",
-    "sizev",
+    "sizex",
+    "sizey",
     "roundcorners",
     "cornerradius",
     "cornersides",
@@ -16799,11 +16507,11 @@
    "param_count": 15,
    "errors": null,
    "warnings": null,
-   "validation_category": "sin_geometria_con_input",
-   "recommended_for_networks": false,
+   "validation_category": "ok_con_input",
+   "recommended_for_networks": true,
    "geometry": {
-    "numPoints": 0,
-    "numPrims": 0
+    "numPoints": 420,
+    "numPrims": 400
    },
    "matrix_error": null,
    "live_params": [
@@ -17077,7 +16785,7 @@
     "numPoints": 8,
     "numPrims": 6
    },
-   "matrix_error": "Error: BonePathsAttrib attribute not found (/project1/pop_matrix_live4/skindeformpop)",
+   "matrix_error": "Error: BonePathsAttrib attribute not found (/project1/pop_matrix_live5/skindeformpop)",
    "live_params": [
     "pageindex",
     "mode",
@@ -18127,305 +17835,6 @@
       "wiki_type": "Sequence",
       "live_style": "Sequence",
       "default": "0"
-     }
-    ]
-   },
-   "empirical_usage": {
-    "writes": null,
-    "top_params": []
-   },
-   "sources": {
-    "existence": "live TD + wiki oficial",
-    "params": "live TD (nombres eval reales)",
-    "usage": "corpus .toe (empírico)"
-   }
-  },
-  {
-   "type": "textPOP",
-   "name": "textpop",
-   "family": "POP",
-   "created_live": true,
-   "create_error": null,
-   "inputs": 0,
-   "outputs": 1,
-   "param_count": 50,
-   "errors": null,
-   "warnings": null,
-   "validation_category": "ok_con_input",
-   "recommended_for_networks": true,
-   "geometry": {
-    "numPoints": 2316,
-    "numPrims": 772
-   },
-   "matrix_error": null,
-   "live_params": [
-    "pageindex",
-    "connectivity",
-    "bridgeholes",
-    "mode",
-    "text",
-    "specdat",
-    "specchop",
-    "scalefonttobboxheight",
-    "breaklang",
-    "readingdirection",
-    "wordwrap",
-    "wordwrapsize",
-    "smartpunct",
-    "levelofdetail",
-    "font",
-    "fontfile",
-    "typeface",
-    "fontsizex",
-    "fontsizey",
-    "keepfontratio",
-    "trackingx",
-    "trackingy",
-    "linespacing",
-    "alignx",
-    "aligny",
-    "fontcolorr",
-    "fontcolorg",
-    "fontcolorb",
-    "fontalpha",
-    "extrude",
-    "extrudedepth",
-    "xord",
-    "rord",
-    "tx",
-    "ty",
-    "tz",
-    "rx",
-    "ry",
-    "rz",
-    "sx",
-    "sy",
-    "sz",
-    "px",
-    "py",
-    "pz",
-    "bypass",
-    "freeextragpumem",
-    "delinputattrs",
-    "parmcolorspace",
-    "parmreferencewhite"
-   ],
-   "wiki": {
-    "page": "Text POP",
-    "url": "https://docs.derivative.ca/Text_POP",
-    "documented": true,
-    "param_match_pct": 78.1,
-    "wiki_params_total": 32,
-    "params_confirmados": 25,
-    "params_drift_doc_sin_build": [
-     "fontcolor",
-     "fontsize",
-     "p",
-     "r",
-     "s",
-     "t",
-     "tracking"
-    ],
-    "param_mapping": [
-     {
-      "wiki_label": "Connectivity",
-      "eval": "connectivity",
-      "live_label": "Connectivity",
-      "wiki_type": "Menu",
-      "live_style": "Menu",
-      "default": "triangles"
-     },
-     {
-      "wiki_label": "Bridge Holes",
-      "eval": "bridgeholes",
-      "live_label": "Bridge Holes",
-      "wiki_type": "Toggle",
-      "live_style": "Toggle",
-      "default": "False"
-     },
-     {
-      "wiki_label": "Mode",
-      "eval": "mode",
-      "live_label": "Mode",
-      "wiki_type": "Menu",
-      "live_style": "Menu",
-      "default": "text"
-     },
-     {
-      "wiki_label": "Text",
-      "eval": "text",
-      "live_label": "Text",
-      "wiki_type": "Str",
-      "live_style": "Str",
-      "default": "derivative"
-     },
-     {
-      "wiki_label": "Specification DAT",
-      "eval": "specdat",
-      "live_label": "Specification DAT",
-      "wiki_type": "DAT",
-      "live_style": "DAT",
-      "default": ""
-     },
-     {
-      "wiki_label": "Specification CHOP",
-      "eval": "specchop",
-      "live_label": "Specification CHOP",
-      "wiki_type": "CHOP",
-      "live_style": "CHOP",
-      "default": ""
-     },
-     {
-      "wiki_label": "Scale Font to BBox Height",
-      "eval": "scalefonttobboxheight",
-      "live_label": "Scale Font to BBox Height",
-      "wiki_type": "Toggle",
-      "live_style": "Toggle",
-      "default": "False"
-     },
-     {
-      "wiki_label": "Break Language",
-      "eval": "breaklang",
-      "live_label": "Break Language",
-      "wiki_type": "Menu",
-      "live_style": "Menu",
-      "default": "english"
-     },
-     {
-      "wiki_label": "Reading Direction",
-      "eval": "readingdirection",
-      "live_label": "Reading Direction",
-      "wiki_type": "Menu",
-      "live_style": "Menu",
-      "default": "lefttoright"
-     },
-     {
-      "wiki_label": "Word Wrap",
-      "eval": "wordwrap",
-      "live_label": "Word Wrap",
-      "wiki_type": "Toggle",
-      "live_style": "Toggle",
-      "default": "False"
-     },
-     {
-      "wiki_label": "Word Wrap Size",
-      "eval": "wordwrapsize",
-      "live_label": "Word Wrap Size",
-      "wiki_type": "Float",
-      "live_style": "Float",
-      "default": "50.0"
-     },
-     {
-      "wiki_label": "Smart Punctuation",
-      "eval": "smartpunct",
-      "live_label": "Smart Punctuation",
-      "wiki_type": "Toggle",
-      "live_style": "Toggle",
-      "default": "False"
-     },
-     {
-      "wiki_label": "Level of Detail",
-      "eval": "levelofdetail",
-      "live_label": "Level of Detail",
-      "wiki_type": "Int",
-      "live_style": "Int",
-      "default": "8"
-     },
-     {
-      "wiki_label": "Font",
-      "eval": "font",
-      "live_label": "Font",
-      "wiki_type": "Menu",
-      "live_style": "Menu",
-      "default": "Verdana"
-     },
-     {
-      "wiki_label": "Font File",
-      "eval": "fontfile",
-      "live_label": "Font File",
-      "wiki_type": "File",
-      "live_style": "File",
-      "default": ""
-     },
-     {
-      "wiki_label": "Typeface",
-      "eval": "typeface",
-      "live_label": "Typeface",
-      "wiki_type": "Menu",
-      "live_style": "Menu",
-      "default": "Regular"
-     },
-     {
-      "wiki_label": "Keep Font Ratio",
-      "eval": "keepfontratio",
-      "live_label": "Keep Font Ratio",
-      "wiki_type": "Toggle",
-      "live_style": "Toggle",
-      "default": "True"
-     },
-     {
-      "wiki_label": "Line Spacing",
-      "eval": "linespacing",
-      "live_label": "Line Spacing",
-      "wiki_type": "Float",
-      "live_style": "Float",
-      "default": "0.0"
-     },
-     {
-      "wiki_label": "Horizontal Align",
-      "eval": "alignx",
-      "live_label": "Horizontal Align",
-      "wiki_type": "Menu",
-      "live_style": "Menu",
-      "default": "left"
-     },
-     {
-      "wiki_label": "Vertical Align",
-      "eval": "aligny",
-      "live_label": "Vertical Align",
-      "wiki_type": "Menu",
-      "live_style": "Menu",
-      "default": "baseline"
-     },
-     {
-      "wiki_label": "Font Alpha",
-      "eval": "fontalpha",
-      "live_label": "Font Alpha",
-      "wiki_type": "Float",
-      "live_style": "Float",
-      "default": "1.0"
-     },
-     {
-      "wiki_label": "Extrude",
-      "eval": "extrude",
-      "live_label": "Extrude",
-      "wiki_type": "Toggle",
-      "live_style": "Toggle",
-      "default": "False"
-     },
-     {
-      "wiki_label": "Extrude Depth",
-      "eval": "extrudedepth",
-      "live_label": "Extrude Depth",
-      "wiki_type": "Float",
-      "live_style": "Float",
-      "default": "1.0"
-     },
-     {
-      "wiki_label": "Transform Order",
-      "eval": "xord",
-      "live_label": "Transform Order",
-      "wiki_type": "Menu",
-      "live_style": "Menu",
-      "default": "srt"
-     },
-     {
-      "wiki_label": "Rotate Order",
-      "eval": "rord",
-      "live_label": "Rotate Order",
-      "wiki_type": "Menu",
-      "live_style": "Menu",
-      "default": "xyz"
      }
     ]
    },
@@ -19603,243 +19012,6 @@
    }
   },
   {
-   "type": "tracePOP",
-   "name": "tracepop",
-   "family": "POP",
-   "created_live": true,
-   "create_error": null,
-   "inputs": 1,
-   "outputs": 1,
-   "param_count": 33,
-   "errors": null,
-   "warnings": null,
-   "validation_category": "error_con_input",
-   "recommended_for_networks": false,
-   "geometry": {
-    "numPoints": 8,
-    "numPrims": 6
-   },
-   "matrix_error": "Error: Input POP needs to have 2 dimensions, use Polygonize POP for POPs with 3 dimensions. (/project1/pop_matrix_live4/tracepop)",
-   "live_params": [
-    "pageindex",
-    "inputattrscope",
-    "posattrib",
-    "top",
-    "channel",
-    "resmult",
-    "threshold",
-    "inside",
-    "extend",
-    "twodimensions",
-    "uniquepoints",
-    "winding",
-    "smooth",
-    "filterdist",
-    "rerangep",
-    "tolow0",
-    "tolow1",
-    "tohigh0",
-    "tohigh1",
-    "normal",
-    "normaldirection",
-    "texture",
-    "allocfract",
-    "setmaxnumls",
-    "maxnumls",
-    "setmaxnumvertsperls",
-    "maxnumvertsperls",
-    "cpureadback",
-    "bypass",
-    "freeextragpumem",
-    "delinputattrs",
-    "parmcolorspace",
-    "parmreferencewhite"
-   ],
-   "wiki": {
-    "page": "Trace POP",
-    "url": "https://docs.derivative.ca/Trace_POP",
-    "documented": true,
-    "param_match_pct": 90.9,
-    "wiki_params_total": 22,
-    "params_confirmados": 20,
-    "params_drift_doc_sin_build": [
-     "tohigh",
-     "tolow"
-    ],
-    "param_mapping": [
-     {
-      "wiki_label": "Input Attribute Scope",
-      "eval": "inputattrscope",
-      "live_label": "Input Attribute Scope",
-      "wiki_type": "StrMenu",
-      "live_style": "StrMenu",
-      "default": ""
-     },
-     {
-      "wiki_label": "Use Position Attribute",
-      "eval": "posattrib",
-      "live_label": "Use Position Attribute",
-      "wiki_type": "Toggle",
-      "live_style": "Toggle",
-      "default": "False"
-     },
-     {
-      "wiki_label": "TOP",
-      "eval": "top",
-      "live_label": "TOP",
-      "wiki_type": "TOP",
-      "live_style": "TOP",
-      "default": ""
-     },
-     {
-      "wiki_label": "Channel",
-      "eval": "channel",
-      "live_label": "Channel",
-      "wiki_type": "Menu",
-      "live_style": "Menu",
-      "default": "rgbmax"
-     },
-     {
-      "wiki_label": "Resolution Multiplier",
-      "eval": "resmult",
-      "live_label": "Resolution Multiplier",
-      "wiki_type": "Float",
-      "live_style": "Float",
-      "default": "0.25"
-     },
-     {
-      "wiki_label": "Threshold",
-      "eval": "threshold",
-      "live_label": "Threshold",
-      "wiki_type": "Float",
-      "live_style": "Float",
-      "default": "0.333"
-     },
-     {
-      "wiki_label": "Inside",
-      "eval": "inside",
-      "live_label": "Inside",
-      "wiki_type": "Menu",
-      "live_style": "Menu",
-      "default": "above"
-     },
-     {
-      "wiki_label": "Extend",
-      "eval": "extend",
-      "live_label": "Extend",
-      "wiki_type": "Menu",
-      "live_style": "Menu",
-      "default": "zero"
-     },
-     {
-      "wiki_label": "Output",
-      "eval": "twodimensions",
-      "live_label": "Output",
-      "wiki_type": "Menu",
-      "live_style": "Menu",
-      "default": "contourls"
-     },
-     {
-      "wiki_label": "Unique Points",
-      "eval": "uniquepoints",
-      "live_label": "Unique Points",
-      "wiki_type": "Toggle",
-      "live_style": "Toggle",
-      "default": "False"
-     },
-     {
-      "wiki_label": "Winding",
-      "eval": "winding",
-      "live_label": "Winding",
-      "wiki_type": "Menu",
-      "live_style": "Menu",
-      "default": "natural"
-     },
-     {
-      "wiki_label": "Smooth Edge Distance",
-      "eval": "smooth",
-      "live_label": "Smooth Edge Distance",
-      "wiki_type": "Toggle",
-      "live_style": "Toggle",
-      "default": "False"
-     },
-     {
-      "wiki_label": "ReRange P",
-      "eval": "rerangep",
-      "live_label": "ReRange P",
-      "wiki_type": "Toggle",
-      "live_style": "Toggle",
-      "default": "False"
-     },
-     {
-      "wiki_label": "Normal",
-      "eval": "normal",
-      "live_label": "Normal",
-      "wiki_type": "Menu",
-      "live_style": "Menu",
-      "default": "none"
-     },
-     {
-      "wiki_label": "Normal Direction",
-      "eval": "normaldirection",
-      "live_label": "Normal Direction",
-      "wiki_type": "Menu",
-      "live_style": "Menu",
-      "default": "default"
-     },
-     {
-      "wiki_label": "Texture Coordinates",
-      "eval": "texture",
-      "live_label": "Texture Coordinates",
-      "wiki_type": "Toggle",
-      "live_style": "Toggle",
-      "default": "False"
-     },
-     {
-      "wiki_label": "Fraction of Max Allocation",
-      "eval": "allocfract",
-      "live_label": "Fraction of Max Allocation",
-      "wiki_type": "Float",
-      "live_style": "Float",
-      "default": "0.75"
-     },
-     {
-      "wiki_label": "Max Num Line Strips",
-      "eval": "setmaxnumls",
-      "live_label": "Max Num Line Strips",
-      "wiki_type": "Toggle",
-      "live_style": "Toggle",
-      "default": "True"
-     },
-     {
-      "wiki_label": "Max Num Verts per Line Strip",
-      "eval": "setmaxnumvertsperls",
-      "live_label": "Max Num Verts per Line Strip",
-      "wiki_type": "Toggle",
-      "live_style": "Toggle",
-      "default": "True"
-     },
-     {
-      "wiki_label": "Copy Topology Info Back to CPU",
-      "eval": "cpureadback",
-      "live_label": "Copy Topology Info Back to CPU",
-      "wiki_type": "Toggle",
-      "live_style": "Toggle",
-      "default": "False"
-     }
-    ]
-   },
-   "empirical_usage": {
-    "writes": null,
-    "top_params": []
-   },
-   "sources": {
-    "existence": "live TD + wiki oficial",
-    "params": "live TD (nombres eval reales)",
-    "usage": "corpus .toe (empírico)"
-   }
-  },
-  {
    "type": "trailPOP",
    "name": "trailpop",
    "family": "POP",
@@ -20459,98 +19631,6 @@
    }
   },
   {
-   "type": "triangulatePOP",
-   "name": "triangulatepop",
-   "family": "POP",
-   "created_live": true,
-   "create_error": null,
-   "inputs": 1,
-   "outputs": 1,
-   "param_count": 11,
-   "errors": null,
-   "warnings": null,
-   "validation_category": "ok_con_input",
-   "recommended_for_networks": true,
-   "geometry": {
-    "numPoints": 8,
-    "numPrims": 6
-   },
-   "matrix_error": null,
-   "live_params": [
-    "pageindex",
-    "mode",
-    "triangulatequads",
-    "lsmaxverts",
-    "setmaxiter",
-    "maxiter",
-    "bypass",
-    "freeextragpumem",
-    "delinputattrs",
-    "parmcolorspace",
-    "parmreferencewhite"
-   ],
-   "wiki": {
-    "page": "Triangulate POP",
-    "url": "https://docs.derivative.ca/Triangulate_POP",
-    "documented": true,
-    "param_match_pct": 36.4,
-    "wiki_params_total": 11,
-    "params_confirmados": 4,
-    "params_drift_doc_sin_build": [
-     "connectholes",
-     "exceedmaxverts",
-     "hwraytracing",
-     "maxls",
-     "numpasses",
-     "raydir",
-     "remzerotri"
-    ],
-    "param_mapping": [
-     {
-      "wiki_label": "Mode",
-      "eval": "mode",
-      "live_label": "Mode",
-      "wiki_type": "Menu",
-      "live_style": "Menu",
-      "default": "convex"
-     },
-     {
-      "wiki_label": "Max Verts per Input Line Strip",
-      "eval": "lsmaxverts",
-      "live_label": "Max Verts per Input Line Strip",
-      "wiki_type": "Int",
-      "live_style": "Int",
-      "default": "400"
-     },
-     {
-      "wiki_label": "Max Iterations",
-      "eval": "maxiter",
-      "live_label": "Max Iterations",
-      "wiki_type": "Int",
-      "live_style": "Int",
-      "default": "1000"
-     },
-     {
-      "wiki_label": "Triangulate Quads",
-      "eval": "triangulatequads",
-      "live_label": "Triangulate Quads",
-      "wiki_type": "Toggle",
-      "live_style": "Toggle",
-      "default": "False"
-     }
-    ]
-   },
-   "empirical_usage": {
-    "writes": null,
-    "top_params": []
-   },
-   "sources": {
-    "existence": "live TD + wiki oficial",
-    "params": "live TD (nombres eval reales)",
-    "usage": "corpus .toe (empírico)"
-   }
-  },
-  {
    "type": "trigPOP",
    "name": "trigpop",
    "family": "POP",
@@ -21081,7 +20161,7 @@
     "numPoints": 0,
     "numPrims": 0
    },
-   "matrix_error": "Error: ZED TOP parameter must point to a ZED TOP. (/project1/pop_matrix_live4/zedpop)",
+   "matrix_error": "Error: TensorRT is not found. Check that ZED was installed via the Installer options. (/project1/pop_matrix_live5/zedpop)",
    "live_params": [
     "pageindex",
     "active",

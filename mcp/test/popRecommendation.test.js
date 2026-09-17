@@ -104,11 +104,11 @@ describe("popKnowledge recommendation API", () => {
     assert.equal(box.recommendedForNetworks, true);
   });
 
-  it("listOkPopTypes: 80 types, includes boxPOP, excludes all non-ok", () => {
+  it("listOkPopTypes: 78 types, includes boxPOP, excludes all non-ok", () => {
     const ok = listOkPopTypes();
-    assert.equal(ok.length, 80);
+    assert.equal(ok.length, 78);
     assert.ok(ok.includes("boxPOP"));
-    assert.ok(!ok.includes("particlePOP")); // sin_geometria in v5
+    assert.ok(!ok.includes("particlePOP")); // error_con_input on 2025.31760
     assert.ok(!ok.includes("engineoutPOP")); // no_creable
     assert.ok(!ok.includes("cplusplusPOP")); // error_con_input
   });
@@ -122,7 +122,7 @@ describe("popKnowledge recommendation API", () => {
     assert.equal(networkRecommendationWarning("boxPOP"), null);
     assert.match(
       networkRecommendationWarning("particlePOP") ?? "",
-      /0 points/,
+      /errors\(\)/, // error_con_input on 2025.31760 (was sin_geometria on 2025.32460)
     );
     assert.match(
       networkRecommendationWarning("cplusplusPOP") ?? "",

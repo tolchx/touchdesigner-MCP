@@ -1,17 +1,16 @@
 {
- "generated_at": "2026-09-12T18:44:51",
- "td_build": "TouchDesigner 2025.32460",
- "sandbox": "/project1/pop_matrix_live4",
- "method": "cada POP bajo prueba recibe una fuente boxPOP (2x2x2, div 4) conectada a input[0]; cook(force=True) + errors() + numPoints()/numPrims() (métodos); clasificación excluyente ok_con_input / error_con_input / sin_geometria_con_input / no_creable",
- "type_count": 101,
- "created_ok": 100,
+ "generated_at": "2026-09-16T17:32:57",
+ "td_build": "TouchDesigner 2025.31760",
+ "sandbox": "/project1/pop_matrix_live5",
+ "method": "v6: cada POP bajo prueba recibe fuente por input — default boxPOP (2x2x2, div 4); los sin_geometria de v5 reciben fuente de su propia familia (choptoPOP<-noiseCHOP, toptoPOP<-noiseTOP, soptoPOP<-sphereSOP, dattoPOP<-tableDAT, revolvePOP<-linePOP, cacheblend/cacheselect<-box->cachePOP, particlePOP<-sprinkle+feedback, alembicinPOP<-alembicoutPOP escribe .abc real); cook múltiple para ops temporales; cook(force=True) + errors() + numPoints()/numPrims() (métodos); clasificación excluyente ok_con_input / error_con_input / sin_geometria_con_input / no_creable",
+ "type_count": 97,
+ "created_ok": 96,
  "created_fail": 1,
- "ok_con_input_count": 80,
- "ok_real": 80,
+ "ok_con_input_count": 78,
+ "ok_real": 78,
  "categories": {
   "ok_con_input": [
    "accumulatePOP",
-   "alembicoutPOP",
    "analyzePOP",
    "attributePOP",
    "attributecombinePOP",
@@ -73,6 +72,7 @@
    "randomPOP",
    "rectanglePOP",
    "rerangePOP",
+   "revolvePOP",
    "selectPOP",
    "skinPOP",
    "sortPOP",
@@ -80,29 +80,27 @@
    "sprinklePOP",
    "subdividePOP",
    "switchPOP",
-   "textPOP",
    "texturemapPOP",
    "topologyPOP",
    "torusPOP",
    "trailPOP",
    "transformPOP",
-   "triangulatePOP",
    "trigPOP",
    "tubePOP",
    "twistPOP"
   ],
   "error_con_input": [
+   "alembicinPOP",
    "cplusplusPOP",
    "importselectPOP",
    "lookupchannelPOP",
+   "particlePOP",
    "polygonizePOP",
    "rayPOP",
    "skindeformPOP",
-   "tracePOP",
    "zedPOP"
   ],
   "sin_geometria_con_input": [
-   "alembicinPOP",
    "cacheblendPOP",
    "cacheselectPOP",
    "choptoPOP",
@@ -110,8 +108,6 @@
    "dmxoutPOP",
    "glslselectPOP",
    "oakselectPOP",
-   "particlePOP",
-   "revolvePOP",
    "soptoPOP",
    "toptoPOP"
   ],
@@ -120,7 +116,6 @@
   ]
  },
  "sin_geometria": [
-  "alembicinPOP",
   "cacheblendPOP",
   "cacheselectPOP",
   "choptoPOP",
@@ -128,43 +123,45 @@
   "dmxoutPOP",
   "glslselectPOP",
   "oakselectPOP",
-  "particlePOP",
-  "revolvePOP",
   "soptoPOP",
   "toptoPOP"
  ],
  "con_errores": [
   {
+   "type": "alembicinPOP",
+   "message": "source_create_exception: module 'td' has no attribute 'alembicoutPOP'"
+  },
+  {
    "type": "cplusplusPOP",
-   "message": "Error: Error reading file \"\" (/project1/pop_matrix_live4/cpluspluspop)"
+   "message": "Error: Error reading file \"\" (/project1/pop_matrix_live5/cpluspluspop)"
   },
   {
    "type": "importselectPOP",
-   "message": "Error: Import Select POP must be contained within a USD or FBX COMP, or have one specified in the Import Parent parameter (/project1/pop_matrix_live4/importselectpop)"
+   "message": "Error: Import Select POP must be contained within a USD or FBX COMP, or have one specified in the Import Parent parameter (/project1/pop_matrix_live5/importselectpop)"
   },
   {
    "type": "lookupchannelPOP",
-   "message": "Error: CHOP not found (/project1/pop_matrix_live4/lookupchannelpop)"
+   "message": "Error: CHOP not found (/project1/pop_matrix_live5/lookupchannelpop)"
+  },
+  {
+   "type": "particlePOP",
+   "message": "Error: Input requires P attribute (/project1/pop_matrix_live5/particlepop)"
   },
   {
    "type": "polygonizePOP",
-   "message": "Error: Input POP needs to have 3 dimensions, use Trace POP for POPs with 2 dimensions. (/project1/pop_matrix_live4/polygonizepop)"
+   "message": "Error: Invalid source TOP specified. (/project1/pop_matrix_live5/polygonizepop)\n  Error: Unable to obtain texture from source TOP (/project1/pop_matrix_live5/polygonizepop)"
   },
   {
    "type": "rayPOP",
-   "message": "Error: Attribute not found. (/project1/pop_matrix_live4/raypop)"
+   "message": "Error: Attribute not found. (/project1/pop_matrix_live5/raypop)"
   },
   {
    "type": "skindeformPOP",
-   "message": "Error: BonePathsAttrib attribute not found (/project1/pop_matrix_live4/skindeformpop)"
-  },
-  {
-   "type": "tracePOP",
-   "message": "Error: Input POP needs to have 2 dimensions, use Polygonize POP for POPs with 3 dimensions. (/project1/pop_matrix_live4/tracepop)"
+   "message": "Error: BonePathsAttrib attribute not found (/project1/pop_matrix_live5/skindeformpop)"
   },
   {
    "type": "zedPOP",
-   "message": "Error: ZED TOP parameter must point to a ZED TOP. (/project1/pop_matrix_live4/zedpop)"
+   "message": "Error: TensorRT is not found. Check that ZED was installed via the Installer options. (/project1/pop_matrix_live5/zedpop)"
   }
  ],
  "no_creables": [
@@ -173,9 +170,9 @@
    "message": "tdError: Invalid number or type of arguments. See help for details. Value:(<class 'td.engineoutPOP'>, 'engineoutpop') Type:<class 'tuple'>."
   }
  ],
- "wired_count": 83,
+ "wired_count": 79,
  "multi_source_count": 7,
- "total_params": 3160,
+ "total_params": 2987,
  "results": [
   {
    "type": "accumulatePOP",
@@ -309,27 +306,27 @@
   {
    "type": "alembicinPOP",
    "created": true,
-   "sources_created": 1,
-   "error": null,
+   "sources_created": 0,
+   "error": "source_create_exception: module 'td' has no attribute 'alembicoutPOP'",
    "cooked": true,
    "has_errors": false,
    "error_message": null,
-   "numPoints": 0,
-   "numPrims": 0,
+   "numPoints": 8,
+   "numPrims": 12,
    "geometry_ok": false,
-   "source_created": true,
+   "source_created": false,
    "wired": false,
    "wired_to_input": null,
-   "wire_note": "sin inputs (generador o input por param)",
+   "wire_note": "sin fuente disponible",
    "inputs": 0,
    "outputs": 1,
-   "param_count": 33,
+   "param_count": 14,
    "params": [
     {
      "name": "pageindex",
      "label": "Page Index",
      "style": "Int",
-     "default": "6"
+     "default": "8"
     },
     {
      "name": "file",
@@ -344,16 +341,28 @@
      "default": "*"
     },
     {
-     "name": "loadtype",
-     "label": "Load Type",
-     "style": "Menu",
-     "default": "nextframe"
-    },
-    {
      "name": "xform",
      "label": "Transform",
      "style": "Menu",
      "default": "dynamicxform"
+    },
+    {
+     "name": "time",
+     "label": "Time",
+     "style": "Float",
+     "default": "0.0"
+    },
+    {
+     "name": "timeunit",
+     "label": "Time Unit",
+     "style": "Menu",
+     "default": "fraction"
+    },
+    {
+     "name": "fps",
+     "label": "FPS",
+     "style": "Float",
+     "default": "60.0"
     },
     {
      "name": "interp",
@@ -368,132 +377,6 @@
      "default": "False"
     },
     {
-     "name": "shiftanimationstart",
-     "label": "Shift Animation Start",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "sampleratemode",
-     "label": "Sample Rate Mode",
-     "style": "Menu",
-     "default": "filefps"
-    },
-    {
-     "name": "samplerate",
-     "label": "Sample Rate",
-     "style": "Float",
-     "default": "60.0"
-    },
-    {
-     "name": "playmode",
-     "label": "Play Mode",
-     "style": "Menu",
-     "default": "sequential"
-    },
-    {
-     "name": "initialize",
-     "label": "Initialize",
-     "style": "Pulse",
-     "default": "False"
-    },
-    {
-     "name": "start",
-     "label": "Start",
-     "style": "Pulse",
-     "default": "False"
-    },
-    {
-     "name": "play",
-     "label": "Play",
-     "style": "Toggle",
-     "default": "True"
-    },
-    {
-     "name": "speed",
-     "label": "Speed",
-     "style": "Float",
-     "default": "1.0"
-    },
-    {
-     "name": "cue",
-     "label": "Cue",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "cuepulse",
-     "label": "Cue Pulse",
-     "style": "Pulse",
-     "default": "False"
-    },
-    {
-     "name": "cuepoint",
-     "label": "Cue Point",
-     "style": "Float",
-     "default": "0.0"
-    },
-    {
-     "name": "cuepointunit",
-     "label": "Cue Point Unit",
-     "style": "Menu",
-     "default": "fraction"
-    },
-    {
-     "name": "index",
-     "label": "Index",
-     "style": "Float",
-     "default": "0.0"
-    },
-    {
-     "name": "indexunit",
-     "label": "Index Unit",
-     "style": "Menu",
-     "default": "seconds"
-    },
-    {
-     "name": "trim",
-     "label": "Trim",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "tstart",
-     "label": "Trim Start",
-     "style": "Float",
-     "default": "0.0"
-    },
-    {
-     "name": "tstartunit",
-     "label": "Trim Start Unit",
-     "style": "Menu",
-     "default": "fraction"
-    },
-    {
-     "name": "tend",
-     "label": "Trim End",
-     "style": "Float",
-     "default": "1.0"
-    },
-    {
-     "name": "tendunit",
-     "label": "Trim End Unit",
-     "style": "Menu",
-     "default": "fraction"
-    },
-    {
-     "name": "textendleft",
-     "label": "Extend Left",
-     "style": "Menu",
-     "default": "cycle"
-    },
-    {
-     "name": "textendright",
-     "label": "Extend Right",
-     "style": "Menu",
-     "default": "cycle"
-    },
-    {
      "name": "bypass",
      "label": "Bypass",
      "style": "Toggle",
@@ -524,234 +407,9 @@
      "default": "default"
     }
    ],
-   "category": "sin_geometria_con_input",
+   "category": "error_con_input",
    "name": "alembicinpop",
    "opType": "alembicin",
-   "family": "POP"
-  },
-  {
-   "type": "alembicoutPOP",
-   "created": true,
-   "sources_created": 1,
-   "error": null,
-   "cooked": true,
-   "has_errors": false,
-   "error_message": null,
-   "numPoints": 8,
-   "numPrims": 6,
-   "geometry_ok": true,
-   "source_created": true,
-   "wired": true,
-   "wired_to_input": [
-    0
-   ],
-   "wire_note": null,
-   "inputs": 1,
-   "outputs": 1,
-   "param_count": 33,
-   "params": [
-    {
-     "name": "pageindex",
-     "label": "Page Index",
-     "style": "Int",
-     "default": "8"
-    },
-    {
-     "name": "input",
-     "label": "Input",
-     "style": "Sequence",
-     "default": "0"
-    },
-    {
-     "name": "input0pop",
-     "label": "Input POP(s)",
-     "style": "POP",
-     "default": ""
-    },
-    {
-     "name": "input0blockname",
-     "label": "Object Name",
-     "style": "Str",
-     "default": "object1"
-    },
-    {
-     "name": "input0idname",
-     "label": "Ids Attribute",
-     "style": "StrMenu",
-     "default": ""
-    },
-    {
-     "name": "input0velname",
-     "label": "Velocity Attribute",
-     "style": "StrMenu",
-     "default": ""
-    },
-    {
-     "name": "input0ptattrname",
-     "label": "Point Attribute Name",
-     "style": "Str",
-     "default": "*"
-    },
-    {
-     "name": "input0vertattrname",
-     "label": "Vert Attribute Name",
-     "style": "Str",
-     "default": "*"
-    },
-    {
-     "name": "input0primattrname",
-     "label": "Prim Attribute Name",
-     "style": "Str",
-     "default": "*"
-    },
-    {
-     "name": "uniquesuff",
-     "label": "Unique Suffix",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "n",
-     "label": "N",
-     "style": "Int",
-     "default": "0"
-    },
-    {
-     "name": "leadingzerosdigits",
-     "label": "Leading Zeros Digits",
-     "style": "Int",
-     "default": "1"
-    },
-    {
-     "name": "file",
-     "label": "File",
-     "style": "File",
-     "default": "popout$N.$SI.abc"
-    },
-    {
-     "name": "fps",
-     "label": "FPS",
-     "style": "Float",
-     "default": "0.0"
-    },
-    {
-     "name": "limitlength",
-     "label": "Limit Length",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "length",
-     "label": "Length",
-     "style": "Float",
-     "default": "600.0"
-    },
-    {
-     "name": "lengthunit",
-     "label": "Length Unit",
-     "style": "Menu",
-     "default": "indices"
-    },
-    {
-     "name": "record",
-     "label": "Record",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "recordpulse",
-     "label": "Pulse",
-     "style": "Pulse",
-     "default": "False"
-    },
-    {
-     "name": "pause",
-     "label": "Pause",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "addframepulse",
-     "label": "Add Frame",
-     "style": "Pulse",
-     "default": "False"
-    },
-    {
-     "name": "maxactive",
-     "label": "Max Active Saves",
-     "style": "Int",
-     "default": "8"
-    },
-    {
-     "name": "includeprim",
-     "label": "Include Primitives",
-     "style": "Toggle",
-     "default": "True"
-    },
-    {
-     "name": "texcoordattrib",
-     "label": "Tex Coord Attribute",
-     "style": "Str",
-     "default": "Tex"
-    },
-    {
-     "name": "outputcolorspace",
-     "label": "Output Color Space",
-     "style": "Menu",
-     "default": "srgb"
-    },
-    {
-     "name": "unchangedtopo",
-     "label": "Topology Unchanged",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "abcfps",
-     "label": "Samples per Second",
-     "style": "Float",
-     "default": "0.0"
-    },
-    {
-     "name": "abc3dtex",
-     "label": "Export 3D Texture Coord",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "bypass",
-     "label": "Bypass",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "freeextragpumem",
-     "label": "Free Extra GPU Memory",
-     "style": "Pulse",
-     "default": "False"
-    },
-    {
-     "name": "delinputattrs",
-     "label": "Delete Input Attributes",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "parmcolorspace",
-     "label": "Parameter Color Space",
-     "style": "Menu",
-     "default": "srgb"
-    },
-    {
-     "name": "parmreferencewhite",
-     "label": "Parameter Reference White",
-     "style": "Menu",
-     "default": "default"
-    }
-   ],
-   "category": "ok_con_input",
-   "name": "alembicoutpop",
-   "opType": "alembicout",
    "family": "POP"
   },
   {
@@ -1503,7 +1161,7 @@
     },
     {
      "name": "map0parm",
-     "label": "Target Parameter",
+     "label": "Parameter",
      "style": "StrMenu",
      "default": ""
     },
@@ -1775,13 +1433,13 @@
    "wire_note": null,
    "inputs": 1,
    "outputs": 1,
-   "param_count": 17,
+   "param_count": 16,
    "params": [
     {
      "name": "pageindex",
      "label": "Page Index",
      "style": "Int",
-     "default": "11"
+     "default": "10"
     },
     {
      "name": "active",
@@ -1793,12 +1451,6 @@
      "name": "activepulse",
      "label": "Active Pulse",
      "style": "Pulse",
-     "default": "False"
-    },
-    {
-     "name": "alwayscook",
-     "label": "Always Cook",
-     "style": "Toggle",
      "default": "False"
     },
     {
@@ -2002,6 +1654,7 @@
     }
    ],
    "category": "sin_geometria_con_input",
+   "source_kind": "cachePOP",
    "name": "cacheblendpop",
    "opType": "cacheblend",
    "family": "POP"
@@ -2087,6 +1740,7 @@
     }
    ],
    "category": "sin_geometria_con_input",
+   "source_kind": "cachePOP",
    "name": "cacheselectpop",
    "opType": "cacheselect",
    "family": "POP"
@@ -2310,6 +1964,7 @@
     }
    ],
    "category": "sin_geometria_con_input",
+   "source_kind": "noiseCHOP",
    "name": "choptopop",
    "opType": "chopto",
    "family": "POP"
@@ -3072,7 +2727,7 @@
    "error": null,
    "cooked": true,
    "has_errors": true,
-   "error_message": "Error: Error reading file \"\" (/project1/pop_matrix_live4/cpluspluspop)",
+   "error_message": "Error: Error reading file \"\" (/project1/pop_matrix_live5/cpluspluspop)",
    "numPoints": 8,
    "numPrims": 6,
    "geometry_ok": false,
@@ -3584,6 +3239,7 @@
     }
    ],
    "category": "sin_geometria_con_input",
+   "source_kind": "tableDAT",
    "name": "dattopop",
    "opType": "datto",
    "family": "POP"
@@ -4462,7 +4118,7 @@
    "wire_note": null,
    "inputs": 1,
    "outputs": 1,
-   "param_count": 19,
+   "param_count": 14,
    "params": [
     {
      "name": "pageindex",
@@ -4477,26 +4133,32 @@
      "default": ""
     },
     {
-     "name": "axis",
-     "label": "Axis",
-     "style": "Menu",
-     "default": "z"
-    },
-    {
      "name": "distance",
      "label": "Distance",
      "style": "Float",
      "default": "1.0"
     },
     {
-     "name": "taper",
-     "label": "Taper",
+     "name": "usedistanceattr",
+     "label": "Use Distance Attribute",
+     "style": "Toggle",
+     "default": "False"
+    },
+    {
+     "name": "distanceattr",
+     "label": "Distance Attribute",
+     "style": "StrMenu",
+     "default": ""
+    },
+    {
+     "name": "inset",
+     "label": "Inset",
      "style": "Float",
      "default": "0.0"
     },
     {
-     "name": "peredge",
-     "label": "Per Edge",
+     "name": "keepconnected",
+     "label": "Keep Faces Connected",
      "style": "Toggle",
      "default": "False"
     },
@@ -4507,46 +4169,10 @@
      "default": "2"
     },
     {
-     "name": "normal",
-     "label": "Normal",
-     "style": "Menu",
-     "default": "vertNormals"
-    },
-    {
      "name": "cpureadback",
      "label": "Copy Topology Info Back to CPU",
      "style": "Toggle",
      "default": "False"
-    },
-    {
-     "name": "map",
-     "label": "Mapping",
-     "style": "Sequence",
-     "default": "0"
-    },
-    {
-     "name": "map0op",
-     "label": "OP",
-     "style": "POP",
-     "default": ""
-    },
-    {
-     "name": "map0element",
-     "label": "Element",
-     "style": "StrMenu",
-     "default": ""
-    },
-    {
-     "name": "map0parm",
-     "label": "Target Parameter",
-     "style": "StrMenu",
-     "default": ""
-    },
-    {
-     "name": "map0combineop",
-     "label": "Combine Operation",
-     "style": "Menu",
-     "default": "set"
     },
     {
      "name": "bypass",
@@ -5306,13 +4932,13 @@
    "wire_note": "sin inputs (generador o input por param)",
    "inputs": 0,
    "outputs": 1,
-   "param_count": 14,
+   "param_count": 12,
    "params": [
     {
      "name": "pageindex",
      "label": "Page Index",
      "style": "Int",
-     "default": "8"
+     "default": "6"
     },
     {
      "name": "file",
@@ -5323,18 +4949,6 @@
     {
      "name": "flipfacing",
      "label": "Flip Primitive Faces",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "loadcolor",
-     "label": "Load Color",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "triangulate",
-     "label": "Triangulate Faces",
      "style": "Toggle",
      "default": "False"
     },
@@ -5432,6 +5046,12 @@
      "default": "file"
     },
     {
+     "name": "scenefiletype",
+     "label": "Scene File Type",
+     "style": "Menu",
+     "default": "abc"
+    },
+    {
      "name": "objectfiletype",
      "label": "Object File Type",
      "style": "Menu",
@@ -5463,7 +5083,7 @@
     },
     {
      "name": "fps",
-     "label": "Frames per Second",
+     "label": "FPS",
      "style": "Float",
      "default": "0.0"
     },
@@ -5492,19 +5112,13 @@
      "default": "False"
     },
     {
-     "name": "recordpulse",
-     "label": "Pulse",
-     "style": "Pulse",
-     "default": "False"
-    },
-    {
      "name": "pause",
      "label": "Pause",
      "style": "Toggle",
      "default": "False"
     },
     {
-     "name": "addframepulse",
+     "name": "addframe",
      "label": "Add Frame",
      "style": "Pulse",
      "default": "False"
@@ -5856,7 +5470,7 @@
     },
     {
      "name": "map0parm",
-     "label": "Target Parameter",
+     "label": "Parameter",
      "style": "StrMenu",
      "default": ""
     },
@@ -6458,7 +6072,7 @@
    "wire_note": null,
    "inputs": 1,
    "outputs": 1,
-   "param_count": 143,
+   "param_count": 139,
    "params": [
     {
      "name": "pageindex",
@@ -7265,30 +6879,6 @@
      "default": "0.0"
     },
     {
-     "name": "asname",
-     "label": "Name",
-     "style": "Str",
-     "default": ""
-    },
-    {
-     "name": "colpop",
-     "label": "Collision POP",
-     "style": "POP",
-     "default": ""
-    },
-    {
-     "name": "buildflag",
-     "label": "Build Flag",
-     "style": "Menu",
-     "default": "fastbuild"
-    },
-    {
-     "name": "opaquecolgeo",
-     "label": "Opaque Collision Geometry",
-     "style": "Toggle",
-     "default": "True"
-    },
-    {
      "name": "bypass",
      "label": "Bypass",
      "style": "Toggle",
@@ -7859,6 +7449,7 @@
     }
    ],
    "category": "sin_geometria_con_input",
+   "source_kind": "boxPOP",
    "name": "glslselectpop",
    "opType": "glslselect",
    "family": "POP"
@@ -8611,7 +8202,7 @@
    "error": null,
    "cooked": true,
    "has_errors": true,
-   "error_message": "Error: Import Select POP must be contained within a USD or FBX COMP, or have one specified in the Import Parent parameter (/project1/pop_matrix_live4/importselectpop)",
+   "error_message": "Error: Import Select POP must be contained within a USD or FBX COMP, or have one specified in the Import Parent parameter (/project1/pop_matrix_live5/importselectpop)",
    "numPoints": 0,
    "numPrims": 0,
    "geometry_ok": false,
@@ -9114,13 +8705,7 @@
      "name": "pageindex",
      "label": "Page Index",
      "style": "Int",
-     "default": "16"
-    },
-    {
-     "name": "output",
-     "label": "Output",
-     "style": "Menu",
-     "default": "subdivlines"
+     "default": "15"
     },
     {
      "name": "multiplelinestrips",
@@ -9229,6 +8814,12 @@
      "label": "Default Value",
      "style": "Float",
      "default": "1.0"
+    },
+    {
+     "name": "output",
+     "label": "Output",
+     "style": "Menu",
+     "default": "subdivlines"
     },
     {
      "name": "divmethod",
@@ -10056,13 +9647,13 @@
    "wire_note": null,
    "inputs": 1,
    "outputs": 1,
-   "param_count": 19,
+   "param_count": 18,
    "params": [
     {
      "name": "pageindex",
      "label": "Page Index",
      "style": "Int",
-     "default": "13"
+     "default": "12"
     },
     {
      "name": "resamplemethod",
@@ -10093,12 +9684,6 @@
      "label": "Min Max Bias",
      "style": "Float",
      "default": "0.0"
-    },
-    {
-     "name": "interpolation",
-     "label": "Interpolation Method",
-     "style": "Menu",
-     "default": "linear"
     },
     {
      "name": "usectrlpoints",
@@ -10369,7 +9954,7 @@
     },
     {
      "name": "map0parm",
-     "label": "Target Parameter",
+     "label": "Parameter",
      "style": "StrMenu",
      "default": ""
     },
@@ -10600,7 +10185,7 @@
    "error": null,
    "cooked": true,
    "has_errors": true,
-   "error_message": "Error: CHOP not found (/project1/pop_matrix_live4/lookupchannelpop)",
+   "error_message": "Error: CHOP not found (/project1/pop_matrix_live5/lookupchannelpop)",
    "numPoints": 8,
    "numPrims": 6,
    "geometry_ok": false,
@@ -12317,7 +11902,7 @@
      "default": "15"
     },
     {
-     "name": "noiselookupattr",
+     "name": "noiselookupattrib",
      "label": "Noise Lookup Attribute",
      "style": "StrMenu",
      "default": "P"
@@ -12642,7 +12227,7 @@
     },
     {
      "name": "map0parm",
-     "label": "Target Parameter",
+     "label": "Parameter",
      "style": "StrMenu",
      "default": ""
     },
@@ -13409,8 +12994,8 @@
    "sources_created": 1,
    "error": null,
    "cooked": true,
-   "has_errors": false,
-   "error_message": null,
+   "has_errors": true,
+   "error_message": "Error: Input requires P attribute (/project1/pop_matrix_live5/particlepop)",
    "numPoints": 0,
    "numPrims": 0,
    "geometry_ok": false,
@@ -13422,17 +13007,17 @@
    "wire_note": null,
    "inputs": 1,
    "outputs": 1,
-   "param_count": 53,
+   "param_count": 50,
    "params": [
     {
      "name": "pageindex",
      "label": "Page Index",
      "style": "Int",
-     "default": "28"
+     "default": "25"
     },
     {
      "name": "targetpop",
-     "label": "Target Feedback Loop POP",
+     "label": "Target Particles Update POP",
      "style": "POP",
      "default": ""
     },
@@ -13505,24 +13090,6 @@
     {
      "name": "randomseed",
      "label": "Random Seed",
-     "style": "Float",
-     "default": "0.0"
-    },
-    {
-     "name": "timeintegration",
-     "label": "Enable Time Integration",
-     "style": "Toggle",
-     "default": "True"
-    },
-    {
-     "name": "jitterbirthtime",
-     "label": "Jitter Births During Frame",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "jitterbirthpos",
-     "label": "Jitter Birth Position",
      "style": "Float",
      "default": "0.0"
     },
@@ -13702,7 +13269,7 @@
     },
     {
      "name": "map0parm",
-     "label": "Target Parameter",
+     "label": "Parameter",
      "style": "StrMenu",
      "default": ""
     },
@@ -13743,10 +13310,12 @@
      "default": "default"
     }
    ],
-   "category": "sin_geometria_con_input",
+   "category": "error_con_input",
+   "source_kind": "sprinklePOP",
    "name": "particlepop",
    "opType": "particle",
-   "family": "POP"
+   "family": "POP",
+   "feedback_wired": true
   },
   {
    "type": "patternPOP",
@@ -14166,13 +13735,13 @@
    "wire_note": null,
    "inputs": 1,
    "outputs": 1,
-   "param_count": 27,
+   "param_count": 26,
    "params": [
     {
      "name": "pageindex",
      "label": "Page Index",
      "style": "Int",
-     "default": "18"
+     "default": "17"
     },
     {
      "name": "attrclass",
@@ -14191,12 +13760,6 @@
      "label": "Fraction",
      "style": "Float",
      "default": "0.0"
-    },
-    {
-     "name": "extend",
-     "label": "Extend Input",
-     "style": "Menu",
-     "default": "clamp"
     },
     {
      "name": "parsize",
@@ -15153,49 +14716,29 @@
    "error": null,
    "cooked": true,
    "has_errors": true,
-   "error_message": "Error: Input POP needs to have 3 dimensions, use Trace POP for POPs with 2 dimensions. (/project1/pop_matrix_live4/polygonizepop)",
-   "numPoints": 8,
-   "numPrims": 6,
+   "error_message": "Error: Invalid source TOP specified. (/project1/pop_matrix_live5/polygonizepop)\n  Error: Unable to obtain texture from source TOP (/project1/pop_matrix_live5/polygonizepop)",
+   "numPoints": 0,
+   "numPrims": 0,
    "geometry_ok": false,
    "source_created": true,
-   "wired": true,
-   "wired_to_input": [
-    0
-   ],
-   "wire_note": null,
-   "inputs": 1,
+   "wired": false,
+   "wired_to_input": null,
+   "wire_note": "sin inputs (generador o input por param)",
+   "inputs": 0,
    "outputs": 1,
-   "param_count": 27,
+   "param_count": 17,
    "params": [
     {
      "name": "pageindex",
      "label": "Page Index",
      "style": "Int",
-     "default": "17"
-    },
-    {
-     "name": "inputattrscope",
-     "label": "Input Attribute Scope",
-     "style": "StrMenu",
-     "default": ""
-    },
-    {
-     "name": "posattrib",
-     "label": "Use Position Attribute",
-     "style": "Toggle",
-     "default": "False"
+     "default": "11"
     },
     {
      "name": "top",
      "label": "TOP",
      "style": "TOP",
      "default": ""
-    },
-    {
-     "name": "channel",
-     "label": "Channel",
-     "style": "Menu",
-     "default": "luminance"
     },
     {
      "name": "resmult",
@@ -15207,7 +14750,7 @@
      "name": "inside",
      "label": "Inside",
      "style": "Menu",
-     "default": "gt"
+     "default": "lt"
     },
     {
      "name": "threshold",
@@ -15222,52 +14765,16 @@
      "default": "zero"
     },
     {
+     "name": "twodimensions",
+     "label": "2D Output",
+     "style": "Menu",
+     "default": "contour"
+    },
+    {
      "name": "uniquepoints",
      "label": "Unique Points",
      "style": "Toggle",
      "default": "False"
-    },
-    {
-     "name": "rerangep",
-     "label": "ReRange P",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "tolow0",
-     "label": "Map to Low",
-     "style": "Float",
-     "default": "0.0"
-    },
-    {
-     "name": "tolow1",
-     "label": "Map to Low",
-     "style": "Float",
-     "default": "0.0"
-    },
-    {
-     "name": "tolow2",
-     "label": "Map to Low",
-     "style": "Float",
-     "default": "0.0"
-    },
-    {
-     "name": "tohigh0",
-     "label": "Map to High",
-     "style": "Float",
-     "default": "1.0"
-    },
-    {
-     "name": "tohigh1",
-     "label": "Map to High",
-     "style": "Float",
-     "default": "1.0"
-    },
-    {
-     "name": "tohigh2",
-     "label": "Map to High",
-     "style": "Float",
-     "default": "1.0"
     },
     {
      "name": "nmlmethod",
@@ -15280,12 +14787,6 @@
      "label": "Step Multiplier",
      "style": "Float",
      "default": "1.0"
-    },
-    {
-     "name": "texture",
-     "label": "Texture Coordinates",
-     "style": "Toggle",
-     "default": "False"
     },
     {
      "name": "allocfract",
@@ -16277,7 +15778,7 @@
     },
     {
      "name": "map0parm",
-     "label": "Target Parameter",
+     "label": "Parameter",
      "style": "StrMenu",
      "default": ""
     },
@@ -16330,7 +15831,7 @@
    "error": null,
    "cooked": true,
    "has_errors": true,
-   "error_message": "Error: Attribute not found. (/project1/pop_matrix_live4/raypop)",
+   "error_message": "Error: Attribute not found. (/project1/pop_matrix_live5/raypop)",
    "numPoints": 8,
    "numPrims": 6,
    "geometry_ok": false,
@@ -16649,15 +16150,15 @@
      "default": "9.0"
     },
     {
-     "name": "sizeu",
+     "name": "sizex",
      "label": "Size",
-     "style": "UVW",
+     "style": "XYZW",
      "default": "1.0"
     },
     {
-     "name": "sizev",
+     "name": "sizey",
      "label": "Size",
-     "style": "UVW",
+     "style": "XYZW",
      "default": "1.0"
     },
     {
@@ -16959,9 +16460,9 @@
    "cooked": true,
    "has_errors": false,
    "error_message": null,
-   "numPoints": 0,
-   "numPrims": 0,
-   "geometry_ok": false,
+   "numPoints": 420,
+   "numPrims": 400,
+   "geometry_ok": true,
    "source_created": true,
    "wired": true,
    "wired_to_input": [
@@ -17063,7 +16564,8 @@
      "default": "default"
     }
    ],
-   "category": "sin_geometria_con_input",
+   "category": "ok_con_input",
+   "source_kind": "linePOP",
    "name": "revolvepop",
    "opType": "revolve",
    "family": "POP"
@@ -17249,7 +16751,7 @@
    "error": null,
    "cooked": true,
    "has_errors": true,
-   "error_message": "Error: BonePathsAttrib attribute not found (/project1/pop_matrix_live4/skindeformpop)",
+   "error_message": "Error: BonePathsAttrib attribute not found (/project1/pop_matrix_live5/skindeformpop)",
    "numPoints": 8,
    "numPrims": 6,
    "geometry_ok": false,
@@ -17434,9 +16936,9 @@
     },
     {
      "name": "polygons",
-     "label": "N Points Polygons",
+     "label": "5+ Points Polygons",
      "style": "Menu",
-     "default": "fiveandmoretoclosedlinestrip"
+     "default": "ignore"
     },
     {
      "name": "mesh",
@@ -17488,6 +16990,7 @@
     }
    ],
    "category": "sin_geometria_con_input",
+   "source_kind": "sphereSOP",
    "name": "soptopop",
    "opType": "sopto",
    "family": "POP"
@@ -18354,331 +17857,6 @@
    "family": "POP"
   },
   {
-   "type": "textPOP",
-   "created": true,
-   "sources_created": 1,
-   "error": null,
-   "cooked": true,
-   "has_errors": false,
-   "error_message": null,
-   "numPoints": 2316,
-   "numPrims": 772,
-   "geometry_ok": true,
-   "source_created": true,
-   "wired": false,
-   "wired_to_input": null,
-   "wire_note": "sin inputs (generador o input por param)",
-   "inputs": 0,
-   "outputs": 1,
-   "param_count": 50,
-   "params": [
-    {
-     "name": "pageindex",
-     "label": "Page Index",
-     "style": "Int",
-     "default": "13"
-    },
-    {
-     "name": "connectivity",
-     "label": "Connectivity",
-     "style": "Menu",
-     "default": "triangles"
-    },
-    {
-     "name": "bridgeholes",
-     "label": "Bridge Holes",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "mode",
-     "label": "Mode",
-     "style": "Menu",
-     "default": "text"
-    },
-    {
-     "name": "text",
-     "label": "Text",
-     "style": "Str",
-     "default": "derivative"
-    },
-    {
-     "name": "specdat",
-     "label": "Specification DAT",
-     "style": "DAT",
-     "default": ""
-    },
-    {
-     "name": "specchop",
-     "label": "Specification CHOP",
-     "style": "CHOP",
-     "default": ""
-    },
-    {
-     "name": "scalefonttobboxheight",
-     "label": "Scale Font to BBox Height",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "breaklang",
-     "label": "Break Language",
-     "style": "Menu",
-     "default": "english"
-    },
-    {
-     "name": "readingdirection",
-     "label": "Reading Direction",
-     "style": "Menu",
-     "default": "lefttoright"
-    },
-    {
-     "name": "wordwrap",
-     "label": "Word Wrap",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "wordwrapsize",
-     "label": "Word Wrap Size",
-     "style": "Float",
-     "default": "50.0"
-    },
-    {
-     "name": "smartpunct",
-     "label": "Smart Punctuation",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "levelofdetail",
-     "label": "Level of Detail",
-     "style": "Int",
-     "default": "8"
-    },
-    {
-     "name": "font",
-     "label": "Font",
-     "style": "Menu",
-     "default": "Verdana"
-    },
-    {
-     "name": "fontfile",
-     "label": "Font File",
-     "style": "File",
-     "default": ""
-    },
-    {
-     "name": "typeface",
-     "label": "Typeface",
-     "style": "Menu",
-     "default": "Regular"
-    },
-    {
-     "name": "fontsizex",
-     "label": "Font Size",
-     "style": "XYZW",
-     "default": "1.0"
-    },
-    {
-     "name": "fontsizey",
-     "label": "Font Size",
-     "style": "XYZW",
-     "default": "1.0"
-    },
-    {
-     "name": "keepfontratio",
-     "label": "Keep Font Ratio",
-     "style": "Toggle",
-     "default": "True"
-    },
-    {
-     "name": "trackingx",
-     "label": "Tracking",
-     "style": "XYZW",
-     "default": "0.0"
-    },
-    {
-     "name": "trackingy",
-     "label": "Tracking",
-     "style": "XYZW",
-     "default": "0.0"
-    },
-    {
-     "name": "linespacing",
-     "label": "Line Spacing",
-     "style": "Float",
-     "default": "0.0"
-    },
-    {
-     "name": "alignx",
-     "label": "Horizontal Align",
-     "style": "Menu",
-     "default": "left"
-    },
-    {
-     "name": "aligny",
-     "label": "Vertical Align",
-     "style": "Menu",
-     "default": "baseline"
-    },
-    {
-     "name": "fontcolorr",
-     "label": "Font Color",
-     "style": "RGBA",
-     "default": "1.0"
-    },
-    {
-     "name": "fontcolorg",
-     "label": "Font Color",
-     "style": "RGBA",
-     "default": "1.0"
-    },
-    {
-     "name": "fontcolorb",
-     "label": "Font Color",
-     "style": "RGBA",
-     "default": "1.0"
-    },
-    {
-     "name": "fontalpha",
-     "label": "Font Alpha",
-     "style": "Float",
-     "default": "1.0"
-    },
-    {
-     "name": "extrude",
-     "label": "Extrude",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "extrudedepth",
-     "label": "Extrude Depth",
-     "style": "Float",
-     "default": "1.0"
-    },
-    {
-     "name": "xord",
-     "label": "Transform Order",
-     "style": "Menu",
-     "default": "srt"
-    },
-    {
-     "name": "rord",
-     "label": "Rotate Order",
-     "style": "Menu",
-     "default": "xyz"
-    },
-    {
-     "name": "tx",
-     "label": "Translate",
-     "style": "XYZW",
-     "default": "0.0"
-    },
-    {
-     "name": "ty",
-     "label": "Translate",
-     "style": "XYZW",
-     "default": "0.0"
-    },
-    {
-     "name": "tz",
-     "label": "Translate",
-     "style": "XYZW",
-     "default": "0.0"
-    },
-    {
-     "name": "rx",
-     "label": "Rotate",
-     "style": "XYZW",
-     "default": "0.0"
-    },
-    {
-     "name": "ry",
-     "label": "Rotate",
-     "style": "XYZW",
-     "default": "0.0"
-    },
-    {
-     "name": "rz",
-     "label": "Rotate",
-     "style": "XYZW",
-     "default": "0.0"
-    },
-    {
-     "name": "sx",
-     "label": "Scale",
-     "style": "XYZW",
-     "default": "1.0"
-    },
-    {
-     "name": "sy",
-     "label": "Scale",
-     "style": "XYZW",
-     "default": "1.0"
-    },
-    {
-     "name": "sz",
-     "label": "Scale",
-     "style": "XYZW",
-     "default": "1.0"
-    },
-    {
-     "name": "px",
-     "label": "Pivot",
-     "style": "XYZW",
-     "default": "0.0"
-    },
-    {
-     "name": "py",
-     "label": "Pivot",
-     "style": "XYZW",
-     "default": "0.0"
-    },
-    {
-     "name": "pz",
-     "label": "Pivot",
-     "style": "XYZW",
-     "default": "0.0"
-    },
-    {
-     "name": "bypass",
-     "label": "Bypass",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "freeextragpumem",
-     "label": "Free Extra GPU Memory",
-     "style": "Pulse",
-     "default": "False"
-    },
-    {
-     "name": "delinputattrs",
-     "label": "Delete Input Attributes",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "parmcolorspace",
-     "label": "Parameter Color Space",
-     "style": "Menu",
-     "default": "srgb"
-    },
-    {
-     "name": "parmreferencewhite",
-     "label": "Parameter Reference White",
-     "style": "Menu",
-     "default": "default"
-    }
-   ],
-   "category": "ok_con_input",
-   "name": "textpop",
-   "opType": "text",
-   "family": "POP"
-  },
-  {
    "type": "texturemapPOP",
    "created": true,
    "sources_created": 1,
@@ -19144,7 +18322,7 @@
      "name": "primattrclass",
      "label": "Prim Attribute Class",
      "style": "Menu",
-     "default": "primitive"
+     "default": "vertex"
     },
     {
      "name": "topology",
@@ -19833,6 +19011,7 @@
     }
    ],
    "category": "sin_geometria_con_input",
+   "source_kind": "noiseTOP",
    "name": "toptopop",
    "opType": "topto",
    "family": "POP"
@@ -20054,231 +19233,6 @@
    "category": "ok_con_input",
    "name": "toruspop",
    "opType": "torus",
-   "family": "POP"
-  },
-  {
-   "type": "tracePOP",
-   "created": true,
-   "sources_created": 1,
-   "error": null,
-   "cooked": true,
-   "has_errors": true,
-   "error_message": "Error: Input POP needs to have 2 dimensions, use Polygonize POP for POPs with 3 dimensions. (/project1/pop_matrix_live4/tracepop)",
-   "numPoints": 8,
-   "numPrims": 6,
-   "geometry_ok": false,
-   "source_created": true,
-   "wired": true,
-   "wired_to_input": [
-    0
-   ],
-   "wire_note": null,
-   "inputs": 1,
-   "outputs": 1,
-   "param_count": 33,
-   "params": [
-    {
-     "name": "pageindex",
-     "label": "Page Index",
-     "style": "Int",
-     "default": "25"
-    },
-    {
-     "name": "inputattrscope",
-     "label": "Input Attribute Scope",
-     "style": "StrMenu",
-     "default": ""
-    },
-    {
-     "name": "posattrib",
-     "label": "Use Position Attribute",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "top",
-     "label": "TOP",
-     "style": "TOP",
-     "default": ""
-    },
-    {
-     "name": "channel",
-     "label": "Channel",
-     "style": "Menu",
-     "default": "rgbmax"
-    },
-    {
-     "name": "resmult",
-     "label": "Resolution Multiplier",
-     "style": "Float",
-     "default": "0.25"
-    },
-    {
-     "name": "threshold",
-     "label": "Threshold",
-     "style": "Float",
-     "default": "0.333"
-    },
-    {
-     "name": "inside",
-     "label": "Inside",
-     "style": "Menu",
-     "default": "above"
-    },
-    {
-     "name": "extend",
-     "label": "Extend",
-     "style": "Menu",
-     "default": "zero"
-    },
-    {
-     "name": "twodimensions",
-     "label": "Output",
-     "style": "Menu",
-     "default": "contourls"
-    },
-    {
-     "name": "uniquepoints",
-     "label": "Unique Points",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "winding",
-     "label": "Winding",
-     "style": "Menu",
-     "default": "natural"
-    },
-    {
-     "name": "smooth",
-     "label": "Smooth Edge Distance",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "filterdist",
-     "label": "Smooth Edge Distance",
-     "style": "Float",
-     "default": "0.05"
-    },
-    {
-     "name": "rerangep",
-     "label": "ReRange P",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "tolow0",
-     "label": "Map to Low",
-     "style": "Float",
-     "default": "0.0"
-    },
-    {
-     "name": "tolow1",
-     "label": "Map to Low",
-     "style": "Float",
-     "default": "0.0"
-    },
-    {
-     "name": "tohigh0",
-     "label": "Map to High",
-     "style": "Float",
-     "default": "1.0"
-    },
-    {
-     "name": "tohigh1",
-     "label": "Map to High",
-     "style": "Float",
-     "default": "1.0"
-    },
-    {
-     "name": "normal",
-     "label": "Normal",
-     "style": "Menu",
-     "default": "none"
-    },
-    {
-     "name": "normaldirection",
-     "label": "Normal Direction",
-     "style": "Menu",
-     "default": "default"
-    },
-    {
-     "name": "texture",
-     "label": "Texture Coordinates",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "allocfract",
-     "label": "Fraction of Max Allocation",
-     "style": "Float",
-     "default": "0.75"
-    },
-    {
-     "name": "setmaxnumls",
-     "label": "Max Num Line Strips",
-     "style": "Toggle",
-     "default": "True"
-    },
-    {
-     "name": "maxnumls",
-     "label": "Max Num Line Strips",
-     "style": "Int",
-     "default": "100"
-    },
-    {
-     "name": "setmaxnumvertsperls",
-     "label": "Max Num Verts per Line Strip",
-     "style": "Toggle",
-     "default": "True"
-    },
-    {
-     "name": "maxnumvertsperls",
-     "label": "Max Num Verts per Line Strip",
-     "style": "Int",
-     "default": "2000"
-    },
-    {
-     "name": "cpureadback",
-     "label": "Copy Topology Info Back to CPU",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "bypass",
-     "label": "Bypass",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "freeextragpumem",
-     "label": "Free Extra GPU Memory",
-     "style": "Pulse",
-     "default": "False"
-    },
-    {
-     "name": "delinputattrs",
-     "label": "Delete Input Attributes",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "parmcolorspace",
-     "label": "Parameter Color Space",
-     "style": "Menu",
-     "default": "srgb"
-    },
-    {
-     "name": "parmreferencewhite",
-     "label": "Parameter Reference White",
-     "style": "Menu",
-     "default": "default"
-    }
-   ],
-   "category": "error_con_input",
-   "name": "tracepop",
-   "opType": "trace",
    "family": "POP"
   },
   {
@@ -20890,7 +19844,7 @@
     },
     {
      "name": "map0parm",
-     "label": "Target Parameter",
+     "label": "Parameter",
      "style": "StrMenu",
      "default": ""
     },
@@ -20934,99 +19888,6 @@
    "category": "ok_con_input",
    "name": "transformpop",
    "opType": "transform",
-   "family": "POP"
-  },
-  {
-   "type": "triangulatePOP",
-   "created": true,
-   "sources_created": 1,
-   "error": null,
-   "cooked": true,
-   "has_errors": false,
-   "error_message": null,
-   "numPoints": 8,
-   "numPrims": 6,
-   "geometry_ok": true,
-   "source_created": true,
-   "wired": true,
-   "wired_to_input": [
-    0
-   ],
-   "wire_note": null,
-   "inputs": 1,
-   "outputs": 1,
-   "param_count": 11,
-   "params": [
-    {
-     "name": "pageindex",
-     "label": "Page Index",
-     "style": "Int",
-     "default": "5"
-    },
-    {
-     "name": "mode",
-     "label": "Mode",
-     "style": "Menu",
-     "default": "convex"
-    },
-    {
-     "name": "triangulatequads",
-     "label": "Triangulate Quads",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "lsmaxverts",
-     "label": "Max Verts per Input Line Strip",
-     "style": "Int",
-     "default": "400"
-    },
-    {
-     "name": "setmaxiter",
-     "label": "Max Iterations",
-     "style": "Toggle",
-     "default": "True"
-    },
-    {
-     "name": "maxiter",
-     "label": "Max Iterations",
-     "style": "Int",
-     "default": "1000"
-    },
-    {
-     "name": "bypass",
-     "label": "Bypass",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "freeextragpumem",
-     "label": "Free Extra GPU Memory",
-     "style": "Pulse",
-     "default": "False"
-    },
-    {
-     "name": "delinputattrs",
-     "label": "Delete Input Attributes",
-     "style": "Toggle",
-     "default": "False"
-    },
-    {
-     "name": "parmcolorspace",
-     "label": "Parameter Color Space",
-     "style": "Menu",
-     "default": "srgb"
-    },
-    {
-     "name": "parmreferencewhite",
-     "label": "Parameter Reference White",
-     "style": "Menu",
-     "default": "default"
-    }
-   ],
-   "category": "ok_con_input",
-   "name": "triangulatepop",
-   "opType": "triangulate",
    "family": "POP"
   },
   {
@@ -21579,7 +20440,7 @@
    "error": null,
    "cooked": true,
    "has_errors": true,
-   "error_message": "Error: ZED TOP parameter must point to a ZED TOP. (/project1/pop_matrix_live4/zedpop)",
+   "error_message": "Error: TensorRT is not found. Check that ZED was installed via the Installer options. (/project1/pop_matrix_live5/zedpop)",
    "numPoints": 0,
    "numPrims": 0,
    "geometry_ok": false,

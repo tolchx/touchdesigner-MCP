@@ -1,6 +1,7 @@
 # Validación del conocimiento POP contra la wiki oficial
 
-- **TD build vivo:** TouchDesigner 2025.32460 · **POPs creados en vivo:** 100/101
+- **TD build vivo:** TouchDesigner 2025.31760 · **POPs creados en vivo:** 96/97 · **ok_con_input: 78/97** (corrida 2026-09-16, `docs/pop_matrix.json`)
+- **Corrida previa (2025.32460):** 100/101 creados, 80 ok_con_input — los conteos por build cambian (alembicoutPOP, textPOP, triangulatePOP no existen en 31760; particlePOP pasa a error_con_input)
 - **Fuente oficial:** `https://docs.derivative.ca/api.php?action=query&list=categorymembers&cmtitle=Category:POPs` → **106 páginas** en Category:POPs
 - Cruce: **100 POPs coinciden**, 1 solo en TD, 6 solo en la wiki
 
@@ -12,7 +13,31 @@
 
 > **Importante:** `numPoints()` y `numPrims()` son MÉTODOS en la clase POP de TD, no propiedades. Usarlos como atributos devuelve un builtin y rompe comparaciones.
 
-## Matriz estricta con fuente (corrida 2026-09-12 18:41, TD TouchDesigner 2025.32460)
+## Matriz estricta con fuente (corrida 2026-09-16, TD TouchDesigner 2025.31760: 78/97 ok)
+
+> Corrida previa 2026-09-12 (TD 2025.32460): 80/101 ok. El build 31760 no tiene
+> alembicoutPOP/textPOP/tracePOP/triangulatePOP y particlePOP requiere atributo P real
+> en su fuente, así que pasa de sin_geometria a error_con_input.
+
+### Resumen de la corrida 2025.31760 (97 tipos, sandbox /project1/pop_matrix_live5)
+
+| ✅ ok_con_input | ❌ error_con_input | ➖ sin_geometria | 🚫 no_creable |
+|---|---|---|---|
+| **78** | **9** | **9** | **1** |
+
+Los 9 con error (motivo real de TD): alembicinPOP (no hay alembicoutPOP en este build para
+crear el .abc fuente), cplusplusPOP (requiere .dll compilado), importselectPOP (requiere
+contexto USD), lookupchannelPOP (requiere CHOP real con canales nombrados), particlePOP
+(requiere atributo P en la fuente), polygonizePOP (requiere TOP de altura), rayPOP
+(requiere atributo de colisión), skindeformPOP (requiere BonePathsAttrib), zedPOP
+(requiere SDK ZED instalado).
+
+Los 9 sin geometría: cacheblendPOP, cacheselectPOP (requieren cachePOP con caches
+pobladas), choptoPOP, dattoPOP, soptoPOP, toptoPOP (requieren fuente de OTRA familia con
+datos reales), dmxoutPOP (salida DMX), glslselectPOP, oakselectPOP (requieren contexto
+de render/hardware).
+
+## Corrida previa (2026-09-12 18:41, TD TouchDesigner 2025.32460: 80/101 ok)
 
 ### Método v5 — cada POP bajo prueba recibe fuente boxPOP
 

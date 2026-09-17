@@ -1,17 +1,17 @@
 {
- "td_build": "TouchDesigner 2025.32460",
+ "td_build": "TouchDesigner 2025.31760",
  "generated_from": {
   "live": "docs/pop_matrix.json",
   "wiki": "https://docs.derivative.ca/api.php?action=query&list=categorymembers&cmtitle=Category:POPs",
   "corpus": "C:\\Users\\Tolch\\Documents\\AI_Code\\Touchdesigner_MCP\\old\\mcp_td_v3\\Toe_Expand"
  },
  "counts": {
-  "pop_types_live": 101,
-  "created_ok": 100,
-  "documented_in_wiki": 100,
+  "pop_types_live": 97,
+  "created_ok": 96,
+  "documented_in_wiki": 96,
   "undocumented": 1,
-  "ok_con_input": 80,
-  "recommended_for_networks": 80,
+  "ok_con_input": 78,
+  "recommended_for_networks": 78,
   "wiki_pages_total": 106,
   "patterns_pop_to_pop": 1120,
   "chains": 80,
