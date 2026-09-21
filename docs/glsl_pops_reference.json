@@ -1,7 +1,7 @@
 {
-  "timestamp": "20260916_173238",
-  "td_build": "TouchDesigner 2025.31760",
-  "suite_root": "/project1/glsl_ref_20260916_173238",
+  "timestamp": "20260921_003451",
+  "td_build": "TouchDesigner 2025.32460",
+  "suite_root": "/project1/glsl_ref_20260921_003451",
   "source": "docs/GLSL_POP_RULES.md",
   "passed": 14,
   "total": 14,
@@ -14,12 +14,12 @@
         {
           "name": "compile_failed_as_expected",
           "ok": true,
-          "detail": "  Error: Compile failed (/project1/glsl_ref_20260916_173238/c01_r1_output_read_fails/glsl1)"
+          "detail": "  Error: Compile failed (/project1/glsl_ref_20260921_003451/c01_r1_output_read_fails/glsl1)"
         },
         {
           "name": "infodat_present",
           "ok": true,
-          "detail": "\n=============\nCompute Shader Compile Results:\nERROR: /project1/glsl_ref_20260916_173238/c01_r1_output_read_fails/shader_code:4: '*' : can't read from writeonly object:  \nERROR: 1 compilation errors. "
+          "detail": "\n=============\nCompute Shader Compile Results:\nERROR: /project1/glsl_ref_20260921_003451/c01_r1_output_read_fails/shader_code:4: '*' : can't read from writeonly object:  \nERROR: 1 compilation errors. "
         }
       ]
     },
@@ -70,12 +70,12 @@
         {
           "name": "compile_failed_as_expected",
           "ok": true,
-          "detail": "  Error: Compile failed (/project1/glsl_ref_20260916_173238/c04_r3_new_attr_without_create_fails/glsl1)"
+          "detail": "  Error: Compile failed (/project1/glsl_ref_20260921_003451/c04_r3_new_attr_without_create_fails/glsl1)"
         },
         {
           "name": "infodat_present",
           "ok": true,
-          "detail": "\n=============\nCompute Shader Compile Results:\nERROR: /project1/glsl_ref_20260916_173238/c04_r3_new_attr_without_create_fails/shader_code:6: 'Cd' : undeclared identifier \nERROR: 1 compilation errors. "
+          "detail": "\n=============\nCompute Shader Compile Results:\nERROR: /project1/glsl_ref_20260921_003451/c04_r3_new_attr_without_create_fails/shader_code:6: 'Cd' : undeclared identifier \nERROR: 1 compilation errors. "
         }
       ]
     },
@@ -104,12 +104,12 @@
         {
           "name": "compile_failed_as_expected",
           "ok": true,
-          "detail": "  Error: Compile failed (/project1/glsl_ref_20260916_173238/c06_r3_attr0name_direct_fails/glsl1)"
+          "detail": "  Error: Compile failed (/project1/glsl_ref_20260921_003451/c06_r3_attr0name_direct_fails/glsl1)"
         },
         {
           "name": "infodat_present",
           "ok": true,
-          "detail": "\n=============\nCompute Shader Compile Results:\nERROR: /project1/glsl_ref_20260916_173238/c06_r3_attr0name_direct_fails/shader_code:6: 'Cd' : undeclared identifier \nERROR: 1 compilation errors.  No cod"
+          "detail": "\n=============\nCompute Shader Compile Results:\nERROR: /project1/glsl_ref_20260921_003451/c06_r3_attr0name_direct_fails/shader_code:6: 'Cd' : undeclared identifier \nERROR: 1 compilation errors.  No cod"
         }
       ]
     },
@@ -121,17 +121,17 @@
         {
           "name": "compile_failed_as_expected",
           "ok": true,
-          "detail": "  Error: Compile failed (/project1/glsl_ref_20260916_173238/c07_r4_writeonly_read_fails/glsl1)"
+          "detail": "  Error: Compile failed (/project1/glsl_ref_20260921_003451/c07_r4_writeonly_read_fails/glsl1)"
         },
         {
           "name": "infodat_present",
           "ok": true,
-          "detail": "\n=============\nCompute Shader Compile Results:\nERROR: /project1/glsl_ref_20260916_173238/c07_r4_writeonly_read_fails/shader_code:5: '+' : can't read from writeonly object:  \nERROR: 1 compilation error"
+          "detail": "\n=============\nCompute Shader Compile Results:\nERROR: /project1/glsl_ref_20260921_003451/c07_r4_writeonly_read_fails/shader_code:5: '+' : can't read from writeonly object:  \nERROR: 1 compilation error"
         },
         {
           "name": "writeonly_in_info",
           "ok": true,
-          "detail": "\n=============\nCompute Shader Compile Results:\nERROR: /project1/glsl_ref_20260916_173238/c07_r4_writeonly_read_fails/shader_code:5: '+' : can't read from writeonly object:  \nERROR: 1 compilation error"
+          "detail": "\n=============\nCompute Shader Compile Results:\nERROR: /project1/glsl_ref_20260921_003451/c07_r4_writeonly_read_fails/shader_code:5: '+' : can't read from writeonly object:  \nERROR: 1 compilation error"
         }
       ]
     },
@@ -160,12 +160,12 @@
         {
           "name": "errors_report_compile",
           "ok": true,
-          "detail": "  Error: Compile failed (/project1/glsl_ref_20260916_173238/c09_r5_infodat_has_real_error/glsl1)"
+          "detail": "  Error: Compile failed (/project1/glsl_ref_20260921_003451/c09_r5_infodat_has_real_error/glsl1)"
         },
         {
           "name": "infodat_richer",
           "ok": true,
-          "detail": "\n=============\nCompute Shader Compile Results:\nERROR: /project1/glsl_ref_20260916_173238/c09_r5_infodat_has_real_error/shader_code:4: '' :  syntax error, unexpected SEMICOLON\nERROR: 1 compilation erro"
+          "detail": "\n=============\nCompute Shader Compile Results:\nERROR: /project1/glsl_ref_20260921_003451/c09_r5_infodat_has_real_error/shader_code:4: '' :  syntax error, unexpected SEMICOLON\nERROR: 1 compilation erro"
         }
       ]
     },
