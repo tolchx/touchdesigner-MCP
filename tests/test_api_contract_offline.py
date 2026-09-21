@@ -196,7 +196,10 @@ class FakeOperator:
         return self._children
 
     def destroy(self):
-        pass
+        # Mirror TD semantics: a destroyed op disappears from its parent.
+        parent = _fake_op(self.path.rsplit("/", 1)[0] or "/")
+        if parent is not None and self in getattr(parent, "_children", []):
+            parent._children.remove(self)
 
     def save(self, filepath):
         # Fake save: write a tiny PNG-ish header so the screenshot handler can
@@ -294,6 +297,13 @@ def _fake_op(path):
         return _fake_top1
     if path == "/project1/container1":
         return _fake_container
+    # Dynamic children registered on /project1 (e.g. ops created/faked by the
+    # history tests) resolve through the parent's children list.
+    parent = path.rsplit("/", 1)[0]
+    if parent == "/project1":
+        for child in _fake_project1._children:
+            if child.path == path:
+                return child
     return None
 
 
@@ -1582,6 +1592,231 @@ class TestMetricsContract(unittest.TestCase):
         _, data = self._get("/metrics", route="/metrics")
         self.assertIn("/operators", data["endpoint_times"])
         self.assertEqual(data["endpoint_times"]["/operators"]["n"], 1)
+
+
+# ===========================================================================
+# Tests: request history — POST /undo, POST /redo, GET /history (backlog 09)
+# ===========================================================================
+
+
+class _HistoryTestBase(unittest.TestCase):
+    """Shared setUp for the history suite: dispatch through the REAL
+    OnHTTPRequest so capture hooks in the write handlers run too.
+    """
+
+    def setUp(self):
+        _reset_fakes()
+        _install_fake_globals()
+        self.api = FakeAPI()
+        import tests.test_api_contract_offline as mod
+        self._saved_op = getattr(mod, "op", None)
+        mod.op = _fake_op
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.op = _fake_op
+
+    def tearDown(self):
+        import tests.test_api_contract_offline as mod
+        mod.op = self._saved_op
+
+    def _call(self, uri, method="GET", body=""):
+        response = _make_response()
+        request = {"method": method, "uri": uri, "pars": {}}
+        if body:
+            request["data"] = body
+        result = self.api.OnHTTPRequest(object(), request, response)
+        return result, json.loads(result["data"])
+
+    def _post(self, uri, payload):
+        return self._call(uri, method="POST", body=json.dumps(payload))
+
+    def _children(self, n=3):
+        _fake_project1._children = [
+            FakeOperator(f"/project1/op{i}", f"op{i}", f"op{i}", "TOP")
+            for i in range(n)
+        ]
+
+
+class TestUndoRedoContract(_HistoryTestBase):
+    """HTTP contract of /undo, /redo and /history (backlog item 09).
+
+    Semantics:
+    - every bridge write request records ONE entry describing how to revert it
+    - /undo reverts exactly one complete operation; /redo re-applies it
+    - a NEW write after an undo clears the redo stack
+    - empty history -> explicit 400 with a readable hint (never silence)
+    - depth cap 50, FIFO discard of the OLDEST entry
+    """
+
+    def test_undo_parameters_set_restores_previous_value(self):
+        """undo of a parameter set restores the pre-change value."""
+        noise = _build_parameter_dir({"amp": (0.5, "")})
+        global _fake_noise1
+        _fake_noise1 = noise
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.op = _fake_op
+
+        _, body = self._post("/parameters/set", {
+            "path": "/project1/noise1",
+            "updates": [{"name": "amp", "value": 0.9}],
+        })
+        self.assertEqual(body["updated"][0]["value"], 0.9)
+        self.assertEqual(noise._pars["amp"].val, 0.9)
+
+        _, undo = self._post("/undo", {})
+        self.assertTrue(undo["success"], msg=f"undo body={undo}")
+        self.assertEqual(undo["kind"], "parameters")
+        self.assertIn("parameters.set", undo["undone"])
+        self.assertEqual(noise._pars["amp"].val, 0.5, "undo must restore 0.5")
+
+    def test_undo_of_create_destroys_operator(self):
+        """undo of a create removes the created operator."""
+        created = FakeOperator("/project1/newop", "newop", "noisePOP", "POP")
+        _fake_project1._children = [created]
+        self.assertTrue(any(c.name == "newop" for c in _fake_project1._children))
+
+        # Record a create the way /create does after a successful exec.
+        self.api._history_for_create("/project1/newop")
+        _, undo = self._post("/undo", {})
+        self.assertTrue(undo["success"])
+        self.assertEqual(undo["kind"], "ops")
+        self.assertFalse(any(c.name == "newop" for c in _fake_project1._children))
+
+    def test_redo_reapplies_after_undo(self):
+        """redo after undo restores the changed value again."""
+        noise = _build_parameter_dir({"amp": (0.5, "")})
+        global _fake_noise1
+        _fake_noise1 = noise
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.op = _fake_op
+
+        self._post("/parameters/set", {
+            "path": "/project1/noise1",
+            "updates": [{"name": "amp", "value": 0.9}],
+        })
+        self._post("/undo", {})
+        self.assertEqual(noise._pars["amp"].val, 0.5)
+        _, redo = self._post("/redo", {})
+        self.assertTrue(redo["success"], msg=f"redo body={redo}")
+        self.assertEqual(redo["kind"], "parameters")
+        self.assertEqual(noise._pars["amp"].val, 0.9, "redo must re-apply 0.9")
+
+    def test_redo_without_history_explicit_error(self):
+        """redo with nothing undone returns explicit 400 + hint, no raise."""
+        resp, body = self._post("/redo", {})
+        self.assertEqual(resp["statusCode"], 400)
+        self.assertFalse(body["success"])
+        self.assertIn("Nothing to redo", body["error"])
+        self.assertIn("hint", body)
+
+    def test_undo_empty_history_explicit_error(self):
+        """undo with empty history returns explicit 400 + hint, no raise."""
+        resp, body = self._post("/undo", {})
+        self.assertEqual(resp["statusCode"], 400)
+        self.assertFalse(body["success"])
+        self.assertIn("Nothing to undo", body["error"])
+        self.assertIn("hint", body)
+
+    def test_depth_cap_discards_oldest(self):
+        """Pushing past UNDO_MAX_DEPTH drops the OLDEST entry (FIFO)."""
+        noise = _build_parameter_dir({"amp": (0.5, "")})
+        global _fake_noise1
+        _fake_noise1 = noise
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.op = _fake_op
+
+        cap = self.api.UNDO_MAX_DEPTH
+        for i in range(cap + 5):
+            self._post("/parameters/set", {
+                "path": "/project1/noise1",
+                "updates": [{"name": "amp", "value": 0.1 * (i % 10)}],
+            })
+        self.assertEqual(len(self.api._undo_stack), cap)
+        # The oldest surviving entry must be the (cap+1)-th request, not the 1st.
+        self.assertEqual(self.api._undo_stack[0]["description"],
+                         "parameters.set on /project1/noise1 (amp)")
+        # depth reported by /history
+        _, hist = self._call("/history")
+        self.assertEqual(hist["maxDepth"], cap)
+        self.assertEqual(len(hist["undo"]), cap)
+        self.assertFalse(hist["canRedo"])
+
+    def test_history_lists_entries_one_line_each(self):
+        """GET /history lists each entry with id/description/kind."""
+        noise = _build_parameter_dir({"amp": (0.5, "")})
+        global _fake_noise1
+        _fake_noise1 = noise
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.op = _fake_op
+        self._post("/parameters/set", {
+            "path": "/project1/noise1",
+            "updates": [{"name": "amp", "value": 0.9}],
+        })
+        _, hist = self._call("/history")
+        self.assertTrue(hist["canUndo"])
+        self.assertEqual(len(hist["undo"]), 1)
+        entry = hist["undo"][0]
+        for key in ("id", "description", "kind"):
+            self.assertIn(key, entry)
+        self.assertEqual(entry["kind"], "parameters")
+
+    def test_new_write_clears_redo_stack(self):
+        """A write after an undo discards the redo branch (standard semantics)."""
+        noise = _build_parameter_dir({"amp": (0.5, "")})
+        global _fake_noise1
+        _fake_noise1 = noise
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.op = _fake_op
+        self._post("/parameters/set", {"path": "/project1/noise1", "updates": [{"name": "amp", "value": 0.9}]})
+        self._post("/undo", {})
+        self.assertEqual(len(self.api._redo_stack), 1)
+        self._post("/parameters/set", {"path": "/project1/noise1", "updates": [{"name": "amp", "value": 0.7}]})
+        self.assertEqual(len(self.api._redo_stack), 0)
+        resp, _ = self._post("/redo", {})
+        self.assertEqual(resp["statusCode"], 400)
+
+    def test_undo_via_parameters_set_handler_route(self):
+        """The /parameters/set route itself registers an undo entry."""
+        noise = _build_parameter_dir({"amp": (0.5, "")})
+        global _fake_noise1
+        _fake_noise1 = noise
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.op = _fake_op
+        _, before = self._call("/history")
+        self.assertFalse(before["canUndo"], "fresh API must have empty history")
+        self._post("/parameters/set", {"path": "/project1/noise1", "updates": [{"name": "amp", "value": 0.9}]})
+        _, hist = self._call("/history")
+        self.assertTrue(hist["canUndo"])
+        self.assertIn("parameters.set on /project1/noise1", hist["undo"][0]["description"])
+
+
+class TestUndoRedoReceivesProperResponse(_HistoryTestBase):
+    """Response shape of /undo and /redo: additive keys, 200 on success."""
+
+    def _noise(self):
+        noise = _build_parameter_dir({"amp": (0.5, "")})
+        global _fake_noise1
+        _fake_noise1 = noise
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.op = _fake_op
+        return noise
+
+    def test_undo_response_shape(self):
+        self._noise()
+        self._post("/parameters/set", {"path": "/project1/noise1", "updates": [{"name": "amp", "value": 0.9}]})
+        resp, body = self._post("/undo", {})
+        self.assertEqual(resp["statusCode"], 200)
+        for key in ("success", "undone", "kind", "applied", "errors", "depth", "canUndo", "canRedo"):
+            self.assertIn(key, body)
+
+    def test_undo_then_redo_roundtrip_shape(self):
+        noise = self._noise()
+        self._post("/parameters/set", {"path": "/project1/noise1", "updates": [{"name": "amp", "value": 0.9}]})
+        self._post("/undo", {})
+        resp, body = self._post("/redo", {})
+        self.assertEqual(resp["statusCode"], 200)
+        self.assertTrue(body["success"])
+        self.assertEqual(noise._pars["amp"].val, 0.9)
+        self.assertFalse(body["canRedo"])
 
 
 if __name__ == "__main__":
