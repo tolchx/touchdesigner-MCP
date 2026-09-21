@@ -100,6 +100,10 @@ Registro de escrituras del **propio bridge** con capacidad de revertirlas
 - **Redo estándar**: una escritura nueva descarta la rama de redo completa.
 - **Caché**: toda escritura ya invalida el read-cache (regla 15 de AGENTS.md);
   `/undo` y `/redo` son POST, así que también lo invalidan.
+- **Quirk medido en vivo (TD 2025.32460)**: un POST **sin body** (curl sin `-d`)
+  a `/undo` o `/redo` aplica el cambio pero la respuesta HTTP nunca llega (el
+  webserverDAT cuelga la entrega del response). Enviá siempre un body JSON,
+  aunque sea `{}`.
 
 ### POST /undo
 
