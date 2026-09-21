@@ -409,7 +409,7 @@ node server.js
 
 ### Node.js — Offline tests
 ```bash
-# Suite de unit/integration tests offline (1208 tests nativos, 0 fallos)
+# Suite de unit/integration tests offline (1248 tests nativos, 0 fallos)
 cd mcp && npm run build && node --test
 
 # Suite de contrato del bridge Python (sin TD): 56 + 49 tests
