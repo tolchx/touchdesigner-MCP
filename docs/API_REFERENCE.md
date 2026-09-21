@@ -2,11 +2,12 @@
 
 Fuente de verdad: `toe/src/TouchDesignerAPI.py` (corre dentro de TD en `http://127.0.0.1:44444`).
 Copia espejo para el `.tox` standalone: `mcp/setup/toe_extension.py` (misma lógica, sin drift).
-Tests offline del contrato: `tests/test_api_contract_offline.py` (56) y `tests/test_td_api_offline.py` (49).
+Tests offline del contrato: `tests/test_api_contract_offline.py` (67) y `tests/test_td_api_offline.py` (49).
 
-Este documento detalla `GET /metrics` campo por campo. Los demás endpoints están
-documentados en `docs/API_CONTRACT_AUDIT.md` (contrato HTTP: paginación, caché,
-semántica de `/operators`, `/find`, `/connections`).
+Este documento detalla `GET /metrics` campo por campo y el historial de cambios
+(`/undo`, `/redo`, `/history`). Los demás endpoints están documentados en
+`docs/API_CONTRACT_AUDIT.md` (contrato HTTP: paginación, caché, semántica de
+`/operators`, `/find`, `/connections`).
 
 ---
 
@@ -82,8 +83,121 @@ no exponen `cooking` → `cooking_count` es `null` (el test lo fija como contrat
 
 ---
 
+## Historial de cambios: POST /undo · POST /redo · GET /history
+
+Registro de escrituras del **propio bridge** con capacidad de revertirlas
+(backlog ítem 09). Alcance y límites, en una línea cada uno:
+
+- **Se registran**: `POST /parameters/set`, `POST /create` (`/create_operator`),
+  `POST /delete_operator`, `POST /connect_nodes` (`/connect`) y
+  `POST /disconnect` — una entrada por request, revertible como UNA operación.
+- **NO se registran**: `POST /exec` (código arbitrario: no se puede capturar
+  estado previo de forma fiable), `/write_dat`, `/glsl_*`, `/batch`, etc. Para
+  revertir trabajo hecho vía `/exec` usá `POST /project_lifecycle` con
+  `action=undo` (el undo nativo de TD) o guardá el `.toe` antes.
+- **Profundidad**: 50 entradas (`maxDepth`), descarte FIFO de la MÁS VIEJA.
+  Nunca crece sin límite.
+- **Redo estándar**: una escritura nueva descarta la rama de redo completa.
+- **Caché**: toda escritura ya invalida el read-cache (regla 15 de AGENTS.md);
+  `/undo` y `/redo` son POST, así que también lo invalidan.
+
+### POST /undo
+
+Revierte la operación registrada más reciente.
+
+Respuesta 200:
+
+```json
+{
+  "success": true,
+  "undone": "parameters.set on /project1/noise1 (amp)",
+  "kind": "parameters",
+  "applied": 1,
+  "errors": [],
+  "depth": 0,
+  "canUndo": false,
+  "canRedo": true
+}
+```
+
+| Campo | Tipo | Semántica |
+|---|---|---|
+| `success` | bool | Siempre presente; `true` solo si la reversión se aplicó. |
+| `undone` | string | Descripción de UNA línea de la operación revertida (misma que `GET /history`). |
+| `kind` | string | `"parameters"` \| `"ops"` \| `"wiring"` — tipo de operación revertida. |
+| `applied` | int | Cantidad de ítems restaurados (parámetros, ops recreadas/destruidas, o conexiones rehechas). |
+| `errors` | array | Errores por ítem durante la reversión (p. ej. operador ya borrado a mano). Vacío = reversión limpia. |
+| `depth` | int | Entradas undoables restantes tras este undo. |
+| `canUndo` | bool | `depth > 0`. |
+| `canRedo` | bool | Siempre `true` tras un undo exitoso. |
+
+Respuesta 400 (historial vacío — nunca silencio):
+
+```json
+{
+  "success": false,
+  "error": "Nothing to undo: the history is empty",
+  "hint": "Only bridge write requests (/parameters/set, /create, /delete, /connect, /disconnect) are recorded; run one first or check GET /history"
+}
+```
+
+### POST /redo
+
+Re-aplica la última operación deshecha. Misma forma de respuesta que `/undo`
+(con `redone` en lugar de `undone`). Una escritura nueva la invalida:
+
+```json
+{
+  "success": false,
+  "error": "Nothing to redo: no undone operation pending",
+  "hint": "Redo is only available right after an /undo; a new write clears it. See GET /history"
+}
+```
+
+### GET /history
+
+Lista las entradas disponibles, una línea cada una:
+
+```json
+{
+  "maxDepth": 50,
+  "canUndo": true,
+  "canRedo": false,
+  "undo": [{"id": "0baa170c", "description": "create /project1/newop", "kind": "ops"}],
+  "redo": []
+}
+```
+
+| Campo | Tipo | Semántica |
+|---|---|---|
+| `maxDepth` | int | Cap de profundidad (50). |
+| `canUndo` / `canRedo` | bool | Atajos para UI. |
+| `undo[]` | array | Entradas undoables, de la más reciente a la más vieja. |
+| `redo[]` | array | Entradas redoables (deshacen deshaceres), de la más reciente a la más vieja. |
+| `undo[]/id` | string | Identificador corto estable de la entrada. |
+| `undo[]/description` | string | Una línea, apta para humans: `"parameters.set on <path> (<pars>)"`, `"create <path>"`, `"delete <path>"`, `"connect <src> -> <dst>[<i>]"`, `"disconnect <dst>[<i>]"`. |
+| `undo[]/kind` | string | `"parameters"` \| `"ops"` \| `"wiring"`. |
+
+### Qué guarda cada tipo de entrada (contrato interno)
+
+- `parameters`: el estado previo de cada parámetro tocado (valor, expresión y
+  modo) + el estado post-cambio capturado al momento del undo para el redo.
+- `ops`: snapshot mínimo por operador (`path`, `opType`, `name`, `nodeX/Y`,
+  `exists`). Undo de una creación destruye; undo de un borrado recrea por tipo.
+- `wiring`: el input afectado (`path`, `index`) y las rutas fuente conectadas
+  ANTES del cambio; undo reconecta exactamente eso.
+
+Nota: la recreación de operadores restaura tipo/posición, NO todo el estado de
+parámetros del nodo borrado. Es una reversión estructural, no un snapshot binario.
+
+---
+
 ## Historial
 
+- **2026-09-21** — `/undo`, `/redo`, `/history` agregados (backlog ítem 09):
+  implementación en `toe/src/TouchDesignerAPI.py` + espejo en
+  `mcp/setup/toe_extension.py`, captura previa en los 5 handlers de escritura
+  con drop si la ejecución falla, tests offline en la suite de contrato.
 - **2026-09-17** — `/metrics` agregado (backlog ítem 06): implementación en
   `toe/src/TouchDesignerAPI.py` + espejo en `mcp/setup/toe_extension.py`, tests
   offline en ambas suites, verificación en vivo contra TD 2025.31760.
