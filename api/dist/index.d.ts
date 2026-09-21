@@ -279,6 +279,24 @@ export declare class TDClient {
     waitForTask(taskId: string, timeoutMs?: number, pollIntervalMs?: number): Promise<any>;
     getPaneState(): Promise<PaneState | null>;
     getSelection(): Promise<SelectionResult>;
+    /**
+     * Revert the most recent recorded bridge write operation.
+     *
+     * Only bridge writes are recorded (/parameters/set, /create, /delete,
+     * /connect, /disconnect) — NOT /exec. Empty history -> HTTP 400 with an
+     * explicit hint (the thrown error message carries the JSON body).
+     *
+     * Live quirk (TD 2025.32460): a POST without a body applies the change but
+     * the webserverDAT never delivers the response, so we always send "{}".
+     */
+    undo(): Promise<any>;
+    /** Re-apply the most recently undone bridge write (same body quirk as undo). */
+    redo(): Promise<any>;
+    /**
+     * List the bridge's undoable/redoable entries, one line each.
+     * Shape: {maxDepth, canUndo, canRedo, undo: [{id, description, kind}], redo: [...]}.
+     */
+    history(): Promise<any>;
     getOperators(path?: string): Promise<OperatorsResult>;
     getParameters(path: string, names?: string[]): Promise<ParametersResult>;
     setParameters(path: string, updates: ParameterUpdate[], transactional?: boolean): Promise<ParameterSetResult>;

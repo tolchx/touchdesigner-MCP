@@ -734,6 +734,43 @@ export class TDClient {
   }
 
   // ---------------------------------------------------------------------------
+  // Undo / redo / history (bridge request history — backlog item 09)
+  // ---------------------------------------------------------------------------
+
+  /**
+   * Revert the most recent recorded bridge write operation.
+   *
+   * Only bridge writes are recorded (/parameters/set, /create, /delete,
+   * /connect, /disconnect) — NOT /exec. Empty history -> HTTP 400 with an
+   * explicit hint (the thrown error message carries the JSON body).
+   *
+   * Live quirk (TD 2025.32460): a POST without a body applies the change but
+   * the webserverDAT never delivers the response, so we always send "{}".
+   */
+  async undo(): Promise<any> {
+    return this._request(`${this.baseUrl}/undo`, {
+      method: "POST",
+      body: "{}",
+    });
+  }
+
+  /** Re-apply the most recently undone bridge write (same body quirk as undo). */
+  async redo(): Promise<any> {
+    return this._request(`${this.baseUrl}/redo`, {
+      method: "POST",
+      body: "{}",
+    });
+  }
+
+  /**
+   * List the bridge's undoable/redoable entries, one line each.
+   * Shape: {maxDepth, canUndo, canRedo, undo: [{id, description, kind}], redo: [...]}.
+   */
+  async history(): Promise<any> {
+    return this._request(`${this.baseUrl}/history`);
+  }
+
+  // ---------------------------------------------------------------------------
   // Operators
   // ---------------------------------------------------------------------------
 

@@ -27,6 +27,7 @@ import { registerToeImportTools } from "./tools/toeImport.js";
 import { registerGlslApplyTools } from "./tools/glslApply.js";
 import { registerGlslTopTools } from "./tools/glslTopApply.js";
 import { registerGlslCurriculumTools } from "./tools/glslCurriculum.js";
+import { registerBridgeHistoryTools } from "./tools/bridgeHistory.js";
 
 /**
  * Pre-load the operator knowledge base on startup (non-blocking).
@@ -73,6 +74,7 @@ async function registerAllTools(
   registerGlslApplyTools(server, client);
   registerGlslTopTools(server, client);
   registerGlslCurriculumTools(server);
+  registerBridgeHistoryTools(server, client);
 }
 
 /**
