@@ -195,6 +195,17 @@ class FakeOperator:
     def findChildren(self):
         return self._children
 
+    def create(self, op_type, name=None):
+        # Mirror TD semantics: creating with a None/unknown type fails loudly
+        # (live TD: "Unknown operator type. Value:None Type:<class 'NoneType'>.").
+        if not op_type:
+            raise ValueError(
+                "Unknown operator type. Value:%r Type:%s." % (op_type, type(op_type))
+            )
+        child = FakeOperator(f"{self.path}/{name}", name, str(op_type), "")
+        self._children.append(child)
+        return child
+
     def destroy(self):
         # Mirror TD semantics: a destroyed op disappears from its parent.
         parent = _fake_op(self.path.rsplit("/", 1)[0] or "/")
@@ -1699,6 +1710,24 @@ class TestUndoRedoContract(_HistoryTestBase):
         self.assertTrue(redo["success"], msg=f"redo body={redo}")
         self.assertEqual(redo["kind"], "parameters")
         self.assertEqual(noise._pars["amp"].val, 0.9, "redo must re-apply 0.9")
+
+    def test_redo_of_create_recreates_operator_with_type(self):
+        """Regression (found live): redo of an undone create must re-create the
+        operator. The history entry must carry the opType captured AFTER the
+        creation, otherwise TD fails with 'Unknown operator type. Value:None'.
+        """
+        created = FakeOperator("/project1/newop", "newop", "noisePOP", "POP")
+        _fake_project1._children = [created]
+        self.api._history_for_create("/project1/newop")
+
+        _, undo = self._post("/undo", {})
+        self.assertTrue(undo["success"])
+        self.assertFalse(any(c.name == "newop" for c in _fake_project1._children))
+
+        _, redo = self._post("/redo", {})
+        self.assertTrue(redo["success"], msg=f"redo body={redo}")
+        self.assertEqual(redo["errors"], [], msg=f"redo errors={redo['errors']}")
+        self.assertTrue(any(c.name == "newop" for c in _fake_project1._children))
 
     def test_redo_without_history_explicit_error(self):
         """redo with nothing undone returns explicit 400 + hint, no raise."""
