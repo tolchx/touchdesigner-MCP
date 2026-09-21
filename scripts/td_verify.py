@@ -15,9 +15,16 @@ el cron no_agent no entrega mensaje). Solo habla cuando hay algo que decir:
   - cambio de resultado vs la ultima corrida -> REPORTE
 
   python scripts/td_verify.py            # canario: solo la suite GLSL de referencia (rapida, se autolimpia)
-  python scripts/td_verify.py --full     # + matriz POP completa + gate del baseline (deja sandbox en TD)
+  python scripts/td_verify.py --full     # + matriz POP completa + gate del baseline (respeta la cadencia)
+  python scripts/td_verify.py --full --force  # fuerza la matriz aunque no toque
   python scripts/td_verify.py --force    # habla siempre, aunque este todo verde (para probar)
   python scripts/td_verify.py --status   # que sabe del entorno y de la ultima corrida (siempre habla)
+
+CADENCIA DE --full: la matriz POP deja un sandbox en el .toe A PROPOSITO ("conservado
+para inspeccion visual"), asi que correrla en cada tick acumula basura en el proyecto de
+TouchDesigner del usuario — de hecho los 6 errores `Not enough sources specified` de
+`/project1/test_sc_*` que arrastra el .toe son residuo de corridas viejas. Por eso --full
+solo corre si pasaron FULL_INTERVAL_DAYS (7) desde la ultima corrida completa, salvo --force.
 
 Exit: 0 todo bien (o TD caido) · 3 hay fallos · 5 build equivocado
 
@@ -50,8 +57,11 @@ GLSL_SUITE = REPO / "toe" / "src" / "test_glsl_pops.py"
 POP_MATRIX = REPO / "toe" / "src" / "test_pop_matrix.py"
 BASELINE_GATE = REPO / "scripts" / "check_pop_matrix_baseline.py"
 
+# Dias minimos entre corridas completas (la matriz deja sandbox en el .toe).
+FULL_INTERVAL_DAYS = 7
+
 # La suite GLSL crea un sandbox y lo destruye al final ("cleanup: suite root destroyed").
-# La matriz POP deja el sandbox a proposito para inspeccion visual -> solo con --full.
+# La matriz POP deja el sandbox a proposito -> solo con --full.
 
 
 def run(cmd: list[str], timeout: int) -> tuple[int, str]:
@@ -89,12 +99,28 @@ def save_last(data: dict) -> None:
     LAST_JSON.write_text(json.dumps(data, indent=1, ensure_ascii=False), encoding="utf-8")
 
 
+def full_is_due(last: dict) -> tuple[bool, str]:
+    """-> (corresponde, motivo si NO corresponde)"""
+    prev = last.get("last_full_ts")
+    if not prev:
+        return True, ""
+    try:
+        age = dt.datetime.now() - dt.datetime.fromisoformat(prev)
+    except Exception:
+        return True, ""
+    if age.days < FULL_INTERVAL_DAYS:
+        return False, (f"matriz POP omitida: la ultima corrida completa fue hace {age.days}d "
+                       f"(cadencia {FULL_INTERVAL_DAYS}d). Usá --force para forzarla.")
+    return True, ""
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--full", action="store_true",
-                    help="correr tambien la matriz POP + el gate del baseline")
-    ap.add_argument("--force", action="store_true", help="hablar siempre")
+                    help="correr tambien la matriz POP + el gate del baseline (respeta la cadencia)")
+    ap.add_argument("--force", action="store_true",
+                    help="hablar siempre, y forzar la matriz aunque no toque por cadencia")
     ap.add_argument("--status", action="store_true", help="mostrar estado y salir")
     ap.add_argument("--expect-build", default=DEFAULT_EXPECTED_BUILD)
     args = ap.parse_args()
@@ -113,6 +139,9 @@ def main() -> int:
         if last:
             print(f"  veredicto : {last.get('verdict')}")
             print(f"  detalle   : {last.get('detail')}")
+        print(f"ultima completa (matriz): {last.get('last_full_ts', '(ninguna)')}")
+        due, _ = full_is_due(last)
+        print(f"matriz ahora             : {'le toca' if due else 'NO le toca (cadencia)'}")
         return 0
 
     # ── TD caido: silencio (es lo normal) ────────────────────────────────────
@@ -131,14 +160,19 @@ def main() -> int:
         print("  Fix: python scripts/td_env.py --restart")
         return 5
 
-    # ── TD LIVE: correr el canario ───────────────────────────────────────────
+    # ── TD LIVE: canario ─────────────────────────────────────────────────────
     results: list[dict] = []
 
     rc, out = run([sys.executable, str(GLSL_SUITE)], timeout=600)
-    glsl = {"name": "glsl_pops_reference", "rc": rc, "detail": parse_checks(out)}
-    results.append(glsl)
+    results.append({"name": "glsl_pops_reference", "rc": rc, "detail": parse_checks(out)})
 
-    if args.full:
+    # ── matriz POP (+gate), con cadencia ─────────────────────────────────────
+    run_full = args.full
+    skip_note = ""
+    if args.full and not args.force:
+        run_full, skip_note = full_is_due(last)
+
+    if run_full:
         rc_m, out_m = run([sys.executable, str(POP_MATRIX)], timeout=1800)
         m = re.search(r"ok_con_input=(\d+)\s+error_con_input=(\d+)\s+sin_geo=(\d+)"
                       r"\s+no_creable=(\d+)", out_m)
@@ -152,20 +186,24 @@ def main() -> int:
         results.append({"name": "pop_matrix_baseline", "rc": rc_b, "detail": gate_line})
 
     failures = [r for r in results if r["rc"] != 0]
-    snapshot = {"ts": dt.datetime.now().isoformat(timespec="seconds"),
+    now_ts = dt.datetime.now().isoformat(timespec="seconds")
+    full_ts = now_ts if run_full else last.get("last_full_ts")
+    snapshot = {"ts": now_ts,
+                "last_full_ts": full_ts,
                 "build": info.get("build") or info.get("release"),
                 "verdict": "FAIL" if failures else "PASS",
                 "detail": " | ".join(f"{r['name']}: {r['detail']}" for r in results),
                 "results": results}
     changed = snapshot["detail"] != last.get("detail") or snapshot["build"] != last.get("build")
 
-    should_speak = bool(failures) or changed or args.force
-    if should_speak:
+    if failures or changed or args.force:
         head = "FALLOS" if failures else "OK"
         print(f"TD-MCP · verificacion en vivo: {head}  ({snapshot['build']})")
         for r in results:
             mark = "FALLA" if r["rc"] != 0 else "ok"
             print(f"  [{mark}] {r['name']}: {r['detail']}")
+        if skip_note:
+            print(f"  (nota) {skip_note}")
         if failures:
             for r in failures:
                 print(f"  -> {r['name']} exit={r['rc']}")
