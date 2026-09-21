@@ -42,6 +42,382 @@ class TouchDesignerAPI:
         self.clientQueue = td_utils.ClientQueueManager()
         self.activeTasks = {}  # Store active tasks by ID
 
+        # Undo/redo history of requests (backlog item 09)
+        self._undo_stack = []
+        self._redo_stack = []
+
+    # ── Request history: /undo, /redo, /history (backlog item 09) ───────────
+
+    UNDO_MAX_DEPTH = 50
+
+    def _ensure_history(self):
+        """Lazy-init history state so instances built without __init__ work."""
+        if not hasattr(self, "_undo_stack"):
+            self._undo_stack = []
+        if not hasattr(self, "_redo_stack"):
+            self._redo_stack = []
+
+    def _history_snapshot_ops(self, paths):
+        """Capture the minimal state needed to recreate/restore operators.
+
+        Returns a list of {path, type, opType, name, exists} entries for the
+        paths that currently exist. Non-existent paths are recorded as
+        exists=False so undo of a create knows they must be destroyed.
+        """
+        ops = []
+        for p in paths:
+            try:
+                n = op(p)  # type: ignore
+            except Exception:
+                n = None
+            if n is None:
+                ops.append({"path": p, "exists": False})
+                continue
+            ops.append({
+                "path": getattr(n, "path", p),
+                "type": getattr(n, "type", None),
+                "opType": getattr(n, "OPType", None),
+                "name": getattr(n, "name", None),
+                "nodeX": getattr(n, "nodeX", 0),
+                "nodeY": getattr(n, "nodeY", 0),
+                "exists": True,
+            })
+        return ops
+
+    def _history_restore_ops(self, ops):
+        """Recreate or destroy operators so the tree matches `ops`.
+
+        For each entry: exists=True recreates the operator by type at its
+        recorded path (best effort; parameters are NOT restored here —
+        parameter state travels in its own kind of entry); exists=False
+        destroys it if it still exists. Returns (recreated, destroyed, errors).
+        """
+        recreated = 0
+        destroyed = 0
+        errors = []
+        for entry in ops or []:
+            try:
+                n = op(entry["path"])  # type: ignore
+                if entry.get("exists"):
+                    if n is None:
+                        parent_path, _, name = entry["path"].rpartition("/")
+                        parent = op(parent_path or "/")  # type: ignore
+                        if parent is None:
+                            raise ValueError(f"Parent not found: {parent_path}")
+                        op_type = entry.get("opType") or entry.get("type")
+                        created = parent.create(op_type, name)
+                        try:
+                            created.nodeX = entry.get("nodeX", 0)
+                            created.nodeY = entry.get("nodeY", 0)
+                        except Exception:
+                            pass
+                        recreated += 1
+                else:
+                    if n is not None:
+                        n.destroy()
+                        destroyed += 1
+            except Exception as e:
+                errors.append({"path": entry.get("path"), "error": str(e)})
+        return recreated, destroyed, errors
+
+    def _history_apply_par_states(self, par_states):
+        """Restore recorded parameter states (value/mode/expr)."""
+        restored = 0
+        errors = []
+        for entry in par_states or []:
+            try:
+                target = op(entry["path"])  # type: ignore
+                if target is None or not hasattr(target.par, entry["name"]):
+                    errors.append({"path": entry["path"], "name": entry["name"], "error": "operator or parameter not found"})
+                    continue
+                self._restore_parameter_state(getattr(target.par, entry["name"]), entry["state"])
+                restored += 1
+            except Exception as e:
+                errors.append({"path": entry.get("path"), "name": entry.get("name"), "error": str(e)})
+        return restored, errors
+
+    def _record_history(self, description, undo_entry):
+        """Push one reversible entry onto the undo stack.
+
+        FIFO discard beyond UNDO_MAX_DEPTH; any new write clears the redo
+        stack (standard undo/redo semantics). Returns the stored entry.
+        """
+        self._ensure_history()
+        entry = {
+            "id": uuid.uuid4().hex[:8],
+            "description": description,
+            "undo": undo_entry,
+        }
+        self._undo_stack.append(entry)
+        if len(self._undo_stack) > self.UNDO_MAX_DEPTH:
+            self._undo_stack.pop(0)  # FIFO: drop the oldest
+        self._redo_stack.clear()
+        return entry
+
+    def _history_drop_last_if(self, predicate):
+        """Remove the most recent history entry when `predicate` holds.
+
+        Used by handlers that pre-capture state before running generated code:
+        if the execution then reports failure, the capture must not stay in
+        the history (undoing a no-op would corrupt the tree).
+        """
+        self._ensure_history()
+        if self._undo_stack and predicate(self._undo_stack[-1]):
+            self._undo_stack.pop()
+
+    def _history_capture_pars(self, target, updates):
+        """Capture the pre-change state of the parameters an update touches."""
+        par_states = []
+        try:
+            for upd in updates:
+                name = upd.get("name")
+                if name and hasattr(target.par, name):
+                    par_states.append({
+                        "path": target.path,
+                        "name": name,
+                        "state": self._capture_parameter_state(getattr(target.par, name)),
+                    })
+        except Exception:
+            pass
+        return par_states
+
+    def _history_for_parameters_set(self, target, updates):
+        par_states = self._history_capture_pars(target, updates)
+        if not par_states:
+            return None
+        names = ", ".join(s["name"] for s in par_states)
+        return self._record_history(
+            f"parameters.set on {target.path} ({names})",
+            {"kind": "parameters", "parStates": par_states},
+        )
+
+    def _history_for_create(self, new_path):
+        return self._record_history(
+            f"create {new_path}",
+            {"kind": "ops", "ops": [{"path": new_path, "exists": False}]},
+        )
+
+    def _history_for_delete(self, entry):
+        """Entry is the _history_snapshot_ops record captured before delete."""
+        return self._record_history(f"delete {entry['path']}", {"kind": "ops", "ops": [entry]})
+
+    def _history_for_connect(self, source, target, target_input):
+        """Capture the input wiring the connect is about to replace.
+
+        inputConnectors[i] holds a list of current connections; we record
+        (target, input_index, [source paths]) so undo can restore exactly
+        what was connected there before.
+        """
+        sources = []
+        try:
+            for conn in target.inputConnectors[target_input].connections:
+                try:
+                    if conn.owner is not None:
+                        sources.append(conn.owner.path)
+                except Exception:
+                    pass
+        except Exception:
+            pass
+        return self._record_history(
+            f"connect {getattr(source, 'path', source)} -> {getattr(target, 'path', target)}[{target_input}]",
+            {"kind": "wiring", "input": {"path": getattr(target, "path", target), "index": target_input, "sources": sources}},
+        )
+
+    def _history_for_disconnect(self, target, target_input, sources):
+        return self._record_history(
+            f"disconnect {getattr(target, 'path', target)}[{target_input}]",
+            {"kind": "wiring", "input": {"path": getattr(target, "path", target), "index": target_input, "sources": list(sources or [])}},
+        )
+
+    def _undo_apply_entry(self, entry):
+        """Revert ONE complete request operation described by `entry`."""
+        undo = entry.get("undo", {})
+        kind = undo.get("kind")
+        if kind == "parameters":
+            restored, errors = self._history_apply_par_states(undo.get("parStates"))
+            return restored, errors
+        if kind == "ops":
+            _, destroyed, errors = self._history_restore_ops(undo.get("ops"))
+            return destroyed, errors
+        if kind == "wiring":
+            inp = undo.get("input", {})
+            target = op(inp.get("path"))  # type: ignore
+            if target is None:
+                return 0, [{"path": inp.get("path"), "error": "operator not found"}]
+            idx = int(inp.get("index", 0))
+            try:
+                target.inputConnectors[idx].disconnect()
+            except Exception:
+                pass
+            reconnected = 0
+            errors = []
+            for src_path in inp.get("sources", []):
+                try:
+                    src = op(src_path)  # type: ignore
+                    if src is not None:
+                        target.inputConnectors[idx].connect(src)
+                        reconnected += 1
+                except Exception as e:
+                    errors.append({"path": src_path, "error": str(e)})
+            return reconnected, errors
+        return 0, [{"error": f"Unknown undo entry kind: {kind!r}"}]
+
+    def _redo_apply_entry(self, entry):
+        """Re-apply the operation that `entry` originally reverted."""
+        undo = entry.get("undo", {})
+        kind = undo.get("kind")
+        if kind == "parameters":
+            # The state captured BEFORE the change is what redo must undo:
+            # redo re-applies the change by restoring the "after" state, which
+            # we recorded symmetrically when the undo happened.
+            after = entry.get("redo")
+            if not after:
+                return 0, [{"error": "No redo state recorded for this entry"}]
+            restored, errors = self._history_apply_par_states(after.get("parStates", []))
+            return restored, errors
+        if kind == "ops":
+            ops = undo.get("ops", [])
+            # Redo of a create = destroy again; redo of a delete = recreate.
+            flipped = [dict(o, exists=not o.get("exists")) for o in ops]
+            recreated, destroyed, errors = self._history_restore_ops(flipped)
+            return (recreated if any(not o.get("exists") for o in ops) else destroyed), errors
+        if kind == "wiring":
+            inp = undo.get("input", {})
+            target = op(inp.get("path"))  # type: ignore
+            if target is None:
+                return 0, [{"path": inp.get("path"), "error": "operator not found"}]
+            # Redo reconnects the source(s) that were wired at write time.
+            src_path = inp.get("redoSource")
+            if not src_path:
+                return 0, [{"error": "No redo source recorded for this entry"}]
+            idx = int(inp.get("index", 0))
+            try:
+                target.inputConnectors[idx].disconnect()
+            except Exception:
+                pass
+            try:
+                src = op(src_path)  # type: ignore
+                if src is None:
+                    return 0, [{"path": src_path, "error": "source not found"}]
+                target.inputConnectors[idx].connect(src)
+                return 1, []
+            except Exception as e:
+                return 0, [{"path": src_path, "error": str(e)}]
+        return 0, [{"error": f"Unknown redo entry kind: {kind!r}"}]
+
+    def _handle_undo(self, request: dict, response: dict) -> dict:
+        """POST /undo - revert the most recent recorded write operation."""
+        self._ensure_history()
+        if not self._undo_stack:
+            response["statusCode"] = 400
+            response["statusReason"] = "Bad Request"
+            response["data"] = json.dumps({
+                "success": False,
+                "error": "Nothing to undo: the history is empty",
+                "hint": "Only bridge write requests (/parameters/set, /create, /delete, /connect, /disconnect) are recorded; run one first or check GET /history",
+            })
+            return self._send_response(response)
+        entry = self._undo_stack.pop()
+        try:
+            # Capture the post-write state BEFORE reverting, so redo can
+            # restore exactly what the write produced (capture-after-undo
+            # would record the already-reverted values).
+            undo = entry.get("undo", {})
+            if undo.get("kind") == "parameters":
+                after_states = []
+                for st in undo.get("parStates", []):
+                    target = op(st["path"])  # type: ignore
+                    if target is not None and hasattr(target.par, st["name"]):
+                        after_states.append({
+                            "path": st["path"],
+                            "name": st["name"],
+                            "state": self._capture_parameter_state(getattr(target.par, st["name"])),
+                        })
+                entry["redo"] = {"kind": "parameters", "parStates": after_states}
+            applied, errors = self._undo_apply_entry(entry)
+            self._redo_stack.append(entry)
+            response["statusCode"] = 200
+            response["statusReason"] = "OK"
+            response["data"] = json.dumps({
+                "success": True,
+                "undone": entry["description"],
+                "kind": entry["undo"].get("kind"),
+                "applied": applied,
+                "errors": errors,
+                "depth": len(self._undo_stack),
+                "canUndo": len(self._undo_stack) > 0,
+                "canRedo": True,
+            }, ensure_ascii=False)
+        except Exception as e:
+            response["statusCode"] = 500
+            response["statusReason"] = "Internal Server Error"
+            response["data"] = json.dumps({"success": False, "error": str(e)})
+        return self._send_response(response)
+
+    def _history_connect_source_of(self, undo):
+        """Best-effort source path for redoing a wiring change."""
+        # For connect-entries the source is the other side of the wire; we
+        # stored it in the description only, so recover it from the entry.
+        return undo.get("sourcePath")
+
+    def _handle_redo(self, request: dict, response: dict) -> dict:
+        """POST /redo - re-apply the most recently undone operation."""
+        self._ensure_history()
+        if not self._redo_stack:
+            response["statusCode"] = 400
+            response["statusReason"] = "Bad Request"
+            response["data"] = json.dumps({
+                "success": False,
+                "error": "Nothing to redo: no undone operation pending",
+                "hint": "Redo is only available right after an /undo; a new write clears it. See GET /history",
+            })
+            return self._send_response(response)
+        entry = self._redo_stack.pop()
+        try:
+            applied, errors = self._redo_apply_entry(entry)
+            self._undo_stack.append(entry)
+            if len(self._undo_stack) > self.UNDO_MAX_DEPTH:
+                self._undo_stack.pop(0)
+            response["statusCode"] = 200
+            response["statusReason"] = "OK"
+            response["data"] = json.dumps({
+                "success": True,
+                "redone": entry["description"],
+                "kind": entry["undo"].get("kind"),
+                "applied": applied,
+                "errors": errors,
+                "depth": len(self._undo_stack),
+                "canUndo": True,
+                "canRedo": len(self._redo_stack) > 0,
+            }, ensure_ascii=False)
+        except Exception as e:
+            response["statusCode"] = 500
+            response["statusReason"] = "Internal Server Error"
+            response["data"] = json.dumps({"success": False, "error": str(e)})
+        return self._send_response(response)
+
+    def _handle_history(self, response: dict) -> dict:
+        """GET /history - list undoable/redoable entries, one line each."""
+        self._ensure_history()
+        undo_items = [
+            {"id": e["id"], "description": e["description"], "kind": e["undo"].get("kind")}
+            for e in self._undo_stack
+        ]
+        redo_items = [
+            {"id": e["id"], "description": e["description"], "kind": e["undo"].get("kind")}
+            for e in self._redo_stack
+        ]
+        response["statusCode"] = 200
+        response["statusReason"] = "OK"
+        response["data"] = json.dumps({
+            "maxDepth": self.UNDO_MAX_DEPTH,
+            "canUndo": len(undo_items) > 0,
+            "canRedo": len(redo_items) > 0,
+            "undo": undo_items,
+            "redo": redo_items,
+        }, ensure_ascii=False)
+        return self._send_response(response)
+
     # ── Read-through cache (GET /operators and GET /verify) ─────────────────
 
     def _ensure_cache(self):
@@ -292,7 +668,6 @@ class TouchDesignerAPI:
             # POST /parameters/set - Set parameters transactionally
             if uri.startswith("/parameters/set") and method == "POST":
                 return self._handle_parameters_set(request, response)
-
             # GET /connections - Connection graph for operator or children (paginated)
             if uri.startswith("/connections") and method == "GET":
                 path = unquote(pars.get("path", "/"))
@@ -390,7 +765,6 @@ class TouchDesignerAPI:
                 return self._handle_create_operator(request, response)
             if uri == "/create" and method == "POST":
                 return self._handle_create_operator(request, response)
-
             # POST /delete_operator - Delete operator
             if uri.startswith("/delete_operator") and method in ("GET", "POST"):
                 path = unquote(pars.get("path", ""))
@@ -514,6 +888,16 @@ class TouchDesignerAPI:
                 limit = pars.get("limit", "5")
                 return self._handle_memory_recall(query, limit, response)
 
+            # ── Request history: /undo, /redo, /history (backlog item 09) ────
+            # POST /undo - revert the most recent recorded write operation
+            if uri == "/undo" and method == "POST":
+                return self._handle_undo(request, response)
+            # POST /redo - re-apply the most recently undone operation
+            if uri == "/redo" and method == "POST":
+                return self._handle_redo(request, response)
+            # GET /history - list undoable/redoable entries, one line each
+            if uri == "/history" and method == "GET":
+                return self._handle_history(response)
             # 404 for other endpoints
             response["statusCode"] = 404
             response["statusReason"] = "Not Found"
@@ -2046,6 +2430,11 @@ except Exception as e:
     print(json.dumps({{'success':False,'path':'','name':'','type':'','opType':'','error':str(e)}}))
 """
         result = self._execute_python_robust(code)
+        # Record the creation so /undo can destroy the operator (backlog 09).
+        # Parsed AFTER execution: only a real creation enters the history.
+        created = self._parse_json_output(result.get("output", ""))
+        if isinstance(created, dict) and created.get("success") and created.get("path"):
+            self._history_for_create(created["path"])
         response["statusCode"] = 200
         response["statusReason"] = "OK"
         response["data"] = json.dumps(result, ensure_ascii=False)
@@ -2057,6 +2446,10 @@ except Exception as e:
 
     def _handle_delete_operator(self, path: str, response: dict) -> dict:
         """Delete an operator."""
+        # Capture the operator (and its wiring) BEFORE destroying it so /undo
+        # can recreate it (backlog 09).
+        snapshot = self._history_snapshot_ops([path])
+        self._history_for_delete(snapshot[0]) if snapshot and snapshot[0].get("exists") else None
         code = rf"""import json
 t = op('{path}')
 if t is None:
@@ -2066,6 +2459,10 @@ else:
     print(json.dumps({{'success':True,'path':'{path}'}}))
 """
         result = self._execute_python_robust(code)
+        # A failed delete must not leave a history entry: drop it.
+        deleted = self._parse_json_output(result.get("output", ""))
+        if not (isinstance(deleted, dict) and deleted.get("success")):
+            self._history_drop_last_if(predicate=lambda e: e["description"] == f"delete {path}")
         response["statusCode"] = 200
         response["statusReason"] = "OK"
         response["data"] = json.dumps(result, ensure_ascii=False)
@@ -2082,6 +2479,13 @@ else:
         target = pars.get("target_path", "")
         target_input = int(pars.get("target_input", "0"))
 
+        # Capture the input wiring BEFORE it is replaced so /undo can restore
+        # exactly what was connected there (backlog 09).
+        src_op = op(source)  # type: ignore
+        tgt_op = op(target)  # type: ignore
+        if src_op is not None and tgt_op is not None:
+            self._history_for_connect(src_op, tgt_op, target_input)
+
         code = rf"""import json
 src = op('{source}'); tgt = op('{target}')
 if src is None:
@@ -2093,6 +2497,9 @@ else:
     print(json.dumps({{'success':True,'sourcePath':src.path,'targetPath':tgt.path,'sourceOutput':'output','targetInput':{target_input}}}))
 """
         result = self._execute_python_robust(code)
+        wired = self._parse_json_output(result.get("output", ""))
+        if not (isinstance(wired, dict) and wired.get("success")):
+            self._history_drop_last_if(predicate=lambda e: e["description"].startswith(f"connect {source}"))
         response["statusCode"] = 200
         response["statusReason"] = "OK"
         response["data"] = json.dumps(result, ensure_ascii=False)
@@ -2104,6 +2511,18 @@ else:
 
     def _handle_disconnect(self, path: str, input_index: int, response: dict) -> dict:
         """Disconnect an input."""
+        # Capture the wiring BEFORE disconnecting so /undo can reconnect it
+        # (backlog 09).
+        tgt_op = op(path)  # type: ignore
+        prev_sources = []
+        if tgt_op is not None:
+            try:
+                prev_sources = [conn.owner.path for conn in tgt_op.inputConnectors[input_index].connections if conn.owner is not None]
+            except Exception:
+                prev_sources = []
+            if prev_sources:
+                self._history_for_disconnect(tgt_op, input_index, prev_sources)
+
         code = rf"""import json
 t = op('{path}')
 if t is None:
@@ -3795,6 +4214,10 @@ else:
                 response["statusReason"] = "Not Found"
                 response["data"] = json.dumps({"error": f"Operator not found: {path}"})
                 return self._send_response(response)
+
+            # Record the pre-change state so /undo can revert this request as
+            # ONE operation (backlog item 09).
+            self._history_for_parameters_set(target, updates if isinstance(updates, list) else [])
 
             # Discover the real parameter names of this operator (server-side
             # validation, mirroring the client-side gate in mcp/src/popsValidate.ts).

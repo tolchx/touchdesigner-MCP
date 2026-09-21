@@ -15,6 +15,7 @@ import traceback
 import io
 import urllib.parse
 import contextlib
+import uuid
 
 
 class TouchDesignerAPI:
@@ -26,6 +27,9 @@ class TouchDesignerAPI:
         self._ws_clients = set()
         self._cache_hits = 0
         self._cache_misses = 0
+        # Undo/redo history of requests (backlog item 09)
+        self._undo_stack = []
+        self._redo_stack = []
         print(f"[TouchDesignerAPI] Inicializado en {owner_comp.path}")
 
     # ── Read-through cache helpers (mirror toe/src/TouchDesignerAPI.py) ────────
@@ -57,6 +61,353 @@ class TouchDesignerAPI:
         self._cache.clear()
         self._cache_hits = 0
         self._cache_misses = 0
+
+    # ── Request history: /undo, /redo, /history (backlog item 09) ────────────
+    # Mirror of toe/src/TouchDesignerAPI.py (same entries, same semantics).
+
+    UNDO_MAX_DEPTH = 50
+
+    def _ensure_history(self):
+        """Lazy-init history state so instances built without __init__ work."""
+        if not hasattr(self, "_undo_stack"):
+            self._undo_stack = []
+        if not hasattr(self, "_redo_stack"):
+            self._redo_stack = []
+
+    def _history_snapshot_ops(self, paths):
+        """Capture the minimal state needed to recreate/restore operators."""
+        ops = []
+        for p in paths:
+            try:
+                n = op(p)
+            except Exception:
+                n = None
+            if n is None:
+                ops.append({"path": p, "exists": False})
+                continue
+            ops.append({
+                "path": getattr(n, "path", p),
+                "type": getattr(n, "type", None),
+                "opType": getattr(n, "OPType", None),
+                "name": getattr(n, "name", None),
+                "nodeX": getattr(n, "nodeX", 0),
+                "nodeY": getattr(n, "nodeY", 0),
+                "exists": True,
+            })
+        return ops
+
+    def _history_restore_ops(self, ops):
+        """Recreate or destroy operators so the tree matches `ops`."""
+        recreated = 0
+        destroyed = 0
+        errors = []
+        for entry in ops or []:
+            try:
+                n = op(entry["path"])
+                if entry.get("exists"):
+                    if n is None:
+                        parent_path, _, name = entry["path"].rpartition("/")
+                        parent = op(parent_path or "/")
+                        if parent is None:
+                            raise ValueError(f"Parent not found: {parent_path}")
+                        op_type = entry.get("opType") or entry.get("type")
+                        created = parent.create(op_type, name)
+                        try:
+                            created.nodeX = entry.get("nodeX", 0)
+                            created.nodeY = entry.get("nodeY", 0)
+                        except Exception:
+                            pass
+                        recreated += 1
+                else:
+                    if n is not None:
+                        n.destroy()
+                        destroyed += 1
+            except Exception as e:
+                errors.append({"path": entry.get("path"), "error": str(e)})
+        return recreated, destroyed, errors
+
+    def _history_apply_par_states(self, par_states):
+        """Restore recorded parameter states (value/mode/expr)."""
+        restored = 0
+        errors = []
+        for entry in par_states or []:
+            try:
+                target = op(entry["path"])
+                if target is None or not hasattr(target.par, entry["name"]):
+                    errors.append({"path": entry["path"], "name": entry["name"], "error": "operator or parameter not found"})
+                    continue
+                self._restore_par_state(getattr(target.par, entry["name"]), entry["state"])
+                restored += 1
+            except Exception as e:
+                errors.append({"path": entry.get("path"), "name": entry.get("name"), "error": str(e)})
+        return restored, errors
+
+    def _capture_par_state(self, par):
+        """Capture one Par's value/expr/mode for later restore."""
+        state = {"modeName": None, "expr": None, "value": None, "hasValue": False}
+        try:
+            mode = par.mode
+            state["modeName"] = getattr(mode, "name", None)
+            if not state["modeName"]:
+                mode_text = str(mode)
+                if "." in mode_text:
+                    state["modeName"] = mode_text.split(".")[-1]
+        except Exception:
+            pass
+        try:
+            state["expr"] = par.expr if par.expr else None
+        except Exception:
+            pass
+        try:
+            state["value"] = par.eval()
+            state["hasValue"] = True
+        except Exception:
+            try:
+                state["value"] = par.val
+                state["hasValue"] = True
+            except Exception:
+                state["value"] = None
+        return state
+
+    def _restore_par_state(self, par, state):
+        """Restore one Par from a captured state (mirror of toe/src)."""
+        mode_name = state.get("modeName")
+        if mode_name:
+            try:
+                par.mode = getattr(ParMode, mode_name)
+            except Exception:
+                pass
+        expr = state.get("expr")
+        if expr:
+            par.expr = expr
+            return
+        try:
+            par.expr = ""
+        except Exception:
+            pass
+        if state.get("hasValue"):
+            par.val = state.get("value")
+
+    def _record_history(self, description, undo_entry):
+        """Push one reversible entry onto the undo stack (FIFO at depth 50)."""
+        self._ensure_history()
+        entry = {
+            "id": uuid.uuid4().hex[:8],
+            "description": description,
+            "undo": undo_entry,
+        }
+        self._undo_stack.append(entry)
+        if len(self._undo_stack) > self.UNDO_MAX_DEPTH:
+            self._undo_stack.pop(0)  # FIFO: drop the oldest
+        self._redo_stack.clear()
+        return entry
+
+    def _history_drop_last_if(self, predicate):
+        """Remove the most recent history entry when `predicate` holds."""
+        self._ensure_history()
+        if self._undo_stack and predicate(self._undo_stack[-1]):
+            self._undo_stack.pop()
+
+    def _history_capture_pars(self, target, updates):
+        """Capture the pre-change state of the parameters an update touches."""
+        par_states = []
+        try:
+            for upd in updates:
+                name = upd.get("name")
+                if name and hasattr(target.par, name):
+                    par_states.append({
+                        "path": target.path,
+                        "name": name,
+                        "state": self._capture_par_state(getattr(target.par, name)),
+                    })
+        except Exception:
+            pass
+        return par_states
+
+    def _history_for_parameters_set(self, target, updates):
+        par_states = self._history_capture_pars(target, updates)
+        if not par_states:
+            return None
+        names = ", ".join(s["name"] for s in par_states)
+        return self._record_history(
+            f"parameters.set on {target.path} ({names})",
+            {"kind": "parameters", "parStates": par_states},
+        )
+
+    def _history_for_create(self, new_path):
+        return self._record_history(
+            f"create {new_path}",
+            {"kind": "ops", "ops": [{"path": new_path, "exists": False}]},
+        )
+
+    def _history_for_delete(self, entry):
+        """Entry is the _history_snapshot_ops record captured before delete."""
+        return self._record_history(f"delete {entry['path']}", {"kind": "ops", "ops": [entry]})
+
+    def _undo_apply_entry(self, entry):
+        """Revert ONE complete request operation described by `entry`."""
+        undo = entry.get("undo", {})
+        kind = undo.get("kind")
+        if kind == "parameters":
+            restored, errors = self._history_apply_par_states(undo.get("parStates"))
+            return restored, errors
+        if kind == "ops":
+            _, destroyed, errors = self._history_restore_ops(undo.get("ops"))
+            return destroyed, errors
+        if kind == "wiring":
+            inp = undo.get("input", {})
+            target = op(inp.get("path"))
+            if target is None:
+                return 0, [{"path": inp.get("path"), "error": "operator not found"}]
+            idx = int(inp.get("index", 0))
+            try:
+                target.inputConnectors[idx].disconnect()
+            except Exception:
+                pass
+            reconnected = 0
+            errors = []
+            for src_path in inp.get("sources", []):
+                try:
+                    src = op(src_path)
+                    if src is not None:
+                        target.inputConnectors[idx].connect(src)
+                        reconnected += 1
+                except Exception as e:
+                    errors.append({"path": src_path, "error": str(e)})
+            return reconnected, errors
+        return 0, [{"error": f"Unknown undo entry kind: {kind!r}"}]
+
+    def _redo_apply_entry(self, entry):
+        """Re-apply the operation that `entry` originally reverted."""
+        undo = entry.get("undo", {})
+        kind = undo.get("kind")
+        if kind == "parameters":
+            after = entry.get("redo")
+            if not after:
+                return 0, [{"error": "No redo state recorded for this entry"}]
+            restored, errors = self._history_apply_par_states(after.get("parStates", []))
+            return restored, errors
+        if kind == "ops":
+            ops = undo.get("ops", [])
+            flipped = [dict(o, exists=not o.get("exists")) for o in ops]
+            recreated, destroyed, errors = self._history_restore_ops(flipped)
+            return (recreated if any(not o.get("exists") for o in ops) else destroyed), errors
+        return 0, [{"error": f"Unknown redo entry kind: {kind!r}"}]
+
+    def _handle_undo(self):
+        """POST /undo - revert the most recent recorded write operation."""
+        self._ensure_history()
+        if not self._undo_stack:
+            return {
+                "status": 400,
+                "body": json.dumps({
+                    "success": False,
+                    "error": "Nothing to undo: the history is empty",
+                    "hint": "Only bridge write requests are recorded; run one first or check GET /history",
+                }),
+                "headers": {"Content-Type": "application/json"},
+            }
+        entry = self._undo_stack.pop()
+        try:
+            # Capture the post-write state BEFORE reverting, so redo can
+            # restore exactly what the write produced (mirror of toe/src).
+            undo = entry.get("undo", {})
+            if undo.get("kind") == "parameters":
+                after_states = []
+                for st in undo.get("parStates", []):
+                    target = op(st["path"])
+                    if target is not None and hasattr(target.par, st["name"]):
+                        after_states.append({
+                            "path": st["path"],
+                            "name": st["name"],
+                            "state": self._capture_par_state(getattr(target.par, st["name"])),
+                        })
+                entry["redo"] = {"kind": "parameters", "parStates": after_states}
+            applied, errors = self._undo_apply_entry(entry)
+            self._redo_stack.append(entry)
+            return {
+                "status": 200,
+                "body": json.dumps({
+                    "success": True,
+                    "undone": entry["description"],
+                    "kind": entry["undo"].get("kind"),
+                    "applied": applied,
+                    "errors": errors,
+                    "depth": len(self._undo_stack),
+                    "canUndo": len(self._undo_stack) > 0,
+                    "canRedo": True,
+                }, ensure_ascii=False),
+                "headers": {"Content-Type": "application/json"},
+            }
+        except Exception as e:
+            return {
+                "status": 500,
+                "body": json.dumps({"success": False, "error": str(e)}),
+                "headers": {"Content-Type": "application/json"},
+            }
+
+    def _handle_redo(self):
+        """POST /redo - re-apply the most recently undone operation."""
+        self._ensure_history()
+        if not self._redo_stack:
+            return {
+                "status": 400,
+                "body": json.dumps({
+                    "success": False,
+                    "error": "Nothing to redo: no undone operation pending",
+                    "hint": "Redo is only available right after an /undo; a new write clears it. See GET /history",
+                }),
+                "headers": {"Content-Type": "application/json"},
+            }
+        entry = self._redo_stack.pop()
+        try:
+            applied, errors = self._redo_apply_entry(entry)
+            self._undo_stack.append(entry)
+            if len(self._undo_stack) > self.UNDO_MAX_DEPTH:
+                self._undo_stack.pop(0)
+            return {
+                "status": 200,
+                "body": json.dumps({
+                    "success": True,
+                    "redone": entry["description"],
+                    "kind": entry["undo"].get("kind"),
+                    "applied": applied,
+                    "errors": errors,
+                    "depth": len(self._undo_stack),
+                    "canUndo": True,
+                    "canRedo": len(self._redo_stack) > 0,
+                }, ensure_ascii=False),
+                "headers": {"Content-Type": "application/json"},
+            }
+        except Exception as e:
+            return {
+                "status": 500,
+                "body": json.dumps({"success": False, "error": str(e)}),
+                "headers": {"Content-Type": "application/json"},
+            }
+
+    def _handle_history(self):
+        """GET /history - list undoable/redoable entries, one line each."""
+        self._ensure_history()
+        undo_items = [
+            {"id": e["id"], "description": e["description"], "kind": e["undo"].get("kind")}
+            for e in self._undo_stack
+        ]
+        redo_items = [
+            {"id": e["id"], "description": e["description"], "kind": e["undo"].get("kind")}
+            for e in self._redo_stack
+        ]
+        return {
+            "status": 200,
+            "body": json.dumps({
+                "maxDepth": self.UNDO_MAX_DEPTH,
+                "canUndo": len(undo_items) > 0,
+                "canRedo": len(redo_items) > 0,
+                "undo": undo_items,
+                "redo": redo_items,
+            }, ensure_ascii=False),
+            "headers": {"Content-Type": "application/json"},
+        }
 
     # ── Server-side endpoint latency tracking (GET /metrics) ─────────────
     # Mirror of toe/src/TouchDesignerAPI.py (same buffers, same route keys).
@@ -184,6 +535,12 @@ class TouchDesignerAPI:
             # Rutas disponibles
             if path == "/info" or path == "/":
                 return self._handle_info()
+            elif path == "/undo" and method == "POST":
+                return self._handle_undo()
+            elif path == "/redo" and method == "POST":
+                return self._handle_redo()
+            elif path == "/history" and method == "GET":
+                return self._handle_history()
             elif path == "/exec" and method in ("POST", "PUT"):
                 return self._handle_exec(body)
             elif path == "/execute_async" and method in ("POST", "PUT"):
@@ -698,7 +1055,7 @@ class TouchDesignerAPI:
             }
 
     def _handle_parameters_set(self, body):
-        """POST /parameters/set — set parameters transactionally."""
+        """POST /parameters/set - set parameters transactionally."""
         self._invalidate_on_write()
         try:
             data = json.loads(body) if body else {}
@@ -711,6 +1068,9 @@ class TouchDesignerAPI:
                     "body": json.dumps({"error": f"Operator not found: {path}"}),
                     "headers": {"Content-Type": "application/json"},
                 }
+            # Record the pre-change state so /undo can revert this request as
+            # ONE operation (backlog item 09).
+            self._history_for_parameters_set(target, updates if isinstance(updates, list) else [])
             applied = []
             missing = []
             for upd in updates:
