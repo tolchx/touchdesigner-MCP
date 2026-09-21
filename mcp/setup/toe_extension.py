@@ -235,10 +235,26 @@ class TouchDesignerAPI:
         )
 
     def _history_for_create(self, new_path):
-        return self._record_history(
-            f"create {new_path}",
-            {"kind": "ops", "ops": [{"path": new_path, "exists": False}]},
-        )
+        """Record a creation so /undo can destroy it and /redo can re-create it.
+
+        The pre-create state (exists=False) alone is NOT enough for redo:
+        recreating the operator needs its type, which only exists AFTER the
+        create happened. So we snapshot the freshly created op here (found
+        live: redo failed with "Unknown operator type. Value:None" without
+        this).
+        """
+        entry = {"path": new_path, "exists": False}
+        try:
+            n = op(new_path)  # type: ignore
+            if n is not None:
+                entry["opType"] = getattr(n, "OPType", None)
+                entry["type"] = getattr(n, "type", None)
+                entry["name"] = getattr(n, "name", None)
+                entry["nodeX"] = getattr(n, "nodeX", 0)
+                entry["nodeY"] = getattr(n, "nodeY", 0)
+        except Exception:
+            pass
+        return self._record_history(f"create {new_path}", {"kind": "ops", "ops": [entry]})
 
     def _history_for_delete(self, entry):
         """Entry is the _history_snapshot_ops record captured before delete."""
