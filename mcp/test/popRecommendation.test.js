@@ -15,6 +15,7 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -30,6 +31,35 @@ import { deterministicPlan } from "../dist/plannerDeterministic.js";
 const thisDir = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(thisDir, "..", "..");
 
+/**
+ * Read the matrix from the COMMITTED baseline, not the working tree.
+ *
+ * docs/pop_matrix.json is MUTABLE: every live run regenerates it. The knowledge
+ * base (pop_operators.json) is committed and derived from one specific matrix,
+ * so comparing it against the working-tree file turned the suite red the moment
+ * fresh evidence landed without being adopted — with nothing actually broken.
+ * Observed 2026-09-21: 1248 tests / 1 fail, the only cause being an uncommitted
+ * matrix (KB said 89, fresh evidence said 91). Comparing against HEAD keeps the
+ * KB <-> baseline invariant honest and lets fresh evidence coexist in the tree.
+ *
+ * Falls back to the working tree when the file is not in git yet (fresh
+ * checkout before the first commit, or a tarball without history).
+ */
+function readCommittedMatrix() {
+  try {
+    const raw = execFileSync("git", ["show", "HEAD:docs/pop_matrix.json"], {
+      cwd: repoRoot,
+      encoding: "utf-8",
+      stdio: ["ignore", "pipe", "ignore"],
+    });
+    return JSON.parse(raw);
+  } catch {
+    return JSON.parse(
+      readFileSync(resolve(repoRoot, "docs/pop_matrix.json"), "utf-8"),
+    );
+  }
+}
+
 // ─── KB data: categories present and consistent with the matrix ─────────────
 
 describe("pop_operators.json carries matrix categories", () => {
@@ -39,9 +69,7 @@ describe("pop_operators.json carries matrix categories", () => {
       "utf-8",
     ),
   );
-  const matrix = JSON.parse(
-    readFileSync(resolve(repoRoot, "docs/pop_matrix.json"), "utf-8"),
-  );
+  const matrix = readCommittedMatrix();
 
   it("every operator has validation_category + recommended_for_networks", () => {
     for (const op of kb.operators) {
