@@ -318,6 +318,7 @@ git diff networks/mySystem.tdn
 | `td_operators` | Listar hijos de un path (paginado: `?limit`, `?offset`) |
 | `td_find` | Buscar operadores (paginado: `?limit`, `?offset`) |
 | `td_connections` | Inspeccionar cableado real: aristas `{from, fromPath, to, toPath, input}`; `total` = aristas (paginado: `?limit`, `?offset`) |
+| `td_verify_wiring` | Check de cableado post-build (regla 16 de AGENTS.md): compara aristas reales de `/connections` contra las esperadas (`expect: "srcA->nz:0,..."` o `edges: [{from,to,input}]`); reporta `missing`/`unexpected` por nombre |
 | `td_get_errors` | Errores y warnings |
 | `td_healthcheck` | Validar red |
 | `td_get_node_detail` | Info detallada de operador |
