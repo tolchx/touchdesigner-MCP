@@ -111,23 +111,29 @@ export interface FindResult {
     recursive: boolean;
     results: OperatorInfo[];
 }
-export interface HealthIssue {
-    path: string;
-    name: string;
-    opType: string;
-    family?: string;
-    errors: string;
-    warnings: string;
-    hasIssues: boolean;
-    cookTime?: number | null;
-}
 export interface HealthcheckResult {
     path: string;
     recurse: boolean;
+    /** True only when the caller passed forceCook: true (opt-in mutation). */
+    forceCook?: boolean;
     ok: boolean;
     issueCount: number;
     issues: HealthIssue[];
     operators: HealthIssue[];
+}
+export interface HealthIssue {
+    path: string;
+    name: string;
+    opType: string;
+    family?: string | null;
+    errors: string;
+    warnings: string;
+    hasIssues: boolean;
+    cookTime?: number | null;
+    /** True only when this node was force-cooked by this request. */
+    cooked?: boolean;
+    /** errors() observed BEFORE the optional cook, to tell pre-existing from materialized. */
+    pre_existing_errors?: string;
 }
 export interface CreateOperatorResult {
     success: boolean;
@@ -328,7 +334,7 @@ export declare class TDClient {
         recursive?: boolean;
         limit?: number;
     }): Promise<FindResult>;
-    healthcheck(path?: string, recurse?: boolean): Promise<HealthcheckResult>;
+    healthcheck(path?: string, recurse?: boolean, forceCook?: boolean): Promise<HealthcheckResult>;
     getInfo(): Promise<any>;
     createOperator(type: string, name?: string, path?: string, positionX?: number, positionY?: number): Promise<CreateOperatorResult>;
     deleteOperator(path: string): Promise<DeleteOperatorResult>;

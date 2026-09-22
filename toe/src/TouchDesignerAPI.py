@@ -708,11 +708,12 @@ class TouchDesignerAPI:
             if uri.startswith("/find") and method == "GET":
                 return self._handle_find(request, response)
 
-            # GET /healthcheck - Validate cooks, warnings, errors
+            # GET /healthcheck - Validate cooks, warnings, errors (non-mutating by default, A3)
             if uri.startswith("/healthcheck") and method == "GET":
                 path = unquote(pars.get("path", "/"))
                 recurse = pars.get("recurse", "1") in ("1", "true", "True")
-                return self._handle_healthcheck(path, recurse, response)
+                force_cook = pars.get("force_cook", "0") in ("1", "true", "True")
+                return self._handle_healthcheck(path, recurse, response, force_cook=force_cook)
 
             # ── NEW ENDPOINTS ─────────────────────────────────────────────────────
 
@@ -720,7 +721,8 @@ class TouchDesignerAPI:
             if uri.startswith("/get_errors") and method == "GET":
                 path = unquote(pars.get("path", "/"))
                 recurse = pars.get("recurse", "1") in ("1", "true", "True")
-                return self._handle_get_errors(path, recurse, response)
+                force_cook = pars.get("force_cook", "0") in ("1", "true", "True")
+                return self._handle_get_errors(path, recurse, response, force_cook=force_cook)
 
             # GET /get_node_detail - Detailed operator info
             if uri.startswith("/get_node_detail") and method == "GET":
@@ -965,19 +967,31 @@ class TouchDesignerAPI:
         return nodes
 
     def _verify_collect_terminal_errors(self, nodes, max_items=200):
-        """Walk scanned nodes and collect terminal errors + warnings.
+        """Walk ALL scanned nodes and collect terminal errors + warnings.
 
-        Returns (errors, warnings, stats) where stats has keys
+        Audited silent-fallback fix (API_CONTRACT_AUDIT A1): the OLD version
+        iterated ``nodes[:max_items]``, silently skipping every node past
+        #200 while ``healthy`` still claimed a full-network verdict. Now
+        EVERY node is scanned for errors/warnings (cheap attribute reads,
+        no cook) and only the SERIALIZED lists are capped:
+
+        - ``error_count`` / ``warning_count`` = FULL counts (computed by the
+          caller from the FULL lists this returns),
+        - ``errors`` / ``warnings`` response lists = first ``max_items``
+          entries (capped by the caller),
+        - ``errors_truncated`` / ``warnings_truncated`` flag the cut.
+
+        Returns (all_errors, all_warnings, stats) where stats has keys
         scanned/pop_scanned/pop_healthy/pop_error_count.
         """
-        errors = []
-        warnings = []
+        all_errors = []
+        all_warnings = []
         scanned = len(nodes)
         pop_scanned = 0
         pop_healthy = 0
         pop_error_count = 0
 
-        for n in nodes[:max_items]:
+        for n in nodes:
             try:
                 errs = n.errors(recurse=False)
             except Exception:
@@ -1002,40 +1016,45 @@ class TouchDesignerAPI:
                     pass
 
             if isinstance(errs, str) and errs.strip():
-                errors.append({"path": getattr(n, "path", ""), "message": errs.strip()})
+                all_errors.append({"path": getattr(n, "path", ""), "message": errs.strip()})
             elif isinstance(errs, (list, tuple)):
                 for e in errs:
                     if str(e).strip():
-                        errors.append({"path": getattr(n, "path", ""), "message": str(e).strip()})
+                        all_errors.append({"path": getattr(n, "path", ""), "message": str(e).strip()})
 
             if isinstance(warns, str) and warns.strip():
-                warnings.append({"path": getattr(n, "path", ""), "message": warns.strip()})
+                all_warnings.append({"path": getattr(n, "path", ""), "message": warns.strip()})
             elif isinstance(warns, (list, tuple)):
                 for w in warns:
                     if str(w).strip():
-                        warnings.append({"path": getattr(n, "path", ""), "message": str(w).strip()})
+                        all_warnings.append({"path": getattr(n, "path", ""), "message": str(w).strip()})
 
-        return errors, warnings, {
-            "scanned": scanned,
-            "pop_scanned": pop_scanned,
-            "pop_healthy": pop_healthy,
-            "pop_error_count": pop_error_count,
-        }
+        return (all_errors, all_warnings,
+                {"scanned": scanned, "pop_scanned": pop_scanned,
+                 "pop_healthy": pop_healthy, "pop_error_count": pop_error_count})
 
-    def _verify_build_response(self, target, recurse, scanned, total_in_tree, errors, warnings, connected, stats):
-        """Assemble the verify JSON response."""
+    def _verify_build_response(self, target, recurse, scanned, total_in_tree, errors, warnings, connected, stats,
+                               error_count=None, warning_count=None,
+                               errors_truncated=False, warnings_truncated=False):
+        """Assemble the verify JSON response (truncation flags additive, A1 fix).
+
+        ``healthy`` stays TRUE only when there are zero errors across the
+        FULL scan; the response lists may be capped but their cut is declared.
+        """
         return {
             "path": getattr(target, "path", ""),
             "recurse": recurse,
             "operators_scanned": scanned,
             "total_in_tree": total_in_tree,
-            "error_count": len(errors),
+            "error_count": len(errors) if error_count is None else error_count,
             "errors": errors,
-            "warning_count": len(warnings),
+            "warning_count": len(warnings) if warning_count is None else warning_count,
             "warnings": warnings,
             "total_connections": connected,
-            "healthy": len(errors) == 0,
+            "healthy": (len(errors) if error_count is None else error_count) == 0,
             "pop_stats": stats,
+            "errors_truncated": errors_truncated,
+            "warnings_truncated": warnings_truncated,
         }
 
     def _verify_from_node(self, target, recurse):
@@ -1051,7 +1070,7 @@ class TouchDesignerAPI:
             total_in_tree = len(self._verify_iter_safe(target)) + 1
         except Exception:
             pass
-        errors, warnings, stats = self._verify_collect_terminal_errors(nodes)
+        all_errors, all_warnings, stats = self._verify_collect_terminal_errors(nodes)
         connected = 0
         for n in nodes:
             try:
@@ -1060,7 +1079,16 @@ class TouchDesignerAPI:
                         connected += 1
             except Exception:
                 pass
-        return self._verify_build_response(target, recurse, len(nodes), total_in_tree, errors, warnings, connected, stats)
+        # Serialize caps: lists carry the first 200 entries, counts stay FULL,
+        # and the *_truncated flags declare the cut (A1 fix — no silent caps).
+        _cap = 200
+        errors = all_errors[:_cap]
+        warnings = all_warnings[:_cap]
+        return self._verify_build_response(
+            target, recurse, len(nodes), total_in_tree, errors, warnings, connected, stats,
+            error_count=len(all_errors), warning_count=len(all_warnings),
+            errors_truncated=len(all_errors) > _cap,
+            warnings_truncated=len(all_warnings) > _cap)
 
     def _handle_verify_impl(self, path: str, recurse: bool, response: dict) -> dict:
         """Implementation of /verify with explicit recurse control.
@@ -1560,9 +1588,9 @@ class TouchDesignerAPI:
     # GET /get_errors
     # =========================================================================
 
-    def _handle_get_errors(self, path: str, recurse: bool, response: dict) -> dict:
+    def _handle_get_errors(self, path: str, recurse: bool, response: dict, force_cook: bool = False) -> dict:
         """Return errors and warnings for operators."""
-        return self._handle_healthcheck(path, recurse, response)
+        return self._handle_healthcheck(path, recurse, response, force_cook=force_cook)
 
     # =========================================================================
     # GET /get_node_detail
@@ -4547,13 +4575,35 @@ else:
     # GET /healthcheck
     # -------------------------------------------------------------------------
 
-    def _collect_health(self, node) -> dict:
+    def _collect_health(self, node, force_cook=False) -> dict:
+        """Collect one node's health WITHOUT mutating the network by default.
+
+        Audited silent-fallback fix (API_CONTRACT_AUDIT A3): the OLD version
+        always called ``cook(force=True)``, which MATERIALIZED errors on
+        otherwise-healthy nodes (measured live: 3 clean nullTOPs gained
+        "Not enough sources specified" errors just from being checked) and
+        polluted the network the check was supposed to be read-only over.
+        Now cooking only happens with ``force_cook=True`` (explicit opt-in
+        via ?force_cook=1), and the response declares what happened:
+
+        - ``cooked``: whether this node was force-cooked,
+        - ``pre_existing_errors``: errors observed BEFORE the cook (when
+          cooking) so callers can tell materialized from pre-existing.
+        """
         errors = ""
         warnings = ""
-        try:
-            node.cook(force=True)
-        except Exception:
-            pass
+        pre_existing_errors = ""
+        did_cook = False
+        if force_cook:
+            try:
+                pre_existing_errors = node.errors(recurse=False) or ""
+            except Exception:
+                pre_existing_errors = ""
+            try:
+                node.cook(force=True)
+                did_cook = True
+            except Exception:
+                did_cook = False
         try:
             errors = node.errors(recurse=False)
         except Exception:
@@ -4579,9 +4629,18 @@ else:
             "warnings": warnings,
             "hasIssues": bool(errors or warnings),
             "cookTime": cook_time,
+            "cooked": did_cook,
+            "pre_existing_errors": (pre_existing_errors or "").strip(),
         }
 
-    def _handle_healthcheck(self, path: str, recurse: bool, response: dict) -> dict:
+    def _handle_healthcheck(self, path: str, recurse: bool, response: dict, force_cook: bool = False) -> dict:
+        """GET /healthcheck — non-mutating by default (A3 fix).
+
+        Reads errors()/warnings() WITHOUT cooking. Pass ?force_cook=1 to get
+        the old behavior (explicit opt-in); the response then flags it via
+        "forceCook": true and each item carries "cooked" and
+        "pre_existing_errors" so materialized errors are distinguishable.
+        """
         try:
             target = op(path)  # type: ignore
             if target is None:
@@ -4595,7 +4654,7 @@ else:
             else:
                 nodes = [target]
 
-            items = [self._collect_health(node) for node in nodes]
+            items = [self._collect_health(node, force_cook=force_cook) for node in nodes]
             issues = [item for item in items if item["hasIssues"]]
 
             response["statusCode"] = 200
@@ -4604,6 +4663,7 @@ else:
                 {
                     "path": target.path,
                     "recurse": recurse,
+                    "forceCook": force_cook,
                     "ok": len(issues) == 0,
                     "issueCount": len(issues),
                     "issues": issues,

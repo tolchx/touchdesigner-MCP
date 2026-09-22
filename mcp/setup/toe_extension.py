@@ -1258,8 +1258,13 @@ class TouchDesignerAPI:
                 "headers": {"Content-Type": "application/json"},
             }
 
-    def _handle_healthcheck(self, path, recurse):
-        """GET /healthcheck — validate cooks, warnings, errors."""
+    def _handle_healthcheck(self, path, recurse, force_cook=False):
+        """GET /healthcheck — non-mutating by default (A3 fix, same as bridge).
+
+        Reads errors()/warnings() WITHOUT cooking. force_cook=True restores
+        the old opt-in behavior; response flags it via "forceCook" and items
+        carry "cooked" / "pre_existing_errors".
+        """
         try:
             target = op(path)
             if target is None:
@@ -1271,10 +1276,18 @@ class TouchDesignerAPI:
             nodes = self._iter_descendants(target, include_self=True) if recurse else [target]
             items = []
             for node in nodes:
-                try:
-                    node.cook(force=True)
-                except Exception:
-                    pass
+                pre_existing = ""
+                did_cook = False
+                if force_cook:
+                    try:
+                        pre_existing = node.errors(recurse=False) or ""
+                    except Exception:
+                        pre_existing = ""
+                    try:
+                        node.cook(force=True)
+                        did_cook = True
+                    except Exception:
+                        did_cook = False
                 try:
                     errors = node.errors(recurse=False)
                 except Exception:
@@ -1287,16 +1300,21 @@ class TouchDesignerAPI:
                     "path": node.path,
                     "name": node.name,
                     "opType": node.OPType,
+                    "family": getattr(node, "family", None),
                     "errors": errors,
                     "warnings": warnings,
                     "hasIssues": bool(errors or warnings),
+                    "cooked": did_cook,
+                    "pre_existing_errors": (pre_existing or "").strip(),
                 })
             issues = [i for i in items if i["hasIssues"]]
             return {
                 "status": 200,
                 "body": json.dumps({
                     "path": target.path, "recurse": recurse,
+                    "forceCook": force_cook,
                     "ok": len(issues) == 0, "issueCount": len(issues),
+                    "issues": issues,
                     "operators": items,
                 }, ensure_ascii=False),
                 "headers": {"Content-Type": "application/json"},
@@ -1556,7 +1574,8 @@ class TouchDesignerAPI:
         if method == "healthcheck":
             path = params.get("path", "/")
             recurse = params.get("recurse", True)
-            return self._extract_body(self._handle_healthcheck(path, bool(recurse)))
+            force_cook = params.get("force_cook", False) in (True, "1", "true", "True")
+            return self._extract_body(self._handle_healthcheck(path, bool(recurse), force_cook=force_cook))
 
         # --- Execute Python (twozero-compatible) ---
         if method == "exec":

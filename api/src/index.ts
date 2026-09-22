@@ -138,24 +138,30 @@ export interface FindResult {
   results: OperatorInfo[];
 }
 
-export interface HealthIssue {
-  path: string;
-  name: string;
-  opType: string;
-  family?: string;
-  errors: string;
-  warnings: string;
-  hasIssues: boolean;
-  cookTime?: number | null;
-}
-
 export interface HealthcheckResult {
   path: string;
   recurse: boolean;
+  /** True only when the caller passed forceCook: true (opt-in mutation). */
+  forceCook?: boolean;
   ok: boolean;
   issueCount: number;
   issues: HealthIssue[];
   operators: HealthIssue[];
+}
+
+export interface HealthIssue {
+  path: string;
+  name: string;
+  opType: string;
+  family?: string | null;
+  errors: string;
+  warnings: string;
+  hasIssues: boolean;
+  cookTime?: number | null;
+  /** True only when this node was force-cooked by this request. */
+  cooked?: boolean;
+  /** errors() observed BEFORE the optional cook, to tell pre-existing from materialized. */
+  pre_existing_errors?: string;
 }
 
 export interface CreateOperatorResult {
@@ -883,10 +889,12 @@ except Exception as e:
   async healthcheck(
     path: string = "/",
     recurse: boolean = false,
+    forceCook: boolean = false,
   ): Promise<HealthcheckResult> {
     const url = new URL(`${this.baseUrl}/healthcheck`);
     url.searchParams.set("path", path);
     url.searchParams.set("recurse", recurse ? "1" : "0");
+    if (forceCook) url.searchParams.set("force_cook", "1");
     return this._request(url.toString());
   }
 

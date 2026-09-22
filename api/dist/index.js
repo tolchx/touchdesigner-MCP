@@ -561,10 +561,12 @@ except Exception as e:
             url.searchParams.set("limit", String(options.limit));
         return this._request(url.toString());
     }
-    async healthcheck(path = "/", recurse = false) {
+    async healthcheck(path = "/", recurse = false, forceCook = false) {
         const url = new URL(`${this.baseUrl}/healthcheck`);
         url.searchParams.set("path", path);
         url.searchParams.set("recurse", recurse ? "1" : "0");
+        if (forceCook)
+            url.searchParams.set("force_cook", "1");
         return this._request(url.toString());
     }
     async getInfo() {

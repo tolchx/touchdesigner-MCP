@@ -50,8 +50,10 @@ export async function postModifyValidate(
   const checkPath = parentPath || path;
 
   try {
-    // Step 1: Lightweight healthcheck (non-recursive for speed)
-    const health = await client.healthcheck(checkPath, false);
+    // Step 1: healthcheck with explicit forceCook opt-in — post-validation's
+    // auto-fix loop needs fresh (materialized) errors, and since the A3 fix
+    // healthcheck no longer cooks by default.
+    const health = await client.healthcheck(checkPath, false, true);
 
     const hasIssues =
       health && !health.ok && health.issueCount > 0;
@@ -79,7 +81,7 @@ export async function postModifyValidate(
 
     // Step 3: Re-check after fixes
     if (fixesApplied > 0) {
-      const recheck = await client.healthcheck(checkPath, false);
+      const recheck = await client.healthcheck(checkPath, false, true);
       const stillHasIssues =
         recheck && !recheck.ok && recheck.issueCount > 0;
 

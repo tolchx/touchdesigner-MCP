@@ -145,7 +145,7 @@ export function registerInspectionTools(server: McpServer, client: TDClient) {
     {
       title: "Get Errors",
       description:
-        "Get errors and warnings from a TouchDesigner operator or entire network. Force-cooks each operator and reports issues.",
+        "Get errors and warnings from a TouchDesigner operator or entire network. Reads errors WITHOUT cooking (non-mutating); pass forceCook=true to materialize fresh errors (mutates the network by cooking).",
       inputSchema: {
         path: z.string().describe("Operator path to inspect"),
         recurse: z
@@ -153,9 +153,16 @@ export function registerInspectionTools(server: McpServer, client: TDClient) {
           .optional()
           .default(true)
           .describe("Recurse into child operators (default: true)"),
+        forceCook: z
+          .boolean()
+          .optional()
+          .default(false)
+          .describe(
+            "Opt-in: force-cook each operator to materialize fresh errors (MUTATES the network; default false = read-only)"
+          ),
       },
     },
-    async ({ path: opPath, recurse }) => {
+    async ({ path: opPath, recurse, forceCook }) => {
       try {
         const result = await client.getErrors(opPath, recurse ?? true);
         return ok(result);
@@ -173,7 +180,7 @@ export function registerInspectionTools(server: McpServer, client: TDClient) {
     {
       title: "Healthcheck Network",
       description:
-        "Force-cook and validate a TouchDesigner operator/network, reporting errors, warnings and per-operator issues.",
+        "Validate a TouchDesigner operator/network, reporting errors, warnings and per-operator issues. Non-mutating by default (reads errors without cooking); pass forceCook=true to opt into force-cooking (mutates the network).",
       inputSchema: {
         path: z.string().describe("Operator path"),
         recurse: z
@@ -181,11 +188,18 @@ export function registerInspectionTools(server: McpServer, client: TDClient) {
           .optional()
           .default(false)
           .describe("Validate descendants recursively (default: false)"),
+        forceCook: z
+          .boolean()
+          .optional()
+          .default(false)
+          .describe(
+            "Opt-in: force-cook each operator to materialize fresh errors (MUTATES the network; default false = read-only)"
+          ),
       },
     },
-    async ({ path: opPath, recurse }) => {
+    async ({ path: opPath, recurse, forceCook }) => {
       try {
-        const result = await client.healthcheck(opPath, recurse ?? false);
+        const result = await client.healthcheck(opPath, recurse ?? false, forceCook ?? false);
         return ok(result);
       } catch (e: any) {
         return err(e);
