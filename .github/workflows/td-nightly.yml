@@ -6,6 +6,9 @@
 #     TD 2025.31760, 97 types — see docs/POPs_VALIDATION.md)
 #   - CI FAILS if TD is unreachable or the bridge is wedged (port bound but
 #     refused) — an untestable TD is a red build, not a silent pass
+#   - CI FAILS if the td_verify_wiring live acceptance detects a broken
+#     /connections contract (wrong edges/shape) — the wiring-read path is
+#     load-bearing for every network-building agent (AGENTS.md rule 16)
 #   - CI FAILS on implausible gains (>+10) or types that stop creating
 #   - After a PASS, auto-commits the fresh JSON when ONLY metadata moved
 #     (build/generated_at/sandbox) — real evidence changes are never
@@ -80,6 +83,17 @@ jobs:
             Write-Host "##vso[task.logissue type=error]TD bridge unreachable on 127.0.0.1:44444 — restart TouchDesigner (check for modal dialogs) and re-run."
             exit 1
           }
+
+      - name: Install Node deps (for wiring tool acceptance)
+        run: npm ci
+
+      - name: td_verify_wiring live acceptance (broken /connections contract fails the build)
+        # scripts/live/wiring_tool_live.mjs builds its own mergePOP sandbox and
+        # exercises the MCP wiring tool end-to-end: exact-match pass, extra-edge
+        # detection, broken-net detection, explicit error without expectation.
+        # Exit codes: 0 pass, 1 failures, 2 TD unreachable — any non-zero fails
+        # this job, consistent with the probe philosophy above.
+        run: node scripts/live/wiring_tool_live.mjs
 
       - name: Run live POP matrix (fresh evidence)
         run: python toe/src/test_pop_matrix.py --keep
