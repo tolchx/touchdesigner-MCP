@@ -51,11 +51,15 @@ GET http://localhost:44444/verify?path=/project1
 10h. **Solo POPs ok_con_input en redes generadas**: la base de conocimiento (`pop_operators.json`) lleva la categoría de evidencia de la matriz en vivo por tipo. El planner penaliza y advierte sobre POPs que NO son `ok_con_input` (8 tipos en TD 2025.31760: 5 con errors() por dependencias externas —USD, ZED SDK, C++—, 2 de hardware sin geometría, 1 no creable); se aceptan solo si el pedido los nombra explícitamente. Consultá `isRecommendedForNetworks(type)` antes de sugerir un POP en una red nueva.
 11. **Parameter names**: use `.eval()` names (e.g. `amp` not "Amplitude") — read with `/parameters` first
 12. **Multi-input wiring** (verified on 2025.32460 — `connect(dst, input_index)` FAILS with "Invalid number or type of arguments", both for POPs and TOPs):
-    - Input 0 / dynamic inputs: `src.outputConnectors[0].connect(dst)`
+    - Input 0 / dynamic inputs: `src.outputConnectors[0].connect(dst)` (append-safe SOLO en ops de inputs dinámicos; en ops de inputs fijos el connect simple apunta al slot 0 y PISA el wire existente — ver matriz medida abajo)
     - Indexed input (operator already has several connectors, e.g. copyPOP): `src.outputConnectors[0].connect(dst.inputConnectors[i])`
     - mergePOP and compositeTOP have **dynamic inputs**: they start with 1 connector and add one per connection (measured live: 1 → 2 → 3)
     - **Dynamic-input REPLACEMENT semantics** (NEG3 in `scripts/live/post_build_wiring_check.py --selftest`, TD 2025.31760): connecting to a slot ALREADY occupied on a dynamic-input op **overwrites** it instead of appending. Live evidence — build `srcA→nz→mg(0)`, `srcB→mg(1)`, then rewire `srcB.connect(mg.inputConnectors[0])` and the edge `nz→mg(0)` is GONE (selftest output: `missing=[('nz','mg',0)] extra=[('srcB','mg',0)]`). Consequence: when a multi-input build "succeeds" but reports fewer edges than expected, first suspect that a later connect REPLACED an earlier wire — only the `/connections` edge-set comparison (rule 16) sees it; the build can report success throughout.
     - copyPOP has 2 fixed inputs: [0]=geometry, [1]=template
+    - **Measured replacement matrix** (`scripts/live/dynamic_input_probe.py --ops ...`, TD 2025.31760, veredicto por sets de aristas `[(from, input)]` capturadas paso a paso):
+        - Inputs DINÁMICOS (arrancan con 1 conector; el connect simple APPENDEA al slot libre siguiente, no pisa): `mergePOP`, `compositeTOP`
+        - Inputs FIJOS de 2 slots medidos (el connect simple apunta al slot 0 y REEMPLAZA el wire que esté ahí — nunca "agrega"): `crossTOP`, `overTOP`, `copyPOP`
+        - Universal a ambas clases: connect explícito sobre un slot OCUPADO REEMPLAZA su wire (medido en slot 0 y slot 1); `inputConnectors[N]` con N >= cantidad de conectores lanza excepción (NO crece la lista)
 13. **7 operator families**: COMP (🔵), TOP (🟢), CHOP (🟡), SOP (🟠), POP (🔴), DAT (🟣), MAT (⚪) — see `mcp_reference/OPERATOR_FAMILIES.md`
 14. **COMP and MAT exist!**: COMPs (baseCOMP, geometryCOMP, etc.) son contenedores de redes; MATs (phongMAT, pbrMAT, glslMAT, etc.) son materiales asignados a geometryCOMP
 15. **Read cache en `/operators` y `/verify`** (verificado en vivo en 2025.31760 — backlog #05):
