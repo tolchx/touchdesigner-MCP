@@ -95,6 +95,14 @@ jobs:
         # this job, consistent with the probe philosophy above.
         run: node scripts/live/wiring_tool_live.mjs
 
+      - name: Read-endpoint additive-key contract (stale bridge fails the build)
+        # scripts/live/read_contract_live.py checks that /verify exposes the A1
+        # keys (errors_truncated/warnings_truncated) and /healthcheck exposes
+        # the A3 key (forceCook). A TD running a pre-A1/A3 bridge answers 200
+        # with plausible-but-incomplete payloads — that is a red build here,
+        # same silent-fallback class the /connections gate catches.
+        run: python scripts/live/read_contract_live.py
+
       - name: Run live POP matrix (fresh evidence)
         run: python toe/src/test_pop_matrix.py --keep
 
