@@ -27,6 +27,12 @@ export interface WiringCheckResult {
     unexpected: string[];
     /** The real wiring, as "from->to:input" strings (from + input sorted). */
     actual: string[];
+    /** True when a missing+unexpected pair shares destination and input slot
+     *  with different sources — the dynamic-input REPLACEMENT pattern (rule 12,
+     *  NEG3): a later connect overwrote the earlier wire. */
+    replacementSuspected: boolean;
+    /** Named explanation when replacementSuspected, else undefined. */
+    replacementHint?: string;
 }
 /** Core comparison: expected vs real edge set (from /connections). */
 export declare function verifyWiring(path: string, expected: ExpectedEdge[], actualEdges: Array<{

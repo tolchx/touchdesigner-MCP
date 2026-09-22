@@ -105,6 +105,34 @@ describe("verifyWiring (pure)", () => {
     assert.equal(r.ok, false);
     assert.deepEqual(r.missing, ["srcB->mg:1"]);
     assert.deepEqual(r.unexpected, ["srcB->mg:0"]);
+    // Same source, different slot: a plain miswire, NOT slot replacement.
+    assert.equal(r.replacementSuspected, false);
+    assert.equal(r.replacementHint, undefined);
+  });
+
+  it("detects the dynamic-input replacement pattern (same slot, different sources)", () => {
+    // NEG3 scenario: the rewire displaced nz from slot 0 of the mergePOP.
+    const displaced = REAL_EDGES
+      .filter((e) => !(e.from === "nz" && e.to === "mg"))
+      .map((e) => (e.from === "srcB" ? { ...e, input: 0 } : e));
+    const r = verifyWiring("/p", parseEdgeSpec(SPEC), displaced);
+    assert.equal(r.replacementSuspected, true);
+    assert.match(r.replacementHint, /Replacement pattern detected/);
+    assert.match(r.replacementHint, /'nz->mg:0' is missing/);
+    assert.match(r.replacementHint, /'srcB->mg:0' occupies/);
+    assert.match(r.replacementHint, /mergePOP\/compositeTOP REPLACE/);
+    assert.match(r.replacementHint, /input 0 of 'mg'/);
+    assert.match(r.replacementHint, /nz\.outputConnectors\[0\]\.connect/);
+  });
+
+  it("does not suspect replacement on a pure missing edge", () => {
+    const r = verifyWiring(
+      "/p",
+      parseEdgeSpec(SPEC),
+      REAL_EDGES.filter((e) => !(e.from === "mg" && e.to === "out")),
+    );
+    assert.equal(r.replacementSuspected, false);
+    assert.equal(r.replacementHint, undefined);
   });
 });
 
@@ -165,6 +193,30 @@ describe("td_verify_wiring tool", () => {
     assert.equal(data.ok, false);
     assert.deepEqual(data.missing, ["srcB->mg:1"]);
     assert.deepEqual(data.unexpected, ["srcB->mg:0"]);
+    // Same source, different slot: plain miswire, generic hint.
+    assert.equal(data.replacementSuspected, false);
+    assert.match(data.hint, /rule 12/i);
+    assert.doesNotMatch(data.hint, /Replacement pattern/);
+  });
+
+  it("names the dynamic-input replacement pattern in the hint", async () => {
+    // NEG3: the rewire displaced nz from mergePOP slot 0.
+    const displaced = REAL_EDGES
+      .filter((e) => !(e.from === "nz" && e.to === "mg"))
+      .map((e) => (e.from === "srcB" ? { ...e, input: 0 } : e));
+    const server = makeServer();
+    registerWiringCheckTools(server, makeClient(displaced));
+    const res = await callTool(server, "td_verify_wiring", {
+      path: "/project1/net",
+      expect: SPEC,
+    });
+    const data = payload(res);
+    assert.equal(data.ok, false);
+    assert.equal(data.replacementSuspected, true);
+    assert.match(data.hint, /Replacement pattern detected/);
+    assert.match(data.hint, /'nz->mg:0' is missing while unexpected 'srcB->mg:0'/);
+    assert.match(data.hint, /mergePOP\/compositeTOP REPLACE/);
+    assert.match(data.hint, /nz\.outputConnectors\[0\]\.connect/);
   });
 
   it("flags unexpected extra wiring", async () => {

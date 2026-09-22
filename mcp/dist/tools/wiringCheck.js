@@ -34,6 +34,28 @@ export function verifyWiring(path, expected, actualEdges) {
     const actual = [...actualEdges]
         .sort((a, b) => a.from.localeCompare(b.from) || a.input - b.input || a.to.localeCompare(b.to))
         .map(formatEdge);
+    // Dynamic-input REPLACEMENT pattern (AGENTS.md rule 12, NEG3 evidence): an
+    // expected edge is missing while an unexpected edge occupies the SAME
+    // destination and input slot from a DIFFERENT source — a later connect
+    // overwrote the earlier wire instead of appending. (Same source + different
+    // slot is a plain wrong-index miswire, not replacement.)
+    let replacementSuspected = false;
+    let replacementHint;
+    outer: for (const m of missing) {
+        for (const u of unexpected) {
+            if (m.to === u.to && m.input === u.input && m.from !== u.from) {
+                replacementSuspected = true;
+                replacementHint =
+                    `Replacement pattern detected: expected '${formatEdge(m)}' is missing while unexpected '${formatEdge(u)}' occupies ` +
+                        `the same slot (input ${m.input} of '${m.to}') from a different source. Dynamic-input ops like ` +
+                        `mergePOP/compositeTOP REPLACE the wire already in a slot instead of appending ` +
+                        `(AGENTS.md rule 12, NEG3 evidence), so a later connect overwrote it. Rewire the displaced ` +
+                        `source '${m.from}' to a free slot ` +
+                        `(${m.from}.outputConnectors[0].connect(dst.inputConnectors[i])) and re-run this check.`;
+                break outer;
+            }
+        }
+    }
     return {
         path,
         ok: missing.length === 0 && unexpected.length === 0,
@@ -41,6 +63,8 @@ export function verifyWiring(path, expected, actualEdges) {
         missing: missing.map(formatEdge),
         unexpected: unexpected.map(formatEdge),
         actual,
+        replacementSuspected,
+        replacementHint,
     };
 }
 export function registerWiringCheckTools(server, client) {
@@ -85,9 +109,10 @@ export function registerWiringCheckTools(server, client) {
                 ...result,
                 missingCount: result.missing.length,
                 unexpectedCount: result.unexpected.length,
-                hint: result.ok
-                    ? "Wiring matches the expectation exactly."
-                    : "Compare with AGENTS.md rule 12 (multi-input wiring) and fix the named edges, then re-run this check.",
+                hint: result.replacementHint ??
+                    (result.ok
+                        ? "Wiring matches the expectation exactly."
+                        : "Compare with AGENTS.md rule 12 (multi-input wiring) and fix the named edges, then re-run this check."),
             });
         }
         catch (e) {
