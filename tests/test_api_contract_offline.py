@@ -1014,6 +1014,155 @@ class TestEndpointInventory(unittest.TestCase):
         data = json.loads(resp["data"])
         self.assertIn("Operator not found", data["error"])
 
+    # ── A1 boundary tests: the 200 cap must only cut SERIALIZATION ──────
+
+    def _verify_tree_with_error_at(self, total_children, error_index):
+        """Build a fake tree with `total_children` children where child
+        number `error_index` carries a persistent error. Returns the
+        _verify_from_node result (recurse=True)."""
+        _install_fake_globals()
+        api = FakeAPI()
+        root = FakeOperator("/project1/comp", "comp", "baseCOMP", "COMP")
+        kids = []
+        for i in range(total_children):
+            kid = FakeOperator(f"/project1/comp/k{i:03d}", f"k{i:03d}", "nullTOP", "TOP")
+            if i == error_index:
+                kid._errors = "Error: Not enough sources specified (%s)" % kid.path
+            kids.append(kid)
+        root._children = kids
+        global _fake_project1
+        _fake_project1 = root
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.op = _fake_op
+        return api._verify_from_node(root, recurse=True)
+
+    def test_verify_a1_error_beyond_199_is_found(self):
+        """A1 regression: an error on node #201 (0-based 200) MUST be found.
+
+        The old handler iterated nodes[:200] silently and reported
+        healthy=true with operators_scanned=211 (measured live).
+        """
+        result = self._verify_tree_with_error_at(210, error_index=200)
+        self.assertEqual(result["operators_scanned"], 211)  # full scan reported
+        self.assertEqual(result["error_count"], 1)          # and the error IS found
+        self.assertFalse(result["healthy"])
+        self.assertFalse(result["errors_truncated"])         # 1 error < cap: no flag
+        paths = [e["path"] for e in result["errors"]]
+        self.assertIn("/project1/comp/k200", paths)
+
+    def test_verify_a1_healthy_tree_below_cap_stays_clean(self):
+        """Boundary: 199 children, all healthy -> healthy=true, no flags."""
+        _install_fake_globals()
+        api = FakeAPI()
+        root = FakeOperator("/project1/comp", "comp", "baseCOMP", "COMP")
+        root._children = [
+            FakeOperator(f"/project1/comp/k{i:03d}", f"k{i:03d}", "nullTOP", "TOP")
+            for i in range(199)
+        ]
+        global _fake_project1
+        _fake_project1 = root
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.op = _fake_op
+        result = api._verify_from_node(root, recurse=True)
+        self.assertTrue(result["healthy"])
+        self.assertEqual(result["error_count"], 0)
+        self.assertFalse(result["errors_truncated"])
+
+    def test_verify_a1_error_list_capped_at_200_with_flag(self):
+        """Serialization cap: >200 ERRORS -> list shows 200, count stays full,
+        errors_truncated=true (declared cut, no silent fallback)."""
+        _install_fake_globals()
+        api = FakeAPI()
+        root = FakeOperator("/project1/comp", "comp", "baseCOMP", "COMP")
+        kids = []
+        for i in range(201):
+            kid = FakeOperator(f"/project1/comp/k{i:03d}", f"k{i:03d}", "nullTOP", "TOP")
+            # two distinct errors per node -> 402 error entries
+            kid._errors = "Error: eA (%d)\nError: eB (%d)" % (i, i)
+            kids.append(kid)
+        root._children = kids
+        global _fake_project1
+        _fake_project1 = root
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.op = _fake_op
+        result = api._verify_from_node(root, recurse=True)
+        self.assertFalse(result["healthy"])
+        self.assertEqual(result["error_count"], 201)       # FULL count
+        self.assertEqual(len(result["errors"]), 200)       # serialized list capped
+        self.assertTrue(result["errors_truncated"])         # cut DECLARED
+
+    def test_verify_response_has_truncation_keys(self):
+        """The additive keys exist on every verify response (A1 contract)."""
+        _install_fake_globals()
+        api = FakeAPI()
+        root = FakeOperator("/project1/comp", "comp", "baseCOMP", "COMP")
+        root._children = [FakeOperator("/project1/comp/only", "only", "nullTOP", "TOP")]
+        global _fake_project1
+        _fake_project1 = root
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.op = _fake_op
+        result = api._verify_from_node(root, recurse=True)
+        self.assertIn("errors_truncated", result)
+        self.assertIn("warnings_truncated", result)
+        self.assertFalse(result["errors_truncated"])
+        self.assertFalse(result["warnings_truncated"])
+
+    # ── A3 boundary tests: healthcheck must NOT cook by default ────────
+
+    def test_healthcheck_default_does_not_cook(self):
+        """A3 regression: _collect_health must NOT cook by default.
+
+        The old version always cook(force=True)'d, materializing errors on
+        healthy nodes (measured live: clean nullTOPs gained 'Not enough
+        sources specified' just from being checked).
+        """
+        _install_fake_globals()
+        api = FakeAPI()
+        node = FakeOperator("/project1/n0", "n0", "nullTOP", "TOP")
+        cook_calls = []
+        node.cook = lambda force=False: cook_calls.append(force)
+        node._errors = ""
+        item = api._collect_health(node)
+        self.assertEqual(cook_calls, [])          # no mutation by default
+        self.assertFalse(item["cooked"])
+        self.assertEqual(item["pre_existing_errors"], "")
+
+    def test_healthcheck_force_cook_opt_in_cooks_and_declares(self):
+        """Opt-in: force_cook=True cooks exactly once and declares it."""
+        _install_fake_globals()
+        api = FakeAPI()
+        node = FakeOperator("/project1/n0", "n0", "nullTOP", "TOP")
+        cook_calls = []
+        node.cook = lambda force=False: cook_calls.append(force)
+        node._errors = ""
+        item = api._collect_health(node, force_cook=True)
+        self.assertEqual(cook_calls, [True])      # one explicit cook
+        self.assertTrue(item["cooked"])           # declared at item level
+
+    def test_healthcheck_handler_flags_forcecook(self):
+        """Handler: forceCook=false default; true only when opted in."""
+        _install_fake_globals()
+        api = FakeAPI()
+        kid = FakeOperator("/project1/hc_a", "hc_a", "nullTOP", "TOP")
+        kid.cook = lambda force=False: None
+        _fake_project1._children = [kid]
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.op = _fake_op
+
+        resp = _make_response()
+        api._handle_healthcheck("/project1/hc_a", recurse=False, response=resp)
+        body = json.loads(resp["data"])
+        self.assertEqual(resp["statusCode"], 200)
+        self.assertFalse(body["forceCook"])
+        self.assertFalse(body["operators"][0]["cooked"])
+        self.assertIn("issues", body)             # additive key present
+
+        resp2 = _make_response()
+        api._handle_healthcheck("/project1/hc_a", recurse=False, response=resp2, force_cook=True)
+        body2 = json.loads(resp2["data"])
+        self.assertTrue(body2["forceCook"])
+        self.assertTrue(body2["operators"][0]["cooked"])
+
 
 # ===========================================================================
 # Tests: pagination (GET /operators, /connections, /find)
