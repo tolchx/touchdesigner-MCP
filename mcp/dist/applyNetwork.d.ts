@@ -11,7 +11,20 @@ export type ApplyResult = {
     created: number;
     connected: number;
     errors: string[];
+    warnings: string[];
 };
+/**
+ * Detect dynamic-input slot collisions BEFORE building (AGENTS.md rule 12,
+ * NEG3 evidence): on dynamic-input ops (mergePOP, compositeTOP, ...),
+ * `tgt.inputConnectors[i].connect(src)` REPLACES the wire already occupying
+ * slot i instead of appending. Two expected edges `(a→d, i)` and `(b→d, i)`
+ * with a≠b cannot both exist after the build: the second connect silently
+ * overwrites the first, and only the post-build /connections edge-set check
+ * (rule 16 / td_verify_wiring) would notice.
+ *
+ * Returns one warning per colliding slot, naming the edges that share it.
+ */
+export declare function detectSlotCollisions(graph: NetworkGraph): string[];
 /**
  * Apply a network graph to TouchDesigner: create nodes, then wire connections.
  * Creates nodes first (all must succeed), then wires in topological order
