@@ -270,8 +270,40 @@ Cubre:
 
 ---
 
-## 6. Resumen de estado
+## 5bis. Auditoría de fallbacks silenciosos (endpoints de lectura, 2026-09-22)
 
+Misma clase de falla que el `/connections` del ítem 38 (HTTP 200 con datos
+plausibles pero falsos): capas/truncamientos/semánticas que **no se declaran**
+en la respuesta. Cada hallazgo fue CONFIRMADO EN VIVO contra TD 2025.31760 con
+sondas reproducibles (sandboxes `_audit_*`, destruidos al final).
+
+| # | Endpoint | Hallazgo (verificado en vivo) | Severidad | Evidencia |
+|---|----------|-------------------------------|-----------|-----------|
+| A1 | `GET /verify` | **Cap silencioso de 200 nodos** (`_verify_collect_terminal_errors(nodes, max_items=200)`: `for n in nodes[:max_items]`). Con 211 ops y un error persistente en el op #205 (materializado y leído directo: `Error: Not enough sources specified`), responde `operators_scanned=211, error_count=0, healthy=true`. La clave `operators_scanned` sugiere cobertura completa y `healthy` es un veredicto sobre una MUESTRA sin declararlo. | **ALTA** — el veredicto binario `healthy` es el contrato del endpoint | Sandbox `_audit_vcap2`: 210 nullTOPs + error en #205 → healthy=true; el mismo error en un árbol de 4 ops SÍ se reporta (frontera del cap exactamente en 200) |
+| A2 | `GET /verify` | `healthy` y `error_count` dependen de si el error YA se materializó: los `errors()` solo existen después de un cook fallido. En la red limpia de 4 ops del probe A2, un `moviefileinTOP` con path inválido no aparecía en `/verify` hasta que algo lo cocinara. Sin cook previo → `healthy=true` plausible y falso. | MEDIA | Sandbox `_audit_hc`: `direct errors() = {"n0":"","n1":"","n2":"","zbad":""}` antes de cocinar |
+| A3 | `GET /healthcheck` | **`cook(force=True)` MATERIALIZA errores que no existían**: nullTOPs sin input, tocados por el cook del healthcheck, pasan de `errors()=""` a `Error: Not enough sources specified`. Resultado en vivo: red de 3 nullTOPs limpios + 1 warning real → `issueCount=4` (3 falsos positivos creados por el propio check; y `ok=false` para una red que estaba bien). Peor en POPs: sin input no cocinan, así que un POP roto por entrada faltante puede dar `ok=true` (no cook → no error). | **ALTA** — el check muta la red que audita | Probe A2: HEALTHCHECK `ok=False issueCount=210` sobre red donde solo 1 op tenía warning real; direct-errors de los nulls eran `""` antes del cook |
+| A4 | `POST /document` | **Solo documenta hijos directos** (`children = list(container.children)`, sin recursión) y responde 200 sin declararlo. En vivo: contenedor con subCOMP anidado + error a profundidad 2 → `operator_count=2, error_count=0, connection_count=0` sobre un árbol real de 32 ops. El resumen generado ("Network at X with 2 operators") queda falso. | MEDIA | Sandbox `_audit_depth`: DOCUMENT `operator_count=2 ... nested error visible? False` |
+| A5 | `GET /metrics` | **Cap silencioso de profundidad 30** (`walk(n, depth): if depth > 30: return`) y errores solo de `errors(recurse=False)` (no materializados): error a profundidad 31 invisible → `error_count=0`. Aceptable como compromiso de rendimiento SI se declara; hoy el campo no avisa el corte. | MEDIA (raro en redes reales; mismo patrón) | Sandbox `_audit_depth`: METRICS `error_count=0` con error confirmado a profundidad 31 |
+| A6 | `GET /verify` | Contradicción interna de claves: `total_in_tree` vs `operators_scanned` no revelan el recorte del scan (ver A1); un cliente que confía en `healthy` no tiene forma de saber que la muestra fue parcial. | (parte de A1) | Mismo probe |
+
+**Notas de semántica del healthcheck (relacionadas, no bug):**
+- Con `recurse=1` incluye el target al frente (`nodes.insert(0, target)` vía `_iter_descendants(include_self=True)`) — el comp contenedor se auto-audita; sin input por diseño → si un día TD le pone error de cook aparecería como issue del contenedor.
+- `cook(force=True)` sobre COMPs con hijos dispara el cook de los hijos: es la fuente de los "errores de entrada faltante" que luego /verify sí ve. Cadena real medida: build → /healthcheck materializa → /verify deja de dar `healthy=true`.
+
+**Drift bridge vs espejo (`mcp/setup/toe_extension.py`), verificado por lectura:**
+- `healthcheck` del espejo NO devuelve la clave `issues` (solo `operators`), no incluye `family` ni `cookTime` por ítem, y su `recurse` default difiere (WebSocket: `True`). El live bridge sí trae `issues`. Clientes que lean `issues` del espejo reciben KeyError/plausible-wrong.
+- El espejo no tiene `/verify` ni `/document` (solo vía WebSocket: `exec`, `connections`, `find`, `healthcheck`, `parameters*`, `operators`) — documentado así en la sección 2.
+
+**Recomendaciones (no aplicadas en esta auditoría — solo diagnóstico):**
+1. A1: recorrer TODOS los nodos para errores (el cap debe ser de SERIALIZACIÓN, no de escaneo) o exponer `scan_truncated: true` + `scanned_limit` en la respuesta.
+2. A3: no cocinar por defecto (`?force_cook=1` opt-in), o al menos reportar `forced_cook: true` y contar issues pre-cook vs post-cook.
+3. A4: declarar `recursive: false` en la respuesta de `/document` (o aceptar `?recursive=1` con la misma walk de `/verify`).
+4. A5: exponer `max_depth: 30` (o `walk_truncated: true` si se cortó) en `/metrics`.
+5. A2: documentar que `/verify` sin cook previo reporta solo errores materializados (hoy no está en la referencia).
+
+---
+
+## 6. Resumen de estado
 | Categoría | Cuenta |
 |-----------|--------|
 | Endpoints en live bridge (GET+POST contados por ruta+ método) | ~58 handlers (algunos con GET y POST separados) |
