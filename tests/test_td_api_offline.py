@@ -1027,8 +1027,14 @@ class TestMetrics(unittest.TestCase):
             "fps", "td_build", "total_ops", "ops_by_family", "other_ops",
             "cooking_count", "error_count", "warning_count", "pop_stats",
             "readCache", "endpoint_times",
+            # A5: declared depth cutoff (walk cap observability)
+            "max_depth", "deepest_visited", "walk_truncated",
         }
         self.assertEqual(set(data.keys()), expected)
+        # Untruncated tree: no cut, and the field reports null, not 0.
+        self.assertIsNone(data["deepest_visited"])
+        self.assertIs(data["walk_truncated"], False)
+        self.assertEqual(data["max_depth"], 30)
 
     def test_walk_counts_families_and_errors(self):
         root = self._build_tree()
@@ -1118,6 +1124,30 @@ class TestMetrics(unittest.TestCase):
         buf = self.api._endpoint_times["/x"]
         self.assertEqual(len(buf), 20)
         self.assertEqual(min(buf), 5.0)  # oldest kept value is #5 (0..4 dropped)
+
+    def test_walk_truncated_reports_declared_cap(self):
+        """A5: a tree deeper than the cap sets walk_truncated + deepest_visited."""
+        # Chain of nested COMPs: /p0 -> /p0/p1 -> ... -> /p0/p31 (depth 32).
+        node = _MetricsOp("/project1/p0", "p0", "COMP")
+        root = node
+        for i in range(1, 32):
+            child = _MetricsOp(f"/project1/p0/p{i}", f"p{i}", "COMP")
+            node.children = [child]
+            node = child
+        # Error at depth 32 — beyond the cap, must NOT be counted.
+        node._errors = "beyond cap"
+        self._orig_op = _set_module_attr("op", lambda path: root if path == "/" else None)
+        try:
+            data = self._call_metrics(root)
+        finally:
+            _set_module_attr("op", self._orig_op)
+        self.assertIs(data["walk_truncated"], True)
+        self.assertEqual(data["deepest_visited"], 31)
+        self.assertEqual(data["max_depth"], 30)
+        # The op beyond the cap is invisible to the counts (declared cutoff,
+        # not silent): total counted = root + p1..p30 = 31 (p31 at depth 31 > 30).
+        self.assertEqual(data["total_ops"], 31)
+        self.assertEqual(data["error_count"], 0)
 
     def test_metrics_is_not_cached(self):
         root = _MetricsOp("/project1", "project1", "COMP")

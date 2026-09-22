@@ -1704,6 +1704,80 @@ def _make_dat():
     return object()
 
 
+class TestDocumentRecursion(unittest.TestCase):
+    """POST /document recursion contract (audit A4).
+
+    Semantics:
+    - default (no payload flag): children of the container ONLY, and the
+      response DECLARES `recursive: false` — the old silent children-only
+      shape kept, plus the flag.
+    - payload {"recursive": 1}: walks the whole subtree (children + nested
+      COMP descendants), response declares `recursive: true`.
+    """
+
+    def setUp(self):
+        _reset_fakes()
+        _install_fake_globals()
+        self.api = FakeAPI()
+        import tests.test_api_contract_offline as mod
+        self._saved_op = getattr(mod, "op", None)
+        mod.op = _fake_op
+
+    def tearDown(self):
+        import tests.test_api_contract_offline as mod
+        mod.op = self._saved_op
+
+    def _document(self, container, payload):
+        request = {"data": json.dumps(payload)}
+        response = _make_response()
+        result = self.api._handle_document(request, response)
+        self.assertEqual(result["statusCode"], 200)
+        body = json.loads(result["data"])
+        self.assertNotIn("error", body, body.get("error", ""))
+        return body
+
+    def test_default_is_children_only_with_declared_flag(self):
+        nested_bad = FakeOperator("/project1/doc/deep/bad", "bad", "glsl", "POP")
+        nested_bad._errors = "Compile failed"
+        nested_comp = FakeOperator("/project1/doc/deep", "deep", "geo", "COMP")
+        nested_comp._children = [nested_bad]
+        kid = FakeOperator("/project1/doc/kid", "kid", "noise", "TOP")
+        container = FakeOperator("/project1/doc", "doc", "geo", "COMP")
+        container._children = [kid, nested_comp]
+        _fake_project1._children = [container]
+
+        body = self._document(container, {"path": "/project1/doc"})
+        self.assertIs(body["recursive"], False)
+        self.assertEqual(body["operator_count"], 2)
+        self.assertEqual(body["error_count"], 0, "nested error is out of scope when not recursive")
+
+    def test_recursive_opt_in_covers_nested_and_declares_it(self):
+        nested_bad = FakeOperator("/project1/doc/deep/bad", "bad", "glsl", "POP")
+        nested_bad._errors = "Compile failed"
+        nested_comp = FakeOperator("/project1/doc/deep", "deep", "geo", "COMP")
+        nested_comp._children = [nested_bad]
+        kid = FakeOperator("/project1/doc/kid", "kid", "noise", "TOP")
+        container = FakeOperator("/project1/doc", "doc", "geo", "COMP")
+        container._children = [kid, nested_comp]
+        _fake_project1._children = [container]
+
+        body = self._document(container, {"path": "/project1/doc", "recursive": 1})
+        self.assertIs(body["recursive"], True)
+        self.assertEqual(body["operator_count"], 3)
+        self.assertEqual(body["error_count"], 1, "the nested error must be visible with recursive=1")
+
+    def test_recursive_accepts_bool_and_string_forms(self):
+        container = FakeOperator("/project1/doc2", "doc2", "geo", "COMP")
+        container._children = []
+        _fake_project1._children = [container]
+        for flag in (True, "1", "true", "True"):
+            body = self._document(container, {"path": "/project1/doc2", "recursive": flag})
+            self.assertIs(body["recursive"], True, f"flag {flag!r} must opt in")
+        for flag in (0, False, "0", "false"):
+            body = self._document(container, {"path": "/project1/doc2", "recursive": flag})
+            self.assertIs(body["recursive"], False, f"flag {flag!r} must NOT opt in")
+
+
 class TestMetricsContract(unittest.TestCase):
     """HTTP contract of GET /metrics, dispatched through the REAL OnHTTPRequest.
 
@@ -1760,8 +1834,14 @@ class TestMetricsContract(unittest.TestCase):
             "fps", "td_build", "total_ops", "ops_by_family", "other_ops",
             "cooking_count", "error_count", "warning_count", "pop_stats",
             "readCache", "endpoint_times",
+            # A5: declared depth cutoff (walk cap observability)
+            "max_depth", "deepest_visited", "walk_truncated",
         }
         self.assertEqual(set(data.keys()), expected)
+        # Untruncated tree: no cut, and the field reports null, not 0.
+        self.assertIsNone(data["deepest_visited"])
+        self.assertIs(data["walk_truncated"], False)
+        self.assertEqual(data["max_depth"], 30)
 
     def test_counts_reflect_the_fake_tree(self):
         _, data = self._get("/metrics", route="/metrics")

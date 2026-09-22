@@ -1932,11 +1932,21 @@ warning_count = 0
 pop_total = 0
 pop_errors = 0
 pop_slowest = None
+max_depth_seen = 0
+walk_truncated = False
+WALK_MAX_DEPTH = 30
 
 def walk(n, depth=0):
     global error_count, warning_count, cooking_count, cooking_seen
-    global pop_total, pop_errors, pop_slowest
-    if n is None or depth > 30:
+    global pop_total, pop_errors, pop_slowest, max_depth_seen, walk_truncated
+    if n is None:
+        return
+    if depth > WALK_MAX_DEPTH:
+        # Declared cutoff (A5): anything below this depth is invisible to the
+        # payload — report the cap instead of silently dropping the subtree.
+        if depth > max_depth_seen:
+            max_depth_seen = depth
+        walk_truncated = True
         return
     try:
         out["total_ops"] = out["total_ops"] + 1
@@ -1998,6 +2008,10 @@ out["pop_stats"] = {
     "pop_errors": pop_errors,
     "pop_slowest": pop_slowest,
 }
+# Depth-cap observability (audit A5): the walk cuts at depth 30 — declare it.
+out["max_depth"] = WALK_MAX_DEPTH
+out["deepest_visited"] = max_depth_seen if walk_truncated else None
+out["walk_truncated"] = walk_truncated
 print(json.dumps(out))
 '''
             result = self._execute_python_robust(code)
@@ -3406,6 +3420,9 @@ else:
         except:
             payload = request.get("pars", {})
         container_path = payload.get("path", "/project1")
+        # A4 (audit): recursion used to be silent children-only. Now opt-in via
+        # payload["recursive"] (default 0) and DECLARED in the response.
+        recursive = str(payload.get("recursive", "0")) in ("1", "true", "True", True, 1)
 
         code = rf'''import json
 
@@ -3414,7 +3431,16 @@ try:
     if container is None:
         print(json.dumps({{'error': 'Container not found: {container_path}'}}))
     else:
-        children = list(container.children)
+        recursive = {recursive}
+        if recursive:
+            def _collect(node, acc):
+                for ch in node.children:
+                    acc.append(ch)
+                    _collect(ch, acc)
+            children = []
+            _collect(container, children)
+        else:
+            children = list(container.children)
         ops_info = []
         connections = []
         params = {{}}
@@ -3618,6 +3644,7 @@ try:
         result = {{
             'path': container.path,
             'summary': summary,
+            'recursive': recursive,
             'operator_count': len(children),
             'connection_count': len(connections),
             'error_count': total_errors,

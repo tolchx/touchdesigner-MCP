@@ -699,6 +699,9 @@ class TouchDesignerAPI:
             pop_total = 0
             pop_errors = 0
             pop_slowest = None
+            max_depth_seen = 0
+            walk_truncated = False
+            WALK_MAX_DEPTH = 30
 
             # One recursive walk from "/" (same criteria as /verify: per-op
             # errors()/warnings(), no recursion into messages).
@@ -706,7 +709,15 @@ class TouchDesignerAPI:
                 nonlocal total_ops, other_ops, cooking_count, cooking_seen
                 nonlocal error_count, warning_count
                 nonlocal pop_total, pop_errors, pop_slowest
-                if n is None or depth > 30:
+                nonlocal max_depth_seen, walk_truncated
+                if n is None:
+                    return
+                if depth > WALK_MAX_DEPTH:
+                    # Declared cutoff (A5): anything below this depth is invisible
+                    # to the payload — report the cap instead of dropping silently.
+                    if depth > max_depth_seen:
+                        max_depth_seen = depth
+                    walk_truncated = True
                     return
                 try:
                     total_ops += 1
@@ -793,6 +804,10 @@ class TouchDesignerAPI:
                     "pop_errors": pop_errors,
                     "pop_slowest": pop_slowest,
                 },
+                # Depth-cap observability (audit A5): declared cutoff.
+                "max_depth": WALK_MAX_DEPTH,
+                "deepest_visited": max_depth_seen if walk_truncated else None,
+                "walk_truncated": walk_truncated,
                 "readCache": {
                     "hits": self._cache_hits,
                     "misses": self._cache_misses,
