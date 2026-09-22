@@ -79,10 +79,28 @@ export interface ConnectionOperatorInfo extends OperatorInfo {
         opType: string;
     }>;
 }
+export interface ConnectionEdge {
+    /** Source operator name (short). */
+    from: string;
+    /** Full path of the source operator. */
+    fromPath: string;
+    /** Destination operator name (short). */
+    to: string;
+    /** Full path of the destination operator. */
+    toPath: string;
+    /** Destination input connector index. */
+    input: number;
+}
 export interface ConnectionsResult {
     path: string;
     recurse: boolean;
-    operators: ConnectionOperatorInfo[];
+    /** Total EDGE count (not operators) — item 38. */
+    total: number;
+    returned: number;
+    limit: number;
+    offset: number;
+    truncated: boolean;
+    connections: ConnectionEdge[];
 }
 export interface FindResult {
     path: string;

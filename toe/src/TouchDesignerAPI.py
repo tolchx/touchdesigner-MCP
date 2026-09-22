@@ -4365,11 +4365,61 @@ else:
             "outputs": outputs,
         }
 
-    def _handle_connections(self, path: str, recurse: bool, response: dict, limit: int = 500, offset: int = 0) -> dict:
-        """GET /connections with pagination support.
+    def _collect_network_edges(self, nodes):
+        """Collect real wiring edges from TouchDesigner connectors.
 
-        Default limit 500 preserves existing behaviour for clients that fetch the
-        full graph; offset/limit let clients page through very large networks.
+        Shared by GET /connections and POST /document. For every node in
+        `nodes`, walks its inputConnectors and reads ic.connections[0].owner
+        to build one edge per wired input:
+
+            {"from", "fromPath", "to", "toPath", "input"}
+
+        Edges are deduplicated by (fromPath, toPath, input) because nested
+        containers can be visited twice when recursion includes a COMP and
+        its own children.
+        """
+        edges = []
+        seen = set()
+        for node in nodes:
+            try:
+                input_connectors = node.inputConnectors
+            except AttributeError:
+                continue  # root /doc has no connectors
+            for idx, ic in enumerate(input_connectors):
+                try:
+                    conns = ic.connections
+                except Exception:
+                    conns = []
+                if not conns:
+                    continue
+                try:
+                    src = conns[0].owner
+                    edge = {
+                        "from": src.name,
+                        "fromPath": src.path,
+                        "to": node.name,
+                        "toPath": node.path,
+                        "input": idx,
+                    }
+                    key = (edge["fromPath"], edge["toPath"], edge["input"])
+                    if key not in seen:
+                        seen.add(key)
+                        edges.append(edge)
+                except Exception:
+                    continue
+        return edges
+
+    def _handle_connections(self, path: str, recurse: bool, response: dict, limit: int = 500, offset: int = 0) -> dict:
+        """GET /connections — real wiring graph, paginated over edges.
+
+        Returns the actual TouchDesigner wiring (inputConnectors), NOT the
+        operator list. Edge shape: {from, fromPath, to, toPath, input};
+        `total` counts EDGES (breaking change vs the old handler, which
+        returned operators and counted nodes under the same keys).
+
+        recurse=false: edges of the direct children of `path`.
+        recurse=true : edges of the container's whole descendant tree.
+        Pagination: limit (default 500), offset, truncated.
         """
         try:
             target = op(path)  # type: ignore
@@ -4382,14 +4432,13 @@ else:
             if recurse:
                 nodes = self._iter_descendants(target, include_self=True)
             else:
-                nodes = self._iter_descendants(target, include_self=False)
-                nodes.insert(0, target)
+                nodes = list(target.children)
 
-            all_ops = [self._serialize_operator(node) for node in nodes]
-            total = len(all_ops)
+            all_edges = self._collect_network_edges(nodes)
+            total = len(all_edges)
             start = max(0, offset)
             end = start + limit if limit >= 0 else total
-            page = all_ops[start:end]
+            page = all_edges[start:end]
             returned = len(page)
 
             response["statusCode"] = 200
@@ -4402,7 +4451,7 @@ else:
                 "limit": limit,
                 "offset": offset,
                 "truncated": (start + returned) < total,
-                "operators": page,
+                "connections": page,
             }, ensure_ascii=False)
         except Exception as e:
             response["statusCode"] = 500

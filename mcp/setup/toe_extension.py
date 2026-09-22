@@ -1115,11 +1115,52 @@ class TouchDesignerAPI:
                 "headers": {"Content-Type": "application/json"},
             }
 
-    def _handle_connections(self, path, recurse, limit=500, offset=0):
-        """GET /connections — connection graph (paginated).
+    def _collect_network_edges(self, nodes):
+        """Collect real wiring edges from TouchDesigner connectors.
 
-        Default limit 500 preserves existing clients; offset/limit let them page
-        through very large networks.
+        Shared by GET /connections (mini mirror) — walks inputConnectors and
+        reads ic.connections[0].owner to build one edge per wired input:
+        {"from", "fromPath", "to", "toPath", "input"}. Deduplicated by
+        (fromPath, toPath, input) for the same reason as the main bridge.
+        """
+        edges = []
+        seen = set()
+        for node in nodes:
+            try:
+                input_connectors = node.inputConnectors
+            except AttributeError:
+                continue  # root /doc has no connectors
+            for idx, ic in enumerate(input_connectors):
+                try:
+                    conns = ic.connections
+                except Exception:
+                    conns = []
+                if not conns:
+                    continue
+                try:
+                    src = conns[0].owner
+                    edge = {
+                        "from": src.name,
+                        "fromPath": src.path,
+                        "to": node.name,
+                        "toPath": node.path,
+                        "input": idx,
+                    }
+                    key = (edge["fromPath"], edge["toPath"], edge["input"])
+                    if key not in seen:
+                        seen.add(key)
+                        edges.append(edge)
+                except Exception:
+                    continue
+        return edges
+
+    def _handle_connections(self, path, recurse, limit=500, offset=0):
+        """GET /connections — real wiring graph, paginated over edges.
+
+        Returns actual TouchDesigner wiring (inputConnectors), NOT the operator
+        list. Edge shape: {from, fromPath, to, toPath, input}; `total` counts
+        EDGES. recurse=false: direct children of `path`; recurse=true: whole
+        descendant tree.
         """
         try:
             target = op(path)
@@ -1132,13 +1173,12 @@ class TouchDesignerAPI:
             if recurse:
                 nodes = self._iter_descendants(target, include_self=True)
             else:
-                nodes = self._iter_descendants(target, include_self=False)
-                nodes.insert(0, target)
-            all_ops = [self._serialize_operator(node) for node in nodes]
-            total = len(all_ops)
+                nodes = list(target.children)
+            all_edges = self._collect_network_edges(nodes)
+            total = len(all_edges)
             start = max(0, offset)
             end = start + limit if limit >= 0 else total
-            page = all_ops[start:end]
+            page = all_edges[start:end]
             returned = len(page)
             return {
                 "status": 200,
@@ -1150,7 +1190,7 @@ class TouchDesignerAPI:
                     "limit": limit,
                     "offset": offset,
                     "truncated": (start + returned) < total,
-                    "operators": page,
+                    "connections": page,
                 }, ensure_ascii=False),
                 "headers": {"Content-Type": "application/json"},
             }
