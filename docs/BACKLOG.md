@@ -5,7 +5,7 @@
 > **espejo trackeado** para que el historial del repo preserve qué se completó, cómo y
 > con qué evidencia, y para que los scopes cerrados de tareas encoladas sean citables.
 >
-> Última sincronización: **2026-09-22** (HEAD `e9649b7`; **09 cerrado** en el ciclo diario — `/undo`, `/redo` y `/history` en el bridge y su espejo, con tools MCP `td_undo`/`td_redo`/`td_history`; **pendiente la verificación en vivo** porque TD estaba caído esa corrida). Abiertos 33–40: triaje de `polygonizePOP`, `errors()` que devuelve `str` y no `tuple`, gate del baseline ciego a regresiones por tipo, test acoplado al working tree, evidencia GLSL que se ensucia por el timestamp del sandbox, **`GET /connections` que devuelve operadores en vez de cableado**, el censo de 207 nodos de la matriz POP y el mock desactualizado de `set_td_parameters`).
+> Última sincronización: **2026-09-22** (HEAD `e9649b7`; **09 cerrado** en el ciclo diario — `/undo`, `/redo` y `/history` en el bridge y su espejo, con tools MCP `td_undo`/`td_redo`/`td_history`; verificación en vivo **reportada por el agente en su propia sesión** (`scripts/live/td_tools_undo_live.py` → **13/13 PASS**), no re-verificable por el cron porque TD estaba caído). Abiertos 33–40: triaje de `polygonizePOP`, `errors()` que devuelve `str` y no `tuple`, gate del baseline ciego a regresiones por tipo, test acoplado al working tree, evidencia GLSL que se ensucia por el timestamp del sandbox, **`GET /connections` que devuelve operadores en vez de cableado**, el censo de 207 nodos de la matriz POP y el mock desactualizado de `set_td_parameters`).
 > Al cerrar cada ítem en el ciclo diario, actualizar acá la casilla correspondiente.
 
 ## Mejoras de API / bridge
@@ -20,7 +20,7 @@
 - [ ] 08. Modo dry-run — flag `?dry_run=1` en los POST de escritura que devuelve qué haría sin aplicarlo
 - [x] 31. GLSL TOP tooling — analizador TOP (`analyzeGlslTopShader`/`preValidateTopShader` en `glslValidate.ts`) + 7 recipes BoS en `glslTopRecipes.ts` + **tools MCP `td_glsl_top_analyze` y `td_glsl_top_recipe`** (`glslTopApply.ts`, registradas en `server.ts`). Hallazgos en vivo: const0 NO bindea scripteado (→ familia vec0), auto-recreación v1.1 en el builder. Evidencia: aceptación de las 5 recipes estáticas vía tool con píxeles (círculo 1.0/0.0), `scripts/live/uniform_cross.py`, Node **1235/0**. Commits 17/09/26.
 - [x] 32. Currículo GLSL (BoS + td-edu) — `scripts/ingest_glsl_curriculum.py` (determinista con `--check`) extrae los 7 shaders de `glslTopRecipes.ts` a `glsl_files/recipe_t*.glsl` (fuente única, sin duplicar código) y genera `mcp/data/glsl_curriculum.json` (15 entradas TOP/POP con `fuente_citada` obligatoria: capítulos BoS citados, lecciones td-edu, corpus local 14/14). Tool MCP **`td_glsl_curriculum`** (list/get/path) offline en `glslCurriculum.ts`. Tests **13 nuevos** (anti-plagio, shaders pasan el analizador real, tool), Node **1248/0**. Vivo: shader del currículo compilado en TD con píxeles verificados (círculo centro 1.0/corner 0.0/anillo 23px). Commits 17/09/26.
-- [x] 09. Undo/redo en el bridge — `POST /undo`, `POST /redo` y `GET /history` en `toe/src/TouchDesignerAPI.py` (+443) y su espejo `mcp/setup/toe_extension.py` (+378): historial acotado a 50 entradas con descarte FIFO, respuesta explícita `success:false` + `hint` cuando no hay nada que deshacer/rehacer, y un undo revierte UNA operación completa del request. Tools MCP `td_undo`/`td_redo`/`td_history` (`mcp/src/tools/bridgeHistory.ts`, registradas en `server.ts` y re-exportadas por `api/src/index.ts`). Contrato campo por campo en `docs/API_REFERENCE.md`. Verificado en el ciclo diario del 22/09/26: `npm run build` limpio, Node **1255/0**, Python offline 68 + 49 + 19 OK, gate del baseline OK, sin tests borrados ni `.skip`/`.only`/timeouts inflados y sin archivos fuera del alcance del brief. Pendiente: verificación en vivo con el bridge TD (TD caído; script listo en `scripts/live/td_tools_undo_live.py`). Commits `bfe0bbf`…`e9649b7`
+- [x] 09. Undo/redo en el bridge — `POST /undo`, `POST /redo` y `GET /history` en `toe/src/TouchDesignerAPI.py` (+443) y su espejo `mcp/setup/toe_extension.py` (+378): historial acotado a 50 entradas con descarte FIFO, respuesta explícita `success:false` + `hint` cuando no hay nada que deshacer/rehacer, y un undo revierte UNA operación completa del request. Tools MCP `td_undo`/`td_redo`/`td_history` (`mcp/src/tools/bridgeHistory.ts`, registradas en `server.ts` y re-exportadas por `api/src/index.ts`). Contrato campo por campo en `docs/API_REFERENCE.md`. Verificado en el ciclo diario del 22/09/26: `npm run build` limpio, Node **1255/0**, Python offline 68 + 49 + 19 OK, gate del baseline OK, sin tests borrados ni `.skip`/`.only`/timeouts inflados y sin archivos fuera del alcance del brief. Pendiente: el cron no pudo re-verificar en vivo (TD caído el 22/09); el agente reportó `scripts/live/td_tools_undo_live.py` → **13/13 PASS** en su sesión del 21/09. Commits `bfe0bbf`…`e9649b7`
 
 ## Tests y calidad
 
@@ -73,9 +73,17 @@ de git; los scopes cerrados que deban citarse se copian acá):
 
 | Archivo en cola | Ítem | Estado |
 |---|---|---|
-| `20_metrics_json.txt` | 06 `/metrics` | **ejecutado** el 17/09/26 (commits `4bdcff1`+`b70c6c8`+`8e5bc55`) — candidato a limpieza |
+| `11_contrato_bridge_ts.txt` | 11 contrato bridge↔TS | encolado |
+| `12_coverage_umbral.txt` | 12 coverage con umbral | encolado |
 | `21_diff_red.txt` | 07 `/diff` | **scope cerrado** 17/09/26, listo para correr (contenido íntegro abajo) |
 | `22_dry_run.txt` | 08 dry-run | encolado, scope pendiente de refinar |
+| `24_docs_sync.txt` | 24 `docs:sync` del conteo de tests | encolado |
+| `35_gate_regresion_por_tipo.txt` | 35 gate ciego a regresiones por tipo | encolado |
+| `39_matriz_red_legible.txt` | 39 censo vs redes legibles | encolado |
+
+Enviados del ciclo del **22/09/26** (`sent/`, envío #24): `00_connections_grafo_roto.txt`
+(ítem 38, el BLOCKER de `/connections`) — el agente arrancó a trabajarlo (modelo `GLM 5.3 Flash`).
+`sent/` significa **enviado**, no hecho: lo confirma el diff del ciclo siguiente.
 
 ### Scope cerrado — `21_diff_red.txt` (ítem 07, `/diff`)
 
