@@ -416,7 +416,7 @@ node server.js
 # Suite de unit/integration tests offline (1255 tests nativos, 0 fallos)
 cd mcp && npm run build && node --test
 
-# Suite de contrato del bridge Python (sin TD): 70 + 50 tests
+# Suite de contrato del bridge Python (sin TD): 77 + 50 tests
 python tests/test_api_contract_offline.py
 python tests/test_td_api_offline.py
 
