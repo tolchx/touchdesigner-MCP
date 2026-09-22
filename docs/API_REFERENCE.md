@@ -2,7 +2,7 @@
 
 Fuente de verdad: `toe/src/TouchDesignerAPI.py` (corre dentro de TD en `http://127.0.0.1:44444`).
 Copia espejo para el `.tox` standalone: `mcp/setup/toe_extension.py` (misma lógica, sin drift).
-Tests offline del contrato: `tests/test_api_contract_offline.py` (67) y `tests/test_td_api_offline.py` (49).
+Tests offline del contrato: `tests/test_api_contract_offline.py` (70) y `tests/test_td_api_offline.py` (50).
 
 Este documento detalla `GET /metrics` campo por campo y el historial de cambios
 (`/undo`, `/redo`, `/history`). Los demás endpoints están documentados en
@@ -196,8 +196,62 @@ parámetros del nodo borrado. Es una reversión estructural, no un snapshot bina
 
 ---
 
+## GET /connections — grafo de cableado real (backlog ítem 38)
+
+Devuelve las ARISTAS de cableado de TouchDesigner (leídas de los input connectors),
+NO la lista de operadores. Comparten constructor con `POST /document` (helper
+`_collect_network_edges`); por eso sus conteos coinciden con
+`connection_count` de `/document` y `total_connections` de `/verify`.
+
+### Contrato
+
+Request: `GET /connections?path=/…&recurse=0/1&limit=N&offset=N`
+
+- `recurse` (default `0`): `0` = solo los hijos directos de `path`;
+  `1` = todo el árbol de descendientes (aristas anidadas incluidas).
+- Paginación de aristas: `limit` (default `500`), `offset`, mismos caps que
+  `/operators` (limit > 5000 se capea).
+
+Respuesta 200:
+
+```json
+{
+  "path": "/project1/probe",
+  "recurse": false,
+  "total": 2,
+  "returned": 2,
+  "limit": 500,
+  "offset": 0,
+  "truncated": false,
+  "connections": [
+    {"from": "box",   "fromPath": "/project1/probe/box",   "to": "noise", "toPath": "/project1/probe/noise", "input": 0},
+    {"from": "noise", "fromPath": "/project1/probe/noise", "to": "null1", "toPath": "/project1/probe/null1", "input": 0}
+  ]
+}
+```
+
+| Campo | Semántica |
+|---|---|
+| `connections[]` | Lista de aristas `{from, fromPath, to, toPath, input}`: nombres cortos + paths completos; `input` = índice del input connector destino. |
+| `total` | **Cantidad de ARISTAS** (⚠ BREAKING: antes devolvía la cantidad de operadores bajo la clave `operators` — el handler viejo era un copy-paste de `/operators` que nunca leía un connector). |
+| `returned` / `limit` / `offset` / `truncated` | Paginación sobre la lista de aristas (`truncated = offset + returned < total`). |
+| `path` | Path resuelto del contenedor consultado. |
+| `recurse` | Valor efectivo usado. |
+
+Errores: `404` si el path no existe; `400` con `hint` si `limit`/`offset` son
+inválidos (misma validación que `/operators`); `500` ante fallo interno.
+
+Consumidor MCP: tool `td_connections` (`mcp/src/tools/inspection.ts`) vía
+`TDClient.getConnections` (`api/src/index.ts`, tipo `ConnectionsResult`).
+
+---
+
 ## Historial
 
+- **2026-09-22** — `/connections` arreglado: ahora devuelve el grafo de cableado
+  real (`connections[]` de aristas; `total` = aristas). Antes devolvía la lista
+  de operadores bajo `operators` (falso plausible; ítem 38). Helper compartido
+  con `/document`; espejo actualizado; tests offline reescritos sobre aristas.
 - **2026-09-21** — `/undo`, `/redo`, `/history` agregados (backlog ítem 09):
   implementación en `toe/src/TouchDesignerAPI.py` + espejo en
   `mcp/setup/toe_extension.py`, captura previa en los 5 handlers de escritura

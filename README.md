@@ -317,7 +317,7 @@ git diff networks/mySystem.tdn
 | `td_selection` | Operadores seleccionados |
 | `td_operators` | Listar hijos de un path (paginado: `?limit`, `?offset`) |
 | `td_find` | Buscar operadores (paginado: `?limit`, `?offset`) |
-| `td_connections` | Inspeccionar conexiones (paginado: `?limit`, `?offset`) |
+| `td_connections` | Inspeccionar cableado real: aristas `{from, fromPath, to, toPath, input}`; `total` = aristas (paginado: `?limit`, `?offset`) |
 | `td_get_errors` | Errores y warnings |
 | `td_healthcheck` | Validar red |
 | `td_get_node_detail` | Info detallada de operador |
@@ -416,7 +416,7 @@ node server.js
 # Suite de unit/integration tests offline (1255 tests nativos, 0 fallos)
 cd mcp && npm run build && node --test
 
-# Suite de contrato del bridge Python (sin TD): 56 + 49 tests
+# Suite de contrato del bridge Python (sin TD): 70 + 50 tests
 python tests/test_api_contract_offline.py
 python tests/test_td_api_offline.py
 
