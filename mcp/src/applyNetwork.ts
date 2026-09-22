@@ -8,6 +8,7 @@
 import type { TDClient } from "td-api";
 import { buildVerifyFix, verifyAndFixConnections } from "./buildVerifyFix.js";
 import { validatePopParameters } from "./popsValidate.js";
+import { verifyWiring, type WiringCheckResult } from "./tools/wiringCheck.js";
 import type { GraphConnection, NetworkGraph } from "./topologyData.js";
 
 export type ApplyResult = {
@@ -16,6 +17,10 @@ export type ApplyResult = {
   connected: number;
   errors: string[];
   warnings: string[];
+  /** Automatic post-build wiring verification (td_verify_wiring semantics,
+   *  AGENTS.md rule 16) with the expected-edge spec embedded from the graph.
+   *  `{ skipped }` when the client cannot read connections. */
+  wiring?: WiringCheckResult | { skipped: string };
 };
 
 /**
@@ -193,6 +198,47 @@ export async function applyNetworkGraph(
     }
   }
 
+  // Phase 3.5: automatic post-build wiring verification (AGENTS.md rule 16):
+  // the expected-edge spec is embedded from the graph itself — verification
+  // happens without the agent asking. Uses the same verifyWiring engine as
+  // the td_verify_wiring MCP tool, against real /connections edges.
+  let wiring: WiringCheckResult | { skipped: string };
+  const connClient = client as TDClient & {
+    getConnections?: (path: string, recurse: boolean) => Promise<{
+      connections?: Array<{ from: string; to: string; input: number }>;
+    }>;
+  };
+  if (
+    typeof connClient.getConnections === "function" &&
+    graph.connections.length > 0
+  ) {
+    const expected: Array<{ from: string; to: string; input: number }> = [];
+    for (const conn of graph.connections) {
+      const fromPath = pathMap.get(conn.from);
+      const toPath = pathMap.get(conn.to);
+      if (!fromPath || !toPath) continue; // already reported as a connect error
+      expected.push({
+        from: fromPath.split("/").pop() ?? fromPath,
+        to: toPath.split("/").pop() ?? toPath,
+        input: conn.inputIndex ?? 0,
+      });
+    }
+    const conn = await connClient.getConnections(graph.targetPath, true);
+    wiring = verifyWiring(graph.targetPath, expected, conn.connections ?? []);
+    if (!wiring.ok) {
+      errors.push(
+        `Wiring mismatch after build: missing=[${wiring.missing.join(", ")}] ` +
+          `unexpected=[${wiring.unexpected.join(", ")}]` +
+          (wiring.replacementHint ? ` — ${wiring.replacementHint}` : ""),
+      );
+    }
+  } else {
+    wiring = {
+      skipped: "client lacks getConnections — run td_verify_wiring manually (rule 16)",
+    };
+    warnings.push("Wiring verification skipped: " + wiring.skipped);
+  }
+
   // Phase 4: Run build-verify-fix on the target path
   try {
     const verify = await buildVerifyFix({
@@ -214,5 +260,6 @@ export async function applyNetworkGraph(
     connected,
     errors,
     warnings,
+    wiring,
   };
 }

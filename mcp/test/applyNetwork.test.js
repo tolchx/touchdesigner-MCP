@@ -13,6 +13,24 @@ import {
   applyNetworkGraph,
 } from "../dist/applyNetwork.js";
 
+/** Client double that resolves creates and serves canned /connections edges. */
+function makeWiringClient(edges) {
+  const calls = [];
+  return {
+    calls,
+    createOperator: async (opType, label, parentPath) => ({
+      path: `${parentPath}/${label}`,
+    }),
+    setParameters: async () => ({}),
+    connectNodes: async () => ({ success: true }),
+    execute: async () => ({ success: true, stdout: "{}" }),
+    getConnections: async (path, recurse) => {
+      calls.push({ path, recurse });
+      return { connections: edges };
+    },
+  };
+}
+
 function makeGraph(connections, overrides = {}) {
   return {
     description: "test graph",
@@ -149,5 +167,62 @@ describe("applyNetworkGraph slot-collision guard", () => {
     assert.ok(calls.includes("createOperator"), "createOperator must be called");
     assert.ok(calls.includes("connectNodes"), "connectNodes must be called");
     assert.equal(result.created, 4);
+  });
+
+  it("verifies wiring automatically after building (rule 16, spec embedded)", async () => {
+    const client = makeWiringClient([
+      { from: "a", to: "mg", input: 0 },
+      { from: "b", to: "mg", input: 1 },
+    ]);
+    const result = await applyNetworkGraph(
+      client,
+      makeGraph([
+        { from: "a", to: "mg", inputIndex: 0 },
+        { from: "b", to: "mg", inputIndex: 1 },
+      ]),
+    );
+    assert.ok(client.calls.some((c) => c.path === "/project1/net" && c.recurse === true),
+      "getConnections must be called on the target path");
+    assert.ok(result.wiring, "wiring result must be present");
+    assert.equal(result.wiring.ok, true);
+    assert.equal(result.success, true);
+  });
+
+  it("reports a wiring mismatch after building when edges differ", async () => {
+    // The b->mg:1 wire silently absent (dynamic-input replacement style).
+    const client = makeWiringClient([
+      { from: "a", to: "mg", input: 0 },
+    ]);
+    const result = await applyNetworkGraph(
+      client,
+      makeGraph([
+        { from: "a", to: "mg", inputIndex: 0 },
+        { from: "b", to: "mg", inputIndex: 1 },
+      ]),
+    );
+    assert.ok(result.wiring);
+    assert.equal(result.wiring.ok, false);
+    assert.deepEqual(result.wiring.missing, ["b->mg:1"]);
+    assert.ok(result.errors.some((e) => /Wiring mismatch after build/.test(e)),
+      "mismatch must surface in errors");
+    assert.equal(result.success, false);
+  });
+
+  it("skips wiring verification explicitly when the client cannot read connections", async () => {
+    const client = {
+      createOperator: async (opType, label, parentPath) => ({ path: `${parentPath}/${label}` }),
+      setParameters: async () => ({}),
+      connectNodes: async () => ({ success: true }),
+      execute: async () => ({ success: true, stdout: "{}" }),
+      // no getConnections
+    };
+    const result = await applyNetworkGraph(
+      client,
+      makeGraph([{ from: "a", to: "mg", inputIndex: 0 }]),
+    );
+    assert.ok(result.wiring && typeof result.wiring.skipped === "string",
+      "wiring must be explicitly skipped, never silently absent");
+    assert.match(result.wiring.skipped, /td_verify_wiring/);
+    assert.ok(result.warnings.some((w) => /Wiring verification skipped/.test(w)));
   });
 });

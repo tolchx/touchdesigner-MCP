@@ -5,6 +5,7 @@
  * Extracted from networkPlannerGraph.ts for single-responsibility.
  */
 import type { TDClient } from "td-api";
+import { type WiringCheckResult } from "./tools/wiringCheck.js";
 import type { NetworkGraph } from "./topologyData.js";
 export type ApplyResult = {
     success: boolean;
@@ -12,6 +13,12 @@ export type ApplyResult = {
     connected: number;
     errors: string[];
     warnings: string[];
+    /** Automatic post-build wiring verification (td_verify_wiring semantics,
+     *  AGENTS.md rule 16) with the expected-edge spec embedded from the graph.
+     *  `{ skipped }` when the client cannot read connections. */
+    wiring?: WiringCheckResult | {
+        skipped: string;
+    };
 };
 /**
  * Detect dynamic-input slot collisions BEFORE building (AGENTS.md rule 12,

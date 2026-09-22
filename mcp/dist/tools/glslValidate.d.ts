@@ -105,6 +105,18 @@ export interface GlslApplyReport {
     shader_info: string | null;
     num_points: number | null;
     num_prims: number | null;
+    /** Embedded post-build wiring check (rule 16): source→glslPOP input 0, when
+     *  a sourcePath was given and the wiring could be read inside the script. */
+    wiring?: {
+        ok: boolean;
+        expected: string;
+        actual: Array<{
+            from: string;
+            to: string;
+            input: number;
+        }>;
+        error?: string;
+    } | null;
 }
 export interface GlslApplyResult {
     isError?: boolean;

@@ -311,6 +311,30 @@ ${attrLines}${analysis.needs_readwrite ? "\n    _set_par(glsl, 'outputaccess', '
     }
     glsl.cook(force=True)
     errs = glsl.errors()
+${sourcePath ? `    # Embedded post-build wiring check (AGENTS.md rule 16): the expected
+    # edge spec source-><glslPOP>:0 is generated here, before any agent can ask.
+    _wiring = {"ok": False, "expected": ${sourcePath} + " -> " + glsl.path + " :0", "actual": []}
+    try:
+        _wiring["actual"] = [
+            {"from": c.owner.name, "to": glsl.name, "input": i}
+            for i, ic in enumerate(glsl.inputConnectors)
+            for c in ic.connections
+        ]
+        _wiring["ok"] = (
+            len(_wiring["actual"]) == 1
+            and _wiring["actual"][0]["input"] == 0
+            and op(${sourcePath}) is not None
+            and _wiring["actual"][0]["from"] == op(${sourcePath}).name
+        )
+    except Exception as e_:
+        _wiring["error"] = str(e_)
+    _out["wiring"] = _wiring
+    if not _wiring["ok"]:
+        _out["warnings"].append(
+            "Wiring check failed (rule 16): expected " + _wiring["expected"]
+            + " | actual: " + json.dumps(_wiring["actual"]))
+` : ""}
+    errs = glsl.errors()
     if errs:
         _out["errors"].append(errs)
         # R5: the real compiler log is in the auto-generated infoDAT
@@ -354,6 +378,9 @@ export interface GlslApplyReport {
   shader_info: string | null;
   num_points: number | null;
   num_prims: number | null;
+  /** Embedded post-build wiring check (rule 16): source→glslPOP input 0, when
+   *  a sourcePath was given and the wiring could be read inside the script. */
+  wiring?: { ok: boolean; expected: string; actual: Array<{ from: string; to: string; input: number }>; error?: string } | null;
 }
 
 export interface GlslApplyResult {
@@ -415,12 +442,22 @@ export async function applyGlslPop(
     };
   }
 
+  // Embedded wiring check (rule 16): surface a wiring failure in the message
+  // so the agent sees it without asking — the build itself succeeded.
+  let wiringNote = "";
+  if (report.wiring) {
+    wiringNote = report.wiring.ok
+      ? " Wiring OK (rule 16)."
+      : ` WIRING CHECK FAILED (rule 16): ${report.wiring.error ?? ("expected " + report.wiring.expected)}`;
+  }
+
   return {
     report,
     message:
       `GLSL POP creado en ${report.path} — compila, ${report.num_points} puntos, ` +
       `${report.num_prims} prims.` +
       (report.skipped.length ? ` Params omitidos: ${report.skipped.join(", ")}` : "") +
-      (report.warnings.length ? ` Warnings: ${report.warnings.join("; ")}` : ""),
+      (report.warnings.length ? ` Warnings: ${report.warnings.join("; ")}` : "") +
+      wiringNote,
   };
 }

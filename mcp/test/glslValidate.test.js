@@ -207,4 +207,74 @@ describe("applyGlslPop", () => {
     assert.equal(res.isError, true);
     assert.match(res.message, /No se pudo interpretar/);
   });
+
+  it("generated script embeds the rule-16 wiring check only when sourcePath is given", async () => {
+    let withSrc = "";
+    let withoutSrc = "";
+    const client = {
+      execute: async (code) => {
+        withSrc = code;
+        return {
+          success: true,
+          stdout: JSON.stringify({
+            ok: true, path: "/project1/glsl_1", errors: [], warnings: [],
+            skipped: [], shader_info: null, num_points: 10, num_prims: 1,
+          }),
+        };
+      },
+    };
+    await applyGlslPop(client, {
+      parentPath: "/project1",
+      name: "glsl_1",
+      shader: OK_HEADER + `    P[id] = TDIn_P(0, id);\n}`,
+      sourcePath: "/project1/box_src",
+    });
+    assert.match(withSrc, /Wiring check failed \(rule 16\)/);
+    assert.match(withSrc, /_wiring\["ok"\]/);
+    // Without a source there is no expected edge, so no embedded check.
+    await applyGlslPop(client, {
+      parentPath: "/project1",
+      name: "glsl_2",
+      shader: OK_HEADER + `    P[id] = TDIn_P(0, id);\n}`,
+    });
+    withoutSrc = withSrc;
+    assert.match(withSrc, /no sourcePath given/);
+    assert.doesNotMatch(withSrc, /_wiring\["ok"\]/);
+  });
+
+  it("surfaces embedded wiring failure in the success message", async () => {
+    const stdout = JSON.stringify({
+      ok: true, path: "/project1/glsl_1", errors: [],
+      warnings: ["Wiring check failed (rule 16): expected /project1/box_src -> /project1/glsl_1 :0 | actual: []"],
+      skipped: [], shader_info: null, num_points: 10, num_prims: 1,
+      wiring: {
+        ok: false,
+        expected: "/project1/box_src -> /project1/glsl_1 :0",
+        actual: [],
+      },
+    });
+    const res = await applyGlslPop(makeClient(stdout), {
+      parentPath: "|/project1",
+      name: "glsl_1",
+      shader: OK_HEADER + `    P[id] = TDIn_P(0, id);\n}`,
+    });
+    assert.equal(res.isError, undefined);
+    assert.match(res.message, /WIRING CHECK FAILED/);
+    assert.match(res.message, /rule 16/);
+  });
+
+  it("reports wiring OK when the embedded check passes", async () => {
+    const stdout = JSON.stringify({
+      ok: true, path: "/project1/glsl_1", errors: [], warnings: [],
+      skipped: [], shader_info: null, num_points: 10, num_prims: 1,
+      wiring: { ok: true, expected: "/project1/box_src -> /project1/glsl_1 :0", actual: [{ from: "box_src", to: "glsl_1", input: 0 }] },
+    });
+    const res = await applyGlslPop(makeClient(stdout), {
+      parentPath: "/project1",
+      name: "glsl_1",
+      shader: OK_HEADER + `    P[id] = TDIn_P(0, id);\n}`,
+    });
+    assert.equal(res.isError, undefined);
+    assert.match(res.message, /Wiring OK/);
+  });
 });
