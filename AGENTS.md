@@ -54,6 +54,7 @@ GET http://localhost:44444/verify?path=/project1
     - Input 0 / dynamic inputs: `src.outputConnectors[0].connect(dst)`
     - Indexed input (operator already has several connectors, e.g. copyPOP): `src.outputConnectors[0].connect(dst.inputConnectors[i])`
     - mergePOP and compositeTOP have **dynamic inputs**: they start with 1 connector and add one per connection (measured live: 1 → 2 → 3)
+    - **Dynamic-input REPLACEMENT semantics** (NEG3 in `scripts/live/post_build_wiring_check.py --selftest`, TD 2025.31760): connecting to a slot ALREADY occupied on a dynamic-input op **overwrites** it instead of appending. Live evidence — build `srcA→nz→mg(0)`, `srcB→mg(1)`, then rewire `srcB.connect(mg.inputConnectors[0])` and the edge `nz→mg(0)` is GONE (selftest output: `missing=[('nz','mg',0)] extra=[('srcB','mg',0)]`). Consequence: when a multi-input build "succeeds" but reports fewer edges than expected, first suspect that a later connect REPLACED an earlier wire — only the `/connections` edge-set comparison (rule 16) sees it; the build can report success throughout.
     - copyPOP has 2 fixed inputs: [0]=geometry, [1]=template
 13. **7 operator families**: COMP (🔵), TOP (🟢), CHOP (🟡), SOP (🟠), POP (🔴), DAT (🟣), MAT (⚪) — see `mcp_reference/OPERATOR_FAMILIES.md`
 14. **COMP and MAT exist!**: COMPs (baseCOMP, geometryCOMP, etc.) son contenedores de redes; MATs (phongMAT, pbrMAT, glslMAT, etc.) son materiales asignados a geometryCOMP
