@@ -427,51 +427,45 @@ def _verify_left_of(td: TDClient, res: SafeCheck, step: str,
 def _verify_wiring(td: TDClient, res: SafeCheck, step: str,
                    src_path: str | None, new_path: str | None,
                    dst_path: str | None) -> None:
-    """Verify wiring via GET /connections.
+    """Verify wiring via GET /connections (real edge list, backlog item 38).
 
-    Checks (when applicable):
-      - src_path  ->  new_path   (new_op's input[0] == src)
-      - new_path  ->  dst_path   (dst's input[0] == new_op)
+    The endpoint returns edges {from, fromPath, to, toPath, input}. Checks
+    (when applicable):
+      - src_path  ->  new_path   (edge fromPath==src, toPath==new)
+      - new_path  ->  dst_path   (edge fromPath==new, toPath==dst)
+
+    NOTE: the pre-item-38 handler returned serialized OPERATORS (with an
+    indirect `inputs` field), which made this check pass for the wrong
+    reason while `total` counted nodes instead of edges.
     """
     try:
         data = td.get("/connections?path={}&recurse=true".format(SANDBOX_PATH))
-        operators = data.get("operators", []) if isinstance(data, dict) else []
+        edges = data.get("connections", []) if isinstance(data, dict) else []
     except Exception as e:
         res.check(step, False, "/connections error: {}".format(e))
         return
 
-    by_path: dict = {}
-    for op_info in operators:
-        p = op_info.get("path", "")
-        if p:
-            by_path[p] = op_info
-
     details = []
     all_ok = True
 
-    # Check: src -> new  (new_op's first input should be src).
-    if src_path and new_path:
-        new_info = by_path.get(new_path, {})
-        inputs = new_info.get("inputs", [])
-        src_connected = any(inp.get("path") == src_path for inp in inputs)
-        if not src_connected:
-            all_ok = False
-            details.append("{} input != {} (inputs={})".format(
-                new_path, src_path, inputs))
-        else:
-            details.append("{} -> {}".format(src_path, new_path))
+    def _has_edge(a: str, b: str) -> bool:
+        return any(e.get("fromPath") == a and e.get("toPath") == b for e in edges)
 
-    # Check: new -> dst  (dst's first input should be new_op).
-    if dst_path and new_path:
-        dst_info = by_path.get(dst_path, {})
-        inputs = dst_info.get("inputs", [])
-        new_connected = any(inp.get("path") == new_path for inp in inputs)
-        if not new_connected:
-            all_ok = False
-            details.append("{} input != {} (inputs={})".format(
-                dst_path, new_path, inputs))
+    # Check: src -> new.
+    if src_path and new_path:
+        if _has_edge(src_path, new_path):
+            details.append("{} -> {}".format(src_path, new_path))
         else:
+            all_ok = False
+            details.append("missing edge {} -> {}".format(src_path, new_path))
+
+    # Check: new -> dst.
+    if dst_path and new_path:
+        if _has_edge(new_path, dst_path):
             details.append("{} -> {}".format(new_path, dst_path))
+        else:
+            all_ok = False
+            details.append("missing edge {} -> {}".format(new_path, dst_path))
 
     res.check(step, all_ok,
               "; ".join(details) if details else "no wiring to verify")
@@ -723,40 +717,49 @@ def verify_operators_listing(td: TDClient, res: SafeCheck) -> None:
 
 
 def verify_connections_intact(td: TDClient, res: SafeCheck) -> None:
-    """Cross-check all connections via GET /connections.  Ensures every
-    non-source node in the sandbox has at least one wired input."""
+    """Cross-check all connections via GET /connections (real edges, item 38).
+
+    With the edge-list contract the endpoint directly reports every wired
+    input, so this check verifies the sandbox has (a) edges and (b) every
+    non-source node reachable through at least one of them.
+    """
     print("\n--- Global: /connections integrity ---")
     try:
         data = td.get("/connections?path={}&recurse=true".format(SANDBOX_PATH))
-        operators = data.get("operators", []) if isinstance(data, dict) else []
+        edges = data.get("connections", []) if isinstance(data, dict) else []
     except Exception as e:
         res.check("connections_listing", False, str(e))
         return
+
+    res.check("connections_listing", len(edges) > 0,
+              "{} wiring edges".format(len(edges)))
+
+    # Every non-source node must appear as an edge destination.
+    try:
+        ops_data = td.get("/operators?path={}&recurse=true".format(SANDBOX_PATH))
+        operators = ops_data.get("operators", []) if isinstance(ops_data, dict) else []
+    except Exception as e:
+        operators = []
 
     # Source-type operators that legitimately have zero inputs.
     source_keywords = ("boxPOP", "noiseTOP", "boxSOP", "constant", "noiseCHOP",
                        "circle", "source", "moviein", "audioin", "lfo", "timer",
                        "null")
 
+    # /operators items carry name/type/opType (no path), so match destinations
+    # by node NAME via the edge "to" field (names are unique in the sandbox).
+    dest_names = {e.get("to", "") for e in edges}
+    sandbox_name = SANDBOX_PATH.rsplit("/", 1)[-1]
     isolated = []
-    total_wired = 0
     for op_info in operators:
-        # Skip the sandbox container itself (baseCOMP has no inputs by design)
-        op_path = op_info.get("path", "")
-        if op_path == SANDBOX_PATH:
+        nm = op_info.get("name", "")
+        if nm == sandbox_name or nm in dest_names:
             continue
-        inputs = op_info.get("inputs", [])
-        has_input = any(inp.get("path") for inp in inputs)
-        if has_input:
-            total_wired += 1
-        else:
-            op_type = op_info.get("opType", "") or op_info.get("type", "")
-            is_source = any(kw in op_type for kw in source_keywords)
-            if not is_source:
-                isolated.append(op_info.get("name", "?"))
+        op_type = op_info.get("opType", "") or op_info.get("type", "")
+        is_source = any(kw in op_type for kw in source_keywords)
+        if not is_source:
+            isolated.append(nm or "?")
 
-    res.check("connections_listing", len(operators) > 0,
-              "{} operators, {} wired".format(len(operators), total_wired))
     res.check("connections_no_isolated", not isolated,
               "all non-source nodes have inputs" if not isolated
               else "isolated non-source: {}".format(isolated))

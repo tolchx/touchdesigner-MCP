@@ -70,6 +70,24 @@ class FakePar:
         return f"FakePar({self.name})"
 
 
+class _FakeConnRef:
+    """Fake connection reference: only `.owner` is read by the edge collector."""
+
+    def __init__(self, owner):
+        self.owner = owner
+
+
+class _FakeConnector:
+    """Fake input/output connector whose `connections` hold fake edges.
+
+    Each entry exposes `.owner` (the source op), like TD's
+    Connector.connections[i].owner.
+    """
+
+    def __init__(self, owner=None):
+        self.connections = ([_FakeConnRef(owner)] if owner is not None else [])
+
+
 class _FakeParNamespace:
     """Stand-in for ``op.<parname>`` — the object the handler calls
 
@@ -1157,26 +1175,25 @@ class TestOperatorsPagination(unittest.TestCase):
 
 
 class TestConnectionsPagination(unittest.TestCase):
-    """GET /connections supports ?limit=N&offset=N.
+    """GET /connections — REAL wiring graph (backlog item 38).
 
-    Same contract as /operators: metadata added, existing keys kept,
-    safe default, explicit 400 on bad params, empty page for offset > total.
+    Contract: edges {from, fromPath, to, toPath, input}, `total` counts EDGES
+    (not operators), pagination over the edge list. The old handler was a
+    copy of /operators and returned `operators`; these tests fail on that
+    shape (no `connections` key) and on wrong edge counts.
     """
 
     def setUp(self):
         _reset_fakes()
         _install_fake_globals()
         self.api = FakeAPI()
-        import tests.test_api_contract_offline as mod
-        self._saved_op = getattr(mod, "op", None)
-        mod.op = _fake_op
-
-    def _children(self, count):
-        kids = [FakeOperator(f"/project1/op{i}", f"op{i}", f"op{i}", "TOP") for i in range(count)]
-        _fake_project1._children = kids
         import toe.src.TouchDesignerAPI as tmod
+        self._saved_op = getattr(tmod, "op", None)
         tmod.op = _fake_op
-        return kids
+
+    def tearDown(self):
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.op = self._saved_op
 
     def _dispatch_connections(self, path, qs, recurse=False):
         import urllib.parse as up
@@ -1198,42 +1215,89 @@ class TestConnectionsPagination(unittest.TestCase):
             return resp
         return self.api._handle_connections(path, recurse, resp, limit=limit, offset=offset)
 
-    def test_default_meta_on_connections(self):
-        self._children(4)
+    def _wired_chain(self, count):
+        """count sibling ops wired in a chain via inputConnectors[0]."""
+        kids = [FakeOperator(f"/project1/op{i}", f"op{i}", f"op{i}", "TOP") for i in range(count)]
+        for k in kids:
+            if not k.inputConnectors:  # TD ops always expose >= 1 input connector
+                k._input_connectors.append(_FakeConnector())
+        for i in range(1, count):
+            # Wire input 0 of kid[i] to kid[i-1]: connector.connections[i].owner
+            kids[i]._input_connectors[0] = _FakeConnector(kids[i - 1])
+        _fake_project1._children = kids
+        return kids
+
+    def test_real_edges_returned(self):
+        """3 wired ops -> exactly 2 edges with correct from/to/input."""
+        self._wired_chain(3)
         resp = self._dispatch_connections("/project1", "")
         self.assertEqual(resp["statusCode"], 200)
         data = json.loads(resp["data"])
-        # recurse=False: nodes.insert(0, target) + 4 children = 5 total
-        self.assertEqual(data["total"], 5)
-        self.assertEqual(data["returned"], 5)
-        self.assertEqual(data["limit"], 500)
-        self.assertEqual(data["offset"], 0)
+        # Must be the EDGE list, not the operator list.
+        self.assertNotIn("operators", data, "/connections returned the old broken shape (operators)")
+        self.assertIn("connections", data)
+        self.assertEqual(data["total"], 2)  # 3 ops in a chain = 2 EDGES
+        self.assertEqual(data["returned"], 2)
         self.assertFalse(data["truncated"])
-        self.assertEqual(len(data["operators"]), 5)
+        edges = data["connections"]
+        self.assertEqual(edges[0]["from"], "op0")
+        self.assertEqual(edges[0]["fromPath"], "/project1/op0")
+        self.assertEqual(edges[0]["to"], "op1")
+        self.assertEqual(edges[0]["toPath"], "/project1/op1")
+        self.assertEqual(edges[0]["input"], 0)
+        self.assertEqual(edges[1]["from"], "op1")
+        self.assertEqual(edges[1]["to"], "op2")
+        self.assertEqual(edges[1]["input"], 0)
 
-    def test_paginated_connections(self):
-        self._children(6)
-        resp = self._dispatch_connections("/project1", "limit=3&offset=2")
+    def test_edge_pagination(self):
+        self._wired_chain(5)  # 4 edges
+        resp = self._dispatch_connections("/project1", "limit=2&offset=1")
         self.assertEqual(resp["statusCode"], 200)
         data = json.loads(resp["data"])
-        # recurse=False: nodes.insert(0, target) + 6 children = 7 total
-        self.assertEqual(data["total"], 7)
-        self.assertEqual(data["returned"], 3)
-        self.assertEqual(data["offset"], 2)
+        self.assertEqual(data["total"], 4)  # edges, not the 5 operators
+        self.assertEqual(data["returned"], 2)
+        self.assertEqual(data["offset"], 1)
         self.assertTrue(data["truncated"])
-        # target at index 0, op0 at 1, op1 at 2, op2 at 3, op3 at 4, ...
-        # offset=2 means start at index 2 (op1), page is [op1, op2, op3]
-        self.assertEqual(data["operators"][0]["name"], "op1")
+        page = data["connections"]
+        self.assertEqual((page[0]["from"], page[0]["to"]), ("op1", "op2"))
+        self.assertEqual((page[1]["from"], page[1]["to"]), ("op2", "op3"))
+
+    def test_edges_recurse_false_ignores_nested(self):
+        """recurse=false reads only direct children wiring."""
+        self._wired_chain(2)
+        inner = FakeOperator("/project1/op1/sub", "sub", "sub", "COMP")
+        inner._children = []
+        _fake_project1._children[1]._children = [inner]
+        resp = self._dispatch_connections("/project1", "", recurse=False)
+        data = json.loads(resp["data"])
+        self.assertEqual(data["total"], 1)  # just op0->op1; nested sub is not visited
+
+    def test_edges_recurse_true_includes_nested(self):
+        """recurse=true walks the whole descendant tree incl. nested wiring."""
+        self._wired_chain(2)
+        inner = FakeOperator("/project1/op1/sub", "sub", "sub", "COMP")
+        deep = FakeOperator("/project1/op1/sub/deep", "deep", "deep", "TOP")
+        if not deep.inputConnectors:
+            deep._input_connectors.append(_FakeConnector())
+        inner._children = [deep]
+        deep._input_connectors[0] = _FakeConnector(inner)
+        _fake_project1._children[1]._children = [inner]
+        resp = self._dispatch_connections("/project1", "", recurse=True)
+        data = json.loads(resp["data"])
+        self.assertEqual(data["recurse"], True)
+        self.assertEqual(data["total"], 2)  # op0->op1 plus sub->deep
+        got = {(e["from"], e["to"]) for e in data["connections"]}
+        self.assertIn(("op0", "op1"), got)
+        self.assertIn(("sub", "deep"), got)
 
     def test_connections_offset_beyond_total(self):
-        self._children(2)
+        self._wired_chain(2)
         resp = self._dispatch_connections("/project1", "offset=99&limit=5")
         self.assertEqual(resp["statusCode"], 200)
         data = json.loads(resp["data"])
-        # recurse=False: target inserted at front + 2 children = 3 total
-        self.assertEqual(data["total"], 3)
+        self.assertEqual(data["total"], 1)
         self.assertEqual(data["returned"], 0)
-        self.assertEqual(data["operators"], [])
+        self.assertEqual(data["connections"], [])
 
 
 class TestFindPagination(unittest.TestCase):

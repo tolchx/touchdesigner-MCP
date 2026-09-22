@@ -62,6 +62,15 @@ class _FakePar:
         self.pulsed = True
 
 
+class _FakeConnector:
+    """Fake TD connector: `connections` is a list of refs exposing `.owner`."""
+
+    def __init__(self, owner=None):
+        self.connections = []
+        if owner is not None:
+            self.connections.append(types.SimpleNamespace(owner=owner))
+
+
 class _FakeOp:
     """Minimal stand-in for a TouchDesigner OP (supports .save())."""
 
@@ -75,10 +84,20 @@ class _FakeOp:
         # time because the handler deletes the temp file afterwards.
         self.save_calls = []
         self.children = []
+        self._input_connectors = [_FakeConnector()]
+        self._output_connectors = [_FakeConnector()]
         par_bag = types.SimpleNamespace()
         for name, par in (pars or {}).items():
             setattr(par_bag, name, par)
         self.par = par_bag
+
+    @property
+    def inputConnectors(self):
+        return self._input_connectors
+
+    @property
+    def outputConnectors(self):
+        return self._output_connectors
 
     def save(self, filepath, *args, **kwargs):
         payload = b"\x89PNG-fake-image-data"
@@ -485,6 +504,22 @@ class TestPagination(unittest.TestCase):
         parsed = up.urlparse("/operators")
         return {"pars": up.parse_qs(parsed.query + ("&" + qs if qs else ""))}
 
+    def _wire_chain(self):
+        """Wire op0->op1->...->op5 through input 0 (5 edges over 6 ops)."""
+        for i in range(1, len(self.children)):
+            self.children[i]._input_connectors[0] = _FakeConnector(self.children[i - 1])
+
+    def _dispatch_connections(self, qs, recurse=False):
+        """Parse limit/offset the way OnHTTPRequest does, then call the handler."""
+        import TouchDesignerAPI as tmod
+        response = {}
+        limit = tmod.TouchDesignerAPI._parse_positive_int(
+            self.api, self._query_request(qs)["pars"].get("limit", ["500"])[0], default=500)
+        offset = tmod.TouchDesignerAPI._parse_nonnegative_int(
+            self.api, self._query_request(qs)["pars"].get("offset", ["0"])[0], default=0)
+        return self.api._handle_connections(self._get_path(), recurse, response,
+                                            limit=limit, offset=offset)
+
     def _find_request(self, qs):
         """Build the `pars` dict as _handle_find expects it (scalar strings,
         matching OnHTTPRequest's urllib.parse_qs -> single-element unwrap)."""
@@ -549,42 +584,45 @@ class TestPagination(unittest.TestCase):
             "find_params path mismatch:", find_params.get("path"))
         return find_params
 
-    # ── GET /connections ──────────────────────────────────────────────────
+    # ── GET /connections — REAL wiring graph (backlog item 38) ──────────
 
     def test_connections_default_meta(self):
-        response = {}
-        request = self._query_request("")
-        import TouchDesignerAPI as tmod
-        path = self._get_path()
-        limit = tmod.TouchDesignerAPI._parse_positive_int(
-            self.api, request["pars"].get("limit", ["500"])[0], default=500)
-        offset = tmod.TouchDesignerAPI._parse_nonnegative_int(
-            self.api, request["pars"].get("offset", ["0"])[0], default=0)
-        result = self.api._handle_connections(path, False, response, limit=limit, offset=offset)
+        self._wire_chain()
+        result = self._dispatch_connections("")
         self.assertEqual(result["statusCode"], 200)
         body = json.loads(result["data"])
-        self.assertEqual(body["total"], 7)
-        self.assertEqual(body["returned"], 7)
+        self.assertNotIn("operators", body, "old broken shape: operators instead of edges")
+        self.assertIn("connections", body)
+        self.assertEqual(body["total"], 5)  # 6 chained ops = 5 EDGES
+        self.assertEqual(body["returned"], 5)
         self.assertEqual(body["limit"], 500)
         self.assertEqual(body["offset"], 0)
-        self.assertEqual(len(body["operators"]), 7)
+        self.assertFalse(body["truncated"])
+        self.assertEqual(body["connections"][0]["from"], "op0")
+        self.assertEqual(body["connections"][0]["to"], "op1")
+        self.assertEqual(body["connections"][0]["input"], 0)
 
     def test_connections_paginated(self):
-        response = {}
-        request = self._query_request("limit=2&offset=4")
-        import TouchDesignerAPI as tmod
-        path = self._get_path()
-        limit = tmod.TouchDesignerAPI._parse_positive_int(
-            self.api, request["pars"].get("limit", ["500"])[0], default=500)
-        offset = tmod.TouchDesignerAPI._parse_nonnegative_int(
-            self.api, request["pars"].get("offset", ["0"])[0], default=0)
-        result = self.api._handle_connections(path, False, response, limit=limit, offset=offset)
+        self._wire_chain()
+        result = self._dispatch_connections("limit=2&offset=1")
         self.assertEqual(result["statusCode"], 200)
         body = json.loads(result["data"])
-        self.assertEqual(body["total"], 7)
+        self.assertEqual(body["total"], 5)  # edges, not the 6 operators
         self.assertEqual(body["returned"], 2)
-        self.assertEqual(body["offset"], 4)
+        self.assertEqual(body["offset"], 1)
         self.assertTrue(body["truncated"])
+        page = body["connections"]
+        self.assertEqual((page[0]["from"], page[0]["to"]), ("op1", "op2"))
+        self.assertEqual((page[1]["from"], page[1]["to"]), ("op2", "op3"))
+
+    def test_connections_offset_beyond_total(self):
+        self._wire_chain()
+        result = self._dispatch_connections("offset=99&limit=5")
+        self.assertEqual(result["statusCode"], 200)
+        body = json.loads(result["data"])
+        self.assertEqual(body["total"], 5)
+        self.assertEqual(body["returned"], 0)
+        self.assertEqual(body["connections"], [])
 
     def _get_path(self):
         """Parent path that contains self.children."""
@@ -738,42 +776,45 @@ class TestPagination(unittest.TestCase):
         self.assertEqual(result["statusCode"], 200)
 
 
-    # ── GET /connections ──────────────────────────────────────────────────
+    # ── GET /connections — REAL wiring graph (backlog item 38) ──────────
 
     def test_connections_default_meta(self):
-        response = {}
-        request = self._query_request("")
-        import TouchDesignerAPI as tmod
-        path = self._get_path()
-        limit = tmod.TouchDesignerAPI._parse_positive_int(
-            self.api, request["pars"].get("limit", ["500"])[0], default=500)
-        offset = tmod.TouchDesignerAPI._parse_nonnegative_int(
-            self.api, request["pars"].get("offset", ["0"])[0], default=0)
-        result = self.api._handle_connections(path, False, response, limit=limit, offset=offset)
+        self._wire_chain()
+        result = self._dispatch_connections("")
         self.assertEqual(result["statusCode"], 200)
         body = json.loads(result["data"])
-        self.assertEqual(body["total"], 7)
-        self.assertEqual(body["returned"], 7)
+        self.assertNotIn("operators", body, "old broken shape: operators instead of edges")
+        self.assertIn("connections", body)
+        self.assertEqual(body["total"], 5)  # 6 chained ops = 5 EDGES
+        self.assertEqual(body["returned"], 5)
         self.assertEqual(body["limit"], 500)
         self.assertEqual(body["offset"], 0)
-        self.assertEqual(len(body["operators"]), 7)
+        self.assertFalse(body["truncated"])
+        self.assertEqual(body["connections"][0]["from"], "op0")
+        self.assertEqual(body["connections"][0]["to"], "op1")
+        self.assertEqual(body["connections"][0]["input"], 0)
 
     def test_connections_paginated(self):
-        response = {}
-        request = self._query_request("limit=2&offset=4")
-        import TouchDesignerAPI as tmod
-        path = self._get_path()
-        limit = tmod.TouchDesignerAPI._parse_positive_int(
-            self.api, request["pars"].get("limit", ["500"])[0], default=500)
-        offset = tmod.TouchDesignerAPI._parse_nonnegative_int(
-            self.api, request["pars"].get("offset", ["0"])[0], default=0)
-        result = self.api._handle_connections(path, False, response, limit=limit, offset=offset)
+        self._wire_chain()
+        result = self._dispatch_connections("limit=2&offset=1")
         self.assertEqual(result["statusCode"], 200)
         body = json.loads(result["data"])
-        self.assertEqual(body["total"], 7)
+        self.assertEqual(body["total"], 5)  # edges, not the 6 operators
         self.assertEqual(body["returned"], 2)
-        self.assertEqual(body["offset"], 4)
+        self.assertEqual(body["offset"], 1)
         self.assertTrue(body["truncated"])
+        page = body["connections"]
+        self.assertEqual((page[0]["from"], page[0]["to"]), ("op1", "op2"))
+        self.assertEqual((page[1]["from"], page[1]["to"]), ("op2", "op3"))
+
+    def test_connections_offset_beyond_total(self):
+        self._wire_chain()
+        result = self._dispatch_connections("offset=99&limit=5")
+        self.assertEqual(result["statusCode"], 200)
+        body = json.loads(result["data"])
+        self.assertEqual(body["total"], 5)
+        self.assertEqual(body["returned"], 0)
+        self.assertEqual(body["connections"], [])
 
 
 # ═════════════════════════════════════════════════════════════════════════
