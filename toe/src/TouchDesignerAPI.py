@@ -592,6 +592,14 @@ class TouchDesignerAPI:
 
             response["Content-Type"] = "application/json"
 
+            # POST /execute_async - Asynchronous execution (Phase 1 & 2)
+            # NOTE: MUST be checked BEFORE /execute — startswith("/execute")
+            # also matches "/execute_async", and the shadow test in
+            # tests/test_client_contract.py fails if this order regresses
+            # (bridge contract suite, backlog item 11).
+            if uri.startswith("/execute_async") and method == "POST":
+                return self._handle_execute_async(request, response)
+
             # POST /execute - Python code execution
             if uri.startswith("/execute") and method == "POST":
                 return self._handle_execute(request, response)
@@ -599,10 +607,6 @@ class TouchDesignerAPI:
             # POST /exec - Python code execution (twozero-compatible JSON API)
             if uri.startswith("/exec") and method == "POST":
                 return self._handle_exec(request, response)
-
-            # POST /execute_async - Asynchronous execution (Phase 1 & 2)
-            if uri.startswith("/execute_async") and method == "POST":
-                return self._handle_execute_async(request, response)
 
             # GET /task_status - Poll async task status (Phase 1 & 2)
             if uri.startswith("/task_status") and method == "GET":
@@ -1348,9 +1352,23 @@ class TouchDesignerAPI:
     # -------------------------------------------------------------------------
 
     def _handle_execute_async(self, request: dict, response: dict) -> dict:
-        """Phase 1 & 2: Handle POST /execute_async request using ThreadManager."""
+        """Phase 1 & 2: Handle POST /execute_async request using ThreadManager.
+
+        The TS client (api/src/index.ts executeAsync) sends a JSON envelope
+        {"code": ..., "fromOp": ...} — parse it as such. A plain (non-JSON)
+        body is still accepted as raw code for backwards compatibility.
+        """
         pars = request.get("pars", {})
-        code = request.get("data", "")
+        raw = request.get("data", "")
+        if isinstance(raw, bytes):
+            raw = raw.decode("utf-8")
+        code = raw
+        try:
+            msg = json.loads(raw) if raw else {}
+            if isinstance(msg, dict) and "code" in msg:
+                code = msg.get("code", "")
+        except Exception:
+            pass  # not JSON: treat the body as raw code (legacy shape)
         
         if not self.threadManager:
             response["statusCode"] = 501
@@ -2471,8 +2489,14 @@ else:
         pos_y = pars.get("position_y", None)
 
         safe_name = f"'{name}'" if name else "None"
-        pos_x_code = str(pos_x) if pos_x is not None else "None"
-        pos_y_code = str(pos_y) if pos_y is not None else "None"
+        # Only emit the positioning line when a position was requested —
+        # emitting `if None is not None and ...` triggers a SyntaxWarning
+        # that pollutes the JSON output line (found live 2026-09-23).
+        pos_line = (
+            f"        n.nodeX = {pos_x}; n.nodeY = {pos_y}\n"
+            if pos_x is not None and pos_y is not None
+            else ""
+        )
 
         code = rf"""import json
 try:
@@ -2481,9 +2505,7 @@ try:
         print(json.dumps({{'success':False,'path':'{parent_path}','name':'','type':'','opType':'','error':'Parent not found'}}))
     else:
         n = t.create({op_type}, {safe_name})
-        if {pos_x_code} is not None and {pos_y_code} is not None:
-            n.nodeX = {pos_x_code}; n.nodeY = {pos_y_code}
-        print(json.dumps({{'success':True,'path':n.path,'name':n.name,'type':n.type,'opType':n.OPType,'family':'','existing':False}}))
+{pos_line}        print(json.dumps({{'success':True,'path':n.path,'name':n.name,'type':n.type,'opType':n.OPType,'family':'','existing':False}}))
 except Exception as e:
     print(json.dumps({{'success':False,'path':'','name':'','type':'','opType':'','error':str(e)}}))
 """
