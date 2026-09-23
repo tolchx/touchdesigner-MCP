@@ -53,7 +53,7 @@ Conecta Inteligencia Artificial con TouchDesigner usando el Model Context Protoc
 - **Endpoint `/metrics`** (backlog #06): fps (`project.cookRate`), conteo de operadores totales y por familia, errores/warnings con los mismos criterios que `/verify`, `pop_stats` con el POP más lento, contadores del read-cache y **latencias server-side por ruta** (`endpoint_times`, buffer de 20 por ruta). Un solo walk, nunca cacheado, `null` explícito cuando una señal no existe en la build (p.ej. `cooking` en POPs) — [API_REFERENCE.md](docs/API_REFERENCE.md).
 - **Currículo GLSL con fuentes citadas** (backlog #32): `mcp/data/glsl_curriculum.json` — conceptos del [Book of Shaders](https://thebookofshaders.com/?lan=es) (matemática citada por capítulo, shaders propios en idioms TD verificados) y lecciones de [td-edu](https://tolchx.com/td-edu/), más el corpus POP local (`glsl_files/`, suite 14/14). Consultable offline con `td_glsl_curriculum` (list/get/path); regenerable con `python scripts/ingest_glsl_curriculum.py` (determinista, `--check` para CI).
 - **Historial de cambios con undo/redo** (backlog #09): los 5 endpoints de escritura estructurados (`/parameters/set`, `/create`, `/delete_operator`, `/connect`, `/disconnect`) registran una entrada reversible por request (estado previo de parámetros, snapshot de operadores, wiring de inputs). `POST /undo` revierte UNA operación completa, `POST /redo` la re-aplica, `GET /history` lista las entradas con una descripción de una línea cada una. Profundidad acotada a 50 con descarte FIFO de la más vieja; redo estándar (una escritura nueva descarta la rama); historial vacío → `400` con `hint`, nunca silencio. `POST /exec` NO se registra (código arbitrario) — para eso está `POST /project_lifecycle` con `action=undo`. Contrato campo por campo en [API_REFERENCE.md](docs/API_REFERENCE.md).
-- **1255 tests offline** nativos de Node.js que garantizan que el MCP se ejecute de forma robusta e independiente de TD, más **131 tests offline del bridge en Python** (`tests/test_api_contract_offline.py` 80 + `tests/test_td_api_offline.py` 51, todos verdes), **19 tests offline de sintaxis GLSL POP** (`tests/test_glsl_pop_offline.py`) y **19 tests del gate del baseline POP** (`tests/test_pop_matrix_baseline.py`).
+- **1285 tests offline** nativos de Node.js que garantizan que el MCP se ejecute de forma robusta e independiente de TD, más **131 tests offline del bridge en Python** (`tests/test_api_contract_offline.py` 80 + `tests/test_td_api_offline.py` 51, todos verdes), **19 tests offline de sintaxis GLSL POP** (`tests/test_glsl_pop_offline.py`) y **19 tests del gate del baseline POP** (`tests/test_pop_matrix_baseline.py`).
 
 ### 📑 Documentación técnica
 | Documento | Contenido |
@@ -414,10 +414,10 @@ node server.js
 
 ### Node.js — Offline tests
 ```bash
-# Suite de unit/integration tests offline (1255 tests nativos, 0 fallos)
+# Suite de unit/integration tests offline (1285 tests nativos, 0 fallos)
 cd mcp && npm run build && node --test
 
-# Suite de contrato del bridge Python (sin TD): 77 + 50 tests
+# Suite de contrato del bridge Python (sin TD): 80 + 51 tests
 python tests/test_api_contract_offline.py
 python tests/test_td_api_offline.py
 
