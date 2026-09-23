@@ -1,0 +1,229 @@
+{
+  "$meta": {
+    "purpose": "Single source of truth for the bridge write-endpoint contract. Each entry declares the body the clients build, the fields the Python handler reads, and the response shape. Two suites consume this file: tests/test_client_contract.py (stdio Python client + handler-source + routing) and mcp/test/bridgeContract.test.js (TS TDClient over a real loopback stub). If you add or change a write endpoint, update THIS file in the same commit - both suites fail otherwise.",
+    "motivation": "The /parameters/set drift (client sends updates[], docs claimed params{}, handler silently returned updated:[]) cost a debugging session. This contract exists so drift between client and handler is caught offline, with a message naming the field and the side that moved.",
+    "origin_evidence": {
+      "/parameters/set": "mcp_server_stdio.py set_td_parameters builds {path, updates:[{name,value}]}; _handle_parameters_set reads payload.get('updates') (params{} accepted as documented shorthand, normalized).",
+      "/execute_async": "api/src/index.ts executeAsync posts {code, fromOp}; _handle_execute_async originally read request['data'] as RAW code (drift found by this suite, fixed 2026-09-22)."
+    }
+  },
+  "post_endpoints": {
+    "/exec": {
+      "handler": "_handle_exec",
+      "clients": {
+        "ts": ["execute (code, fromOp)", "setParameters (inline python, base64 updates)", "createOperator", "deleteOperator", "connectNodes", "screenshot", "readDat", "writeDat", "readChop", "customParameters"],
+        "stdio": ["create_td_node", "delete_td_node", "connect_td_nodes", "execute_td_python"]
+      },
+      "request": {
+        "content": "json",
+        "required": ["code"],
+        "allowed": ["code", "fromOp"],
+        "fields": {
+          "code": { "type": "string", "handler_reads": "msg.get(\"code\"" },
+          "fromOp": { "type": "string", "optional": true, "note": "bridge /exec IGNORES fromOp (only /execute honors it); declared here so clients may send it without tripping the unknown-field check" }
+        }
+      },
+      "response": {
+        "success_status": 200,
+        "keys": ["output"],
+        "optional_keys": ["error"],
+        "note": "output=stdout ('(ok)' when nothing printed); error=traceback string when the code raised"
+      }
+    },
+    "/execute_async": {
+      "handler": "_handle_execute_async",
+      "clients": {
+        "ts": ["executeAsync (code, fromOp)"],
+        "stdio": []
+      },
+      "request": {
+        "content": "json",
+        "required": ["code"],
+        "allowed": ["code", "fromOp"],
+        "fields": {
+          "code": { "type": "string", "handler_reads": "\"code\" in msg" },
+          "fromOp": { "type": "string", "optional": true }
+        }
+      },
+      "response": {
+        "success_status": 202,
+        "keys": ["taskId", "status"]
+      },
+      "routing": {
+        "must_be_dispatched_before": "/execute",
+        "reason": "uri.startswith('/execute') also matches '/execute_async'; if /execute is checked first, the async endpoint is shadowed and its JSON body is executed as raw Python"
+      }
+    },
+    "/parameters/set": {
+      "handler": "_handle_parameters_set",
+      "clients": {
+        "ts": [],
+        "stdio": ["set_td_parameters"]
+      },
+      "request": {
+        "content": "json",
+        "required": ["path", "updates"],
+        "allowed": ["path", "updates", "params", "transactional"],
+        "fields": {
+          "path": { "type": "string", "handler_reads": "payload.get(\"path\"" },
+          "updates": { "type": "array", "items": { "required": ["name"], "allowed": ["name", "value", "expr"] }, "handler_reads": "payload.get(\"updates\"" },
+          "params": { "type": ["object", "array"], "optional": true, "handler_reads": "payload.get(\"params\"", "note": "documented shorthand, normalized to updates[]" },
+          "transactional": { "type": "boolean", "optional": true, "handler_reads": "payload.get(\"transactional\"" }
+        }
+      },
+      "response": {
+        "success_status": 200,
+        "keys": ["path", "updated", "invalid", "applied_with_missing_param", "transactional"],
+        "errors": {
+          "404": "Operator not found: <path>",
+          "400": "No parameter updates to apply: expected non-empty 'updates' array ({name, value?, expr?}) or 'params' dict ({name: value})"
+        }
+      }
+    },
+    "/auto_layout": {
+      "handler": "_handle_auto_layout",
+      "clients": {
+        "ts": ["autoLayout (path, spacingX, spacingY)"],
+        "stdio": []
+      },
+      "request": {
+        "content": "json",
+        "required": [],
+        "allowed": ["path", "spacing_x", "spacing_y"],
+        "fields": {
+          "path": { "type": "string", "optional": true, "handler_reads": "payload.get(\"path\"" },
+          "spacing_x": { "type": "integer", "optional": true, "handler_reads": "payload.get(\"spacing_x\"" },
+          "spacing_y": { "type": "integer", "optional": true, "handler_reads": "payload.get(\"spacing_y\"" }
+        }
+      },
+      "response": {
+        "success_status": 200,
+        "keys": ["output"],
+        "note": "wraps _execute_python_robust: {'output': <json str with success/container/operators/count>}"
+      }
+    },
+    "/smart_connect": {
+      "handler": "_handle_smart_connect",
+      "clients": {
+        "ts": ["smartConnect (source, destination, type?, name?)"],
+        "stdio": []
+      },
+      "request": {
+        "content": "json",
+        "required": [],
+        "allowed": ["source", "destination", "type", "name", "src", "dst", "target_type"],
+        "fields": {
+          "source": { "type": "string", "optional": true, "handler_reads": "payload.get(\"source\"" },
+          "destination": { "type": "string", "optional": true, "handler_reads": "payload.get(\"destination\"" },
+          "type": { "type": "string", "optional": true },
+          "name": { "type": "string", "optional": true, "handler_reads": "payload.get(\"name\"" },
+          "src": { "type": "string", "optional": true, "note": "alias accepted by handler" },
+          "dst": { "type": "string", "optional": true, "note": "alias accepted by handler" },
+          "target_type": { "type": "string", "optional": true, "note": "alias accepted by handler" }
+        }
+      },
+      "response": {
+        "success_status": 200,
+        "keys": ["output"]
+      }
+    },
+    "/undo": {
+      "handler": "_handle_undo",
+      "clients": {
+        "ts": ["undo"],
+        "stdio": []
+      },
+      "request": {
+        "content": "json",
+        "required": [],
+        "allowed": [],
+        "note": "client always sends '{}' (live quirk: a bodyless POST applies the change but the webserverDAT never delivers the response)"
+      },
+      "response": {
+        "success_status": 200,
+        "keys": ["success", "undone", "kind", "applied", "errors", "depth", "canUndo", "canRedo"],
+        "errors": { "400": "Nothing to undo: the history is empty" }
+      }
+    },
+    "/redo": {
+      "handler": "_handle_redo",
+      "clients": {
+        "ts": ["redo"],
+        "stdio": []
+      },
+      "request": {
+        "content": "json",
+        "required": [],
+        "allowed": [],
+        "note": "same bodyless-POST quirk as /undo"
+      },
+      "response": {
+        "success_status": 200,
+        "keys": ["success", "redone", "kind", "applied", "errors", "depth", "canUndo", "canRedo"],
+        "errors": { "400": "Nothing to redo: no undone operation pending" }
+      }
+    },
+    "/screenshot": {
+      "handler": "_handle_screenshot_post",
+      "clients": {
+        "ts": [],
+        "stdio": ["capture_td_screenshot"]
+      },
+      "request": {
+        "content": "json",
+        "required": [],
+        "allowed": ["path", "op", "maxSize", "max_size"],
+        "fields": {
+          "path": { "type": "string", "optional": true, "handler_reads": "body.get(\"path\") or body.get(\"op\")" },
+          "op": { "type": "string", "optional": true, "note": "alias of path" },
+          "maxSize": { "type": "integer", "optional": true, "handler_reads": "body.get(\"maxSize\") or body.get(\"max_size\")" },
+          "max_size": { "type": "integer", "optional": true, "note": "alias of maxSize" }
+        }
+      },
+      "response": {
+        "success_status": 200,
+        "keys": ["success"],
+        "success_payload_keys": ["path", "name", "type", "image", "format"],
+        "note": "wraps _execute_python_robust; image=b64 PNG"
+      }
+    }
+  },
+  "get_endpoints_inventory": {
+    "$note": "Read endpoints are inventoried (existence on both sides) but their body contract is out of scope: they have no request body to drift.",
+    "/operators": { "ts_client": "getOperators" },
+    "/parameters": { "ts_client": "getParameters" },
+    "/connections": { "ts_client": "getConnections" },
+    "/find": { "ts_client": "findOperators" },
+    "/healthcheck": { "ts_client": "healthcheck" },
+    "/info": { "ts_client": "getInfo" },
+    "/task_status": { "ts_client": "getTaskStatus" },
+    "/history": { "ts_client": "history" },
+    "/editor/pane": { "ts_client": "getPaneState" },
+    "/editor/selection": { "ts_client": "getSelection" }
+  },
+  "bridge_only_post_endpoints": {
+    "$note": "POST routes that exist in the bridge dispatcher but have no TS/stdio client today (used by live scripts, dashboards or /exec-based tools). A NEW bridge POST not listed here fails the inventory test.",
+    "/execute": "legacy raw-code execution (twozero)",
+    "/batch": "batch operations (live scripts)",
+    "/create": "alias of /create_operator",
+    "/connect": "alias of /connect_nodes",
+    "/create_operator": "used by scripts/live probes",
+    "/connect_nodes": "used by scripts/live probes",
+    "/disconnect": "not wired in this build (audit note)",
+    "/delete_operator": "used by scripts/live probes",
+    "/copy_node": "used by scripts/live probes",
+    "/write_dat": "DAT write (live scripts)",
+    "/diagnose": "diagnostics (live scripts)",
+    "/document": "network document dump (live scripts)",
+    "/param_presets": "presets (live scripts)",
+    "/glsl_reload": "GLSL reload (live scripts)",
+    "/glsl_update": "GLSL update (live scripts)",
+    "/navigate_to": "editor navigation",
+    "/read_textport": "textport read",
+    "/clear_textport": "textport clear",
+    "/reinit_extension": "extension reinit",
+    "/memory_save": "memory snapshot",
+    "/snapshot_scene": "scene snapshot",
+    "/project_lifecycle": "project save/open"
+  }
+}
