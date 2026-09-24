@@ -133,8 +133,16 @@ class MockTDAPI(BaseHTTPRequestHandler):
 
         elif path == "/parameters/set":
             self._log("POST", path, body)
-            self._respond(200, {"success": True,
-                                "changed": list(body.get("params", {}).keys())})
+            # mcp_server_stdio.py converts the tool's params dict to the
+            # canonical {"path", "updates": [{"name", "value"}]} shape before
+            # posting (tool_set_td_parameters, ~line 270).  Echo the names of
+            # the updates it actually sent.  The legacy {"params": {...}}
+            # shape is still accepted so the mock reflects both generations.
+            if "updates" in body:
+                changed = [u.get("name", "") for u in body["updates"]]
+            else:
+                changed = list(body.get("params", {}).keys())
+            self._respond(200, {"success": True, "changed": changed})
 
         elif path == "/screenshot":
             self._log("POST", path, body)
@@ -227,6 +235,11 @@ class TestMCPComprehensive(unittest.TestCase):
             cls.mock_server.shutdown()
             if cls.server_thread and cls.server_thread.is_alive():
                 cls.server_thread.join(timeout=3)
+            # Release the port: on Windows a socket left open by a previous
+            # suite keeps accepting connections and poisons the next suite's
+            # mock on the same port (44444).
+            cls.mock_server.server_close()
+            cls.mock_server = None
 
     def setUp(self) -> None:
         MockTDAPI.clear_log()
@@ -547,7 +560,7 @@ class TestMCPComprehensive(unittest.TestCase):
     # ── B5. set_td_parameters ────────────────────────────────────────
 
     def test_set_td_parameters_valid(self) -> None:
-        """Set parameters with path and params dict."""
+        """Set parameters posts the canonical updates[] shape and echoes it."""
         resp = self._run({
             "jsonrpc": "2.0", "id": 1, "method": "tools/call",
             "params": {
@@ -560,6 +573,20 @@ class TestMCPComprehensive(unittest.TestCase):
         })
         self._assert_success(resp)
         self._assert_in_content(resp, "success", "amp", "type")
+        # The client must post the canonical updates[] shape (exactly one
+        # /parameters/set request carrying the converted params dict) and the
+        # mock echoes those names back as "changed".
+        set_reqs = [r for r in MockTDAPI.requests
+                    if r["method"] == "POST" and r["path"] == "/parameters/set"]
+        self.assertEqual(len(set_reqs), 1,
+                         f"Expected exactly 1 /parameters/set request, got: {set_reqs}")
+        body = set_reqs[0]["body"]
+        self.assertIn("updates", body,
+                      f"Client must post updates[], got body keys: {list(body.keys())}")
+        self.assertEqual(
+            body["updates"],
+            [{"name": "amp", "value": 0.9}, {"name": "type", "value": "perlin"}],
+        )
 
     # ── B6. connect_td_nodes ─────────────────────────────────────────
 

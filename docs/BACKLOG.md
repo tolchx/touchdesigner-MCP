@@ -230,7 +230,7 @@ con 04, 05 y 06).
 
 ## Cola de varias sesiones (24/09/26)
 
-- [ ] 55. Cerrar la deuda que impide `unittest discover` verde (mock desactualizado del stdio, shim leak del w2t, integration que se cuelga). Brief `55_verde_global.txt`.
+- [x] 55. Cerrada 24/09/26 — mock de `test_mcp_server_integration_comprehensive` acepta el shape canónico `updates[]` (y el legacy `params{}`) y el test valida el eco campo por campo (exactly-1 request + updates convertidos); el shim `w2t_shim_*.py` se borra DESPUÉS de terminar el proceso (en Windows el lock del intérprete hacía fallar el unlink en silencio), el residual trackeado se des-trackeó y el patrón entró a `.gitignore`; el "cuelgue" de `test_mcp_server_stdio_integration` era el stress de 500 requests (~10 min reales a ~1.2 s/req) más mocks sin `server_close()` envenenando el 44444 entre suites — `server_close()`+`join(timeout=3)` en los 3 `tearDownClass`, sin subir timeouts. Verificado: `python -m unittest discover tests` → **532 tests, 0 fallos, 799.9s**; Node **1347/0**; build limpio; suites offline 80+51+17 OK; `git status` sin `w2t_shim_*`.
 - [ ] 56. Guardrails de exploración COMPLETOS: envolver las tools restantes en normalizeScope/clampLimit/runBounded + test-guard. Brief `56_guardrails_completos.txt`.
 - [ ] 57. Paridad del cliente Python (stdio) con el TS: log + reintento clasificado + envelope, con test de contrato. Brief `57_paridad_cliente_python.txt`.
 - [ ] 58. Familias EN VIVO de la suite de comprensión: render no degenerado (muestreo de píxeles) y escala/presupuesto, como scripts con evidencia. Brief `58_comprension_live.txt`.

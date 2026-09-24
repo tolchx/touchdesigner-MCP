@@ -171,6 +171,11 @@ class TestMcpStdioIntegration(unittest.TestCase):
             cls.mock_server.shutdown()
             if cls.server_thread and cls.server_thread.is_alive():
                 cls.server_thread.join(timeout=3)
+            # Release the port: on Windows a socket left open by a previous
+            # suite keeps accepting connections and poisons the next suite's
+            # mock on the same port (44444).
+            cls.mock_server.server_close()
+            cls.mock_server = None
 
     def setUp(self) -> None:
         """Clear request log before each test."""
@@ -653,6 +658,14 @@ class TestMcpStdioStress(unittest.TestCase):
         """Shut down the mock TD API server."""
         if cls.mock_server is not None:
             cls.mock_server.shutdown()
+            if cls.server_thread and cls.server_thread.is_alive():
+                cls.server_thread.join(timeout=3)
+            # Release the port and unblock tearDownClass: without server_close()
+            # a socket stays open on Windows (poisons the next suite's mock on
+            # 44444), and without join(timeout=3) a wedged serve_forever thread
+            # makes the interpreter hang after the last test with no output.
+            cls.mock_server.server_close()
+            cls.mock_server = None
 
     def setUp(self) -> None:
         MockTDRequestHandler.received_requests.clear()

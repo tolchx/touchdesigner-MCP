@@ -320,7 +320,17 @@ def _start_w2t_server(port: int, w2t_path: str, timeout: float = 15.0) -> subpro
 
 def _stop_w2t_server(proc: subprocess.Popen | None) -> None:
     """Gracefully terminate the w2t server subprocess and clean up temp shim files."""
-    # Always clean up temp shim files FIRST (even if proc is None)
+    if proc is not None:
+        try:
+            proc.terminate()
+            proc.wait(timeout=3)
+        except subprocess.TimeoutExpired:
+            proc.kill()
+            proc.wait(timeout=2)
+    # Clean up temp shim files AFTER the child is gone: on Windows the
+    # interpreter keeps the running .py open, so unlinking first fails with
+    # PermissionError (swallowed below) and leaks a w2t_shim_*.py in the repo
+    # root.  Order matters: terminate → unlink.
     while _temp_shim_files:
         p = _temp_shim_files.pop()
         try:
@@ -329,14 +339,6 @@ def _stop_w2t_server(proc: subprocess.Popen | None) -> None:
             pass
     # Clear pipe drainer thread references
     _pipe_drainer_threads.clear()
-    if proc is None:
-        return
-    try:
-        proc.terminate()
-        proc.wait(timeout=3)
-    except subprocess.TimeoutExpired:
-        proc.kill()
-        proc.wait(timeout=2)
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -385,6 +387,8 @@ class TestW2TServerIntegration(unittest.TestCase):
         _stop_w2t_server(cls.w2t_proc)
         if cls.mock_td is not None:
             cls.mock_td.shutdown()
+            cls.mock_td.server_close()  # release port 44444 for the next suite
+            cls.mock_td = None
 
     def setUp(self) -> None:
         """Clear the mock TD request log before each test.
