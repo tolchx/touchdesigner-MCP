@@ -238,3 +238,24 @@ Un `value` con `"` rompe el literal y ejecuta lo que venga detrás — y ese str
 `404.zero` / `twozero` / `twozero-ai` (equipo) · `verygeeky`, `Danii`, `mykul0rr`, `nin`, `MetaKan`, `Denne`, `rosco`, `meyg`, `thenftking3000`, `LumaLux`, `vacuum`, `CodeNoctis`, `Barbosa`, `Ki.`, `Emu!`, `in.hu.ma.ne`, `Dean_LJ`, `dima_znam`, `giorgio`, `javierm4`, `partario`, `disintegrationLoops`, `Brum`, `Fiesta-George`, `Liyieon.`, `Mark W.`, `Eternal_Blue`, `Samu`, `Jim`, `hyperphonic`, `kyphae`, `ABRAN`, `Stonys`, `Robnouss`, `Jordan Glenn`, `escala_7_7`, `ZUZAH`, `Morhaq`, `DRIFTKOP`, `Hesi`, `Karomm`, `niccab`, `CptGummyBearz`, `LumaLux`, `Emu!`.
 
 Fuentes externas usadas: repo público `github.com/404dotzero/twozero-td-mcp` (issues #1, #3, #4) y `twozero.ai/docs/zops`.
+
+---
+
+## Estado de implementación (2026-09-24, mismo día)
+
+Lo que salió de este análisis ya está en el repo, en tres commits locales (`4ad9156`, `e372eeb`, `ec7cb48`) — **sin pushear**: el push lo hace el ciclo/publicación habitual.
+
+| Hallazgo | Qué se implementó | Item | Verificación |
+|---|---|---|---|
+| El indicador miente / conecta una sola vez | Reintento seguro + `envelope` de error + log de cliente en archivo | 43 | `mcp/test/clientResilience.test.js` 9/9 |
+| Ningún indicador responde "¿puede operar ahora?" | `td_healthchain` (OK/DEGRADED/DOWN) + `td_report_bug` | 44 | `mcp/test/healthChain.test.js` 11/11 |
+| `td_search` cuelga TD en redes grandes | `exploreGuard`: scope + limit + presupuesto de espera | 45 | `mcp/test/exploreGuard.test.js` 9/9 |
+| Instalación que rompe TD / rutas locales | Auditoría (0 escrituras fuera del proyecto), rutas resolubles, anti-traversal, `runtime` en `/info`, anti-inyección del relay | 46 | `tests/test_portability_and_hardening.py` 18/18 |
+| El LLM no tiene noción de escala | `td_measure` (brief listo, sin implementar) | 47 | — |
+| Updater invisible / "verifiqué y no ve nada" | `td_check_updates` + quickstart (brief listo) | 48 | — |
+| Destilado > RAG | Auditoría de evidencia de recetas (brief listo) | 49 | — |
+| Todo lo anterior sin TD real | Aceptación EN VIVO, bloqueada por entorno | 50 | — |
+
+Verificación de la corrida: `npm run typecheck` 0 · `npm run build` 0 · suite Node **1324/0** (base 1293) · Python offline **303/303** · `scripts/reconcile_backlog_queue.py --check` exit 0.
+
+**Lo que NO se puede afirmar todavía** (y por eso está el item 50): nada de esto tocó un TD real. Sin bridge arriba no se puede medir cuál es la señal de cocción que expone 2025.32460 (`probe_runtime` devuelve `null` honesto cuando no encuentra ninguna), ni cuánto tarda de verdad la barrida sin scope sobre la red grande, ni que `/dashboard` y `/web2touch` sirvan desde la resolución nueva.
