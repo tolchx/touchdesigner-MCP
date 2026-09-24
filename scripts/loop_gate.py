@@ -173,7 +173,8 @@ def run_tests() -> tuple[bool, dict]:
                     "tests.test_td_api_offline", "tests.test_api_contract_offline",
                     "tests.test_client_contract", "tests.test_glsl_pop_offline",
                     "tests.test_helpers", "tests.test_mcp_server_stdio",
-                    "tests.test_pop_matrix_baseline", "tests.test_portability_and_hardening"], ROOT),
+                    "tests.test_pop_matrix_baseline", "tests.test_portability_and_hardening",
+                    "tests.test_comprehension_td"], ROOT),
     ]
     for nombre, cmd, cwd in pasos:
         try:
