@@ -44,3 +44,6 @@ toe/TDImportCache/
 
 # Estado local del loop (se regenera; no es fuente)
 loop-candidates.json
+
+# Worktrees aislados del loop (item 54)
+.loop-worktrees/
