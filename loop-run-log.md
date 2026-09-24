@@ -15,3 +15,6 @@ Formato: `fecha | loop | nivel | que encontro | que hizo | resultado | evidencia
 - 2026-09-24T08:41:09+00:00 | gate | — | commit sobre 2 archivo(s) | BLOCK: 'toe/develop.toe' está en la denylist (patrón 'toe/*.toe'): requiere revisión humana explícita | gate.yaml
 - 2026-09-24T08:43:13+00:00 | gate | — | commit sobre 10 archivo(s) | ALLOW | gate.yaml
 - 2026-09-24T08:43:48+00:00 | gate | — | commit sobre 11 archivo(s) | ALLOW | gate.yaml
+- 2026-09-24 | promocion | L1 | prueba del promovendor con candidato sintético | item 54 + brief escrito y luego revertido (prueba) | OK: camino accionable y camino 'decisión humana' (exit 5) verificados | loop-candidates.json
+- 2026-09-24 | enganche | — | FASE 1.5 agregada al ciclo diario (triage → promote → reconcile) | prompt del cron 4fc977b6a811 de 11629 a 13733 chars, verificado tras 20s | cron/jobs.json
+- 2026-09-24T08:50:08+00:00 | gate | — | commit sobre 3 archivo(s) | ALLOW | gate.yaml

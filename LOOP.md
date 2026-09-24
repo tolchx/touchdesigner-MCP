@@ -29,8 +29,11 @@ repo es nativo de Hermes y específico del MCP. Lo que sí se copió es la disci
   evidencia en vivo fallando, tipos de error del log del cliente, items cerrados sin verificación
   en vivo, briefs rancios) y escribe **candidatos a item** con su evidencia en
   `loop-candidates.json`. Solo reporta los NUEVOS (dedupe por huella).
-- Handoff: los candidatos son propuestas. Convertirlos en item del BACKLOG es una decisión
-  humana (o del ciclo diario, que puede promover uno por corrida).
+- Promoción: `scripts/loop_promote.py` convierte el candidato de mayor peso **no promovido** en
+  item real (ambos BACKLOG) + brief en la cola si es accionable; si necesita criterio humano queda
+  como item sin brief y sale con exit 5. Dedupe por huella: un candidato se promueve una sola vez.
+- Enganche: la **FASE 1.5 del ciclo diario** (`4fc977b6a811`) corre triage → promote → reconcile,
+  un candidato por corrida. El agente del ciclo no improvisa: la promoción es mecánica.
 - **Esto es lo que hace que el MCP se auto-mejore**: sin descubrimiento, el loop solo ejecuta
   la cola que alguien escribió a mano.
 
@@ -80,6 +83,8 @@ para que el árbol no quede con dos escritores.
 python scripts/loop_triage.py            # descubrimiento (solo reporta lo nuevo)
 python scripts/loop_triage.py --audit    # puntaje de preparación del loop (0-100) + gaps
 python scripts/loop_triage.py --full     # descubrimiento + corre las suites
+python scripts/loop_promote.py --list    # candidatos y si son accionables o decisión humana
+python scripts/loop_promote.py           # promueve el de mayor peso (item + brief)
 python scripts/loop_gate.py --action commit --paths docs/BACKLOG.md
 ```
 
