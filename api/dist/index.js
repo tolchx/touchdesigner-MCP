@@ -847,14 +847,29 @@ try:
     if t is None: print(json.dumps({'success':False,"error":"Not found"}))
     else:
         info = {"path":t.path,"name":t.name,"type":t.OPType}
+        # MEDIDO EN VIVO 24/09/26 (TD 2025.32460): numPoints/numPrims/numVerts son
+        # METODOS (callable -> True; p.numPoints() -> 63). Asignarlos sin llamarlos
+        # hacia morir el json.dumps con "Object of type builtin_function_or_method is
+        # not JSON serializable" y el tool devolvia ese error opaco.
+        def _val(name):
+            try:
+                v = getattr(t, name)
+                return v() if callable(v) else v
+            except Exception:
+                return None
         for attr in ['numPoints','numPrims','numVerts']:
-            try: info[attr] = getattr(t, attr)
-            except: pass
+            v = _val(attr)
+            if v is not None:
+                info[attr] = v
         try:
+            src_attrs = getattr(t, 'attribs', None)
+            if callable(src_attrs): src_attrs = src_attrs()
             attrs = []
-            for a in t.attribs: attrs.append({"name":a.name,"type":str(a.type),"size":a.size,"scope":str(a.scope)})
+            for a in (src_attrs or []):
+                attrs.append({"name":a.name,"type":str(a.type),"size":a.size,"scope":str(a.scope)})
             info["attributes"] = attrs
-        except: pass
+        except Exception:
+            info["attributes"] = None
         print(json.dumps({'success':True,"data":info}))
 except Exception as e:
     print(json.dumps({'success':False,"error":str(e)}))`;
@@ -971,30 +986,52 @@ try:
         chans = ${chansJson === "null" ? "None" : chansJson}
         s = ${start ?? 0}; e = ${end ?? "t.numSamples"}
         result = {"path":t.path,"numSamples":t.numSamples,"numChannels":t.numChannels if hasattr(t, 'numChannels') else 0,"channels":{}}
+        # MEDIDO EN VIVO 24/09/26 (TD 2025.32460): t.channel(...) NO EXISTE
+        # (hasattr(t,'channel') == False), asi que esta rama devolvia
+        # channels: {} SIEMPRE y sin error: el llamador recibia "sin datos" como
+        # si el CHOP estuviera vacio. Lo que si existe es t.chan(nombre) y el
+        # acceso por indice t[nombre][i].
+        # OJO: nada de backticks ni de signo peso-llave aca adentro — esto vive
+        # dentro de un template literal de TypeScript y lo cerrarian.
+        def _read(name):
+            c = None
+            try:
+                c = t.chan(name)
+            except Exception:
+                c = None
+            if c is None:
+                try:
+                    c = t[name]
+                except Exception:
+                    c = None
+            if c is None:
+                return None
+            try:
+                return [c[i] for i in range(max(0,s), min(e,t.numSamples))]
+            except Exception:
+                return None
         if chans:
             for name in chans:
-                try:
-                    c = t.channel(name)
-                    vals = [c[i] for i in range(max(0,s), min(e,t.numSamples))]
+                vals = _read(name)
+                if vals is not None:
                     result["channels"][name] = vals
-                except: pass
         else:
-            # Iterar canales de forma segura
             try:
                 ch_names = [ch.name for ch in t.chans()]
-            except:
+            except Exception:
                 try:
                     ch_names = [ch.name for ch in t]
-                except:
+                except Exception:
                     ch_names = []
             for name in ch_names:
-                try:
-                    c = t.channel(name) if hasattr(t, 'channel') else None
-                    if c is not None:
-                        vals = [c[j] for j in range(max(0,s), min(e,t.numSamples))]
-                        result["channels"][name] = vals
-                except:
-                    pass
+                vals = _read(name)
+                if vals is not None:
+                    result["channels"][name] = vals
+        # Un CHOP con canales declarados y CERO leídos es un fallo de lectura, no
+        # un CHOP vacío: que el llamador no lo confunda con "no hay señal".
+        if not result["channels"] and (result.get("numChannels") or 0) > 0:
+            print(json.dumps({'success':False,'error':"Read 0 channels out of " + str(result.get("numChannels")) + ": channel access failed (t.chan()/t[name])"}))
+            raise SystemExit
         print(json.dumps({'success':True,"data":result}))
 except Exception as e:
     print(json.dumps({'success':False,"error":str(e)}))`;

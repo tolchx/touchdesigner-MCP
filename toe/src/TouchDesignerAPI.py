@@ -2481,13 +2481,20 @@ if t is None:
 else:
     info = {{'path':t.path,'name':t.name,'type':t.OPType}}
     for attr in ['numPoints','numPrims','numVerts']:
-        try: info[attr] = getattr(t, attr)
-        except: pass
+        _v = None
+        try:
+            _a = getattr(t, attr)
+            _v = _a() if callable(_a) else _a
+        except Exception:
+            _v = None
+        if _v is not None: info[attr] = _v
     try:
+        _src = getattr(t, 'attribs', None)
+        if callable(_src): _src = _src()
         attrs = []
-        for a in t.attribs: attrs.append({{'name':a.name,'type':str(a.type),'size':a.size,'scope':str(a.scope)}})
+        for a in (_src or []): attrs.append({{'name':a.name,'type':str(a.type),'size':a.size,'scope':str(a.scope)}})
         info['attributes'] = attrs
-    except: pass
+    except Exception: info['attributes'] = None
     print(json.dumps({{'success':True,'data':info}}))
 """
         result = self._execute_python_robust(code)

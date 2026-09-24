@@ -1,0 +1,453 @@
+{
+  "started_at": "2026-09-24T08:29:11.504Z",
+  "checks": [
+    {
+      "name": "CHOP /ui/lib/TUIK/knob/slider1/math1: mide sin error",
+      "ok": true,
+      "detail": {
+        "units": "bipolar -1..1",
+        "chans": [
+          {
+            "channel": "u",
+            "min": -1,
+            "max": -1,
+            "range": 0
+          },
+          {
+            "channel": "v",
+            "min": -1,
+            "max": -1,
+            "range": 0
+          }
+        ],
+        "interpretation": "Los canales viven en -1..1: para 0..1 sumá 1 y dividí por 2 (scale 0.5, offset 0.5); para un bipolar dejalo como está. Todos los canales son"
+      }
+    },
+    {
+      "name": "cross-check min/max contra el propio TD (2 canales)",
+      "ok": true,
+      "detail": {
+        "canales": [
+          "u",
+          "v"
+        ],
+        "td": {
+          "u": {
+            "min": -1,
+            "max": -1,
+            "mean": -1,
+            "n": 1
+          },
+          "v": {
+            "min": -1,
+            "max": -1,
+            "mean": -1,
+            "n": 1
+          }
+        },
+        "discrepancias": []
+      }
+    },
+    {
+      "name": "CHOP grande /project1/LaGSplat/splats: orden de magnitud fuera de 0..1",
+      "ok": true,
+      "detail": {
+        "units": "crudo (sin normalizar)",
+        "P_1": {
+          "channel": "P_1",
+          "min": -0.2128634750843048,
+          "max": 9.433119773864746,
+          "range": 9.645983248949051
+        },
+        "escala_sugerida": [
+          {
+            "channel": "P_1",
+            "scale": 0.10367009502208621,
+            "offset": 0.02206757668872136
+          },
+          {
+            "channel": "P_2",
+            "scale": null,
+            "offset": null
+          }
+        ],
+        "aviso": "Rangos medidos: P_1 -0.2129..9.4331, P_2 0.0000..0.0000. Para llevar 'P_1' a 0..1 usá scale=0.103670 y offset=0.022068; fijate si ese rango es estable antes de hardcodear el escalar. Canales"
+      }
+    },
+    {
+      "name": "cross-check del buffer grande contra TD (tolerancia 1% por recook)",
+      "ok": true,
+      "detail": {
+        "td": {
+          "P_1": {
+            "min": -0.2129015475511551,
+            "max": 9.433253288269043,
+            "mean": 0.6014767755917273,
+            "n": 200
+          },
+          "P_2": {
+            "min": 0,
+            "max": 0,
+            "mean": 0,
+            "n": 200
+          }
+        },
+        "detalle": [
+          {
+            "ch": "P_1",
+            "k": "min",
+            "tool": -0.2128634750843048,
+            "td": -0.2129015475511551,
+            "diff": 0.000038,
+            "tol": 0.096462
+          },
+          {
+            "ch": "P_1",
+            "k": "max",
+            "tool": 9.433119773864746,
+            "td": 9.433253288269043,
+            "diff": 0.000134,
+            "tol": 0.096462
+          },
+          {
+            "ch": "P_2",
+            "k": "min",
+            "tool": 0,
+            "td": 0,
+            "diff": 0,
+            "tol": 0.000001
+          },
+          {
+            "ch": "P_2",
+            "k": "max",
+            "tool": 0,
+            "td": 0,
+            "diff": 0,
+            "tol": 0.000001
+          }
+        ],
+        "discrepancias": []
+      }
+    },
+    {
+      "name": "CHOP constante /ui/lib/TUIK/knob/slider1/override: is_constant + warning, sin 1/0",
+      "ok": true,
+      "detail": {
+        "is_constant": true,
+        "scale": null,
+        "warnings": [
+          "Rango cero en radio: sin información de escala (no se calculó 1/range)."
+        ]
+      }
+    },
+    {
+      "name": "TOP: resolución y aspect",
+      "ok": true,
+      "detail": {
+        "resolution": {
+          "width": 40,
+          "height": 40
+        },
+        "aspect": 1,
+        "warnings": []
+      }
+    },
+    {
+      "name": "POP: puntos/prims y atributos",
+      "ok": true,
+      "detail": {
+        "counts": {
+          "points": 63,
+          "prims": 3,
+          "verts": 66
+        },
+        "attributes": [],
+        "bytes_por_punto": null
+      }
+    },
+    {
+      "name": "DAT: filas",
+      "ok": true,
+      "detail": {
+        "rows": 1
+      }
+    },
+    {
+      "name": "SOP: error accionable, nunca un ok vacío",
+      "ok": true,
+      "detail": {
+        "error": "La familia 'SOP' (poptoSOP) no se muestrea: td_measure cubre CHOP (rango de la señal), TOP (resolución), POP (puntos/atributos) y DAT (filas). Para el resto usá"
+      }
+    },
+    {
+      "name": "path inexistente: error claro",
+      "ok": true,
+      "detail": {
+        "error": "No se pudo leer '/no/existe/esta/op': Not found. Verificá el path con td_find o td_operators."
+      }
+    }
+  ],
+  "measurements": {
+    "chop_signal": {
+      "path": "/ui/lib/TUIK/knob/slider1/math1",
+      "family": "CHOP",
+      "type": "mathCHOP",
+      "measured_at": "2026-09-24T08:29:11.584Z",
+      "units_guess": "bipolar -1..1",
+      "measurements": {
+        "channels": [
+          {
+            "name": "u",
+            "samples": 1,
+            "min": -1,
+            "max": -1,
+            "mean": -1,
+            "first": -1,
+            "last": -1,
+            "range": 0,
+            "is_constant": true,
+            "looks_normalized": false,
+            "looks_unit": true,
+            "non_finite": 0
+          },
+          {
+            "name": "v",
+            "samples": 1,
+            "min": -1,
+            "max": -1,
+            "mean": -1,
+            "first": -1,
+            "last": -1,
+            "range": 0,
+            "is_constant": true,
+            "looks_normalized": false,
+            "looks_unit": true,
+            "non_finite": 0
+          }
+        ],
+        "numSamplesReported": 1,
+        "numChannels": 0
+      },
+      "summary_for_scaling": {
+        "ranges": [
+          {
+            "channel": "u",
+            "min": -1,
+            "max": -1,
+            "range": 0
+          },
+          {
+            "channel": "v",
+            "min": -1,
+            "max": -1,
+            "range": 0
+          }
+        ],
+        "suggested_scalars": [
+          {
+            "channel": "u",
+            "scale": null,
+            "offset": null
+          },
+          {
+            "channel": "v",
+            "scale": null,
+            "offset": null
+          }
+        ]
+      },
+      "interpretation": "Los canales viven en -1..1: para 0..1 sumá 1 y dividí por 2 (scale 0.5, offset 0.5); para un bipolar dejalo como está. Todos los canales son CONSTANTES en este buffer: no sirven como fuente de modulación (¿falta que TD cocine, o la señal está quieta?).",
+      "warnings": [
+        "Rango cero en u, v: sin información de escala (no se calculó 1/range)."
+      ]
+    },
+    "chop_big": {
+      "path": "/project1/LaGSplat/splats",
+      "family": "CHOP",
+      "type": "scriptCHOP",
+      "measured_at": "2026-09-24T08:29:11.655Z",
+      "units_guess": "crudo (sin normalizar)",
+      "measurements": {
+        "channels": [
+          {
+            "name": "P_1",
+            "samples": 200,
+            "min": -0.2128634750843048,
+            "max": 9.433119773864746,
+            "mean": 0.6014785330335144,
+            "first": 2.847973585128784,
+            "last": 0.5821662545204163,
+            "range": 9.645983248949051,
+            "is_constant": false,
+            "looks_normalized": false,
+            "looks_unit": false,
+            "non_finite": 0
+          },
+          {
+            "name": "P_2",
+            "samples": 200,
+            "min": 0,
+            "max": 0,
+            "mean": 0,
+            "first": 0,
+            "last": 0,
+            "range": 0,
+            "is_constant": true,
+            "looks_normalized": true,
+            "looks_unit": true,
+            "non_finite": 0
+          }
+        ],
+        "numSamplesReported": 15000,
+        "numChannels": 0
+      },
+      "summary_for_scaling": {
+        "ranges": [
+          {
+            "channel": "P_1",
+            "min": -0.2128634750843048,
+            "max": 9.433119773864746,
+            "range": 9.645983248949051
+          },
+          {
+            "channel": "P_2",
+            "min": 0,
+            "max": 0,
+            "range": 0
+          }
+        ],
+        "suggested_scalars": [
+          {
+            "channel": "P_1",
+            "scale": 0.10367009502208621,
+            "offset": 0.02206757668872136
+          },
+          {
+            "channel": "P_2",
+            "scale": null,
+            "offset": null
+          }
+        ]
+      },
+      "interpretation": "Rangos medidos: P_1 -0.2129..9.4331, P_2 0.0000..0.0000. Para llevar 'P_1' a 0..1 usá scale=0.103670 y offset=0.022068; fijate si ese rango es estable antes de hardcodear el escalar. Canales constantes (no modular con ellos): P_2.",
+      "warnings": [
+        "Rango cero en P_2: sin información de escala (no se calculó 1/range)."
+      ]
+    },
+    "chop_constant": {
+      "path": "/ui/lib/TUIK/knob/slider1/override",
+      "family": "CHOP",
+      "type": "constantCHOP",
+      "measured_at": "2026-09-24T08:29:11.763Z",
+      "units_guess": "normalizado 0..1",
+      "measurements": {
+        "channels": [
+          {
+            "name": "radio",
+            "samples": 1,
+            "min": 0.30000001192092896,
+            "max": 0.30000001192092896,
+            "mean": 0.30000001192092896,
+            "first": 0.30000001192092896,
+            "last": 0.30000001192092896,
+            "range": 0,
+            "is_constant": true,
+            "looks_normalized": true,
+            "looks_unit": true,
+            "non_finite": 0
+          }
+        ],
+        "numSamplesReported": 1,
+        "numChannels": 0
+      },
+      "summary_for_scaling": {
+        "ranges": [
+          {
+            "channel": "radio",
+            "min": 0.30000001192092896,
+            "max": 0.30000001192092896,
+            "range": 0
+          }
+        ],
+        "suggested_scalars": [
+          {
+            "channel": "radio",
+            "scale": null,
+            "offset": null
+          }
+        ]
+      },
+      "interpretation": "Todos los canales ya viven en 0..1: no hace falta reescalar si el parámetro destino también espera 0..1. Todos los canales son CONSTANTES en este buffer: no sirven como fuente de modulación (¿falta que TD cocine, o la señal está quieta?).",
+      "warnings": [
+        "Rango cero en radio: sin información de escala (no se calculó 1/range)."
+      ]
+    },
+    "top": {
+      "path": "/ui/lib/TUIK/knob/slider1/ramp1",
+      "family": "TOP",
+      "type": "rampTOP",
+      "measured_at": "2026-09-24T08:29:11.812Z",
+      "units_guess": "pixeles",
+      "measurements": {
+        "resolution": {
+          "width": 40,
+          "height": 40
+        },
+        "aspect": 1,
+        "depth": 1
+      },
+      "summary_for_scaling": {
+        "ranges": [],
+        "suggested_scalars": []
+      },
+      "interpretation": "Familia TOP: la medición no es de señal numérica; mirá measurements para dimensionar (resolución, conteos, bounding box).",
+      "warnings": []
+    },
+    "pop": {
+      "path": "/sys/TDTox/popViewer/axes/line2",
+      "family": "POP",
+      "type": "linePOP",
+      "measured_at": "2026-09-24T08:29:11.875Z",
+      "units_guess": "conteo de geometria",
+      "measurements": {
+        "counts": {
+          "points": 63,
+          "prims": 3,
+          "verts": 66
+        },
+        "attributes": null,
+        "attribute_bytes_per_point": null
+      },
+      "summary_for_scaling": {
+        "ranges": [],
+        "suggested_scalars": []
+      },
+      "interpretation": "Familia POP: la medición no es de señal numérica; mirá measurements para dimensionar (resolución, conteos, bounding box).",
+      "warnings": [
+        "Este build no expone la lista de atributos del POP (t.attribs devuelve None): el conteo de puntos es válido, los atributos por punto no están disponibles."
+      ]
+    },
+    "dat": {
+      "path": "/ui/lib/TUIK/TUIK/local/set_variables",
+      "family": "DAT",
+      "type": "tableDAT",
+      "measured_at": "2026-09-24T08:29:11.957Z",
+      "units_guess": "filas de texto",
+      "measurements": {
+        "rows": 1,
+        "columns": null
+      },
+      "summary_for_scaling": {
+        "ranges": [],
+        "suggested_scalars": []
+      },
+      "interpretation": "Familia DAT: la medición no es de señal numérica; mirá measurements para dimensionar (resolución, conteos, bounding box).",
+      "warnings": []
+    },
+    "unsupported": {
+      "error": "La familia 'SOP' (poptoSOP) no se muestrea: td_measure cubre CHOP (rango de la señal), TOP (resolución), POP (puntos/atributos) y DAT (filas). Para el resto usá td_get_node_detail o td_pars_get."
+    }
+  },
+  "all_ok": true,
+  "finished_at": "2026-09-24T08:29:12.024Z"
+}

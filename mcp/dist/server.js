@@ -28,6 +28,7 @@ import { registerGlslTopTools } from "./tools/glslTopApply.js";
 import { registerGlslCurriculumTools } from "./tools/glslCurriculum.js";
 import { registerBridgeHistoryTools } from "./tools/bridgeHistory.js";
 import { registerWiringCheckTools } from "./tools/wiringCheck.js";
+import { registerMeasureTools } from "./tools/measure.js";
 import { registerHealthTools } from "./tools/health.js";
 /**
  * Pre-load the operator knowledge base on startup (non-blocking).
@@ -73,6 +74,7 @@ async function registerAllTools(server, client) {
     registerGlslCurriculumTools(server);
     registerBridgeHistoryTools(server, client);
     registerWiringCheckTools(server, client);
+    registerMeasureTools(server, client);
     registerHealthTools(server, client);
 }
 /**

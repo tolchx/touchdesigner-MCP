@@ -53,7 +53,7 @@ Conecta Inteligencia Artificial con TouchDesigner usando el Model Context Protoc
 - **Endpoint `/metrics`** (backlog #06): fps (`project.cookRate`), conteo de operadores totales y por familia, errores/warnings con los mismos criterios que `/verify`, `pop_stats` con el POP más lento, contadores del read-cache y **latencias server-side por ruta** (`endpoint_times`, buffer de 20 por ruta). Un solo walk, nunca cacheado, `null` explícito cuando una señal no existe en la build (p.ej. `cooking` en POPs) — [API_REFERENCE.md](docs/API_REFERENCE.md).
 - **Currículo GLSL con fuentes citadas** (backlog #32): `mcp/data/glsl_curriculum.json` — conceptos del [Book of Shaders](https://thebookofshaders.com/?lan=es) (matemática citada por capítulo, shaders propios en idioms TD verificados) y lecciones de [td-edu](https://tolchx.com/td-edu/), más el corpus POP local (`glsl_files/`, suite 14/14). Consultable offline con `td_glsl_curriculum` (list/get/path); regenerable con `python scripts/ingest_glsl_curriculum.py` (determinista, `--check` para CI).
 - **Historial de cambios con undo/redo** (backlog #09): los 5 endpoints de escritura estructurados (`/parameters/set`, `/create`, `/delete_operator`, `/connect`, `/disconnect`) registran una entrada reversible por request (estado previo de parámetros, snapshot de operadores, wiring de inputs). `POST /undo` revierte UNA operación completa, `POST /redo` la re-aplica, `GET /history` lista las entradas con una descripción de una línea cada una. Profundidad acotada a 50 con descarte FIFO de la más vieja; redo estándar (una escritura nueva descarta la rama); historial vacío → `400` con `hint`, nunca silencio. `POST /exec` NO se registra (código arbitrario) — para eso está `POST /project_lifecycle` con `action=undo`. Contrato campo por campo en [API_REFERENCE.md](docs/API_REFERENCE.md).
-- **1293 tests offline** nativos de Node.js que garantizan que el MCP se ejecute de forma robusta e independiente de TD, más **148 tests offline del bridge en Python** (`tests/test_api_contract_offline.py` 80 + `tests/test_td_api_offline.py` 51 + `tests/test_client_contract.py` 17, todos verdes), **19 tests offline de sintaxis GLSL POP** (`tests/test_glsl_pop_offline.py`) y **19 tests del gate del baseline POP** (`tests/test_pop_matrix_baseline.py`).
+- **1347 tests offline** nativos de Node.js que garantizan que el MCP se ejecute de forma robusta e independiente de TD, más **305 tests offline en Python** (`tests/test_mcp_server_stdio.py` 99 + `tests/test_api_contract_offline.py` 80 + `tests/test_td_api_offline.py` 51 + `tests/test_portability_and_hardening.py` 20 + `tests/test_glsl_pop_offline.py` 19 + `tests/test_pop_matrix_baseline.py` 19 + `tests/test_client_contract.py` 17, todos verdes).
 - **Contrato cliente ↔ bridge con detección de drift** (backlog #11): `tests/bridge_contract.json` declara **en un solo lugar**, por endpoint POST, el shape que arma cada cliente y el que parsea el handler; dos suites lo consumen —`tests/test_client_contract.py` (17 tests: cliente stdio Python con `_http_post` interceptado y el routing real del dispatcher) y `mcp/test/bridgeContract.test.js` (8 tests: `TDClient` TS real contra un stub HTTP en loopback)— y fallan nombrando **qué campo divergió y de qué lado** (`CONTRACT DRIFT on /parameters/set: ...`, `ROUTING SHADOW: ...`). Método, límites honestos y el drift real que encontró (`/execute_async` tapado por el `startswith("/execute")` del dispatcher, que dejaba `executeAsync`/`waitForTask` inutilizables) en [BRIDGE_CONTRACT.md](docs/BRIDGE_CONTRACT.md).
 
 ### 📑 Documentación técnica
@@ -297,7 +297,7 @@ git diff networks/mySystem.tdn
 
 ---
 
-## 📋 Tools disponibles (97)
+## 📋 Tools disponibles (107)
 
 ### 🔌 Requiere conexión TD (modo online)
 
@@ -323,6 +323,9 @@ git diff networks/mySystem.tdn
 | `td_verify_wiring` | Check de cableado post-build (regla 16 de AGENTS.md): compara aristas reales de `/connections` contra las esperadas (`expect: "srcA->nz:0,..."` o `edges: [{from,to,input}]`); reporta `missing`/`unexpected` por nombre |
 | `td_get_errors` | Errores y warnings |
 | `td_healthcheck` | Validar red |
+| `td_healthchain` | **Veredicto único en vivo** de la cadena completa (bridge → lectura → cocción → performance): `OK` \| `DEGRADED` \| `DOWN`, con la evidencia pegada (última llamada OK, log del cliente, errores del scope como `warnings`). Usala ante cualquier duda de conexión en vez de encadenar cinco suposiciones |
+| `td_report_bug` | Arma el reporte de bug **autosuficiente** (versiones, veredicto de cadena, últimas llamadas del cliente, log) para pegarlo en un issue, sin que nadie tenga que pedir logs |
+| `td_measure` | **Muestrea magnitudes reales antes de fijar escalares** (gain/scale/offset/threshold): un CHOP devuelve min/max/mean/último por canal, si ya está en `0..1` o `-1..1`, si es constante, y el `scale`/`offset` que lo llevarían a `0..1`, más una interpretación en texto plano. TOP: resolución/aspect. POP: puntos/prims. DAT: filas. Read-only |
 | `td_get_node_detail` | Info detallada de operador |
 | `td_get_hints` | Sugerencias de conexión |
 | `td_get_build_compatibility` | Verificar opType |
@@ -416,7 +419,7 @@ node server.js
 
 ### Node.js — Offline tests
 ```bash
-# Suite de unit/integration tests offline (1293 tests nativos, 0 fallos)
+# Suite de unit/integration tests offline (1347 tests nativos, 0 fallos)
 cd mcp && npm run build && node --test
 
 # Suite de contrato del bridge Python (sin TD): 80 + 51 + 17 tests
