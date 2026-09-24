@@ -564,30 +564,37 @@ class TouchDesignerAPI:
                 response["Content-Type"] = "text/html"
                 response["statusCode"] = 200
                 response["statusReason"] = "OK"
-                import pathlib as _pl
+                # Rutas resueltas en runtime (env var > repo > carpeta del .toe).
+                # Antes estaban hardcodeadas a la maquina de un usuario, asi que
+                # en cualquier otra instalacion estas rutas daban 404.
                 if uri.startswith("/neonctrl"):
-                    _dash = _pl.Path(r"C:\Users\Tolch\Documents\AI_Code\WebApp_ui_osc\index.html")
+                    _dash = _resolve_static("index.html", env_key="TDMCP_NEONCTRL_ROOT")
                 elif uri.startswith("/web2touch"):
-                    _dash = _pl.Path(r"C:\Users\Tolch\Documents\AI_Code\Touchdesigner_MCP\Main\web2touch\index.html")
+                    _dash = _resolve_static("web2touch", "index.html", env_key="TDMCP_STATIC_ROOT")
                 else:
-                    _dash = _pl.Path(r"C:\Users\Tolch\Documents\AI_Code\Touchdesigner_MCP\Main\dashboard.html")
-                if _dash.exists():
-                    response["data"] = _dash.read_text(encoding="utf-8")
+                    _dash = _resolve_static("dashboard.html", env_key="TDMCP_STATIC_ROOT")
+                if _dash:
+                    response["data"] = open(_dash, encoding="utf-8").read()
                 else:
-                    response["data"] = "<html><body><h1>Not found: " + str(_dash) + "</h1></body></html>"
+                    response["data"] = (
+                        "<html><body><h1>Not found: falta el recurso estatico</h1>"
+                        "<p>Defini TDMCP_STATIC_ROOT apuntando a la raiz del repo, o deja el "
+                        "proyecto junto al .toe.</p></body></html>"
+                    )
                 return self._send_response(response)
 
             # Serve Web2Touch static assets (JS, CSS, PNG, SVG)
             if uri.startswith("/assets/") and method == "GET":
-                import pathlib as _pl
-                _f = _pl.Path(r"C:\Users\Tolch\Documents\AI_Code\Touchdesigner_MCP\Main\web2touch") / uri.lstrip("/")
-                if _f.exists():
-                    _ext = _f.suffix.lower()
+                _assets_root = _resolve_static("web2touch", env_key="TDMCP_STATIC_ROOT")
+                _f = _safe_static(_assets_root, uri) if _assets_root else None
+                if _f:
+                    import pathlib as _pl
+                    _ext = _pl.Path(_f).suffix.lower()
                     _mimes = {".js": "application/javascript", ".css": "text/css", ".png": "image/png", ".svg": "image/svg+xml"}
                     response["Content-Type"] = _mimes.get(_ext, "application/octet-stream")
                     response["statusCode"] = 200
                     response["statusReason"] = "OK"
-                    response["data"] = _f.read_bytes()
+                    response["data"] = open(_f, "rb").read()
                     return self._send_response(response)
 
             response["Content-Type"] = "application/json"
@@ -1201,6 +1208,20 @@ class TouchDesignerAPI:
                 info["projectFPS"] = project.cookRate if hasattr(project, 'cookRate') else None  # type: ignore
             except Exception:
                 pass
+
+            # Estado de ejecucion en vivo: permite distinguir "conectado" de
+            # "conectado pero TD no cocina" (ventana minimizada, cooking off).
+            try:
+                _app = app  # type: ignore  # global de TouchDesigner
+            except Exception:
+                _app = None
+            info["runtime"] = probe_runtime(_app)
+            info["bridge"] = {
+                "component": "TouchDesignerAPI",
+                "version": _BRIDGE_VERSION,
+                "boot_ts": _BOOT_TS,
+                "uptime_s": round(time.time() - _BOOT_TS, 1),
+            }
 
             self._ensure_cache()
             info["readCache"] = {
@@ -3709,11 +3730,16 @@ except Exception as e:
 
     def _get_presets_dir(self) -> str:
         """Get the path to the presets directory."""
-        candidates = [
-            os.path.join(os.path.dirname(__file__), "..", "..", "mcp_reference", "presets"),
-            os.path.join(os.path.dirname(os.path.dirname(__file__)), "mcp_reference", "presets"),
-            r"C:\Users\Tolch\Documents\AI_Code\Touchdesigner_MCP\Main\mcp_reference\presets",
-        ]
+        candidates = []
+        _env = os.environ.get("TDMCP_PRESETS_DIR")
+        if _env:
+            candidates.append(_env)
+        candidates.extend(
+            [
+                os.path.join(os.path.dirname(__file__), "..", "..", "mcp_reference", "presets"),
+                os.path.join(os.path.dirname(os.path.dirname(__file__)), "mcp_reference", "presets"),
+            ]
+        )
         for c in candidates:
             resolved = os.path.abspath(c)
             if os.path.isdir(resolved):
@@ -5198,3 +5224,134 @@ else:
 # Bind utility methods from td_utils to TouchDesignerAPI class
 for _name in td_utils.__all__:
     setattr(TouchDesignerAPI, _name, getattr(td_utils, _name))
+
+
+# =============================================================================
+# Helpers de nivel modulo: rutas estaticas portables, guarda de traversal y
+# sondeo defensivo del estado de ejecucion. Definidos al final del archivo para
+# no tocar el orden del binding de td_utils; se resuelven en tiempo de llamada.
+# =============================================================================
+
+_BRIDGE_VERSION = "3.0.0"
+_BOOT_TS = time.time()
+
+
+def _static_roots():
+    """Candidatos de raiz para recursos estaticos, en orden de preferencia.
+
+    Orden: TDMCP_STATIC_ROOT (env) > raiz del repo derivada de este archivo >
+    carpeta del .toe abierto. Nunca una ruta absoluta de una maquina puntual:
+    eso es lo que hacia que el bridge solo funcionara en la maquina del autor.
+    """
+    roots = []
+    _env = os.environ.get("TDMCP_STATIC_ROOT")
+    if _env:
+        roots.append(_env)
+    try:
+        _here = os.path.dirname(os.path.abspath(__file__))  # .../toe/src
+        roots.append(os.path.abspath(os.path.join(_here, "..", "..")))
+    except Exception:
+        pass
+    try:
+        _folder = str(project.folder)  # type: ignore  # global de TouchDesigner
+        if _folder:
+            roots.append(_folder)
+    except Exception:
+        pass
+    return roots
+
+
+def _resolve_static(*parts, env_key=None, legacy=None):
+    """Primera ruta existente entre los candidatos, o None."""
+    cands = []
+    _env = os.environ.get(env_key) if env_key else None
+    if _env:
+        cands.append(os.path.join(_env, *parts))
+    for _root in _static_roots():
+        cands.append(os.path.join(str(_root), *parts))
+    if legacy:
+        cands.append(legacy)
+    for _c in cands:
+        try:
+            if os.path.exists(_c):
+                return os.path.abspath(_c)
+        except Exception:
+            continue
+    return None
+
+
+def _safe_static(root, uri):
+    """Resuelve `uri` dentro de `root`; None si intenta salir del directorio.
+
+    Un servidor estatico que responde /assets/../../algo es una fuga de
+    archivos, no una feature: se rechaza traversal, rutas absolutas y NUL.
+    """
+    if not root or not uri or "\x00" in uri:
+        return None
+    _clean = uri.split("?", 1)[0].split("#", 1)[0].replace("\\", "/").lstrip("/")
+    if not _clean or _clean == ".":
+        return None
+    if ".." in _clean.split("/"):
+        return None
+    _root_abs = os.path.abspath(str(root))
+    _cand = os.path.abspath(os.path.join(_root_abs, _clean))
+    if _cand != _root_abs and not _cand.startswith(_root_abs + os.sep):
+        return None
+    return _cand if os.path.isfile(_cand) else None
+
+
+def probe_runtime(app_obj=None):
+    """Sondea el estado de ejecucion de TD sin inventar valores.
+
+    Devuelve siempre las mismas claves; `cooking` queda en None cuando TD no
+    expone ninguna senal conocida (null honesto antes que un valor falso, porque
+    un indicador que miente cuesta mas caro que un indicador ausente).
+    """
+    rt = {
+        "cooking": None,
+        "cooking_source": None,
+        "timeline_play": None,
+        "fps": None,
+        "pid": None,
+    }
+    try:
+        rt["pid"] = os.getpid()
+    except Exception:
+        pass
+
+    obj = app_obj
+    if obj is None:
+        try:
+            obj = app  # type: ignore  # global de TouchDesigner
+        except Exception:
+            obj = None
+
+    # Cocción global (marca [O|I] de TD): la senal primaria.
+    try:
+        _cook = getattr(obj, "cooking", None)
+        if isinstance(_cook, bool):
+            rt["cooking"] = "on" if _cook else "off"
+            rt["cooking_source"] = "app.cooking"
+    except Exception:
+        pass
+
+    # Timeline (play/pause) por separado: NO es lo mismo que cooking global, y
+    # mezclarlas hacia que el estado mintiera.
+    try:
+        _root = op("/")  # type: ignore  # global de TouchDesigner
+        _play = getattr(getattr(_root, "time", None), "play", None)
+        if isinstance(_play, bool):
+            rt["timeline_play"] = _play
+            if rt["cooking"] is None:
+                rt["cooking_source"] = None
+    except Exception:
+        pass
+
+    try:
+        _fps = getattr(obj, "fps", None)
+        if _fps is not None:
+            rt["fps"] = float(_fps)
+    except Exception:
+        pass
+
+    return rt

@@ -395,14 +395,29 @@ class TestInfo(unittest.TestCase):
         self.assertEqual(response["statusCode"], 200)
         # Shape completo — todas las claves presentes con tipos correctos.
         # "readCache" (hits/misses/entries) es aditiva desde el item 05 del backlog.
+        # "runtime" + "bridge" son aditivas (auditoria TWOZERO 2026-09-24): el
+        # estado de ejecución en vivo y la identidad/versión del bridge, para
+        # poder distinguir "conectado" de "conectado pero TD no cocina".
         expected_keys = {
             "build", "version", "product", "commercial", "platform",
             "osVersion", "release", "projectPath", "projectFPS", "readCache",
+            "runtime", "bridge",
         }
         self.assertEqual(set(info.keys()), expected_keys)
         self.assertIsInstance(info["readCache"], dict)
         self.assertEqual(
             set(info["readCache"].keys()), {"hits", "misses", "entries"})
+        # Estado de ejecución: mismas claves siempre, y null honesto si TD no
+        # expone la señal (nunca un valor inventado).
+        self.assertEqual(
+            set(info["runtime"].keys()),
+            {"cooking", "cooking_source", "timeline_play", "fps", "pid"},
+        )
+        self.assertIn(info["runtime"]["cooking"], (None, "on", "off"))
+        # Identidad del bridge: versión + uptime, sin rutas de la máquina.
+        self.assertEqual(info["bridge"]["component"], "TouchDesignerAPI")
+        self.assertIsInstance(info["bridge"]["version"], str)
+        self.assertGreaterEqual(info["bridge"]["uptime_s"], 0)
         self.assertIsInstance(info["build"], str)
         self.assertIsInstance(info["product"], str)
         self.assertIsInstance(info["commercial"], bool)

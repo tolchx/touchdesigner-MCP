@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """Web2Touch server — HTTP + WebSocket on same port, relay to TD MCP."""
 import asyncio, json, pathlib, sys, urllib.request
+from w2t_codec import build_neon_upsert_code, safe_static_path
 
 PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 8090
 BASE = pathlib.Path(__file__).parent / "web2touch"
@@ -18,10 +19,11 @@ async def ws_handler(websocket):
                 data = json.loads(message)
             except json.JSONDecodeError:
                 data = {"raw": message}
-            # Forward to TD MCP
-            code = 'import json; t=op("/project1/neon_values"); cid="{}"; ctype="{}"; cval="{}"; cts="{}"; found=-1\nfor r in range(1,t.numRows):\n if t[r,0].val==cid: found=r; break\nif found<0: t.appendRow([cid,ctype,cval,cts])\nelse: t[found,2]=cval; t[found,3]=cts'.format(
-                str(data.get("id","")), str(data.get("type","")),
-                str(data.get("value","")), str(data.get("timestamp","")))
+            # Forward to TD MCP. The code is built by w2t_codec, which
+            # serializes every client value as a Python literal — never raw
+            # interpolation (a value with a quote would otherwise execute).
+            code = build_neon_upsert_code(data, raw_msg=message)
+
             try:
                 req = urllib.request.Request(MCP+"/exec",
                     data=json.dumps({"code":code}).encode(),
@@ -41,8 +43,10 @@ async def http_handler(reader, writer):
         if len(parts) < 2:
             return
         method, uri = parts[0], parts[1]
-        file_path = BASE / uri.lstrip("/")
-        if not file_path.exists() or file_path.is_dir():
+        # Traversal-safe resolution: anything outside web2touch/ is refused and
+        # falls back to index.html instead of leaking files.
+        file_path = safe_static_path(BASE, uri)
+        if file_path is None:
             file_path = BASE / "index.html"
         ext = file_path.suffix.lower()
         content_type = MIMES.get(ext, "application/octet-stream")

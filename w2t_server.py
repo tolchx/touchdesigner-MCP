@@ -4,6 +4,7 @@ import asyncio
 import base64
 import hashlib
 import json
+import os
 import pathlib
 import struct
 import sys
@@ -21,10 +22,24 @@ MIMES: dict[str, str] = {
 }
 MAGIC = b"258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
 
-# Path to endpoint_fix.py (standalone implementations for missing TD endpoints)
-_FIX_PATH = (
-    r"C:\Users\Tolch\Documents\AI_Code\Touchdesigner_MCP\Main\toe\endpoint_fix.py"
-)
+# Path to endpoint_fix.py (standalone implementations for missing TD endpoints).
+# Resolved relative to the repo (not an absolute path of one machine) so the
+# bridge is portable; override with TDMCP_ENDPOINT_FIX if it lives elsewhere.
+def _resolve_fix_path() -> str:
+    env = os.environ.get("TDMCP_ENDPOINT_FIX")
+    candidates = []
+    if env:
+        candidates.append(env)
+    here = pathlib.Path(__file__).resolve().parent
+    candidates.append(here / "toe" / "endpoint_fix.py")
+    candidates.append(here.parent / "toe" / "endpoint_fix.py")
+    for cand in candidates:
+        if pathlib.Path(cand).is_file():
+            return str(cand)
+    return str(candidates[-1])
+
+
+_FIX_PATH = _resolve_fix_path()
 _FIX_LOAD = (
     f'exec(compile(open(r"{_FIX_PATH}",encoding="utf-8").read(),"fix","exec"))'
 )
