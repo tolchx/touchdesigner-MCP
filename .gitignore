@@ -38,3 +38,6 @@ toe/TDImportCache/
 /inspect_*.cjs
 /debug_*.py
 /fix_*.py
+# SQLite WAL/SHM journals (se regeneran solos; no son fuente)
+*.db-shm
+*.db-wal

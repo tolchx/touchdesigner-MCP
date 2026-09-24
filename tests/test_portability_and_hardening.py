@@ -23,6 +23,7 @@ import ast
 import os
 import sys
 import tempfile
+import types
 import unittest
 from pathlib import Path
 
@@ -227,10 +228,41 @@ class _FakeApp:
 
 class TestProbeRuntime(unittest.TestCase):
     def test_reports_cooking_off(self):
-        rt = tdapi.probe_runtime(_FakeApp(cooking=False, fps=60))
+        rt = tdapi.probe_runtime(_FakeApp(cooking=False))
         self.assertEqual(rt["cooking"], "off")
         self.assertEqual(rt["cooking_source"], "app.cooking")
-        self.assertEqual(rt["fps"], 60.0)
+
+    def test_target_fps_comes_from_the_timeline_rate(self):
+        """`fps` se llamaba así pero era el rate OBJETIVO de la timeline, no el
+        fps medido (que sale del chequeo de performance). Nombre honesto."""
+        orig = getattr(tdapi, "me", None)
+        tdapi.me = types.SimpleNamespace(time=types.SimpleNamespace(rate=60.0))
+        try:
+            rt = tdapi.probe_runtime(_FakeApp())
+            self.assertEqual(rt["target_fps"], 60.0)
+        finally:
+            if orig is None:
+                delattr(tdapi, "me")
+            else:
+                tdapi.me = orig
+
+    def test_cooking_allowed_and_timeline_play_read_from_the_root(self):
+        """Medido en vivo 24/09/26: en 2025.32460 no existe app.cooking; lo que sí
+        hay es op('/').allowCooking y op('/').time.play."""
+        orig_op = getattr(tdapi, "op", None)
+        root = _FakeApp()
+        root.time = types.SimpleNamespace(play=True)
+        root.allowCooking = False
+        tdapi.op = lambda path: root
+        try:
+            rt = tdapi.probe_runtime(_FakeApp())
+            self.assertTrue(rt["timeline_play"])
+            self.assertFalse(rt["cooking_allowed"])
+        finally:
+            if orig_op is None:
+                delattr(tdapi, "op")
+            else:
+                tdapi.op = orig_op
 
     def test_reports_cooking_on(self):
         rt = tdapi.probe_runtime(_FakeApp(cooking=True))
@@ -247,7 +279,7 @@ class TestProbeRuntime(unittest.TestCase):
         keys = set(tdapi.probe_runtime(_FakeApp()).keys())
         self.assertEqual(
             keys,
-            {"cooking", "cooking_source", "timeline_play", "fps", "pid"},
+            {"cooking", "cooking_source", "cooking_allowed", "timeline_play", "target_fps", "pid"},
         )
 
 

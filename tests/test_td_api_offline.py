@@ -411,7 +411,7 @@ class TestInfo(unittest.TestCase):
         # expone la señal (nunca un valor inventado).
         self.assertEqual(
             set(info["runtime"].keys()),
-            {"cooking", "cooking_source", "timeline_play", "fps", "pid"},
+            {"cooking", "cooking_source", "cooking_allowed", "timeline_play", "target_fps", "pid"},
         )
         self.assertIn(info["runtime"]["cooking"], (None, "on", "off"))
         # Identidad del bridge: versión + uptime, sin rutas de la máquina.

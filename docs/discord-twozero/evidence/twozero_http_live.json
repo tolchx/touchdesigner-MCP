@@ -1,0 +1,51 @@
+{
+  "checks": [
+    {
+      "name": "GET /dashboard sirve HTML real (sin env var)",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "bytes": 222116,
+        "ctype": "text/html",
+        "fallback": false
+      }
+    },
+    {
+      "name": "GET /web2touch sirve HTML real (sin env var)",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "bytes": 508,
+        "ctype": "text/html",
+        "fallback": false
+      }
+    },
+    {
+      "name": "GET /assets/index-C5amQ0rE.js sirve el asset con su MIME",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "bytes": 339058,
+        "ctype": "application/javascript"
+      }
+    },
+    {
+      "name": "GET /assets/../../package.json NO filtra package.json",
+      "ok": true,
+      "detail": {
+        "status": 404,
+        "bytes": 22,
+        "head": "{\"error\": \"Not Found\"}"
+      }
+    },
+    {
+      "name": "GET /info sigue respondiendo",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "bytes": 581
+      }
+    }
+  ],
+  "all_ok": true
+}

@@ -241,21 +241,31 @@ Fuentes externas usadas: repo público `github.com/404dotzero/twozero-td-mcp` (i
 
 ---
 
-## Estado de implementación (2026-09-24, mismo día)
+## Estado de implementación
 
-Lo que salió de este análisis ya está en el repo, en tres commits locales (`4ad9156`, `e372eeb`, `ec7cb48`) — **sin pushear**: el push lo hace el ciclo/publicación habitual.
+| Ítem | Estado | Verificación |
+|---|---|---|
+| 43 Cliente resiliente (reintento + log + envelope) | **cerrado** | 9 tests node + corrida en vivo: `tdmcp-client.log` con 224 líneas y `bridge_unreachable` en los 3 intentos |
+| 44 `td_healthchain` / `td_report_bug` | **cerrado** | 11 tests node + corrida en vivo contra TD 2025.32460 (veredicto `OK`, 4/4 pasos) |
+| 45 Guardrails de exploración | **cerrado** | 9 tests + `td_find` sin acotar sobre **32.118 coincidencias: 302 ms**, TD siguió respondiendo |
+| 46 Portabilidad / anti-traversal / runtime / anti-inyección | **cerrado** | 18 tests python + 5 chequeos HTTP en vivo (todos OK, 0 filtración) |
+| 47-49 (`td_measure`, updates+quickstart, recetas) | abiertos | briefs en la cola de Freebuff |
+| 50 Aceptación EN VIVO | **cerrado** | `scripts/live/twozero_chain_live.mjs` + `twozero_http_live.py`, `ALL_OK=true` en ambos |
 
-| Hallazgo | Qué se implementó | Item | Verificación |
-|---|---|---|---|
-| El indicador miente / conecta una sola vez | Reintento seguro + `envelope` de error + log de cliente en archivo | 43 | `mcp/test/clientResilience.test.js` 9/9 |
-| Ningún indicador responde "¿puede operar ahora?" | `td_healthchain` (OK/DEGRADED/DOWN) + `td_report_bug` | 44 | `mcp/test/healthChain.test.js` 11/11 |
-| `td_search` cuelga TD en redes grandes | `exploreGuard`: scope + limit + presupuesto de espera | 45 | `mcp/test/exploreGuard.test.js` 9/9 |
-| Instalación que rompe TD / rutas locales | Auditoría (0 escrituras fuera del proyecto), rutas resolubles, anti-traversal, `runtime` en `/info`, anti-inyección del relay | 46 | `tests/test_portability_and_hardening.py` 18/18 |
-| El LLM no tiene noción de escala | `td_measure` (brief listo, sin implementar) | 47 | — |
-| Updater invisible / "verifiqué y no ve nada" | `td_check_updates` + quickstart (brief listo) | 48 | — |
-| Destilado > RAG | Auditoría de evidencia de recetas (brief listo) | 49 | — |
-| Todo lo anterior sin TD real | Aceptación EN VIVO, bloqueada por entorno | 50 | — |
+### Lo que la corrida en vivo cambió (no se podía saber offline)
 
-Verificación de la corrida: `npm run typecheck` 0 · `npm run build` 0 · suite Node **1324/0** (base 1293) · Python offline **303/303** · `scripts/reconcile_backlog_queue.py --check` exit 0.
+1. **El toggle global de cooking no existe como atributo en 2025.32460.** `app.cooking`, `app.cook`, `ui.cook`, `project.cook` y `project.cooking` dan `AttributeError`. Lo que sí hay: `op('/').time.play` (timeline), `op('/').allowCooking`, `me.time.rate` (rate objetivo, 60.0 — **no** el fps medido). Por eso `probe_runtime()` devuelve `cooking: null` con `cooking_source: null`, y ahora expone `cooking_allowed` + `target_fps` con nombres honestos.
+2. **El veredicto `DEGRADED` por errores del proyecto era una alarma falsa.** Con la cadena 4/4 OK, los 31 issues del proyecto abierto convertían el veredicto en `DEGRADED`. Ahora los errores del proyecto van a `warnings` y el veredicto mide operabilidad: un indicador que grita siempre es tan inútil como uno que miente (la lección del propio TWOZERO, aplicada al revés).
+3. **La resolución portable tenía un candidato faltante.** El `.toe` vive en `toe/`, así que `project.folder` apunta a `toe/` y los assets están un nivel arriba: `/dashboard` y `/web2touch` devolvían el cartel de "Not found" con HTTP 200. Encontrado en vivo, corregido (ahora se prueban también los padres) y verificado: 222 KB de HTML real y el asset JS con su MIME.
+4. **`td_find` sin acotar no cuelga esta implementación**: 32.118 coincidencias en 302 ms, con paginación real (devuelve 100 con `truncated: true`, 12 KB de payload — sin bomba de contexto). El bug del competidor no se reproduce acá; el presupuesto de 20 s queda como red de seguridad, no como parche.
+5. **Apagar el cooking global para probar `DEGRADED` es autodestructivo**: si TD deja de cocinar, el WebServer DAT deja de atender y no queda con qué volver a prenderlo. El estado de cocción se **lee**, nunca se provoca. Queda documentado en el docstring del probe.
 
-**Lo que NO se puede afirmar todavía** (y por eso está el item 50): nada de esto tocó un TD real. Sin bridge arriba no se puede medir cuál es la señal de cocción que expone 2025.32460 (`probe_runtime` devuelve `null` honesto cuando no encuentra ninguna), ni cuánto tarda de verdad la barrida sin scope sobre la red grande, ni que `/dashboard` y `/web2touch` sirvan desde la resolución nueva.
+### Evidencia
+
+- `docs/discord-twozero/evidence/twozero_chain_live.json` — cadena OK / DOWN / barrida / log
+- `docs/discord-twozero/evidence/twozero_http_live.json` — rutas estáticas + anti-traversal
+- Reproducible con TD abierto: `node scripts/live/twozero_chain_live.mjs --scope /` y `python scripts/live/twozero_http_live.py`
+
+### Suites offline (sin TD)
+
+`npm run typecheck` 0 · `npm run build` 0 · Node **1324/0** · Python **305/305** · `reconcile_backlog_queue.py --check` exit 0

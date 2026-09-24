@@ -5237,28 +5237,44 @@ _BOOT_TS = time.time()
 
 
 def _static_roots():
-    """Candidatos de raiz para recursos estaticos, en orden de preferencia.
+    """Candidatos de raíz para archivos estáticos, en orden de preferencia.
 
-    Orden: TDMCP_STATIC_ROOT (env) > raiz del repo derivada de este archivo >
-    carpeta del .toe abierto. Nunca una ruta absoluta de una maquina puntual:
-    eso es lo que hacia que el bridge solo funcionara en la maquina del autor.
+    MEDIDO EN VIVO el 24/09/26: con el .toe abierto desde `toe/`, `project.folder`
+    apunta a `toe/`, pero los assets (dashboard.html, web2touch/) viven un nivel
+    ARRIBA, en la raíz del repo. Sin el candidato `project.folder/..` las rutas
+    /dashboard y /web2touch devolvían el cartel de "Not found" con HTTP 200 (y el
+    /assets/ no encontraba nada). Por eso se prueban también los padres.
     """
     roots = []
-    _env = os.environ.get("TDMCP_STATIC_ROOT")
-    if _env:
-        roots.append(_env)
+    env = os.environ.get("TDMCP_STATIC_ROOT")
+    if env:
+        roots.append(env)
     try:
-        _here = os.path.dirname(os.path.abspath(__file__))  # .../toe/src
-        roots.append(os.path.abspath(os.path.join(_here, "..", "..")))
+        here = os.path.dirname(os.path.abspath(__file__))  # .../toe/src
+        roots.extend([
+            here,
+            os.path.abspath(os.path.join(here, "..")),          # .../toe
+            os.path.abspath(os.path.join(here, "..", "..")),    # raíz del repo
+        ])
     except Exception:
         pass
     try:
-        _folder = str(project.folder)  # type: ignore  # global de TouchDesigner
-        if _folder:
-            roots.append(_folder)
+        folder = str(project.folder)  # global de TouchDesigner
+        if folder:
+            roots.extend([
+                folder,
+                os.path.abspath(os.path.join(folder, "..")),
+                os.path.abspath(os.path.join(folder, "..", "..")),
+            ])
     except Exception:
         pass
-    return roots
+    seen, out = set(), []
+    for r in roots:
+        r = os.path.abspath(r)
+        if r not in seen:
+            seen.add(r)
+            out.append(r)
+    return out
 
 
 def _resolve_static(*parts, env_key=None, legacy=None):
@@ -5301,57 +5317,68 @@ def _safe_static(root, uri):
 
 
 def probe_runtime(app_obj=None):
-    """Sondea el estado de ejecucion de TD sin inventar valores.
+    """Estado de ejecución de TD, leído defensivamente.
 
-    Devuelve siempre las mismas claves; `cooking` queda en None cuando TD no
-    expone ninguna senal conocida (null honesto antes que un valor falso, porque
-    un indicador que miente cuesta mas caro que un indicador ausente).
+    MEDIDO EN VIVO el 24/09/26 sobre TouchDesigner 2025.32460 (bridge real,
+    proyecto de 26.340 operadores): `app.cooking`, `app.cook`, `ui.cook`,
+    `project.cook` y `project.cooking` NO EXISTEN (AttributeError), así que el
+    toggle global de cooking no es legible por esos nombres y `cooking` queda
+    en None a propósito: `null` honesto en vez de un valor inventado.
+    Lo que SÍ expone este build:
+      - op('/').time.play      -> bool (timeline corriendo)
+      - op('/').allowCooking   -> bool (flag "Allow Cooking" del COMP raíz)
+      - me.time.rate           -> fps objetivo de la timeline (60.0)
+    Ojo: apagar el cooking global para "probar" DEGRADED desde el bridge es
+    autodestructivo — si TD deja de cocinar, el WebServer DAT deja de atender y
+    no habría con qué volver a prenderlo. El veredicto de cocción se LEE, nunca
+    se provoca.
     """
     rt = {
         "cooking": None,
         "cooking_source": None,
+        "cooking_allowed": None,
         "timeline_play": None,
-        "fps": None,
+        "target_fps": None,
         "pid": None,
     }
     try:
         rt["pid"] = os.getpid()
     except Exception:
         pass
-
     obj = app_obj
     if obj is None:
         try:
-            obj = app  # type: ignore  # global de TouchDesigner
+            obj = app  # global de TouchDesigner
         except Exception:
             obj = None
-
-    # Cocción global (marca [O|I] de TD): la senal primaria.
+    # Nombres probados en vivo; hoy ninguno existe en 2025.32460, pero si un
+    # build futuro los agrega, se encienden solos.
+    for name, fn in (
+        ("app.cooking", lambda o: getattr(o, "cooking", None)),
+        ("app.cook", lambda o: getattr(o, "cook", None)),
+    ):
+        try:
+            val = fn(obj)
+        except Exception:
+            continue
+        if isinstance(val, bool):
+            rt["cooking"] = "on" if val else "off"
+            rt["cooking_source"] = name
+            break
     try:
-        _cook = getattr(obj, "cooking", None)
-        if isinstance(_cook, bool):
-            rt["cooking"] = "on" if _cook else "off"
-            rt["cooking_source"] = "app.cooking"
+        root = op("/")  # global de TouchDesigner
+        try:
+            rt["timeline_play"] = bool(root.time.play)
+        except Exception:
+            pass
+        try:
+            rt["cooking_allowed"] = bool(root.allowCooking)
+        except Exception:
+            pass
     except Exception:
         pass
-
-    # Timeline (play/pause) por separado: NO es lo mismo que cooking global, y
-    # mezclarlas hacia que el estado mintiera.
     try:
-        _root = op("/")  # type: ignore  # global de TouchDesigner
-        _play = getattr(getattr(_root, "time", None), "play", None)
-        if isinstance(_play, bool):
-            rt["timeline_play"] = _play
-            if rt["cooking"] is None:
-                rt["cooking_source"] = None
+        rt["target_fps"] = float(me.time.rate)  # type: ignore
     except Exception:
         pass
-
-    try:
-        _fps = getattr(obj, "fps", None)
-        if _fps is not None:
-            rt["fps"] = float(_fps)
-    except Exception:
-        pass
-
     return rt

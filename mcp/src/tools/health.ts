@@ -42,6 +42,20 @@ export interface HealthChainResult {
     client_log: string | null;
   };
   hint: string;
+  /**
+   * Avisos del PROYECTO (no de la cadena): errores/warnings de la red. Medido en
+   * vivo el 24/09/26 sobre el proyecto real: 31 issues en el scope daban
+   * DEGRADED con la cadena 4/4 OK — un indicador que grita siempre es tan inútil
+   * como uno que miente. Los avisos informan; el veredicto mide operabilidad.
+   */
+  warnings: string[];
+  /** Clasificación del último error de transporte (solo cuando verdict=DOWN). */
+  transport: {
+    kind: string;
+    bridge: string;
+    attempts: number;
+    hint: string;
+  } | null;
 }
 
 interface CheckOptions {
@@ -136,6 +150,13 @@ export async function runHealthChain(
   );
   const cooking = runtime && typeof runtime.cooking === "string" ? runtime.cooking : null;
 
+  const warnings: string[] = [];
+  if (issues > 0) {
+    warnings.push(
+      `${issues} error(es)/warning(s) en la red bajo '${path}' (no afecta la cadena: TD responde y cocina). Detalle con td_get_errors.`,
+    );
+  }
+
   let verdict: HealthChainResult["verdict"];
   let summary: string;
   if (!bridgeOk) {
@@ -158,14 +179,14 @@ export async function runHealthChain(
     verdict = "DEGRADED";
     summary = `Conectado y leyendo, pero TD no está cocinando (cooking=${cooking}). Las lecturas funcionan; los cambios pueden no verse reflejados.`;
     hint = "Reactivá el cooking global en TD (o la ventana minimizada/pausa) antes de medir resultados.";
-  } else if (issues > 0) {
-    verdict = "DEGRADED";
-    summary = `Cadena operativa, pero hay ${issues} error(es)/warning(s) en la red bajo '${path}'.`;
-    hint = "Corregí los errores con td_get_errors antes de seguir construyendo.";
   } else {
     verdict = "OK";
-    summary = `Cadena completa operativa: bridge, lectura y red bajo '${path}' sin errores.`;
-    hint = "Todo listo; podés operar TD normalmente.";
+    summary = warnings.length
+      ? `Cadena completa operativa (bridge, lectura, cocción) y el proyecto tiene ${issues} error(es)/warning(s) en '${path}' — ver warnings.`
+      : `Cadena completa operativa: bridge, lectura y red bajo '${path}' sin errores.`;
+    hint = warnings.length
+      ? "La cadena está OK: los avisos son del proyecto, no del MCP. Se ven con td_get_errors."
+      : "Todo listo; podés operar TD normalmente.";
   }
 
   return {
@@ -180,6 +201,16 @@ export async function runHealthChain(
       client_log: clientLogPath(),
     },
     hint,
+    warnings,
+    transport:
+      verdict === "DOWN" && state.connectionError
+        ? {
+            kind: state.connectionError.envelope.kind,
+            bridge: state.connectionError.envelope.bridge,
+            attempts: state.connectionError.envelope.attempts,
+            hint: state.connectionError.envelope.hint,
+          }
+        : null,
   };
 }
 

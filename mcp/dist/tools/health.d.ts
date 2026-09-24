@@ -31,6 +31,20 @@ export interface HealthChainResult {
         client_log: string | null;
     };
     hint: string;
+    /**
+     * Avisos del PROYECTO (no de la cadena): errores/warnings de la red. Medido en
+     * vivo el 24/09/26 sobre el proyecto real: 31 issues en el scope daban
+     * DEGRADED con la cadena 4/4 OK — un indicador que grita siempre es tan inútil
+     * como uno que miente. Los avisos informan; el veredicto mide operabilidad.
+     */
+    warnings: string[];
+    /** Clasificación del último error de transporte (solo cuando verdict=DOWN). */
+    transport: {
+        kind: string;
+        bridge: string;
+        attempts: number;
+        hint: string;
+    } | null;
 }
 interface CheckOptions {
     path?: string;

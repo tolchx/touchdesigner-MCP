@@ -77,6 +77,11 @@ describe("td_healthchain — tabla de decisión", () => {
     assert.equal(r.checks[0].ok, false);
     assert.match(r.checks[0].error, /ECONNREFUSED/);
     assert.equal(r.hint, "HINT_DE_BRIDGE", "el hint accionable llega al veredicto");
+    // Clasificación de transporte también en el resultado, no sólo en el log:
+    // es lo que distingue "no llegó nunca" de "se cortó a mitad".
+    assert.equal(r.transport.kind, "bridge_unreachable");
+    assert.equal(r.transport.attempts, 3);
+    assert.equal(r.transport.bridge, "127.0.0.1:44444");
   });
 
   it("DEGRADED cuando TD responde pero no está cocinando", async () => {
@@ -104,12 +109,16 @@ describe("td_healthchain — tabla de decisión", () => {
     assert.match(r.summary, /lectura de operadores falló/);
   });
 
-  it("DEGRADED cuando hay errores de red en el scope", async () => {
+  it("los errores del PROYECTO van como warning, no degradan (hallazgo en vivo)", async () => {
     const r = await runHealthChain(
       fake({ healthcheck: async () => ({ issueCount: 3, issues: [1, 2, 3] }) }),
     );
-    assert.equal(r.verdict, "DEGRADED");
-    assert.match(r.summary, /3 error/);
+    // Medido en vivo el 24/09/26: cadena 4/4 OK y 31 issues del proyecto daban
+    // DEGRADED. Un indicador que grita siempre es tan inútil como uno que
+    // miente: los avisos del proyecto van aparte del veredicto de cadena.
+    assert.equal(r.verdict, "OK");
+    assert.equal(r.warnings.length, 1);
+    assert.match(r.warnings[0], /3 error/);
   });
 
   it("un fallo de performance NO degrada el veredicto por sí solo", async () => {

@@ -68,6 +68,10 @@ export async function runHealthChain(client, opts = {}) {
     const readOk = checks[1].ok;
     const issues = Number(checks[2].detail?.issueCount ?? 0);
     const cooking = runtime && typeof runtime.cooking === "string" ? runtime.cooking : null;
+    const warnings = [];
+    if (issues > 0) {
+        warnings.push(`${issues} error(es)/warning(s) en la red bajo '${path}' (no afecta la cadena: TD responde y cocina). Detalle con td_get_errors.`);
+    }
     let verdict;
     let summary;
     if (!bridgeOk) {
@@ -93,15 +97,14 @@ export async function runHealthChain(client, opts = {}) {
         summary = `Conectado y leyendo, pero TD no está cocinando (cooking=${cooking}). Las lecturas funcionan; los cambios pueden no verse reflejados.`;
         hint = "Reactivá el cooking global en TD (o la ventana minimizada/pausa) antes de medir resultados.";
     }
-    else if (issues > 0) {
-        verdict = "DEGRADED";
-        summary = `Cadena operativa, pero hay ${issues} error(es)/warning(s) en la red bajo '${path}'.`;
-        hint = "Corregí los errores con td_get_errors antes de seguir construyendo.";
-    }
     else {
         verdict = "OK";
-        summary = `Cadena completa operativa: bridge, lectura y red bajo '${path}' sin errores.`;
-        hint = "Todo listo; podés operar TD normalmente.";
+        summary = warnings.length
+            ? `Cadena completa operativa (bridge, lectura, cocción) y el proyecto tiene ${issues} error(es)/warning(s) en '${path}' — ver warnings.`
+            : `Cadena completa operativa: bridge, lectura y red bajo '${path}' sin errores.`;
+        hint = warnings.length
+            ? "La cadena está OK: los avisos son del proyecto, no del MCP. Se ven con td_get_errors."
+            : "Todo listo; podés operar TD normalmente.";
     }
     return {
         verdict,
@@ -115,6 +118,15 @@ export async function runHealthChain(client, opts = {}) {
             client_log: clientLogPath(),
         },
         hint,
+        warnings,
+        transport: verdict === "DOWN" && state.connectionError
+            ? {
+                kind: state.connectionError.envelope.kind,
+                bridge: state.connectionError.envelope.bridge,
+                attempts: state.connectionError.envelope.attempts,
+                hint: state.connectionError.envelope.hint,
+            }
+            : null,
     };
 }
 /**

@@ -1,0 +1,424 @@
+{
+  "started_at": "2026-09-24T08:09:15.103Z",
+  "scope": "/",
+  "checks": [
+    {
+      "name": "healthchain contra TD real (veredicto != DOWN)",
+      "ok": true,
+      "detail": {
+        "verdict": "OK",
+        "hint": "La cadena está OK: los avisos son del proyecto, no del MCP. Se ven con td_get_errors.",
+        "warnings": [
+          "31 error(es)/warning(s) en la red bajo '/' (no afecta la cadena: TD responde y cocina). Detalle con td_get_errors."
+        ],
+        "runtime": {
+          "cooking": null,
+          "cooking_source": null,
+          "cooking_allowed": true,
+          "timeline_play": true,
+          "target_fps": 60,
+          "pid": 12712
+        },
+        "checks": [
+          {
+            "n": "bridge_info",
+            "ok": true,
+            "ms": 58
+          },
+          {
+            "n": "operators_read",
+            "ok": true,
+            "ms": 27
+          },
+          {
+            "n": "network_errors",
+            "ok": true,
+            "ms": 758
+          },
+          {
+            "n": "performance",
+            "ok": true,
+            "ms": 268
+          }
+        ]
+      },
+      "ms": 1111
+    },
+    {
+      "name": "healthchain con bridge muerto -> DOWN + clasificación de transporte",
+      "ok": true,
+      "detail": {
+        "verdict": "DOWN",
+        "kind": "bridge_unreachable",
+        "attempts": 3,
+        "bridge": "127.0.0.1:44999",
+        "hint": "El bridge de TD no está escuchando. Verificá que TD esté abierto, que el componente del API esté cargado y que el puerto sea el correcto (Settings → MCP). Si acabás de abrir TD, reintentá en unos segundos.",
+        "retries_evidencia": [
+          "/exec intento 1 -> bridge_unreachable",
+          "/exec intento 2 -> bridge_unreachable",
+          "/exec intento 3 -> bridge_unreachable"
+        ]
+      },
+      "ms": 389
+    },
+    {
+      "name": "td_find sin acotar (/, recursive, limit=100) -> completed en 302ms",
+      "ok": true,
+      "detail": {
+        "status": "completed",
+        "ms": 302,
+        "count": 32118,
+        "truncated": true,
+        "error": null
+      },
+      "ms": 302
+    },
+    {
+      "name": "TD sigue respondiendo después de la barrida",
+      "ok": true,
+      "detail": {
+        "build_ok": true
+      },
+      "ms": 20
+    },
+    {
+      "name": "log de cliente escrito en archivo y con last_ok",
+      "ok": true,
+      "detail": {
+        "log": "C:\\Users\\Tolch\\AppData\\Local\\Temp\\tdmcp-client.log",
+        "lines": 224,
+        "last_ok": "2026-09-24T08:09:16.928Z",
+        "stats": {
+          "total": 18,
+          "ok": 6,
+          "failed": 12,
+          "byKind": {
+            "bridge_unreachable": 12
+          },
+          "last_ok_call": "2026-09-24T08:09:16.928Z"
+        }
+      },
+      "ms": 0
+    }
+  ],
+  "healthchain_ok_case": {
+    "verdict": "OK",
+    "summary": "Cadena completa operativa (bridge, lectura, cocción) y el proyecto tiene 31 error(es)/warning(s) en '/' — ver warnings.",
+    "checks": [
+      {
+        "name": "bridge_info",
+        "ok": true,
+        "ms": 58,
+        "detail": {
+          "build": "2025.32460",
+          "product": "TouchDesigner",
+          "platform": "Windows",
+          "runtime": {
+            "cooking": null,
+            "cooking_source": null,
+            "cooking_allowed": true,
+            "timeline_play": true,
+            "target_fps": 60,
+            "pid": 12712
+          }
+        }
+      },
+      {
+        "name": "operators_read",
+        "ok": true,
+        "ms": 27,
+        "detail": {
+          "path": "/",
+          "count": 6
+        }
+      },
+      {
+        "name": "network_errors",
+        "ok": true,
+        "ms": 758,
+        "detail": {
+          "issueCount": 31
+        }
+      },
+      {
+        "name": "performance",
+        "ok": true,
+        "ms": 268,
+        "detail": {
+          "fps": null,
+          "cookTime": null
+        }
+      }
+    ],
+    "runtime": {
+      "cooking": null,
+      "cooking_source": null,
+      "cooking_allowed": true,
+      "timeline_play": true,
+      "target_fps": 60,
+      "pid": 12712
+    },
+    "evidence": {
+      "last_ok_call": "2026-09-24T08:09:16.213Z",
+      "recent_calls": [
+        {
+          "ts": "2026-09-24T08:09:15.161Z",
+          "target": "/info",
+          "method": "GET",
+          "ok": true,
+          "ms": 56,
+          "attempt": 1,
+          "transport": "http"
+        },
+        {
+          "ts": "2026-09-24T08:09:15.188Z",
+          "target": "/operators",
+          "method": "GET",
+          "ok": true,
+          "ms": 26,
+          "attempt": 1,
+          "transport": "http"
+        },
+        {
+          "ts": "2026-09-24T08:09:15.946Z",
+          "target": "/healthcheck",
+          "method": "GET",
+          "ok": true,
+          "ms": 757,
+          "attempt": 1,
+          "transport": "http"
+        },
+        {
+          "ts": "2026-09-24T08:09:16.213Z",
+          "target": "/exec",
+          "method": "POST",
+          "ok": true,
+          "ms": 266,
+          "attempt": 1,
+          "transport": "http"
+        }
+      ],
+      "call_stats": {
+        "total": 4,
+        "ok": 4,
+        "failed": 0,
+        "byKind": {},
+        "last_ok_call": "2026-09-24T08:09:16.213Z"
+      },
+      "client_log": "C:\\Users\\Tolch\\AppData\\Local\\Temp\\tdmcp-client.log"
+    },
+    "hint": "La cadena está OK: los avisos son del proyecto, no del MCP. Se ven con td_get_errors.",
+    "warnings": [
+      "31 error(es)/warning(s) en la red bajo '/' (no afecta la cadena: TD responde y cocina). Detalle con td_get_errors."
+    ],
+    "transport": null
+  },
+  "healthchain_down_case": {
+    "verdict": "DOWN",
+    "summary": "El bridge de TD no responde: no se puede operar el proyecto. Los reintentos ya se agotaron (ver `evidence.recent_calls`).",
+    "checks": [
+      {
+        "name": "bridge_info",
+        "ok": false,
+        "ms": 97,
+        "error": "fetch failed connect ECONNREFUSED 127.0.0.1:44999 [bridge=127.0.0.1:44999 kind=bridge_unreachable attempts=3 last_ok=2026-09-24T08:09:16.213Z]"
+      },
+      {
+        "name": "operators_read",
+        "ok": false,
+        "ms": 98,
+        "error": "fetch failed connect ECONNREFUSED 127.0.0.1:44999 [bridge=127.0.0.1:44999 kind=bridge_unreachable attempts=3 last_ok=2026-09-24T08:09:16.213Z]"
+      },
+      {
+        "name": "network_errors",
+        "ok": false,
+        "ms": 109,
+        "error": "fetch failed connect ECONNREFUSED 127.0.0.1:44999 [bridge=127.0.0.1:44999 kind=bridge_unreachable attempts=3 last_ok=2026-09-24T08:09:16.213Z]"
+      },
+      {
+        "name": "performance",
+        "ok": false,
+        "ms": 85,
+        "error": "fetch failed connect ECONNREFUSED 127.0.0.1:44999 [bridge=127.0.0.1:44999 kind=bridge_unreachable attempts=3 last_ok=2026-09-24T08:09:16.213Z]"
+      }
+    ],
+    "runtime": null,
+    "evidence": {
+      "last_ok_call": "2026-09-24T08:09:16.213Z",
+      "recent_calls": [
+        {
+          "ts": "2026-09-24T08:09:16.354Z",
+          "target": "/operators",
+          "method": "GET",
+          "ok": false,
+          "ms": 9,
+          "attempt": 2,
+          "transport": "http",
+          "kind": "bridge_unreachable",
+          "error": "fetch failed connect ECONNREFUSED 127.0.0.1:44999"
+        },
+        {
+          "ts": "2026-09-24T08:09:16.406Z",
+          "target": "/operators",
+          "method": "GET",
+          "ok": false,
+          "ms": 5,
+          "attempt": 3,
+          "transport": "http",
+          "kind": "bridge_unreachable",
+          "error": "fetch failed connect ECONNREFUSED 127.0.0.1:44999"
+        },
+        {
+          "ts": "2026-09-24T08:09:16.427Z",
+          "target": "/healthcheck",
+          "method": "GET",
+          "ok": false,
+          "ms": 15,
+          "attempt": 1,
+          "transport": "http",
+          "kind": "bridge_unreachable",
+          "error": "fetch failed connect ECONNREFUSED 127.0.0.1:44999"
+        },
+        {
+          "ts": "2026-09-24T08:09:16.458Z",
+          "target": "/healthcheck",
+          "method": "GET",
+          "ok": false,
+          "ms": 7,
+          "attempt": 2,
+          "transport": "http",
+          "kind": "bridge_unreachable",
+          "error": "fetch failed connect ECONNREFUSED 127.0.0.1:44999"
+        },
+        {
+          "ts": "2026-09-24T08:09:16.508Z",
+          "target": "/healthcheck",
+          "method": "GET",
+          "ok": false,
+          "ms": 8,
+          "attempt": 3,
+          "transport": "http",
+          "kind": "bridge_unreachable",
+          "error": "fetch failed connect ECONNREFUSED 127.0.0.1:44999"
+        },
+        {
+          "ts": "2026-09-24T08:09:16.527Z",
+          "target": "/exec",
+          "method": "POST",
+          "ok": false,
+          "ms": 6,
+          "attempt": 1,
+          "transport": "http",
+          "kind": "bridge_unreachable",
+          "error": "fetch failed connect ECONNREFUSED 127.0.0.1:44999"
+        },
+        {
+          "ts": "2026-09-24T08:09:16.557Z",
+          "target": "/exec",
+          "method": "POST",
+          "ok": false,
+          "ms": 8,
+          "attempt": 2,
+          "transport": "http",
+          "kind": "bridge_unreachable",
+          "error": "fetch failed connect ECONNREFUSED 127.0.0.1:44999"
+        },
+        {
+          "ts": "2026-09-24T08:09:16.604Z",
+          "target": "/exec",
+          "method": "POST",
+          "ok": false,
+          "ms": 6,
+          "attempt": 3,
+          "transport": "http",
+          "kind": "bridge_unreachable",
+          "error": "fetch failed connect ECONNREFUSED 127.0.0.1:44999"
+        }
+      ],
+      "call_stats": {
+        "total": 16,
+        "ok": 4,
+        "failed": 12,
+        "byKind": {
+          "bridge_unreachable": 12
+        },
+        "last_ok_call": "2026-09-24T08:09:16.213Z"
+      },
+      "client_log": "C:\\Users\\Tolch\\AppData\\Local\\Temp\\tdmcp-client.log"
+    },
+    "hint": "El bridge de TD no está escuchando. Verificá que TD esté abierto, que el componente del API esté cargado y que el puerto sea el correcto (Settings → MCP). Si acabás de abrir TD, reintentá en unos segundos.",
+    "warnings": [],
+    "transport": {
+      "kind": "bridge_unreachable",
+      "bridge": "127.0.0.1:44999",
+      "attempts": 3,
+      "hint": "El bridge de TD no está escuchando. Verificá que TD esté abierto, que el componente del API esté cargado y que el puerto sea el correcto (Settings → MCP). Si acabás de abrir TD, reintentá en unos segundos."
+    }
+  },
+  "find_unscoped": {
+    "status": "completed",
+    "ms": 302,
+    "count": 32118,
+    "truncated": true,
+    "error": null
+  },
+  "client_evidence": {
+    "log_path": "C:\\Users\\Tolch\\AppData\\Local\\Temp\\tdmcp-client.log",
+    "log_file_exists": true,
+    "log_lines": 224,
+    "last_ok_call": "2026-09-24T08:09:16.928Z",
+    "stats": {
+      "total": 18,
+      "ok": 6,
+      "failed": 12,
+      "byKind": {
+        "bridge_unreachable": 12
+      },
+      "last_ok_call": "2026-09-24T08:09:16.928Z"
+    },
+    "recent": [
+      {
+        "ts": "2026-09-24T08:09:16.557Z",
+        "target": "/exec",
+        "method": "POST",
+        "ok": false,
+        "ms": 8,
+        "attempt": 2,
+        "transport": "http",
+        "kind": "bridge_unreachable",
+        "error": "fetch failed connect ECONNREFUSED 127.0.0.1:44999"
+      },
+      {
+        "ts": "2026-09-24T08:09:16.604Z",
+        "target": "/exec",
+        "method": "POST",
+        "ok": false,
+        "ms": 6,
+        "attempt": 3,
+        "transport": "http",
+        "kind": "bridge_unreachable",
+        "error": "fetch failed connect ECONNREFUSED 127.0.0.1:44999"
+      },
+      {
+        "ts": "2026-09-24T08:09:16.907Z",
+        "target": "/find",
+        "method": "GET",
+        "ok": true,
+        "ms": 301,
+        "attempt": 1,
+        "transport": "http"
+      },
+      {
+        "ts": "2026-09-24T08:09:16.928Z",
+        "target": "/info",
+        "method": "GET",
+        "ok": true,
+        "ms": 19,
+        "attempt": 1,
+        "transport": "http"
+      }
+    ]
+  },
+  "finished_at": "2026-09-24T08:09:16.956Z",
+  "all_ok": true
+}
