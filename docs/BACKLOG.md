@@ -236,3 +236,17 @@ con 04, 05 y 06).
 - [ ] 58. Familias EN VIVO de la suite de comprensión: render no degenerado (muestreo de píxeles) y escala/presupuesto, como scripts con evidencia. Brief `58_comprension_live.txt`.
 - [ ] 59. `td_measure` en el tiempo (over_time) + que el planner mida antes de fijar escalares. Brief `59_measure_en_el_tiempo.txt`.
 - [ ] 60. Destilado de recetas con GOTCHA VERIFICADOS (marca de verificado o se borran). Brief `60_recetas_gotchas.txt`.
+
+## Tareas programadas para Freebuff — derivadas del Discord de TWOZERO (24/09/26)
+
+Cada brief trae su cita textual del Discord y **aceptación con el juez externo (jev)**: el gate corre
+`jev_audit_diff.py` y exige `trabajo_real`, `debilita < 0.2` y `corresponde_al_brief >= 0.5`. Se
+procesan de a uno por sesión (el ciclo diario manda el primero de la cola); la cola completa es
+56→65 y cada uno publica por el gate.
+
+- [ ] 61. `td_verify_change` — el "cambiá y mirá" con confirmación real (Discord: "ajustar un parámetro son 4-5 screenshots"; hoy el MCP setea y no verifica). Brief: `61_verify_change.txt`. Aceptación con JUEZ.
+- [ ] 62. Catálogo de ruido benigno del bridge + `benign` en el envelope (Discord: el `AttributeError` inofensivo del textport asustó a usuarios que reinstalaron; el mantenedor tuvo que aclarar que no era un bug). Brief: `62_ruido_benigno.txt`. Aceptación con JUEZ.
+- [ ] 63. Capturas por viewer con presupuesto de bytes/cantidad y prohibición explícita del screenshot de escritorio (Discord: "capturas del viewer del operador, no del escritorio… consume muchos menos tokens"). Brief: `63_capturas_presupuesto.txt`. Aceptación con JUEZ.
+- [ ] 64. Instalación/desinstalación limpias, reversibles y auditables (Discord: el `ui.tox` en `Config/System` rompió la UI de TODOS los proyectos de 3 usuarios). Brief: `64_instalacion_reversible.txt`. Aceptación con JUEZ.
+- [ ] 65. Errores que le hablan al HUMANO: `hint_humano` + doc, y fin de los fallbacks silenciosos (Discord: 6 usuarios con el botón de instalar que "no hacía nada, sin errores"). Brief: `65_errores_para_humanos.txt`. Aceptación con JUEZ.
+

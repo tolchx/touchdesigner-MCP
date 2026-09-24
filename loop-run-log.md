@@ -18,3 +18,17 @@ Formato: `fecha | loop | nivel | que encontro | que hizo | resultado | evidencia
 - 2026-09-24 | promocion | L1 | prueba del promovendor con candidato sintético | item 54 + brief escrito y luego revertido (prueba) | OK: camino accionable y camino 'decisión humana' (exit 5) verificados | loop-candidates.json
 - 2026-09-24 | enganche | — | FASE 1.5 agregada al ciclo diario (triage → promote → reconcile) | prompt del cron 4fc977b6a811 de 11629 a 13733 chars, verificado tras 20s | cron/jobs.json
 - 2026-09-24T08:50:08+00:00 | gate | — | commit sobre 3 archivo(s) | ALLOW | gate.yaml
+- 2026-09-24T08:56:16+00:00 | gate | — | commit sobre 6 archivo(s) | BLOCK: las suites no están verdes (ver detalle) | gate.yaml
+- 2026-09-24T08:56:44+00:00 | gate | — | commit sobre 6 archivo(s) | ALLOW | gate.yaml
+- 2026-09-24T08:57:32+00:00 | gate | — | commit sobre 3 archivo(s) | ALLOW | gate.yaml
+- 2026-09-24T18:33:47+00:00 | gate | — | commit sobre 2 archivo(s) | ALLOW | gate.yaml
+
+## 2026-09-24 16:28 — testeos en vivo con TD abierto (manual)
+- cadena `twozero_chain_live.mjs`: ALL_OK (veredicto OK, 4/4 checks)
+- http `twozero_http_live.py`: **flake medido** — 1ra pasada ALL_OK=False (bridge recién despierto, corrida inmediatamente después de otros dos scripts), 2da pasada ALL_OK=True (5/5). Hipótesis: primer cook del WebServer DAT. NO se parcheó nada: primero hay que caracterizar QUÉ check falla con el bridge frío (el script no persiste la evidencia de la pasada fallida porque la reescribe la pasada buena → ese es el arreglo real: no sobrescribir evidencia en rojo).
+- measure `twozero_measure_live.mjs`: ALL_OK (cross-check vs TD dentro de tolerancia)
+- brief 55 enviado a Freebuff (25 Freebuffs, hora nueva activa) → a `sent/`
+
+- 2026-09-24T19:31:20+00:00 | gate | — | commit sobre 4 archivo(s) | ALLOW | gate.yaml
+- 2026-09-24T19:31:48+00:00 | gate | — | commit sobre 2 archivo(s) | ALLOW | gate.yaml
+- 2026-09-24T19:32:31+00:00 | gate | — | commit sobre 3 archivo(s) | ALLOW | gate.yaml

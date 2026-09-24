@@ -162,6 +162,49 @@ def append_runlog(texto: str) -> None:
 # Gate
 # ---------------------------------------------------------------------------
 
+
+# ---------------------------------------------------------------------------
+# Juez externo (jev) — presente en el proceso, sin volverse dependencia
+# ---------------------------------------------------------------------------
+
+JUDGE = os.path.join(os.environ.get("LOCALAPPDATA", ""), "hermes", "scripts", "jev_audit_diff.py")
+
+
+def run_judge(brief: str | None) -> tuple[bool, dict, str]:
+    """Corre el juez externo sobre el árbol. Devuelve (permite, veredicto, motivo).
+
+    Regla de Tolch (advisory, no dependencia): si el juez NO está disponible
+    (sin saldo, sin red, script ausente) el loop SIGUE, avisando. Lo que sí
+    frena es un veredicto NEGATIVO: naturaleza que no sea trabajo real, o
+    debilita alta. El detalle queda en loop-ledger.json.
+    """
+    if not os.path.isfile(JUDGE):
+        return True, {"estado": "no_disponible"}, "juez no encontrado: se sigue (advisory)"
+    cmd = ["python", JUDGE, "--repo", str(ROOT), "--json"]
+    if brief:
+        cmd += ["--brief", brief]
+    try:
+        r = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8",
+                           errors="replace", timeout=900)
+        v = json.loads((r.stdout or "").strip() or "{}")
+    except Exception as e:  # timeout, JSON roto, lo que sea
+        return True, {"estado": "error", "detalle": str(e)[:200]}, f"juez no concluyó ({e}): se sigue (advisory)"
+
+    naturaleza = str(v.get("naturaleza") or "").lower()
+    debilita = float(v.get("debilita") or 0.0)
+    corresponde = v.get("corresponde_al_brief")
+
+    motivos = []
+    if "no_" in naturaleza or naturaleza in ("", "ruido") or "evidencia" in naturaleza:
+        motivos.append(f"la naturaleza juzgada no es trabajo real ('{naturaleza}')")
+    if debilita >= 0.6:
+        motivos.append(f"debilita {debilita} (>= 0.6): el diff empeora el repo")
+    if corresponde is not None and float(corresponde) < 0.2:
+        motivos.append(f"corresponde_al_brief {corresponde} (< 0.2): no parece ser la tarea pedida")
+    permite = not motivos
+    return permite, v, ("; ".join(motivos) if motivos else f"veredicto {v.get('veredicto')} · {naturaleza} · debilita {debilita}")
+
+
 def run_tests() -> tuple[bool, dict]:
     """Suites verdes antes de dejar pasar un commit. Devuelve (ok, detalle)."""
     res: dict = {}
@@ -197,6 +240,12 @@ def main() -> int:
     ap.add_argument("--action", choices=["commit", "auto-merge"], default="commit")
     ap.add_argument("--paths", nargs="*", default=None)
     ap.add_argument("--no-tests", action="store_true")
+    ap.add_argument("--judge", dest="judge", action="store_true", default=True,
+                    help="corre el juez externo (jev) sobre el arbol; por defecto ON")
+    ap.add_argument("--no-judge", dest="judge", action="store_false",
+                    help="saltea el juez externo (queda registrado en el ledger)")
+    ap.add_argument("--brief-file", metavar="ARCHIVO", default=None,
+                    help="brief enviado, para que el juez evalue el alcance")
     ap.add_argument("--attempt", metavar="ITEM", help="registrar un intento del item")
     ap.add_argument("--max-attempts", type=int, default=3)
     ap.add_argument("--status", action="store_true", help="intentos por item")
@@ -246,6 +295,17 @@ def main() -> int:
     if lineas > max_lines:
         motivos.append(f"{lineas} líneas agregadas > maxLines={max_lines}")
 
+    if not motivos and args.judge:
+        permite, v, motivo = run_judge(args.brief_file)
+        judge_info = {"veredicto": v.get("veredicto"), "naturaleza": v.get("naturaleza"),
+                      "debilita": v.get("debilita"), "corresponde_al_brief": v.get("corresponde_al_brief"),
+                      "costo_usd": v.get("costo_usd"), "motivo": motivo}
+        print(("  \u2714 juez externo (jev): " if permite else "  \u2716 juez externo (jev): BLOQUEA — ") + motivo)
+        if not permite:
+            motivos.append(f"juez externo (jev): {motivo}")
+    else:
+        judge_info = {"estado": "salteado" if args.judge else "apagado"}
+
     tests_info = None
     if not motivos and gate.get("requireGreenTests", True) and not args.no_tests:
         ok, tests_info = run_tests()
@@ -253,7 +313,7 @@ def main() -> int:
             motivos.append("las suites no están verdes (ver detalle)")
 
     veredicto = "BLOCK" if motivos else "ALLOW"
-    resumen = {"veredicto": veredicto, "accion": args.action, "archivos": len(paths),
+    resumen = {"veredicto": veredicto, "accion": args.action, "judge": judge_info, "archivos": len(paths),
                "lineas_agregadas": lineas, "motivos": motivos, "tests": tests_info, "paths": paths[:20]}
     if args.json:
         print(json.dumps(resumen, indent=2, ensure_ascii=False))
