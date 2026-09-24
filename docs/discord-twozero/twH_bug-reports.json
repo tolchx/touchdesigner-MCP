@@ -1,0 +1,350 @@
+{
+ "channel": "1491411026967658607",
+ "name": "bug-reports",
+ "count": 49,
+ "messages": [
+  {
+   "id": "1503469166840119327",
+   "author": "giorgio",
+   "ts": "2026-05-11T18:49:42.481Z",
+   "reply_to": "",
+   "text": "Heyo - I cannot manage to sign in with the 6 digit code.  tried in the browser, tried directly in TD, neither one works.  The browser says invalid code and in TD is shows a lil \"logged out\" text"
+  },
+  {
+   "id": "1503485987681210590",
+   "author": "oldcut",
+   "ts": "2026-05-11T19:56:32.882Z",
+   "reply_to": "@giorgio | Heyo - I cannot manage to sign in with the 6 digit code.  tried in the browser, tried directly in TD, neither one works.  The browser says invalid code and in TD is show",
+   "text": "+1"
+  },
+  {
+   "id": "1503491135958683729",
+   "author": "giorgio",
+   "ts": "2026-05-11T20:17:00.327Z",
+   "reply_to": "@oldcut | +1",
+   "text": "I got a response on IG, I’ll report back here if it gets sorted out"
+  },
+  {
+   "id": "1503501858264580236",
+   "author": "twozero-ai",
+   "ts": "2026-05-11T20:59:36.724Z",
+   "reply_to": "@giorgio | Heyo - I cannot manage to sign in with the 6 digit code.  tried in the browser, tried directly in TD, neither one works.  The browser says invalid code and in TD is show",
+   "text": "Thanks for the report, sorry you hit this. Looks like a DB issue on our backend. We're on it now and we'll post here as soon as sign-in is back."
+  },
+  {
+   "id": "1503504763491450892",
+   "author": "giorgio",
+   "ts": "2026-05-11T21:11:09.384Z",
+   "reply_to": "",
+   "text": "i got it to work just now so maybe you fixed it already, or it was just a coincidence"
+  },
+  {
+   "id": "1506412918084735138",
+   "author": "ABRAN",
+   "ts": "2026-05-19T21:47:07.470Z",
+   "reply_to": "",
+   "text": "hi there ! Install button in the popup does nothing, no textport output, no errors, macOS, 2025.32820, full disk granted (editado)\nmartes, 19 de mayo de 2026, 19:20"
+  },
+  {
+   "id": "1506924209584996393",
+   "author": "Barbosa",
+   "ts": "2026-05-19T22:20:09.849Z",
+   "reply_to": "@ABRAN | hi there ! Install button in the popup does nothing, no textport output, no errors, macOS, 2025.32820, full disk granted (editado) | martes, 19 de mayo de 2026, 19:20",
+   "text": "+1 this happens with me on windows 11"
+  },
+  {
+   "id": "1506927889332043847",
+   "author": "Barbosa",
+   "ts": "2026-05-21T07:53:26.183Z",
+   "reply_to": "",
+   "text": "TD version (2025.32820) ( running in admin mode )\nWindows 11\n\"INSTALL TWOZERO button: hover changes cursor, click does nothing, Textport empty, Errors dialog empty\""
+  },
+  {
+   "id": "1507067897875402852",
+   "author": "Stonys",
+   "ts": "2026-05-21T17:09:46.821Z",
+   "reply_to": "",
+   "text": "Hey, Same here. Nothing happens when i click install."
+  },
+  {
+   "id": "1507131782888292412",
+   "author": "Barbosa",
+   "ts": "2026-05-21T21:23:38.195Z",
+   "reply_to": "",
+   "text": "I did install on mac, and working wonderfully, but windows ( I hate windows but then nvidia h100  :/ ) nothing"
+  },
+  {
+   "id": "1507149573095948430",
+   "author": "Samu",
+   "ts": "2026-05-21T22:34:19.711Z",
+   "reply_to": "@Barbosa | TD version (2025.32820) ( running in admin mode ) Windows 11 \"INSTALL TWOZERO button: hover changes cursor, click does nothing, Textport empty, Errors dialog empty\"",
+   "text": "same for me but also on mac :/\nany idea?"
+  },
+  {
+   "id": "1507151202591314071",
+   "author": "Jim",
+   "ts": "2026-05-19T22:20:09.849Z",
+   "reply_to": "@ABRAN | hi there ! Install button in the popup does nothing, no textport output, no errors, macOS, 2025.32820, full disk granted (editado) | martes, 19 de mayo de 2026, 19:20",
+   "text": "same"
+  },
+  {
+   "id": "1507288793693163530",
+   "author": "hyperphonic",
+   "ts": "2026-05-22T07:47:32.488Z",
+   "reply_to": "@Barbosa | TD version (2025.32820) ( running in admin mode ) Windows 11 \"INSTALL TWOZERO button: hover changes cursor, click does nothing, Textport empty, Errors dialog empty\"",
+   "text": "I'm experiencing the same bug on macOS. Latest twozero.tox and TouchDesigner.2025.32820 on macOS. Full Disk access granted before launching Touchdesigner and dragging in twozero.tox. Clicking \"INSTALL TWOZERO\" does nothing."
+  },
+  {
+   "id": "1507315383047163974",
+   "author": "Barbosa",
+   "ts": "2026-05-22T09:33:11.884Z",
+   "reply_to": "",
+   "text": "[ MAC ] I did install the tox before upgrading the TD , maybe this helps"
+  },
+  {
+   "id": "1507422094609350778",
+   "author": "404.zero",
+   "ts": "2026-05-22T16:37:13.903Z",
+   "reply_to": "",
+   "text": "Investigating…"
+  },
+  {
+   "id": "1507424493251854377",
+   "author": "404.zero",
+   "ts": "2026-05-22T16:46:45.784Z",
+   "reply_to": "",
+   "text": "V3.044 fixed"
+  },
+  {
+   "id": "1507430277905907832",
+   "author": "Barbosa",
+   "ts": "2026-05-22T17:09:44.953Z",
+   "reply_to": "",
+   "text": "confirm, it works, thank you"
+  },
+  {
+   "id": "1514931968855380090",
+   "author": "CodeNoctis",
+   "ts": "2026-06-12T09:58:47.450Z",
+   "reply_to": "",
+   "text": "Im still having issue in all TD releases with old T3D 1_12_7 on launch of any project including blank template.. in editors right corner there is T3D icon, but empty - not working and also all OPS from OP create dialog dissapears.. at this point I have to drag n drop t3d 1_12_7 tox everytime I open any project. I tried new T3D 1_13_1 but the old 1_12_7 with missing OP create dialog still getting back on relaunch - Josef Peltz Said its probably because of twozero - any idea how to fix it? twozero v3.050 (editado)\nviernes, 12 de junio de 2026, 7:02"
+  },
+  {
+   "id": "1514936082804899982",
+   "author": "CodeNoctis",
+   "ts": "2026-06-12T10:15:08.292Z",
+   "reply_to": "",
+   "text": "fixed - after manually reinstall and remove old T3D, go to the top most level of your project, right click on the node editor background and select display-> expose hidden OPs - than save somewhere new ui.toox and than replace it in Program Files\\Derivative\\TouchDesigner.2025.32820\\Config\\System"
+  },
+  {
+   "id": "1517684098376663110",
+   "author": "404.zero",
+   "ts": "2026-06-12T10:02:21.603Z",
+   "reply_to": "@CodeNoctis | Im still having issue in all TD releases with old T3D 1_12_7 on launch of any project including blank template.. in editors right corner there is T3D icon, but empty ",
+   "text": "Will be fixed in upcoming update"
+  },
+  {
+   "id": "1520515129081462845",
+   "author": "Robnouss",
+   "ts": "2026-06-27T19:44:16.578Z",
+   "reply_to": "",
+   "text": "Hi, I'm having an issue with the twozero plugin crashing TouchDesigner silently on my machine. Here's everything I've tested:\nSetup:\n\nTouchDesigner 2025.32820\nRTX 5070 \nNVIDIA Driver 610.62 (tested both Game Ready and Studio)\nWindows 11\n\nBehavior:\n\nWith twozero installed → TD closes silently after a few minutes, no error message, no crash report, no Windows event log entry\nWithout twozero → TD runs completely stable for extended periods\nTested with heavy projects and empty sessions, same result\nThe same plugin works perfectly on my other machine with RTX 3070 \n\nTroubleshooting done:\n\nReinstalled TD multiple times\nCleared all TD preferences and local data\nTested Game Ready and Studio drivers\nChecked Windows Event Viewer — no crash entries\nChecked TD crash reports folder — doesn't exist (TD leaves no trace)"
+  },
+  {
+   "id": "1520761353919402045",
+   "author": "404.zero",
+   "ts": "2026-06-28T12:02:41.154Z",
+   "reply_to": "@Robnouss | Hi, I'm having an issue with the twozero plugin crashing TouchDesigner silently on my machine. Here's everything I've tested: Setup:  TouchDesigner 2025.32820 RTX 5070 ",
+   "text": "Investigating…"
+  },
+  {
+   "id": "1520984618323415151",
+   "author": "404.zero",
+   "ts": "2026-06-29T02:49:51.536Z",
+   "reply_to": "@Robnouss | Hi, I'm having an issue with the twozero plugin crashing TouchDesigner silently on my machine. Here's everything I've tested: Setup:  TouchDesigner 2025.32820 RTX 5070 ",
+   "text": "Could you try this one. Also try install by doublclik on tox (not drag and drop to project)."
+  },
+  {
+   "id": "1521091097026236576",
+   "author": "Robnouss",
+   "ts": "2026-06-29T09:52:58.037Z",
+   "reply_to": "@404.zero | Could you try this one. Also try install by doublclik on tox (not drag and drop to project).",
+   "text": "Cool, it’s working fine now. I tested it for a while, and everything seems to be working. Thanks."
+  },
+  {
+   "id": "1523885497691275264",
+   "author": "partario",
+   "ts": "2026-07-07T02:56:55.073Z",
+   "reply_to": "",
+   "text": "Jsut a bug report - every time I hit ctrl+z, the login page pops up."
+  },
+  {
+   "id": "1524089438068674733",
+   "author": "javierm4",
+   "ts": "2026-07-07T16:27:18.248Z",
+   "reply_to": "",
+   "text": "Thanks for that installer, I joined the discord because I was facing the same issue of recurring shutdowns in TD, not crashes."
+  },
+  {
+   "id": "1524357041160982559",
+   "author": "404.zero",
+   "ts": "2026-07-08T10:10:39.797Z",
+   "reply_to": "@partario | Jsut a bug report - every time I hit ctrl+z, the login page pops up.",
+   "text": "Should be fix in current update. If not - check settings-hotkeys-zops-clear hotkey (hit backspace, enter)"
+  },
+  {
+   "id": "1524357398632857660",
+   "author": "404.zero",
+   "ts": "2026-07-08T10:12:05.025Z",
+   "reply_to": "@javierm4 | Thanks for that installer, I joined the discord because I was facing the same issue of recurring shutdowns in TD, not crashes.",
+   "text": "Try latest installer by double clicking on tox (not drag and drop to project)"
+  },
+  {
+   "id": "1524592228956246099",
+   "author": "javierm4",
+   "ts": "2026-07-09T01:45:12.937Z",
+   "reply_to": "",
+   "text": "Worked great, thanks!"
+  },
+  {
+   "id": "1527266238680797336",
+   "author": "LumaLux",
+   "ts": "2026-07-16T10:50:46.536Z",
+   "reply_to": "",
+   "text": "hey there I am having the same issues. \n\nDropping the twozero tox into a running TD session works perfectly (live inject — plugin, MCP, everything functional). But the install step also writes a patched ui.tox into Config/System/ inside the TD program install. On the next TD launch, that persisted patch causes TD to exit silently. Reverting ui.tox to TD's stock version fixes it every time, with 100% reproducibility across 3+ cycles and 4 different machines. \n\nfor now my way around is having Windows UAC notification thing on level 3 and clicking \"no\" when the installer throws the consent prompt becuause it wants to write in a protected location.  official bug report was made 2 days ago via native td_submit_report tool.\n\nIf double clicking the installer is the actual solution for now, I would recommend updating the installation doc page. I had a hard time finding the issue and see a high possibility of newer touch users having no clue at all what is going on"
+  },
+  {
+   "id": "1527368553022357666",
+   "author": "404.zero",
+   "ts": "2026-07-16T17:37:20.176Z",
+   "reply_to": "@LumaLux | hey there I am having the same issues.   Dropping the twozero tox into a running TD session works perfectly (live inject — plugin, MCP, everything functional). But the i",
+   "text": "Hi,\nIs it repro with a latest 3.244?"
+  },
+  {
+   "id": "1527380121177030789",
+   "author": "LumaLux",
+   "ts": "2026-07-16T18:23:18.239Z",
+   "reply_to": "",
+   "text": "just tested it a few min ago. looks good "
+  },
+  {
+   "id": "1527380187157893131",
+   "author": "LumaLux",
+   "ts": "2026-07-16T18:23:33.970Z",
+   "reply_to": "",
+   "text": "didnt test tox dropping tho"
+  },
+  {
+   "id": "1531024688170401962",
+   "author": "meyg",
+   "ts": "2026-07-26T19:45:30.723Z",
+   "reply_to": "",
+   "text": "Hi, I´m having issues with the Claude connection. Claude wrote the following error report for me:\n\nError (Textport, on every fresh install):\n\n[loader] loaded /ui/dialogs/bookmark_bar/twozero\nTraceback (most recent call last):\n  File \"</ui/dialogs/bookmark_bar/pisang/uiHygiene>\", line \"op('/ui/dialogs/bookmark_bar/twozero/uiHygiene').module.kill_pending_quit()\"\nAttributeError: 'NoneType' object has no attribute 'module'\nCause: Installed component is named pisang internally, but uiHygiene hardcodes a self-reference to .../bookmark_bar/twozero/uiHygiene → resolves to None → crash.\n\nConsequence: MCP server never binds to port 40404, despite correct settings (Auto start: Yes, port 40404). In-UI \"Uninstall\" button unresponsive (likely routed through the same broken reference). 100% reproducible across multiple clean reinstalls.\n Onboarding screen shows Claude Code as \"✓ CONNECTED\" even though nothing listens on port 40404 — likely only detects the client-side config entry in ~/.claude.json, not a real handshake."
+  },
+  {
+   "id": "1531726294176366763",
+   "author": "rosco",
+   "ts": "2026-07-28T18:13:26.630Z",
+   "reply_to": "",
+   "text": "I'm getting the same thing, fresh install attempt\n\n[loader] loaded /ui/dialogs/bookmark_bar/twozero\nTraceback (most recent call last):\n  File \"</ui/dialogs/bookmark_bar/pisang/uiHygiene>\", line \"op('/ui/dialogs/bookmark_bar/twozero/uiHygiene').module.kill_pending_quit()\"\nAttributeError: 'NoneType' object has no attribute 'module'\n (editado)\nmartes, 28 de julio de 2026, 15:13"
+  },
+  {
+   "id": "1531727209214251130",
+   "author": "rosco",
+   "ts": "2026-07-28T18:17:04.792Z",
+   "reply_to": "",
+   "text": "also not really sure how I did it but I managed to offset the UI lists somehow...  was just kinda poking around a bit"
+  },
+  {
+   "id": "1531727464785514646",
+   "author": "rosco",
+   "ts": "2026-07-28T18:18:05.725Z",
+   "reply_to": "",
+   "text": "I am clicking the robot icon to try and launch the MCP server but no textport output is generated, it just silently fails"
+  },
+  {
+   "id": "1531737272435609680",
+   "author": "404.zero",
+   "ts": "2026-07-28T18:57:04.051Z",
+   "reply_to": "@rosco |  [A\\],  | Etiqueta de servidor: A\\ | A\\ | I am clicking the robot icon to try and launch the MCP server but no textport output is generated, it just silently fails",
+   "text": "Which td and twozero versions?"
+  },
+  {
+   "id": "1531742562371502100",
+   "author": "rosco",
+   "ts": "2026-07-28T19:18:05.270Z",
+   "reply_to": "@404.zero | Which td and twozero versions?",
+   "text": "latest of each\n2025.33070 / 3.252"
+  },
+  {
+   "id": "1531742609863868707",
+   "author": "rosco",
+   "ts": "2026-07-28T19:18:16.593Z",
+   "reply_to": "",
+   "text": "do you have logs generated anywhere?"
+  },
+  {
+   "id": "1532171509156810752",
+   "author": "404.zero",
+   "ts": "2026-07-29T23:42:34.153Z",
+   "reply_to": "",
+   "text": "---\n\nHey — thanks for the report. We reproduced that textport error and have a fix coming, but it's not what's blocking your connection — it's a harmless leftover check, unrelated to the MCP server.\n\nThe connection issue is most likely just timing: Claude connects to the server only once, when the chat starts, and doesn't retry. This is standard Claude behavior — if the chat is opened before the MCP server is up (e.g. TD / port 40404 not fully loaded yet), that session stays disconnected the whole time, even if onboarding shows \"✓ CONNECTED\" (that only checks your config, not a live connection).\n\nTwo things to try:\n\nWith TD fully loaded, open a brand-new chat and ask if the twozero_td tools are there.\n,\nIn a terminal: curl http://localhost:40404/ — JSON back = server's fine, just timing. Connection refused = server didn't start, tell us and we'll dig in.\n,"
+  },
+  {
+   "id": "1537101642649047091",
+   "author": "meyg",
+   "ts": "2026-08-12T14:13:09.575Z",
+   "reply_to": "",
+   "text": "Still doesnt work for me. When I paste the second command i get the following: curl: (7) Failed to connect to localhost:40404 after 2250 ms: Could not connect to server"
+  },
+  {
+   "id": "1545430552763437078",
+   "author": "nin",
+   "ts": "2026-09-04T13:49:16.490Z",
+   "reply_to": "",
+   "text": "version 3.314 - td 2025.33070(mac and win)\n1.MCP logo bugged ( Keep doing the animation thing ), And it does not gray out even it is turned off. \n2.will randomly lagging after I update to this version"
+  },
+  {
+   "id": "1546624536638918667",
+   "author": "404.zero",
+   "ts": "2026-09-07T20:53:44.429Z",
+   "reply_to": "@nin |  [DNE],  | Etiqueta de servidor: DNE | DNE | version 3.314 - td 2025.33070(mac and win) 1.MCP logo bugged ( Keep doing the animation thing ), And it does not gray out even i",
+   "text": "Should be fixed in 3.317"
+  },
+  {
+   "id": "1551010408607916143",
+   "author": "mykul0rr",
+   "ts": "2026-09-19T23:21:37.792Z",
+   "reply_to": "",
+   "text": "@nin  I think I have been experiencing the same error: the red logo never turns grey - keeps active and cannot connect\n\ntwozero (tried v3.34 and an Aug 2026 build) loads cleanly in TD 2025.33230 (Textport shows [loader] loaded /ui/dialogs/bookmark_bar/twozero, no errors) but never binds its MCP port. Confirmed via netstat -ano | findstr 40404 — nothing listens on that port, and no twozero child process ever appears in Task Manager. \n\nRuled out: G Data firewall (TouchDesigner.exe already fully allowed, no twozero-specific block), admin rights (confirmed via whoami /groups), folder permissions, and stale install state (fully uninstalled, deleted AppData folders, restarted PC, reinstalled clean). Works fine on my other PC with the same TD version. Windows 11.\n\nJust wondering if u can help?"
+  },
+  {
+   "id": "1551037780476305499",
+   "author": "nin",
+   "ts": "2026-09-20T01:10:23.754Z",
+   "reply_to": "@mykul0rr | @nin  I think I have been experiencing the same error: the red logo never turns grey - keeps active and cannot connect  twozero (tried v3.34 and an Aug 2026 build) load",
+   "text": "it fixed for me updated version (v3.34), maybe try clean reinstall ? like remove the twozero setting then reinstall it."
+  },
+  {
+   "id": "1551197454756487252",
+   "author": "mykul0rr",
+   "ts": "2026-09-20T11:44:53.069Z",
+   "reply_to": "@nin |  [DNE],  | Etiqueta de servidor: DNE | DNE | it fixed for me updated version (v3.34), maybe try clean reinstall ? like remove the twozero setting then reinstall it.",
+   "text": "I have tried that - even re installing TD too - im currently reviewing the drivers as this morning, wifi was unstable"
+  },
+  {
+   "id": "1551266424020926546",
+   "author": "mykul0rr",
+   "ts": "2026-09-20T16:18:56.623Z",
+   "reply_to": "",
+   "text": "Still getting the disconnect issues with 3.34"
+  },
+  {
+   "id": "1551640516473651300",
+   "author": "mykul0rr",
+   "ts": "2026-09-21T17:05:27.214Z",
+   "reply_to": "",
+   "text": "Environment: Windows 11 Pro, TouchDesigner 2025.33230, plugin versions tried: 3.269, 3.332, 3.333, 3.34 (all reproduce)\n\nSymptom: Port 40404 never binds, TWOZERO window permanently shows \"disconnected port 40404,\" despite Settings → MCP → Auto start = Yes, Local only = Yes, Port = 40404.\nhttps://github.com/404dotzero/twozero-td-mcp/issues\n\nA solution for me which is working is a bat file:\n\n@echo off\nREM Manually starts the TwoZero MCP proxy server on port 40404.\nREM Workaround for the TD plugin's auto-launcher not spawning it on this PC.\nREM Leave this window open while you want the MCP server running; closing it stops the\nserver.\n\n\"C:\\Program Files\\Derivative\\TouchDesigner\\bin\\python.exe\" \"%LOCALAPPDATA%\\Temp\\pisang_\nmcp\\proxy_server.py\" --port 40404 --installation-id a1e6f3c2b9d84f7e9a2c5b1d0e6f7a3c --\nplugin-version 3.34 --tdmcp-proxy\n\necho.\necho Proxy process exited. Press any key to close.\npause >nul\n\nSave the bat file, double-click it any time after opening TouchDesigner, and leave the window open while you want the server running (closing it stops the proxy). It uses the same command line and a fixed installation ID so it behaves consistently across restarts.\n\nHope this helps"
+  }
+ ]
+}

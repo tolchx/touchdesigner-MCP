@@ -1,0 +1,1659 @@
+{
+ "channel": "1491410905785700472",
+ "name": "questions-and-support",
+ "count": 236,
+ "messages": [
+  {
+   "id": "1491843128393732106",
+   "author": "Karomm",
+   "ts": "2026-04-09T16:51:58.914Z",
+   "reply_to": "",
+   "text": "Hey ! Thanks for your tool ! I install all but Claude Code request a paid version. Is there an alternative?"
+  },
+  {
+   "id": "1491850431784288396",
+   "author": "twozero",
+   "ts": "2026-04-09T17:21:00.178Z",
+   "reply_to": "",
+   "text": "hey! thanks for trying it out. unfortunately no alternative right now, you need a Claude subscription for inference. we're not big enough yet to train and run our own model, but that's where we're heading )"
+  },
+  {
+   "id": "1491850694632669348",
+   "author": "evia's",
+   "ts": "2026-04-09T17:22:02.846Z",
+   "reply_to": "",
+   "text": "Love it!!!! Will there be a Mac intel support in the future?"
+  },
+  {
+   "id": "1491850877529624617",
+   "author": "nika_sur_ma",
+   "ts": "2026-04-09T17:22:46.452Z",
+   "reply_to": "",
+   "text": "Hello! How I can change the internal IP within this plugin?"
+  },
+  {
+   "id": "1491851103501815849",
+   "author": "twozero",
+   "ts": "2026-04-09T17:23:40.328Z",
+   "reply_to": "@evia's | Love it!!!! Will there be a Mac intel support in the future?",
+   "text": "mac intel doesn't have a future "
+  },
+  {
+   "id": "1491851349741142147",
+   "author": "evia's",
+   "ts": "2026-04-09T17:24:39.036Z",
+   "reply_to": "",
+   "text": "Haha"
+  },
+  {
+   "id": "1491851698183077968",
+   "author": "twozero",
+   "ts": "2026-04-09T17:26:02.111Z",
+   "reply_to": "@nika_sur_ma | Hello! How I can change the internal IP within this plugin?",
+   "text": "You could change default port via settings (if you mean port, otherwise I don’t understand question)"
+  },
+  {
+   "id": "1491851816541884457",
+   "author": "twozero",
+   "ts": "2026-04-09T17:26:30.330Z",
+   "reply_to": "",
+   "text": "can you send screenshot or explain more precisely?"
+  },
+  {
+   "id": "1491852083304071309",
+   "author": "twozero",
+   "ts": "2026-04-09T17:27:33.931Z",
+   "reply_to": "",
+   "text": ""
+  },
+  {
+   "id": "1491853154592096267",
+   "author": "Dean_LJ",
+   "ts": "2026-04-09T17:31:49.346Z",
+   "reply_to": "",
+   "text": "I'd love to see a showcase of what can be achieved with this MCP. Are there any tutorial videos for this MCP?"
+  },
+  {
+   "id": "1491854050315079820",
+   "author": "twozero",
+   "ts": "2026-04-09T17:35:22.903Z",
+   "reply_to": "@Dean_LJ | I'd love to see a showcase of what can be achieved with this MCP. Are there any tutorial videos for this MCP?",
+   "text": "we're working on tutorials right now. for now you can check twozero.ai/docs and feed them to Claude. but honestly the easiest way is to just open a patch and ask Claude what it can do, how it can help, etc. it figures things out pretty fast )"
+  },
+  {
+   "id": "1491854824482799626",
+   "author": "Dean_LJ",
+   "ts": "2026-04-09T17:38:27.479Z",
+   "reply_to": "@twozero | we're working on tutorials right now. for now you can check twozero.ai/docs and feed them to Claude. but honestly the easiest way is to just open a patch and ask Claude ",
+   "text": "Ok I’ll love to tryout.thx"
+  },
+  {
+   "id": "1491855771972014100",
+   "author": "verygeeky",
+   "ts": "2026-04-09T17:42:13.378Z",
+   "reply_to": "@Karomm | Hey ! Thanks for your tool ! I install all but Claude Code request a paid version. Is there an alternative?",
+   "text": "free week - 3 available.  https://claude.ai/referral/3KNBWgoS3Q"
+  },
+  {
+   "id": "1491855888678391919",
+   "author": "verygeeky",
+   "ts": "2026-04-09T17:42:41.203Z",
+   "reply_to": "",
+   "text": "just downloaded, thanks for putting this together @twozero."
+  },
+  {
+   "id": "1491855960879399144",
+   "author": "nika_sur_ma",
+   "ts": "2026-04-09T17:42:58.417Z",
+   "reply_to": "@twozero | Haz clic para ver el archivo adjunto",
+   "text": "Thnx! U are awesome "
+  },
+  {
+   "id": "1491862678296199298",
+   "author": "verygeeky",
+   "ts": "2026-04-09T18:09:39.974Z",
+   "reply_to": "",
+   "text": "boom.  cookin with gas."
+  },
+  {
+   "id": "1491866938916344093",
+   "author": "niccab",
+   "ts": "2026-04-09T18:26:35.785Z",
+   "reply_to": "@verygeeky |  [BUZZ],  | Etiqueta de servidor: BUZZ | BUZZ | free week - 3 available.  https://claude.ai/referral/3KNBWgoS3Q",
+   "text": "thanks for the referral!"
+  },
+  {
+   "id": "1491870342136856657",
+   "author": "gwra",
+   "ts": "2026-04-09T18:40:07.176Z",
+   "reply_to": "@Karomm | Hey ! Thanks for your tool ! I install all but Claude Code request a paid version. Is there an alternative?",
+   "text": "im using cursor free version to run it"
+  },
+  {
+   "id": "1491870451889213450",
+   "author": "Karomm",
+   "ts": "2026-04-09T18:40:33.343Z",
+   "reply_to": "@gwra | im using cursor free version to run it",
+   "text": "Oh and it work good ?"
+  },
+  {
+   "id": "1491876362057810174",
+   "author": "DisintegrationLoops",
+   "ts": "2026-04-09T19:04:02.437Z",
+   "reply_to": "",
+   "text": "Hi! I’m also using a free version of cursor, and getting very bad results, it can’t make a simple particle cloud, is this a problem with how I’m prompting it or is it a problem with cursor free version? Would Claude paid version be much better or is it how I’m prompting it that’s the problem? Very cool idea and I’d love to get this to work. Maybe some prompt examples of things that would work with cursor? I’m saying things like “create a symmetrical particle cloud” and it returns a single sop sphere, no particle cloud at all and not symmetrical, as it’s just one sphere, am I missing something or is cursor free version the problem here? Thanks for all your work! (editado)\njueves, 9 de abril de 2026, 16:04"
+  },
+  {
+   "id": "1491880504541052968",
+   "author": "Karomm",
+   "ts": "2026-04-09T19:04:56.645Z",
+   "reply_to": "@DisintegrationLoops | Hi! I’m also using a free version of cursor, and getting very bad results, it can’t make a simple particle cloud, is this a problem with how I’m prompting it",
+   "text": "my first try with cursor !! but points cloud is okay with POPop  (editado)\njueves, 9 de abril de 2026, 16:20"
+  },
+  {
+   "id": "1491881625208881292",
+   "author": "Hesi",
+   "ts": "2026-04-09T19:24:57.270Z",
+   "reply_to": "",
+   "text": "I think it might be the prompting, also asked for particles and it struggled, took a whole session. but once i started to ask it for small thing at the time it actually is decent. At first i asked for reactive sphere made out of particles. it struggled a ton. took a whole claude paid session, at the end of my last 10 % of claude session, i started to ask for smaller thing at the time and started to work better."
+  },
+  {
+   "id": "1491881727193256149",
+   "author": "Karomm",
+   "ts": "2026-04-09T19:25:21.585Z",
+   "reply_to": "",
+   "text": "but do unoptimised thing like POP to SOP to GEO ?? POP to GEO is x1000 better"
+  },
+  {
+   "id": "1491881754393444432",
+   "author": "twozero",
+   "ts": "2026-04-09T19:25:28.070Z",
+   "reply_to": "@gwra | im using cursor free version to run it",
+   "text": "nice, how's it working with cursor?"
+  },
+  {
+   "id": "1491881907791728701",
+   "author": "twozero",
+   "ts": "2026-04-09T19:26:04.643Z",
+   "reply_to": "@verygeeky |  [BUZZ],  | Etiqueta de servidor: BUZZ | BUZZ | boom.  cookin with gas.",
+   "text": "thanks for sharing the referral and for trying it out! glad it's working )"
+  },
+  {
+   "id": "1491882091846172803",
+   "author": "404.zero",
+   "ts": "2026-04-09T19:04:56.645Z",
+   "reply_to": "@DisintegrationLoops | Hi! I’m also using a free version of cursor, and getting very bad results, it can’t make a simple particle cloud, is this a problem with how I’m prompting it",
+   "text": "The free Cursor tier is really the main problem here. And if you were using Auto mode, then most likely you were not even using Claude at all — and definitely not Opus.\n\nTouchDesigner tasks like this need much higher limits, and right now Claude is basically the only model that handles them reasonably well. Even then, it still needs a lot of guidance, simply because the model is not yet deeply trained on TD.\n\nSo the bad results are not just about your prompting — the free Cursor setup is a big limitation.\n\nIn practice, the paid version of Claude Code already gives much better limits and a much more acceptable quality of results.\n\nOver time this should improve further as Anthropic uses more TouchDesigner documentation and the model becomes better grounded in it."
+  },
+  {
+   "id": "1491882136725356584",
+   "author": "twozero",
+   "ts": "2026-04-09T19:20:42.044Z",
+   "reply_to": "@Karomm | my first try with cursor !! but points cloud is okay with POPop  (editado) | jueves, 9 de abril de 2026, 16:20",
+   "text": "nice! keep experimenting )"
+  },
+  {
+   "id": "1491882417840062475",
+   "author": "Hesi",
+   "ts": "2026-04-09T19:28:06.248Z",
+   "reply_to": "",
+   "text": "awesome cool stuff though "
+  },
+  {
+   "id": "1491882731238592612",
+   "author": "twozero",
+   "ts": "2026-04-09T19:29:20.968Z",
+   "reply_to": "",
+   "text": "hey everyone, quick note from the team. the tool is in active development, we're training, improving, and adding examples every day, and your feedback helps a ton. knowing what to focus on next vs what can wait is exactly why this community matters to us.\nwhere we are right now: noding from scratch (placing specific nodes with exact parameters) is still the toughest challenge for any LLM, and we're working hard on it. but where twozero already works really well is editing existing projects, updating old patches, finding bugs, writing scripts and tools, integrations, porting between projects, understanding how your patch works, and learning TD in general without leaving the app.\nso if you want to get the most out of it right now, feed it your existing projects and start asking questions. that's where the magic is )"
+  },
+  {
+   "id": "1491882983890616401",
+   "author": "niccab",
+   "ts": "2026-04-09T19:30:21.205Z",
+   "reply_to": "",
+   "text": "I'm trying to use this with the Claude Code Pro trial that verygeeky generously shared. I dropped in the .tox and I haven't been able to establish a connection with the server. I see that it's successfully in my TD toolbar, and made sure the MCP port is 40404. I've restarted everything but I'm still stuck at \"Waiting for connection\""
+  },
+  {
+   "id": "1491883461877698753",
+   "author": "twozero",
+   "ts": "2026-04-09T19:32:15.166Z",
+   "reply_to": "@niccab | I'm trying to use this with the Claude Code Pro trial that verygeeky generously shared. I dropped in the .tox and I haven't been able to establish a connection with the s",
+   "text": "did you add the MCP server config in Claude Code? the .tox in TD is the server side, but Claude Code also needs to know where to connect. check twozero.ai/docs for the setup steps, there's a config you need to add on the Claude side"
+  },
+  {
+   "id": "1491884768990597212",
+   "author": "niccab",
+   "ts": "2026-04-09T19:37:26.806Z",
+   "reply_to": "",
+   "text": "I got this: \"The twozero_td MCP server is already configured in your global settings at ~/.claude/settings.json with the correct URL. No changes needed — it's ready to use from any project.\""
+  },
+  {
+   "id": "1491885274622591036",
+   "author": "niccab",
+   "ts": "2026-04-09T19:39:27.358Z",
+   "reply_to": "",
+   "text": "in terminal: \"curl : Unable to connect to the remote server\""
+  },
+  {
+   "id": "1491890516940296322",
+   "author": "verygeeky",
+   "ts": "2026-04-09T20:00:17.224Z",
+   "reply_to": "",
+   "text": "type /mcp - is it listed?"
+  },
+  {
+   "id": "1491890605192909013",
+   "author": "verygeeky",
+   "ts": "2026-04-09T20:00:38.265Z",
+   "reply_to": "",
+   "text": "@niccab ^^"
+  },
+  {
+   "id": "1491890738923966574",
+   "author": "vacuum",
+   "ts": "2026-04-09T20:01:10.149Z",
+   "reply_to": "",
+   "text": "How generative AI models adapters work and how to add balance? (editado)\njueves, 9 de abril de 2026, 17:02"
+  },
+  {
+   "id": "1491891036530933822",
+   "author": "twozero",
+   "ts": "2026-04-09T20:02:21.104Z",
+   "reply_to": "@niccab | in terminal: \"curl : Unable to connect to the remote server\"",
+   "text": "what TD version are you running?"
+  },
+  {
+   "id": "1491891179623682141",
+   "author": "Ki.",
+   "ts": "2026-04-09T20:02:55.220Z",
+   "reply_to": "",
+   "text": "Anyone tried using Gemini?"
+  },
+  {
+   "id": "1491891293994094643",
+   "author": "twozero",
+   "ts": "2026-04-09T20:03:22.488Z",
+   "reply_to": "@Ki. | Anyone tried using Gemini?",
+   "text": "please don't"
+  },
+  {
+   "id": "1491891402353934548",
+   "author": "Ki.",
+   "ts": "2026-04-09T20:03:48.323Z",
+   "reply_to": "",
+   "text": "Well alright then haha"
+  },
+  {
+   "id": "1491891896119726242",
+   "author": "twozero",
+   "ts": "2026-04-09T20:02:03.779Z",
+   "reply_to": "@vacuum | How generative AI models adapters work and how to add balance? (editado) | jueves, 9 de abril de 2026, 17:02",
+   "text": "good eye ) this part is not live yet, but there's a big update coming very soon. stay tuned"
+  },
+  {
+   "id": "1491891966735028407",
+   "author": "niccab",
+   "ts": "2026-04-09T20:06:02.882Z",
+   "reply_to": "@twozero | what TD version are you running?",
+   "text": "2025.32460"
+  },
+  {
+   "id": "1491892264157319319",
+   "author": "twozero",
+   "ts": "2026-04-09T20:07:13.793Z",
+   "reply_to": "@Ki. | Well alright then haha",
+   "text": "i mean we're not agains gemini, codex and other beautiful models, but for now claude has no competitors in terms of coding tasks"
+  },
+  {
+   "id": "1491892326279286895",
+   "author": "twozero",
+   "ts": "2026-04-09T20:07:28.604Z",
+   "reply_to": "@niccab | 2025.32460",
+   "text": "/mcp - is it listed?"
+  },
+  {
+   "id": "1491892758036611092",
+   "author": "Ki.",
+   "ts": "2026-04-09T20:09:11.543Z",
+   "reply_to": "@twozero | i mean we're not agains gemini, codex and other beautiful models, but for now claude has no competitors in terms of coding tasks",
+   "text": "All good was just curious since that’s what I’m paying for atm. But I’ll check out on of your referrals and use that"
+  },
+  {
+   "id": "1491892854824370216",
+   "author": "vacuum",
+   "ts": "2026-04-09T20:09:34.619Z",
+   "reply_to": "@Ki. | Anyone tried using Gemini?",
+   "text": "Actualy I tried and it seems that its working"
+  },
+  {
+   "id": "1491892944976875570",
+   "author": "vacuum",
+   "ts": "2026-04-09T20:09:56.113Z",
+   "reply_to": "",
+   "text": "MCP is pretty generic, should work with any agent"
+  },
+  {
+   "id": "1491893112983916624",
+   "author": "vacuum",
+   "ts": "2026-04-09T20:10:36.169Z",
+   "reply_to": "",
+   "text": "but yeah, Gemini is not as good as Claude"
+  },
+  {
+   "id": "1491893333260501099",
+   "author": "niccab",
+   "ts": "2026-04-09T20:11:28.687Z",
+   "reply_to": "",
+   "text": "niccab\n ha empezado un hilo: /mcp - is it listed?. Ver todos los hilos.\n — \n9/4/26, 17:11\njueves, 9 de abril de 2026, 17:11"
+  },
+  {
+   "id": "1491897191617269820",
+   "author": "verygeeky",
+   "ts": "2026-04-09T20:26:48.591Z",
+   "reply_to": "",
+   "text": "i also gave an instance to openclaw on qwen4, we'll see how bad that is.  "
+  },
+  {
+   "id": "1491903762976084208",
+   "author": "DisintegrationLoops",
+   "ts": "2026-04-09T20:52:55.325Z",
+   "reply_to": "@twozero | hey everyone, quick note from the team. the tool is in active development, we're training, improving, and adding examples every day, and your feedback helps a ton. knowi",
+   "text": "Thank you very much for the detailed response, in that case I think it would be worth it to buy a $20 a month subscription to Claude to check out what it’s capable of, unless there’s any other options or recommendations you could give me, thanks in advance."
+  },
+  {
+   "id": "1491911382260781280",
+   "author": "DisintegrationLoops",
+   "ts": "2026-04-09T21:23:11.904Z",
+   "reply_to": "",
+   "text": "I’m now seeing there’s a free version of Claude with limited usage, would that suffice for twozero? I’m willing to pay the monthly if it means better results, thank you."
+  },
+  {
+   "id": "1491911515626803221",
+   "author": "niccab",
+   "ts": "2026-04-09T21:23:43.701Z",
+   "reply_to": "@DisintegrationLoops | I’m now seeing there’s a free version of Claude with limited usage, would that suffice for twozero? I’m willing to pay the monthly if it means better results",
+   "text": "I believe you'd need Claude Code which isn't included in the free version unfortunately"
+  },
+  {
+   "id": "1491913735537954886",
+   "author": "DisintegrationLoops",
+   "ts": "2026-04-09T21:32:32.969Z",
+   "reply_to": "@niccab | I believe you'd need Claude Code which isn't included in the free version unfortunately",
+   "text": "Thank you for the info, I’m obviously very new to this, but the idea intrigues me. I’ll update when I’m subscribed and up and running."
+  },
+  {
+   "id": "1491921697522319563",
+   "author": "verygeeky",
+   "ts": "2026-04-09T22:04:11.254Z",
+   "reply_to": "@twozero | hey everyone, quick note from the team. the tool is in active development, we're training, improving, and adding examples every day, and your feedback helps a ton. knowi",
+   "text": "i had contrary experience.  started with /root and a prompt to research and build a plan.  2-3 paragraphs of initial prompt and the superclaude-framework, but it's blown me away."
+  },
+  {
+   "id": "1491947164409008250",
+   "author": "Adrian_B",
+   "ts": "2026-04-09T23:45:23.033Z",
+   "reply_to": "",
+   "text": "Hi! Where can I download? Exited to try it"
+  },
+  {
+   "id": "1491957963185852557",
+   "author": "vivgalinari",
+   "ts": "2026-04-10T00:28:17.662Z",
+   "reply_to": "",
+   "text": "[installation] My Claude couldnt connect to the server, but fixed with 'Auto Start MCP' on the settings. This might help someone else"
+  },
+  {
+   "id": "1491958438555549806",
+   "author": "Denne",
+   "ts": "2026-04-10T00:30:10.999Z",
+   "reply_to": "",
+   "text": "can you tell me how did you open the settings cause i can’t @vivgalinari (editado)\njueves, 9 de abril de 2026, 21:33"
+  },
+  {
+   "id": "1491959008075059441",
+   "author": "Denne",
+   "ts": "2026-04-10T00:32:26.783Z",
+   "reply_to": "",
+   "text": "i’m clicking everywhere but i can’t find those settings"
+  },
+  {
+   "id": "1491959601393041418",
+   "author": "vivgalinari",
+   "ts": "2026-04-10T00:34:48.241Z",
+   "reply_to": "@twozero | Haz clic para ver el archivo adjunto",
+   "text": "@Denne  here for the settings"
+  },
+  {
+   "id": "1491959726714523681",
+   "author": "Denne",
+   "ts": "2026-04-10T00:35:18.120Z",
+   "reply_to": "",
+   "text": "i’m so dumb thanks"
+  },
+  {
+   "id": "1491960282904526958",
+   "author": "Denne",
+   "ts": "2026-04-10T00:37:30.726Z",
+   "reply_to": "",
+   "text": "gemini isnt performing very well.."
+  },
+  {
+   "id": "1492090149318819931",
+   "author": "romak",
+   "ts": "2026-04-10T09:13:33.292Z",
+   "reply_to": "@verygeeky |  [BUZZ],  | Etiqueta de servidor: BUZZ | BUZZ | free week - 3 available.  https://claude.ai/referral/3KNBWgoS3Q",
+   "text": ">This referral link is no longer valid\n\nMaybe you could share another one? \nOr maybe someone else? \n\nIn any case, thanks"
+  },
+  {
+   "id": "1492094680689676388",
+   "author": "jponehy",
+   "ts": "2026-04-10T09:31:33.655Z",
+   "reply_to": "",
+   "text": "Where do I actually input prompts?"
+  },
+  {
+   "id": "1492097868411048019",
+   "author": "DRIFTKOP",
+   "ts": "2026-04-10T09:44:13.667Z",
+   "reply_to": "@jponehy | Where do I actually input prompts?",
+   "text": "Into Claude Clode. There are several options:"
+  },
+  {
+   "id": "1492134105595252788",
+   "author": "daniel.b9938",
+   "ts": "2026-04-10T12:08:13.285Z",
+   "reply_to": "",
+   "text": "Hey, would it be possible to have a yt tutorial how to install and use?"
+  },
+  {
+   "id": "1492144003020492990",
+   "author": "Emu!",
+   "ts": "2026-04-10T12:47:33.015Z",
+   "reply_to": "@Denne | gemini isnt performing very well..",
+   "text": "I didn't expect much from gemini  i'll give my codex findings soon lmfao \n\nClaude, well.... Claude is claude  my beloved"
+  },
+  {
+   "id": "1492144910541783193",
+   "author": "DRIFTKOP",
+   "ts": "2026-04-10T12:51:09.385Z",
+   "reply_to": "",
+   "text": "Anyone tried Codex 5.4 xhigh?"
+  },
+  {
+   "id": "1492158743318630451",
+   "author": "Denne",
+   "ts": "2026-04-10T13:46:07.376Z",
+   "reply_to": "@Emu! | I didn't expect much from gemini  i'll give my codex findings soon lmfao   Claude, well.... Claude is claude  my beloved",
+   "text": "also sonnet is good? cause opus is too expensive for doing things that you can do for free manually"
+  },
+  {
+   "id": "1492167034619039905",
+   "author": "Emu!",
+   "ts": "2026-04-10T14:19:04.176Z",
+   "reply_to": "@Denne | also sonnet is good? cause opus is too expensive for doing things that you can do for free manually",
+   "text": "Honestly, for tasks like this I prefer haiku"
+  },
+  {
+   "id": "1492167051568218165",
+   "author": "Emu!",
+   "ts": "2026-04-10T14:19:08.217Z",
+   "reply_to": "",
+   "text": "Opus for a plan"
+  },
+  {
+   "id": "1492167079506346044",
+   "author": "Emu!",
+   "ts": "2026-04-10T14:19:14.878Z",
+   "reply_to": "",
+   "text": "sonnet for work yeah if you have the tokens"
+  },
+  {
+   "id": "1492167157096775861",
+   "author": "Emu!",
+   "ts": "2026-04-10T14:19:33.377Z",
+   "reply_to": "",
+   "text": "but haiku would get you more milage long term given how it is wit sonnet"
+  },
+  {
+   "id": "1492175593867968704",
+   "author": "verygeeky",
+   "ts": "2026-04-10T14:53:04.860Z",
+   "reply_to": "@romak | >This referral link is no longer valid  Maybe you could share another one?  Or maybe someone else?   In any case, thanks",
+   "text": "if anyone else wants to kick some in, it's /passes in claude code terminal/cli with the pro or max account - and each is code good for 3."
+  },
+  {
+   "id": "1492193639424720897",
+   "author": "Ki.",
+   "ts": "2026-04-10T16:04:47.256Z",
+   "reply_to": "",
+   "text": "Does anyone have a claude code referal?"
+  },
+  {
+   "id": "1492203783839547432",
+   "author": "twozero",
+   "ts": "2026-04-10T16:45:05.873Z",
+   "reply_to": "",
+   "text": "hey everyone, we're heads down today but just dropped this for you → https://www.instagram.com/p/DW9UQ9hiHFi/?img_index=1"
+  },
+  {
+   "id": "1492207541252391123",
+   "author": "Denne",
+   "ts": "2026-04-10T17:00:01.710Z",
+   "reply_to": "@Emu! | but haiku would get you more milage long term given how it is wit sonnet",
+   "text": "back using gemini 3.1 pro, now its delivering pretty consistent results and also pretty fast, cant create something complex from zero (editado)\nviernes, 10 de abril de 2026, 14:03"
+  },
+  {
+   "id": "1492207993335451688",
+   "author": "Denne",
+   "ts": "2026-04-10T17:01:49.495Z",
+   "reply_to": "",
+   "text": "did this from nothing, a cube following my mouse input (im using this as a test for every ai model)  and it managed to do it in 1\\2 mins using roo code that slows the communication a little bit (0.50€ used) (editado)\nviernes, 10 de abril de 2026, 14:02"
+  },
+  {
+   "id": "1492216132193484942",
+   "author": "Denne",
+   "ts": "2026-04-10T17:34:09.950Z",
+   "reply_to": "",
+   "text": "only for me if i install the twozero all my OP disappear? i couldnt create nothing  and to have them back i had to uninstall twozero (editado)\nviernes, 10 de abril de 2026, 14:34"
+  },
+  {
+   "id": "1492235006418878534",
+   "author": "niccab",
+   "ts": "2026-04-10T18:49:09.916Z",
+   "reply_to": "",
+   "text": "still can't establish the connection between the twozero.tox and claude code! /mcp says \"Connected — MCP server is reachable (HTTP 502)\" but twozero.tox doesn't pass \"Checking connection...\""
+  },
+  {
+   "id": "1492241716546371627",
+   "author": "404.zero",
+   "ts": "2026-04-10T17:34:49.532Z",
+   "reply_to": "@Denne | only for me if i install the twozero all my OP disappear? i couldnt create nothing  and to have them back i had to uninstall twozero (editado) | viernes, 10 de abril de 20",
+   "text": "What do you mean disappear?\nWhich td version?"
+  },
+  {
+   "id": "1492242254448955677",
+   "author": "404.zero",
+   "ts": "2026-04-10T19:17:57.981Z",
+   "reply_to": "@niccab | still can't establish the connection between the twozero.tox and claude code! /mcp says \"Connected — MCP server is reachable (HTTP 502)\" but twozero.tox doesn't pass \"Che",
+   "text": "Maybe need add TD to firewall exceptions"
+  },
+  {
+   "id": "1492243885693468722",
+   "author": "Denne",
+   "ts": "2026-04-10T19:24:26.900Z",
+   "reply_to": "@404.zero | What do you mean disappear? Which td version?",
+   "text": "i reinstalled it to check for you but now they are active, earlier it was like the OP tab was completely empty and it was always giving me that problem, i have the last version avaible"
+  },
+  {
+   "id": "1492247907212988476",
+   "author": "Denne",
+   "ts": "2026-04-10T19:40:25.705Z",
+   "reply_to": "@404.zero | What do you mean disappear? Which td version?",
+   "text": "i also found another bug, i installed twozero while i had functionstore tools active and know its like the ui of function store is bricked and glitched in every project i open even if i dont have neither twozero and function store installed, even if i open a blank file, i had to reinstall TD completely"
+  },
+  {
+   "id": "1492248340660752527",
+   "author": "Denne",
+   "ts": "2026-04-10T19:42:09.047Z",
+   "reply_to": "",
+   "text": "i dont have naymore the palette button etc, if i uninstall two zero it removes its UI but every file i open still has this broken UI"
+  },
+  {
+   "id": "1492251279869743174",
+   "author": "niccab",
+   "ts": "2026-04-10T19:53:49.809Z",
+   "reply_to": "@404.zero | Maybe need add TD to firewall exceptions",
+   "text": "I disabled firewalls on public and private network"
+  },
+  {
+   "id": "1492267362517254325",
+   "author": "jajackob",
+   "ts": "2026-04-10T20:57:44.211Z",
+   "reply_to": "",
+   "text": "hi guys,\nhave you use local agents? what do you think about it?"
+  },
+  {
+   "id": "1492322982096539779",
+   "author": "gianluca_colia",
+   "ts": "2026-04-11T00:38:44.952Z",
+   "reply_to": "",
+   "text": "I did the installation but it keeps telling me this, I have both a claude and codex subscription"
+  },
+  {
+   "id": "1492338097453535372",
+   "author": "Sbassbear",
+   "ts": "2026-04-11T01:38:48.734Z",
+   "reply_to": "",
+   "text": "what chat is that?"
+  },
+  {
+   "id": "1492338152092860486",
+   "author": "Sbassbear",
+   "ts": "2026-04-11T01:39:01.761Z",
+   "reply_to": "",
+   "text": "I'm using a command prompt to talk to it"
+  },
+  {
+   "id": "1492344367317385266",
+   "author": "dana",
+   "ts": "2026-04-11T02:03:43.586Z",
+   "reply_to": "",
+   "text": "Hi! Never tried an MCP before. Trying to read to docs at twozero.ai and I keep getting “Something went wrong” if anyone can share or has ideas on how to best learn. TY!"
+  },
+  {
+   "id": "1492344766581440612",
+   "author": "dana",
+   "ts": "2026-04-11T02:05:18.778Z",
+   "reply_to": "dana | Hi! Never tried an MCP before. Trying to read to docs at twozero.ai and I keep getting “Something went wrong” if anyone can share or has ideas on how to best learn. TY!",
+   "text": "Actually, it opens on my phone for now. nevermind"
+  },
+  {
+   "id": "1492349710860816547",
+   "author": "nin",
+   "ts": "2026-04-11T02:24:57.586Z",
+   "reply_to": "@jajackob | hi guys, have you use local agents? what do you think about it?",
+   "text": "try on zed (qwen3.5) , it can connect but wont do anythink in TD,\n\nwill try on CC(ollama+qwen3.5) tonight.\n\nif Claude Code(online) , somehow Sonnet do better then Opus"
+  },
+  {
+   "id": "1492920466485285127",
+   "author": "LumaLux",
+   "ts": "2026-04-12T16:12:56.331Z",
+   "reply_to": "",
+   "text": "will this be paywalled in the future?\na pro subscription for the full hub, cloud lib features or/and a custom  LLM for TD  as SaaS is clearly the logical path, but will the local mcp server, other local features incl. version updates stay free with their full feature sets? \"free for now\" can mean everything. I couldnt find details about the future planned for this tool. would like to know where this is heading before thinking about adopting (editado)\ndomingo, 12 de abril de 2026, 13:14"
+  },
+  {
+   "id": "1492969691566706730",
+   "author": "verygeeky",
+   "ts": "2026-04-12T16:14:06.926Z",
+   "reply_to": "@LumaLux | will this be paywalled in the future? a pro subscription for the full hub, cloud lib features or/and a custom  LLM for TD  as SaaS is clearly the logical path, but will ",
+   "text": "Why?  It's not in the load-bearing path.  If it does go paywall, you'll still have access to the release that exists today.  Even if not, what's the risk?"
+  },
+  {
+   "id": "1492975126227193998",
+   "author": "vacuum",
+   "ts": "2026-04-12T19:50:08.229Z",
+   "reply_to": "@Denne | i dont have naymore the palette button etc, if i uninstall two zero it removes its UI but every file i open still has this broken UI",
+   "text": "Second this, looks like FunctionStoreTools get cached in system UI component? It breaks UI for any project that does not have it inside"
+  },
+  {
+   "id": "1492985140052365543",
+   "author": "abhi",
+   "ts": "2026-04-12T20:29:55.711Z",
+   "reply_to": "",
+   "text": "Hello, thank you so much for this tool. I have been battling with a problem since so long and it solved it in minutes. I would have never thought this is the problem specially being kinda new to TD\n\nhere is a summary of what happened (from claude): \nProblem: The blob tracking overlay disappeared when switching scenes through the SceneChanger, showing only the base video.\n\nCause: The operator doing the blob detection (script1) had no output wire connected to anything, so TouchDesigner never ran it unless the network was open in the editor.\nFix: Connected script1's output through a zero-opacity levelTOP into the final composite, giving TouchDesigner a reason to run it every frame — even when accessed through the SceneChanger.\n\n\nThis is amazing, thank you so much again!!"
+  },
+  {
+   "id": "1492986563158872359",
+   "author": "Denne",
+   "ts": "2026-04-12T20:35:35.006Z",
+   "reply_to": "@vacuum | Second this, looks like FunctionStoreTools get cached in system UI component? It breaks UI for any project that does not have it inside",
+   "text": "in any project i opened also my old ones or a completely new one there was the bugged ui that could only be fixed by putting the function store tools"
+  },
+  {
+   "id": "1492987040663605448",
+   "author": "Denne",
+   "ts": "2026-04-12T20:37:28.852Z",
+   "reply_to": "",
+   "text": "but there was no way to remove it, i tried everything, i think that maybe uninstalling twozero sets the default ui as it is without twozero in the active project, so if there are others components editing the ui it gets stuck in that way and when you don’t have those components it glitches out (editado)\ndomingo, 12 de abril de 2026, 17:38"
+  },
+  {
+   "id": "1492988171070476509",
+   "author": "Denne",
+   "ts": "2026-04-12T20:41:58.362Z",
+   "reply_to": "",
+   "text": "but that is transferred in every project you open with that touchdesigner so it changes the base ui of the program"
+  },
+  {
+   "id": "1492989167423193240",
+   "author": "vacuum",
+   "ts": "2026-04-12T20:45:55.911Z",
+   "reply_to": "",
+   "text": "yup, they update core ui tox for whole Touch installation"
+  },
+  {
+   "id": "1492989231243722772",
+   "author": "vacuum",
+   "ts": "2026-04-12T20:46:11.127Z",
+   "reply_to": "",
+   "text": "https://twozero.ai/docs/admin-access"
+  },
+  {
+   "id": "1493068461507608596",
+   "author": "in.hu.ma.ne",
+   "ts": "2026-04-13T02:01:01.094Z",
+   "reply_to": "",
+   "text": "so i installed tox\nconnected claude (pro) mcp\ngot the email code and all\nhow do i test this? \nmake a folder create and save empty td file and open claude code from that folder to chat?\n,\nor\n\nkeep td open and use claude cowork along windows mcp\n,\nor \n\njust chat with claude\n,\nreally confused because mcp is connected but idk how to interact (editado)\ndomingo, 12 de abril de 2026, 23:14"
+  },
+  {
+   "id": "1493125664654622851",
+   "author": "vacuum",
+   "ts": "2026-04-13T02:14:56.636Z",
+   "reply_to": "@in.hu.ma.ne |  [META],  | Etiqueta de servidor: META | META | so i installed tox connected claude (pro) mcp got the email code and all how do i test this? make a folder create and",
+   "text": "https://twozero.ai/docs/mcp"
+  },
+  {
+   "id": "1493125724662534205",
+   "author": "vacuum",
+   "ts": "2026-04-13T05:48:33.694Z",
+   "reply_to": "",
+   "text": "try those example prompts"
+  },
+  {
+   "id": "1493179975904264373",
+   "author": "MetaKan",
+   "ts": "2026-04-13T09:24:08.198Z",
+   "reply_to": "",
+   "text": "hi! i'm not sure it's a bug but getting this errors continuosly."
+  },
+  {
+   "id": "1493187210957160458",
+   "author": "BrianCSmithII",
+   "ts": "2026-04-13T09:52:53.169Z",
+   "reply_to": "@gianluca_colia | I did the installation but it keeps telling me this, I have both a claude and codex subscription",
+   "text": "I'm in the same place. I've got my keys set up in router but don't see when you link in TD."
+  },
+  {
+   "id": "1493191121818357924",
+   "author": "BrianCSmithII",
+   "ts": "2026-04-13T10:08:25.591Z",
+   "reply_to": "@gianluca_colia | I did the installation but it keeps telling me this, I have both a claude and codex subscription",
+   "text": "I've made it this far with trying to confirm the MCP."
+  },
+  {
+   "id": "1493192857287262268",
+   "author": "404.zero",
+   "ts": "2026-04-13T10:15:19.359Z",
+   "reply_to": "@MetaKan |  [KREA],  | Etiqueta de servidor: KREA | KREA | hi! i'm not sure it's a bug but getting this errors continuosly.",
+   "text": "Is MCP  turned on like here:\nhttps://youtu.be/sLuwuhLvx4k?si=GS7Pb8pRWF7LOtK2&t=54 (editado)\nlunes, 13 de abril de 2026, 7:15"
+  },
+  {
+   "id": "1493193610663821393",
+   "author": "BrianCSmithII",
+   "ts": "2026-04-13T10:18:18.978Z",
+   "reply_to": "@gianluca_colia | I did the installation but it keeps telling me this, I have both a claude and codex subscription",
+   "text": "Asked in Codex for an analysis. this is fire"
+  },
+  {
+   "id": "1493195572155514880",
+   "author": "MetaKan",
+   "ts": "2026-04-13T10:15:50.518Z",
+   "reply_to": "@404.zero | Is MCP  turned on like here: https://youtu.be/sLuwuhLvx4k?si=GS7Pb8pRWF7LOtK2&t=54 (editado) | lunes, 13 de abril de 2026, 7:15",
+   "text": "yes it is. It's like sometines the server is unreacheable. I need to turn off and turn on again the mcp."
+  },
+  {
+   "id": "1493221782994288720",
+   "author": "404.zero",
+   "ts": "2026-04-13T12:10:15.785Z",
+   "reply_to": "@MetaKan |  [KREA],  | Etiqueta de servidor: KREA | KREA | yes it is. It's like sometines the server is unreacheable. I need to turn off and turn on again the mcp.",
+   "text": "at which moment it happens?\nrandomly/at start TD/ else?"
+  },
+  {
+   "id": "1493232931508850821",
+   "author": "MetaKan",
+   "ts": "2026-04-13T12:54:33.798Z",
+   "reply_to": "@404.zero | at which moment it happens? randomly/at start TD/ else?",
+   "text": "Random during a Claude Code session. It's working and suddenly tells me it doesn't have access to the instance."
+  },
+  {
+   "id": "1493242484854358036",
+   "author": "404.zero",
+   "ts": "2026-04-13T13:32:31.493Z",
+   "reply_to": "@MetaKan |  [KREA],  | Etiqueta de servidor: KREA | KREA | Random during a Claude Code session. It's working and suddenly tells me it doesn't have access to the instance.",
+   "text": "Which td version an OS?"
+  },
+  {
+   "id": "1493243751244632224",
+   "author": "404.zero",
+   "ts": "2026-04-13T13:37:33.424Z",
+   "reply_to": "@Denne | i dont have naymore the palette button etc, if i uninstall two zero it removes its UI but every file i open still has this broken UI",
+   "text": "Is it the last year version of functionstore from github? Or is there a newer one?\nGuess we may ask Claude to investigate an issue\nOnce claude figures out which one (twozero or functionstore) is wrong - ask him to report a bug and make a temporary fix for you.\nOr simply send here report (editado)\nlunes, 13 de abril de 2026, 10:38"
+  },
+  {
+   "id": "1493245077844263066",
+   "author": "Denne",
+   "ts": "2026-04-13T13:42:49.710Z",
+   "reply_to": "@MetaKan |  [KREA],  | Etiqueta de servidor: KREA | KREA | yes it is. It's like sometines the server is unreacheable. I need to turn off and turn on again the mcp.",
+   "text": "also for me sometimes twozero starts in a different port for no reason and i have to restart it to get back on the default one"
+  },
+  {
+   "id": "1493245943737483374",
+   "author": "Denne",
+   "ts": "2026-04-13T13:38:14.236Z",
+   "reply_to": "@404.zero | Is it the last year version of functionstore from github? Or is there a newer one? Guess we may ask Claude to investigate an issue Once claude figures out which one (tw",
+   "text": "i’m trying to brick it again to see if still happens"
+  },
+  {
+   "id": "1493246708581400836",
+   "author": "Denne",
+   "ts": "2026-04-13T13:49:18.508Z",
+   "reply_to": "",
+   "text": "see its glitched again every project i open, im going to investigate more"
+  },
+  {
+   "id": "1493251929009160244",
+   "author": "Denne",
+   "ts": "2026-04-13T13:38:14.236Z",
+   "reply_to": "@404.zero | Is it the last year version of functionstore from github? Or is there a newer one? Guess we may ask Claude to investigate an issue Once claude figures out which one (tw",
+   "text": "sent you in dm the complete report made by opus 4.6"
+  },
+  {
+   "id": "1493263451177353286",
+   "author": "MetaKan",
+   "ts": "2026-04-13T14:55:50.254Z",
+   "reply_to": "@404.zero | Which td version an OS?",
+   "text": "Last td version on Windows 11"
+  },
+  {
+   "id": "1493273377413005536",
+   "author": "404.zero",
+   "ts": "2026-04-13T15:35:16.853Z",
+   "reply_to": "@MetaKan |  [KREA],  | Etiqueta de servidor: KREA | KREA | hi! i'm not sure it's a bug but getting this errors continuosly.",
+   "text": "This usually means that that you TD is completely stopped but MCP (that is running in separete Engine process) is working and responding that TD is not cooking anything:\n\nFor example \n\nTD window is minimized\n,\nglobal cooking off ([O|I] button )\n,\nTD froze\n,\n\nBut should not happen when TD is paused via global timebar.\n\nWas something from above? (editado)\nlunes, 13 de abril de 2026, 12:35"
+  },
+  {
+   "id": "1493277326463471657",
+   "author": "404.zero",
+   "ts": "2026-04-13T15:50:58.380Z",
+   "reply_to": "@Denne | also for me sometimes twozero starts in a different port for no reason and i have to restart it to get back on the default one",
+   "text": "Do you mean main port 40404?\nMain port that you configure for the agent should remains the same across start/stop/restart TD\nThis port is always used by the proxy process that is running from separate EngineCOMP process\nBut each TD instance will have its own always changing port to communicate to proxy.\nAbove made for ablility to work on a multiple projects simultaniously without issues.\n\nDid you make custom configs to access directly to TD instance, not a proxy on 40404?\nDid you change default 40404 via Twozero settings? (editado)\nlunes, 13 de abril de 2026, 12:51"
+  },
+  {
+   "id": "1493279987577651271",
+   "author": "Denne",
+   "ts": "2026-04-13T15:51:48.352Z",
+   "reply_to": "@404.zero | Do you mean main port 40404? Main port that you configure for the agent should remains the same across start/stop/restart TD This port is always used by the proxy proce",
+   "text": "i changed nothing, just sometimes claude tells me that it can’t connect, i let it search for the problem and it says that twozero MCP server is currently running on a different port than 40404, if i reset everything turns back to normal (editado)\nlunes, 13 de abril de 2026, 13:03"
+  },
+  {
+   "id": "1493314616233562123",
+   "author": "Han Dolo",
+   "ts": "2026-04-13T18:19:08.954Z",
+   "reply_to": "",
+   "text": "anyone know what the difference is between this and the 8beat one?"
+  },
+  {
+   "id": "1493314622546251946",
+   "author": "Han Dolo",
+   "ts": "2026-04-13T18:19:10.459Z",
+   "reply_to": "",
+   "text": "https://github.com/8beeeaaat/touchdesigner-mcp/blob/main/docs/installation.md"
+  },
+  {
+   "id": "1493341861018992761",
+   "author": "roqert",
+   "ts": "2026-04-13T20:07:24.617Z",
+   "reply_to": "",
+   "text": "hi. For using Ai presets, what kind of registration do I need? I can't find any way to create a twozero account."
+  },
+  {
+   "id": "1493387257011503184",
+   "author": "Denne",
+   "ts": "2026-04-13T23:07:47.865Z",
+   "reply_to": "",
+   "text": "im building a rag system with everything i can find about glsl an td in general, do you think it's useful or no? cause even claude is doing so much stuff wrong, GLSL above all"
+  },
+  {
+   "id": "1493601093756780676",
+   "author": "MetaKan",
+   "ts": "2026-04-13T15:35:52.720Z",
+   "reply_to": "@404.zero | This usually means that that you TD is completely stopped but MCP (that is running in separete Engine process) is working and responding that TD is not cooking anything",
+   "text": "Oohh that td window minimized makes sense. I Will have a look next time. Thank you! "
+  },
+  {
+   "id": "1493601616048291992",
+   "author": "MetaKan",
+   "ts": "2026-04-14T13:19:35.042Z",
+   "reply_to": "@Denne | im building a rag system with everything i can find about glsl an td in general, do you think it's useful or no? cause even claude is doing so much stuff wrong, GLSL above",
+   "text": "I think dot simulate has what you're looking for. He created an MCP with a bunch of context documents for TD"
+  },
+  {
+   "id": "1493601908987007137",
+   "author": "MetaKan",
+   "ts": "2026-04-14T13:20:44.884Z",
+   "reply_to": "",
+   "text": "I don't know exactly how much documentation it has related to GLSL, but of course it would be super useful to have something like that"
+  },
+  {
+   "id": "1493603021119160581",
+   "author": "404.zero",
+   "ts": "2026-04-14T13:25:10.037Z",
+   "reply_to": "@roqert | hi. For using Ai presets, what kind of registration do I need? I can't find any way to create a twozero account.",
+   "text": "It is in progress feature, will cover soon. \nIn general it is access to most of the major llms and image/video generation models inference directly from TD + some helpful stuff. \n\nIt requires payment (as we only route to inference providers)\nThe cost will be per usage-> as result it will be more costly than subscription at specific provider.\nThe benefit:\n\nno concurrency limit\n,\nget results right inside TD\n,\neasy to build and test pipelines using TD logic\n,\n\nYou could already try:\nlogin/signup at app.twozero.ai\nClick balance at right top -> add some \nInside twozero:\ngo to ai\nlogin with same email \nSearch for the desired model\n(We tested a lot chatgpt, waver, z-image, nanobanana, flux, veo..)\n\nBuild pipelines using prepared comps (inputs are related to model type, Run from parameters or via circle at top left in comp ui)\n\nAll your history of image - video generation will appear also at your account on web (app.twozero.ai/history) (editado)\nmartes, 14 de abril de 2026, 10:31"
+  },
+  {
+   "id": "1493603193379098714",
+   "author": "Denne",
+   "ts": "2026-04-14T13:25:51.107Z",
+   "reply_to": "@MetaKan |  [KREA],  | Etiqueta de servidor: KREA | KREA | I think dot simulate has what you're looking for. He created an MCP with a bunch of context documents for TD",
+   "text": "Yes, I know, but sometimes the MCP servers are not called correctly or are forgotten. I don't find it 100% reliable. As for the information, with a Clauderules I can be sure and manage well what it reads and how it reads it. I don't know why, but that MCP server isn't performing as well as my rag system at the moment. i’d like to have more control so i can add stuff or instructions if i need them"
+  },
+  {
+   "id": "1493603439844790403",
+   "author": "Denne",
+   "ts": "2026-04-14T13:26:49.869Z",
+   "reply_to": "",
+   "text": "before using my rag system Claude couldn’t create a refractive glsl MAT, now it’s perfect even with sonnet rather than opus"
+  },
+  {
+   "id": "1493603781122723900",
+   "author": "404.zero",
+   "ts": "2026-04-14T13:28:11.236Z",
+   "reply_to": "@Denne | im building a rag system with everything i can find about glsl an td in general, do you think it's useful or no? cause even claude is doing so much stuff wrong, GLSL above",
+   "text": "I think it could be useful, in general to have a big database, however there are concerns about RAG in general. It seems well structured and distilled mds work more efficiently and precisely. (editado)\nmartes, 14 de abril de 2026, 10:29"
+  },
+  {
+   "id": "1493604324943593636",
+   "author": "MetaKan",
+   "ts": "2026-04-14T13:30:20.893Z",
+   "reply_to": "",
+   "text": "I'm looking for best practices for lighting installations in TouchDesigner. All the documentation and tutorials around this topic have always felt a bit scattered and confusing to me.\nHow good is TwoZero for this? Are there any recommended practices or prompts for setting up a basic architecture for an ArtNet system with SPI LED strip control and DMX elements? Also around scene and effect creation, and how to map them to the different output elements?"
+  },
+  {
+   "id": "1493604860833304616",
+   "author": "Denne",
+   "ts": "2026-04-14T13:29:30.690Z",
+   "reply_to": "@404.zero | I think it could be useful, in general to have a big database, however there are concerns about RAG in general. It seems well structured and distilled mds work more eff",
+   "text": "Yes, I was thinking about it too, maybe I put too much stuff that he could understand on his own, but in the end my goal was to be able to use less powerful models to save credits and so I thought of making up for the shortcomings with a rag system, if I had infinite opus tokens, surely at the efficiency level 3/4 md are more than enough"
+  },
+  {
+   "id": "1493604946157895880",
+   "author": "Denne",
+   "ts": "2026-04-14T13:32:49.002Z",
+   "reply_to": "",
+   "text": "but i’ll try to do both ways just for a research purpose!"
+  },
+  {
+   "id": "1493606165550989444",
+   "author": "404.zero",
+   "ts": "2026-04-14T13:37:39.728Z",
+   "reply_to": "@Denne | before using my rag system Claude couldn’t create a refractive glsl MAT, now it’s perfect even with sonnet rather than opus",
+   "text": "Curious to see in action \nAs we noticed about Claude- it is good on making stuff he was extensively trained at (python, js, html, frontend backend, db and similar popular stuff)\nTd and glsl is a kind of “territory of uncertainty “ which requires from Claude to solve unfamiliar puzzles. And the quality of results it performs highly depends on a way you provide hints and docs for him which is also a question of consistency/completeness/token usage ratio. (editado)\nmartes, 14 de abril de 2026, 10:38"
+  },
+  {
+   "id": "1493606793224650936",
+   "author": "404.zero",
+   "ts": "2026-04-14T13:40:09.377Z",
+   "reply_to": "@MetaKan |  [KREA],  | Etiqueta de servidor: KREA | KREA | I'm looking for best practices for lighting installations in TouchDesigner. All the documentation and tutorials around th",
+   "text": "It is not covered well yet, but he may figure out some cases - we tried some stuff- especially it solves if see your current “already working but something is broken” case"
+  },
+  {
+   "id": "1493608217362563072",
+   "author": "Denne",
+   "ts": "2026-04-14T13:38:11.570Z",
+   "reply_to": "@404.zero | Curious to see in action  As we noticed about Claude- it is good on making stuff he was extensively trained at (python, js, html, frontend backend, db and similar popul",
+   "text": "i’ll let you now my findings then!"
+  },
+  {
+   "id": "1494179062820765696",
+   "author": "giorgio",
+   "ts": "2026-04-16T03:34:09.081Z",
+   "reply_to": "@MetaKan |  [KREA],  | Etiqueta de servidor: KREA | KREA | I'm looking for best practices for lighting installations in TouchDesigner. All the documentation and tutorials around th",
+   "text": "You may have to walk it thru getting the data formatted and dmx output setup correctly so it helps if you’ve done this stuff before, but it’ll do it if you ask.  I like to remind it to use chops instead of doing everything in code. I end up making the dimmer and color animation portion of the lighting myself, and having the robot do the build and plumbing for control and other quality of life features that I don’t often have time to do otherwise"
+  },
+  {
+   "id": "1494383193481019484",
+   "author": "Cesca🏴☠🌲",
+   "ts": "2026-04-16T17:05:17.623Z",
+   "reply_to": "",
+   "text": "hi everyone! i just downloaded the plugin but the MCP doesnt show up, already tried reinstalling, closing couple of times and using autoactivate MCP, still not working"
+  },
+  {
+   "id": "1496445858433077278",
+   "author": "DisintegrationLoops",
+   "ts": "2026-04-22T09:41:35.270Z",
+   "reply_to": "",
+   "text": "@twozero hi guys! I have to say, I’m a bit thrown off and perplexed by the toxic and negative reaction in the comments section of the touchdesigner instagram repost of this product, particularly posts by notable TD tool builders function store and sarv, who in my opinion, in contrast to an artist like 404.zero, have no real coherent sense of style, and if they do it’s closer to an advertisement or bland shopping mall aesthetic, not a singular artistic vision like that of 404.zero. Furthermore I’m confused that it seems as though all of their comments have been deleted from the touchdesigner instagram post. Does this mean they don’t stand by their comments? Or maybe touchdesigner deleted them? Again very confused by this attack on this product, and would love to see an open dialogue between the makers of two zero, functionstore, and sarv among others who publicly shamed the two zero product. I think it’s regretful this kind of attitude exists, especially when in my opinion 404.zero are by far the strongest artists of vision in the entire touchdesigner community, and should be championed for not only having a vision, but executing it masterfully. Any thoughts and comments would be gratefully appreciated to further shed some light on this rather disturbing outcry by the touchdesigner “community” for lack of a better word. Thank you and hope to get some clarity on this matter. Peace, love and creativity."
+  },
+  {
+   "id": "1496981216174411806",
+   "author": "giorgio",
+   "ts": "2026-04-23T21:08:54.502Z",
+   "reply_to": "",
+   "text": "Haters gonna hate. a lot of people don’t understand where this kind of tech can be helpful and take artistic practice further.  I’ve been using an MCP to program TD for a few months now and I’m still doing the patching that I consider my creative practice, and letting the robot do all the plumbing and other stuff that I don’t find fun.  It’s like being able to hire out the junk work without the price tag.  I’ve been able to create systems that I only dreamed of having the time or attention span to before.  But i also haven’t been talking about it much publicly to avoid both the hate, and just the sheer amount of conversations that people want to have.  Tbh I don’t talk about using TD much because so many people will want to give their 2¢ anytime TD comes up, I’ve found it better to keep quiet and do my thing"
+  },
+  {
+   "id": "1496987723620417557",
+   "author": "twozero",
+   "ts": "2026-04-23T21:34:45.998Z",
+   "reply_to": "",
+   "text": "hey everyone, we’re currently deep in development on a new build and will be getting back to all your questions very soon. thank you"
+  },
+  {
+   "id": "1496987786258026517",
+   "author": "twozero",
+   "ts": "2026-04-23T21:35:00.932Z",
+   "reply_to": "",
+   "text": "twozero\n ha fijado un mensaje en este canal. Ver todos los mensajes fijados.\n — \n23/4/26, 18:35\njueves, 23 de abril de 2026, 18:35"
+  },
+  {
+   "id": "1497887137197064303",
+   "author": "DRIFTKOP",
+   "ts": "2026-04-26T09:08:42.905Z",
+   "reply_to": "",
+   "text": "Any best practices on how to use Claude? Have Opus make a plan, execute plan on lower models?"
+  },
+  {
+   "id": "1498409518005092453",
+   "author": "verygeeky",
+   "ts": "2026-04-27T19:44:28.195Z",
+   "reply_to": "@DRIFTKOP | Any best practices on how to use Claude? Have Opus make a plan, execute plan on lower models?",
+   "text": "I've been burning a ton of tokens through this MCP server.  Others have said they've had better luck with modifications to existing projects or using it to build your understanding of and existing tox.  Again, I had pretty good luck with 'one-shot' or 3-4 iteration to get a vsiualization. \n\nMy advice - get clarity on what you are attempting to build and focus on documenting that first.  As your project gets more complex, you want to have a clear set of expectations/tests that the model can use to validate or guide it's work.  I use \"plan for scale, use containers, dats should be scoped apprpriately, if you can do something in 3 lines of python instead of a 10 node network, do so.  use screenshots and test logic to verify your networks...\" and a handful of \"advice from a seasoned td nerd\" things i've heard to help it build a PRACTICES.md that the CLAUDE.md for a specific project can refer to.  Use git for supporting documentation.  Use plan mode.  Use SuperClaude or another framework for memory and context management.  Save often.  Remind yourself to play in TD 'by hand' too - imho the LLM is a terrible place for insipriation, but helps with some of the tedious refactoring / mapping tasks.\n\nThere's a bunch of hay that's been made of the claude-opus-4-6 to claude-opus-4-7 real-world performance fall off.  That experience has been mirrored in the MCP use, too.  It just got dumb."
+  },
+  {
+   "id": "1498409888261603449",
+   "author": "verygeeky",
+   "ts": "2026-04-27T19:45:56.471Z",
+   "reply_to": "",
+   "text": "have  it maintain and keep updated a TODO.md, BUGS.md,  or github issues so you can /reset your session context as often as you want without losing 'where you were'"
+  },
+  {
+   "id": "1498410081148993557",
+   "author": "verygeeky",
+   "ts": "2026-04-27T19:46:42.459Z",
+   "reply_to": "",
+   "text": "td_search (or whatever the tool is called) will hang TD on a sufficiently large network."
+  },
+  {
+   "id": "1498566409020768337",
+   "author": "DisintegrationLoops",
+   "ts": "2026-04-28T06:07:53.928Z",
+   "reply_to": "@giorgio | Haters gonna hate. a lot of people don’t understand where this kind of tech can be helpful and take artistic practice further.  I’ve been using an MCP to program TD for ",
+   "text": "This is a very insightful and helpful take, I appreciate it."
+  },
+  {
+   "id": "1499053796100280430",
+   "author": "Emu!",
+   "ts": "2026-04-29T14:24:36.063Z",
+   "reply_to": "@DisintegrationLoops | @twozero hi guys! I have to say, I’m a bit thrown off and perplexed by the toxic and negative reaction in the comments section of the touchdesigner instagram",
+   "text": "As someone who's been developing with AI for 8ish hours a day for work and external stuff for 2 years now, it'll be the one big thing that I learned over these recent years to just ignore as much as possible. I've gotten genuine death threats over telling people I use it, people have proceeded to attempt to slander EVERY track I've produced in my music career as \"ai\" when I didn't even use AI for a single project, I use it for coding, and I use it to assist me with TD. In which sadly, I'm afraid to ever admit that because of how horribly immature, aggressive and toxic the anti ai community is. :/ \n\nBut, nothing you can do, their loss, our gain yk?"
+  },
+  {
+   "id": "1499857999659798610",
+   "author": "tiwonku",
+   "ts": "2026-05-01T19:40:13.133Z",
+   "reply_to": "",
+   "text": "it seems like most of the anti-ai discourse revolves around topics like artistic agency, purity, elbow grease, etc\n\ni agree that this discourse often becomes immature and toxic really quick\n\nHOWEVER, i think it’s a straw man\n\nthe real anti-ai argument is how this technology is literally bringing our entire civilization closer and closer to the dystopian surveillance state that science fiction writers have been imagining for decades\n\nand every project that harnesses the corpo entities powering it is complicit in that trend\n\ni think the simple solution here is for twozero and individual developers to PRIORITIZE being able to harness open-source and locally-run models… if we’re not actively trying to push the industry in this direction, then we are a part of the problem\n\nno shade toward anyone here, i havent heard from twozero team about their roadmap and im hoping that everyone has their eyes on this important and non-trivial criticism of the cultural tsunami toward AI adoption"
+  },
+  {
+   "id": "1500302932594135225",
+   "author": "escala_7_7",
+   "ts": "2026-05-03T01:08:13.411Z",
+   "reply_to": "",
+   "text": "there is any good video for windows , having some troubles , i am using qwen3.5 local in my 4060 ti , with claude runing on terminal , but perment installed with ollama ,ollama launch claude  --model qwen3.5:9b-64k , maybe i use a better model ?"
+  },
+  {
+   "id": "1501573958846124132",
+   "author": "Emu!",
+   "ts": "2026-05-06T13:18:49.684Z",
+   "reply_to": "@escala_7_7 |  [PIXA],  | Etiqueta de servidor: PIXA | PIXA | there is any good video for windows , having some troubles , i am using qwen3.5 local in my 4060 ti , with claude runi",
+   "text": "Anything less than claude opus imo on a max plan gave me less than what I desired"
+  },
+  {
+   "id": "1501574123380539422",
+   "author": "Emu!",
+   "ts": "2026-05-06T13:19:28.912Z",
+   "reply_to": "",
+   "text": "I also think, above all, you  NEED to spend at least a day or two just teaching it the ins and outs, I fed transcripts of 20 or so tutorials and its been great since"
+  },
+  {
+   "id": "1501575098757419190",
+   "author": "Emu!",
+   "ts": "2026-05-06T13:23:21.460Z",
+   "reply_to": "@tiwonku |  [PLF],  | Etiqueta de servidor: PLF | PLF | it seems like most of the anti-ai discourse revolves around topics like artistic agency, purity, elbow grease, etc  i agree ",
+   "text": "My whole thing, is I think phones, social media and all that bullshit killed creativity more than ai ever will. It only empowers those who had little to no skill before to now be able to make sub par content, anyone who's actually already creative doesn't need it or ended up becoming better at what they did. \n\nI really don't care what happens from here, as grim as it sounds because its not my problem. And going \"helll no I am NOT going to use _\" is just obsolete imo. If in the next 10ish years using AI contributes to a dystopian society? I'm still going to use it  \n\nBut once more, this is coming from someone who's in programming, I'll always be a supporter, because its impacted my life in nothing but positive ways, and I feel like all the arguments against it are just going off the same fear mongering mentality mfs were in back in Y2K"
+  },
+  {
+   "id": "1501575196942008482",
+   "author": "Emu!",
+   "ts": "2026-05-06T13:23:44.869Z",
+   "reply_to": "",
+   "text": "but also, I'm part of the crowd that got so tired of trying to see eye to eye with people on this that I just will rage bait antis now lmao"
+  },
+  {
+   "id": "1502335457004880033",
+   "author": "thenftking3000",
+   "ts": "2026-05-08T15:44:44.993Z",
+   "reply_to": "",
+   "text": "Hi. Very keen to get started. Has anyone had any issues with viruses or how are people using this tool? Please advise. Thanks."
+  },
+  {
+   "id": "1502908009435631617",
+   "author": "vacuum",
+   "ts": "2026-05-10T05:39:52.130Z",
+   "reply_to": "@thenftking3000 | Hi. Very keen to get started. Has anyone had any issues with viruses or how are people using this tool? Please advise. Thanks.",
+   "text": "how do we know you are not a virus? (editado)\ndomingo, 10 de mayo de 2026, 2:39"
+  },
+  {
+   "id": "1503421356321144953",
+   "author": "thenftking3000",
+   "ts": "2026-05-11T15:39:43.565Z",
+   "reply_to": "",
+   "text": "Just answer my question please."
+  },
+  {
+   "id": "1503424971236708444",
+   "author": "Karomm",
+   "ts": "2026-05-11T15:54:05.428Z",
+   "reply_to": "",
+   "text": "no virus, its safe"
+  },
+  {
+   "id": "1503428614807490672",
+   "author": "thenftking3000",
+   "ts": "2026-05-11T16:08:34.123Z",
+   "reply_to": "",
+   "text": "@Karomm Thanks"
+  },
+  {
+   "id": "1503502088393461881",
+   "author": "twozero-ai",
+   "ts": "2026-05-10T05:39:58.822Z",
+   "reply_to": "@vacuum | how do we know you are not a virus? (editado) | domingo, 10 de mayo de 2026, 2:39",
+   "text": "The only virus we've caught is being slow to reply on socials. Working on the cure."
+  },
+  {
+   "id": "1503502092256542780",
+   "author": "twozero-ai",
+   "ts": "2026-05-11T21:00:32.512Z",
+   "reply_to": "@escala_7_7 |  [PIXA],  | Etiqueta de servidor: PIXA | PIXA | there is any good video for windows , having some troubles , i am using qwen3.5 local in my 4060 ti , with claude runi",
+   "text": "Onboarding video series is in production. Nothing Windows-specific out yet. The install path is the same on Windows as on Mac, so general install guidance applies.\n\nOn model: Opus 4.7 is what we use day to day. Sonnet doesn't carry the MCP load reliably. Codex has been working noticeably better lately too if you prefer that route.\n\nWe haven't tested TWOZERO MCP with local models, so can't say if 9B qwen3.5 holds tool-use for TD networks. If you keep going with the local setup and want to share what you find, we'd be glad to hear."
+  },
+  {
+   "id": "1503502097373466676",
+   "author": "twozero-ai",
+   "ts": "2026-05-11T21:00:33.732Z",
+   "reply_to": "@verygeeky |  [BUZZ],  | Etiqueta de servidor: BUZZ | BUZZ | td_search (or whatever the tool is called) will hang TD on a sufficiently large network.",
+   "text": "Confirmed, thanks for the report. td_search struggles on large networks. We push improvements daily but can't get to everything at once. This is on the list."
+  },
+  {
+   "id": "1503510582991782019",
+   "author": "twozero-ai",
+   "ts": "2026-05-11T21:34:16.861Z",
+   "reply_to": "@Emu! | As someone who's been developing with AI for 8ish hours a day for work and external stuff for 2 years now, it'll be the one big thing that I learned over these recent years",
+   "text": "Thanks for sharing that. The hostility around AI use is real and exhausting.\n\nWe ship work, not opinions. Output speaks for itself over time."
+  },
+  {
+   "id": "1503510598183555082",
+   "author": "twozero-ai",
+   "ts": "2026-05-11T21:34:20.483Z",
+   "reply_to": "@tiwonku |  [PLF],  | Etiqueta de servidor: PLF | PLF | it seems like most of the anti-ai discourse revolves around topics like artistic agency, purity, elbow grease, etc  i agree ",
+   "text": "The surveillance-state framing is harder to brush off than the \"artistic purity\" one.\n\nCloud-first today because that's where capability is. We want to build with the strongest models available, and those happen to be closed. We don't have the bandwidth to fine-tune or maintain our own open-source stack on top of everything else we're shipping.\n\nThe MCP architecture is model-agnostic. Nothing structural prevents plugging a local backend in once open-source models reliably handle tool-use at the level TD networks need.\n\nWe're artists first. We pick tools that speed up creative work, not tools defined by whether the underlying stack is open or closed. Our limited time with local models has gone more into setup and tinkering than into actual making. Cloud models let us get to the work sooner, so that's where we are.\n\nThere's also a hardware question. A 5090 is out of reach for most people. A100 or H100 setups, even more so. So \"go local\" today shifts the access problem somewhere else, not away.\n\nIf the community keeps growing and the local model space catches up, local backends will be on our radar. For now it's monitor, not invest."
+  },
+  {
+   "id": "1503747306850226257",
+   "author": "verygeeky",
+   "ts": "2026-05-12T13:14:56.227Z",
+   "reply_to": "APP | @twozero-ai | Confirmed, thanks for the report. td_search struggles on large networks. We push improvements daily but can't get to everything at once. This is on the list.",
+   "text": "claude.md additions cautioning that unscoped td_search tool use with large networks may hang TD is all it required.  my workflow keeps me in the ifrst 30-40% of the context window.  i just save every time i /reset and i never lose much, anyway."
+  },
+  {
+   "id": "1503832764838051951",
+   "author": "thenftking3000",
+   "ts": "2026-05-12T18:54:30.999Z",
+   "reply_to": "APP | @twozero-ai | The only virus we've caught is being slow to reply on socials. Working on the cure.",
+   "text": "Thanks a lot. : )"
+  },
+  {
+   "id": "1503845007340208218",
+   "author": "thenftking3000",
+   "ts": "2026-05-12T19:43:09.839Z",
+   "reply_to": "",
+   "text": "I've done all the steps and 'verified' yet when I ask Claude Code in terminal 'What do you see in my TD?' it doesn't / can't see anything and asks for screenshot. Please advise."
+  },
+  {
+   "id": "1503852658228723853",
+   "author": "thenftking3000",
+   "ts": "2026-05-12T20:13:33.953Z",
+   "reply_to": "",
+   "text": "Trying to diagnose with Claude Opus. Am I doing this correct?"
+  },
+  {
+   "id": "1504141046425325650",
+   "author": "404.zero",
+   "ts": "2026-05-13T15:19:31.057Z",
+   "reply_to": "@thenftking3000 | Trying to diagnose with Claude Opus. Am I doing this correct?",
+   "text": "Are you on TD 2025.+?\nLatests twozero should not advice claude to make screenshots unless user is asking for (editado)\nmiércoles, 13 de mayo de 2026, 12:20"
+  },
+  {
+   "id": "1504394455392981032",
+   "author": "thenftking3000",
+   "ts": "2026-05-13T15:20:08.689Z",
+   "reply_to": "@404.zero | Are you on TD 2025.+? Latests twozero should not advice claude to make screenshots unless user is asking for (editado) | miércoles, 13 de mayo de 2026, 12:20",
+   "text": "Yes I am on the latest version."
+  },
+  {
+   "id": "1504719325045461022",
+   "author": "Mark W.",
+   "ts": "2026-05-15T05:37:23.424Z",
+   "reply_to": "",
+   "text": "I've upgraded to 2025.32820 and can't get Two_zero working again. I've tried uninstalling and completely installing over again, this seems to be the error."
+  },
+  {
+   "id": "1504848464813625344",
+   "author": "Eternal_Blue",
+   "ts": "2026-05-15T14:10:32.744Z",
+   "reply_to": "",
+   "text": "Hello I am getting the same error as @Mark W. , I just installed so I thought something was wrong on my end but apparently not?"
+  },
+  {
+   "id": "1504848702672470047",
+   "author": "Eternal_Blue",
+   "ts": "2026-05-15T14:11:29.454Z",
+   "reply_to": "",
+   "text": "I'm on 2025.32820 NC"
+  },
+  {
+   "id": "1504891119589130331",
+   "author": "thenftking3000",
+   "ts": "2026-05-15T17:00:02.435Z",
+   "reply_to": "thenftking3000 | Trying to diagnose with Claude Opus. Am I doing this correct?",
+   "text": "There clearly are bugs."
+  },
+  {
+   "id": "1506124176329543821",
+   "author": "404.zero",
+   "ts": "2026-05-19T02:39:46.071Z",
+   "reply_to": "@Mark W. | I've upgraded to 2025.32820 and can't get Two_zero working again. I've tried uninstalling and completely installing over again, this seems to be the error.",
+   "text": "Fixed"
+  },
+  {
+   "id": "1507148928590549003",
+   "author": "Samu",
+   "ts": "2026-05-21T22:31:46.049Z",
+   "reply_to": "",
+   "text": "Hi, i'm in td 2025.32820. trying to install twozero.tox but if i click \"install\" on that pop up nothing happen. do you know what could i do? Thanks"
+  },
+  {
+   "id": "1507150933283438654",
+   "author": "Jim",
+   "ts": "2026-05-21T22:39:44.005Z",
+   "reply_to": "@Samu | Hi, i'm in td 2025.32820. trying to install twozero.tox but if i click \"install\" on that pop up nothing happen. do you know what could i do? Thanks",
+   "text": "I have the same issue. New TD install"
+  },
+  {
+   "id": "1507151163898724375",
+   "author": "Samu",
+   "ts": "2026-05-21T22:40:38.988Z",
+   "reply_to": "",
+   "text": "pleaseeee that thing seems to be too good to not be used! big support"
+  },
+  {
+   "id": "1507178783923245189",
+   "author": "hijinx",
+   "ts": "2026-05-22T00:30:24.115Z",
+   "reply_to": "@Samu | Hi, i'm in td 2025.32820. trying to install twozero.tox but if i click \"install\" on that pop up nothing happen. do you know what could i do? Thanks",
+   "text": "Same issue with me as well"
+  },
+  {
+   "id": "1507178919898644611",
+   "author": "Яна Цист",
+   "ts": "2026-05-22T00:30:56.534Z",
+   "reply_to": "@Samu | Hi, i'm in td 2025.32820. trying to install twozero.tox but if i click \"install\" on that pop up nothing happen. do you know what could i do? Thanks",
+   "text": "I have the same problem("
+  },
+  {
+   "id": "1507218484445052938",
+   "author": "Jim",
+   "ts": "2026-05-22T03:08:09.457Z",
+   "reply_to": "@404.zero | Fixed",
+   "text": "I think this broke the installer"
+  },
+  {
+   "id": "1507287927368192131",
+   "author": "hyperphonic",
+   "ts": "2026-05-22T07:44:05.940Z",
+   "reply_to": "@Samu | Hi, i'm in td 2025.32820. trying to install twozero.tox but if i click \"install\" on that pop up nothing happen. do you know what could i do? Thanks",
+   "text": "Sorry to be boring, but I'm experiencing the same bug. Latest twozero.tox and TouchDesigner.2025.32820 on macOS. Clicking \"INSTALL TWOZERO\" does nothing. I'm keen to start using this and I would be grateful for an ETA for this installation bugfix. Thanks!"
+  },
+  {
+   "id": "1507376562486382722",
+   "author": "thenftking3000",
+   "ts": "2026-05-22T13:36:18.199Z",
+   "reply_to": "",
+   "text": "Everyone is having a bug and the developers need to support & communicate to their first users who backed them with far faster response times if they want to build this community & develop loyalty."
+  },
+  {
+   "id": "1507408490434400438",
+   "author": "rosco",
+   "ts": "2026-05-10T05:39:58.822Z",
+   "reply_to": "@vacuum | how do we know you are not a virus? (editado) | domingo, 10 de mayo de 2026, 2:39",
+   "text": "you don't know and never will. only with fully open source software can you be 100% certain that there is no virus or other malware.\n\nI think TWOZERO is a trustworthy brand (they have good intentions and have been in the community a long time), but even trustworthy brands can make mistakes. it is hard to ship 100% stable software by yourself. I make a similar tool and it is incredibly difficult to ensure full stability on aggressive development timelines for so many platforms/configurations. I have shipped many broken versions already, but my users are incredibly helpful and report the issues -- this helps a lot. and that is the most important thing anyone can do here: report the issues, while being as clear and helpful and neutral as possible.\n\nit is important to be patient and kind to the developers. they are trying very hard to make something beautiful and useful. it is much harder than it looks "
+  },
+  {
+   "id": "1508097410944204861",
+   "author": "404.zero",
+   "ts": "2026-05-24T13:20:41.864Z",
+   "reply_to": "@Samu | Hi, i'm in td 2025.32820. trying to install twozero.tox but if i click \"install\" on that pop up nothing happen. do you know what could i do? Thanks",
+   "text": "Hi,\nCould  you try this one? (editado)\ndomingo, 24 de mayo de 2026, 10:21"
+  },
+  {
+   "id": "1509211314780766379",
+   "author": "Jordan Glenn",
+   "ts": "2026-05-27T15:06:57.234Z",
+   "reply_to": "",
+   "text": "Hi! I got everything up and running, Claude able to take over my TD + create nodes + link everything together. However, it works for hours and never really has any output... just constant errors throughout and it's troubleshooting the script to try to get literally anything to work. Any support thoughts?"
+  },
+  {
+   "id": "1509261674832593070",
+   "author": "Vince",
+   "ts": "2026-05-27T18:27:04.006Z",
+   "reply_to": "",
+   "text": "@Jordan Glenn whenever you’re having issues with any software, it’s always helpful to share the error messages rather than just “constant errors.” It’s helpful context for anyone looking to assist you."
+  },
+  {
+   "id": "1509262859190927380",
+   "author": "Jordan Glenn",
+   "ts": "2026-05-27T18:31:46.379Z",
+   "reply_to": "",
+   "text": "It's a bit too dense to elaborate on the 'constant errors'. It's hours of claude just reworking things and reworking things, it's adding nodes, connecting them, and even bringing values together. But it isn't able to generate any output - I do believe it might have to do with instancing issue in the main geo, but i'm not sure. It's just working on overload and I don't personally have much scripting background to break it down. When I stop it, and try to get it going again, it says it'll be a quick fix and it cannot figure out how to actually produce any elements that it's trying to do."
+  },
+  {
+   "id": "1509262930485706863",
+   "author": "Jordan Glenn",
+   "ts": "2026-05-27T18:32:03.377Z",
+   "reply_to": "",
+   "text": "So just any generalized support - whether certain prompting, techniques, or elsewhere is helpful!"
+  },
+  {
+   "id": "1509272385969324085",
+   "author": "404.zero",
+   "ts": "2026-05-27T19:09:37.740Z",
+   "reply_to": "@Jordan Glenn | Hi! I got everything up and running, Claude able to take over my TD + create nodes + link everything together. However, it works for hours and never really has any ",
+   "text": "What was the task?\nWhich model: opus/sonnet?\n\nthere is also a basic channel for bug report: sign in inside twozero td plugin, ask claude at the end (or anytime) of the bad session:\n\n‘bug report twozero about [describe what was unsuccessful, ask to attach any assets if required]’\n\nClaude will collect the full session, clean up personal data and send it to us for investigation. (editado)\nmiércoles, 27 de mayo de 2026, 16:12"
+  },
+  {
+   "id": "1509273457324720191",
+   "author": "Jordan Glenn",
+   "ts": "2026-05-27T19:13:53.171Z",
+   "reply_to": "",
+   "text": "Copy I'll do that next time. For now, it was using sonnet and the prompt was 'create me a beautiful particle system integrating SOPs, POPs, and TOPs'"
+  },
+  {
+   "id": "1509273516577390784",
+   "author": "Jordan Glenn",
+   "ts": "2026-05-27T19:14:07.298Z",
+   "reply_to": "",
+   "text": "@404.zero"
+  },
+  {
+   "id": "1509338316020125707",
+   "author": "404.zero",
+   "ts": "2026-05-27T23:31:36.689Z",
+   "reply_to": "@Jordan Glenn | Copy I'll do that next time. For now, it was using sonnet and the prompt was 'create me a beautiful particle system integrating SOPs, POPs, and TOPs'",
+   "text": "It’s too complex for sonnet.\nTry opus 4.7"
+  },
+  {
+   "id": "1509382144580124712",
+   "author": "ZUZAH",
+   "ts": "2026-05-28T02:25:46.232Z",
+   "reply_to": "",
+   "text": "Sup Mornings I am so new to TD and TWOZERO Tool, IF I wanna build line Modulation CRT Effect, What should I do?\n\nI just installed TWOZERO Plugin but a bit lost."
+  },
+  {
+   "id": "1509558110560194700",
+   "author": "Barbosa",
+   "ts": "2026-05-28T14:04:59.791Z",
+   "reply_to": "",
+   "text": "tbh u should watch some beginners guides to get familiarize with TD twozero alone won't take you anywhere"
+  },
+  {
+   "id": "1509561118618685601",
+   "author": "ZUZAH",
+   "ts": "2026-05-28T14:16:56.968Z",
+   "reply_to": "@Barbosa | tbh u should watch some beginners guides to get familiarize with TD twozero alone won't take you anywhere",
+   "text": "makes sense haha, okay will do \nthanks"
+  },
+  {
+   "id": "1509571179831365953",
+   "author": "Morhaq",
+   "ts": "2026-05-28T14:56:55.748Z",
+   "reply_to": "",
+   "text": "Hey, ive only read so far about TWOZERO, is there a way to plug in local models to it?"
+  },
+  {
+   "id": "1509622718872555580",
+   "author": "Danii",
+   "ts": "2026-05-28T18:21:43.613Z",
+   "reply_to": "",
+   "text": "it's running via MCP, and in my case I use the desktop Cursor app to host it all, so I can set what model it uses via the selector in chat."
+  },
+  {
+   "id": "1509814949982109776",
+   "author": "partario",
+   "ts": "2026-05-29T07:05:35.081Z",
+   "reply_to": "",
+   "text": "Hey guys, sorry to ask here but does someone have a functioning link to the zerror disc? Link on the webpage no longer works"
+  },
+  {
+   "id": "1509819825147478077",
+   "author": "404.zero",
+   "ts": "2026-05-29T07:24:57.411Z",
+   "reply_to": "@partario | Hey guys, sorry to ask here but does someone have a functioning link to the zerror disc? Link on the webpage no longer works",
+   "text": "Which link doesn’t work?"
+  },
+  {
+   "id": "1509820013643825324",
+   "author": "partario",
+   "ts": "2026-05-29T07:25:42.352Z",
+   "reply_to": "",
+   "text": "On the main website, under the menu when you click \"support\""
+  },
+  {
+   "id": "1509820091376730163",
+   "author": "partario",
+   "ts": "2026-05-29T07:26:00.885Z",
+   "reply_to": "",
+   "text": "Get an \"invite invalid\" error"
+  },
+  {
+   "id": "1509838857762504905",
+   "author": "Barbosa",
+   "ts": "2026-05-29T08:40:35.140Z",
+   "reply_to": "",
+   "text": "confirm this"
+  },
+  {
+   "id": "1511469344155107459",
+   "author": "Samu",
+   "ts": "2026-05-24T13:21:44.304Z",
+   "reply_to": "@404.zero | Hi, Could  you try this one? (editado) | domingo, 24 de mayo de 2026, 10:21",
+   "text": "it was working but now it's not working anymore, same problem of last time"
+  },
+  {
+   "id": "1515460970015621172",
+   "author": "CptGummyBearz",
+   "ts": "2026-06-13T21:00:51.155Z",
+   "reply_to": "",
+   "text": "So the plugin says its connected but claude code doesnt see anything or is able to create something in touchdesigner. I'm really confused. I'm using Claude Desktop, might that be an issue?"
+  },
+  {
+   "id": "1515503121588162571",
+   "author": "Danii",
+   "ts": "2026-06-13T23:48:20.873Z",
+   "reply_to": "",
+   "text": "Need to ensure MCP servers are correctly set in .json/config, and that it's enabled & showing as connected with all tools available.\nDefault setups should have the server listening on localhost:40404 so give your agent that context and have it ping and curl around to see what's up\n\nI use the MCP server from a Linux VPS in the cloud and forward the port over SSH so it's always a battle to keep it connected.\nGotta manually forward a port and everything in my case specifically (editado)\nsábado, 13 de junio de 2026, 20:56"
+  },
+  {
+   "id": "1516885490647826706",
+   "author": "Danii",
+   "ts": "2026-06-17T19:21:23.340Z",
+   "reply_to": "",
+   "text": "I've been trying to get work done in the wake of Fable being pulled (omg it was SO good at TD) and I've been getting the sense that Sonnet 4.7 is better then opus 4.8, anyone concur?\nI feel like 4.8 got so much dumber post Fable"
+  },
+  {
+   "id": "1516885712077586664",
+   "author": "Danii",
+   "ts": "2026-06-17T19:22:16.133Z",
+   "reply_to": "",
+   "text": "Dumber as in it's constantly going on wild goose chases looking at the wrong things and misconceptualizing the problems in networks."
+  },
+  {
+   "id": "1518495824575729836",
+   "author": "kyphae",
+   "ts": "2026-06-22T06:00:16.867Z",
+   "reply_to": "",
+   "text": "Issue with install on Mac on 2820. Works fine on windows. MCP doesn't persist on new files requires install each time. Sometimes loading twozero tox crashes a new file. Any ideas?"
+  },
+  {
+   "id": "1518543994420727939",
+   "author": "nin",
+   "ts": "2026-06-22T09:11:41.453Z",
+   "reply_to": "",
+   "text": "Hi @404.zero ,\n\nIs there any chance we could have the option to use the old UI layout in TwoZero?\n\nThe new UI feels a lot heavier compared to the previous version, and it seems to have lost some of that snappy, flexible feel that made the old UI great to work with."
+  },
+  {
+   "id": "1518579829790998699",
+   "author": "404.zero",
+   "ts": "2026-06-22T11:34:05.271Z",
+   "reply_to": "@kyphae | Issue with install on Mac on 2820. Works fine on windows. MCP doesn't persist on new files requires install each time. Sometimes loading twozero tox crashes a new file. A",
+   "text": "For the new files an issue seems \n\nEnable full disc access: OPTION (⌥) + F2 → Privacy & Security → Full Disc Access → TouchDesigner (toggle on)\n\nFor the new ui crashing yes, working on it"
+  },
+  {
+   "id": "1518580037161320558",
+   "author": "404.zero",
+   "ts": "2026-06-22T11:34:54.712Z",
+   "reply_to": "@nin |  [DNE],  | Etiqueta de servidor: DNE | DNE | Hi @404.zero ,  Is there any chance we could have the option to use the old UI layout in TwoZero?  The new UI feels a lot heavie",
+   "text": "Yes working on it"
+  },
+  {
+   "id": "1518580363859853354",
+   "author": "nin",
+   "ts": "2026-06-22T11:36:12.603Z",
+   "reply_to": "",
+   "text": "thanks you so much!"
+  },
+  {
+   "id": "1519314870279868476",
+   "author": "Eternal_Blue",
+   "ts": "2026-06-24T12:14:52.580Z",
+   "reply_to": "",
+   "text": "hello, it's been a few days now that everytime I launch TD the twozero ui shows up with install button, the mcp config, etc. It's very annoying. It's tempting me to uninstall actually. The only thing I want is the op create dialog which is great. It shouldn't be so intrusive and in your face everytime. Is that a bug?\n\nThanks."
+  },
+  {
+   "id": "1519397781004095489",
+   "author": "mehdishoetoe",
+   "ts": "2026-06-24T17:44:20.037Z",
+   "reply_to": "",
+   "text": "When i drop the tox file into td there's no install button showing up. Anyone else had this problem and how do i fix this?"
+  },
+  {
+   "id": "1519452278367457342",
+   "author": "404.zero",
+   "ts": "2026-06-24T21:20:53.221Z",
+   "reply_to": "@Eternal_Blue | hello, it's been a few days now that everytime I launch TD the twozero ui shows up with install button, the mcp config, etc. It's very annoying. It's tempting me to",
+   "text": "Working on a fix.\nIf you install once by double clicking on tox (not a drag and drop to project) is a fix for now. (editado)\nmiércoles, 24 de junio de 2026, 18:21"
+  },
+  {
+   "id": "1520361749180579961",
+   "author": "rosco",
+   "ts": "2026-06-27T09:34:47.960Z",
+   "reply_to": "@Danii |  [WIZ],  | Etiqueta de servidor: WIZ | WIZ | Dumber as in it's constantly going on wild goose chases looking at the wrong things and misconceptualizing the problems in net",
+   "text": "probably a skills issue more than anything. well-defined skills and rules are quintessential to comprehension. context is king.\n\nmy go-to analogy here is: using AI is like hiring a contractor. the models are their education/background -- some went to amazing schools (fable), others went to so-so technical universities (sonnet).\n\nnow obviously you wanna hire somebody who is fluent in touch (Embody, TWOZERO, etc.), but every \"contractor\" is different, each has their own styles and approaches that you may or may not like. it's highly subjective. but there are certain objective truths and best-practices to follow in touch. so really, I think any model with sonnet 4.6+ capability, should execute decently in touch, with a well-defined skillset. but no skills/rules, and you are playing the lottery for whether it will hallucinate or research things or not. not all universities teach touch... and if they do, it's not usually to the extent that you need professioanlly, to truly \"grok\" it. that's where skills/rules come into play. (editado)\nsábado, 27 de junio de 2026, 6:36"
+  },
+  {
+   "id": "1528470691014250597",
+   "author": "Ki.",
+   "ts": "2026-07-19T18:36:50.350Z",
+   "reply_to": "",
+   "text": "Has anyone tried combining skills like caveman to conserve tokens during more complex builds? Been using sonnet5 and opus4.8 this weekend and ive been very impressed so far but im churning through my limits very quickly"
+  },
+  {
+   "id": "1528529559798939738",
+   "author": "Danii",
+   "ts": "2026-07-19T22:30:45.762Z",
+   "reply_to": "@Ki. | Has anyone tried combining skills like caveman to conserve tokens during more complex builds? Been using sonnet5 and opus4.8 this weekend and ive been very impressed so far ",
+   "text": "I personally haven't explored using add-on skills with my LLMs beyond what others have put into their MCP servers, much less have I looked through and vetted this one,\nbut it might be a much more day-to-day useable skill to get a similar effect\nhttps://github.com/ayghri/i-have-adhd"
+  },
+  {
+   "id": "1528537538828959985",
+   "author": "Ki.",
+   "ts": "2026-07-19T23:02:28.111Z",
+   "reply_to": "@Danii |  [WIZ],  | Etiqueta de servidor: WIZ | WIZ | I personally haven't explored using add-on skills with my LLMs beyond what others have put into their MCP servers, much less h",
+   "text": "Interesting. I'll take a look at this ty"
+  },
+  {
+   "id": "1535212588932276274",
+   "author": "twozero",
+   "ts": "2026-08-07T09:06:44.072Z",
+   "reply_to": "",
+   "text": "hey everyone!\n2.381 is out. Update the plugin.\nThis one is mostly about the day to day. Your components sync to your cloud with\nversion history, previews and sharing, so no more five .tox files with dates in\nthe name. Generation works in the browser now too: images, video, audio and 3D\non the same account. Any model you want, without leaving TouchDesigner.\nPlenty of smaller changes on top of that. Full list is in the changelog.\nRequires TouchDesigner 2025.33070 or newer.\ntwozero.ai/download/twozero.tox\ntwozero.ai/docs"
+  },
+  {
+   "id": "1536568996013547570",
+   "author": "Ki.",
+   "ts": "2026-08-11T02:56:36.721Z",
+   "reply_to": "",
+   "text": "is there a way to update if you've already installed or do you just need to download the tox again"
+  },
+  {
+   "id": "1536618037204090910",
+   "author": "dima_znam",
+   "ts": "2026-08-11T06:11:29.052Z",
+   "reply_to": "@Ki. | is there a way to update if you've already installed or do you just need to download the tox again",
+   "text": "Settings → Check updates No need to re-download the tox"
+  },
+  {
+   "id": "1551007818990227469",
+   "author": "mykul0rr",
+   "ts": "2026-09-19T23:11:20.379Z",
+   "reply_to": "",
+   "text": "Hi, just wondering if anyone can help - migrated to a new system and twozero will not work correctly with TD. \n\ntwozero (tried v3.34 and an Aug 2026 build) loads cleanly in TD 2025.33230 (Textport shows [loader] loaded /ui/dialogs/bookmark_bar/twozero, no errors) but never binds its MCP port. Confirmed via netstat -ano | findstr 40404 — nothing listens on that port, and no twozero child process ever appears in Task Manager. \n\nRuled out: G Data firewall (TouchDesigner.exe already fully allowed, no twozero-specific block), admin rights (confirmed via whoami /groups), folder permissions, and stale install state (fully uninstalled, deleted AppData folders, restarted PC, reinstalled clean). Works fine on my other PC with the same TD version. Windows 11."
+  },
+  {
+   "id": "1551008984637382727",
+   "author": "mykul0rr",
+   "ts": "2026-09-19T23:15:58.291Z",
+   "reply_to": "",
+   "text": "@mykul0rr hi everyone"
+  },
+  {
+   "id": "1551649249039753419",
+   "author": "thenftking3000",
+   "ts": "2026-09-21T17:40:09.220Z",
+   "reply_to": "",
+   "text": "Hi. Can anyone explain why there would be any benefits to using twozero when Codex / Claude Code can control TouchDesigner via Desktop? What does twozero do that we can't do directly with Codex / Claude etc? Thanks. (editado)\nlunes, 21 de septiembre de 2026, 14:40"
+  },
+  {
+   "id": "1551689624030552136",
+   "author": "Danii",
+   "ts": "2026-09-21T20:20:35.368Z",
+   "reply_to": "",
+   "text": "There's a lot more context in a much more friendly format via the MCP with the ability to get screenshots of specific operator viewers directly versus needing to do whatever screenshot parsing process in the method you mentioned. Plus there's a lot of data that's just simply not shown on desktop."
+  },
+  {
+   "id": "1551690008027725939",
+   "author": "thenftking3000",
+   "ts": "2026-09-21T20:22:06.920Z",
+   "reply_to": "@Danii |  [WIZ],  | Etiqueta de servidor: WIZ | WIZ | There's a lot more context in a much more friendly format via the MCP with the ability to get screenshots of specific operator",
+   "text": "Thanks but that is so vague. Can you elaborate?"
+  },
+  {
+   "id": "1551692222494285917",
+   "author": "verygeeky",
+   "ts": "2026-09-21T20:30:54.890Z",
+   "reply_to": "@thenftking3000 | Thanks but that is so vague. Can you elaborate?",
+   "text": "adjusting a single parameter on a single OP is 4-5 screenshots plus the underlying text.  the MCP allows the LLM to interact directly with it, as if TD were \"just software.\""
+  },
+  {
+   "id": "1551695810616369173",
+   "author": "thenftking3000",
+   "ts": "2026-09-21T20:45:10.365Z",
+   "reply_to": "@verygeeky |  [BUZZ],  | Etiqueta de servidor: BUZZ | BUZZ | adjusting a single parameter on a single OP is 4-5 screenshots plus the underlying text.  the MCP allows the LLM to int",
+   "text": "Ok and this generates better results?"
+  },
+  {
+   "id": "1551701202650271767",
+   "author": "Danii",
+   "ts": "2026-09-21T21:06:35.926Z",
+   "reply_to": "",
+   "text": "Consumes less tokens for sure"
+  },
+  {
+   "id": "1551719308864782347",
+   "author": "verygeeky",
+   "ts": "2026-09-21T22:18:32.784Z",
+   "reply_to": "",
+   "text": "and orders of magnitude faster."
+  }
+ ]
+}

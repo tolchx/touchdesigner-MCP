@@ -1,0 +1,14 @@
+{
+ "channel": "1491409804491493458",
+ "name": "announcements",
+ "count": 1,
+ "messages": [
+  {
+   "id": "1503489581994217623",
+   "author": "twozero",
+   "ts": "2026-05-11T20:10:49.833Z",
+   "reply_to": "",
+   "text": "ZOPs are live.\nZOPs (Zero Operators) run generative models inside TouchDesigner. Image and video ZOPs output a TOP. Text ZOPs output a DAT.\nWhat's inside:\nText: Claude, GPT, Gemini\nImage: Nano Banana, Flux, Seedream\nVideo: Kling, Seedance, Veo, Wan\nFull list updates live in the panel.\nOpen the ZOPs panel from the TWOZERO tool list, or assign a hotkey in Settings. Browse families, hit Enter to drop a ZOP with the family-default model. Pick a specific variant if you want it pinned. Right-click any row for model metadata and pricing.\nEach ZOP behaves like a regular TD operator. The output drops straight into the network, and every TD tool you already use works on it.\nPay-per-use. Estimated price sits next to each model in the panel; the actual charge appears in the status bar after a run completes. Failed generations are not charged. Top up at https://app.twozero.ai/billing.\nDocs: https://twozero.ai/docs/zops\nDownload: https://www.404zero.com/pisang/twozero.tox\nMade by 404.zero and setupdesign. Questions in ⁠questions-and-support, bugs in ⁠bug-reports, show your work in ⁠show-your-work."
+  }
+ ]
+}

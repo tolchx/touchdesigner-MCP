@@ -1,0 +1,497 @@
+{
+ "channel": "1491410737296441467",
+ "name": "show-your-work",
+ "count": 70,
+ "messages": [
+  {
+   "id": "1491914131320602625",
+   "author": "verygeeky",
+   "ts": "2026-04-09T21:34:07.331Z",
+   "reply_to": "",
+   "text": "low audio.  this is ~4 prompts and 20 minutes while on a work call."
+  },
+  {
+   "id": "1491917029710757898",
+   "author": "DisintegrationLoops",
+   "ts": "2026-04-09T21:45:38.361Z",
+   "reply_to": "",
+   "text": "Impressive for 4 prompts, what were the prompts? Was this with Claude code paid version?"
+  },
+  {
+   "id": "1491923395040903339",
+   "author": "verygeeky",
+   "ts": "2026-04-09T22:10:55.974Z",
+   "reply_to": "@DisintegrationLoops | Impressive for 4 prompts, what were the prompts? Was this with Claude code paid version?",
+   "text": "i used superclaude's /sc:design spend some time to build a plan to frame out a vj performance display. consider the need to vary intensity, color, and scenery. consider how effects could be layered to create unique interactions. consider the new POPs operators. i imagine something like two \"decks\" to load content/scenes into, represented by exclusive buttons.  between should be a crossfader that varies the alpha channel / overlay of the two scenes.  sliders for effects/parameter modification should be displayed below each \"deck.\" search for inspiration or a starting place, if you need. all OPs not exposed to the performer should be contained in a logical hierarchy.  plan for extensibility. it came back with a plan.  i approved it.   the rest was iteration to get the crossfader working.  to be fair... there were only two functional \"scenes\" at this point.. but that was half an hour ago.  "
+  },
+  {
+   "id": "1491923873934086217",
+   "author": "verygeeky",
+   "ts": "2026-04-09T22:12:50.151Z",
+   "reply_to": "",
+   "text": "the biggest problem has been scale.  the llm has no sense of even an order of magnitude for some things.  i've helped it by asking it to sample at the input before determining scalars for sliders/parameters exposed for a given OP... but it's still the main 'go fix' issue i've had. (editado)\njueves, 9 de abril de 2026, 19:13"
+  },
+  {
+   "id": "1491924868847898757",
+   "author": "verygeeky",
+   "ts": "2026-04-09T22:16:47.357Z",
+   "reply_to": "",
+   "text": "@twozero i'll post one last gushing thank you, but please tag me when you stand up a patreon.  this is great work.  jaschasuess posted a tox decompiler on an IG story a couple days ago - this is so much cleaner than the foul mess i was considering."
+  },
+  {
+   "id": "1491926170789220372",
+   "author": "DisintegrationLoops",
+   "ts": "2026-04-09T22:21:57.764Z",
+   "reply_to": "@verygeeky |  [BUZZ],  | Etiqueta de servidor: BUZZ | BUZZ | i used superclaude's /sc:design spend some time to build a plan to frame out a vj performance display. consider the nee",
+   "text": "Very interesting, thanks so much for the insight."
+  },
+  {
+   "id": "1491926337982566591",
+   "author": "DisintegrationLoops",
+   "ts": "2026-04-09T22:22:37.626Z",
+   "reply_to": "@verygeeky |  [BUZZ],  | Etiqueta de servidor: BUZZ | BUZZ | @twozero i'll post one last gushing thank you, but please tag me when you stand up a patreon.  this is great work.  jas",
+   "text": "I too would be very interested in a patreon exploring this deeper."
+  },
+  {
+   "id": "1491937951523934318",
+   "author": "verygeeky",
+   "ts": "2026-04-09T23:08:46.510Z",
+   "reply_to": "",
+   "text": ""
+  },
+  {
+   "id": "1492216855065137444",
+   "author": "Brum",
+   "ts": "2026-04-10T17:37:02.296Z",
+   "reply_to": "@verygeeky |  [BUZZ],  | Etiqueta de servidor: BUZZ | BUZZ | Haz clic para ver el archivo adjunto",
+   "text": "Building this actually in td right now without AI\n\nFull akai apc40 mk2 interface to VJ!\nAlmost finished but this bot could make it even faster\n\nIs it available for mac? (editado)\nviernes, 10 de abril de 2026, 14:38"
+  },
+  {
+   "id": "1492217187396620572",
+   "author": "Brum",
+   "ts": "2026-04-10T17:38:21.530Z",
+   "reply_to": "",
+   "text": ""
+  },
+  {
+   "id": "1492217622358659205",
+   "author": "Brum",
+   "ts": "2026-04-10T17:40:05.233Z",
+   "reply_to": "",
+   "text": "It got 200 slots for visuals\n8 channels\nAnd each channel gets 5 patches(visuals) \nEach patchchannel(8 knobs and 8 buttons)\n\nAnd it has memory too. So it can do a lot hopefully when im finished"
+  },
+  {
+   "id": "1492245197940326490",
+   "author": "verygeeky",
+   "ts": "2026-04-10T19:29:39.764Z",
+   "reply_to": "@Brum | It got 200 slots for visuals 8 channels And each channel gets 5 patches(visuals)  Each patchchannel(8 knobs and 8 buttons)  And it has memory too. So it can do a lot hopefu",
+   "text": "This is incredible. Do you intend to release it?  I'd happily help contribute financially or work on it!"
+  },
+  {
+   "id": "1492249421054738653",
+   "author": "bimbo",
+   "ts": "2026-04-10T17:38:18.600Z",
+   "reply_to": "@Brum | Building this actually in td right now without AI  Full akai apc40 mk2 interface to VJ! Almost finished but this bot could make it even faster  Is it available for mac? (ed",
+   "text": "This is sick. I was just using my Oxi one and few plugins for Audio reactivity with TD by using a few prompts. (Ik you made yourself without the AI model)"
+  },
+  {
+   "id": "1492341867860459631",
+   "author": "verygeeky",
+   "ts": "2026-04-11T01:53:47.669Z",
+   "reply_to": "",
+   "text": "https://derivative.ca/community-post/asset/widget-apc40mkii/69196"
+  },
+  {
+   "id": "1492540706923745310",
+   "author": "Brum",
+   "ts": "2026-04-11T15:03:54.596Z",
+   "reply_to": "@verygeeky |  [BUZZ],  | Etiqueta de servidor: BUZZ | BUZZ | This is incredible. Do you intend to release it?  I'd happily help contribute financially or work on it!",
+   "text": "Yeah definitely want to release it, would like to have some feedback aswell when im about to test, most of the brain and ui is done already but takes a lot of time ofcourse!"
+  },
+  {
+   "id": "1492540843800789114",
+   "author": "Brum",
+   "ts": "2026-04-11T15:04:27.230Z",
+   "reply_to": "@bimbo | This is sick. I was just using my Oxi one and few plugins for Audio reactivity with TD by using a few prompts. (Ik you made yourself without the AI model)",
+   "text": "And want to implement audio reactivity aswell :)"
+  },
+  {
+   "id": "1492541285092036719",
+   "author": "Brum",
+   "ts": "2026-04-11T15:06:12.442Z",
+   "reply_to": "",
+   "text": "Will keep you guys updated if yall are interested"
+  },
+  {
+   "id": "1492596742888226926",
+   "author": "verygeeky",
+   "ts": "2026-04-11T18:46:34.611Z",
+   "reply_to": "",
+   "text": "that escalated quickly."
+  },
+  {
+   "id": "1492598838970810478",
+   "author": "verygeeky",
+   "ts": "2026-04-11T18:54:54.356Z",
+   "reply_to": "",
+   "text": "I built this as a play surface.  Conceptually, it's figuring out which OPs or combinations are flexibile enough to surface to mutate a given existing sketch and adapt it as a \"scene.\"  It functions as a module/plugin framework.  Each network \"plugin\" exposes standard in/outs.  Each plugin contains a DAT that exposes the labels, and defaults for \"paremeters\" (parameters exposed by the scene itself. - sliders impact those. Another \"in scene\" DAT for scene-specific presets (\"oo, i like that look\").   Scene plugins usually take about 10 minutes of understanding one of my random saved .toe's and figuring out what to expose/how or have claude do it.  The gradients are literally just DATs with ramp definitions, global effectors are networks that apply to any scene and mutates a single deck (or can be applied to master out).  Need to add a mixer network to the top (compositing options, mostly) I've got Ableton link (omg, pulse is awesome!), OSC, MIDI, and some oddball automators working (X or Y axis on fingers from media pipe, for instance!)."
+  },
+  {
+   "id": "1492598930012246197",
+   "author": "verygeeky",
+   "ts": "2026-04-11T18:55:16.062Z",
+   "reply_to": "",
+   "text": "should have something on github by the end of weekend, at this pace."
+  },
+  {
+   "id": "1492599092876939294",
+   "author": "verygeeky",
+   "ts": "2026-04-11T18:55:54.892Z",
+   "reply_to": "",
+   "text": "I tried to mirror the Seb Lee's Liberation laser software's use of the APC40 layout so I don't confuse myself."
+  },
+  {
+   "id": "1492603827390775488",
+   "author": "verygeeky",
+   "ts": "2026-04-11T19:14:43.688Z",
+   "reply_to": "",
+   "text": "labels from the \"mountain\" scene's DAT - when they're that's the active scene, the labels swap in."
+  },
+  {
+   "id": "1492603997092315258",
+   "author": "verygeeky",
+   "ts": "2026-04-11T19:15:24.148Z",
+   "reply_to": "",
+   "text": "and you can see the beatgrid automating features of the plasma scene."
+  },
+  {
+   "id": "1492605794015908043",
+   "author": "Brum",
+   "ts": "2026-04-11T19:22:32.568Z",
+   "reply_to": "",
+   "text": "holy fuck"
+  },
+  {
+   "id": "1492605846192918549",
+   "author": "Brum",
+   "ts": "2026-04-11T19:22:45.008Z",
+   "reply_to": "",
+   "text": "leave some work for me ahahah"
+  },
+  {
+   "id": "1492605990716047462",
+   "author": "Brum",
+   "ts": "2026-04-11T19:23:19.465Z",
+   "reply_to": "",
+   "text": "@verygeeky does the ai work on mac aswell?"
+  },
+  {
+   "id": "1492607091985223922",
+   "author": "Brum",
+   "ts": "2026-04-11T19:27:42.028Z",
+   "reply_to": "@verygeeky |  [BUZZ],  | Etiqueta de servidor: BUZZ | BUZZ | labels from the \"mountain\" scene's DAT - when they're that's the active scene, the labels swap in.",
+   "text": "tried this widget out aswell but its slow af"
+  },
+  {
+   "id": "1492621098469294260",
+   "author": "verygeeky",
+   "ts": "2026-04-11T20:23:21.434Z",
+   "reply_to": "@Brum | tried this widget out aswell but its slow af",
+   "text": "on screen, it ABSOLUTELY is.  i think reducing the sample rate from the on-screen knobs/sliders might help."
+  },
+  {
+   "id": "1492621194501951691",
+   "author": "verygeeky",
+   "ts": "2026-04-11T20:23:44.330Z",
+   "reply_to": "@Brum | @verygeeky does the ai work on mac aswell?",
+   "text": "yes, i believe so."
+  },
+  {
+   "id": "1492621355827597433",
+   "author": "verygeeky",
+   "ts": "2026-04-11T20:24:22.793Z",
+   "reply_to": "",
+   "text": ".toe is weird, since it's not really source.  i'll put it up on github by sunday night, regardless of state."
+  },
+  {
+   "id": "1492625663293657191",
+   "author": "Brum",
+   "ts": "2026-04-11T20:41:29.773Z",
+   "reply_to": "@verygeeky |  [BUZZ],  | Etiqueta de servidor: BUZZ | BUZZ | on screen, it ABSOLUTELY is.  i think reducing the sample rate from the on-screen knobs/sliders might help.",
+   "text": "what helped for me in my patch is like when values are changed not rewriting the whole fkn ui XD, cooktime was cooked"
+  },
+  {
+   "id": "1492671074091929721",
+   "author": "verygeeky",
+   "ts": "2026-04-11T23:41:56.551Z",
+   "reply_to": "@Brum | what helped for me in my patch is like when values are changed not rewriting the whole fkn ui XD, cooktime was cooked",
+   "text": "I'm intentionally not worrying about resources to begin with.  Every clip is cooking even when paged out.  "
+  },
+  {
+   "id": "1498894707315572756",
+   "author": "Emu!",
+   "ts": "2026-04-29T03:52:26.341Z",
+   "reply_to": "",
+   "text": "So I uh"
+  },
+  {
+   "id": "1498894822390501386",
+   "author": "Emu!",
+   "ts": "2026-04-29T03:52:53.777Z",
+   "reply_to": "",
+   "text": "I threw this into my claude max subscription for 2 days for the hell of it"
+  },
+  {
+   "id": "1498894915961229383",
+   "author": "Emu!",
+   "ts": "2026-04-29T03:53:16.086Z",
+   "reply_to": "",
+   "text": "I'll get around to a demo at some point but I now have my entire akai midi mix labeled "
+  },
+  {
+   "id": "1499763141427466372",
+   "author": "CodeNoctis",
+   "ts": "2026-05-01T13:23:17.168Z",
+   "reply_to": "",
+   "text": "Hi folks and 404 masters  Just tested twozero with codex gpt 5.5 yesterday and let him cook AutoKey (Blender-like Auto Keying animation workflow) for me. And it works! so today just finetuning and making compatible with classic TD animation (export links) and also compatible with Keyframer (expressions links) from IntentDev https://github.com/IntentDev/Keyframer\n\nIm thinking about purchase Zerror and explore Zerror Timeline - dunno how it really work and if it make sense to connect compatibility for AutoKey with Zerror Timeline - any suggestions? (editado)\nviernes, 1 de mayo de 2026, 10:24"
+  },
+  {
+   "id": "1499763251108384849",
+   "author": "CodeNoctis",
+   "ts": "2026-05-01T13:23:43.318Z",
+   "reply_to": "",
+   "text": "I will share AutoKey with you soon "
+  },
+  {
+   "id": "1500215035564265653",
+   "author": "nin",
+   "ts": "2026-05-01T13:24:10.017Z",
+   "reply_to": "@CodeNoctis | Hi folks and 404 masters  Just tested twozero with codex gpt 5.5 yesterday and let him cook AutoKey (Blender-like Auto Keying animation workflow) for me. And it works",
+   "text": "Zerror Timeline is locked, so I think only work on Zerror."
+  },
+  {
+   "id": "1500215390943580228",
+   "author": "nin",
+   "ts": "2026-05-02T19:20:21.855Z",
+   "reply_to": "",
+   "text": "but I think you can use Timecode Chop to workaround ?"
+  },
+  {
+   "id": "1500216236804542737",
+   "author": "CodeNoctis",
+   "ts": "2026-05-02T19:23:43.524Z",
+   "reply_to": "",
+   "text": "thanks for tip  is zerror mostly for liveshows / timecode events or do you recommended Zerror for 15 min animated gallery project? Im now thinking to use Keyframer and beat chop. (editado)\nsábado, 2 de mayo de 2026, 16:24"
+  },
+  {
+   "id": "1500216363409608714",
+   "author": "CodeNoctis",
+   "ts": "2026-05-02T19:24:13.709Z",
+   "reply_to": "",
+   "text": "making progress..."
+  },
+  {
+   "id": "1500216552627114034",
+   "author": "nin",
+   "ts": "2026-05-02T19:24:58.822Z",
+   "reply_to": "@CodeNoctis | making progress...",
+   "text": "woo looks cool!"
+  },
+  {
+   "id": "1500219207927726364",
+   "author": "nin",
+   "ts": "2026-05-02T19:24:32.043Z",
+   "reply_to": "@CodeNoctis | thanks for tip  is zerror mostly for liveshows / timecode events or do you recommended Zerror for 15 min animated gallery project? Im now thinking to use Keyframer an",
+   "text": "mostly liveshow for me, I rarely use Timeline\n\nbut zerror parameters can be control, so you can use keyframe for that.\n\nyou can try thier sample project first, zerrorBenchmark.toe\nhttps://www.404zero.com/zerror"
+  },
+  {
+   "id": "1500221695200334052",
+   "author": "nin",
+   "ts": "2026-05-02T19:45:24.907Z",
+   "reply_to": "",
+   "text": "15min animated, keyframe maybe the way to go? it much easiler look at in editor. ( like working on AE for me )"
+  },
+  {
+   "id": "1500222448879276255",
+   "author": "CodeNoctis",
+   "ts": "2026-05-02T19:48:24.598Z",
+   "reply_to": "",
+   "text": "agree, thats the reason why I got idea to build AutoKey with twozero at 1 AM   together with Keyframer looks like a plan..\n\nthanks for advices with Zerror, will try tru the summer season, after the gallery project will be finished  - deadline is too soon to learn new workflow right now "
+  },
+  {
+   "id": "1508818074382635180",
+   "author": "Danii",
+   "ts": "2026-05-26T13:04:21.417Z",
+   "reply_to": "",
+   "text": "Latest projector raid @ Guitar Center\nhttps://video.danii.io/ywh9m\n\nDiscord won't generate embed video players for clips over 100MB :("
+  },
+  {
+   "id": "1508819496570191933",
+   "author": "Danii",
+   "ts": "2026-05-26T13:10:00.493Z",
+   "reply_to": "",
+   "text": "BTW taking recommendations for very bright/outdoor projectors that aren't the price of used luxury sedans (editado)\nmartes, 26 de mayo de 2026, 13:35"
+  },
+  {
+   "id": "1509293956473683968",
+   "author": "Barbosa",
+   "ts": "2026-05-27T20:35:20.549Z",
+   "reply_to": "",
+   "text": "done with your help, for a live show I'm working on... from accoustic guitar -> streamdifusions -> one flower by chord ( trying )"
+  },
+  {
+   "id": "1509293999700312304",
+   "author": "Barbosa",
+   "ts": "2026-05-27T20:35:30.855Z",
+   "reply_to": "",
+   "text": "all live"
+  },
+  {
+   "id": "1511660456123830432",
+   "author": "verygeeky",
+   "ts": "2026-05-26T16:35:39.216Z",
+   "reply_to": "@Danii |  [WIZ],  | Etiqueta de servidor: WIZ | WIZ | BTW taking recommendations for very bright/outdoor projectors that aren't the price of used luxury sedans (editado) | martes, ",
+   "text": "\"epson powerlite pro g6750wu\" have been great for me.  eBay finds, of you watch for them. It's a heavy beast compared to whatever you have on the tripod, but bright."
+  },
+  {
+   "id": "1512166116859052052",
+   "author": "Danii",
+   "ts": "2026-06-04T18:48:16.947Z",
+   "reply_to": "@verygeeky |  [BUZZ],  | Etiqueta de servidor: BUZZ | BUZZ | \"epson powerlite pro g6750wu\" have been great for me.  eBay finds, of you watch for them. It's a heavy beast compared t",
+   "text": "nice specs on it, I'll be keeping an search alert for that one if I find it. Bit of a shame it's an older bulb style tho\n\nShortly after my post I went and got a ViewSonic LSD500HD. bout $1k and uses laser instead. Hoping to give it a try this weekend but a local property owner needs to give me the approval first "
+  },
+  {
+   "id": "1512207254642757744",
+   "author": "Danii",
+   "ts": "2026-06-04T21:31:44.959Z",
+   "reply_to": "",
+   "text": "Pipeline made using TwoZero.ai\nLive VFX + Music Stream\n,\nwatch.danii.io\n,\nI listen to music All Day when I work my day job, and that usually means one of my visualizers is open in the corner to give my brain the happy juices.\nI usually listen to all the EDC / Ultra / Lost Lands sets on YouTube, SoundCloud, and my Spotify playlists.\nWhen I'm not working, I'll be doing \"live coding\" and visual prototyping.\nThe stream will be quite inconsistent but will probably be up daily ~9am-7pm (pst)\n\nwho knows, it might go 24/7 when I make an automatic scene switcher\n\n\nI'd love to get general feedback on the performance of the stream since this is all a direct pipeline from my TouchDesigner instance to my custom MediaMTX/HSL mux on my cloud VPS.\n\nDoes it stutter? Shit Audio? Buffering?\netc... i dunno it's been working fine for me but I'm one user\nstream is ~15mbps 1080p btw\n (editado)\njueves, 4 de junio de 2026, 18:32"
+  },
+  {
+   "id": "1512378408057704568",
+   "author": "verygeeky",
+   "ts": "2026-06-05T08:51:51.113Z",
+   "reply_to": "@Danii |  [WIZ],  | Etiqueta de servidor: WIZ | WIZ | nice specs on it, I'll be keeping an search alert for that one if I find it. Bit of a shame it's an older bulb style tho  Shor",
+   "text": "The ultra-short lens (ELPLU01) is what does it for me."
+  },
+  {
+   "id": "1512821967550415050",
+   "author": "Emu!",
+   "ts": "2026-06-04T21:32:29.158Z",
+   "reply_to": "@Danii |  [WIZ],  | Etiqueta de servidor: WIZ | WIZ | Pipeline made using TwoZero.aiLive VFX + Music Stream | , | watch.danii.io | , | I listen to music All Day when I work my day ",
+   "text": "ooooh very nice!"
+  },
+  {
+   "id": "1512822055454769342",
+   "author": "Emu!",
+   "ts": "2026-06-06T14:14:44.895Z",
+   "reply_to": "",
+   "text": "I was looking to do some ASCII like stuff, you did 200x better than I what I came up with :o very impressive"
+  },
+  {
+   "id": "1512823298625638450",
+   "author": "Emu!",
+   "ts": "2026-06-06T14:19:41.290Z",
+   "reply_to": "",
+   "text": "(forgive me for a YT link) \n\nI spent I think 2ish weeks trying to do 2 things; \n\nHow much can I throw into one TD project before it overloads (I think I am around 140 with mild stability impacts) so I plan to push that further  \n\nThen how far can I go with syncing audio to virtual audio cable as well as rekordbox \n\nDidn't get a recording of the pytorch \"wallhack\" ESP boxes but I have some optimization to do still  \n\nWhole thing is controlled by a mix of audio sync + then an AKAII mixing board, but there's a lot going on automatically just to make it so even if you aren't doing a lot it'll do tons of things to keep/set the visuals in sync with the BPM while also giving you plenty of control \n\nThen for those interested: \n\nhttps://youtu.be/tUlPHzgqrxM?t=51 (editado)\nsábado, 6 de junio de 2026, 11:20"
+  },
+  {
+   "id": "1512899173744247026",
+   "author": "Danii",
+   "ts": "2026-06-06T19:21:11.328Z",
+   "reply_to": "@Emu! | ooooh very nice!",
+   "text": "In a second I can send you my tox\nIt’s just GLSL (editado)\nsábado, 6 de junio de 2026, 16:21"
+  },
+  {
+   "id": "1512905921217564722",
+   "author": "Danii",
+   "ts": "2026-06-06T19:48:00.051Z",
+   "reply_to": "@Emu! | I was looking to do some ASCII like stuff, you did 200x better than I what I came up with :o very impressive",
+   "text": ""
+  },
+  {
+   "id": "1512908091786658063",
+   "author": "Emu!",
+   "ts": "2026-06-06T19:21:23.080Z",
+   "reply_to": "@Danii |  [WIZ],  | Etiqueta de servidor: WIZ | WIZ | In a second I can send you my tox It’s just GLSL (editado) | sábado, 6 de junio de 2026, 16:21",
+   "text": "Many thanks! GLSL has all kinds of good stuff so far from what I've seen, I usually produce so TD has been a trip "
+  },
+  {
+   "id": "1512995430689145006",
+   "author": "Danii",
+   "ts": "2026-06-07T01:43:40.772Z",
+   "reply_to": "Emu! | Many thanks! GLSL has all kinds of good stuff so far from what I've seen, I usually produce so TD has been a trip ",
+   "text": "Of course, my website in my bio has a real time audio analysis project you can give a try if it’s useful. \nFinal result CHOPs get streamed to other projects/computers over TouchIn/Out streaming to help spread resources usage, but it’s def not the most optimized method"
+  },
+  {
+   "id": "1513615895736488058",
+   "author": "Emu!",
+   "ts": "2026-06-08T18:49:11.167Z",
+   "reply_to": "@Danii |  [WIZ],  | Etiqueta de servidor: WIZ | WIZ | Of course, my website in my bio has a real time audio analysis project you can give a try if it’s useful.  Final result CHOPs ",
+   "text": "You have such a nice portfolio omg"
+  },
+  {
+   "id": "1513615908592160768",
+   "author": "Emu!",
+   "ts": "2026-06-08T18:49:14.232Z",
+   "reply_to": "",
+   "text": "whats your preferred LLM? :D"
+  },
+  {
+   "id": "1513616026351435816",
+   "author": "Emu!",
+   "ts": "2026-06-08T18:49:42.308Z",
+   "reply_to": "",
+   "text": "Had way too much fun with the cursor reactiveness "
+  },
+  {
+   "id": "1513655462187503726",
+   "author": "Danii",
+   "ts": "2026-06-08T21:26:24.544Z",
+   "reply_to": "@Emu! | whats your preferred LLM? :D",
+   "text": "tyvm I appreciate it\nI tend to use a mix of any LLM that's good for the task, I'm not partial to any except maybe anthropics selection.\nI'll be making a proper 'introductory' portfolio sometime soon though since I'm getting to the point of needing a site to direct clients to that isn't... well.. a sloppy repo of projects I hardly update lmao"
+  },
+  {
+   "id": "1521587208421769408",
+   "author": "Fiesta-George",
+   "ts": "2026-06-30T18:44:20.211Z",
+   "reply_to": "",
+   "text": ""
+  },
+  {
+   "id": "1521587250238984233",
+   "author": "Fiesta-George",
+   "ts": "2026-06-30T18:44:30.181Z",
+   "reply_to": "",
+   "text": "I wouldn't have been this far along had it not been for this program. It's helping make my Burning Man art installation a reality.\n\nIf anyone in here would like to participate and have their projection featured at burning man please reach out!"
+  },
+  {
+   "id": "1534242534774149373",
+   "author": "Fiesta-George",
+   "ts": "2026-08-04T16:52:05.138Z",
+   "reply_to": "",
+   "text": "Stoked to have twozero to help integrate project files from other artists. It made this inclusion a breeze."
+  },
+  {
+   "id": "1534243141513641994",
+   "author": "Fiesta-George",
+   "ts": "2026-08-04T16:54:29.796Z",
+   "reply_to": "",
+   "text": ""
+  },
+  {
+   "id": "1544198306991833219",
+   "author": "Liyieon.",
+   "ts": "2026-09-01T04:12:46.204Z",
+   "reply_to": "",
+   "text": "Using twozero to create this grid displace glsl tool last week~ "
+  },
+  {
+   "id": "1544372232510373909",
+   "author": "Ki.",
+   "ts": "2026-09-01T15:43:53.279Z",
+   "reply_to": "",
+   "text": "this is sick"
+  }
+ ]
+}
