@@ -159,6 +159,34 @@ def append_runlog(texto: str) -> None:
 
 
 # ---------------------------------------------------------------------------
+# Consola segura: nunca morir por el encoding del terminal
+# ---------------------------------------------------------------------------
+
+def _force_safe_output() -> None:
+    """Windows con consola legacy (cp1252) no puede codificar los glifos del
+    veredicto (✔/✖): el gate moría con UnicodeEncodeError a mitad de impresión,
+    DESPUÉS de decidir ALLOW/BLOCK, dejando sin veredicto ni exit code.
+
+    - Stream redirigido (CI, pipe, archivo): forzar UTF-8 — es lo que el resto
+      del repo asume y lo que esperan los consumidores del log.
+    - Consola real (isatty): respetar su encoding pero degradar lo no
+      codificable (errors='replace', ✔→'?') en vez de lanzar excepción.
+    """
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            reconfigure = getattr(stream, "reconfigure", None)
+            if reconfigure is None:  # wrappers sin reconfigure (caps, mocks)
+                continue
+            tty = stream.isatty()
+            if tty:
+                reconfigure(errors="replace")
+            else:
+                reconfigure(encoding="utf-8", errors="replace")
+        except (ValueError, OSError):
+            pass  # stream raro que no se puede reconfigurar: mejor intento
+
+
+# ---------------------------------------------------------------------------
 # Gate
 # ---------------------------------------------------------------------------
 
@@ -236,6 +264,7 @@ def run_tests() -> tuple[bool, dict]:
 
 
 def main() -> int:
+    _force_safe_output()
     ap = argparse.ArgumentParser(description="Gate mecánico del loop del TD-MCP")
     ap.add_argument("--action", choices=["commit", "auto-merge"], default="commit")
     ap.add_argument("--paths", nargs="*", default=None)
