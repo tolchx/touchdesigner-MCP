@@ -1436,7 +1436,7 @@ try:
     else:
         chans = ${chansJson === "null" ? "None" : chansJson}
         s = ${start ?? 0}; e = ${end ?? "t.numSamples"}
-        result = {"path":t.path,"numSamples":t.numSamples,"numChannels":t.numChannels if hasattr(t, 'numChannels') else 0,"channels":{}}
+        result = {"path":t.path,"numSamples":t.numSamples,"numChannels": t.numChans if hasattr(t, 'numChans') else (t.numChannels if hasattr(t, 'numChannels') else 0),"channels":{}}
         # MEDIDO EN VIVO 24/09/26 (TD 2025.32460): t.channel(...) NO EXISTE
         # (hasattr(t,'channel') == False), asi que esta rama devolvia
         # channels: {} SIEMPRE y sin error: el llamador recibia "sin datos" como
@@ -1482,8 +1482,8 @@ try:
         # un CHOP vacío: que el llamador no lo confunda con "no hay señal".
         if not result["channels"] and (result.get("numChannels") or 0) > 0:
             print(json.dumps({'success':False,'error':"Read 0 channels out of " + str(result.get("numChannels")) + ": channel access failed (t.chan()/t[name])"}))
-            raise SystemExit
-        print(json.dumps({'success':True,"data":result}))
+        else:
+            print(json.dumps({'success':True,"data":result}))
 except Exception as e:
     print(json.dumps({'success':False,"error":str(e)}))`;
     return this.executeJson<any>(code);
