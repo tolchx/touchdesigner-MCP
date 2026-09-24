@@ -13,6 +13,16 @@
 
 import { PythonBuilder as Py } from "./pythonBuilder.js";
 import { Agent, fetch as undiciFetch, type RequestInit as UndiciRequestInit } from "undici";
+import {
+  classifyConnectionError,
+  errorMessage,
+  getLastOkAt,
+  isRetryable,
+  KIND_HINTS,
+  recordCall,
+  safeTarget,
+  type TDErrorKind,
+} from "./diagnostics.js";
 
 // Shared keep-alive agent for the HTTP transport. The TD bridge answers on the
 // loopback interface; a pooled connection avoids the per-request TCP handshake
@@ -233,6 +243,14 @@ export interface TDClientOptions {
   requestTimeout?: number;
   /** Transport mode: 'http' (default), 'websocket' (persistent connection), or 'auto' (try WS first, fallback HTTP). */
   transport?: TDTransport;
+  /**
+   * Max attempts per request (default 3). Retries are only issued when the
+   * failure class makes them safe: `bridge_unreachable` always (the request
+   * never reached TD), `connect_reset`/`timeout` only for reads.
+   */
+  retryAttempts?: number;
+  /** Base backoff between retries in ms (default 150, doubled per attempt). */
+  retryBaseDelayMs?: number;
 }
 
 // -----------------------------------------------------------------------------
@@ -259,9 +277,67 @@ function normalizeHost(host: string): string {
   return host;
 }
 
+function sleep(ms: number): Promise<void> {
+  return new Promise((r) => setTimeout(r, ms));
+}
+
+// -----------------------------------------------------------------------------
+// Transport failures carry an actionable envelope
+// -----------------------------------------------------------------------------
+
+/**
+ * Everything needed to act on (or report) a transport failure without asking
+ * the user for it again: the bridge coordinates, the classification, how many
+ * attempts were made, and the last call that DID work.
+ *
+ * Rationale: the comparable project's bug reports all started with the
+ * maintainer asking "which versions?" and "do you have logs anywhere?".
+ */
+export interface TDErrorEnvelope {
+  kind: TDErrorKind;
+  bridge: string;
+  transport: string;
+  method: string;
+  target: string;
+  attempts: number;
+  last_ok_call: string | null;
+  hint: string;
+  /** Reserved: a failure known to be harmless (e.g. a leftover cleanup check)
+   *  must never be surfaced as a real error. Kept false for transport errors. */
+  benign: boolean;
+}
+
+export class TDRequestError extends Error {
+  readonly envelope: TDErrorEnvelope;
+  override readonly cause?: unknown;
+
+  constructor(message: string, envelope: TDErrorEnvelope, cause?: unknown) {
+    super(message);
+    this.name = "TDRequestError";
+    this.envelope = envelope;
+    this.cause = cause;
+  }
+}
+
 // -----------------------------------------------------------------------------
 // TDClient
 // -----------------------------------------------------------------------------
+
+// Re-exported so the MCP layer (and any bug-report tool) can attach client-side
+// evidence: recent calls, failure classes, log path.
+export {
+  getRecentCalls,
+  getCallStats,
+  getLastOkAt,
+  clientLogPath,
+  classifyConnectionError,
+  isRetryable,
+  resetDiagnostics,
+  setClientLogPath,
+  type CallRecord,
+  type CallStats,
+  type TDErrorKind,
+} from "./diagnostics.js";
 
 export class TDClient {
   private baseUrl: string;
@@ -270,6 +346,8 @@ export class TDClient {
   private connectionTimeout: number;
   private requestTimeout: number;
   private transport: TDTransport;
+  private retryAttempts: number;
+  private retryBaseDelayMs: number;
 
   // ---------------------------------------------------------------------------
   // WebSocket transport (lazy-initialized)
@@ -311,6 +389,8 @@ export class TDClient {
     this.connectionTimeout = options.connectionTimeout ?? 3000;
     this.requestTimeout = options.requestTimeout ?? 30000;
     this.transport = options.transport ?? "auto";
+    this.retryAttempts = Math.max(1, options.retryAttempts ?? 3);
+    this.retryBaseDelayMs = Math.max(0, options.retryBaseDelayMs ?? 150);
   }
 
   // ---------------------------------------------------------------------------
@@ -381,11 +461,40 @@ export class TDClient {
   ): Promise<any> {
     // --- Try WebSocket first for 'auto' or 'websocket' modes ---
     if (this.transport !== "http") {
+      const started = Date.now();
       try {
-        return await this._requestViaWebSocket(url, options);
+        const out = await this._requestViaWebSocket(url, options);
+        // In 'auto' mode a WS attempt that never becomes the active transport is
+        // expected (the transport may not exist) — only log it when the caller
+        // explicitly asked for WebSocket, so the ring keeps real signal.
+        if (this.transport === "websocket") {
+          recordCall({
+            ts: new Date().toISOString(),
+            target: safeTarget(url),
+            method: options.method ?? "GET",
+            ok: true,
+            ms: Date.now() - started,
+            attempt: 1,
+            transport: "websocket",
+          });
+        }
+        this._lastKnownConnected = true;
+        return out;
       } catch (wsErr) {
-        // For 'websocket' mode, don't fallback to HTTP
-        if (this.transport === "websocket") throw wsErr;
+        if (this.transport === "websocket") {
+          recordCall({
+            ts: new Date().toISOString(),
+            target: safeTarget(url),
+            method: options.method ?? "GET",
+            ok: false,
+            ms: Date.now() - started,
+            attempt: 1,
+            transport: "websocket",
+            kind: "ws_error",
+            error: errorMessage(wsErr).slice(0, 300),
+          });
+          throw wsErr;
+        }
         // For 'auto', fallback to HTTP silently
       }
     }
@@ -448,44 +557,111 @@ export class TDClient {
     } = {},
   ): Promise<any> {
     const timeout = options.timeout ?? this.requestTimeout;
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), timeout);
+    const method = (options.method ?? "GET").toUpperCase();
+    const target = safeTarget(url);
+    const maxAttempts = this.retryAttempts;
+    let attempt = 0;
+    let lastKind: TDErrorKind = "unknown";
+    let lastError: unknown = null;
 
-    try {
-      // Keep-alive dispatch: reuse a pooled loopback connection instead of
-      // paying a fresh TCP handshake (plus any localhost→IPv6 stall) per call.
-      const response = await undiciFetch(url, {
-        method: options.method ?? "GET",
-        headers: {
-          "Content-Type": "application/json",
-          ...options.headers,
-        },
-        body: options.body,
-        signal: controller.signal,
-        dispatcher: KEEPALIVE_AGENT,
-      } as UndiciRequestInit);
+    while (attempt < maxAttempts) {
+      attempt++;
+      const started = Date.now();
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), timeout);
 
-      if (!response.ok) {
-        let bodyText = "";
-        try {
-          bodyText = await response.text();
-        } catch {
-          bodyText = "(could not read response body)";
+      try {
+        // Keep-alive dispatch: reuse a pooled loopback connection instead of
+        // paying a fresh TCP handshake (plus any localhost→IPv6 stall) per call.
+        const response = await undiciFetch(url, {
+          method: options.method ?? "GET",
+          headers: {
+            "Content-Type": "application/json",
+            ...options.headers,
+          },
+          body: options.body,
+          signal: controller.signal,
+          dispatcher: KEEPALIVE_AGENT,
+        } as UndiciRequestInit);
+
+        if (!response.ok) {
+          let bodyText = "";
+          try {
+            bodyText = await response.text();
+          } catch {
+            bodyText = "(could not read response body)";
+          }
+          throw new Error(
+            `HTTP ${response.status} ${response.statusText}: ${bodyText.substring(0, 1000)}`,
+          );
         }
-        throw new Error(
-          `HTTP ${response.status} ${response.statusText}: ${bodyText.substring(0, 1000)}`,
-        );
-      }
 
-      return response.json();
-    } catch (e: unknown) {
-      if (isAbortError(e)) {
-        throw new Error(`Request timed out after ${timeout}ms: ${url}`);
+        const data = await response.json();
+        clearTimeout(timer);
+        recordCall({
+          ts: new Date().toISOString(),
+          target,
+          method,
+          ok: true,
+          ms: Date.now() - started,
+          attempt,
+          transport: "http",
+        });
+        this._markConnected();
+        return data;
+      } catch (e: unknown) {
+        clearTimeout(timer);
+        const kind: TDErrorKind = isAbortError(e)
+          ? "timeout"
+          : classifyConnectionError(e);
+        const message =
+          kind === "timeout"
+            ? `Request timed out after ${timeout}ms: ${url}`
+            : errorMessage(e);
+        lastKind = kind;
+        lastError = e;
+        recordCall({
+          ts: new Date().toISOString(),
+          target,
+          method,
+          ok: false,
+          ms: Date.now() - started,
+          attempt,
+          transport: "http",
+          kind,
+          error: message.slice(0, 300),
+        });
+        if (!isRetryable(kind, method) || attempt >= maxAttempts) break;
+        // Exponential backoff: 150ms, 300ms, ... (configurable)
+        await sleep(this.retryBaseDelayMs * Math.pow(2, attempt - 1));
+      } finally {
+        clearTimeout(timer);
       }
-      throw e;
-    } finally {
-      clearTimeout(timer);
     }
+
+    this._markDisconnected();
+    const envelope: TDErrorEnvelope = {
+      kind: lastKind,
+      bridge: `${this.host}:${this.port}`,
+      transport: this.transport,
+      method,
+      target,
+      attempts: attempt,
+      last_ok_call: getLastOkAt(),
+      hint: KIND_HINTS[lastKind],
+      benign: false,
+    };
+    const base =
+      lastKind === "timeout"
+        ? `Request timed out after ${timeout}ms: ${url}`
+        : errorMessage(lastError);
+    throw new TDRequestError(
+      `${base} [bridge=${envelope.bridge} kind=${lastKind} attempts=${attempt} last_ok=${
+        envelope.last_ok_call ?? "never"
+      }]`,
+      envelope,
+      lastError,
+    );
   }
 
   // ---------------------------------------------------------------------------
@@ -606,6 +782,20 @@ export class TDClient {
    * GET /info within the configured connectionTimeout.
    * Uses a 2-second TTL cache to avoid hammering the endpoint.
    */
+  /** Record a successful round-trip: refresh the 2s connection cache. */
+  private _markConnected(): void {
+    this._lastKnownConnected = true;
+    this._connectedCache = { value: true, timestamp: Date.now() };
+  }
+
+  /** Record a failed round-trip: invalidate the cache so the next call probes
+   *  fresh instead of trusting a stale "connected". A status indicator that
+   *  reports config instead of a live connection is worse than no indicator. */
+  private _markDisconnected(): void {
+    this._lastKnownConnected = false;
+    this._connectedCache = null;
+  }
+
   async isConnected(): Promise<boolean> {
     const CACHE_TTL_MS = 2000;
     const now = Date.now();

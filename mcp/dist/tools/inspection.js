@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { ok, err } from "../helpers.js";
+import { clampLimit, normalizeScope, runBounded, } from "../exploreGuard.js";
 export function registerInspectionTools(server, client) {
     // ---------------------------------------------------------------------------
     // td_pane
@@ -47,7 +48,8 @@ export function registerInspectionTools(server, client) {
         },
     }, async ({ path: opPath }) => {
         try {
-            const result = await client.getOperators(opPath ?? "/");
+            const scope = normalizeScope(opPath);
+            const result = await runBounded("td_operators", scope, () => client.getOperators(scope));
             return ok(result);
         }
         catch (e) {
@@ -80,7 +82,13 @@ export function registerInspectionTools(server, client) {
         },
     }, async (args) => {
         try {
-            const result = await client.findOperators(args);
+            const scope = normalizeScope(args.path);
+            const bounded = {
+                ...args,
+                path: scope,
+                limit: clampLimit(args.limit, 200),
+            };
+            const result = await runBounded("td_find", scope, () => client.findOperators(bounded));
             return ok(result);
         }
         catch (e) {
@@ -102,7 +110,8 @@ export function registerInspectionTools(server, client) {
         },
     }, async ({ path: opPath, recurse }) => {
         try {
-            const result = await client.getConnections(opPath, recurse ?? false);
+            const scope = normalizeScope(opPath);
+            const result = await runBounded("td_connections", scope, () => client.getConnections(scope, recurse ?? false));
             return ok(result);
         }
         catch (e) {
@@ -130,7 +139,8 @@ export function registerInspectionTools(server, client) {
         },
     }, async ({ path: opPath, recurse, forceCook }) => {
         try {
-            const result = await client.getErrors(opPath, recurse ?? true);
+            const scope = normalizeScope(opPath);
+            const result = await runBounded("td_get_errors", scope, () => client.getErrors(scope, recurse ?? true));
             return ok(result);
         }
         catch (e) {

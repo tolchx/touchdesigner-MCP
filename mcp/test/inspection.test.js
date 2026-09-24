@@ -19,6 +19,12 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { ok, err } from "../dist/helpers.js";
+import {
+  EXPLORE_DEFAULT_LIMIT,
+  clampLimit,
+  normalizeScope,
+  runBounded,
+} from "../dist/exploreGuard.js";
 
 /** Parse the MCP text payload out of an ok()/err() response. */
 function payload(result) {
@@ -267,20 +273,27 @@ async function selectionHandler(client) {
   }
 }
 
-// td_operators
+// td_operators (guardrails: scope normalizado + budget de espera)
 async function operatorsHandler(client, { path: opPath }) {
   try {
-    const result = await client.getOperators(opPath ?? "/");
+    const scope = normalizeScope(opPath);
+    const result = await runBounded("td_operators", scope, () =>
+      client.getOperators(scope),
+    );
     return ok(result);
   } catch (e) {
     return err(e);
   }
 }
 
-// td_find
+// td_find (guardrails: scope normalizado + limit clampado + budget)
 async function findHandler(client, args) {
   try {
-    const result = await client.findOperators(args);
+    const scope = normalizeScope(args.path);
+    const bounded = { ...args, path: scope, limit: clampLimit(args.limit, 200) };
+    const result = await runBounded("td_find", scope, () =>
+      client.findOperators(bounded),
+    );
     return ok(result);
   } catch (e) {
     return err(e);
@@ -290,7 +303,10 @@ async function findHandler(client, args) {
 // td_connections
 async function connectionsHandler(client, { path: opPath, recurse }) {
   try {
-    const result = await client.getConnections(opPath, recurse ?? false);
+    const scope = normalizeScope(opPath);
+    const result = await runBounded("td_connections", scope, () =>
+      client.getConnections(scope, recurse ?? false),
+    );
     return ok(result);
   } catch (e) {
     return err(e);
@@ -300,7 +316,10 @@ async function connectionsHandler(client, { path: opPath, recurse }) {
 // td_get_errors
 async function getErrorsHandler(client, { path: opPath, recurse }) {
   try {
-    const result = await client.getErrors(opPath, recurse ?? true);
+    const scope = normalizeScope(opPath);
+    const result = await runBounded("td_get_errors", scope, () =>
+      client.getErrors(scope, recurse ?? true),
+    );
     return ok(result);
   } catch (e) {
     return err(e);
@@ -592,7 +611,17 @@ describe("Inspection Tools", () => {
 
       assert.equal(res.isError, undefined);
       const call = client.calls.find((c) => c.method === "findOperators");
-      assert.deepEqual(call.args, {});
+      // Guardrails: an exploration call never goes out unbounded — the scope
+      // defaults to '/' and the result budget to the default limit. Sweeping a
+      // large network with no limit is what hangs the host application.
+      assert.deepEqual(call.args, { path: "/", limit: EXPLORE_DEFAULT_LIMIT });
+    });
+
+    it("clampea un limit abusivo antes de llegar al bridge", async () => {
+      const client = new MockTDClient();
+      await findHandler(client, { path: "/project1", limit: 100000 });
+      const call = client.calls.find((c) => c.method === "findOperators");
+      assert.equal(call.args.limit, 200, "techo duro de td_find");
     });
 
     it("handles client error", async () => {

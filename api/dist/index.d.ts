@@ -6,6 +6,7 @@
  * operator CRUD, parameter management, DAT/CHOP I/O, searching, and
  * performance monitoring.
  */
+import { type TDErrorKind } from "./diagnostics.js";
 export interface ExecuteResult {
     success: boolean;
     stdout: string;
@@ -196,7 +197,42 @@ export interface TDClientOptions {
     requestTimeout?: number;
     /** Transport mode: 'http' (default), 'websocket' (persistent connection), or 'auto' (try WS first, fallback HTTP). */
     transport?: TDTransport;
+    /**
+     * Max attempts per request (default 3). Retries are only issued when the
+     * failure class makes them safe: `bridge_unreachable` always (the request
+     * never reached TD), `connect_reset`/`timeout` only for reads.
+     */
+    retryAttempts?: number;
+    /** Base backoff between retries in ms (default 150, doubled per attempt). */
+    retryBaseDelayMs?: number;
 }
+/**
+ * Everything needed to act on (or report) a transport failure without asking
+ * the user for it again: the bridge coordinates, the classification, how many
+ * attempts were made, and the last call that DID work.
+ *
+ * Rationale: the comparable project's bug reports all started with the
+ * maintainer asking "which versions?" and "do you have logs anywhere?".
+ */
+export interface TDErrorEnvelope {
+    kind: TDErrorKind;
+    bridge: string;
+    transport: string;
+    method: string;
+    target: string;
+    attempts: number;
+    last_ok_call: string | null;
+    hint: string;
+    /** Reserved: a failure known to be harmless (e.g. a leftover cleanup check)
+     *  must never be surfaced as a real error. Kept false for transport errors. */
+    benign: boolean;
+}
+export declare class TDRequestError extends Error {
+    readonly envelope: TDErrorEnvelope;
+    readonly cause?: unknown;
+    constructor(message: string, envelope: TDErrorEnvelope, cause?: unknown);
+}
+export { getRecentCalls, getCallStats, getLastOkAt, clientLogPath, classifyConnectionError, isRetryable, resetDiagnostics, setClientLogPath, type CallRecord, type CallStats, type TDErrorKind, } from "./diagnostics.js";
 export declare class TDClient {
     private baseUrl;
     private host;
@@ -204,6 +240,8 @@ export declare class TDClient {
     private connectionTimeout;
     private requestTimeout;
     private transport;
+    private retryAttempts;
+    private retryBaseDelayMs;
     private _ws;
     private _wsConnecting;
     private _wsFailed;
@@ -271,6 +309,12 @@ export declare class TDClient {
      * GET /info within the configured connectionTimeout.
      * Uses a 2-second TTL cache to avoid hammering the endpoint.
      */
+    /** Record a successful round-trip: refresh the 2s connection cache. */
+    private _markConnected;
+    /** Record a failed round-trip: invalidate the cache so the next call probes
+     *  fresh instead of trusting a stale "connected". A status indicator that
+     *  reports config instead of a live connection is worse than no indicator. */
+    private _markDisconnected;
     isConnected(): Promise<boolean>;
     /**
      * Start a watchdog timer that periodically checks connection state.

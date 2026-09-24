@@ -18,25 +18,25 @@ declare const OpsIndexSchema: z.ZodObject<{
         summary: z.ZodOptional<z.ZodString>;
     }, "strip", z.ZodTypeAny, {
         family: "POP" | "TOP" | "COMP" | "CHOP" | "SOP" | "DAT" | "MAT";
+        url: string;
         pageTitle: string;
         pageSlug: string;
-        url: string;
         summary?: string | undefined;
         tdOpTypeGuess?: string | undefined;
     }, {
         family: "POP" | "TOP" | "COMP" | "CHOP" | "SOP" | "DAT" | "MAT";
+        url: string;
         pageTitle: string;
         pageSlug: string;
-        url: string;
         summary?: string | undefined;
         tdOpTypeGuess?: string | undefined;
     }>, "many">;
 }, "strip", z.ZodTypeAny, {
     operators: {
         family: "POP" | "TOP" | "COMP" | "CHOP" | "SOP" | "DAT" | "MAT";
+        url: string;
         pageTitle: string;
         pageSlug: string;
-        url: string;
         summary?: string | undefined;
         tdOpTypeGuess?: string | undefined;
     }[];
@@ -47,9 +47,9 @@ declare const OpsIndexSchema: z.ZodObject<{
 }, {
     operators: {
         family: "POP" | "TOP" | "COMP" | "CHOP" | "SOP" | "DAT" | "MAT";
+        url: string;
         pageTitle: string;
         pageSlug: string;
-        url: string;
         summary?: string | undefined;
         tdOpTypeGuess?: string | undefined;
     }[];
@@ -83,13 +83,13 @@ declare const OpsOperatorDocSchema: z.ZodObject<{
     }, "strip", z.ZodTypeAny, {
         label: string;
         description?: string | undefined;
-        page?: string | undefined;
         name?: string | undefined;
+        page?: string | undefined;
     }, {
         label: string;
         description?: string | undefined;
-        page?: string | undefined;
         name?: string | undefined;
+        page?: string | undefined;
     }>, "many">>;
     attributes: z.ZodDefault<z.ZodArray<z.ZodObject<{
         name: z.ZodString;
@@ -153,9 +153,9 @@ declare const OpsOperatorDocSchema: z.ZodObject<{
     }>, "many">>;
 }, "strip", z.ZodTypeAny, {
     family: "POP" | "TOP" | "COMP" | "CHOP" | "SOP" | "DAT" | "MAT";
+    url: string;
     pageTitle: string;
     pageSlug: string;
-    url: string;
     inputs: {
         index: number;
         description?: string | undefined;
@@ -163,8 +163,8 @@ declare const OpsOperatorDocSchema: z.ZodObject<{
     parameters: {
         label: string;
         description?: string | undefined;
-        page?: string | undefined;
         name?: string | undefined;
+        page?: string | undefined;
     }[];
     attributes: {
         name: string;
@@ -194,9 +194,9 @@ declare const OpsOperatorDocSchema: z.ZodObject<{
     tdOpTypeGuess?: string | undefined;
 }, {
     family: "POP" | "TOP" | "COMP" | "CHOP" | "SOP" | "DAT" | "MAT";
+    url: string;
     pageTitle: string;
     pageSlug: string;
-    url: string;
     summary?: string | undefined;
     tdOpTypeGuess?: string | undefined;
     inputs?: {
@@ -206,8 +206,8 @@ declare const OpsOperatorDocSchema: z.ZodObject<{
     parameters?: {
         label: string;
         description?: string | undefined;
-        page?: string | undefined;
         name?: string | undefined;
+        page?: string | undefined;
     }[] | undefined;
     attributes?: {
         name: string;
@@ -251,25 +251,25 @@ declare const PopsIndexSchema: z.ZodObject<{
         tdOpTypeGuess: z.ZodOptional<z.ZodString>;
         summary: z.ZodOptional<z.ZodString>;
     }, "strip", z.ZodTypeAny, {
+        url: string;
         pageTitle: string;
         pageSlug: string;
-        url: string;
         experimental: boolean;
         summary?: string | undefined;
         tdOpTypeGuess?: string | undefined;
     }, {
+        url: string;
         pageTitle: string;
         pageSlug: string;
-        url: string;
         summary?: string | undefined;
         tdOpTypeGuess?: string | undefined;
         experimental?: boolean | undefined;
     }>, "many">;
 }, "strip", z.ZodTypeAny, {
     operators: {
+        url: string;
         pageTitle: string;
         pageSlug: string;
-        url: string;
         experimental: boolean;
         summary?: string | undefined;
         tdOpTypeGuess?: string | undefined;
@@ -280,9 +280,9 @@ declare const PopsIndexSchema: z.ZodObject<{
     generatedAt: string;
 }, {
     operators: {
+        url: string;
         pageTitle: string;
         pageSlug: string;
-        url: string;
         summary?: string | undefined;
         tdOpTypeGuess?: string | undefined;
         experimental?: boolean | undefined;
@@ -317,13 +317,13 @@ declare const PopsOperatorDocSchema: z.ZodObject<{
     }, "strip", z.ZodTypeAny, {
         label: string;
         description?: string | undefined;
-        page?: string | undefined;
         name?: string | undefined;
+        page?: string | undefined;
     }, {
         label: string;
         description?: string | undefined;
-        page?: string | undefined;
         name?: string | undefined;
+        page?: string | undefined;
     }>, "many">>;
     attributes: z.ZodDefault<z.ZodArray<z.ZodObject<{
         name: z.ZodString;
@@ -386,9 +386,9 @@ declare const PopsOperatorDocSchema: z.ZodObject<{
         fix?: string | undefined;
     }>, "many">>;
 }, "strip", z.ZodTypeAny, {
+    url: string;
     pageTitle: string;
     pageSlug: string;
-    url: string;
     inputs: {
         index: number;
         description?: string | undefined;
@@ -396,8 +396,8 @@ declare const PopsOperatorDocSchema: z.ZodObject<{
     parameters: {
         label: string;
         description?: string | undefined;
-        page?: string | undefined;
         name?: string | undefined;
+        page?: string | undefined;
     }[];
     attributes: {
         name: string;
@@ -427,9 +427,9 @@ declare const PopsOperatorDocSchema: z.ZodObject<{
     summary?: string | undefined;
     tdOpTypeGuess?: string | undefined;
 }, {
+    url: string;
     pageTitle: string;
     pageSlug: string;
-    url: string;
     summary?: string | undefined;
     tdOpTypeGuess?: string | undefined;
     inputs?: {
@@ -439,8 +439,8 @@ declare const PopsOperatorDocSchema: z.ZodObject<{
     parameters?: {
         label: string;
         description?: string | undefined;
-        page?: string | undefined;
         name?: string | undefined;
+        page?: string | undefined;
     }[] | undefined;
     attributes?: {
         name: string;
