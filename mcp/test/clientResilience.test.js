@@ -20,7 +20,11 @@ import { mkdtempSync, readFileSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
-import {
+// Higiene: los tests NO escriben en el log de campo del cliente
+// (%TEMP%/tdmcp-client.log), porque despues el triage del loop lee ese archivo
+// como señal real y encuentra las fallas provocadas por los propios tests.
+process.env.TDMCP_CLIENT_LOG = join(tmpdir(), `tdmcp-client-test-${process.pid}.log`);
+const {
   TDClient,
   TDRequestError,
   classifyConnectionError,
@@ -30,7 +34,7 @@ import {
   getLastOkAt,
   resetDiagnostics,
   setClientLogPath,
-} from "../../api/dist/index.js";
+} = await import("../../api/dist/index.js");
 
 // ---------------------------------------------------------------------------
 // Helpers

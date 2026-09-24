@@ -1,0 +1,32 @@
+# gate.yaml — gemelo legible por maquina de loop-constraints.md.
+# Lo consume scripts/loop_gate.py para FRENAR un commit/push mecanicamente,
+# sin depender del criterio del agente que hizo el cambio.
+version: 1
+
+# Nunca tocar (si aparece en el diff, el gate bloquea, sin juicio humano de por medio).
+denylist:
+  - "toe/*.toe"                        # proyectos de TD de Tolch = rotacion de backups, NO son fuente
+  - "toe/**/*.toe"
+  - "docs/glsl_pops_reference.json"    # evidencia de sandbox en vivo (item 37), no es codigo
+  - "**/secrets/**"
+  - "**/.env"
+  - "**/.env.*"
+  - "**/*_key*"
+  - "**/*_secret*"
+  - "mcp/_tool_list.json"              # generado local, sin versionar a proposito
+  - ".freebuff_tasks/sent/**"          # historial de briefs enviados
+  - ".freebuff_tasks/evidence/**"      # evidencia cruda local
+
+# Un cambio mas grande que esto no se auto-publica: se escala.
+maxFiles: 12
+maxLines: 4000
+
+# Lo unico que puede auto-publicarse sin mirar el diff.
+autoMergeAllowlist:
+  - "docs/**"
+  - "**/*.md"
+  - "tests/**"
+  - "mcp/test/**"
+
+# El gate exige suites verdes antes de dejar pasar un commit.
+requireGreenTests: true

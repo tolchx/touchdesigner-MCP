@@ -41,3 +41,6 @@ toe/TDImportCache/
 # SQLite WAL/SHM journals (se regeneran solos; no son fuente)
 *.db-shm
 *.db-wal
+
+# Estado local del loop (se regenera; no es fuente)
+loop-candidates.json
