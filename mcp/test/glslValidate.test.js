@@ -100,6 +100,9 @@ describe("buildGlslApplyCode", () => {
     assert.match(code, /attr0name', "Custom"/);
     assert.match(code, /attr0customname', "masa"/);
     assert.match(code, /attr0numcomps', 1/);
+    // JSON.stringify-based param names (double quotes) reach _set_par
+    assert.match(code, /"computedat"/);
+    assert.match(code, /"outputattrs"/);
     assert.match(code, /outputaccess', 'readwrite'/);
     assert.match(code, /src\.outputConnectors\[0\]\.connect\(glsl\)/);
     assert.match(code, /glsl\.cook\(force=True\)/);
@@ -276,5 +279,88 @@ describe("applyGlslPop", () => {
     });
     assert.equal(res.isError, undefined);
     assert.match(res.message, /Wiring OK/);
+  });
+});
+
+// ===========================================================================
+// F2/F4 (docs/MCP_REAL_CASES.md): glslcopyPOP surface + multi-input builtins.
+// Verified live on TD 2025.32460 2026-09-25.
+// ===========================================================================
+describe("TDNumElements with an input index (F4)", () => {
+  it("is a BLOCKING error naming the multi-input fix", () => {
+    const a = analyzeGlslShader(
+      `void main(){
+    const uint id = TDIndex();
+    if (id >= TDNumElements()) return;
+    for (uint w = 0u; w < TDNumElements(1); w++) {
+        P[id] = TDIn_P(0, id) + TDIn_P(1, w);
+    }
+}`
+    );
+    assert.equal(a.errors.length, 1);
+    assert.match(a.errors[0], /TDNumElements/);
+    assert.match(a.errors[0], /TDInputNumPoints/);
+  });
+
+  it("no false positive when TDNumElements() is argument-free", () => {
+    const a = analyzeGlslShader(OK_HEADER + `    P[id] = TDIn_P(0, id);\n}`);
+    assert.equal(a.errors.length, 0);
+  });
+
+  it("warns when the shader reads a non-zero input", () => {
+    const a = analyzeGlslShader(OK_HEADER + `    P[id] = TDIn_P(1, id);\n}`);
+    assert.equal(a.errors.length, 0);
+    assert.ok(a.warnings.some((w) => /input\(s\) 1/.test(w)));
+  });
+});
+
+describe("pop_kind='copy' apply (F2)", () => {
+  const COPY_SHADER = `void main(){
+    const uint id = TDIndex();
+    if (id >= TDNumPoints()) return;
+    float r = 0.12 * sqrt(float(id));
+    float th = float(id) * 2.39996;
+    P[id] = vec3(r * cos(th), r * sin(th), 0.0);
+}`;
+
+  it("generated code creates glslcopyPOP with ptcomputedat/ptoutputattrs", () => {
+    const code = buildGlslApplyCode({
+      parentPath: "/project1",
+      name: "copy_1",
+      shader: COPY_SHADER,
+      popKind: "copy",
+    });
+    assert.match(code, /create\("glslcopyPOP"/);
+    assert.match(code, /ptcomputedat/);
+    assert.match(code, /ptoutputattrs/);
+    assert.doesNotMatch(code, /'computedat'/);
+    assert.doesNotMatch(code, /'outputattrs'/);
+    assert.match(code, /_ptCompute/); // code DAT suffix
+  });
+
+  it("default popKind keeps the glslPOP surface", () => {
+    const code = buildGlslApplyCode({
+      parentPath: "/project1",
+      name: "basic_1",
+      shader: OK_HEADER + `    P[id] = TDIn_P(0, id);\n}`,
+    });
+    assert.match(code, /td\.glslPOP/);
+    assert.match(code, /"computedat"/);
+    assert.match(code, /"outputattrs"/);
+    assert.match(code, /_code/);
+  });
+
+  it("generated copy-POP Python is syntactically valid (ast.parse)", () => {
+    const code = buildGlslApplyCode({
+      parentPath: "/project1",
+      name: "copy_1",
+      shader: COPY_SHADER,
+      popKind: "copy",
+    });
+    const out = execFileSync("python", ["-c", `import ast,sys; ast.parse(sys.stdin.read()); print("OK")`], {
+      input: code,
+      encoding: "utf-8",
+    });
+    assert.match(out, /OK/);
   });
 });

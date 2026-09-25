@@ -220,6 +220,34 @@ class TestCallToolCodeInjection(unittest.TestCase):
         # Verify the generated Python is syntactically valid
         compile(code, "<test>", "exec")
 
+    def test_create_replace_generates_destroy_and_json(self):
+        """replace=true destroys the name collision first and returns JSON
+        including 'replaced' (docs/MCP_REAL_CASES.md F6)."""
+        stdio._call_tool("create_td_node", {
+            "type": "td.noiseTOP", "name": "myNoise", "parent": "/project1",
+            "replace": True,
+        })
+        code = self._extract_generated_code(self.mock_post.call_args)
+        compile(code, "<test>", "exec")
+        self.assertIn("[c for c in _p.children if c.name == 'myNoise']", code)
+        self.assertIn("_old = _cands[0] if _cands else None", code)
+        self.assertIn("_old.destroy()", code)
+        self.assertIn("'replaced'", code)
+
+    def test_pop_attributes_generates_sampler(self):
+        """get_td_pop_attributes builds a sampler via pointAttributes + points()."""
+        stdio._call_tool("get_td_pop_attributes", {
+            "path": "/project1/glsl0",
+            "attrs": ["P", "ID"],
+            "sample_indices": [0, 5, 10],
+        })
+        code = self._extract_generated_code(self.mock_post.call_args)
+        compile(code, "<test>", "exec")
+        self.assertIn("pointAttributes", code)
+        self.assertIn("_t.points(_nm)", code)
+        self.assertIn("('P', 'ID',)", code)
+        self.assertIn("(0, 5, 10,)", code)
+
     def test_create_single_quote_in_name(self):
         """Single quote in name must be escaped to prevent injection."""
         stdio._call_tool("create_td_node", {

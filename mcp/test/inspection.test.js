@@ -165,14 +165,18 @@ class MockTDClient {
     };
   }
 
-  async popInspect(path) {
-    this.calls.push({ method: "popInspect", path });
+  async popInspect(path, attrs, sampleIndices) {
+    this.calls.push({ method: "popInspect", path, attrs, sampleIndices });
     return {
       path,
       pointCount: 100,
       attributes: [
         { name: "P", type: "float", components: 3 },
       ],
+      samples: {
+        P: [[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]],
+        ID: [0, 1],
+      },
     };
   }
 
@@ -386,10 +390,14 @@ async function perfHandler(client, { path: opPath, top }) {
   }
 }
 
-// td_pop_inspect
-async function popInspectHandler(client, { path: opPath }) {
+// td_pop_inspect (mirror of inspection.ts handler incl. sampling params)
+async function popInspectHandler(client, { path: opPath, attrs, sample_indices }) {
   try {
-    const result = await client.popInspect(opPath);
+    const result = await client.popInspect(
+      opPath,
+      attrs ?? ["P", "ID"],
+      sample_indices ?? [0, 1, 2]
+    );
     return ok(result);
   } catch (e) {
     return err(e);
@@ -892,6 +900,23 @@ describe("Inspection Tools", () => {
 
       const call = client.calls.find((c) => c.method === "popInspect");
       assert.equal(call.path, "/project1/particle1");
+      // default sampling params are passed through to the client
+      assert.deepEqual(call.attrs, ["P", "ID"]);
+      assert.deepEqual(call.sampleIndices, [0, 1, 2]);
+    });
+
+    it("forwards attrs and sample_indices to the client", async () => {
+      const client = new MockTDClient();
+      const res = await popInspectHandler(client, {
+        path: "/project1/particle1",
+        attrs: ["P", "Cd"],
+        sample_indices: [0, 7, 99],
+      });
+      const call = client.calls.find((c) => c.method === "popInspect");
+      assert.deepEqual(call.attrs, ["P", "Cd"]);
+      assert.deepEqual(call.sampleIndices, [0, 7, 99]);
+      const data = payload(res);
+      assert.ok(data.samples);
     });
 
     it("handles client error", async () => {

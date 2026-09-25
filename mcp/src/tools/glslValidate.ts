@@ -36,6 +36,25 @@ export const BUILTIN_ATTRS = new Set(["P", "N", "Cd", "uv", "T", "v"]);
 const WRITE_RE = /^\s*(\w+)\s*\[\s*(?:id|TDIndex\(\))\s*\]\s*=/;
 const READ_RE = /\b(\w+)\s*\[\s*(?:id|TDIndex\(\))\s*\]/g;
 
+// Verified live on TD 2025.32460 (docs/MCP_REAL_CASES.md F4) and documented in
+// the official "Write a GLSL POP" page: TDNumElements() takes NO input index —
+// it is the number of requested THREADS. Looping over ANOTHER input's elements
+// requires TDInputNumPoints(inputIndex) (or TDInputNumPrims/Verts). Passing any
+// argument to TDNumElements is a guaranteed compile error whose real message
+// ("no matching overloaded function found") is only visible in the infoDAT.
+const TD_NUM_ELEMENTS_WITH_ARG_RE = /TDNumElements\s*\(\s*[^\s)]/;
+const TD_IN_READ_RE = /TDIn_(\w+)\s*\(\s*(\d+)/g;
+const TD_COPY_ONLY_BUILTINS = [
+  "TDNumPoints",
+  "TDInputNumPoints",
+  "TDInputNumVerts",
+  "TDInputNumPrims",
+  "TDCopyIndex",
+  "TDTemplate_",
+  "TDInputIndex",
+  "TDUpdatePointGroups",
+];
+
 export interface GlslAnalysis {
   writes: string[];
   reads: string[];
@@ -94,6 +113,32 @@ export function analyzeGlslShader(code: string): GlslAnalysis {
     // canonical pattern present
   } else if (normalized.includes("TDIndex()")) {
     warnings.push("usa TDIndex() pero no verifica TDNumElements() (Regla 2)");
+  }
+
+  // F4 (docs/MCP_REAL_CASES.md): TDNumElements(k) with an argument is a
+  // guaranteed compile error — blocking, not a warning.
+  if (TD_NUM_ELEMENTS_WITH_ARG_RE.test(normalized)) {
+    errors.push(
+      "TDNumElements() NO toma índice de input (es la cantidad de hilos pedidos): " +
+        "TDNumElements(1) compila a 'no matching overloaded function found'. Para iterar " +
+        "OTRO input usá TDInputNumPoints(1) (o TDInputNumPrims/Verts). Regla 10i AGENTS.md, " +
+        "verificado en vivo 2025.32460."
+    );
+  }
+
+  // Reads from a non-zero input via TDIn_X(k, ...) — multi-input network.
+  // Not an error (the official docs guarantee all inputs are readable), but a
+  // heads-up so the caller knows this POP needs its second input wired.
+  const multiInputs = new Set<string>();
+  for (const m of normalized.matchAll(TD_IN_READ_RE)) {
+    if (m[2] !== "0") multiInputs.add(m[2]);
+  }
+  if (multiInputs.size > 0) {
+    warnings.push(
+      "lee de input(s) " + [...multiInputs].join(", ") +
+        " vía TDIn_<attr>(k, elem) — asegurate de cablear ese/los input(s); " +
+        "el loop de tamaño usá TDInputNumPoints(k)"
+    );
   }
 
   if (!normalized.includes("void main()")) {
@@ -243,6 +288,14 @@ export interface GlslApplyArgs {
   sourcePath?: string;
   /** Override outputattrs (default 'P' — the verified recipe, R3). */
   outputattrs?: string;
+  /**
+   * "basic" (default) creates a glslPOP; "copy" creates a glslcopyPOP, whose
+   * code params are ptcomputedat/ptoutputattrs and whose builtins are a
+   * different family (TDNumPoints/TDInputNumPoints/TDCopyIndex/TDTemplate_* —
+   * NO TDIndex()/TDNumElements()). Verified live 2025.32460, F2 in
+   * docs/MCP_REAL_CASES.md.
+   */
+  popKind?: "basic" | "copy";
 }
 
 /**
@@ -263,6 +316,13 @@ export function buildGlslApplyCode(args: GlslApplyArgs): string {
   const shaderLiteral = JSON.stringify(args.shader); // JSON string literal is a valid Python literal
   const outputattrs = JSON.stringify(args.outputattrs ?? "P");
   const sourcePath = args.sourcePath ? JSON.stringify(args.sourcePath) : null;
+  const isCopy = args.popKind === "copy";
+  // glslcopyPOP has no `computedat`/`outputattrs` (tdAttributeError live, F2):
+  // point-shader code goes in ptcomputedat, output selection in ptoutputattrs.
+  const opTypeExpr = isCopy ? '"glslcopyPOP"' : "td.glslPOP";
+  const codeParam = isCopy ? "ptcomputedat" : "computedat";
+  const outattrsParam = isCopy ? "ptoutputattrs" : "outputattrs";
+  const codeDatSuffix = isCopy ? "_ptCompute" : "_code";
 
   const analysis = analyzeGlslShader(args.shader);
   // Apply flow creates a slot for EVERY written attribute except P (which
@@ -294,12 +354,12 @@ try:
     parent = op(${parentPath})
     if parent is None:
         raise RuntimeError("parent not found: " + ${parentPath})
-    code_dat = parent.create(td.textDAT, ${name} + "_code")
+    code_dat = parent.create(td.textDAT, ${name} + ${JSON.stringify(codeDatSuffix)})
     code_dat.text = ${shaderLiteral}
-    glsl = parent.create(td.glslPOP, ${name})
+    glsl = parent.create(${opTypeExpr}, ${name})
     _out["path"] = glsl.path
-    _set_par(glsl, 'computedat', code_dat.name)
-    _set_par(glsl, 'outputattrs', ${outputattrs})
+    _set_par(glsl, ${JSON.stringify(codeParam)}, code_dat.name)
+    _set_par(glsl, ${JSON.stringify(outattrsParam)}, ${outputattrs})
 ${attrLines}${analysis.needs_readwrite ? "\n    _set_par(glsl, 'outputaccess', 'readwrite')  # R4: shader reads what it writes" : ""}
     ${
       sourcePath

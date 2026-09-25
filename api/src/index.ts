@@ -1102,8 +1102,16 @@ except Exception as e:
     path: string = "/",
     positionX?: number,
     positionY?: number,
+    replaceExisting: boolean = false,
   ): Promise<CreateOperatorResult> {
     const safeName = name ? `'${name.replace(/'/g, "\\'")}'` : "None";
+    // replace=true destroys a same-name operator first (docs/MCP_REAL_CASES.md F6):
+    // without it TD silently renames (noise1 -> noise1) and the caller's later
+    // wiring targets an op that does not exist under the name it asked for.
+    const replaceCode = replaceExisting
+      ? `        _old = t.children('${name ?? ""}') if '${name ?? ""}' else None\n` +
+        `        if _old is not None: _old.destroy()\n`
+      : "";
     const code =
       "import json\n" +
       "try:\n" +
@@ -1111,10 +1119,11 @@ except Exception as e:
       "    if t is None:\n" +
       `        print(json.dumps({'success':False,'path':'${path.replace(/'/g, "\\'")}','name':'','type':'','opType':'','error':'Parent not found'}))\n` +
       "    else:\n" +
+      replaceCode +
       `        n = t.create(${type}, ${safeName})\n` +
       `        if ${positionX ?? "None"} is not None and ${positionY ?? "None"} is not None:\n` +
       `            n.nodeX = ${positionX}; n.nodeY = ${positionY}\n` +
-      "        print(json.dumps({'success':True,'path':n.path,'name':n.name,'type':n.type,'opType':n.OPType,'family':'','existing':False}))\n" +
+      `        print(json.dumps({'success':True,'path':n.path,'name':n.name,'type':n.type,'opType':n.OPType,'family':'','existing':False,'replaced':${replaceExisting ? "True" : "False"}}))\n` +
       "except Exception as e:\n" +
       "    print(json.dumps({'success':False,'path':'','name':'','type':'','opType':'','error':str(e)}))";
     return this.executeJson<CreateOperatorResult>(code);
@@ -1191,6 +1200,23 @@ except Exception as e:
   ): Promise<ScreenshotResult> {
     const safe = path ? path.replace(/'/g, "\\'") : "";
     const target = safe ? `op('${safe}')` : "me";
+    // POP pre-flight (docs/MCP_REAL_CASES.md F1): non-TOPs cannot be captured
+    // directly. A POP can at least be verified (it must cook clean) and the
+    // error names the two real options instead of a bare "Not a TOP".
+    const popPreflight = safe
+      ? `
+        _t = op('${safe}')
+        if _t is not None and not _t.isTOP:
+            _pop_err = None
+            try:
+                _t.cook(force=True)
+                _pop_err = list(_t.errors()) or None
+            except Exception:
+                pass
+            print(json.dumps({'success':False,'path':'${safe}','error':'Not a TOP: ${safe}','pop':{\'opType\':_t.OPType,\'numPoints\':int(_t.numPoints()) if callable(_t.numPoints) else None,'pop_errors':_pop_err},'hint':'OPs are not capturable: TD 2025 has no POP-to-image operator and point clouds render black through geometryCOMP+renderTOP (verified live). Use td_pop_inspect for numeric verification, or wrap the POP in surface geometry (spherePOP/convertPOP) inside a geometryCOMP + renderTOP.',}))
+            raise SystemExit
+        `
+      : "";
     const resizeCode = maxSize
       ? `
         try:
@@ -1220,7 +1246,7 @@ except Exception as e:
         `;
     const code = `import json,tempfile,base64,os
 try:
-    t = ${target}
+    ${popPreflight}    t = ${target}
     if t is None: print(json.dumps({'success':False,'path':'${safe || "current"}','error':'Not found'}))
     else:
         tf = tempfile.NamedTemporaryFile(suffix='.png',delete=False).name
@@ -1268,10 +1294,18 @@ except Exception as e:
     return this.executeJson<ProjectLifecycleResult>(code);
   }
 
-  async popInspect(path: string): Promise<any> {
+  async popInspect(path: string, attrs?: string[], sampleIndices?: number[]): Promise<any> {
+    const sp = path.replace(/'/g, "\\'");
+    // Enumerate attributes via pointAttributes (t.attribs is None on POPs and
+    // made td_pop_inspect blind — docs/MCP_REAL_CASES.md F3) and numerically
+    // sample the requested ones via t.points(name) — custom GLSL attributes
+    // ARE CPU-readable this way once the POP has cooked (verified live
+    // 2025.32460: points('ID')[i] -> 0.0,1.0,2.0; points('period')[i] -> 6.0,8.0).
+    const attrNamesLiteral = `[${(attrs ?? []).map((a) => a.replace(/'/g, "\\'")).map((a) => `'${a}'`).join(",")}]`;
+    const idxLiteral = `[${(sampleIndices ?? [0, 1, 2]).join(",")}]`;
     const code = `import json
 try:
-    t = op('${path.replace(/'/g, "\\'")}')
+    t = op('${sp}')
     if t is None: print(json.dumps({'success':False,"error":"Not found"}))
     else:
         info = {"path":t.path,"name":t.name,"type":t.OPType}
@@ -1290,14 +1324,34 @@ try:
             if v is not None:
                 info[attr] = v
         try:
-            src_attrs = getattr(t, 'attribs', None)
-            if callable(src_attrs): src_attrs = src_attrs()
+            src_attrs = getattr(t, 'pointAttributes', None)
             attrs = []
             for a in (src_attrs or []):
-                attrs.append({"name":a.name,"type":str(a.type),"size":a.size,"scope":str(a.scope)})
+                attrs.append({"name":a.name,"type":str(a.type),"size":a.size})
             info["attributes"] = attrs
         except Exception:
             info["attributes"] = None
+        samples = {}
+        for _nm in ${attrNamesLiteral}:
+            vals = []
+            try:
+                _pts = t.points(_nm)
+                for _i in ${idxLiteral}:
+                    if _i >= len(_pts):
+                        continue
+                    _v = _pts[_i]
+                    try:
+                        vals.append(list(_v))
+                    except Exception:
+                        try:
+                            vals.append(float(_v))
+                        except Exception:
+                            vals.append(str(_v))
+            except Exception as _e:
+                vals = None
+                samples[_nm + '__error'] = str(_e)[:120]
+            samples[_nm] = vals
+        info["samples"] = samples
         print(json.dumps({'success':True,"data":info}))
 except Exception as e:
     print(json.dumps({'success':False,"error":str(e)}))`;

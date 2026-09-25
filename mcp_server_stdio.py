@@ -102,8 +102,22 @@ TOOL_DEFINITIONS: list[dict[str, Any]] = [
                 "type": {"type": "string", "description": "TD operator type (e.g. 'td.glslPOP', 'td.boxPOP')"},
                 "name": {"type": "string", "description": "Name for the new operator"},
                 "parent": {"type": "string", "description": "Parent path (default: /project1)"},
+                "replace": {"type": "boolean", "description": "Destroy an existing operator with the same name first (TD silently renames on collision otherwise: noise1 -> noise1)"},
             },
             "required": ["type", "name"],
+        },
+    },
+    {
+        "name": "get_td_pop_attributes",
+        "description": "Read POP geometry data: point/prim counts, attribute list (pointAttributes), and numeric samples of named attributes. Custom GLSL attributes are CPU-readable here once the POP cooked (docs/MCP_REAL_CASES.md F1/F3).",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "path": {"type": "string", "description": "POP operator path to inspect"},
+                "attrs": {"type": "array", "items": {"type": "string"}, "description": "Attribute names to sample (default ['P','ID'])"},
+                "sample_indices": {"type": "array", "items": {"type": "integer"}, "description": "Element indices to sample (default [0,1,2])"},
+            },
+            "required": ["path"],
         },
     },
     {
@@ -238,7 +252,85 @@ def _call_tool(name: str, arguments: dict[str, Any]) -> dict[str, Any]:
         op_name = arguments.get("name", "")
         parent = _py_esc(arguments.get("parent", "/project1"))
         op_name_esc = _py_esc(op_name)
-        code = f"op('{parent}').create({op_type}, '{op_name_esc}')"
+        replace = bool(arguments.get("replace", False))
+        if replace:
+            # F6 (docs/MCP_REAL_CASES.md): TD renames silently on name collision
+            # (pt_copy -> pt_copy1) which poisons later wiring by name. Destroy
+            # the collision first, then create under the requested name.
+            code = (
+                "import json\n"
+                "try:\n"
+                f"    _p = op('{parent}')\n"
+                "    if _p is None:\n"
+                f"        print(json.dumps({{'success': False, 'error': 'Parent not found: {parent}'}}))\n"
+                "    else:\n"
+                f"        _cands = [c for c in _p.children if c.name == '{op_name_esc}']\n"
+                "        _old = _cands[0] if _cands else None\n"
+                "        _existed = _old is not None\n"
+                "        if _old is not None:\n"
+                "            _old.destroy()\n"
+                f"        _n = _p.create({op_type}, '{op_name_esc}')\n"
+                "        print(json.dumps({'success': True, 'path': _n.path, 'name': _n.name, 'opType': _n.OPType, 'replaced': _existed}))\n"
+                "except Exception as e:\n"
+                "    print(json.dumps({'success': False, 'error': str(e)}))\n"
+            )
+        else:
+            code = f"op('{parent}').create({op_type}, '{op_name_esc}')"
+        result = _http_post("/exec", {"code": code})
+        return _unwrap_post(result)
+
+    # ---- get_td_pop_attributes ----
+    if name == "get_td_pop_attributes":
+        path = _py_esc(arguments.get("path", ""))
+        attrs = arguments.get("attrs") or ["P", "ID"]
+        idxs = arguments.get("sample_indices") or [0, 1, 2]
+        attr_list = ", ".join("'" + _py_esc(str(a)) + "'" for a in attrs)
+        idx_list = ", ".join(str(int(i)) for i in idxs)
+        code = (
+            "import json\n"
+            "try:\n"
+            f"    _t = op('{path}')\n"
+            "    if _t is None:\n"
+            f"        print(json.dumps({{'success': False, 'error': 'Not found: {path}'}}))\n"
+            "    else:\n"
+            "        _info = {'success': True, 'path': _t.path, 'name': _t.name, 'opType': _t.OPType}\n"
+            "        try:\n"
+            "            _info['numPoints'] = int(_t.numPoints())\n"
+            "            _info['numPrims'] = int(_t.numPrims())\n"
+            "        except Exception:\n"
+            "            pass\n"
+            "        _attrs = []\n"
+            "        try:\n"
+            "            for _a in (_t.pointAttributes or ()):\n"
+            "                _attrs.append({'name': _a.name, 'size': _a.size})\n"
+            "        except Exception:\n"
+            "            _attrs = None\n"
+            "        _info['attributes'] = _attrs\n"
+            "        _samples = {}\n"
+            f"        for _nm in ({attr_list},):\n"
+            "            _vals = []\n"
+            "            try:\n"
+            "                _pts = _t.points(_nm)\n"
+            f"                for _i in ({idx_list},):\n"
+            "                    if _i >= len(_pts):\n"
+            "                        continue\n"
+            "                    _v = _pts[_i]\n"
+            "                    try:\n"
+            "                        _vals.append(list(_v))\n"
+            "                    except Exception:\n"
+            "                        try:\n"
+            "                            _vals.append(float(_v))\n"
+            "                        except Exception:\n"
+            "                            _vals.append(str(_v))\n"
+            "            except Exception as _e:\n"
+            "                _vals = None\n"
+            "                _samples[_nm + '__error'] = str(_e)[:120]\n"
+            "            _samples[_nm] = _vals\n"
+            "        _info['samples'] = _samples\n"
+            "        print(json.dumps(_info))\n"
+            "except Exception as e:\n"
+            "    print(json.dumps({'success': False, 'error': str(e)}))\n"
+        )
         result = _http_post("/exec", {"code": code})
         return _unwrap_post(result)
 

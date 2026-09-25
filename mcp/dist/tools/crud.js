@@ -4,13 +4,16 @@ import { postModifyValidate, getParentPath } from "./postValidate.js";
 /**
  * GLSL POP types that require outputattrs to be set for P[id]/Cd[id] writes.
  * Without this, the GLSL shader compilation fails with "undeclared identifier" errors.
+ *
+ * NOTE: glslcopyPOP is NOT in this set on purpose — it has no `outputattrs`
+ * parameter at all (point-shader output selection is `ptoutputattrs`) and no
+ * `numelems`. Auto-setting those on a glslcopyPOP fails with tdAttributeError
+ * (docs/MCP_REAL_CASES.md F2, verified live 2025.32460).
  */
 const GLSL_POP_TYPES = new Set([
     "glslPOP",
     "glslCreatePOP",
     "glslAdvancedPOP",
-    "glslcopyPOP",
-    "glslCopyPOP",
 ]);
 export function registerCrudTools(server, client) {
     // ---------------------------------------------------------------------------
@@ -31,21 +34,29 @@ export function registerCrudTools(server, client) {
                 .describe("Parent operator path (default: '/')"),
             position_x: z.number().optional().describe("X position in the network editor"),
             position_y: z.number().optional().describe("Y position in the network editor"),
+            replace: z
+                .boolean()
+                .optional()
+                .default(false)
+                .describe("Destroy an existing operator with the same name first (docs/MCP_REAL_CASES.md F6). " +
+                "Without this, TD silently renames the new op (noise1 -> noise1) and later wiring " +
+                "targets a name that does not exist."),
             outputattrs: z
                 .string()
                 .optional()
                 .describe("Output attributes for GLSL POPs (e.g. 'P', 'P Cd', 'P Cd N'). " +
-                "Auto-set to 'P' for glslPOP/glslCreatePOP/glslAdvancedPOP/glslcopyPOP. " +
+                "Auto-set to 'P' for glslPOP/glslCreatePOP/glslAdvancedPOP (NOT glslcopyPOP — " +
+                "it has no outputattrs; use td_glsl_apply with pop_kind='copy'). " +
                 "Set to empty string to skip auto-configuration."),
             numelems: z
                 .number()
                 .optional()
-                .describe("Number of elements for GLSL POPs. Auto-set to 100 for glslPOP/glslCreatePOP/glslAdvancedPOP/glslcopyPOP. " +
+                .describe("Number of elements for GLSL POPs. Auto-set to 100 for glslPOP/glslCreatePOP/glslAdvancedPOP. " +
                 "Set to 0 to skip auto-configuration."),
         },
-    }, async ({ type, name, path: opPath, position_x, position_y, outputattrs, numelems }) => {
+    }, async ({ type, name, path: opPath, position_x, position_y, replace, outputattrs, numelems }) => {
         try {
-            const result = await client.createOperator(type, name, opPath ?? "/", position_x, position_y);
+            const result = await client.createOperator(type, name, opPath ?? "/", position_x, position_y, replace ?? false);
             // Auto-set outputattrs + numelems for GLSL POPs
             const isGlslPop = GLSL_POP_TYPES.has(type);
             if (isGlslPop) {

@@ -380,20 +380,21 @@ class TestMCPComprehensive(unittest.TestCase):
                          "Notifications should produce no stderr")
 
     def test_tools_list(self) -> None:
-        """tools/list returns all 12 tool definitions with input schemas."""
+        """tools/list returns all 13 tool definitions with input schemas."""
         resp = self._run({"jsonrpc": "2.0", "id": 1, "method": "tools/list"})
         r = self._assert_success(resp)
         tools = r["tools"]
         names = [t["name"] for t in tools]
         self.assertEqual(
-            len(tools), 12,
-            f"Expected 12 tools, got {len(tools)}: {names}"
+            len(tools), 13,
+            f"Expected 13 tools, got {len(tools)}: {names}"
         )
         expected_tools = [
-            "create_td_node", "delete_td_node", "get_td_nodes",
-            "get_td_parameters", "set_td_parameters", "connect_td_nodes",
-            "execute_td_python", "verify_td_network", "get_td_performance",
-            "get_td_spatial_context", "capture_td_screenshot", "get_td_help",
+            "create_td_node", "get_td_pop_attributes", "delete_td_node",
+            "get_td_nodes", "get_td_parameters", "set_td_parameters",
+            "connect_td_nodes", "execute_td_python", "verify_td_network",
+            "get_td_performance", "get_td_spatial_context",
+            "capture_td_screenshot", "get_td_help",
         ]
         for name in expected_tools:
             self.assertIn(name, names, f"Missing tool: {name}")

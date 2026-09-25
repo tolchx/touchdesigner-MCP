@@ -281,13 +281,24 @@ export function registerInspectionTools(server, client) {
     // ---------------------------------------------------------------------------
     server.registerTool("td_pop_inspect", {
         title: "Inspect POP Data",
-        description: "Read particle data from a POP operator: point/prim/vert counts, attributes with types, and sampled attribute values.",
+        description: "Read particle data from a POP operator: point/prim/vert counts, attribute list " +
+            "(via pointAttributes), and numeric samples of the attributes you name. Custom " +
+            "GLSL attributes are CPU-readable here once the POP cooked. " +
+            "Default samples: P/ID at indices 0,1,2.",
         inputSchema: {
             path: z.string().describe("POP operator path to inspect"),
+            attrs: z
+                .array(z.string())
+                .optional()
+                .describe("Attribute names to sample numerically (default ['P','ID'])"),
+            sample_indices: z
+                .array(z.number())
+                .optional()
+                .describe("Element indices to sample (default [0,1,2])"),
         },
-    }, async ({ path: opPath }) => {
+    }, async ({ path: opPath, attrs, sample_indices }) => {
         try {
-            const result = await client.popInspect(opPath);
+            const result = await client.popInspect(opPath, attrs ?? ["P", "ID"], sample_indices ?? [0, 1, 2]);
             return ok(result);
         }
         catch (e) {

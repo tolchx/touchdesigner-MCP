@@ -58,9 +58,19 @@ export function registerGlslApplyTools(server: McpServer, client: TDClient) {
           .string()
           .optional()
           .describe("Override outputattrs (default 'P' — only input-existing attrs, R3)"),
+        pop_kind: z
+          .enum(["basic", "copy"])
+          .optional()
+          .default("basic")
+          .describe(
+            "'basic' creates a glslPOP; 'copy' creates a glslcopyPOP for per-copy shaders " +
+              "(Phyllotaxis/Hairy-Banana style). The copy POP uses ptcomputedat/ptoutputattrs " +
+              "and the TDNumPoints/TDCopyIndex/TDTemplate_* builtin family — write the shader " +
+              "for that family, NOT TDIndex()/TDNumElements()."
+          ),
       },
     },
-    async ({ parent_path, name, shader, source_path, outputattrs }) => {
+    async ({ parent_path, name, shader, source_path, outputattrs, pop_kind }) => {
       try {
         const result = await applyGlslPop(client, {
           parentPath: parent_path,
@@ -68,6 +78,7 @@ export function registerGlslApplyTools(server: McpServer, client: TDClient) {
           shader,
           sourcePath: source_path,
           outputattrs,
+          popKind: pop_kind ?? "basic",
         });
         if (result.isError) {
           return err(result.message);

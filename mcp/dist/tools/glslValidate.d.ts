@@ -82,6 +82,14 @@ export interface GlslApplyArgs {
     sourcePath?: string;
     /** Override outputattrs (default 'P' — the verified recipe, R3). */
     outputattrs?: string;
+    /**
+     * "basic" (default) creates a glslPOP; "copy" creates a glslcopyPOP, whose
+     * code params are ptcomputedat/ptoutputattrs and whose builtins are a
+     * different family (TDNumPoints/TDInputNumPoints/TDCopyIndex/TDTemplate_* —
+     * NO TDIndex()/TDNumElements()). Verified live 2025.32460, F2 in
+     * docs/MCP_REAL_CASES.md.
+     */
+    popKind?: "basic" | "copy";
 }
 /**
  * Generate ONE Python script (for client.execute) that:

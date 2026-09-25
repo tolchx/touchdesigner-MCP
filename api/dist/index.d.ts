@@ -380,13 +380,13 @@ export declare class TDClient {
     }): Promise<FindResult>;
     healthcheck(path?: string, recurse?: boolean, forceCook?: boolean): Promise<HealthcheckResult>;
     getInfo(): Promise<any>;
-    createOperator(type: string, name?: string, path?: string, positionX?: number, positionY?: number): Promise<CreateOperatorResult>;
+    createOperator(type: string, name?: string, path?: string, positionX?: number, positionY?: number, replaceExisting?: boolean): Promise<CreateOperatorResult>;
     deleteOperator(path: string): Promise<DeleteOperatorResult>;
     connectNodes(sourcePath: string, targetPath: string, targetInput?: number): Promise<ConnectNodesResult>;
     getErrors(path: string, recurse?: boolean): Promise<GetErrorsResult>;
     screenshot(path?: string, maxSize?: number): Promise<ScreenshotResult>;
     projectLifecycle(action: string, filePath?: string): Promise<ProjectLifecycleResult>;
-    popInspect(path: string): Promise<any>;
+    popInspect(path: string, attrs?: string[], sampleIndices?: number[]): Promise<any>;
     getNodeDetail(path: string, recurse?: boolean): Promise<any>;
     getHints(nodeType: string): Promise<any>;
     getBuildCompatibility(opType: string): Promise<any>;
