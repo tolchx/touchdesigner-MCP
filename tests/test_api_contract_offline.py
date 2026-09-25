@@ -207,8 +207,19 @@ class FakeOperator:
 
     @property
     def children(self):
+        # TD: children is a METHOD (children('name') filters by name), but a
+        # large part of this suite iterates it as a property/attribute. Return
+        # a list subclass that is ALSO callable with an optional name filter
+        # so both the property-style tests and the /create replace flow work.
         self._children_reads += 1
-        return self._children
+
+        class _ChildrenList(list):
+            def __call__(lst, name=None):
+                if name is None:
+                    return list(lst)
+                return [c for c in lst if c.name == name]
+
+        return _ChildrenList(self._children)
 
     def findChildren(self):
         return self._children
@@ -443,7 +454,12 @@ class TestParametersSetContract(unittest.TestCase):
 
     def setUp(self):
         _reset_fakes()
-        _install_fake_globals()
+        fake_globals = _install_fake_globals()
+        # the generated create-script references the op class by bare name
+        # (TD passes it as a Python class); register a stand-in.
+        fake_globals["noiseTOP"] = type("noiseTOP", (), {})
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.noiseTOP = fake_globals["noiseTOP"]
         self.api = FakeAPI()
         # The module's `op` is now _fake_op (set by _install_fake_globals).
         # Ensure the test module sees it too so exec() in the handler
@@ -726,7 +742,12 @@ class TestScreenshotPostContract(unittest.TestCase):
 
     def setUp(self):
         _reset_fakes()
-        _install_fake_globals()
+        fake_globals = _install_fake_globals()
+        # the generated create-script references the op class by bare name
+        # (TD passes it as a Python class); register a stand-in.
+        fake_globals["noiseTOP"] = type("noiseTOP", (), {})
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.noiseTOP = fake_globals["noiseTOP"]
         self.api = FakeAPI()
 
         # Make a TOP at /project1/top1
@@ -1179,7 +1200,12 @@ class TestOperatorsPagination(unittest.TestCase):
 
     def setUp(self):
         _reset_fakes()
-        _install_fake_globals()
+        fake_globals = _install_fake_globals()
+        # the generated create-script references the op class by bare name
+        # (TD passes it as a Python class); register a stand-in.
+        fake_globals["noiseTOP"] = type("noiseTOP", (), {})
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.noiseTOP = fake_globals["noiseTOP"]
         self.api = FakeAPI()
         import tests.test_api_contract_offline as mod
         self._saved_op = getattr(mod, "op", None)
@@ -1334,7 +1360,12 @@ class TestConnectionsPagination(unittest.TestCase):
 
     def setUp(self):
         _reset_fakes()
-        _install_fake_globals()
+        fake_globals = _install_fake_globals()
+        # the generated create-script references the op class by bare name
+        # (TD passes it as a Python class); register a stand-in.
+        fake_globals["noiseTOP"] = type("noiseTOP", (), {})
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.noiseTOP = fake_globals["noiseTOP"]
         self.api = FakeAPI()
         import toe.src.TouchDesignerAPI as tmod
         self._saved_op = getattr(tmod, "op", None)
@@ -1463,7 +1494,12 @@ class TestFindPagination(unittest.TestCase):
 
     def setUp(self):
         _reset_fakes()
-        _install_fake_globals()
+        fake_globals = _install_fake_globals()
+        # the generated create-script references the op class by bare name
+        # (TD passes it as a Python class); register a stand-in.
+        fake_globals["noiseTOP"] = type("noiseTOP", (), {})
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.noiseTOP = fake_globals["noiseTOP"]
         self.api = FakeAPI()
         import tests.test_api_contract_offline as mod
         self._saved_op = getattr(mod, "op", None)
@@ -1572,7 +1608,12 @@ class TestReadCacheContract(unittest.TestCase):
 
     def setUp(self):
         _reset_fakes()
-        _install_fake_globals()
+        fake_globals = _install_fake_globals()
+        # the generated create-script references the op class by bare name
+        # (TD passes it as a Python class); register a stand-in.
+        fake_globals["noiseTOP"] = type("noiseTOP", (), {})
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.noiseTOP = fake_globals["noiseTOP"]
         self.api = FakeAPI()
         import tests.test_api_contract_offline as mod
         self._saved_op = getattr(mod, "op", None)
@@ -1717,7 +1758,12 @@ class TestDocumentRecursion(unittest.TestCase):
 
     def setUp(self):
         _reset_fakes()
-        _install_fake_globals()
+        fake_globals = _install_fake_globals()
+        # the generated create-script references the op class by bare name
+        # (TD passes it as a Python class); register a stand-in.
+        fake_globals["noiseTOP"] = type("noiseTOP", (), {})
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.noiseTOP = fake_globals["noiseTOP"]
         self.api = FakeAPI()
         import tests.test_api_contract_offline as mod
         self._saved_op = getattr(mod, "op", None)
@@ -1791,7 +1837,12 @@ class TestMetricsContract(unittest.TestCase):
 
     def setUp(self):
         _reset_fakes()
-        _install_fake_globals()
+        fake_globals = _install_fake_globals()
+        # the generated create-script references the op class by bare name
+        # (TD passes it as a Python class); register a stand-in.
+        fake_globals["noiseTOP"] = type("noiseTOP", (), {})
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.noiseTOP = fake_globals["noiseTOP"]
         self.api = FakeAPI()
         import tests.test_api_contract_offline as mod
         self._saved_op = getattr(mod, "op", None)
@@ -1910,7 +1961,12 @@ class _HistoryTestBase(unittest.TestCase):
 
     def setUp(self):
         _reset_fakes()
-        _install_fake_globals()
+        fake_globals = _install_fake_globals()
+        # the generated create-script references the op class by bare name
+        # (TD passes it as a Python class); register a stand-in.
+        fake_globals["noiseTOP"] = type("noiseTOP", (), {})
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.noiseTOP = fake_globals["noiseTOP"]
         self.api = FakeAPI()
         import tests.test_api_contract_offline as mod
         self._saved_op = getattr(mod, "op", None)
@@ -2144,3 +2200,55 @@ class TestUndoRedoReceivesProperResponse(_HistoryTestBase):
 if __name__ == "__main__":
     unittest.main()
 
+
+
+class TestCreateOperatorReplace(unittest.TestCase):
+    """POST /create with replace=true (docs/MCP_REAL_CASES.md F6).
+
+    TD renames on name collision (noise1 -> noise1) which poisons later
+    wiring by the requested name. replace=true destroys the collision first
+    and reports 'replaced' in the JSON.
+    """
+
+    def setUp(self):
+        _reset_fakes()
+        fake_globals = _install_fake_globals()
+        # the generated create-script references the op class by bare name
+        # (TD passes it as a Python class); register a stand-in.
+        fake_globals["noiseTOP"] = type("noiseTOP", (), {})
+        import toe.src.TouchDesignerAPI as tmod
+        tmod.noiseTOP = fake_globals["noiseTOP"]
+        self.api = FakeAPI()
+
+    def _post_create(self, body):
+        response = _make_response()
+        request = {"pars": body}
+        self.api._handle_create_operator(request, response)
+        outer = json.loads(response["data"])
+        # the handler wraps the generated script's JSON in {"output": ...}
+        return json.loads(outer["output"])
+
+    def _make_parent_with_child(self, name):
+        parent = _fake_project1
+        child = FakeOperator(f"/project1/{name}", name, "noiseTOP", "TOP")
+        parent._children.append(child)
+        return child
+
+    def test_create_without_replace_leaves_collision_and_renames(self):
+        self._make_parent_with_child("dup1")
+        # generated code calls t.children('dup1') only with replace=true;
+        # here the generated script must NOT touch existing children
+        out = self._post_create({"type": "noiseTOP", "name": "dup1", "path": "/project1"})
+        self.assertTrue(out["success"])
+        self.assertFalse(out.get("replaced", False))
+
+    def test_create_with_replace_destroys_collision_and_keeps_name(self):
+        old = self._make_parent_with_child("dup1")
+        response = _make_response()
+        request = {"pars": {"type": "noiseTOP", "name": "dup1", "path": "/project1", "replace": True}}
+        self.api._handle_create_operator(request, response)
+        out = json.loads(response["data"])
+        parsed = json.loads(out["output"])
+        self.assertTrue(parsed["success"])
+        self.assertTrue(parsed["replaced"])
+        self.assertEqual(parsed["name"], "dup1")
