@@ -64,7 +64,10 @@ def sig_dirty_tree() -> list[dict]:
     code, out = sh(["git", "status", "--porcelain"])
     if code != 0:
         return []
-    ignorar = ("toe/develop", "docs/glsl_pops_reference.json", "mcp/_tool_list.json", ".freebuff_tasks/")
+    # Los `.toe`/`.tox` de Tolch son intocables (loop-constraints): su rotacion de backups
+    # no es "trabajo sucio" y no debe consumir el candidato del dia.
+    ignorar = ("toe/develop", "docs/glsl_pops_reference.json", "mcp/_tool_list.json",
+               ".freebuff_tasks/", ".toe", ".tox")
     dirty = []
     for line in out.splitlines():
         path = line[3:].strip().strip('"')
