@@ -3,7 +3,7 @@
 
 Implements the Model Context Protocol (MCP) over stdio using JSON-RPC 2.0.
 Translates MCP tool/resource calls to HTTP calls against the TD API at
-localhost:44444.
+127.0.0.1:44444.
 
 Usage:
     python mcp_server_stdio.py          # run interactively
@@ -15,7 +15,7 @@ Supports:
   - resources/list
   - resources/read
 
-All tools are backed by the TD HTTP API at http://localhost:44444.
+All tools are backed by the TD HTTP API at http://127.0.0.1:44444.
 """
 
 from __future__ import annotations
@@ -28,7 +28,12 @@ from typing import Any
 from urllib.request import Request, urlopen
 from urllib.error import URLError
 
-TD_API_BASE = "http://localhost:44444"
+# Loopback always means 127.0.0.1: the TD bridge (and the test mocks) only
+# listen on IPv4, while on Windows resolving "localhost" returns ::1 first, so
+# every request would stall ~2s on dead IPv6 SYNs before falling back
+# (measured: 2011ms vs 2.8ms per round-trip). Same normalization the TS client
+# does in api/src/index.ts (_normalize_host).
+TD_API_BASE = "http://127.0.0.1:44444"
 REQUEST_TIMEOUT = 30
 
 
