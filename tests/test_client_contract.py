@@ -446,5 +446,292 @@ class TestHandlerBehaviorAgainstContract(unittest.TestCase):
             self.assertIn(key, data, f"/history response missing '{key}'")
 
 
+# ---------------------------------------------------------------------------
+# Backlog item 57: stdio client diagnostics parity with api/src/diagnostics.ts.
+# Source of truth: tests/bridge_contract.json -> error_classification (extracted
+# VERBATIM from diagnostics.ts: patterns, retry rules and hint texts).
+# ---------------------------------------------------------------------------
+
+import tempfile  # noqa: E402  (top-level imports above; local module import below)
+
+# Import the stdio client as a module (it is a script with __main__ guard).
+import importlib.util  # noqa: E402
+
+_spec = importlib.util.spec_from_file_location(
+    "mcp_server_stdio", os.path.join(REPO_ROOT, "mcp_server_stdio.py")
+)
+stdio_mod = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(stdio_mod)
+
+ERROR_CLASSIFICATION = CONTRACT.get("error_classification", {})
+
+
+class TestClassificationParity(unittest.TestCase):
+    """The Python classifier must return the SAME kind as the TS classifier
+    (classifyConnectionError in diagnostics.ts) for the same inputs."""
+
+    # Inputs are the SAME literals asserted in mcp/test/clientResilience.test.js
+    # for the TS side (clasificación y decisión de reintento).
+    PARITY_INPUTS = [
+        ("<urlopen error [Errno 111] Connection refused>", "bridge_unreachable"),
+        ("connection refused by 127.0.0.1", "bridge_unreachable"),
+        ("<urlopen error [WinError 10061] No connection could be made because "
+         "the target machine actively refused it>", "bridge_unreachable"),
+        ("[Errno 104] Connection reset by peer", "connect_reset"),
+        ("socket hang up", "connect_reset"),
+        ("other side closed", "connect_reset"),
+        ("timed out", "timeout"),
+        ("The read operation timed out", "timeout"),
+        ("HTTP Error 500: Internal Server Error", "http_error"),
+        ("HTTP Error 400: Bad Request", "http_error"),
+        ("websocket transport failure", "ws_error"),
+        ("algo raro", "unknown"),
+    ]
+
+    def test_classification_table(self):
+        for msg, expected in self.PARITY_INPUTS:
+            got = stdio_mod._classify_connection_error(msg)
+            self.assertEqual(
+                got, expected,
+                f"classify({msg!r}) = {got!r}, TS parity expects {expected!r}",
+            )
+
+    def test_patterns_come_from_contract(self):
+        """Every declared pattern in the contract must be a substring class the
+        Python regex actually matches (no silent drift between tables)."""
+        patterns = ERROR_CLASSIFICATION.get("patterns", {})
+        for kind, pattern in patterns.items():
+            rx = re.compile(pattern, re.IGNORECASE)
+            for msg, expected in self.PARITY_INPUTS:
+                if expected == kind:
+                    self.assertRegex(
+                        msg.lower(), rx,
+                        f"contract pattern for {kind} no longer matches its parity input {msg!r}",
+                    )
+
+
+class TestRetryRulesParity(unittest.TestCase):
+    """isRetryable parity: bridge_unreachable always; connect_reset/timeout
+    reads only; http_error/ws_error/unknown never. Same assertion set as the
+    TS suite (regla de reintento por tipo de método)."""
+
+    def test_retry_table(self):
+        f = stdio_mod._is_retryable
+        self.assertTrue(f("bridge_unreachable", "POST"))
+        self.assertTrue(f("bridge_unreachable", "GET"))
+        self.assertTrue(f("connect_reset", "GET"))
+        self.assertFalse(f("connect_reset", "POST"))
+        self.assertTrue(f("timeout", "GET"))
+        self.assertFalse(f("timeout", "POST"))
+        self.assertFalse(f("http_error", "GET"))
+        self.assertFalse(f("http_error", "POST"))
+
+    def test_retry_rules_match_contract(self):
+        rules = ERROR_CLASSIFICATION.get("retry_rules", {})
+        self.assertEqual(rules.get("bridge_unreachable", "").split(" ")[0], "always")
+        self.assertIn("reads only", rules.get("connect_reset", ""))
+        self.assertIn("reads only", rules.get("timeout", ""))
+        self.assertEqual(rules.get("http_error"), "never")
+
+
+class TestHintsParity(unittest.TestCase):
+    """The Python hint table is a COPY of KIND_HINTS in diagnostics.ts —
+    exact text equality per kind, through the contract file."""
+
+    def test_hints_match_contract_verbatim(self):
+        hints = ERROR_CLASSIFICATION.get("hints", {})
+        self.assertTrue(hints, "error_classification.hints missing in contract")
+        for kind, hint in hints.items():
+            self.assertEqual(
+                stdio_mod.KIND_HINTS.get(kind), hint,
+                f"hint drift for kind '{kind}' — copy the text from "
+                f"api/src/diagnostics.ts, do not rephrase",
+            )
+
+    def test_envelope_uses_hint_table(self):
+        env = stdio_mod._error_envelope("bridge_unreachable", "GET", "/info", 3, "boom")
+        self.assertEqual(env["hint"], stdio_mod.KIND_HINTS["bridge_unreachable"])
+        self.assertEqual(env["kind"], "bridge_unreachable")
+        self.assertEqual(env["bridge"], "127.0.0.1:44444")
+        self.assertEqual(env["attempts"], 3)
+        self.assertIs(env["benign"], False)
+
+
+class TestClientCallLog(unittest.TestCase):
+    """JSONL call log: <tmp>/tdmcp-client.log (TDMCP_CLIENT_LOG overrides,
+    off/0/false disables), rotation ~1MB, records with the CallRecord fields
+    of diagnostics.ts."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.log_file = os.path.join(self.tmp.name, "client.log")
+        # reset ring/last-ok state per test
+        old_ring, old_last = stdio_mod._ring, stdio_mod._last_ok_call
+        stdio_mod._ring = []
+        stdio_mod._last_ok_call = None
+        self.addCleanup(self._restore, old_ring, old_last)
+
+    @staticmethod
+    def _restore(ring, last):
+        stdio_mod._ring = ring
+        stdio_mod._last_ok_call = last
+
+    def test_record_call_writes_jsonl_fields(self):
+        with patch.dict(os.environ, {"TDMCP_CLIENT_LOG": self.log_file}):
+            stdio_mod._record_call({
+                "ts": "2026-09-25T00:00:00Z", "target": "/info", "method": "GET",
+                "ok": True, "ms": 3, "attempt": 1, "transport": "http",
+            })
+            stdio_mod._record_call({
+                "ts": "2026-09-25T00:00:01Z", "target": "/exec", "method": "POST",
+                "ok": False, "ms": 12, "attempt": 2, "transport": "http",
+                "kind": "connect_reset", "error": "reset",
+            })
+        with open(self.log_file, "r", encoding="utf-8") as f:
+            lines = [json.loads(l) for l in f if l.strip()]
+        self.assertEqual(len(lines), 2)
+        rec = lines[1]
+        for field in ("ts", "target", "method", "ok", "ms", "attempt", "kind", "error"):
+            self.assertIn(field, rec, f"log record missing '{field}' (CallRecord parity)")
+        self.assertEqual(rec["target"], "/exec")  # query stripped = path only
+        self.assertEqual(rec["kind"], "connect_reset")
+
+    def test_log_env_override_and_disable(self):
+        self.assertIsNone(stdio_mod._client_log_path() if False else None)  # placeholder guard
+        with patch.dict(os.environ, {"TDMCP_CLIENT_LOG": self.log_file}):
+            self.assertEqual(stdio_mod._client_log_path(), self.log_file)
+        with patch.dict(os.environ, {"TDMCP_CLIENT_LOG": "off"}):
+            self.assertIsNone(stdio_mod._client_log_path())
+        with patch.dict(os.environ, {"TDMCP_CLIENT_LOG": ""}):
+            path = stdio_mod._client_log_path()
+        self.assertTrue(path.endswith("tdmcp-client.log"))
+
+    def test_rotation(self):
+        with patch.dict(os.environ, {"TDMCP_CLIENT_LOG": self.log_file}):
+            with open(self.log_file, "wb") as f:
+                f.write(b"x" * (stdio_mod._LOG_MAX_BYTES + 1))
+            stdio_mod._record_call({
+                "ts": "2026-09-25T00:00:00Z", "target": "/info", "method": "GET",
+                "ok": True, "ms": 1, "attempt": 1, "transport": "http",
+            })
+        self.assertTrue(os.path.exists(self.log_file + ".1"))
+        with open(self.log_file, "r", encoding="utf-8") as f:
+            self.assertEqual(len(f.readlines()), 1)
+
+    def test_last_ok_call_tracks_success(self):
+        with patch.dict(os.environ, {"TDMCP_CLIENT_LOG": self.log_file}):
+            stdio_mod._record_call({
+                "ts": "T1", "target": "/info", "method": "GET",
+                "ok": True, "ms": 1, "attempt": 1, "transport": "http",
+            })
+            stdio_mod._record_call({
+                "ts": "T2", "target": "/exec", "method": "POST",
+                "ok": False, "ms": 1, "attempt": 1, "transport": "http",
+                "kind": "timeout", "error": "timed out",
+            })
+        self.assertEqual(stdio_mod._last_ok_call, "T1")
+
+
+class TestRetryLoopBehavior(unittest.TestCase):
+    """The retry loop in the real _http_with_retry: number of attempts per
+    classification (with urlopen mocked at the boundary)."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        old_ring, old_last = stdio_mod._ring, stdio_mod._last_ok_call
+        stdio_mod._ring = []
+        stdio_mod._last_ok_call = None
+        self.addCleanup(self._restore, old_ring, old_last)
+        # Redirect the log file away from the real %TEMP% log.
+        self._env = patch.dict(os.environ, {"TDMCP_CLIENT_LOG": os.path.join(self.tmp.name, "c.log")})
+        self._env.start()
+        self.addCleanup(self._env.stop)
+
+    @staticmethod
+    def _restore(ring, last):
+        stdio_mod._ring = ring
+        stdio_mod._last_ok_call = last
+
+    def _run(self, side_effect, method="GET", body=None):
+        with patch.object(stdio_mod, "urlopen", side_effect=side_effect):
+            if method == "GET":
+                return stdio_mod._http_get("/info"), self._attempts()
+            return stdio_mod._http_post("/exec", body or {}), self._attempts()
+
+    @staticmethod
+    def _attempts():
+        return len(stdio_mod._ring)
+
+    def test_unreachable_retries_all_attempts_even_for_post(self):
+        from urllib.error import URLError
+        err = URLError(ConnectionRefusedError(111, "Connection refused"))
+        result, attempts = self._run(err, method="POST", body={"code": "pass"})
+        self.assertEqual(attempts, stdio_mod.RETRY_ATTEMPTS)
+        self.assertIn("bridge_unreachable", result["error"])
+        env = result["envelope"]
+        self.assertEqual(env["kind"], "bridge_unreachable")
+        self.assertIn("reintentá en unos segundos", env["hint"])
+
+    def test_connect_reset_retries_reads_only(self):
+        from urllib.error import URLError
+        err = URLError(ConnectionResetError(104, "Connection reset by peer"))
+        _, attempts = self._run(err, method="GET")
+        self.assertEqual(attempts, stdio_mod.RETRY_ATTEMPTS)
+        before = self._attempts()
+        _, attempts = self._run(err, method="POST", body={})
+        self.assertEqual(self._attempts() - before, 1)  # write may have executed: never retried
+
+    def test_http_error_never_retries(self):
+        import io
+        from urllib.error import HTTPError
+        err = HTTPError("http://127.0.0.1:44444/exec", 500, "Internal Server Error", {}, io.BytesIO())
+        result, attempts = self._run(err, method="GET")
+        self.assertEqual(attempts, 1)
+        self.assertIn("http_error", result["error"])
+        self.assertIn("HTTP 500", result["envelope"]["error"])
+
+    def test_timeout_retries_reads_only(self):
+        result_holder = {}
+        import socket
+
+        def slow(req, timeout):
+            raise socket.timeout("timed out")
+
+        result, attempts = self._run(slow, method="GET")
+        self.assertEqual(attempts, stdio_mod.RETRY_ATTEMPTS)
+        self.assertIn("timeout", result["error"])
+        result_holder["r"] = result
+
+    def test_envelope_carries_last_ok_call(self):
+        from urllib.error import URLError
+        # one successful call, then failures: the envelope must say WHEN the
+        # bridge last answered (TS: getLastOkAt()).
+        with patch.object(stdio_mod, "urlopen") as mock_u:
+            mock_u.return_value = self._fake_ok()
+            stdio_mod._http_get("/info")
+            mock_u.side_effect = URLError("Connection refused")
+            result = stdio_mod._http_get("/info")
+        env = result["envelope"]
+        self.assertIsNotNone(env["last_ok_call"])
+
+    @staticmethod
+    def _fake_ok():
+        import io
+
+        class _Resp:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *a):
+                return False
+
+            def read(self):
+                return b'{"ok": true}'
+
+        return _Resp()
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

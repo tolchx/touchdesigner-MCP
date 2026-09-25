@@ -212,19 +212,22 @@ export function classifyConnectionError(e: unknown): TDErrorKind {
   const msg = errorMessage(e).toLowerCase();
 
   if (/timed out|timeout|aborted|abort/.test(msg)) return "timeout";
-  if (/http \d{3}/.test(msg)) return "http_error";
+  // "HTTP Error 500" is urllib's spelling (the stdio Python client); undici
+  // spells it "HTTP 500 ...". Both are a real bridge answer: never retried.
+  if (/http \d{3}|http error \d{3}/.test(msg)) return "http_error";
   // Socket-level resets are checked BEFORE the generic "fetch failed" wording:
   // undici wraps the real code in `cause`, so "fetch failed ECONNRESET" means
   // the connection WAS established and then dropped — a write may have landed.
+  // "errno 104"/"connection reset" are urllib's spellings of the same thing.
   if (
-    /econnreset|socket hang up|connection dropped|epipe|other side closed|premature close|terminated/.test(
+    /econnreset|socket hang up|connection dropped|epipe|other side closed|premature close|terminated|errno 104|connection reset|winerror 10054/.test(
       msg,
     )
   ) {
     return "connect_reset";
   }
   if (
-    /econnrefused|enotfound|eaddrnotavail|ehostunreach|enetunreach|fetch failed|unable to connect|connection refused|could not connect/.test(
+    /econnrefused|enotfound|eaddrnotavail|ehostunreach|enetunreach|fetch failed|unable to connect|connection refused|could not connect|errno 111|winerror 10061|actively refused/.test(
       msg,
     )
   ) {

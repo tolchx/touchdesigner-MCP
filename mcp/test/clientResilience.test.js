@@ -280,6 +280,12 @@ describe("clasificación y decisión de reintento", () => {
 
     assert.equal(classifyConnectionError(new Error("Request timed out after 30000ms")), "timeout");
     assert.equal(classifyConnectionError(new Error("HTTP 500 Internal Server Error: boom")), "http_error");
+    // urllib/Windows spellings (backlog 57 parity with the stdio client):
+    assert.equal(classifyConnectionError(new Error(
+      "<urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>"
+    )), "bridge_unreachable");
+    assert.equal(classifyConnectionError(new Error("[Errno 104] Connection reset by peer")), "connect_reset");
+    assert.equal(classifyConnectionError(new Error("HTTP Error 500: Internal Server Error")), "http_error");
     assert.equal(classifyConnectionError(new Error("algo raro")), "unknown");
   });
 

@@ -21,12 +21,15 @@ All tools are backed by the TD HTTP API at http://127.0.0.1:44444.
 from __future__ import annotations
 
 import json
+import os
 import re
 import sys
+import time
 import traceback
+from datetime import datetime, timezone
 from typing import Any
+from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
-from urllib.error import URLError
 
 # Loopback always means 127.0.0.1: the TD bridge (and the test mocks) only
 # listen on IPv4, while on Windows resolving "localhost" returns ::1 first, so
@@ -35,6 +38,149 @@ from urllib.error import URLError
 # does in api/src/index.ts (_normalize_host).
 TD_API_BASE = "http://127.0.0.1:44444"
 REQUEST_TIMEOUT = 30
+RETRY_ATTEMPTS = 3
+RETRY_BASE_DELAY_S = 0.15
+
+# ---------------------------------------------------------------------------
+# Client diagnostics — parity with api/src/diagnostics.ts (backlog item 57).
+#
+# The TS client keeps a ring buffer + JSONL log, classifies transport errors
+# and attaches an actionable envelope. This client had none: a bridge failure
+# surfaced as a bare {"error": ...} with no evidence. The classification
+# table, retry rules and hint texts below are COPIED from diagnostics.ts —
+# the parity contract is tests/test_client_contract.py.
+# ---------------------------------------------------------------------------
+
+# TDErrorKind parity
+def _classify_connection_error(msg: str) -> str:
+    """Classify a transport error message. Mirrors classifyConnectionError() in
+    api/src/diagnostics.ts — order of the checks matters (reset patterns before
+    the generic unreachable wording, aborts first). urllib formats differ from
+    undici's, so the patterns ALSO accept errno spellings ([Errno 104] = reset,
+    [Errno 111] = refused, 'HTTP Error 500') — the TS parity table is the
+    contract (tests/bridge_contract.json error_classification.patterns)."""
+    m = (msg or "").lower()
+    if re.search(r"timed out|timeout|aborted|abort", m):
+        return "timeout"
+    if re.search(r"http \d{3}|http error \d{3}", m):
+        return "http_error"
+    if re.search(
+        r"econnreset|socket hang up|connection dropped|epipe|other side closed|premature close|terminated|errno 104|connection reset|winerror 10054",
+        m,
+    ):
+        return "connect_reset"
+    if re.search(
+        r"econnrefused|enotfound|eaddrnotavail|ehostunreach|enetunreach|fetch failed|unable to connect|connection refused|could not connect|errno 111|winerror 10061|actively refused",
+        m,
+    ):
+        return "bridge_unreachable"
+    if re.search(r"websocket", m):
+        return "ws_error"
+    return "unknown"
+
+
+def _is_retryable(kind: str, method: str) -> bool:
+    """Same uncertainty rule as isRetryable() in diagnostics.ts:
+    bridge_unreachable always (the request never reached TD); connect_reset /
+    timeout only for reads (a write may have executed); http_error never."""
+    m = (method or "GET").upper()
+    is_read = m in ("GET", "HEAD")
+    if kind == "bridge_unreachable":
+        return True
+    if kind in ("connect_reset", "timeout"):
+        return is_read
+    return False
+
+
+# KIND_HINTS copied VERBATIM from api/src/diagnostics.ts (do not rephrase —
+# the parity test asserts equality with the TS source).
+KIND_HINTS: dict[str, str] = {
+    "bridge_unreachable": (
+        "El bridge de TD no está escuchando. Verificá que TD esté abierto, que el componente del API esté cargado "
+        "y que el puerto sea el correcto (Settings → MCP). Si acabás de abrir TD, reintentá en unos segundos."
+    ),
+    "connect_reset": (
+        "La conexión se cortó con el socket ya abierto: TD puede haberse cerrado, congelado o quedado sin cocinar. "
+        "Revisá el estado de TD antes de reintentar una escritura (pudo haberse aplicado)."
+    ),
+    "timeout": (
+        "El bridge no respondió dentro del timeout. Suele ser TD ocupado u operación pesada: "
+        "acotá el scope (path/limit) antes de reintentar."
+    ),
+    "http_error": (
+        "TD respondió con un error HTTP: es una respuesta real, no un problema de conexión. "
+        "Leé el mensaje del bridge y corregí la llamada."
+    ),
+    "ws_error": (
+        "Falló el transporte WebSocket. Si el modo es 'auto' el cliente reintenta por HTTP; "
+        "si es 'websocket', revisá que ese transporte esté disponible."
+    ),
+    "unknown": "Error no clasificado del transporte. Adjuntá el log del cliente al reportar.",
+}
+
+# Call log: JSONL at %TEMP%/tdmcp-client.log (TDMCP_CLIENT_LOG overrides;
+# off/0/false/no/none disables the file). Rotation at ~1 MB, one generation.
+_LOG_MAX_BYTES = 1_000_000
+_ring: list[dict[str, Any]] = []
+_RING_MAX = 200
+_last_ok_call: str | None = None
+
+
+def _client_log_path() -> str | None:
+    env = os.environ.get("TDMCP_CLIENT_LOG", "").strip()
+    if not env:
+        import tempfile
+
+        return os.path.join(tempfile.gettempdir(), "tdmcp-client.log")
+    if re.match(r"^(off|0|false|no|none)$", env, re.IGNORECASE):
+        return None
+    return env
+
+
+def _record_call(rec: dict[str, Any]) -> None:
+    """Append to the ring + JSONL file. Never raises: diagnostics must not be
+    the reason a call fails (same contract as recordCall in diagnostics.ts)."""
+    global _last_ok_call
+    _ring.append(rec)
+    if len(_ring) > _RING_MAX:
+        del _ring[: len(_ring) - _RING_MAX]
+    if rec.get("ok"):
+        _last_ok_call = rec.get("ts")
+    file = _client_log_path()
+    if not file:
+        return
+    try:
+        os.makedirs(os.path.dirname(file) or ".", exist_ok=True)
+        if os.path.exists(file) and os.path.getsize(file) > _LOG_MAX_BYTES:
+            os.replace(file, file + ".1")
+        with open(file, "a", encoding="utf-8") as f:
+            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    except Exception:
+        pass
+
+
+def _safe_target(path: str) -> str:
+    """Path without query string — keeps records comparable across calls."""
+    q = path.find("?")
+    return path if q == -1 else path[:q]
+
+
+def _error_envelope(kind: str, method: str, target: str, attempts: int,
+                    last_error: str) -> dict[str, Any]:
+    """Same fields as TDErrorEnvelope in api/src/index.ts."""
+    host_port = TD_API_BASE.replace("http://", "")
+    return {
+        "kind": kind,
+        "bridge": host_port,
+        "transport": "http",
+        "method": method,
+        "target": target,
+        "attempts": attempts,
+        "last_ok_call": _last_ok_call,
+        "hint": KIND_HINTS.get(kind, KIND_HINTS["unknown"]),
+        "benign": False,
+        "error": last_error[:300],
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -55,37 +201,140 @@ def _validate_operator_type(op_type: str) -> str:
 
 
 # ---------------------------------------------------------------------------
-# HTTP helpers
+# HTTP helpers — classified retry + call log + error envelope
 # ---------------------------------------------------------------------------
 
-def _http_get(path: str) -> dict[str, Any]:
-    """Perform GET against the TD API and return parsed JSON."""
+def _http_request(path: str, method: str = "GET", body: dict[str, Any] | None = None) -> dict[str, Any]:
+    """One HTTP request against the TD bridge. Raises _TDRequestError on
+    transport failure after the classified retry loop; returns parsed JSON on
+    success. A non-2xx answer is http_error and is NEVER retried."""
     url = f"{TD_API_BASE}{path}"
-    req = Request(url, method="GET")
+    data = json.dumps(body).encode("utf-8") if body is not None else None
+    req = Request(url, data=data, method=method)
+    if body is not None:
+        req.add_header("Content-Type", "application/json")
+
+    with urlopen(req, timeout=REQUEST_TIMEOUT) as resp:
+        raw = resp.read().decode("utf-8")
     try:
-        with urlopen(req, timeout=REQUEST_TIMEOUT) as resp:
-            body = resp.read().decode("utf-8")
-            return json.loads(body)
-    except URLError as e:
-        return {"error": str(e)}
+        return json.loads(raw)
     except json.JSONDecodeError:
-        return {"error": f"Non-JSON response: {body[:200]}"}
+        raise _TDRequestError("unknown", method, _safe_target(path), 1,
+                              f"Non-JSON response: {raw[:200]}")
+
+
+class _TDRequestError(Exception):
+    """Transport failure with the parity envelope attached (TDErrorEnvelope
+    in api/src/index.ts)."""
+
+    def __init__(self, kind: str, method: str, target: str, attempts: int,
+                 error: str):
+        self.envelope = _error_envelope(kind, method, target, attempts, error)
+        self.kind = kind
+        super().__init__(
+            f"{error} [bridge={self.envelope['bridge']} kind={kind} "
+            f"attempts={attempts} "
+            f"last_ok={self.envelope['last_ok_call'] or 'never'}]"
+        )
+
+
+def _http_with_retry(path: str, method: str, body: dict[str, Any] | None = None) -> dict[str, Any]:
+    """Request with the TS client's classified retry loop:
+    bridge_unreachable retries always (request never left the client),
+    connect_reset/timeout only reads, http_error never. Every attempt is
+    recorded to the ring + JSONL log; failure raises _TDRequestError whose
+    message carries the envelope summary."""
+    target = _safe_target(path)
+    attempt = 0
+    last_kind = "unknown"
+    last_error = ""
+    while attempt < RETRY_ATTEMPTS:
+        attempt += 1
+        started = time.monotonic()
+        try:
+            url = f"{TD_API_BASE}{path}"
+            data = json.dumps(body).encode("utf-8") if body is not None else None
+            req = Request(url, data=data, method=method)
+            if body is not None:
+                req.add_header("Content-Type", "application/json")
+            with urlopen(req, timeout=REQUEST_TIMEOUT) as resp:
+                raw = resp.read().decode("utf-8")
+            result = json.loads(raw)
+            _record_call({
+                "ts": datetime.now(timezone.utc).isoformat(),
+                "target": target,
+                "method": method,
+                "ok": True,
+                "ms": int((time.monotonic() - started) * 1000),
+                "attempt": attempt,
+                "transport": "http",
+            })
+            return result
+        except HTTPError as e:
+            # TD answered with a real (non-2xx) status: never a transport issue,
+            # never retried. Read the body for the message (best effort).
+            try:
+                detail = e.read().decode("utf-8", "replace")[:200]
+            except Exception:
+                detail = ""
+            last_kind = "http_error"
+            last_error = f"HTTP {e.code} {e.reason}: {detail}".strip()
+        except json.JSONDecodeError:
+            # TD answered but not with JSON: a real (broken) answer — classify
+            # like the TS client treats an unparseable body (unknown), no retry.
+            last_kind = "unknown"
+            last_error = f"Non-JSON response: {raw[:200]}"
+        except Exception as e:  # URLError, socket.timeout, OSError
+            msg = str(e)
+            cause = getattr(e, "reason", None) or getattr(e, "__cause__", None)
+            if cause is not None:
+                msg = f"{msg} {cause}"
+            if isinstance(e, (TimeoutError,)) or "timed out" in msg.lower():
+                last_kind = "timeout"
+                last_error = f"Request timed out after {REQUEST_TIMEOUT * 1000}ms: {url}"
+            else:
+                last_kind = _classify_connection_error(msg)
+                last_error = msg
+        _record_call({
+            "ts": datetime.now(timezone.utc).isoformat(),
+            "target": target,
+            "method": method,
+            "ok": False,
+            "ms": int((time.monotonic() - started) * 1000),
+            "attempt": attempt,
+            "transport": "http",
+            "kind": last_kind,
+            "error": last_error[:300],
+        })
+        if not _is_retryable(last_kind, method) or attempt >= RETRY_ATTEMPTS:
+            break
+        time.sleep(RETRY_BASE_DELAY_S * (2 ** (attempt - 1)))
+    raise _TDRequestError(last_kind, method, target, attempt, last_error)
+
+
+def _http_get(path: str) -> dict[str, Any]:
+    """Perform GET against the TD API. On transport failure returns the
+    parity envelope dict (kind/bridge/attempts/last_ok_call/hint) with an
+    "error" key — the same diagnosis the TS client attaches to TDRequestError."""
+    try:
+        return _http_with_retry(path, "GET")
+    except _TDRequestError as e:
+        env = dict(e.envelope)
+        env["error"] = str(e)
+        return {"error": env["error"], "kind": e.kind,
+                "envelope": env}
 
 
 def _http_post(path: str, body: dict[str, Any]) -> dict[str, Any]:
-    """Perform POST against the TD API and return parsed JSON."""
-    url = f"{TD_API_BASE}{path}"
-    data = json.dumps(body).encode("utf-8")
-    req = Request(url, data=data, method="POST")
-    req.add_header("Content-Type", "application/json")
+    """Perform POST against the TD API with the same classified retry + log
+    + envelope as _http_get."""
     try:
-        with urlopen(req, timeout=REQUEST_TIMEOUT) as resp:
-            resp_body = resp.read().decode("utf-8")
-            return json.loads(resp_body)
-    except URLError as e:
-        return {"error": str(e)}
-    except json.JSONDecodeError:
-        return {"error": f"Non-JSON response: {resp_body[:200]}"}
+        return _http_with_retry(path, "POST", body)
+    except _TDRequestError as e:
+        env = dict(e.envelope)
+        env["error"] = str(e)
+        return {"error": env["error"], "kind": e.kind,
+                "envelope": env}
 
 
 # ---------------------------------------------------------------------------

@@ -11,43 +11,91 @@
     "/exec": {
       "handler": "_handle_exec",
       "clients": {
-        "ts": ["execute (code, fromOp)", "setParameters (inline python, base64 updates)", "createOperator", "deleteOperator", "connectNodes", "screenshot", "readDat", "writeDat", "readChop", "customParameters"],
-        "stdio": ["create_td_node", "delete_td_node", "connect_td_nodes", "execute_td_python"]
+        "ts": [
+          "execute (code, fromOp)",
+          "setParameters (inline python, base64 updates)",
+          "createOperator",
+          "deleteOperator",
+          "connectNodes",
+          "screenshot",
+          "readDat",
+          "writeDat",
+          "readChop",
+          "customParameters"
+        ],
+        "stdio": [
+          "create_td_node",
+          "delete_td_node",
+          "connect_td_nodes",
+          "execute_td_python"
+        ]
       },
       "request": {
         "content": "json",
-        "required": ["code"],
-        "allowed": ["code", "fromOp"],
+        "required": [
+          "code"
+        ],
+        "allowed": [
+          "code",
+          "fromOp"
+        ],
         "fields": {
-          "code": { "type": "string", "handler_reads": "msg.get(\"code\"" },
-          "fromOp": { "type": "string", "optional": true, "note": "bridge /exec IGNORES fromOp (only /execute honors it); declared here so clients may send it without tripping the unknown-field check" }
+          "code": {
+            "type": "string",
+            "handler_reads": "msg.get(\"code\""
+          },
+          "fromOp": {
+            "type": "string",
+            "optional": true,
+            "note": "bridge /exec IGNORES fromOp (only /execute honors it); declared here so clients may send it without tripping the unknown-field check"
+          }
         }
       },
       "response": {
         "success_status": 200,
-        "keys": ["output"],
-        "optional_keys": ["error"],
+        "keys": [
+          "output"
+        ],
+        "optional_keys": [
+          "error"
+        ],
         "note": "output=stdout ('(ok)' when nothing printed); error=traceback string when the code raised"
       }
     },
     "/execute_async": {
       "handler": "_handle_execute_async",
       "clients": {
-        "ts": ["executeAsync (code, fromOp)"],
+        "ts": [
+          "executeAsync (code, fromOp)"
+        ],
         "stdio": []
       },
       "request": {
         "content": "json",
-        "required": ["code"],
-        "allowed": ["code", "fromOp"],
+        "required": [
+          "code"
+        ],
+        "allowed": [
+          "code",
+          "fromOp"
+        ],
         "fields": {
-          "code": { "type": "string", "handler_reads": "\"code\" in msg" },
-          "fromOp": { "type": "string", "optional": true }
+          "code": {
+            "type": "string",
+            "handler_reads": "\"code\" in msg"
+          },
+          "fromOp": {
+            "type": "string",
+            "optional": true
+          }
         }
       },
       "response": {
         "success_status": 202,
-        "keys": ["taskId", "status"]
+        "keys": [
+          "taskId",
+          "status"
+        ]
       },
       "routing": {
         "must_be_dispatched_before": "/execute",
@@ -58,22 +106,66 @@
       "handler": "_handle_parameters_set",
       "clients": {
         "ts": [],
-        "stdio": ["set_td_parameters"]
+        "stdio": [
+          "set_td_parameters"
+        ]
       },
       "request": {
         "content": "json",
-        "required": ["path", "updates"],
-        "allowed": ["path", "updates", "params", "transactional"],
+        "required": [
+          "path",
+          "updates"
+        ],
+        "allowed": [
+          "path",
+          "updates",
+          "params",
+          "transactional"
+        ],
         "fields": {
-          "path": { "type": "string", "handler_reads": "payload.get(\"path\"" },
-          "updates": { "type": "array", "items": { "required": ["name"], "allowed": ["name", "value", "expr"] }, "handler_reads": "payload.get(\"updates\"" },
-          "params": { "type": ["object", "array"], "optional": true, "handler_reads": "payload.get(\"params\"", "note": "documented shorthand, normalized to updates[]" },
-          "transactional": { "type": "boolean", "optional": true, "handler_reads": "payload.get(\"transactional\"" }
+          "path": {
+            "type": "string",
+            "handler_reads": "payload.get(\"path\""
+          },
+          "updates": {
+            "type": "array",
+            "items": {
+              "required": [
+                "name"
+              ],
+              "allowed": [
+                "name",
+                "value",
+                "expr"
+              ]
+            },
+            "handler_reads": "payload.get(\"updates\""
+          },
+          "params": {
+            "type": [
+              "object",
+              "array"
+            ],
+            "optional": true,
+            "handler_reads": "payload.get(\"params\"",
+            "note": "documented shorthand, normalized to updates[]"
+          },
+          "transactional": {
+            "type": "boolean",
+            "optional": true,
+            "handler_reads": "payload.get(\"transactional\""
+          }
         }
       },
       "response": {
         "success_status": 200,
-        "keys": ["path", "updated", "invalid", "applied_with_missing_param", "transactional"],
+        "keys": [
+          "path",
+          "updated",
+          "invalid",
+          "applied_with_missing_param",
+          "transactional"
+        ],
         "errors": {
           "404": "Operator not found: <path>",
           "400": "No parameter updates to apply: expected non-empty 'updates' array ({name, value?, expr?}) or 'params' dict ({name: value})"
@@ -83,54 +175,115 @@
     "/auto_layout": {
       "handler": "_handle_auto_layout",
       "clients": {
-        "ts": ["autoLayout (path, spacingX, spacingY)"],
+        "ts": [
+          "autoLayout (path, spacingX, spacingY)"
+        ],
         "stdio": []
       },
       "request": {
         "content": "json",
         "required": [],
-        "allowed": ["path", "spacing_x", "spacing_y"],
+        "allowed": [
+          "path",
+          "spacing_x",
+          "spacing_y"
+        ],
         "fields": {
-          "path": { "type": "string", "optional": true, "handler_reads": "payload.get(\"path\"" },
-          "spacing_x": { "type": "integer", "optional": true, "handler_reads": "payload.get(\"spacing_x\"" },
-          "spacing_y": { "type": "integer", "optional": true, "handler_reads": "payload.get(\"spacing_y\"" }
+          "path": {
+            "type": "string",
+            "optional": true,
+            "handler_reads": "payload.get(\"path\""
+          },
+          "spacing_x": {
+            "type": "integer",
+            "optional": true,
+            "handler_reads": "payload.get(\"spacing_x\""
+          },
+          "spacing_y": {
+            "type": "integer",
+            "optional": true,
+            "handler_reads": "payload.get(\"spacing_y\""
+          }
         }
       },
       "response": {
         "success_status": 200,
-        "keys": ["output"],
+        "keys": [
+          "output"
+        ],
         "note": "wraps _execute_python_robust: {'output': <json str with success/container/operators/count>}"
       }
     },
     "/smart_connect": {
       "handler": "_handle_smart_connect",
       "clients": {
-        "ts": ["smartConnect (source, destination, type?, name?)"],
+        "ts": [
+          "smartConnect (source, destination, type?, name?)"
+        ],
         "stdio": []
       },
       "request": {
         "content": "json",
         "required": [],
-        "allowed": ["source", "destination", "type", "name", "src", "dst", "target_type"],
+        "allowed": [
+          "source",
+          "destination",
+          "type",
+          "name",
+          "src",
+          "dst",
+          "target_type"
+        ],
         "fields": {
-          "source": { "type": "string", "optional": true, "handler_reads": "payload.get(\"source\"" },
-          "destination": { "type": "string", "optional": true, "handler_reads": "payload.get(\"destination\"" },
-          "type": { "type": "string", "optional": true },
-          "name": { "type": "string", "optional": true, "handler_reads": "payload.get(\"name\"" },
-          "src": { "type": "string", "optional": true, "note": "alias accepted by handler" },
-          "dst": { "type": "string", "optional": true, "note": "alias accepted by handler" },
-          "target_type": { "type": "string", "optional": true, "note": "alias accepted by handler" }
+          "source": {
+            "type": "string",
+            "optional": true,
+            "handler_reads": "payload.get(\"source\""
+          },
+          "destination": {
+            "type": "string",
+            "optional": true,
+            "handler_reads": "payload.get(\"destination\""
+          },
+          "type": {
+            "type": "string",
+            "optional": true
+          },
+          "name": {
+            "type": "string",
+            "optional": true,
+            "handler_reads": "payload.get(\"name\""
+          },
+          "src": {
+            "type": "string",
+            "optional": true,
+            "note": "alias accepted by handler"
+          },
+          "dst": {
+            "type": "string",
+            "optional": true,
+            "note": "alias accepted by handler"
+          },
+          "target_type": {
+            "type": "string",
+            "optional": true,
+            "note": "alias accepted by handler"
+          }
         }
       },
       "response": {
         "success_status": 200,
-        "keys": ["output"]
+        "keys": [
+          "output"
+        ]
       }
     },
     "/undo": {
       "handler": "_handle_undo",
       "clients": {
-        "ts": ["undo"],
+        "ts": [
+          "undo"
+        ],
         "stdio": []
       },
       "request": {
@@ -141,14 +294,27 @@
       },
       "response": {
         "success_status": 200,
-        "keys": ["success", "undone", "kind", "applied", "errors", "depth", "canUndo", "canRedo"],
-        "errors": { "400": "Nothing to undo: the history is empty" }
+        "keys": [
+          "success",
+          "undone",
+          "kind",
+          "applied",
+          "errors",
+          "depth",
+          "canUndo",
+          "canRedo"
+        ],
+        "errors": {
+          "400": "Nothing to undo: the history is empty"
+        }
       }
     },
     "/redo": {
       "handler": "_handle_redo",
       "clients": {
-        "ts": ["redo"],
+        "ts": [
+          "redo"
+        ],
         "stdio": []
       },
       "request": {
@@ -159,52 +325,113 @@
       },
       "response": {
         "success_status": 200,
-        "keys": ["success", "redone", "kind", "applied", "errors", "depth", "canUndo", "canRedo"],
-        "errors": { "400": "Nothing to redo: no undone operation pending" }
+        "keys": [
+          "success",
+          "redone",
+          "kind",
+          "applied",
+          "errors",
+          "depth",
+          "canUndo",
+          "canRedo"
+        ],
+        "errors": {
+          "400": "Nothing to redo: no undone operation pending"
+        }
       }
     },
     "/screenshot": {
       "handler": "_handle_screenshot_post",
       "clients": {
         "ts": [],
-        "stdio": ["capture_td_screenshot"]
+        "stdio": [
+          "capture_td_screenshot"
+        ]
       },
       "request": {
         "content": "json",
         "required": [],
-        "allowed": ["path", "op", "maxSize", "max_size"],
+        "allowed": [
+          "path",
+          "op",
+          "maxSize",
+          "max_size"
+        ],
         "fields": {
-          "path": { "type": "string", "optional": true, "handler_reads": "body.get(\"path\") or body.get(\"op\")" },
-          "op": { "type": "string", "optional": true, "note": "alias of path" },
-          "maxSize": { "type": "integer", "optional": true, "handler_reads": "body.get(\"maxSize\") or body.get(\"max_size\")" },
-          "max_size": { "type": "integer", "optional": true, "note": "alias of maxSize" }
+          "path": {
+            "type": "string",
+            "optional": true,
+            "handler_reads": "body.get(\"path\") or body.get(\"op\")"
+          },
+          "op": {
+            "type": "string",
+            "optional": true,
+            "note": "alias of path"
+          },
+          "maxSize": {
+            "type": "integer",
+            "optional": true,
+            "handler_reads": "body.get(\"maxSize\") or body.get(\"max_size\")"
+          },
+          "max_size": {
+            "type": "integer",
+            "optional": true,
+            "note": "alias of maxSize"
+          }
         }
       },
       "response": {
         "success_status": 200,
-        "keys": ["success"],
-        "success_payload_keys": ["path", "name", "type", "image", "format"],
+        "keys": [
+          "success"
+        ],
+        "success_payload_keys": [
+          "path",
+          "name",
+          "type",
+          "image",
+          "format"
+        ],
         "note": "wraps _execute_python_robust; image=b64 PNG"
       }
     }
   },
   "get_endpoints_inventory": {
     "$note": "Read endpoints are inventoried (existence on both sides) but their body contract is out of scope: they have no request body to drift.",
-    "/operators": { "ts_client": "getOperators" },
-    "/parameters": { "ts_client": "getParameters" },
-    "/connections": { "ts_client": "getConnections" },
-    "/find": { "ts_client": "findOperators" },
-    "/healthcheck": { "ts_client": "healthcheck" },
-    "/info": { "ts_client": "getInfo" },
-    "/task_status": { "ts_client": "getTaskStatus" }, "/history": {
-  "ts_client": "history"
- },
- "/pop_inspect": {
-  "ts_client": "popInspect",
-  "$note": "read endpoint: POP counts, attribute list (pointAttributes) and numeric samples; attrs/indices query params optional"
- },
-    "/editor/pane": { "ts_client": "getPaneState" },
-    "/editor/selection": { "ts_client": "getSelection" }
+    "/operators": {
+      "ts_client": "getOperators"
+    },
+    "/parameters": {
+      "ts_client": "getParameters"
+    },
+    "/connections": {
+      "ts_client": "getConnections"
+    },
+    "/find": {
+      "ts_client": "findOperators"
+    },
+    "/healthcheck": {
+      "ts_client": "healthcheck"
+    },
+    "/info": {
+      "ts_client": "getInfo"
+    },
+    "/task_status": {
+      "ts_client": "getTaskStatus"
+    },
+    "/history": {
+      "ts_client": "history"
+    },
+    "/pop_inspect": {
+      "ts_client": "popInspect",
+      "$note": "read endpoint: POP counts, attribute list (pointAttributes) and numeric samples; attrs/indices query params optional"
+    },
+    "/editor/pane": {
+      "ts_client": "getPaneState"
+    },
+    "/editor/selection": {
+      "ts_client": "getSelection"
+    }
   },
   "bridge_only_post_endpoints": {
     "$note": "POST routes that exist in the bridge dispatcher but have no TS/stdio client today (used by live scripts, dashboards or /exec-based tools). A NEW bridge POST not listed here fails the inventory test.",
@@ -230,5 +457,39 @@
     "/memory_save": "memory snapshot",
     "/snapshot_scene": "scene snapshot",
     "/project_lifecycle": "project save/open"
+  },
+  "error_classification": {
+    "$note": "Parity source of truth (backlog item 57): classification + retry rules + hints, copied from api/src/diagnostics.ts. Consumed by tests/test_client_contract.py (Python client) and mcp/test/clientResilience.test.js (TS client).",
+    "kinds": [
+      "bridge_unreachable",
+      "connect_reset",
+      "timeout",
+      "http_error",
+      "ws_error",
+      "unknown"
+    ],
+    "patterns": {
+      "timeout": "timed out|timeout|aborted|abort",
+      "http_error": "http \\d{3}|http error \\d{3}",
+      "connect_reset": "econnreset|socket hang up|connection dropped|epipe|other side closed|premature close|terminated|errno 104|connection reset|winerror 10054",
+      "bridge_unreachable": "econnrefused|enotfound|eaddrnotavail|ehostunreach|enetunreach|fetch failed|unable to connect|connection refused|could not connect|errno 111|winerror 10061|actively refused",
+      "ws_error": "websocket"
+    },
+    "retry_rules": {
+      "bridge_unreachable": "always (even writes: the request never reached TD)",
+      "connect_reset": "reads only (GET/HEAD)",
+      "timeout": "reads only (GET/HEAD)",
+      "http_error": "never",
+      "ws_error": "never",
+      "unknown": "never"
+    },
+    "hints": {
+      "bridge_unreachable": "El bridge de TD no está escuchando. Verificá que TD esté abierto, que el componente del API esté cargado y que el puerto sea el correcto (Settings → MCP). Si acabás de abrir TD, reintentá en unos segundos.",
+      "connect_reset": "La conexión se cortó con el socket ya abierto: TD puede haberse cerrado, congelado o quedado sin cocinar. Revisá el estado de TD antes de reintentar una escritura (pudo haberse aplicado).",
+      "timeout": "El bridge no respondió dentro del timeout. Suele ser TD ocupado u operación pesada: acotá el scope (path/limit) antes de reintentar.",
+      "http_error": "TD respondió con un error HTTP: es una respuesta real, no un problema de conexión. Leé el mensaje del bridge y corregí la llamada.",
+      "ws_error": "Falló el transporte WebSocket. Si el modo es 'auto' el cliente reintenta por HTTP; si es 'websocket', revisá que ese transporte esté disponible.",
+      "unknown": "Error no clasificado del transporte. Adjuntá el log del cliente al reportar."
+    }
   }
 }
