@@ -65,3 +65,5 @@ Formato: `fecha | loop | nivel | que encontro | que hizo | resultado | evidencia
 
 - 2026-09-25T03:29:58-03:00 | triage | L1 | candidato `arbol-sucio` (1 archivo modificado: `toe/TouchDesignerAPI.tox`) | DESCARTADO — no promovido | es el `.tox` del usuario (rotacion de backups de TD, intocable por loop-constraints); se agregaron `.toe`/`.tox` a los ignorados de `loop_triage.py` para que no vuelva a consumir el candidato del dia | loop-candidates.json
 - 2026-09-25T06:30:25+00:00 | gate | — | commit sobre 4 archivo(s) | ALLOW | gate.yaml
+- 2026-09-25T03:46:54-0300 | envio | — | brief 57_paridad_cliente_python.txt (item 57: paridad del cliente Python con el TS) | ENVIADO a Freebuff — envio #27, modelo GLM 5.3 Flash | sent/ significa enviado, NO hecho: la Fase 1 del proximo ciclo juzga el diff | freebuff_send_guard
+- 2026-09-25T06:47:09+00:00 | gate | — | commit sobre 1 archivo(s) | ALLOW | gate.yaml
