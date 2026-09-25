@@ -1,0 +1,170 @@
+{
+ "date": "2026-09-25",
+ "td_build": "2025.32460",
+ "bridge": "TouchDesignerAPI v3.0.0 @ 127.0.0.1:44444",
+ "networks": {
+  "lesson0": [
+   "pg_lesson0(pointgeneratorPOP,10000pts)",
+   "glsl0(glslPOP,ID attr)",
+   "attr_seed(attributePOP)",
+   "glsl0_attr(glslPOP over seeded attr)"
+  ],
+  "interference": [
+   "pg_lesson0->glsl_waves(4 waves: period/amp/phase/pos)",
+   "grid_src(gridPOP 20x20)",
+   "glsl_interf(multi-input: input0 grid, input1 waves)"
+  ],
+  "phyllotaxis": [
+   "pg_lesson0->glsl_copy_phyll(glslcopyPOP ptcomputedat, r=0.12*sqrt(i), golden angle)"
+  ]
+ },
+ "checks": [
+  {
+   "name": "id_values_match_index",
+   "ok": true,
+   "detail": "[0.0, 1.0, 2.0, 9.0, 100.0, 9999.0]"
+  },
+  {
+   "name": "phyll_radius_x",
+   "ok": true,
+   "detail": "sizeX=23.9472 expected~23.9988"
+  },
+  {
+   "name": "phyll_radius_y",
+   "ok": true,
+   "detail": "sizeY=23.9776 expected~23.9988"
+  },
+  {
+   "name": "phyll_flat_z",
+   "ok": true,
+   "detail": "sizeZ=0.000000000"
+  },
+  {
+   "name": "interf_z_range",
+   "ok": true,
+   "detail": "sizeZ=0.1649 (max 1.2501)"
+  },
+  {
+   "name": "interf_xy_plane",
+   "ok": true,
+   "detail": "sizeX=1.0000 sizeY=1.0000"
+  },
+  {
+   "name": "attr_seed_variant_points",
+   "ok": true,
+   "detail": "pts=10000 expected"
+  },
+  {
+   "name": "waves_passthrough",
+   "ok": true,
+   "detail": "pts=10000 expected"
+  }
+ ],
+ "all_pass": true,
+ "wiring": "scripts/live/post_build_wiring_check.py --expect 7 edges (incl. glsl_waves->glsl_interf:1) => WIRING OK",
+ "exported_samples": {
+  "glsl0_ID": [
+   0.0,
+   1.0,
+   2.0,
+   9.0,
+   100.0,
+   5000.0,
+   9999.0
+  ],
+  "glsl0_P_first3": [
+   [
+    0.3250058591365814,
+    -0.39493802189826965,
+    0.5283015966415405
+   ],
+   [
+    -0.21046863496303558,
+    0.341449111700058,
+    0.461405873298645
+   ],
+   [
+    0.4770820736885071,
+    0.32407328486442566,
+    -0.02073918655514717
+   ]
+  ],
+  "phyll_P": [
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    -0.08848398178815842,
+    0.08105909824371338,
+    0.0
+   ],
+   [
+    0.01483552809804678,
+    -0.16905590891838074,
+    0.0
+   ],
+   [
+    0.12646323442459106,
+    0.1649455428123474,
+    0.0
+   ],
+   [
+    0.3954811692237854,
+    1.132958173751831,
+    0.0
+   ],
+   [
+    -1.7242530584335327,
+    11.874869346618652,
+    0.0
+   ]
+  ],
+  "interf_P_row0": [
+   [
+    -0.5,
+    -0.5,
+    0.3504023253917694
+   ],
+   [
+    -0.44736841320991516,
+    -0.5,
+    0.3581337630748749
+   ],
+   [
+    -0.3947368264198303,
+    -0.5,
+    0.36486247181892395
+   ],
+   [
+    0.44736844301223755,
+    -0.5,
+    0.31766277551651
+   ],
+   [
+    0.5,
+    -0.5,
+    0.3046072721481323
+   ]
+  ],
+  "interf_Cd_first2": [
+   [
+    0.8224163055419922,
+    0.9410337209701538,
+    0.5,
+    1.0
+   ],
+   [
+    0.8282870054244995,
+    0.938458263874054,
+    0.5,
+    1.0
+   ]
+  ]
+ },
+ "viz": [
+  "evidence_phyllotaxis_points.png (from 200 TD-exported pts)",
+  "evidence_interference_points.png (400 pts full grid)"
+ ]
+}
