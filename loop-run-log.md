@@ -32,3 +32,31 @@ Formato: `fecha | loop | nivel | que encontro | que hizo | resultado | evidencia
 - 2026-09-24T19:31:20+00:00 | gate | — | commit sobre 4 archivo(s) | ALLOW | gate.yaml
 - 2026-09-24T19:31:48+00:00 | gate | — | commit sobre 2 archivo(s) | ALLOW | gate.yaml
 - 2026-09-24T19:32:31+00:00 | gate | — | commit sobre 3 archivo(s) | ALLOW | gate.yaml
+- 2026-09-24T21:07:48+00:00 | gate | — | commit sobre 6 archivo(s) | ALLOW | gate.yaml
+- 2026-09-24T23:48:33+00:00 | gate | — | commit sobre 1 archivo(s) | ALLOW | gate.yaml
+- 2026-09-24T23:49:00+00:00 | gate | — | commit sobre 1 archivo(s) | ALLOW | gate.yaml
+- 2026-09-24T23:49:40+00:00 | gate | — | auto-merge sobre 1 archivo(s) | ALLOW | gate.yaml
+- 2026-09-24T23:50:03+00:00 | gate | — | commit sobre 1 archivo(s) | ALLOW | gate.yaml
+- 2026-09-24T23:50:52+00:00 | gate | — | commit sobre 1 archivo(s) | BLOCK: 'mcp/_tool_list.json' está en la denylist (patrón 'mcp/_tool_list.json'): requiere revisión humana explícita | gate.yaml
+- 2026-09-24T23:51:49+00:00 | gate | — | commit sobre 1 archivo(s) | ALLOW | gate.yaml
+- 2026-09-25T00:01:01+00:00 | gate | — | commit sobre 1 archivo(s) | ALLOW | gate.yaml
+- 2026-09-25T00:16:15+00:00 | gate | — | commit sobre 7 archivo(s) | ALLOW | gate.yaml
+- 2026-09-25T00:55:25+00:00 | gate | — | commit sobre 9 archivo(s) | ALLOW | gate.yaml
+- 2026-09-25T06:02:44+00:00 | gate | — | commit sobre 9 archivo(s) | ALLOW | gate.yaml
+- 2026-09-25T06:03:12+00:00 | gate | — | commit sobre 5 archivo(s) | ALLOW | gate.yaml
+- 2026-09-25T06:26:02+00:00 | gate | — | commit sobre 4 archivo(s) | ALLOW | gate.yaml
+
+## 2026-09-25 03:27 — ciclo diario TD-MCP (intento 2)
+- **Fase 1 · obra**: el arbol no tenia codigo de Freebuff sin commitear; los 7 commits locales `d46d88d..20d8479` (briefs 12/55/56 + fixes del loop) estaban **sin pushear**. Chequeo de obra: en cada commit el diff corresponde al brief, los archivos estan en alcance, 0 `.skip/.only` nuevos y ningun timeout inflado (`join(timeout=3)`/`server_close()` son el fix del poisoning, no un parche).
+- **Verificacion offline real**: `cd mcp && node --test` → **1351/1351, 0 fallos** (1347 en README); `npm run build` (tsc desde mcp/) limpio; `python -m unittest discover tests` → **532 tests OK** (14.3 s).
+- **Verificacion en vivo** (TD LIVE build 2025.32460): canario GLSL veredicto PASS `checks 48/48 · casos 14/14`; **matriz POP omitida por cadencia** (ultima corrida completa 21/09, cadencia 7d) → el gate del baseline no corrio. No se forzo con `--force`.
+- **Juez externo (5 corridas, `jev_audit_diff.py`, modelo typesafe/jev-1.13)**: (a) diff del brief 55 (`bae3623`, worktree temporal) → **VERDE** debilita 0.09 / corresponde 0.69; (b) `bf467dc` vs brief 56 → **VERDE** 0.04 / 0.88; (c) `b6bb359` vs brief 12 → **VERDE** 0.07 / 0.72; (d) `9b7d456` y (e) `1de53c3` sin brief → **VERDE** 0.06. La invocacion literal del prompt (arbol + brief 55) devolvio **ROJO `no_corresponde_al_brief=0.19`**: es artefacto de juzgar un diff de bookkeeping (README/BACKLOG/gitignore/ledger) contra un brief de tests — sin brief, el mismo arbol da VERDE (debilita 0.11, trabajo_real 0.69).
+- **Descartado (falso positivo del triage)**: candidato `arbol-sucio`. Los archivos sucios son los `.toe`/`.tox` del usuario (rotacion de backups, intocables por regla) + `tmp/` (scratch de probes en vivo, ahora ignorado). Se agrego `*.tox` a la lista EVIDENCIA de `jev_audit_diff.py` (mismo criterio que `*.toe`: artefacto del usuario, no obra), asi el juez deja de levantarlos.
+- **Cierres**: items 40 y 42 (arreglados por `bae3623`, verificados hoy con las suites) + sincronizacion del espejo para 12/55/56. `reconcile --check` detecto drift (brief 56 encolado con item cerrado) → `--apply` lo movio a `stale/` (nada borrado, STATE.md reescrito).
+- 2026-09-25T06:27:57+00:00 | gate | — | commit sobre 8 archivo(s) | ALLOW | gate.yaml
+- 2026-09-25T06:28:11+00:00 | gate | — | commit sobre 6 archivo(s) | ALLOW | gate.yaml
+- 2026-09-25T06:28:19+00:00 | gate | — | commit sobre 1 archivo(s) | ALLOW | gate.yaml
+- 2026-09-25T06:28:28+00:00 | gate | — | commit sobre 1 archivo(s) | ALLOW | gate.yaml
+- 2026-09-25T06:28:36+00:00 | gate | — | commit sobre 9 archivo(s) | ALLOW | gate.yaml
+- 2026-09-25T06:28:45+00:00 | gate | — | commit sobre 9 archivo(s) | ALLOW | gate.yaml
+- 2026-09-25T06:28:54+00:00 | gate | — | commit sobre 5 archivo(s) | ALLOW | gate.yaml
