@@ -50,3 +50,4 @@ loop-candidates.json
 
 # Worktrees aislados del loop (item 54)
 .loop-worktrees/
+tmp_tutorial_audio/

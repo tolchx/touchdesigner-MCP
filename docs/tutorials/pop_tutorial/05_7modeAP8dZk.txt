@@ -1,0 +1,9 @@
+# Lesson 2: Particles from Scratch
+- video: https://www.youtube.com/watch?v=7modeAP8dZk
+- playlist position: 5 of 8 | duration: 00:01:21
+- transcript source: YouTube auto-captions (en), timestamps every ~30s
+- extracted: 2026-09-25 with yt-dlp 2026.08.19
+
+[00:00:03] Everybody, welcome back to GLSL for Pops TouchDesigner. My name is Luke Heckmann and this is lesson two. Building a particle system. For this class, we're actually going to be doing almost exclusively TouchDesigner programming. So, I'm going to move over there very shortly. But first, for anybody joining, I wanted to do a very short introduction. My name is Luke Heckmann. I'm a new media artist. I use TouchDesigner to create interactive installations that I've been fortunate enough to show around the world. And here are a couple of examples of
+[00:00:35] some of those installations. Again, today we're going to be focusing on building particle systems with GLSL and Pops in TouchDesigner. And so, most of the work is going to be in TD. If you want to continue watching the video and see the rest of the lesson, as well as access the project files, make sure to go and subscribe on Patreon. And you can find this lesson, the rest of this course, all the project files, my introduction to GLSL and TouchDesigner 101 course, as well as dozens of tutorials I've released over the last couple years.
+[00:01:06] So, go check me out there to continue following along. And for those of you that already support
