@@ -196,8 +196,13 @@
     "/find": { "ts_client": "findOperators" },
     "/healthcheck": { "ts_client": "healthcheck" },
     "/info": { "ts_client": "getInfo" },
-    "/task_status": { "ts_client": "getTaskStatus" },
-    "/history": { "ts_client": "history" },
+    "/task_status": { "ts_client": "getTaskStatus" }, "/history": {
+  "ts_client": "history"
+ },
+ "/pop_inspect": {
+  "ts_client": "popInspect",
+  "$note": "read endpoint: POP counts, attribute list (pointAttributes) and numeric samples; attrs/indices query params optional"
+ },
     "/editor/pane": { "ts_client": "getPaneState" },
     "/editor/selection": { "ts_client": "getSelection" }
   },

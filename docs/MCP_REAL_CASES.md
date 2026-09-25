@@ -4,6 +4,42 @@ Session: mission "mejorar el MCP con casos reales" — 3 POP systems built and v
 live TD 2025.32460 through the HTTP bridge (`TouchDesignerAPI_v1.toe`). Every friction below
 was actually hit (not hypothetical), with the workaround used. Ordered by impact.
 
+## FIX STATUS (second pass, same day — all verified live through the MCP surface)
+
+- **F2/F4 FIXED**: `td_glsl_apply` accepts `pop_kind: "basic"|"copy"`; copy mode creates a
+  glslcopyPOP with `ptcomputedat`/`ptoutputattrs` (live: compiled, 10000 pts, Wiring OK).
+  `td_glsl_analyze` now BLOCKS `TDNumElements(k)` with an argument (naming
+  `TDInputNumPoints(k)` as the fix) and warns on non-zero-input reads.
+- **F6 FIXED**: `replace: true` on `td_create_operator` (TS), `create_td_node` (stdio) and
+  `POST /create_operator` (bridge). Live: creating `fix_probe` twice reports
+  `replaced: false` then `replaced: true` and keeps the exact name (previously it silently
+  became `fix_probe1`).
+- **F1 IMPROVED**: `POST /screenshot` with a POP path now returns the POP's diagnostics
+  (opType, numPoints, cook errors) plus the two real options, instead of a bare "Not a TOP".
+  `td_screenshot` (TS client path) gained the same pre-flight.
+- **F3 FIXED**: `GET /pop_inspect` enumerates attributes via `pointAttributes` and samples
+  named attrs numerically (`attrs`, `indices` query params); TS `client.popInspect(path,
+  attrs, indices)` + new tool `td_pop_inspect` params / stdio tool `get_td_pop_attributes`.
+  Live: `glsl0` attributes `[P:3, ID:1, N:3]`, samples `ID = [0.0, 1.0, 7.0, 9999.0]`.
+
+### New frictions found while fixing (playtest discoveries)
+
+- **N1. `op.children` is a LIST property in TD Python, not a method.**
+  `t.children('name')` fails with `'list' object is not callable` (verified live). The
+  replace flow had to use `[c for c in t.children if c.name == '...']`. Our offline fake
+  originally mocked children as a property returning a plain list — consistent — but any
+  MCP tool/script that "calls" children() will break.
+- **N2. Pop-ups from geometryCOMP defaults: every fresh geometryCOMP contains a `torus1`.**
+  Found while building render pipelines: script-created COMPs silently include default
+  children that must be destroyed before wiring real content (rendered as unexpected
+  geometry).
+- **N3. Point clouds render BLACK through renderTOP** even with surface POPs nearby
+  rendering fine (control torusPOP shows a silhouette). Only surfaces rasterize; the
+  instancing experiment (instanceop/instancetx on the COMP) also stayed black. Screen-
+  shot evidence for POPs therefore needs surface geometry (e.g. spherePOP per point) —
+  and even that stayed black in this build/session; documented as a hard limitation with
+  numeric export (`/pop_inspect`, `points()`) as the reliable verification path.
+
 ## F1. `POST /screenshot` cannot capture POPs — only TOPs
 
 - Hit while trying to produce visual evidence of the generated POPs.

@@ -787,7 +787,9 @@ class TouchDesignerAPI:
             # GET /pop_inspect - POP operator data
             if uri.startswith("/pop_inspect") and method == "GET":
                 path = unquote(pars.get("path", ""))
-                return self._handle_pop_inspect(path, response)
+                sample_attrs = unquote(pars.get("attrs", "P,ID"))
+                sample_idxs = unquote(pars.get("indices", "0,1,2"))
+                return self._handle_pop_inspect(path, response, sample_attrs, sample_idxs)
 
             # POST /create_operator - Create operator (also /create for convenience)
             if uri.startswith("/create_operator") and method in ("GET", "POST"):
@@ -2376,7 +2378,20 @@ print(json.dumps({{
                 f"        print(json.dumps({{'success': False, 'error': 'Operator not found: {requested}', 'hint': 'Provide a valid TOP path, e.g. path=\"/project1/mynullTOP\"'}}))\n"
                 "    else:\n"
                 "        if getattr(t, 'family', '') != 'TOP':\n"
-                f"            print(json.dumps({{'success': False, 'error': 'Not a TOP: {requested}', 'hint': 'Provide the path of a TOP operator (nullTOP, noiseTOP, etc.)'}}))\n"
+                # POP pre-flight (docs/MCP_REAL_CASES.md F1): instead of a dead
+                # end, return the POP's diagnostics (opType, point count, cook
+                # errors) plus the two real options the caller has.
+                "            _diag = {'opType': t.OPType}\n"
+                "            try:\n"
+                "                _diag['numPoints'] = int(t.numPoints()) if callable(t.numPoints) else None\n"
+                "            except Exception:\n"
+                "                _diag['numPoints'] = None\n"
+                "            try:\n"
+                "                t.cook(force=True)\n"
+                "                _diag['pop_errors'] = list(t.errors()) or None\n"
+                "            except Exception:\n"
+                "                _diag['pop_errors'] = None\n"
+                f"            print(json.dumps({{'success': False, 'error': 'Not a TOP: {requested}', 'pop': _diag, 'hint': 'TD 2025 has no POP-to-image operator and point clouds render black via geometryCOMP+renderTOP (verified live). Numeric verification: GET /pop_inspect?path={requested}. Visual: wrap the POP in surface geometry (spherePOP/convertPOP) inside a geometryCOMP + renderTOP and capture that TOP.'}}))\n"
                 "        else:\n"
                 "            # NamedTemporaryFile must be closed explicitly, otherwise\n"
                 "            # its finalizer emits a ResourceWarning into TD's stdout.\n"
@@ -2472,8 +2487,12 @@ print(json.dumps({{
     # GET /pop_inspect
     # =========================================================================
 
-    def _handle_pop_inspect(self, path: str, response: dict) -> dict:
-        """Read POP operator data: points, attributes."""
+    def _handle_pop_inspect(self, path: str, response: dict, sample_attrs: str = "P,ID", sample_idxs: str = "0,1,2") -> dict:
+        """Read POP operator data: points, attributes, numeric samples.
+
+        Optional query params: ``attrs`` (comma-separated attribute names to
+        sample) and ``indices`` (comma-separated element indices).
+        """
         code = rf"""import json
 t = op('{path}')
 if t is None:
@@ -2488,13 +2507,35 @@ else:
         except Exception:
             _v = None
         if _v is not None: info[attr] = _v
+    # Enumerate attributes via pointAttributes: t.attribs is None on POPs and
+    # left this endpoint blind (docs/MCP_REAL_CASES.md F3, verified live
+    # 2026-09-25 on TD 2025.32460).
     try:
-        _src = getattr(t, 'attribs', None)
-        if callable(_src): _src = _src()
         attrs = []
-        for a in (_src or []): attrs.append({{'name':a.name,'type':str(a.type),'size':a.size,'scope':str(a.scope)}})
+        for a in (t.pointAttributes or []): attrs.append({{'name':a.name,'type':str(a.type),'size':a.size}})
         info['attributes'] = attrs
     except Exception: info['attributes'] = None
+    try:
+        _want = [s.strip() for s in '{sample_attrs}'.split(',') if s.strip()]
+        _idxs = [{sample_idxs}]
+        samples = {{}}
+        for _nm in _want:
+            _vals = []
+            try:
+                _pts = t.points(_nm)
+                for _i in _idxs:
+                    if _i >= len(_pts): continue
+                    _v = _pts[_i]
+                    try: _vals.append(list(_v))
+                    except Exception:
+                        try: _vals.append(float(_v))
+                        except Exception: _vals.append(str(_v))
+            except Exception as _e:
+                _vals = None
+                samples[_nm + '__error'] = str(_e)[:120]
+            samples[_nm] = _vals
+        info['samples'] = samples
+    except Exception: info['samples'] = None
     print(json.dumps({{'success':True,'data':info}}))
 """
         result = self._execute_python_robust(code)
@@ -2508,15 +2549,23 @@ else:
     # =========================================================================
 
     def _handle_create_operator(self, request: dict, response: dict) -> dict:
-        """Create a new operator."""
+        """Create a new operator.
+
+        Accepts ``replace: true`` to destroy a same-name operator first
+        (docs/MCP_REAL_CASES.md F6): without it TD silently renames the new op
+        (noise1 -> noise1) and any later wiring by the requested name targets
+        an operator that does not exist.
+        """
         pars = request.get("pars", {})
         op_type = pars.get("type", "")
         name = pars.get("name", None)
         parent_path = pars.get("path", "/")
         pos_x = pars.get("position_x", None)
         pos_y = pars.get("position_y", None)
+        replace = bool(pars.get("replace", False))
 
         safe_name = f"'{name}'" if name else "None"
+        safe_parent = parent_path.replace("'", "\\'")
         # Only emit the positioning line when a position was requested —
         # emitting `if None is not None and ...` triggers a SyntaxWarning
         # that pollutes the JSON output line (found live 2026-09-23).
@@ -2525,15 +2574,28 @@ else:
             if pos_x is not None and pos_y is not None
             else ""
         )
+        # replace=true: destroy the name collision BEFORE creating, so the
+        # created op keeps the exact requested name (verified live 2026-09-25).
+        # TD: op.children is a LIST property (not callable — verified live
+        # 2026-09-25: t.children('x') -> "'list' object is not callable").
+        # Filter with a comprehension and take the first match.
+        replace_block = (
+            f"        _cands = [c for c in t.children if c.name == '{name}']\n"
+            "        _old = _cands[0] if _cands else None\n"
+            "        _existed = _old is not None\n"
+            "        if _old is not None: _old.destroy()\n"
+            if replace and name
+            else "        _existed = False\n"
+        )
 
         code = rf"""import json
 try:
-    t = op('{parent_path}')
+    t = op('{safe_parent}')
     if t is None:
-        print(json.dumps({{'success':False,'path':'{parent_path}','name':'','type':'','opType':'','error':'Parent not found'}}))
+        print(json.dumps({{'success':False,'path':'{safe_parent}','name':'','type':'','opType':'','error':'Parent not found'}}))
     else:
-        n = t.create({op_type}, {safe_name})
-{pos_line}        print(json.dumps({{'success':True,'path':n.path,'name':n.name,'type':n.type,'opType':n.OPType,'family':'','existing':False}}))
+{replace_block}        n = t.create({op_type}, {safe_name})
+{pos_line}        print(json.dumps({{'success':True,'path':n.path,'name':n.name,'type':n.type,'opType':n.OPType,'family':'','existing':False,'replaced':_existed}}))
 except Exception as e:
     print(json.dumps({{'success':False,'path':'','name':'','type':'','opType':'','error':str(e)}}))
 """
