@@ -60,3 +60,8 @@ Formato: `fecha | loop | nivel | que encontro | que hizo | resultado | evidencia
 - 2026-09-25T06:28:36+00:00 | gate | — | commit sobre 9 archivo(s) | ALLOW | gate.yaml
 - 2026-09-25T06:28:45+00:00 | gate | — | commit sobre 9 archivo(s) | ALLOW | gate.yaml
 - 2026-09-25T06:28:54+00:00 | gate | — | commit sobre 5 archivo(s) | ALLOW | gate.yaml
+- 2026-09-25T06:29:40+00:00 | promocion | L1 | cola-larga (peso 2) | item sin brief (decide Tolch) | item 66 | loop-candidates.json
+
+
+- 2026-09-25T03:29:58-03:00 | triage | L1 | candidato `arbol-sucio` (1 archivo modificado: `toe/TouchDesignerAPI.tox`) | DESCARTADO — no promovido | es el `.tox` del usuario (rotacion de backups de TD, intocable por loop-constraints); se agregaron `.toe`/`.tox` a los ignorados de `loop_triage.py` para que no vuelva a consumir el candidato del dia | loop-candidates.json
+- 2026-09-25T06:30:25+00:00 | gate | — | commit sobre 4 archivo(s) | ALLOW | gate.yaml

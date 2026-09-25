@@ -1,3 +1,10 @@
 {
-  "items": {}
+  "items": {
+    "66": {
+      "attempts": 0,
+      "history": [],
+      "origen": "loop_triage",
+      "candidato": "cola-larga"
+    }
+  }
 }

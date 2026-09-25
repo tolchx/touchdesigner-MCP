@@ -250,3 +250,4 @@ procesan de a uno por sesión (el ciclo diario manda el primero de la cola); la 
 - [ ] 64. Instalación/desinstalación limpias, reversibles y auditables (Discord: el `ui.tox` en `Config/System` rompió la UI de TODOS los proyectos de 3 usuarios). Brief: `64_instalacion_reversible.txt`. Aceptación con JUEZ.
 - [ ] 65. Errores que le hablan al HUMANO: `hint_humano` + doc, y fin de los fallbacks silenciosos (Discord: 6 usuarios con el botón de instalar que "no hacía nada, sin errores"). Brief: `65_errores_para_humanos.txt`. Aceptación con JUEZ.
 
+- [ ] 66. **Hallado por el loop (triage automático)** — 9 briefs encolados para Freebuff. Evidencia: 57_paridad_cliente_python.txt; 58_comprension_live.txt; 59_measure_en_el_tiempo.txt; 60_recetas_gotchas.txt; 61_verify_change.txt. Cómo lo detectó: `loop_triage.py` (id `cola-larga`, huella `ba972a3e41c646a6`). Qué hacer: La cola se paga en contexto y en horas de agente: priorizar 1 grande por día y fusionar los chicos..
