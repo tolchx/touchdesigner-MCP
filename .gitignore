@@ -51,3 +51,5 @@ loop-candidates.json
 # Worktrees aislados del loop (item 54)
 .loop-worktrees/
 tmp_tutorial_audio/
+# Scratch local de probes en vivo (no es fuente)
+/tmp/
