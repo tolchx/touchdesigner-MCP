@@ -346,7 +346,9 @@ export function registerInspectionTools(server, client) {
         inputSchema: {},
     }, async () => {
         try {
-            const result = await client.getSpatialContext();
+            // No scope argument: the tool reads the editor state, so the guard runs
+            // with a fixed pseudo-scope for diagnostics. It still bounds the wait.
+            const result = await runBounded("td_spatial_context", "-", () => client.getSpatialContext());
             return ok(result);
         }
         catch (e) {
@@ -361,17 +363,20 @@ export function registerInspectionTools(server, client) {
         description: "Get a comprehensive guided tour of a TouchDesigner project: operator count, " +
             "family breakdown, type distribution, errors, performance hotspots, GLSL shaders, " +
             "extensions, and custom parameters. Use this to understand an unknown project " +
-            "before making changes. Equivalent to TWOZERO's 'Study this project'.",
+            "before making changes. Equivalent to TWOZERO's 'Study this project'. " +
+            "Exploring '/' walks the whole project: prefer the container you care about " +
+            "(guardrails bound the wait anyway).",
         inputSchema: {
             path: z
                 .string()
                 .optional()
                 .default("/")
-                .describe("Root path to explore (default: '/')"),
+                .describe("Root path to explore (default: '/'). Prefer a specific container: exploring '/' walks the entire project and can make TD busy for seconds."),
         },
     }, async ({ path: opPath }) => {
         try {
-            const result = await client.exploreProject(opPath ?? "/");
+            const scope = normalizeScope(opPath);
+            const result = await runBounded("td_explore_project", scope, () => client.exploreProject(scope));
             return ok(result);
         }
         catch (e) {
@@ -386,7 +391,8 @@ export function registerInspectionTools(server, client) {
         description: "Compare two container operators side-by-side: structure (operators present), " +
             "parameters (non-default values), and connections. Returns a structured diff " +
             "showing operators only in A, only in B, and shared operators with parameter " +
-            "or connection differences.",
+            "or connection differences. Introspects every child of both containers: " +
+            "on huge COMPs it can keep TD busy (guardrails bound the wait anyway).",
         inputSchema: {
             path_a: z.string().describe("First container path (e.g. '/project1/compA')"),
             path_b: z.string().describe("Second container path (e.g. '/project1/compB')"),
@@ -565,7 +571,7 @@ try:
     print(json.dumps(result))
 except Exception as e:
     print(json.dumps({'success': False, 'error': str(e)}))`;
-            const result = await client.execute(code, "/");
+            const result = await runBounded("td_compare_networks", `${safeA} vs ${safeB}`, () => client.execute(code, "/"));
             if (!result.success) {
                 const msg = result.error?.message ?? result.stderr ?? "Unknown error";
                 return err(msg);

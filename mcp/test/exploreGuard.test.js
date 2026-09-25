@@ -10,6 +10,9 @@
  */
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync, readdirSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import path from "node:path";
 
 import {
   EXPLORE_DEFAULT_LIMIT,
@@ -91,5 +94,119 @@ describe("runBounded", () => {
       () => runBounded("td_find", "/", async () => { throw new Error("boom real"); }, 500),
       /boom real/,
     );
+  });
+});
+
+// ════════════════════════════════════════════════════════════════════════════
+// test-GUARD: toda tool de exploración DEBE estar envuelta en runBounded.
+//
+// No mira el dist ni mocks: escanea el FUENTE real de mcp/src/tools/*.ts y
+// empareja cada llamada `runBounded("<tool>", ...)` con el `registerTool`
+// que la contiene. Si mañana alguien agrega una tool de exploración sin
+// guardrails — o le quita el envoltorio a una existente — este test cae
+// nombrando la tool. Item 56 del BACKLOG.
+// ════════════════════════════════════════════════════════════════════════════
+
+const TOOLS_SRC_DIR = path.join(
+  path.dirname(fileURLToPath(import.meta.url)), "..", "src", "tools",
+);
+
+/** Lista canónica de tools de exploración que REQUIEREN guardrails.
+ * Las que recorren la red o pueden dejar TD ocupado barriendo. */
+const EXPLORATION_TOOLS = [
+  "td_operators", // ya envuelta (backlog 4-tools)
+  "td_find", // idem
+  "td_connections", // idem
+  "td_get_errors", // idem
+  "td_measure", // item de guardrails de measure
+  "td_search", // el caso que motivó el guardrail (colgaba TD en redes grandes)
+  "td_spatial_context",
+  "td_explore_project",
+  "td_compare_networks",
+  "td_snapshot_scene",
+];
+
+/** Registra en un archivo: cada registerTool ("td_x", y cada runBounded("td_x". */
+function scanToolFile(filename) {
+  const src = readFileSync(path.join(TOOLS_SRC_DIR, filename), "utf8");
+  const registrations = [];
+  const bounded = [];
+  const re = /(?:^|\n)(\s*)"((?:td|tool|glsl)_[a-z0-9_]+)",\s*\n|runBounded\(\s*"([a-z0-9_]+)"/g;
+  let m;
+  while ((m = re.exec(src)) !== null) {
+    if (m[2] !== undefined) {
+      registrations.push({ tool: m[2], pos: m.index });
+    } else {
+      bounded.push({ tool: m[3], pos: m.index });
+    }
+  }
+  return { registrations, bounded };
+}
+
+/** Mapa {tool: true} para las tools cuyo handler contiene SU PROPIO runBounded. */
+function scanAllWrappedTools() {
+  const wrapped = new Map();
+  const orphanBounded = []; // runBounded fuera de cualquier registerTool (bug)
+  for (const f of readdirSync(TOOLS_SRC_DIR)) {
+    if (!f.endsWith(".ts")) continue;
+    const { registrations, bounded } = scanToolFile(f);
+    for (const b of bounded) {
+      const enclosing = registrations
+        .filter((r) => r.pos < b.pos)
+        .sort((a, b2) => b2.pos - a.pos)[0];
+      if (!enclosing) {
+        orphanBounded.push({ file: f, tool: b.tool });
+      } else if (enclosing.tool === b.tool) {
+        wrapped.set(b.tool, f);
+      }
+    }
+  }
+  return { wrapped, orphanBounded };
+}
+
+describe("test-guard: las tools de exploración llevan guardrails", () => {
+  const { wrapped, orphanBounded } = scanAllWrappedTools();
+
+  it("cada tool de la lista canónica está envuelta en runBounded", () => {
+    const missing = EXPLORATION_TOOLS.filter((t) => !wrapped.has(t));
+    assert.deepEqual(
+      missing, [],
+      `Tools de exploración SIN guardrails (runBounded/normalizeScope): ${missing.join(", ")}. ` +
+        `Envolverlas con normalizeScope + clampLimit + runBounded (mcp/src/exploreGuard.ts).`,
+    );
+  });
+
+  it("no hay runBounded fuera del handler de una tool registrada", () => {
+    assert.deepEqual(
+      orphanBounded, [],
+      `runBounded() fuera de cualquier registerTool (¿quedó suelto tras un refactor?): ` +
+        `${JSON.stringify(orphanBounded)}`,
+    );
+  });
+
+  it("el envoltorio usa el MISMO nombre de la tool (para el diagnóstico del timeout)", () => {
+    // Si el handler de td_search llama runBounded("otra_cosa"), el error de
+    // timeout apunta a una tool inexistente y el agente no puede acotar.
+    const mismatches = [];
+    for (const f of readdirSync(TOOLS_SRC_DIR)) {
+      if (!f.endsWith(".ts")) continue;
+      const { registrations, bounded } = scanToolFile(f);
+      for (const b of bounded) {
+        const enclosing = registrations
+          .filter((r) => r.pos < b.pos)
+          .sort((a, b2) => b2.pos - a.pos)[0];
+        if (enclosing && enclosing.tool !== b.tool) {
+          mismatches.push(`${f}: ${enclosing.tool} llama runBounded("${b.tool}")`);
+        }
+      }
+    }
+    assert.deepEqual(mismatches, [],
+      `runBounded con nombre distinto a la tool que lo contiene: ${mismatches.join("; ")}`);
+  });
+
+  it("la lista canónica no decae: las 4 tools originales siguen listadas", () => {
+    for (const t of ["td_operators", "td_find", "td_connections", "td_get_errors"]) {
+      assert.ok(EXPLORATION_TOOLS.includes(t), `la lista del guard perdió ${t}`);
+    }
   });
 });

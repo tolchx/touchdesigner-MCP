@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { ok, err } from "../helpers.js";
+import { normalizeScope, runBounded } from "../exploreGuard.js";
 export function registerLifecycleTools(server, client) {
     // ---------------------------------------------------------------------------
     // td_project_lifecycle
@@ -38,16 +39,18 @@ export function registerLifecycleTools(server, client) {
     // ---------------------------------------------------------------------------
     server.registerTool("td_snapshot_scene", {
         title: "Snapshot Scene",
-        description: "Save a snapshot of an operator's state (all par values, modes, expressions) to a JSON structure. Useful before destructive changes.",
+        description: "Save a snapshot of an operator's state (all par values, modes, expressions) to a JSON structure. Useful before destructive changes. " +
+            "Snapshotting '/' recurses the whole project: prefer the specific COMP (guardrails bound the wait anyway).",
         inputSchema: {
             path: z
                 .string()
                 .default("/")
-                .describe("Root operator path for snapshot"),
+                .describe("Root operator path for snapshot. Prefer a specific COMP: snapshotting '/' walks the entire project and can make TD busy for seconds."),
         },
     }, async ({ path: opPath }) => {
         try {
-            const result = await client.snapshotScene(opPath);
+            const scope = normalizeScope(opPath);
+            const result = await runBounded("td_snapshot_scene", scope, () => client.snapshotScene(scope));
             return ok(result);
         }
         catch (e) {

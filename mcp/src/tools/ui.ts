@@ -2,6 +2,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { TDClient } from "td-api";
 import { z } from "zod";
 import { ok, err } from "../helpers.js";
+import { clampLimit, normalizeScope, runBounded } from "../exploreGuard.js";
 
 export function registerUiTools(server: McpServer, client: TDClient) {
   // ---------------------------------------------------------------------------
@@ -142,13 +143,15 @@ export function registerUiTools(server: McpServer, client: TDClient) {
     {
       title: "Search Inside TD",
       description:
-        "Search for text across all code (DAT scripts), parameter expressions, and string parameter values in the TD project.",
+        "Search for text across all code (DAT scripts), parameter expressions, and string parameter values in the TD project. " +
+        "On large networks an unbounded sweep can keep TD busy for seconds: keep the root as narrow as possible " +
+        "(guardrails clamp the wait and the result budget anyway).",
       inputSchema: {
         query: z.string().describe("Search query"),
         root: z
           .string()
           .optional()
-          .describe("Root path to search from (default /project1)"),
+          .describe("Root path to search from (default /project1). Prefer a narrow path: sweeping a large network can make TD busy for seconds."),
         scope: z
           .enum(["all", "code", "expressions", "parameters"])
           .optional()
@@ -163,7 +166,7 @@ export function registerUiTools(server: McpServer, client: TDClient) {
           .number()
           .optional()
           .default(50)
-          .describe("Max results"),
+          .describe("Max results (default 50, hard cap 500)"),
         count_only: z
           .boolean()
           .optional()
@@ -173,13 +176,17 @@ export function registerUiTools(server: McpServer, client: TDClient) {
     },
     async ({ query, root, scope, case_sensitive, max_results, count_only }) => {
       try {
-        const result = await client.searchInTD(
-          query,
-          root,
-          scope,
-          case_sensitive,
-          max_results,
-          count_only
+        const rootScope = normalizeScope(root ?? "/project1");
+        const boundedMax = clampLimit(max_results, 500, 50);
+        const result = await runBounded("td_search", rootScope, () =>
+          client.searchInTD(
+            query,
+            rootScope,
+            scope,
+            case_sensitive,
+            boundedMax,
+            count_only
+          ),
         );
         return ok(result);
       } catch (e: any) {
