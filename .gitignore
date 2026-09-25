@@ -23,6 +23,7 @@ tests/add_*.py
 coverage_html/
 .coverage
 .coverage.*
+mcp/coverage/
 # Freebuff agent artifacts (runtime, no van al repo)
 .freebuff/
 .freebuff_tasks/

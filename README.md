@@ -63,6 +63,7 @@ Conecta Inteligencia Artificial con TouchDesigner usando el Model Context Protoc
 | [`docs/POPs_VALIDATION.md`](docs/POPs_VALIDATION.md) | Cruce POP build ↔ wiki oficial, drift detectado y método de validación estricta en vivo (cook forzado + geometría) |
 | [`docs/POPs_CORRECTIONS.md`](docs/POPs_CORRECTIONS.md) | Correcciones verificadas en vivo (contratos de API, cableado multi-input) |
 | [`docs/API_CONTRACT_AUDIT.md`](docs/API_CONTRACT_AUDIT.md) | Auditoría de contratos de todos los endpoints del bridge HTTP |
+| [`docs/COVERAGE_GATE.md`](docs/COVERAGE_GATE.md) | Gate de cobertura de `npm run ci`: qué mide cada pata (c8 / coverage.py), método de los umbrales y prueba de FAIL forzado |
 | [`docs/BRIDGE_CONTRACT.md`](docs/BRIDGE_CONTRACT.md) | Contrato declarativo cliente ↔ bridge (`tests/bridge_contract.json`) y la suite que detecta drift de shape/routing, con el experimento de detección y los quirks verificados en vivo |
 | [`docs/TOE_REPLICATION.md`](docs/TOE_REPLICATION.md) | Método verificado para replicar redes `.toe` desde texto plano (Toe_Expand), contratos reales y receta de wiring |
 | Tool `td_import_toe_dir` | Importa un `.toe.dir` de Toe_Expand y reconstruye la red en TD, con verificación por nodo contra el dump |
@@ -439,7 +440,7 @@ TDAPI_HOST=192.168.x.x node mcp/test_advanced.mjs
 # Compatibilidad multi-cliente (30 tests)
 npm run compat
 
-# CI completo
+# CI completo: ambas patas + piso de cobertura (falla si algo baja del umbral)
 npm run ci
 ```
 
@@ -468,12 +469,49 @@ python -m unittest tests.test_w2t_server_integration -v
 ![mcp_server_stdio](https://img.shields.io/badge/mcp_server_stdio-99%25-brightgreen?style=flat-square)
 ![w2t_server](https://img.shields.io/badge/w2t_server-48%25-red?style=flat-square)
 
+**Gate de cobertura (backlog item 12): `npm run ci` corre AMBAS patas de tests y FALLA si algún test
+falla o si la cobertura queda por debajo del piso.** Salida legible, una línea por pata + veredicto:
+
+```
+════ COVERAGE CI ════
+  PASS  [node] typecheck api/tsconfig
+  PASS  [node] typecheck mcp/tsconfig
+  PASS  [node] node --test (c8) — tests — pass 1351 / fail 0
+  PASS  [node] coverage floor lines>=63 branches>=81 functions>=75 — lines 63.17%
+  PASS  [py] python -m unittest discover tests — Ran 532 tests
+  PASS  [py] coverage floor (product code, .coveragerc fail_under=44) — product coverage 44%
+  PASS  thresholds: Node lines>=63 branches>=81 functions>=75 · Python product>=44 (coverage.py)
+  verdict: PASS
+```
+
+**Umbrales fijados el 24/09/26 a partir de lo MEDIDO ese día (no inventados)** — redondeados hacia
+abajo apenas lo justo: CI verde hoy, rojo ante cualquier regresión de cobertura.
+
+| Pata | Herramienta | Medido | Umbral (piso) |
+|---|---|---|---|
+| Node/TS (`mcp/test/*.test.js`, 1351 tests) | **c8** (enforcement con `--check-coverage`) | 63.17% líneas · 81.65% ramas · 75.25% funciones | **63 / 81 / 75** |
+| Python (producto: `mcp_server_stdio`, `w2t_server`, `w2t_codec`, `toe/src/*`, checker POP) | **coverage.py** (`--fail-under` vía `.coveragerc`) | 44% (TouchDesignerAPI 40%, w2t_server 37%, mcp_server_stdio 99%) | **44** |
+
+Notas de método:
+- **El piso Python mide solo código de producto** — los tests no se miden a sí mismos (medir todo daba 76% mezclando tests, que son 85–99% de sí mismos). Config en `.coveragerc` (`run.source` + `run.omit` + `report.include` + `report.fail_under`).
+- **Node usa c8 y no el reporter nativo** (`node --test --experimental-test-coverage --test-coverage-lines=N`): en Node v22.17.1 verificado con un probe que los umbrales nativos **no fuerzan el exit code** (90.91% < 99 → exit 0). c8 sí enforcea.
+- Los umbrales viven en **un solo lugar por pata**: `THRESHOLDS` en `mcp/scripts/ci.mjs` (Node) y `fail_under` en `.coveragerc` (Python). Subirlos cuando la cobertura real crezca.
+- **Prueba de FAIL forzado (24/09/26)**: con `lines: 99` en `THRESHOLDS`, `npm run ci` imprime
+  `FAIL [node] coverage floor lines>=99 ... — lines 63.17%` y `verdict: FAIL` con **exit 1**. Restaurado el umbral real, PASS con exit 0.
+- `cd mcp && npm run coverage` corre solo la pata Node con el mismo piso.
+
+### Cobertura Python histórica (servidores MCP/W2T, script PowerShell)
+
 Cobertura combinada de los servidores Python del proyecto, medida con [`coverage.py`](https://coverage.readthedocs.io/).
 
 ### Requisitos
 ```bash
-pip install coverage
+pip install coverage   # solo para el gate nuevo: basta con coverage en PATH (medido con 7.15.2)
 ```
+
+> **Nota:** el bloque histórico de abajo documenta `run_coverage.ps1` (servidores MCP/W2T,
+> 218 tests de las suites mcp/w2t) con sus porcentajes de badge estáticos. El gate vigente es
+> `npm run ci` (arriba). Ambos coexisten.
 
 ### Ejecutar coverage completo (218 tests)
 

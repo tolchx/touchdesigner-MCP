@@ -1,0 +1,32 @@
+# coverage.py — config del gate de cobertura (backlog item 12).
+#
+# El denominador del gate es SOLO codigo de producto: los tests no se miden
+# a si mismos. Umbral fijado 24/09/26 a partir de lo MEDIDO (no inventado):
+#   mcp_server_stdio.py 99% · w2t_codec 83% · TouchDesignerAPI 40%
+#   w2t_server 37% · check_pop_matrix_baseline 58%  =>  TOTAL 44%
+# 44 = techo redondeado hacia abajo de lo que existe hoy: CI verde hoy,
+# rojo ante cualquier regresion. Subirlo cuando crezca la cobertura real.
+#
+[run]
+# Los tests lanzan subprocesses (mcp_server_stdio.py, w2t_server.py via
+# tests/test_helpers.coverage_cmd con COVERAGE_RUN=1) => parallel-mode.
+parallel = True
+source =
+    .
+omit =
+    tests/*
+    old/*
+    coverage_hooks/*
+    mcp/*
+    api/*
+    web2touch/*
+
+[report]
+# Gate: falla (exit 2) si el TOTAL de producto baja de 44.
+include =
+    mcp_server_stdio.py
+    w2t_server.py
+    w2t_codec.py
+    toe/src/*.py
+    scripts/check_pop_matrix_baseline.py
+fail_under = 44
