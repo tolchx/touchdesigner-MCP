@@ -67,3 +67,19 @@ Formato: `fecha | loop | nivel | que encontro | que hizo | resultado | evidencia
 - 2026-09-25T06:30:25+00:00 | gate | — | commit sobre 4 archivo(s) | ALLOW | gate.yaml
 - 2026-09-25T03:46:54-0300 | envio | — | brief 57_paridad_cliente_python.txt (item 57: paridad del cliente Python con el TS) | ENVIADO a Freebuff — envio #27, modelo GLM 5.3 Flash | sent/ significa enviado, NO hecho: la Fase 1 del proximo ciclo juzga el diff | freebuff_send_guard
 - 2026-09-25T06:47:09+00:00 | gate | — | commit sobre 1 archivo(s) | ALLOW | gate.yaml
+- 2026-09-25T07:29:03+00:00 | gate | — | commit sobre 13 archivo(s) | BLOCK: 13 archivos > maxFiles=12: cambio demasiado grande para auto-publicar | gate.yaml
+- 2026-09-25T07:29:34+00:00 | gate | — | commit sobre 10 archivo(s) | ALLOW | gate.yaml
+- 2026-09-25T07:30:36+00:00 | gate | — | commit sobre 4 archivo(s) | ALLOW | gate.yaml
+- 2026-09-25T08:10:01+00:00 | gate | — | commit sobre 5 archivo(s) | ALLOW | gate.yaml
+- 2026-09-25T08:18:59+00:00 | gate | — | commit sobre 2 archivo(s) | ALLOW | gate.yaml
+- 2026-09-25T08:20:06+00:00 | gate | — | commit sobre 1 archivo(s) | ALLOW | gate.yaml
+
+## 2026-09-26 00:06 — ciclo diario TD-MCP (intento 1)
+- 2026-09-26T03:06:48+00:00 | cierre | — | 5 commits locales sin pushear del agente (ff66a84, b528cff, 3a6e7b1, 01ba5ee, 1c4de04) — fricciones F1–F6 de la misión "casos reales" + brief 57 | VERIFICADO offline (node --test 1366/0, discover 551/0) y PUBLICADO; juez externo: 5 corridas VERDE con la entrada que corresponde a cada commit, 2 ROJO por correspondencia al juzgarlos contra la spec de la misión (`docs/MCP_REAL_CASES.md`), que no es un brief de cola (item 67) | jev_audit_diff.py
+- 2026-09-26T03:05:39+00:00 | triage | L1 | candidato `log-timeout` (8 fallas `timeout` en el log del cliente) | PROMOVIDO → item 68 + brief `68_log_timeout.txt`, con el diagnóstico del ciclo: NO es conectividad, son filas de la suite Python (ms=0) que escriben en el log de producción `%TEMP%/tdmcp-client.log` | loop-candidates.json
+- 2026-09-26T03:05:39+00:00 | triage | L1 | candidato `arbol-sucio` (3 archivos: README.md, docs/BACKLOG.md, loop-run-log.md) | DESCARTADO — son los edits de documentación de ESTE ciclo (se commitean en esta misma corrida); el triage los leyó antes del commit | loop-candidates.json
+- 2026-09-26T03:05:39+00:00 | triage | L1 | candidato `cola-larga` (8 briefs encolados) | DESCARTADO — duplicado del item 66, que sigue abierto como decisión humana (priorizar 1 grande por día y fusionar los chicos) | loop-candidates.json
+- 2026-09-26T03:06:19+00:00 | promocion | L1 | log-timeout (peso 4) | brief 68_log_timeout.txt | item 68 | loop-candidates.json
+- 2026-09-26T03:07:10+00:00 | gate | — | commit sobre 1 archivo(s) | ALLOW | gate.yaml
+- 2026-09-26T03:07:21+00:00 | gate | — | commit sobre 1 archivo(s) | ALLOW | gate.yaml
+- 2026-09-26T03:07:32+00:00 | gate | — | commit sobre 2 archivo(s) | ALLOW | gate.yaml

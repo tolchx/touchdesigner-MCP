@@ -5,6 +5,12 @@
       "history": [],
       "origen": "loop_triage",
       "candidato": "cola-larga"
+    },
+    "68": {
+      "attempts": 0,
+      "history": [],
+      "origen": "loop_triage",
+      "candidato": "log-timeout"
     }
   }
 }
