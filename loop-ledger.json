@@ -11,6 +11,12 @@
       "history": [],
       "origen": "loop_triage",
       "candidato": "log-timeout"
+    },
+    "69": {
+      "attempts": 0,
+      "history": [],
+      "origen": "loop_triage",
+      "candidato": "vivo-pendiente-57"
     }
   }
 }

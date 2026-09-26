@@ -86,3 +86,10 @@ Formato: `fecha | loop | nivel | que encontro | que hizo | resultado | evidencia
 - 2026-09-26T03:07:21+00:00 | gate | — | commit sobre 1 archivo(s) | ALLOW | gate.yaml
 - 2026-09-26T03:07:32+00:00 | gate | — | commit sobre 2 archivo(s) | ALLOW | gate.yaml
 - 2026-09-26T03:30:23+00:00 | gate | — | commit sobre 1 archivo(s) | ALLOW | gate.yaml
+- 2026-09-26T06:01:25+00:00 | gate | — | commit sobre 1 archivo(s) | BLOCK: 'docs/glsl_pops_reference.json' está en la denylist (patrón 'docs/glsl_pops_reference.json'): requiere revisión humana explícita | gate.yaml
+
+- 2026-09-26T06:03:43+00:00 | triage | L1 | candidato `log-timeout` (12 fallas `timeout`, huella `043c5b719951ba48`) | DESCARTADO — duplicado del item 68, que sigue ABIERTO con el brief `68_log_timeout.txt` en la cola: las filas nuevas son la misma clase (/exec POST, `ms: 0`, `<urlopen error Timeout>` contra el bridge DOWN, escritas por las suites Python en el log de produccion). Nota de diseño: la huella incluye el conteo, asi que este candidato va a re-dispararse en cada corrida hasta que aterrice el item 68 | loop-candidates.json
+- 2026-09-26T06:03:43+00:00 | triage | L1 | candidato `arbol-sucio` (1 archivo: `loop-run-log.md`) | DESCARTADO — el archivo sucio es el ledger que escribe ESTE mismo ciclo (loop_promote/loop_gate); se commitea en esta corrida | loop-candidates.json
+- 2026-09-26T06:03:43+00:00 | triage | L1 | candidato `cola-larga` (9 briefs encolados) | DESCARTADO — duplicado del item 66, que sigue abierto como decision humana (priorizar 1 grande por dia y fusionar los chicos) | loop-candidates.json
+- 2026-09-26T06:03:43+00:00 | promocion | L1 | vivo-pendiente-57 (peso 3) | brief 69_vivo_pendiente_57.txt | item 69 | loop-candidates.json
+- 2026-09-26T06:04:07+00:00 | gate | — | commit sobre 3 archivo(s) | ALLOW | gate.yaml
